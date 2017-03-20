@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/SNO_SP/SNO_SP.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/SNO_WB/subbasin.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,278 +112,140 @@ $(document).ready(function(){initNavTree('db/dc4/a00495_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SNO_SP.cpp</div>  </div>
+<div class="title">subbasin.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d3/dad/a00496.html">SNO_SP.h</a>&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d8/df7/a00331.html">MetadataInfo.h</a>&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;ModelException.h&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;ClimateParams.h&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;PlantGrowthCommon.h&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="../../dd/d6d/a00111.html#a0531fd3b20460ab574580dc2b026f8d3">   11</a></span>&#160;<a class="code" href="../../dd/d6d/a00111.html#a0531fd3b20460ab574580dc2b026f8d3">SNO_SP::SNO_SP</a>(<span class="keywordtype">void</span>) : m_nCells(-1),</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                       m_t0(NODATA_VALUE),</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                       m_kblow(NODATA_VALUE),</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                       m_tsnow(NODATA_VALUE),</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                       m_lagSnow(NODATA_VALUE),</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                       m_csnow6(NODATA_VALUE),</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                       m_csnow12(NODATA_VALUE),</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                       m_snowCoverMax(NODATA_VALUE),</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                       m_snowCover50(NODATA_VALUE),</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                       m_snowCoverCoef1(NODATA_VALUE),</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                       m_snowCoverCoef2(NODATA_VALUE),</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                       m_Pnet(NULL),</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                       m_tMean(NULL),</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                       m_tMax(NULL),</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                       m_SE(NULL),</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                       m_SR(NULL),</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                       m_SM(NULL),</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                       m_SA(NULL),</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                       m_packT(NULL) {<span class="comment">//m_swe(NODATA_VALUE), m_lastSWE(NODATA_VALUE), m_swe0(NODATA_VALUE),</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../dd/d6d/a00111.html#a79591efe13e06e7d1c03de1f931074e4">   32</a></span>&#160;<a class="code" href="../../dd/d6d/a00111.html#a79591efe13e06e7d1c03de1f931074e4">SNO_SP::~SNO_SP</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a> != NULL) Release1DArray(this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a>);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a33bb976503985b5e38afe531c97f2bc0">m_SA</a> != NULL) Release1DArray(this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a33bb976503985b5e38afe531c97f2bc0">m_SA</a>);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#af47dec844ac720822856279047c956ab">m_packT</a> != NULL) Release1DArray(this-&gt;<a class="code" href="../../dd/d6d/a00111.html#af47dec844ac720822856279047c956ab">m_packT</a>);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keywordtype">bool</span> SNO_SP::CheckInputData(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d1/dd6/a00108.html#aabd631c05d3e74aa9970f7415f2f5de7">m_date</a> &lt;= 0) <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;You have not set the time.&quot;</span>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a65f08af75374b964c6a3d88959ec4195">m_nCells</a> &lt;= 0) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputData&quot;</span>,</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                             <span class="stringliteral">&quot;The dimension of the input data can not be less than zero.&quot;</span>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#af2031155beb11794aa6fe07b8103d43f">m_t0</a> == NODATA_VALUE) {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The Snow melt temperature can not be NODATA.&quot;</span>);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a1a836781d7fdedcf8dcbd47173a97787">m_kblow</a> == NODATA_VALUE) {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputData&quot;</span>,</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                             <span class="stringliteral">&quot;The fraction coefficient of precipitation as snow can not be NODATA.&quot;</span>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">//if (this-&gt;m_swe == NODATA_VALUE) throw ModelException(MID_SNO_SP, &quot;CheckInputData&quot;, &quot;The average snow accumulation of watershed can not be NODATA.&quot;);</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">//if (this-&gt;m_swe0 == NODATA_VALUE) throw ModelException(MID_SNO_SP, &quot;CheckInputData&quot;, &quot;The swe0 can not be NODATA.&quot;);</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#adea21d842c811f4bd99d9f193948a338">m_tsnow</a> == NODATA_VALUE) {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The snow fall temperature can not be NODATA.&quot;</span>);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a6fdab92825f87505d3d6bd30bf46857d">m_lagSnow</a> == NODATA_VALUE) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The lag snow can not be NODATA.&quot;</span>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#aaac5b9afcbe7ba40eb7ba1bea6f4d3f6">m_csnow6</a> == NODATA_VALUE) {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The csnow6 can not be NODATA.&quot;</span>);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a45aa5b353af47963e025b9c0152864bc">m_csnow12</a> == NODATA_VALUE) {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The csnow12 can not be NODATA.&quot;</span>);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a4961929fd642424f2d776da10b12f16c">m_snowCoverMax</a> == NODATA_VALUE) {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The snowCoverMax can not be NODATA.&quot;</span>);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a31ec49d96af93d30e97f11abe7cd05f0">m_snowCover50</a> == NODATA_VALUE) {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The snowCover50 can not be NODATA.&quot;</span>);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#af915946cb1079c3f1130feb9a9162f2c">m_tMean</a> == NULL) {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The mean temperature data can not be NULL.&quot;</span>);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a1d59d6f0e5374d2f5ed4fc882dea3a3c">m_tMax</a> == NULL) {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The max temperature data can not be NULL.&quot;</span>);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a1d42d2199c3f0ccb900349d8eabd3638">m_Pnet</a> == NULL) {</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The net precipitation data can not be NULL.&quot;</span>);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="comment">//if (this-&gt;m_SE == NULL) throw ModelException(MID_SNO_SP, &quot;CheckInputData&quot;, &quot;The snow sublimation data can not be NULL.&quot;);</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="../../dd/d6d/a00111.html#a97a9f63bf0b590e63e1a3779f6a01b33">   84</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dd/d6d/a00111.html#a97a9f63bf0b590e63e1a3779f6a01b33">SNO_SP::initialOutputs</a>() {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../dd/d6d/a00111.html#a65f08af75374b964c6a3d88959ec4195">m_nCells</a> &lt;= 0) {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputData&quot;</span>,</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                             <span class="stringliteral">&quot;The dimension of the input data can not be less than zero.&quot;</span>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a> == NULL) Initialize1DArray(<a class="code" href="../../dd/d6d/a00111.html#a65f08af75374b964c6a3d88959ec4195">m_nCells</a>, <a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a>, 0.f);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../dd/d6d/a00111.html#a33bb976503985b5e38afe531c97f2bc0">m_SA</a> == NULL) Initialize1DArray(<a class="code" href="../../dd/d6d/a00111.html#a65f08af75374b964c6a3d88959ec4195">m_nCells</a>, <a class="code" href="../../dd/d6d/a00111.html#a33bb976503985b5e38afe531c97f2bc0">m_SA</a>, 0.f);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../dd/d6d/a00111.html#af47dec844ac720822856279047c956ab">m_packT</a> == NULL) Initialize1DArray(<a class="code" href="../../dd/d6d/a00111.html#a65f08af75374b964c6a3d88959ec4195">m_nCells</a>, <a class="code" href="../../dd/d6d/a00111.html#af47dec844ac720822856279047c956ab">m_packT</a>, 0.f);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="comment">//if (this-&gt;m_swe == NODATA_VALUE)</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="comment">//  this-&gt;m_swe = this-&gt;m_swe0;</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="comment">//if (this-&gt;m_lastSWE == NODATA_VALUE)</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="comment">//  this-&gt;m_lastSWE = this-&gt;m_swe;</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../dd/d6d/a00111.html#ac28cace9705380937df015514d190eb6">m_SR</a> == NULL) {  </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        Initialize1DArray(<a class="code" href="../../dd/d6d/a00111.html#a65f08af75374b964c6a3d88959ec4195">m_nCells</a>, <a class="code" href="../../dd/d6d/a00111.html#ac28cace9705380937df015514d190eb6">m_SR</a>, 0.f);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../dd/d6d/a00111.html#ad410e7ba1b5d28e2db53e23a994413ba">m_SE</a> == NULL) { </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        Initialize1DArray(<a class="code" href="../../dd/d6d/a00111.html#a65f08af75374b964c6a3d88959ec4195">m_nCells</a>, <a class="code" href="../../dd/d6d/a00111.html#ad410e7ba1b5d28e2db53e23a994413ba">m_SE</a>, 0.f);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    }</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;}</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="../../dd/d6d/a00111.html#a490eec596164334c8d3b60b2581b03aa">  104</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../dd/d6d/a00111.html#a490eec596164334c8d3b60b2581b03aa">SNO_SP::Execute</a>() {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    this-&gt;CheckInputData();</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a97a9f63bf0b590e63e1a3779f6a01b33">initialOutputs</a>();</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../dd/d6d/a00111.html#a65763246fee2c8a7fed7bb4bdbbe0a7c">m_snowCoverCoef1</a> == NODATA_VALUE || <a class="code" href="../../dd/d6d/a00111.html#aff16de19e9c184a05fb0377f20c58188">m_snowCoverCoef2</a> == NODATA_VALUE) {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        PGCommon::getScurveShapeParameter(0.5f, 0.95f, <a class="code" href="../../dd/d6d/a00111.html#a31ec49d96af93d30e97f11abe7cd05f0">m_snowCover50</a>, 0.95f, &amp;<a class="code" href="../../dd/d6d/a00111.html#a65763246fee2c8a7fed7bb4bdbbe0a7c">m_snowCoverCoef1</a>, &amp;<a class="code" href="../../dd/d6d/a00111.html#aff16de19e9c184a05fb0377f20c58188">m_snowCoverCoef2</a>);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    }</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">//  if (this-&gt;m_lastSWE == NODATA_VALUE) /// moved to initialOutputs()</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="comment">//this-&gt;m_lastSWE = this-&gt;m_swe;</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="comment">//If all cells have no snow, snow melt is set to zero.</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="comment">//if (m_swe &lt; 0.01)</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="comment">//{</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="comment">//    if (this-&gt;m_lastSWE &gt;= 0.01)</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="comment">//    {</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="comment">//        for (int rw = 0; rw &lt; this-&gt;m_nCells; rw++)</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="comment">//            m_SM[rw] = 0.f;</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="comment">//    }</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="comment">//    this-&gt;m_lastSWE = this-&gt;m_swe;</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="comment">//    return 0;</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="comment">//}</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="comment">// which only need to computed once.</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordtype">int</span> d = JulianDay(this-&gt;<a class="code" href="../../d1/dd6/a00108.html#aabd631c05d3e74aa9970f7415f2f5de7">m_date</a>);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordtype">float</span> sinv = float(sin(2.f * PI / 365.f * (d - 81.f)));</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordtype">float</span> cmelt = (<a class="code" href="../../dd/d6d/a00111.html#aaac5b9afcbe7ba40eb7ba1bea6f4d3f6">m_csnow6</a> + <a class="code" href="../../dd/d6d/a00111.html#a45aa5b353af47963e025b9c0152864bc">m_csnow12</a>) / 2.f + (<a class="code" href="../../dd/d6d/a00111.html#aaac5b9afcbe7ba40eb7ba1bea6f4d3f6">m_csnow6</a> - <a class="code" href="../../dd/d6d/a00111.html#a45aa5b353af47963e025b9c0152864bc">m_csnow12</a>) / 2.f * sinv;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> rw = 0; rw &lt; <a class="code" href="../../dd/d6d/a00111.html#a65f08af75374b964c6a3d88959ec4195">m_nCells</a>; rw++) {</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <a class="code" href="../../dd/d6d/a00111.html#af47dec844ac720822856279047c956ab">m_packT</a>[rw] = <a class="code" href="../../dd/d6d/a00111.html#af47dec844ac720822856279047c956ab">m_packT</a>[rw] * (1 - <a class="code" href="../../dd/d6d/a00111.html#a6fdab92825f87505d3d6bd30bf46857d">m_lagSnow</a>) + <a class="code" href="../../dd/d6d/a00111.html#af915946cb1079c3f1130feb9a9162f2c">m_tMean</a>[rw] * <a class="code" href="../../dd/d6d/a00111.html#a6fdab92825f87505d3d6bd30bf46857d">m_lagSnow</a>;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <a class="code" href="../../dd/d6d/a00111.html#a33bb976503985b5e38afe531c97f2bc0">m_SA</a>[rw] = m_SA[rw] + <a class="code" href="../../dd/d6d/a00111.html#ac28cace9705380937df015514d190eb6">m_SR</a>[rw] - <a class="code" href="../../dd/d6d/a00111.html#ad410e7ba1b5d28e2db53e23a994413ba">m_SE</a>[rw];</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="../../dd/d6d/a00111.html#af915946cb1079c3f1130feb9a9162f2c">m_tMean</a>[rw] &lt; <a class="code" href="../../dd/d6d/a00111.html#adea21d842c811f4bd99d9f193948a338">m_tsnow</a>) </div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        {</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            m_SA[rw] += <a class="code" href="../../dd/d6d/a00111.html#a1a836781d7fdedcf8dcbd47173a97787">m_kblow</a> * <a class="code" href="../../dd/d6d/a00111.html#a1d42d2199c3f0ccb900349d8eabd3638">m_Pnet</a>[rw];</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            m_Pnet[rw] *= (1.f - <a class="code" href="../../dd/d6d/a00111.html#a1a836781d7fdedcf8dcbd47173a97787">m_kblow</a>);</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        }</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordflow">if</span> (m_SA[rw] &lt; 0.01) {</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            <a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a>[rw] = 0.f;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            <span class="keywordtype">float</span> dt = <a class="code" href="../../dd/d6d/a00111.html#a1d59d6f0e5374d2f5ed4fc882dea3a3c">m_tMax</a>[rw] - <a class="code" href="../../dd/d6d/a00111.html#af2031155beb11794aa6fe07b8103d43f">m_t0</a>;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            <span class="keywordflow">if</span> (dt &lt; 0) {</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                <a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a>[rw] = 0.f;  <span class="comment">//if temperature is lower than t0, the snowmelt is 0.</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                <span class="comment">//calculate using eq. 1:2.5.2 SWAT p58</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                <a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a>[rw] = cmelt * ((<a class="code" href="../../dd/d6d/a00111.html#af47dec844ac720822856279047c956ab">m_packT</a>[rw] + <a class="code" href="../../dd/d6d/a00111.html#a1d59d6f0e5374d2f5ed4fc882dea3a3c">m_tMax</a>[rw]) / 2.f - m_t0);</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                <span class="comment">// adjust for areal extent of snow cover</span></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                <span class="keywordtype">float</span> snowCoverFrac = 0.f; <span class="comment">//fraction of HRU area covered with snow</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                <span class="keywordflow">if</span> (m_SA[rw] &lt; <a class="code" href="../../dd/d6d/a00111.html#a4961929fd642424f2d776da10b12f16c">m_snowCoverMax</a>) {</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                    <span class="keywordtype">float</span> xx = m_SA[rw] / <a class="code" href="../../dd/d6d/a00111.html#a4961929fd642424f2d776da10b12f16c">m_snowCoverMax</a>;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                    snowCoverFrac = xx / (xx + exp(<a class="code" href="../../dd/d6d/a00111.html#a65763246fee2c8a7fed7bb4bdbbe0a7c">m_snowCoverCoef1</a> = <a class="code" href="../../dd/d6d/a00111.html#aff16de19e9c184a05fb0377f20c58188">m_snowCoverCoef2</a> * xx));</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                    snowCoverFrac = 1.f;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                }</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                <a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a>[rw] *= snowCoverFrac;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a>[rw] &lt; 0.f) <a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a>[rw] = 0.f;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a>[rw] &gt; m_SA[rw]) <a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a>[rw] = m_SA[rw];</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                m_SA[rw] -= <a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a>[rw];</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                <a class="code" href="../../dd/d6d/a00111.html#a1d42d2199c3f0ccb900349d8eabd3638">m_Pnet</a>[rw] += <a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a>[rw];</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                <span class="keywordflow">if</span> (<a class="code" href="../../dd/d6d/a00111.html#a1d42d2199c3f0ccb900349d8eabd3638">m_Pnet</a>[rw] &lt; 0.f) <a class="code" href="../../dd/d6d/a00111.html#a1d42d2199c3f0ccb900349d8eabd3638">m_Pnet</a>[rw] = 0.f;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            }</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        }</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    }</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="comment">//this-&gt;m_lastSWE = this-&gt;m_swe;</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;}</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="keywordtype">bool</span> SNO_SP::CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n) {</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordflow">if</span> (n &lt;= 0) {</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputSize&quot;</span>,</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                             <span class="stringliteral">&quot;Input data for &quot;</span> + <span class="keywordtype">string</span>(key) + <span class="stringliteral">&quot; is invalid. The size could not be less than zero.&quot;</span>);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    }</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a65f08af75374b964c6a3d88959ec4195">m_nCells</a> != n) {</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a65f08af75374b964c6a3d88959ec4195">m_nCells</a> &lt;= 0) { this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a65f08af75374b964c6a3d88959ec4195">m_nCells</a> = n; }</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;CheckInputSize&quot;</span>, <span class="stringliteral">&quot;Input data for &quot;</span> + <span class="keywordtype">string</span>(key) +</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                <span class="stringliteral">&quot; is invalid. All the input data should have same size.&quot;</span>);</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        }</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    }</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;}</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
-<div class="line"><a name="l00189"></a><span class="lineno"><a class="line" href="../../dd/d6d/a00111.html#a065ced66ff05f5e75a005d87813953ea">  189</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dd/d6d/a00111.html#a065ced66ff05f5e75a005d87813953ea">SNO_SP::SetValue</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data) {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, VAR_K_BLOW)) { this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a1a836781d7fdedcf8dcbd47173a97787">m_kblow</a> = data; }</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_T0)) { this-&gt;<a class="code" href="../../dd/d6d/a00111.html#af2031155beb11794aa6fe07b8103d43f">m_t0</a> = data; }</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_T_SNOW)) {</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        this-&gt;<a class="code" href="../../dd/d6d/a00111.html#adea21d842c811f4bd99d9f193948a338">m_tsnow</a> = data;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        <span class="comment">//else if (StringMatch(s, VAR_SWE)) this-&gt;m_swe = data;</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="comment">//else if (StringMatch(s, VAR_SWE0)) this-&gt;m_swe0 = data;</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_LAG_SNOW)) { this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a6fdab92825f87505d3d6bd30bf46857d">m_lagSnow</a> = data; }</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_C_SNOW6)) { this-&gt;<a class="code" href="../../dd/d6d/a00111.html#aaac5b9afcbe7ba40eb7ba1bea6f4d3f6">m_csnow6</a> = data; }</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_C_SNOW12)) { this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a45aa5b353af47963e025b9c0152864bc">m_csnow12</a> = data; }</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_SNOCOVMX)) { this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a4961929fd642424f2d776da10b12f16c">m_snowCoverMax</a> = data; }</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_SNO50COV)) { this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a31ec49d96af93d30e97f11abe7cd05f0">m_snowCover50</a> = data; }</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_OMP_THREADNUM)) { SetOpenMPThread((<span class="keywordtype">int</span>) data); }</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;SetValue&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + s</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            +</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                <span class="stringliteral">&quot; does not exist in current module. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    }</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;}</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
-<div class="line"><a name="l00210"></a><span class="lineno"><a class="line" href="../../dd/d6d/a00111.html#a92debd5b9ff3070de4995567b5f61eea">  210</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dd/d6d/a00111.html#a92debd5b9ff3070de4995567b5f61eea">SNO_SP::Set1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data) {</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="comment">//check the input data</span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    this-&gt;CheckInputSize(key, n);</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, VAR_TMEAN)) { this-&gt;<a class="code" href="../../dd/d6d/a00111.html#af915946cb1079c3f1130feb9a9162f2c">m_tMean</a> = data; }</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_TMAX)) { this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a1d59d6f0e5374d2f5ed4fc882dea3a3c">m_tMax</a> = data; }</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_NEPR)) {</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a1d42d2199c3f0ccb900349d8eabd3638">m_Pnet</a> = data;</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <span class="comment">//else if (StringMatch(s, VAR_SNRD)) this-&gt;m_SR = data;</span></div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        <span class="comment">//else if (StringMatch(s, VAR_SNSB)) this-&gt;m_SE = data;</span></div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;Set1DData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + s +</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            <span class="stringliteral">&quot; does not exist in current module. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    }</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;}</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;</div>
-<div class="line"><a name="l00226"></a><span class="lineno"><a class="line" href="../../dd/d6d/a00111.html#a81f9752e63768ee4803246181b2a49a9">  226</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dd/d6d/a00111.html#a81f9752e63768ee4803246181b2a49a9">SNO_SP::Get1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data) {</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <a class="code" href="../../dd/d6d/a00111.html#a97a9f63bf0b590e63e1a3779f6a01b33">initialOutputs</a>();</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, VAR_SNME)) { *data = this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">m_SM</a>; }</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_SNAC)) { *data = this-&gt;<a class="code" href="../../dd/d6d/a00111.html#ac28cace9705380937df015514d190eb6">m_SR</a>; }</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_SNO_SP, <span class="stringliteral">&quot;Get1DData&quot;</span>, <span class="stringliteral">&quot;Result &quot;</span> + s</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            +</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                <span class="stringliteral">&quot; does not exist in current module. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    }</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    *n = this-&gt;<a class="code" href="../../dd/d6d/a00111.html#a65f08af75374b964c6a3d88959ec4195">m_nCells</a>;</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;}</div>
-<div class="ttc" id="a00108_html_aabd631c05d3e74aa9970f7415f2f5de7"><div class="ttname"><a href="../../d1/dd6/a00108.html#aabd631c05d3e74aa9970f7415f2f5de7">SimulationModule::m_date</a></div><div class="ttdeci">time_t m_date</div><div class="ttdoc">date time </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d91/a00335_source.html#l00161">SimulationModule.h:161</a></div></div>
-<div class="ttc" id="a00111_html_a4147700148c18f36c5fa2ce7e35e00b7"><div class="ttname"><a href="../../dd/d6d/a00111.html#a4147700148c18f36c5fa2ce7e35e00b7">SNO_SP::m_SM</a></div><div class="ttdeci">float * m_SM</div><div class="ttdoc">outputs </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00112">SNO_SP.h:112</a></div></div>
-<div class="ttc" id="a00111_html_a490eec596164334c8d3b60b2581b03aa"><div class="ttname"><a href="../../dd/d6d/a00111.html#a490eec596164334c8d3b60b2581b03aa">SNO_SP::Execute</a></div><div class="ttdeci">virtual int Execute()</div><div class="ttdoc">Execute the simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/dc4/a00495_source.html#l00104">SNO_SP.cpp:104</a></div></div>
-<div class="ttc" id="a00111_html_aff16de19e9c184a05fb0377f20c58188"><div class="ttname"><a href="../../dd/d6d/a00111.html#aff16de19e9c184a05fb0377f20c58188">SNO_SP::m_snowCoverCoef2</a></div><div class="ttdeci">float m_snowCoverCoef2</div><div class="ttdoc">2nd shape parameter for snow cover equation </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00087">SNO_SP.h:87</a></div></div>
-<div class="ttc" id="a00111_html_a92debd5b9ff3070de4995567b5f61eea"><div class="ttname"><a href="../../dd/d6d/a00111.html#a92debd5b9ff3070de4995567b5f61eea">SNO_SP::Set1DData</a></div><div class="ttdeci">virtual void Set1DData(const char *key, int n, float *data)</div><div class="ttdoc">Set 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/dc4/a00495_source.html#l00210">SNO_SP.cpp:210</a></div></div>
-<div class="ttc" id="a00111_html_a45aa5b353af47963e025b9c0152864bc"><div class="ttname"><a href="../../dd/d6d/a00111.html#a45aa5b353af47963e025b9c0152864bc">SNO_SP::m_csnow12</a></div><div class="ttdeci">float m_csnow12</div><div class="ttdoc">Minimum melt rate for snow during year, sub_smfmn. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00079">SNO_SP.h:79</a></div></div>
-<div class="ttc" id="a00111_html_a65763246fee2c8a7fed7bb4bdbbe0a7c"><div class="ttname"><a href="../../dd/d6d/a00111.html#a65763246fee2c8a7fed7bb4bdbbe0a7c">SNO_SP::m_snowCoverCoef1</a></div><div class="ttdeci">float m_snowCoverCoef1</div><div class="ttdoc">1st shape parameter for snow cover equation </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00085">SNO_SP.h:85</a></div></div>
-<div class="ttc" id="a00111_html_a79591efe13e06e7d1c03de1f931074e4"><div class="ttname"><a href="../../dd/d6d/a00111.html#a79591efe13e06e7d1c03de1f931074e4">SNO_SP::~SNO_SP</a></div><div class="ttdeci">~SNO_SP(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/dc4/a00495_source.html#l00032">SNO_SP.cpp:32</a></div></div>
-<div class="ttc" id="a00496_html"><div class="ttname"><a href="../../d3/dad/a00496.html">SNO_SP.h</a></div></div>
-<div class="ttc" id="a00111_html_a4961929fd642424f2d776da10b12f16c"><div class="ttname"><a href="../../dd/d6d/a00111.html#a4961929fd642424f2d776da10b12f16c">SNO_SP::m_snowCoverMax</a></div><div class="ttdeci">float m_snowCoverMax</div><div class="ttdoc">Minimum snow water content that corresponds to 100% snow cover, mm H2O, SNOCOVMX. ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00081">SNO_SP.h:81</a></div></div>
-<div class="ttc" id="a00111_html_a065ced66ff05f5e75a005d87813953ea"><div class="ttname"><a href="../../dd/d6d/a00111.html#a065ced66ff05f5e75a005d87813953ea">SNO_SP::SetValue</a></div><div class="ttdeci">virtual void SetValue(const char *key, float data)</div><div class="ttdoc">Set data, DT_Single. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/dc4/a00495_source.html#l00189">SNO_SP.cpp:189</a></div></div>
-<div class="ttc" id="a00063_html"><div class="ttname"><a href="../../d1/d6f/a00063.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d22/a00245_source.html#l00020">ModelException.h:20</a></div></div>
-<div class="ttc" id="a00111_html_a31ec49d96af93d30e97f11abe7cd05f0"><div class="ttname"><a href="../../dd/d6d/a00111.html#a31ec49d96af93d30e97f11abe7cd05f0">SNO_SP::m_snowCover50</a></div><div class="ttdeci">float m_snowCover50</div><div class="ttdoc">Fraction of SNOCOVMX that corresponds to 50% snow cover, SNO50COV. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00083">SNO_SP.h:83</a></div></div>
-<div class="ttc" id="a00111_html_a1a836781d7fdedcf8dcbd47173a97787"><div class="ttname"><a href="../../dd/d6d/a00111.html#a1a836781d7fdedcf8dcbd47173a97787">SNO_SP::m_kblow</a></div><div class="ttdeci">float m_kblow</div><div class="ttdoc">fraction coefficient of precipitation as snow </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00063">SNO_SP.h:63</a></div></div>
-<div class="ttc" id="a00111_html_ac28cace9705380937df015514d190eb6"><div class="ttname"><a href="../../dd/d6d/a00111.html#ac28cace9705380937df015514d190eb6">SNO_SP::m_SR</a></div><div class="ttdeci">float * m_SR</div><div class="ttdoc">snow redistribution </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00102">SNO_SP.h:102</a></div></div>
-<div class="ttc" id="a00111_html_a33bb976503985b5e38afe531c97f2bc0"><div class="ttname"><a href="../../dd/d6d/a00111.html#a33bb976503985b5e38afe531c97f2bc0">SNO_SP::m_SA</a></div><div class="ttdeci">float * m_SA</div><div class="ttdoc">snow accumulation, sno_hru in SWAT </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00114">SNO_SP.h:114</a></div></div>
-<div class="ttc" id="a00111_html_a0531fd3b20460ab574580dc2b026f8d3"><div class="ttname"><a href="../../dd/d6d/a00111.html#a0531fd3b20460ab574580dc2b026f8d3">SNO_SP::SNO_SP</a></div><div class="ttdeci">SNO_SP(void)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/dc4/a00495_source.html#l00011">SNO_SP.cpp:11</a></div></div>
-<div class="ttc" id="a00111_html_af915946cb1079c3f1130feb9a9162f2c"><div class="ttname"><a href="../../dd/d6d/a00111.html#af915946cb1079c3f1130feb9a9162f2c">SNO_SP::m_tMean</a></div><div class="ttdeci">float * m_tMean</div><div class="ttdoc">average snow accumulation of the watershed </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00095">SNO_SP.h:95</a></div></div>
-<div class="ttc" id="a00111_html_a65f08af75374b964c6a3d88959ec4195"><div class="ttname"><a href="../../dd/d6d/a00111.html#a65f08af75374b964c6a3d88959ec4195">SNO_SP::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">Valid cells number. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00059">SNO_SP.h:59</a></div></div>
-<div class="ttc" id="a00111_html_a1d42d2199c3f0ccb900349d8eabd3638"><div class="ttname"><a href="../../dd/d6d/a00111.html#a1d42d2199c3f0ccb900349d8eabd3638">SNO_SP::m_Pnet</a></div><div class="ttdeci">float * m_Pnet</div><div class="ttdoc">Net precipitation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00099">SNO_SP.h:99</a></div></div>
-<div class="ttc" id="a00111_html_adea21d842c811f4bd99d9f193948a338"><div class="ttname"><a href="../../dd/d6d/a00111.html#adea21d842c811f4bd99d9f193948a338">SNO_SP::m_tsnow</a></div><div class="ttdeci">float m_tsnow</div><div class="ttdoc">Snowfall temperature, i.e., precipitation as snow. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00065">SNO_SP.h:65</a></div></div>
-<div class="ttc" id="a00111_html_a97a9f63bf0b590e63e1a3779f6a01b33"><div class="ttname"><a href="../../dd/d6d/a00111.html#a97a9f63bf0b590e63e1a3779f6a01b33">SNO_SP::initialOutputs</a></div><div class="ttdeci">void initialOutputs()</div><div class="ttdef"><b>Definition:</b> <a href="../../db/dc4/a00495_source.html#l00084">SNO_SP.cpp:84</a></div></div>
-<div class="ttc" id="a00111_html_af47dec844ac720822856279047c956ab"><div class="ttname"><a href="../../dd/d6d/a00111.html#af47dec844ac720822856279047c956ab">SNO_SP::m_packT</a></div><div class="ttdeci">float * m_packT</div><div class="ttdoc">temperature of snow pack, snotmp in SWAT </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00107">SNO_SP.h:107</a></div></div>
-<div class="ttc" id="a00111_html_a1d59d6f0e5374d2f5ed4fc882dea3a3c"><div class="ttname"><a href="../../dd/d6d/a00111.html#a1d59d6f0e5374d2f5ed4fc882dea3a3c">SNO_SP::m_tMax</a></div><div class="ttdeci">float * m_tMax</div><div class="ttdoc">Max temperature. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00097">SNO_SP.h:97</a></div></div>
-<div class="ttc" id="a00111_html_a81f9752e63768ee4803246181b2a49a9"><div class="ttname"><a href="../../dd/d6d/a00111.html#a81f9752e63768ee4803246181b2a49a9">SNO_SP::Get1DData</a></div><div class="ttdeci">virtual void Get1DData(const char *key, int *n, float **data)</div><div class="ttdoc">Get 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/dc4/a00495_source.html#l00226">SNO_SP.cpp:226</a></div></div>
-<div class="ttc" id="a00111_html_af2031155beb11794aa6fe07b8103d43f"><div class="ttname"><a href="../../dd/d6d/a00111.html#af2031155beb11794aa6fe07b8103d43f">SNO_SP::m_t0</a></div><div class="ttdeci">float m_t0</div><div class="ttdoc">Mean air temperature at which snow melt will occur, sub_smtmp. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00061">SNO_SP.h:61</a></div></div>
-<div class="ttc" id="a00331_html"><div class="ttname"><a href="../../d8/df7/a00331.html">MetadataInfo.h</a></div><div class="ttdoc">Define MetadataInfo class used by modules. </div></div>
-<div class="ttc" id="a00111_html_a6fdab92825f87505d3d6bd30bf46857d"><div class="ttname"><a href="../../dd/d6d/a00111.html#a6fdab92825f87505d3d6bd30bf46857d">SNO_SP::m_lagSnow</a></div><div class="ttdeci">float m_lagSnow</div><div class="ttdoc">Initial snow water equivalent. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00075">SNO_SP.h:75</a></div></div>
-<div class="ttc" id="a00111_html_aaac5b9afcbe7ba40eb7ba1bea6f4d3f6"><div class="ttname"><a href="../../dd/d6d/a00111.html#aaac5b9afcbe7ba40eb7ba1bea6f4d3f6">SNO_SP::m_csnow6</a></div><div class="ttdeci">float m_csnow6</div><div class="ttdoc">Maximum melt rate for snow during year, sub_smfmx. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00077">SNO_SP.h:77</a></div></div>
-<div class="ttc" id="a00111_html_ad410e7ba1b5d28e2db53e23a994413ba"><div class="ttname"><a href="../../dd/d6d/a00111.html#ad410e7ba1b5d28e2db53e23a994413ba">SNO_SP::m_SE</a></div><div class="ttdeci">float * m_SE</div><div class="ttdoc">snow sublimation, snoev in SWAT in etact.f </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dad/a00496_source.html#l00104">SNO_SP.h:104</a></div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;subbasin.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;subbasin::subbasin(<span class="keywordtype">int</span> <span class="keywordtype">id</span>) {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    this-&gt;m_id = id;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    m_P = 0.0f;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    m_P_net = 0.0f;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    m_P_blow = 0.0f;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    m_T = 0.0f;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    m_Wind = 0.0f;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    m_SR = 0.0f;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    m_SE = 0.0f;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    m_SM = 0.0f;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    m_SA = 0.0f;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;subbasin::~subbasin(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keywordtype">void</span> subbasin::addCell(<span class="keywordtype">int</span> cell) {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    this-&gt;m_cells.push_back(cell);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> subbasin::clear() {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    m_P = 0.0f;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    m_P_net = 0.0f;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    m_P_blow = 0.0f;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    m_T = 0.0f;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    m_Wind = 0.0f;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    m_SR = 0.0f;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    m_SE = 0.0f;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    m_SM = 0.0f;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    m_SA = 0.0f;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordtype">int</span> subbasin::getId() {</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">return</span> this-&gt;m_id;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">float</span> subbasin::getAverage(<span class="keywordtype">string</span> key) {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">if</span> (StringMatch(key, <span class="stringliteral">&quot;P&quot;</span>)) { <span class="keywordflow">return</span> m_P / this-&gt;m_cells.size(); }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(key, <span class="stringliteral">&quot;P_net&quot;</span>)) { <span class="keywordflow">return</span> m_P_net / this-&gt;m_cells.size(); }</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(key, <span class="stringliteral">&quot;P_blow&quot;</span>)) { <span class="keywordflow">return</span> m_P_blow / this-&gt;m_cells.size(); }</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(key, <span class="stringliteral">&quot;T&quot;</span>)) { <span class="keywordflow">return</span> m_T / this-&gt;m_cells.size(); }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(key, <span class="stringliteral">&quot;Wind&quot;</span>)) { <span class="keywordflow">return</span> m_Wind / this-&gt;m_cells.size(); }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(key, <span class="stringliteral">&quot;SR&quot;</span>)) { <span class="keywordflow">return</span> m_SR / this-&gt;m_cells.size(); }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(key, <span class="stringliteral">&quot;SE&quot;</span>)) { <span class="keywordflow">return</span> m_SE / this-&gt;m_cells.size(); }</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(key, <span class="stringliteral">&quot;SM&quot;</span>)) { <span class="keywordflow">return</span> m_SM / this-&gt;m_cells.size(); }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(key, <span class="stringliteral">&quot;SA&quot;</span>)) {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">return</span> (m_SA / this-&gt;m_cells.size() &lt; 0.01f ? 0.0f : m_SA / this-&gt;m_cells.size());</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">else</span> { <span class="keywordflow">return</span> -1.0f; }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keywordtype">void</span> subbasin::addP(<span class="keywordtype">float</span> p) {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    m_P += p;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;}</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keywordtype">void</span> subbasin::addPnet(<span class="keywordtype">float</span> pnet) {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    m_P_net += pnet;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;}</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keywordtype">void</span> subbasin::addPblow(<span class="keywordtype">float</span> pblow) {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    m_P_blow += pblow;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordtype">void</span> subbasin::addT(<span class="keywordtype">float</span> t) {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    m_T += t;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keywordtype">void</span> subbasin::addWind(<span class="keywordtype">float</span> wind) {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    m_Wind += wind;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keywordtype">void</span> subbasin::addSR(<span class="keywordtype">float</span> sr) {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    m_SR += sr;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keywordtype">void</span> subbasin::addSE(<span class="keywordtype">float</span> se) {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    m_SE += se;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keywordtype">void</span> subbasin::addSM(<span class="keywordtype">float</span> sm) {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    m_SM += sm;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keywordtype">void</span> subbasin::addSA(<span class="keywordtype">float</span> sa) {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    m_SA += sa;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;vector&lt;int&gt; *subbasin::getCells() {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">return</span> &amp;(this-&gt;m_cells);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment">//map&lt;int,subbasin*&gt;* subbasin::getSubbasinList(int cellCount, float* subbasinGrid, int subbasinSelectedCount, float* subbasinSelected)</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment">//{</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">//  map&lt;int,bool&gt; selected;</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment">//  bool isAllNeedStatistc = false;</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment">//  for(int i = 0;i &lt; subbasinSelectedCount; i++)</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment">//  {</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment">//      int subid = int(subbasinSelected[i]);</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment">//      selected[subid] = true;</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment">//      if(subid == 0) isAllNeedStatistc = true;        </span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment">//  }</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment">//  </span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="comment">//  map&lt;int,subbasin*&gt; list;    </span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment">//  if(isAllNeedStatistc) list[0] = new subbasin(0); </span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment">//  for(int i = 0;i &lt; cellCount; i++)</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="comment">//  {</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="comment">//      if(isAllNeedStatistc) list[0]-&gt;addCell(i);</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment">//      int subid = int(subbasinGrid[i]);</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment">//      if(!selected[subid]) continue;      </span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="comment">//      map&lt;int,subbasin*&gt;::iterator it = list.find(subid);</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment">//      if(it == list.end()) list[subid] = new subbasin(subid);</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">//      list[subid]-&gt;addCell(i);</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment">//  }</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="comment">//  return &amp;list;</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="comment">//}</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5bf5a4201e7cd7ac6c5f03aeeeae8b2c.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_86770438c517686dfc2cabd069979f57.html">SNO_SP</a></li><li class="navelem"><b>SNO_SP.cpp</b></li>
-    <li class="footer">Generated on Mon Mar 20 2017 13:54:05 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e815a90a524b22b5b34e29517df36994.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_ab61e5882fb85006e22352455c7b91d0.html">SNO_WB</a></li><li class="navelem"><b>subbasin.cpp</b></li>
+    <li class="footer">Generated on Mon Mar 20 2017 14:12:57 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

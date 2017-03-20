@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/nutrient/AtmDep/AtmosphericDeposition.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/nutrient/NUTR_CH/NUTR_CH.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,158 +112,353 @@ $(document).ready(function(){initNavTree('d0/de7/a00523_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">AtmosphericDeposition.cpp</div>  </div>
+<div class="title">NUTR_CH.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;AtmosphericDeposition.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;AtmosphericDeposition::AtmosphericDeposition(<span class="keywordtype">void</span>) :</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//input</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    m_nCells(-1), m_rcn(-1.f), m_rca(-1.f), m_soiLayers(-1),</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    m_preci(NULL), m_drydep_no3(-1.f), m_drydep_nh4(-1.f),</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    m_addrno3(-1.f), m_addrnh4(-1.f),</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="comment">//output</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    m_sol_no3(NULL), m_sol_nh4(NULL), m_wshd_rno3(-1.f) {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;AtmosphericDeposition::~AtmosphericDeposition(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordtype">bool</span> AtmosphericDeposition::CheckInputData(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">if</span> (m_nCells &lt;= 0) {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;CheckInputData&quot;</span>,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                             <span class="stringliteral">&quot;The cell number of the input can not be less than zero.&quot;</span>);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_soiLayers &lt; 0) {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The maximum soil layers number can not be less than 0.&quot;</span>);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    }</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="comment">//if (this-&gt;m_cellWidth &lt; 0)</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="comment">//    throw ModelException(MID_ATMDEP, &quot;CheckInputData&quot;, &quot;The m_rca can not be less than 0.&quot;);</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_rcn &lt; 0) {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The m_rca can not be less than 0.&quot;</span>);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    }</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_rca &lt; 0) {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The m_rca can not be less than 0.&quot;</span>);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_preci == NULL) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The precipitation can not be NULL.&quot;</span>);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_drydep_no3 &lt; 0) {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The m_drydep_no3 can not be less than 0.&quot;</span>);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_drydep_nh4 &lt; 0) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The m_drydep_nh4 can not be less than 0.&quot;</span>);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    }</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_sol_no3 == NULL) {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The m_sol_no3 can not be NULL.&quot;</span>);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_sol_nh4 == NULL) {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The m_sol_nh4 can not be NULL.&quot;</span>);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;}</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keywordtype">bool</span> AtmosphericDeposition::CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n) {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span> (n &lt;= 0) {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;CheckInputSize&quot;</span>,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                             <span class="stringliteral">&quot;Input data for &quot;</span> + <span class="keywordtype">string</span>(key) + <span class="stringliteral">&quot; is invalid. The size could not be less than zero.&quot;</span>);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span> (m_nCells != n) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">if</span> (m_nCells &lt;= 0) {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            m_nCells = n;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;CheckInputSize&quot;</span>,</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                                 <span class="stringliteral">&quot;Input data for &quot;</span> + <span class="keywordtype">string</span>(key) + <span class="stringliteral">&quot; is invalid with size: &quot;</span> + ValueToString(n) +</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                                     <span class="stringliteral">&quot;. The origin size is &quot;</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                                     + ValueToString(m_nCells) + <span class="stringliteral">&quot;.\n&quot;</span>);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
+<a href="../../d0/de7/a00523.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d9/d24/a00524.html">NUTR_CH.h</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d8/dfc/a00327.html">MetadataInfo.h</a>&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;ModelException.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;set&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span> </div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#define CHECK_POINTER(moduleName, varName) if (varName == NULL) throw ModelException(moduleName, &quot;CheckInputData&quot;, &quot;The parameter: varName has not been set.&quot;);</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define CHECK_POSITIVE(moduleName, varName) if (varName &gt; 0)    throw ModelException(moduleName, &quot;CheckInputData&quot;, &quot;The parameter: varName has not been set.&quot;);</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="../../d6/d2c/a00072.html#a168c1002b04e69a62b29e9fa1e3b513f">   31</a></span>&#160;<a class="code" href="../../d6/d2c/a00072.html#a168c1002b04e69a62b29e9fa1e3b513f">NUTR_CH::NUTR_CH</a>(<span class="keywordtype">void</span>) : m_dt(-1), m_nreach(-1), m_Chs0(NODATA_VALUE), m_Vdiv(NULL), m_Vpoint(NULL), m_chStorage(NULL),</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                         m_chOrder(NULL), m_qchOut(NULL), m_latno3ToCh(NULL), m_sur_no3ToCh(NULL), m_sur_solpToCh(NULL),</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                         m_sedorgnToCh(NULL), m_sedorgpToCh(NULL), m_no3gwToCh(NULL), m_minpgwToCh(NULL),</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                         m_chOrgN(NULL), m_chNo3(NULL), m_chOrgP(NULL), m_chSolP(NULL) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;}</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../d6/d2c/a00072.html#a933d00b8140a791a5d39bf7a368cc88a">   37</a></span>&#160;<a class="code" href="../../d6/d2c/a00072.html#a933d00b8140a791a5d39bf7a368cc88a">NUTR_CH::~NUTR_CH</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">if</span> (m_chOrgN != NULL) Release1DArray(m_chSolP);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span> (m_chNo3 != NULL) Release1DArray(m_chSolP);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">if</span> (m_chOrgP != NULL) Release1DArray(m_chSolP);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">if</span> (m_chSolP != NULL) Release1DArray(m_chSolP);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;}</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">bool</span> NUTR_CH::CheckInputData(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    CHECK_POSITIVE(MID_NUTR_CH, <a class="code" href="../../d6/d2c/a00072.html#a868e752993c081a20d9f75d2e4d537d0">m_dt</a>)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    CHECK_POSITIVE(MID_NUTR_CH, <a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a>)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    CHECK_POSITIVE(MID_NUTR_CH, <a class="code" href="../../d6/d2c/a00072.html#aea5ab4df2d7bc3271c9a6ac8a097d7d4">m_Chs0</a>)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    CHECK_POINTER(MID_NUTR_CH, m_chWidth)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    CHECK_POINTER(MID_NUTR_CH, <a class="code" href="../../d6/d2c/a00072.html#a291eec1e6652906a5d22e4e1493ee026">m_chStorage</a>)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    CHECK_POINTER(MID_NUTR_CH, <a class="code" href="../../d6/d2c/a00072.html#ab8de774a2665bb8c7f0d3fd2e84d2785">m_qchOut</a>)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    CHECK_POINTER(MID_NUTR_CH, m_latno3ToCh)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    CHECK_POINTER(MID_NUTR_CH, m_sur_no3ToCh)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    CHECK_POINTER(MID_NUTR_CH, m_sur_solpToCh)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    CHECK_POINTER(MID_NUTR_CH, m_sedorgnToCh)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    CHECK_POINTER(MID_NUTR_CH, m_sedorgpToCh)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    CHECK_POINTER(MID_NUTR_CH, m_no3gwToCh)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    CHECK_POINTER(MID_NUTR_CH, m_minpgwToCh)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    return true;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;}</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d2c/a00072.html">NUTR_CH</a>::initialOutputs() {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a> &lt;= 0) {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_NUTR_CH, <span class="stringliteral">&quot;initialOutputs&quot;</span>, <span class="stringliteral">&quot;The cell number of the input can not be less than zero.&quot;</span>);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">void</span> AtmosphericDeposition::Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    CheckInputSize(key, n);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_PCP)) { m_preci = data; }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;Set1DData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk + <span class="stringliteral">&quot; does not exist.&quot;</span>);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span> (m_reachLayers.empty()) {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        CheckInputData();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt;= <a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a>; i++) {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordtype">int</span> order = (int) m_chOrder[i];</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            m_reachLayers[order].push_back(i);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        }</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    }</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keywordtype">void</span> AtmosphericDeposition::SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> value) {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_OMP_THREADNUM)) {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        SetOpenMPThread((<span class="keywordtype">int</span>) value);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="comment">//else if (StringMatch(sk, Tag_CellSize)) { m_nCells = value; }</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="comment">//else if (StringMatch(sk, Tag_CellWidth)) { m_cellWidth = value; }</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_RCN)) { m_rcn = value; }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_RCA)) { m_rca = value; }</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_DRYDEP_NO3)) { m_drydep_no3 = value; }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_DRYDEP_NH4)) { m_drydep_nh4 = value; }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;SetValue&quot;</span>,</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                             <span class="stringliteral">&quot;Parameter &quot;</span> + sk + <span class="stringliteral">&quot; does not exist. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keywordtype">void</span> AtmosphericDeposition::Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nRows, <span class="keywordtype">int</span> nCols, <span class="keywordtype">float</span> **data) {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">if</span> (!this-&gt;CheckInputSize(key, nRows)) <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    m_soiLayers = nCols;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_SOL_NO3)) { this-&gt;m_sol_no3 = data; }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_SOL_NH4)) { this-&gt;m_sol_nh4 = data; }</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;Set2DData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk + <span class="stringliteral">&quot; does not exist.&quot;</span>);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">if</span> (m_latno3ToCh == NULL) {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        Initialize1DArray(<a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a> + 1, m_chOrgN, 0.f);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        Initialize1DArray(<a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a> + 1, m_chNo3, 0.f);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        Initialize1DArray(<a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a> + 1, m_chOrgP, 0.f);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        Initialize1DArray(<a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a> + 1, m_chSolP, 0.f);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="../../d6/d2c/a00072.html#aae98ca6c9c4462af547a971c840df5cd">   85</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d6/d2c/a00072.html#aae98ca6c9c4462af547a971c840df5cd">NUTR_CH::Execute</a>() {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="comment">//check the data</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    CheckInputData();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    initialOutputs();</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    map &lt; int, vector &lt; int &gt; &gt; ::iterator</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    it;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">for</span> (it = m_reachLayers.begin(); it != m_reachLayers.end(); it++) {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="comment">// There are not any flow relationship within each routing layer.</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="comment">// So parallelization can be done here.</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordtype">int</span> nReaches = it-&gt;second.size();</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="comment">// the size of m_reachLayers (map) is equal to the maximum stream order</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nReaches; ++i) {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <span class="keywordtype">int</span> reachIndex = it-&gt;second[i]; <span class="comment">// index in the array</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            SedChannelRouting(reachIndex);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    }</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keywordtype">void</span> AtmosphericDeposition::initialOutputs() {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_nCells &lt;= 0) {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;CheckInputData&quot;</span>,</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                             <span class="stringliteral">&quot;The dimension of the input data can not be less than zero.&quot;</span>);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="comment">// allocate the output variables</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">if</span> (m_addrnh4 &lt; 0.f) {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        m_addrnh4 = 0.f;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        m_addrno3 = 0.f;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    }</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordflow">if</span> (!FloatEqual(m_wshd_rno3, 0.f)) m_wshd_rno3 = 0.f;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;}</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="keywordtype">int</span> AtmosphericDeposition::Execute() {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="comment">//check the data</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    this-&gt;CheckInputData();</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    this-&gt;initialOutputs();</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; m_nCells; i++) {</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordflow">if</span> (m_preci[i] &gt; 0.f) {</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            m_addrno3 = 0.01f * m_rcn * m_preci[i];</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            m_addrnh4 = 0.01f * m_rca * m_preci[i];</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            m_sol_no3[i][0] += (m_addrno3 + m_drydep_no3 / 365.f);</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            m_sol_nh4[i][0] += (m_addrnh4 + m_drydep_nh4 / 365.f);</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            m_wshd_rno3 += (m_addrno3 * (1.f / m_nCells));</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        }</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    }</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;}</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="keywordtype">void</span> AtmosphericDeposition::GetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> *value) {</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_WSHD_RNO3)) { *value = m_wshd_rno3; }</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_ATMDEP, <span class="stringliteral">&quot;GetValue&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk + <span class="stringliteral">&quot; does not exist.&quot;</span>);</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    }</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;}</div>
-<div class="ttc" id="a00063_html"><div class="ttname"><a href="../../d1/d6f/a00063.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d22/a00245_source.html#l00020">ModelException.h:20</a></div></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;}</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="keywordtype">bool</span> NUTR_CH::CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n) {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordflow">if</span> (n &lt;= 0) {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="comment">//this-&gt;StatusMsg(&quot;Input data for &quot;+string(key) +&quot; is invalid. The size could not be less than zero.&quot;);</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    }</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a> != n) {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a> &lt;= 0) { this-&gt;<a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a> = n; }</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            <span class="comment">//this-&gt;StatusMsg(&quot;Input data for &quot;+string(key) +&quot; is invalid. All the input data should have same size.&quot;);</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            ostringstream oss;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            oss &lt;&lt; <span class="stringliteral">&quot;Input data for &quot;</span> + string(key) &lt;&lt; <span class="stringliteral">&quot; is invalid with size: &quot;</span> &lt;&lt; n &lt;&lt; <span class="stringliteral">&quot;. The origin size is &quot;</span> &lt;&lt;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                <a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a> &lt;&lt; <span class="stringliteral">&quot;.\n&quot;</span>;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_NUTR_CH, <span class="stringliteral">&quot;CheckInputSize&quot;</span>, oss.str());</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    }</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;}</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="../../d6/d2c/a00072.html#ae739eb36ecb07eb9dfb9c8404f36ac23">  127</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d2c/a00072.html#ae739eb36ecb07eb9dfb9c8404f36ac23">NUTR_CH::GetValue</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> *value) {</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordtype">int</span> iOutlet = m_reachLayers.rbegin()-&gt;second[0];</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_SED_OUTLET)) {</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    }</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="../../d6/d2c/a00072.html#a608d0de1efc92adb3958dd48d7d94539">  134</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d2c/a00072.html#a608d0de1efc92adb3958dd48d7d94539">NUTR_CH::SetValue</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> value) {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_OMP_THREADNUM)) {</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        SetOpenMPThread((<span class="keywordtype">int</span>) value);</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    }</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="preprocessor">#ifdef STORM_MODEL</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, Tag_ChannelTimeStep))</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        {</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            <a class="code" href="../../d6/d2c/a00072.html#a868e752993c081a20d9f75d2e4d537d0">m_dt</a> = (int) value;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        }</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, Tag_TimeStep)) {</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <a class="code" href="../../d6/d2c/a00072.html#a868e752993c081a20d9f75d2e4d537d0">m_dt</a> = (int) value;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    }</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_CHS0)) {</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <a class="code" href="../../d6/d2c/a00072.html#aea5ab4df2d7bc3271c9a6ac8a097d7d4">m_Chs0</a> = value;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_NUTR_CH, <span class="stringliteral">&quot;SetValue&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk + <span class="stringliteral">&quot; does not exist.&quot;</span>);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    }</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;}</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
+<div class="line"><a name="l00157"></a><span class="lineno"><a class="line" href="../../d6/d2c/a00072.html#ac84caf6cf2a67b8f0b4dcc5aa9dd77c2">  157</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d2c/a00072.html#ac84caf6cf2a67b8f0b4dcc5aa9dd77c2">NUTR_CH::Set1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *value) {</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="comment">//check the input data</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_CHST)) { <a class="code" href="../../d6/d2c/a00072.html#a291eec1e6652906a5d22e4e1493ee026">m_chStorage</a> = value; }</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_SUR_NO3_TOCH)) { m_sur_no3ToCh = value; }</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_SUR_SOLP_TOCH)) { m_sur_solpToCh = value; }</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_SEDORGN_TOCH)) { m_sedorgnToCh = value; }</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_SEDORGP_TOCH)) { m_sedorgpToCh = value; }</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_LATNO3_TOCH)) { m_latno3ToCh = value; }</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_NO3GW_TOCH)) { m_no3gwToCh = value; }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_MINPGW_TOCH)) { m_minpgwToCh = value; }</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_NUTR_CH, <span class="stringliteral">&quot;Set1DData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk + <span class="stringliteral">&quot; does not exist.&quot;</span>);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    }</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;}</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
+<div class="line"><a name="l00174"></a><span class="lineno"><a class="line" href="../../d6/d2c/a00072.html#a59873f2c68130ea7866c95cdc7a87834">  174</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d2c/a00072.html#a59873f2c68130ea7866c95cdc7a87834">NUTR_CH::Get1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data) {</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    initialOutputs();</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    *n = <a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a> + 1;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordtype">int</span> iOutlet = m_reachLayers.rbegin()-&gt;second[0];</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_CH_NO3)) {</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        *data = m_chNo3;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <span class="comment">//else if (StringMatch(sk, VAR_CH_NH4))   *data = m_chNH4;</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_CH_SOLP)) { *data = m_chSolP; }</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_CH_ORGN)) { *data = m_chOrgN; }</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_CH_ORGP)) { *data = m_chOrgP; }</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_NUTR_CH, <span class="stringliteral">&quot;Get1DData&quot;</span>, <span class="stringliteral">&quot;Output &quot;</span> + sk + <span class="stringliteral">&quot; does not exist.&quot;</span>);</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    }</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;}</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;</div>
+<div class="line"><a name="l00191"></a><span class="lineno"><a class="line" href="../../d6/d2c/a00072.html#a505a6415421998a8bd54a48df25518cb">  191</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d2c/a00072.html#a505a6415421998a8bd54a48df25518cb">NUTR_CH::Get2DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *nRows, <span class="keywordtype">int</span> *nCols, <span class="keywordtype">float</span> ***data) {</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="comment">/*if (StringMatch(sk,&quot;T_CHSB&quot;))</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="comment">    {</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="comment">    *data = this-&gt;m_T_CHSB;</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="comment">    *nRows = this-&gt;m_nreach;</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="comment">    *nCols = SEDIMENT_CHANNEL_ROUTING_RESULT_DISCHARGE_COLUMN_COUNT;</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="comment">    }</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="comment">    else</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="comment">        throw ModelException(MID_NUTR_CH, &quot;Get2DData&quot;, &quot;Output &quot; + sk</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="comment">        + &quot; does not exist in the NUTR_CH module. Please contact the module developer.&quot;);*/</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;}</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
+<div class="line"><a name="l00204"></a><span class="lineno"><a class="line" href="../../d6/d2c/a00072.html#a86dabcf721d27a0808a4c73a95fdf9a8">  204</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d2c/a00072.html#a86dabcf721d27a0808a4c73a95fdf9a8">NUTR_CH::Set2DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nrows, <span class="keywordtype">int</span> ncols, <span class="keywordtype">float</span> **data) {</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, Tag_RchParam)) {</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        <a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a> = ncols - 1;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        m_reachId = data[0];</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <a class="code" href="../../d6/d2c/a00072.html#acb0b687cadce61d989b18302e93d51d6">m_reachDownStream</a> = data[1];</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        m_chOrder = data[2];</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        m_chWidth = data[3];</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        m_chLen = data[4];</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        m_chDepth = data[5];</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="comment">//m_chVel = data[6];</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        <span class="comment">//m_area = data[7];</span></div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <span class="comment">//m_chSlope = data[9];</span></div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <a class="code" href="../../d6/d2c/a00072.html#af47a1953f14ee74b24511243d2830fb2">m_reachUpStream</a>.resize(<a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a> + 1);</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a> &gt; 1) {</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt;= <a class="code" href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">m_nreach</a>; i++)<span class="comment">// index of the reach is the equal to streamlink ID(1 to nReaches)</span></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            {</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                <span class="keywordtype">int</span> downStreamId = int(<a class="code" href="../../d6/d2c/a00072.html#acb0b687cadce61d989b18302e93d51d6">m_reachDownStream</a>[i]);</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                <span class="keywordflow">if</span> (downStreamId &lt;= 0) {</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                    <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                }</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                <a class="code" href="../../d6/d2c/a00072.html#af47a1953f14ee74b24511243d2830fb2">m_reachUpStream</a>[downStreamId].push_back(i);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            }</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        }</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_NUTR_CH, <span class="stringliteral">&quot;Set2DData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk + <span class="stringliteral">&quot; does not exist.&quot;</span>);</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    }</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;}</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="keywordtype">void</span> NUTR_CH::SedChannelRouting(<span class="keywordtype">int</span> i) {</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="comment">// 1 .whether is no water in channel</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="comment">//  if (m_qchOut[i] &lt; 0.0001f)</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="comment">//  {</span></div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="comment">//m_sedDeg[i] = 0.0f;</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <span class="comment">//m_sedDep[i] = 0.0f;</span></div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="comment">//      m_SedOut[i] = 0.f;</span></div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="comment">//  }</span></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="comment">//  else</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="comment">//  {   // 2. sediment from upstream reaches</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="comment">//      float sedUp = 0;</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="comment">//      for (size_t j = 0; j &lt; m_reachUpStream[i].size(); ++j)</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="comment">//      {</span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="comment">//          int upReachId = m_reachUpStream[i][j];</span></div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="comment">//          sedUp += m_SedOut[upReachId];</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    <span class="comment">//      }</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="comment">//      float allSediment = sedUp + m_sedtoCh[i] + m_sedStorage[i];</span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="comment">//      //get peak channel velocity (m/s)</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="comment">//      float peakFlowRate = m_qchOut[i] * m_prf;</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <span class="comment">//      float crossarea = m_chStorage[i] / m_chLen[i];            // SWAT, eq. 7:1.2.3</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="comment">//      float peakVelocity = peakFlowRate / crossarea;</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="comment">//      if (peakVelocity &gt; 5) peakVelocity = 5.0f;</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="comment">//      //max concentration</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="comment">//      float maxCon = m_spcon * pow(peakVelocity, m_spexp);</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="comment">//      //initial concentration,mix sufficiently</span></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    <span class="comment">//      float qOutV = m_qchOut[i] * m_dt;</span></div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="comment">//      float allWater = m_chStorage[i] + qOutV;</span></div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <span class="comment">//      if (allWater &lt; 0.001f)</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="comment">//      {</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="comment">//  m_sedDeg[i] = 0.0f;</span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="comment">//  m_sedDep[i] = 0.0f;</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <span class="comment">//          m_SedOut[i] = 0.0f;</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="comment">//          return;</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="comment">//      }</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="comment">//      float initCon = allSediment / allWater;</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <span class="comment">//      float sedDeposition = allWater * (initCon - maxCon);</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="comment">//      //if (abs(sedDeposition) &lt; 1.0e-6f)</span></div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    <span class="comment">//      //    sedDeposition = 0.0f;</span></div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="comment">//      if (peakVelocity &lt; m_vcrit)</span></div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="comment">//          sedDeposition = 0.0f;</span></div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="comment">//      float sedDegradation = 0.0f;</span></div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="comment">//      float sedDegradation1 = 0.0f;</span></div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    <span class="comment">//      float sedDegradation2 = 0.0f;</span></div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="comment"></span>    <span class="comment">//float tbase = m_chLen[i] / (m_dt * peakVelocity);</span></div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    <span class="comment">//if (tbase &gt; 1) tbase = 1.0f;</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    <span class="comment">//      if (sedDeposition &lt; 0.f)    //degradation</span></div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="comment">//      {</span></div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    <span class="comment">//          sedDegradation = -sedDeposition * tbase;</span></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    <span class="comment">//  // first the deposited material will be degraded before channel bed</span></div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    <span class="comment">//          if (sedDegradation &gt;= m_sedDep[i])</span></div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    <span class="comment">//          {</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    <span class="comment">//              sedDegradation1 = m_sedDep[i];</span></div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <span class="comment">//              sedDegradation2 = (sedDegradation - sedDegradation1) * m_erodibilityFactor * m_coverFactor;</span></div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    <span class="comment">//          }</span></div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    <span class="comment">//          else</span></div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    <span class="comment">//          {</span></div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    <span class="comment">//              sedDegradation1 = sedDegradation;</span></div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    <span class="comment">//          }</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    <span class="comment">//          sedDeposition = 0.0f;</span></div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="comment">//      }</span></div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    <span class="comment">//      //update sed deposition</span></div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    <span class="comment">//      m_sedDep[i] += sedDeposition - sedDegradation1;</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="comment">//      m_sedDeg[i] += sedDegradation1 + sedDegradation2;</span></div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    <span class="comment">//      //get sediment after deposition and degradation</span></div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    <span class="comment">//      allSediment += sedDegradation1 + sedDegradation2 - sedDeposition;</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="comment">//      //get out flow water fraction</span></div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    <span class="comment">//      float outFraction = qOutV / allWater;</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    <span class="comment">//      m_SedOut[i] = allSediment * outFraction;</span></div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    <span class="comment">//      //update sed storage</span></div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    <span class="comment">//      m_sedStorage[i] = allSediment - m_SedOut[i];</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    <span class="comment">//      //get final sediment in water, cannot large than 0.848t/m3</span></div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    <span class="comment">//      float maxSedinWt = 0.848f * qOutV;</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    <span class="comment">//      if (m_SedOut[i] &gt; maxSedinWt)</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <span class="comment">//      {</span></div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <span class="comment">//          m_sedDep[i] += m_SedOut[i] - maxSedinWt;</span></div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    <span class="comment">//          m_SedOut[i] = maxSedinWt;</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    <span class="comment">//      }</span></div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    <span class="comment">//  }</span></div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;}</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;</div>
+<div class="ttc" id="a00524_html"><div class="ttname"><a href="../../d9/d24/a00524.html">NUTR_CH.h</a></div><div class="ttdoc">Sediment routing using variable channel dimension(VCD) method at daily time scale. </div></div>
+<div class="ttc" id="a00072_html_aea5ab4df2d7bc3271c9a6ac8a097d7d4"><div class="ttname"><a href="../../d6/d2c/a00072.html#aea5ab4df2d7bc3271c9a6ac8a097d7d4">NUTR_CH::m_Chs0</a></div><div class="ttdeci">float m_Chs0</div><div class="ttdoc">initial channel storage per meter of reach length (m3/m) </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d24/a00524_source.html#l00072">NUTR_CH.h:72</a></div></div>
+<div class="ttc" id="a00327_html"><div class="ttname"><a href="../../d8/dfc/a00327.html">MetadataInfo.h</a></div><div class="ttdoc">Define MetadataInfo class used by modules. </div></div>
+<div class="ttc" id="a00072_html_a86dabcf721d27a0808a4c73a95fdf9a8"><div class="ttname"><a href="../../d6/d2c/a00072.html#a86dabcf721d27a0808a4c73a95fdf9a8">NUTR_CH::Set2DData</a></div><div class="ttdeci">virtual void Set2DData(const char *key, int nrows, int ncols, float **data)</div><div class="ttdoc">Set 2D data, by default, DT_Raster2D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de7/a00523_source.html#l00204">NUTR_CH.cpp:204</a></div></div>
+<div class="ttc" id="a00072_html_ab8de774a2665bb8c7f0d3fd2e84d2785"><div class="ttname"><a href="../../d6/d2c/a00072.html#ab8de774a2665bb8c7f0d3fd2e84d2785">NUTR_CH::m_qchOut</a></div><div class="ttdeci">float * m_qchOut</div><div class="ttdoc">channel outflow </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d24/a00524_source.html#l00075">NUTR_CH.h:75</a></div></div>
+<div class="ttc" id="a00072_html_a505a6415421998a8bd54a48df25518cb"><div class="ttname"><a href="../../d6/d2c/a00072.html#a505a6415421998a8bd54a48df25518cb">NUTR_CH::Get2DData</a></div><div class="ttdeci">virtual void Get2DData(const char *key, int *nRows, int *nCols, float ***data)</div><div class="ttdoc">Get 2D data, by default, DT_Raster2D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de7/a00523_source.html#l00191">NUTR_CH.cpp:191</a></div></div>
+<div class="ttc" id="a00072_html_af47a1953f14ee74b24511243d2830fb2"><div class="ttname"><a href="../../d6/d2c/a00072.html#af47a1953f14ee74b24511243d2830fb2">NUTR_CH::m_reachUpStream</a></div><div class="ttdeci">vector&lt; vector&lt; int &gt; &gt; m_reachUpStream</div><div class="ttdoc">upstream id (The value is -1 if there if no upstream reach) </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d24/a00524_source.html#l00086">NUTR_CH.h:86</a></div></div>
+<div class="ttc" id="a00072_html_a868e752993c081a20d9f75d2e4d537d0"><div class="ttname"><a href="../../d6/d2c/a00072.html#a868e752993c081a20d9f75d2e4d537d0">NUTR_CH::m_dt</a></div><div class="ttdeci">int m_dt</div><div class="ttdoc">time step (sec) </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d24/a00524_source.html#l00059">NUTR_CH.h:59</a></div></div>
+<div class="ttc" id="a00072_html_ac6cf14d2b56327a9987400dbd7b17c96"><div class="ttname"><a href="../../d6/d2c/a00072.html#ac6cf14d2b56327a9987400dbd7b17c96">NUTR_CH::m_nreach</a></div><div class="ttdeci">int m_nreach</div><div class="ttdoc">reach number (= subbasin number) </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d24/a00524_source.html#l00064">NUTR_CH.h:64</a></div></div>
+<div class="ttc" id="a00072_html_ae739eb36ecb07eb9dfb9c8404f36ac23"><div class="ttname"><a href="../../d6/d2c/a00072.html#ae739eb36ecb07eb9dfb9c8404f36ac23">NUTR_CH::GetValue</a></div><div class="ttdeci">virtual void GetValue(const char *key, float *value)</div><div class="ttdoc">Get value, DT_Single. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de7/a00523_source.html#l00127">NUTR_CH.cpp:127</a></div></div>
+<div class="ttc" id="a00072_html_a168c1002b04e69a62b29e9fa1e3b513f"><div class="ttname"><a href="../../d6/d2c/a00072.html#a168c1002b04e69a62b29e9fa1e3b513f">NUTR_CH::NUTR_CH</a></div><div class="ttdeci">NUTR_CH(void)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de7/a00523_source.html#l00031">NUTR_CH.cpp:31</a></div></div>
+<div class="ttc" id="a00072_html_ac84caf6cf2a67b8f0b4dcc5aa9dd77c2"><div class="ttname"><a href="../../d6/d2c/a00072.html#ac84caf6cf2a67b8f0b4dcc5aa9dd77c2">NUTR_CH::Set1DData</a></div><div class="ttdeci">virtual void Set1DData(const char *key, int n, float *data)</div><div class="ttdoc">Set 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de7/a00523_source.html#l00157">NUTR_CH.cpp:157</a></div></div>
+<div class="ttc" id="a00063_html"><div class="ttname"><a href="../../d1/d6f/a00063.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/db6/a00241_source.html#l00020">ModelException.h:20</a></div></div>
+<div class="ttc" id="a00072_html_a608d0de1efc92adb3958dd48d7d94539"><div class="ttname"><a href="../../d6/d2c/a00072.html#a608d0de1efc92adb3958dd48d7d94539">NUTR_CH::SetValue</a></div><div class="ttdeci">virtual void SetValue(const char *key, float data)</div><div class="ttdoc">Set data, DT_Single. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de7/a00523_source.html#l00134">NUTR_CH.cpp:134</a></div></div>
+<div class="ttc" id="a00072_html_a59873f2c68130ea7866c95cdc7a87834"><div class="ttname"><a href="../../d6/d2c/a00072.html#a59873f2c68130ea7866c95cdc7a87834">NUTR_CH::Get1DData</a></div><div class="ttdeci">virtual void Get1DData(const char *key, int *n, float **data)</div><div class="ttdoc">Get 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de7/a00523_source.html#l00174">NUTR_CH.cpp:174</a></div></div>
+<div class="ttc" id="a00072_html_acb0b687cadce61d989b18302e93d51d6"><div class="ttname"><a href="../../d6/d2c/a00072.html#acb0b687cadce61d989b18302e93d51d6">NUTR_CH::m_reachDownStream</a></div><div class="ttdeci">float * m_reachDownStream</div><div class="ttdoc">downstream id (The value is 0 if there if no downstream reach) </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d24/a00524_source.html#l00084">NUTR_CH.h:84</a></div></div>
+<div class="ttc" id="a00072_html_aae98ca6c9c4462af547a971c840df5cd"><div class="ttname"><a href="../../d6/d2c/a00072.html#aae98ca6c9c4462af547a971c840df5cd">NUTR_CH::Execute</a></div><div class="ttdeci">virtual int Execute()</div><div class="ttdoc">Execute the simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de7/a00523_source.html#l00085">NUTR_CH.cpp:85</a></div></div>
+<div class="ttc" id="a00072_html"><div class="ttname"><a href="../../d6/d2c/a00072.html">NUTR_CH</a></div><div class="ttdoc">Sediment routing using variable channel dimension(VCD) method at daily time scale. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d24/a00524_source.html#l00031">NUTR_CH.h:31</a></div></div>
+<div class="ttc" id="a00072_html_a291eec1e6652906a5d22e4e1493ee026"><div class="ttname"><a href="../../d6/d2c/a00072.html#a291eec1e6652906a5d22e4e1493ee026">NUTR_CH::m_chStorage</a></div><div class="ttdeci">float * m_chStorage</div><div class="ttdoc">reach storage (m3) at time t </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d24/a00524_source.html#l00095">NUTR_CH.h:95</a></div></div>
+<div class="ttc" id="a00072_html_a933d00b8140a791a5d39bf7a368cc88a"><div class="ttname"><a href="../../d6/d2c/a00072.html#a933d00b8140a791a5d39bf7a368cc88a">NUTR_CH::~NUTR_CH</a></div><div class="ttdeci">~NUTR_CH(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de7/a00523_source.html#l00037">NUTR_CH.cpp:37</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_3996e886b1e07c3846ebc60dfa15d754.html">nutrient</a></li><li class="navelem"><a class="el" href="../../dir_3d600c10df8c4ddda88abec6db63a08b.html">AtmDep</a></li><li class="navelem"><b>AtmosphericDeposition.cpp</b></li>
-    <li class="footer">Generated on Mon Mar 20 2017 13:54:06 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_4ed5f285e548ebfb97e1d33992ea4b64.html">nutrient</a></li><li class="navelem"><a class="el" href="../../dir_4355d4b842ed5c64af85d117def314ad.html">NUTR_CH</a></li><li class="navelem"><a class="el" href="../../d0/de7/a00523.html">NUTR_CH.cpp</a></li>
+    <li class="footer">Generated on Mon Mar 20 2017 14:12:57 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

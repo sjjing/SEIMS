@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/preprocess/db_sqlite.py Source File</title>
+<title>SEIMS: seims/preprocess/mpi_adjust_groups.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,114 +112,60 @@ $(document).ready(function(){initNavTree('d7/d6e/a00190_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">db_sqlite.py</div>  </div>
+<div class="title">mpi_adjust_groups.py</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># coding=utf-8</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># @ Import parameters and lookup tables to SQLite database</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># @Author: Liang-Jun Zhu, Fang Shen</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> sqlite3</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># Used for adjusting partitioned tasks by Metis.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># This function is activated when forCluster is True.</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># Author: Junzhi Liu</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">#</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d8/dd2/a00565.html">pygeoc.utils.utils</a> <span class="keyword">import</span> UtilClass</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">from</span> config <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> utility <span class="keyword">import</span> LoadConfiguration, ReadDataItemsFromTxt</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> utility <span class="keyword">import</span> DEFAULT_NODATA</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">def </span>txt2Sqlite(dataFiles, dbFile):</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    dataImport = {}  <span class="comment"># format: {tabName:[fieldName, Units, dataRows]}</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordflow">for</span> dataFileItem <span class="keywordflow">in</span> dataFiles:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="comment"># print dataFileItem</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        dataPath = TXT_DB_DIR + os.sep + dataFileItem[1] + <span class="stringliteral">&quot;.txt&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        dataItems = ReadDataItemsFromTxt(dataPath)</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="comment"># print dataItems</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordflow">if</span> dataFileItem[0] == Tag_Params:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            fieldNames = dataItems[0][1:]</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            units = dataItems[1][1:]</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            CHANGE_IDX = fieldNames.index(PARAM_FLD_CHANGE) + 1</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            IMPACT_IDX = fieldNames.index(PARAM_FLD_IMPACT) + 1</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            MAX_IDX = fieldNames.index(PARAM_FLD_MAX) + 1</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            MIN_IDX = fieldNames.index(PARAM_FLD_MIN) + 1</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(2, len(dataItems)):</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                curDataItem = dataItems[i]</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                <span class="comment"># print curDataItem</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                <span class="keywordflow">if</span> curDataItem[CHANGE_IDX] == PARAM_CHANGE_NC <span class="keywordflow">or</span> curDataItem[CHANGE_IDX] == <span class="stringliteral">&#39;&#39;</span>:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                    curDataItem[IMPACT_IDX] = 0</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                <span class="keywordflow">if</span> curDataItem[CHANGE_IDX] == PARAM_CHANGE_RC <span class="keywordflow">and</span> curDataItem[IMPACT_IDX] == <span class="stringliteral">&#39;&#39;</span>:</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                    curDataItem[IMPACT_IDX] = 1</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                <span class="keywordflow">if</span> curDataItem[CHANGE_IDX] == PARAM_CHANGE_AC <span class="keywordflow">and</span> curDataItem[IMPACT_IDX] == <span class="stringliteral">&#39;&#39;</span>:</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                    curDataItem[IMPACT_IDX] = 0</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordflow">if</span> curDataItem[MAX_IDX] == <span class="stringliteral">&#39;&#39;</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                    curDataItem[MAX_IDX] = DEFAULT_NODATA</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keywordflow">if</span> curDataItem[MIN_IDX] == <span class="stringliteral">&#39;&#39;</span>:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                    curDataItem[MIN_IDX] = DEFAULT_NODATA</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                <span class="keywordflow">if</span> curDataItem[0] <span class="keywordflow">in</span> dataImport.keys():</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                    dataImport[curDataItem[0]][2].append(curDataItem[1:])</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                    dataImport[curDataItem[0]] = [</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                        fieldNames, units, [curDataItem[1:]]]</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            fieldNames = dataItems[0]</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            units = dataItems[1]</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordflow">if</span> dataFileItem[1] <span class="keywordflow">not</span> <span class="keywordflow">in</span> dataImport:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                dataImport[dataFileItem[1]] = [fieldNames, units, []]</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(2, len(dataItems)):</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                dataImport[dataFileItem[1]][2].append(dataItems[i])</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment"># print dataImport</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    importData2Sqlite(dataImport, dbFile)</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">def </span>importData2Sqlite(dataImport, dbFile):</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    conn = sqlite3.connect(dbFile)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    cur = conn.cursor()</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">for</span> tabName <span class="keywordflow">in</span> dataImport.keys():</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        flds = dataImport[tabName][0]</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        unitTypes = dataImport[tabName][1]</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        dataRow = dataImport[tabName][2]</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        fieldNameStr = <span class="stringliteral">&#39;&#39;</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(flds)):</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            fieldNameStr += flds[i] + <span class="stringliteral">&#39; &#39;</span> + unitTypes[i] + <span class="stringliteral">&#39; DEFAULT NULL,&#39;</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        create_table_sql = <span class="stringliteral">&#39;&#39;&#39;CREATE TABLE IF NOT EXISTS %s (%s)&#39;&#39;&#39;</span> % (</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            tabName, fieldNameStr[:-1])</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="comment"># print create_table_sql</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        cur.execute(create_table_sql)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        load_sql = <span class="stringliteral">&#39;&#39;&#39;insert into %(table)s values (%(arg)s)&#39;&#39;&#39;</span> % {<span class="stringliteral">&#39;table&#39;</span>: tabName, <span class="stringliteral">&#39;arg&#39;</span>: <span class="stringliteral">&#39;,&#39;</span>.join(</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            [<span class="stringliteral">&#39;?&#39;</span> <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, len(flds))]), }</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment"># print load_sql</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">for</span> singledatarow <span class="keywordflow">in</span> dataRow:</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            cur.execute(load_sql, singledatarow)</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    conn.commit()</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    cur.close()</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    conn.close()</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keyword">def </span>reConstructSQLiteDB():</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="comment"># If the database file existed, DELETE it.</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    db_dir = WORKING_DIR + os.sep + DIR_NAME_IMPORT2DB</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    UtilClass.mkdir(db_dir)</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    sql_path = db_dir + os.sep + sqlite_file</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">if</span> os.path.exists(sql_path):</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        os.remove(sql_path)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    data_files = [[Tag_Params, init_params]]</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">for</span> df <span class="keywordflow">in</span> lookup_tabs:</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        data_files.append([Tag_Lookup, df])</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    txt2Sqlite(data_files, sql_path)</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    LoadConfiguration(getconfigfile())</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    reConstructSQLiteDB()</div>
-<div class="ttc" id="a00565_html"><div class="ttname"><a href="../../d8/dd2/a00565.html">pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dd1/a00214_source.html#l00001">utils.py:1</a></div></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">def </span>GetMaxWeight(groupWeightDic, groupDic):</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    maxId = -1</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    maxWeight = -1</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">for</span> id <span class="keywordflow">in</span> groupWeightDic:</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordflow">if</span> len(groupDic[id]) &gt; 1 <span class="keywordflow">and</span> maxWeight &lt; groupWeightDic[id]:</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            maxWeight = groupWeightDic[id]</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            maxId = id</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordflow">return</span> maxId, maxWeight</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">def </span>AdjustGroupResult(g, weightDic, groupList, nGroups):</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    groupDic = {}  <span class="comment"># group id from 0</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    groupWeightDic = {}  <span class="comment"># subbasin id form 1</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    n = len(weightDic.keys())</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">for</span> subId <span class="keywordflow">in</span> range(1, n + 1):</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        groupId = groupList[subId - 1]</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        groupDic.setdefault(groupId, []).append(subId)</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        groupWeightDic[groupId] = groupWeightDic.setdefault(</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            groupId, 0) + weightDic[subId]</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="comment"># get average weight for each group, which is the ideal aim of task</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment"># scheduling</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    aveWeight = 0</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">for</span> id <span class="keywordflow">in</span> groupWeightDic:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        aveWeight += groupWeightDic[id]</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    aveWeight /= nGroups</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">for</span> iGroup <span class="keywordflow">in</span> range(nGroups):</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> iGroup <span class="keywordflow">in</span> groupDic:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            maxId, maxWeight = GetMaxWeight(groupWeightDic, groupDic)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordflow">if</span> maxId &lt; 0:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            subList = groupDic[maxId]</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            subId = subList[0]</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            groupDic[iGroup] = [subId, ]</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            groupList[subId - 1] = iGroup</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            groupDic[maxId].remove(subId)</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>db_sqlite.py</b></li>
-    <li class="footer">Generated on Mon Mar 20 2017 13:54:04 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_28e21eaa60bbcf907d8ec8f42033d556.html">preprocess</a></li><li class="navelem"><b>mpi_adjust_groups.py</b></li>
+    <li class="footer">Generated on Mon Mar 20 2017 14:12:56 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

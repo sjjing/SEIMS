@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/preprocess/sd_hillslope.py Source File</title>
+<title>SEIMS: seims/preprocess/sp_terrain.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,243 +112,495 @@ $(document).ready(function(){initNavTree('d7/ded/a00196_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">sd_hillslope.py</div>  </div>
+<div class="title">sp_terrain.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> numpy</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">from</span> gdal <span class="keyword">import</span> GDT_Int16</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d9/d19/a00560.html">pygeoc.raster</a> <span class="keyword">import</span> RasterUtilClass</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d8/df0/a00557.html">pygeoc.hydro.postTauDEM</a> <span class="keyword">import</span> D8Util</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">from</span> <a class="code" href="../../dc/dae/a00563.html">pygeoc.utils.const</a> <span class="keyword">import</span> DEFAULT_NODATA, CCW_DCOL, CCW_DROW, D8DIR_TD_INFLOW_VALUES, D8DIR_TD_DELTA</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">def </span>delineate_hillslopes_downstream_method(stream_raster, flow_dir_raster, hillslope_out, stream_value_method = 0):</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="stringliteral">    Delineate hillslopes for each subbasin, include header, left, and right hillslope</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="stringliteral">    :param stream_raster: Stream cell value greater than 0 is identified by stream</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="stringliteral">                          The input stream are recommended sequenced as 1, 2, 3...</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="stringliteral">    :param flow_dir_raster: D8 flow direction in TauDEM code</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="stringliteral">    :param stream_value_method: method for stream cell&#39; value.</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="stringliteral">                                0 - keep stream link code, which is default</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="stringliteral">                                1 - Set to the value of right hillslope and head hillslope</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="stringliteral">                                2 - Set to the value of left hillslope and head hillslope</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="stringliteral">                                3 - Set stream cell to NoData</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="stringliteral">    :return hillslope_out: If the input stream are sequenced, the output hillslope will be numbered:</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="stringliteral">                              - Header hillslope: MaxStreamID * 3 + 1</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="stringliteral">                              - Right hillslope: MaxStreamID * 3 + 2</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="stringliteral">                              - Left hillslope: MaxStreamID * 3 + 3</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="stringliteral">                           If not, the output hillslope will be numbered in imprevision order.</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&quot;Delineating hillslopes (header, left, and right hillslope)...&quot;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    streamr = RasterUtilClass.ReadRaster(stream_raster)</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    stream_data = streamr.data</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    stream_nodata = streamr.noDataValue</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    geotrans = streamr.geotrans</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    srs = streamr.srs</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    nrows = streamr.nRows</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    ncols = streamr.nCols</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    flowd8r = RasterUtilClass.ReadRaster(flow_dir_raster)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    flowd8_data = flowd8r.data</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    flowd8_nodata = flowd8r.noDataValue</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">if</span> flowd8r.nRows != nrows <span class="keywordflow">or</span> flowd8r.nCols != ncols:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;The input extent of D8 flow direction is not consistent with stream data!&quot;</span>)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment"># definition of utility functions</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">def </span>inflow_stream_number(vrow, vcol):</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Count the inflow stream cell number, and the coordinate&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        neighb_stream_cell_num = 0</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        cell_coors = []</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">for</span> c <span class="keywordflow">in</span> range(8):</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            newrow = vrow + CCW_DROW[c]</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            newcol = vcol + CCW_DCOL[c]</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordflow">if</span> newrow &lt; 0 <span class="keywordflow">or</span> newrow &gt;= nrows <span class="keywordflow">or</span> newcol &lt; 0 <span class="keywordflow">or</span> newcol &gt;= ncols:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordflow">if</span> flowd8_data[newrow][newcol] == D8DIR_TD_INFLOW_VALUES[c]:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                cell_coors.append((newrow, newcol))</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="keywordflow">if</span> stream_data[newrow][newcol] &gt; 0 <span class="keywordflow">and</span> stream_data[newrow][newcol] != stream_nodata:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                    neighb_stream_cell_num += 1</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">return</span> neighb_stream_cell_num, cell_coors</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment"># 1. assign a unique id to each link in the stream network if needed</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    assignStreamID = <span class="keyword">False</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    tmp = numpy.where((stream_data &gt; 0) &amp; (stream_data != stream_nodata), stream_data, numpy.nan)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    currentMaxID = numpy.nanmax(tmp)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    currentID = 0</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">if</span> currentMaxID == numpy.nanmin(tmp):</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        assignStreamID = <span class="keyword">True</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">if</span> assignStreamID:</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        HillslopeMtxTmp = numpy.ones((nrows, ncols)) * DEFAULT_NODATA</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">for</span> row <span class="keywordflow">in</span> range(nrows):</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordflow">for</span> col <span class="keywordflow">in</span> range(ncols):</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                <span class="keywordflow">if</span> stream_data[row][col] &lt;= 0:</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                inflownum, inflowcoors = inflow_stream_number(row, col)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                <span class="keywordflow">if</span> inflownum == 0:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                    <span class="comment"># it&#39;s a headwater location so start a downstream flowpath</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                    currentID += 1</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                    tmprow = row</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                    tmpcol = col</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                    HillslopeMtxTmp[tmprow][tmpcol] = currentID</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                    flag = <span class="keyword">True</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                    <span class="keywordflow">while</span> flag:</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                        <span class="comment"># find the downslope neighbour</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                        tmpflowd8 = flowd8_data[tmprow][tmpcol]</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                        <span class="keywordflow">if</span> tmpflowd8 &lt; 0 <span class="keywordflow">or</span> tmpflowd8 == flowd8_nodata:</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                            <span class="keywordflow">if</span> stream_data[tmprow][tmpcol] &gt; 0 <span class="keywordflow">and</span> stream_data[tmprow][tmpcol] != stream_nodata:</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                                <span class="comment"># it is a valid stream cell and probably just has no downslope</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                                <span class="comment"># neighbour (e.g. at the edge of the grid)</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                                HillslopeMtxTmp[tmprow][tmpcol] = currentID</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                            <span class="keywordflow">break</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                        tmprow, tmpcol = D8Util.downstream_index(tmpflowd8, tmprow, tmpcol)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                        <span class="keywordflow">if</span> stream_data[tmprow][tmpcol] &lt;= 0:</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                            flag = <span class="keyword">False</span>  <span class="comment"># it is not a stream cell</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                            <span class="keywordflow">if</span> HillslopeMtxTmp[tmprow][tmpcol] &gt; 0:  <span class="comment"># run into a larger stream, end the downstream search</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                                <span class="keywordflow">break</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                            <span class="comment"># is it a confluence (conjunction node)</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                            inflownum, inflowcoors = inflow_stream_number(tmprow, tmpcol)</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                            <span class="keywordflow">if</span> inflownum &gt;=2:</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                                currentID += 1</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                            HillslopeMtxTmp[tmprow][tmpcol] = currentID</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        stream_data = numpy.copy(HillslopeMtxTmp)</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        currentMaxID = currentID</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment"># 2. a). find the channel heads and give them unique identifier,</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="comment">#    b). assign hillslope code according to the 3*3 neighbour of stream cells</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    HillslopeMtx = numpy.copy(stream_data)</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    HillslopeMtx[stream_data == stream_nodata] = DEFAULT_NODATA</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    headstreamCoors = []</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">for</span> row <span class="keywordflow">in</span> range(nrows):</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">for</span> col <span class="keywordflow">in</span> range(ncols):</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">if</span> stream_data[row][col] &lt;= 0:</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            inflownum, inflowcoors = inflow_stream_number(row, col)</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            currentID = stream_data[row][col]</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="keywordflow">if</span> inflownum == 0:  <span class="comment"># it is a one-order stream head</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                HillslopeMtx[row][col] = currentID * currentMaxID + 1</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                headstreamCoors.append((row, col))</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">elif</span> inflownum &gt;= 2:  <span class="comment"># it is a confluence, assign hillslope code to the non-stream inflow cells</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                non_stream_inflow_count = 0</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                <span class="keywordflow">for</span> (tmprow, tmpcol) <span class="keywordflow">in</span> inflowcoors:</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                    <span class="keywordflow">if</span> stream_data[tmprow][tmpcol] &lt;= 0:</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                        HillslopeMtx[tmprow][tmpcol] = stream_data[row][col] * currentMaxID + 1</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                        non_stream_inflow_count += 1</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                <span class="keywordflow">if</span> non_stream_inflow_count &gt; 0:</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                    HillslopeMtx[row][col] = currentID * currentMaxID + 1</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                    headstreamCoors.append((row, col))</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            <span class="comment"># search the 3*3 neighbours by clockwise and counterclockwise separately</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            curflowdir = flowd8_data[row][col]</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <span class="keywordflow">if</span> curflowdir &lt;= 0 <span class="keywordflow">or</span> curflowdir == flowd8_nodata:</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            d = int(curflowdir)</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="comment"># look to the right side, i.e. clockwise</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            flag = <span class="keyword">False</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            state = <span class="keyword">False</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="keywordflow">while</span> <span class="keywordflow">not</span> flag:</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                d -= 1</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                <span class="keywordflow">if</span> d &gt; 8: d = 1</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                <span class="keywordflow">if</span> d &lt; 1: d = 8</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                tmprow = row + CCW_DROW[d - 1]</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                tmpcol = col + CCW_DCOL[d - 1]</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                tmpstream = stream_data[tmprow][tmpcol]</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                <span class="keywordflow">if</span> tmpstream &lt;= 0:</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                    state = <span class="keyword">True</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                    <span class="comment"># see if it flows into the stream cell at (row, col)</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                    <span class="keywordflow">if</span> int(flowd8_data[tmprow][tmpcol]) == D8DIR_TD_INFLOW_VALUES[d - 1]:</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                        HillslopeMtx[tmprow][tmpcol] = currentID * currentMaxID + 2</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                <span class="keywordflow">else</span>:  <span class="comment"># searched for the first stream cell on the clockwise</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                    <span class="keywordflow">if</span> state:</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                        flag = <span class="keyword">True</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            <span class="comment"># look to the left side, i.e. counterclockwise</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            flag = <span class="keyword">False</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            d = int(curflowdir)</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            k = 0</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            <span class="keywordflow">while</span> <span class="keywordflow">not</span> flag:</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                d += 1</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                <span class="keywordflow">if</span> d &gt; 8: d = 1</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                <span class="keywordflow">if</span> d &lt; 1: d = 8</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                tmprow = row + CCW_DROW[d - 1]</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                tmpcol = col + CCW_DCOL[d - 1]</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                tmpstream = stream_data[tmprow][tmpcol]</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                <span class="keywordflow">if</span> tmpstream &lt;= 0:</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                    <span class="comment"># see if it flows into the stream cell at (row, col)</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                    <span class="keywordflow">if</span> int(flowd8_data[tmprow][tmpcol]) == D8DIR_TD_INFLOW_VALUES[d - 1] <span class="keywordflow">and</span> \</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                                    HillslopeMtx[tmprow][tmpcol] &lt;= 0:</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                        HillslopeMtx[tmprow][tmpcol] = currentID * currentMaxID + 3</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                k += 1</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                <span class="keywordflow">if</span> k == 7:</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                    flag = <span class="keyword">True</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="comment"># 3. From each cell, search downstream for not assigned hillslope</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordflow">for</span> row <span class="keywordflow">in</span> range(nrows):</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordflow">for</span> col <span class="keywordflow">in</span> range(ncols):</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="keywordflow">if</span> HillslopeMtx[row][col] &gt; 0 <span class="keywordflow">or</span> flowd8_data[row][col] == flowd8_nodata:</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            flag = <span class="keyword">False</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            tmprow = row</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            tmpcol = col</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            tmpcoors = []</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            streamID = DEFAULT_NODATA</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            <span class="keywordflow">while</span> <span class="keywordflow">not</span> flag:</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                <span class="comment"># find it&#39;s downslope neighbour</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                curflowdir = flowd8_data[tmprow][tmpcol]</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                <span class="keywordflow">if</span> curflowdir &gt; 0:</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                    tmprow, tmpcol = D8Util.downstream_index(curflowdir, tmprow, tmpcol)</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                    <span class="comment"># if the new cell already has a hillslope value, use that</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                    <span class="keywordflow">if</span> HillslopeMtx[tmprow][tmpcol] &gt; 0:</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                        streamID = HillslopeMtx[tmprow][tmpcol]</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                        flag = <span class="keyword">True</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                    flag = <span class="keyword">True</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                <span class="keywordflow">if</span> <span class="keywordflow">not</span> flag:</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                    tmpcoors.append((tmprow, tmpcol))</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            HillslopeMtx[row][col] = streamID</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            <span class="keywordflow">for</span> (crow, ccol) <span class="keywordflow">in</span> tmpcoors:</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                HillslopeMtx[crow][ccol] = streamID</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># coding=utf-8</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># Identify depression storage capacity from slope, soil, and landuse. Algorithm from WetSpa.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># Author: Junzhi Liu</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># Revised: Liang-Jun Zhu</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"># Date: 2016-7-6</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"># Note: Code optimization by using numpy.</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"># TODO: 1. Add stream order modification, according to depression.ave of WetSpa.</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"># TODO: 2. Add another depressional storage method according to SWAT, depstor.f</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> sqlite3</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> math</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> sys</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> numpy</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">import</span> ogr</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> gdal <span class="keyword">import</span> GDT_Float32</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d8/df0/a00557.html">pygeoc.raster.raster</a> <span class="keyword">import</span> RasterUtilClass</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">from</span> <a class="code" href="../../dd/de9/a00552.html">pygeoc.hydro.hydro</a> <span class="keyword">import</span> FlowDirectionCode</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">from</span> config <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">from</span> utility <span class="keyword">import</span> LoadConfiguration, status_output</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">from</span> utility <span class="keyword">import</span> UTIL_ZERO, DEFAULT_NODATA</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;sys.setrecursionlimit(10000)</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../d1/d88/a00128.html">   27</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d1/d88/a00128.html">TerrainUtilClass</a>(object):</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Terrain related spatial parameters algorithm.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">def </span>__init__(self):</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../d1/d88/a00128.html#a5c10dac47d0ad9c63655a8142657674e">   34</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d1/d88/a00128.html#a5c10dac47d0ad9c63655a8142657674e">flow_length_cell</a>(i, j, ysize, xsize, fdir, cellsize, weight, length, flow_dir_code = &quot;TauDEM&quot;):</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Calculate flow length of cell.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        flowcode = <a class="code" href="../../db/df3/a00034.html">FlowDirectionCode</a>(flow_dir_code)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        celllen = flowcode.get_cell_length()</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        differ = flowcode.get_cell_shift()</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="comment"># print i,j, weight[i][j]</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">if</span> i &lt; ysize <span class="keywordflow">and</span> j &lt; xsize:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keywordflow">if</span> length[i][j] == 0:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordflow">if</span> weight[i][j] &gt; 0:</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    prei = i</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                    prej = j</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                    wt = weight[i][j]</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                    fdirV = fdir[i][j]</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                    di = differ[fdirV][0]</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                    dj = differ[fdirV][1]</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                    i = i + di</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                    j = j + dj</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                    relen = TerrainUtilClass.flow_length_cell(i, j, ysize, xsize, fdir, cellsize, weight, length,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                                              flow_dir_code)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                    <span class="comment"># print i,j,fdirV</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                    length[prei][prej] = cellsize * celllen[fdirV] * wt + relen</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                    <span class="keywordflow">return</span> length[prei][prej]</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                    <span class="keywordflow">return</span> 0</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordflow">if</span> length[i][j] &gt; 0:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                <span class="keywordflow">return</span> length[i][j]</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">if</span> length[i][j] &lt; 0:</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <span class="keywordflow">print</span> <span class="stringliteral">&quot;Error in calculating flowlen_cell function! i,j:&quot;</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="keywordflow">print</span> i, j</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="keywordflow">return</span> -1</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">return</span> 0</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../d1/d88/a00128.html#a74de38d4a6b2688c4526c7dc572647d9">   68</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d1/d88/a00128.html#a74de38d4a6b2688c4526c7dc572647d9">calculate_flow_length</a>(flow_dir_file, weight, flow_dir_code = &quot;TauDEM&quot;):</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Generate flow length with weight.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        flow_dir_raster = RasterUtilClass.ReadRaster(flow_dir_file)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        fdir_data = flow_dir_raster.data</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        xsize = flow_dir_raster.nCols</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        ysize = flow_dir_raster.nRows</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        noDataValue = flow_dir_raster.noDataValue</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="comment"># geotransform = flow_dir_raster.srs</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        cellsize = flow_dir_raster.dx</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        length = numpy.zeros((ysize, xsize))</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, ysize):</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(0, xsize):</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                <span class="keywordflow">if</span> abs(fdir_data[i][j] - noDataValue) &lt; UTIL_ZERO:</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                    length[i][j] = noDataValue</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                    <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                TerrainUtilClass.flow_length_cell(i, j, ysize, xsize, fdir_data, cellsize, weight, length,</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                                                  flow_dir_code)</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="keywordflow">return</span> length</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="../../d1/d88/a00128.html#affba372986602502212c8141affcec1f">   89</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d1/d88/a00128.html#affba372986602502212c8141affcec1f">depression_capacity</a>(sqlite_file, landuse_file, slope_file, soiltexutre_file, depression_file):</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Initialize depression capacity according to landuse, soil, and slope.</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="stringliteral">        TODO: 1. Add stream order modification, according to depression.ave of WetSpa.</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="stringliteral">        TODO: 2. Add another depressional storage method according to SWAT, depstor.f</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="comment"># read landuselookup table from sqlite</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        st_fields = [<span class="stringliteral">&quot;DSC_ST%d&quot;</span> % (i,) <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(1, 13)]</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        sql_landuse = <span class="stringliteral">&#39;select LANDUSE_ID,%s from LanduseLookup&#39;</span> % (<span class="stringliteral">&#39;,&#39;</span>.join(st_fields),)</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        conn = sqlite3.connect(sqlite_file)</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        cursor = conn.cursor()</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        cursor.execute(sql_landuse)</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        dep_sd0 = {}</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordflow">for</span> row <span class="keywordflow">in</span> cursor:</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            id = int(row[0])</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            dep_sd0[id] = [float(item) <span class="keywordflow">for</span> item <span class="keywordflow">in</span> row[1:]]</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        cursor.close()</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        conn.close()</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="comment"># end read data</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        landu_R = RasterUtilClass.ReadRaster(landuse_file)</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        landu_data = landu_R.data</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        geotrans = landu_R.geotrans</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        srs = landu_R.srs</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        xsize = landu_R.nCols</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        ysize = landu_R.nRows</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        landu_nodata = landu_R.noDataValue</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        slo_data = RasterUtilClass.ReadRaster(slope_file).data</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        soilTextureArray = RasterUtilClass.ReadRaster(soiltexutre_file).data</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        idOmited = []</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keyword">def </span>calDep(landu, soilTexture, slp):</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            lastStid = 0</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <span class="keywordflow">if</span> abs(landu - landu_nodata) &lt; UTIL_ZERO:</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                <span class="keywordflow">return</span> DEFAULT_NODATA</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            landuID = int(landu)</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="keywordflow">if</span> landuID <span class="keywordflow">not</span> <span class="keywordflow">in</span> dep_sd0:</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                <span class="keywordflow">if</span> landuID <span class="keywordflow">not</span> <span class="keywordflow">in</span> idOmited:</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                    <span class="keywordflow">print</span> <span class="stringliteral">&#39;The landuse ID: %d does not exist.&#39;</span> % (landuID,)</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                    idOmited.append(landuID)</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            stid = int(soilTexture) - 1</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                depressionGrid0 = dep_sd0[landuID][stid]</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                lastStid = stid</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            <span class="keywordflow">except</span>:</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                depressionGrid0 = dep_sd0[landuID][lastStid]</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            depressionGrid = math.exp(numpy.log(depressionGrid0 + 0.0001) + slp * (-9.5))</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            <span class="comment"># TODO, check if it is  (landuID &gt;= 98)? By LJ</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            <span class="keywordflow">if</span> landuID == 106 <span class="keywordflow">or</span> landuID == 107 <span class="keywordflow">or</span> landuID == 105:</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                <span class="keywordflow">return</span> 0.5 * imperviousPercInUrbanCell + (1. - imperviousPercInUrbanCell) * depressionGrid</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                <span class="keywordflow">return</span> depressionGrid</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        calDep_numpy = numpy.frompyfunc(calDep, 3, 1)</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        depStorageCap = calDep_numpy(landu_data, soilTextureArray, slo_data)</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        RasterUtilClass.WriteGTiffFile(depression_file, ysize, xsize, depStorageCap,</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                                       geotrans, srs, DEFAULT_NODATA, GDT_Float32)</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00154"></a><span class="lineno"><a class="line" href="../../d1/d88/a00128.html#aa2b4540dab28bde9ae1a57fbfcfef35f">  154</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d1/d88/a00128.html#aa2b4540dab28bde9ae1a57fbfcfef35f">hydrological_radius</a>(acc_file, radius_file, storm_probability = &quot;T2&quot;):</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Calculate hydrological radius.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        acc_R = RasterUtilClass.ReadRaster(acc_file)</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        xsize = acc_R.nCols</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        ysize = acc_R.nRows</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        noDataValue = acc_R.noDataValue</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        cellsize = acc_R.dx</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        data = acc_R.data</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        coeTable = {<span class="stringliteral">&quot;T2&quot;</span>  : [0.05, 0.48],</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                    <span class="stringliteral">&quot;T10&quot;</span> : [0.12, 0.52],</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                    <span class="stringliteral">&quot;T100&quot;</span>: [0.18, 0.55]}</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        ap = coeTable[storm_probability][0]</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        bp = coeTable[storm_probability][1]</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <span class="keyword">def </span>radius_cal(acc):</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            <span class="keywordflow">if</span> abs(acc - noDataValue) &lt; UTIL_ZERO:</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                <span class="keywordflow">return</span> DEFAULT_NODATA</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <span class="keywordflow">return</span> numpy.power(ap * ((acc + 1) * cellsize * cellsize / 1000000.), bp)</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        radius_cal_numpy = numpy.frompyfunc(radius_cal, 1, 1)</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        radius = radius_cal_numpy(data)</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        RasterUtilClass.WriteGTiffFile(radius_file, ysize, xsize, radius,</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                                       acc_R.geotrans, acc_R.srs, DEFAULT_NODATA, GDT_Float32)</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00180"></a><span class="lineno"><a class="line" href="../../d1/d88/a00128.html#acd2db81b2b25ade27fd14fae97ec0450">  180</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d1/d88/a00128.html#acd2db81b2b25ade27fd14fae97ec0450">flow_velocity</a>(slope_file, radius_file, manning_file, velocity_file):</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;velocity.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        slp_R = RasterUtilClass.ReadRaster(slope_file)</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        slo_data = slp_R.data</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        xsize = slp_R.nCols</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        ysize = slp_R.nRows</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        noDataValue = slp_R.noDataValue</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        rad_data = RasterUtilClass.ReadRaster(radius_file).data</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        Man_data = RasterUtilClass.ReadRaster(manning_file).data</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        vel_max = 3.0</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        vel_min = 0.0001</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="comment"># 4. reassign stream cell&#39;s value according to stream_value_method</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keywordflow">if</span> stream_value_method != 0:</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="keywordflow">for</span> row <span class="keywordflow">in</span> range(nrows):</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            <span class="keywordflow">for</span> col <span class="keywordflow">in</span> range(ncols):</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                <span class="keywordflow">if</span> HillslopeMtx[row][col] == stream_data[row][col] &gt; 0:</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                    <span class="keywordflow">if</span> stream_value_method == 1:  <span class="comment"># right hillslope</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                        HillslopeMtx[row][col] = stream_data[row][col] * 3 + 2</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                    <span class="keywordflow">elif</span> stream_value_method == 2:  <span class="comment"># left hillslope</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                        HillslopeMtx[row][col] = stream_data[row][col] * 3 + 3</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                        HillslopeMtx[row][col] = DEFAULT_NODATA</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                        <span class="keywordflow">for</span> (tmprow, tmpcol) <span class="keywordflow">in</span> headstreamCoors:</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                            HillslopeMtx[tmprow][tmpcol] = DEFAULT_NODATA</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        <span class="keywordflow">for</span> (tmprow, tmpcol) <span class="keywordflow">in</span> headstreamCoors:</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            HillslopeMtx[tmprow][tmpcol] = (HillslopeMtx[tmprow][tmpcol] - 1) / 3</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <span class="keyword">def </span>velocity_cal(rad, man, slp):</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            <span class="keywordflow">if</span> abs(slp - noDataValue) &lt; UTIL_ZERO:</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                <span class="keywordflow">return</span> DEFAULT_NODATA</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            <span class="comment"># print rad,man,slp</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;            tmp = numpy.power(man, -1) * numpy.power(rad, 2 / 3) * numpy.power(slp, 0.5)</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;            <span class="comment"># print tmp</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            <span class="keywordflow">if</span> tmp &lt; vel_min:</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                <span class="keywordflow">return</span> vel_min</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            <span class="keywordflow">if</span> tmp &gt; vel_max:</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                <span class="keywordflow">return</span> vel_max</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            <span class="keywordflow">return</span> tmp</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        velocity_cal_numpy = numpy.frompyfunc(velocity_cal, 3, 1)</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        velocity = velocity_cal_numpy(rad_data, Man_data, slo_data)</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        RasterUtilClass.WriteGTiffFile(velocity_file, ysize, xsize, velocity, slp_R.geotrans, slp_R.srs, DEFAULT_NODATA,</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                                       GDT_Float32)</div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="comment"># 6. Output to raster file</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordflow">if</span> <span class="stringliteral">&#39;asc&#39;</span> <span class="keywordflow">in</span> hillslope_out.lower():</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        RasterUtilClass.WriteAscFile(hillslope_out, HillslopeMtx, ncols, nrows, geotrans, DEFAULT_NODATA)</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        RasterUtilClass.WriteGTiffFile(hillslope_out, nrows, ncols, HillslopeMtx, geotrans, srs, DEFAULT_NODATA,</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                                       GDT_Int16)</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    streamf = <span class="stringliteral">r&#39;C:\z_data_m\SEIMS2017\dianbu2_30m_omp\spatial_raster\stream_link.tif&#39;</span></div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    flowdirf = <span class="stringliteral">r&#39;C:\z_data_m\SEIMS2017\dianbu2_30m_omp\taudem_delineated\flowDirTauM.tif&#39;</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    hillslpf = <span class="stringliteral">r&#39;C:\z_data_m\SEIMS2017\dianbu2_30m_omp\spatial_raster\hillslope.tif&#39;</span></div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    delineate_hillslopes_downstream_method(streamf, flowdirf, hillslpf, 1)</div>
-<div class="ttc" id="a00563_html"><div class="ttname"><a href="../../dc/dae/a00563.html">pygeoc.utils.const</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dc1/a00212_source.html#l00001">const.py:1</a></div></div>
-<div class="ttc" id="a00557_html"><div class="ttname"><a href="../../d8/df0/a00557.html">pygeoc.hydro.postTauDEM</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de5/a00209_source.html#l00001">postTauDEM.py:1</a></div></div>
-<div class="ttc" id="a00560_html"><div class="ttname"><a href="../../d9/d19/a00560.html">pygeoc.raster</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/db8/a00158_source.html#l00001">__init__.py:1</a></div></div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00212"></a><span class="lineno"><a class="line" href="../../d1/d88/a00128.html#a140dc66a884892e5f0684aaaffbe8c55">  212</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d1/d88/a00128.html#a140dc66a884892e5f0684aaaffbe8c55">flow_time_to_stream</a>(streamlink, velocity, flow_dir_file, t0_s_file, flow_dir_code = &quot;TauDEM&quot;):</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Calculate flow time to the main channel from each grid cell.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        strlk_data = RasterUtilClass.ReadRaster(streamlink).data</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        vel_R = RasterUtilClass.ReadRaster(velocity)</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        vel_data = vel_R.data</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        xsize = vel_R.nCols</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        ysize = vel_R.nRows</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <span class="comment"># noDataValue = vel_R.noDataValue</span></div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        weight = numpy.where(strlk_data &lt;= 0, numpy.ones((ysize, xsize)), numpy.zeros((ysize, xsize)))</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        traveltime = numpy.where(vel_R.validZone, numpy.zeros((ysize, xsize)), vel_data)</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        flowlen = TerrainUtilClass.calculate_flow_length(flow_dir_file, weight, flow_dir_code)</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        traveltime = numpy.where(vel_R.validZone, flowlen / (vel_data * 5. / 3.) / 3600., traveltime)</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        RasterUtilClass.WriteGTiffFile(t0_s_file, ysize, xsize, traveltime, vel_R.geotrans, vel_R.srs, DEFAULT_NODATA,</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                                       GDT_Float32)</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="keyword">def </span><a class="code" href="../../d1/d88/a00128.html#a7e9b60e560ab175ab455df6d7cec5ac2">std_of_flow_time_to_stream</a>(streamlink, flow_dir_file, slope, radius, velocity, delta_s_file,</div>
+<div class="line"><a name="l00231"></a><span class="lineno"><a class="line" href="../../d1/d88/a00128.html#a7e9b60e560ab175ab455df6d7cec5ac2">  231</a></span>&#160;                                   flow_dir_code = <span class="stringliteral">&quot;TauDEM&quot;</span>):</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Generate standard deviation of t0_s (flow time to the main channel from each cell).&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        strlkR = RasterUtilClass.ReadRaster(streamlink)</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        strlk_data = strlkR.data</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        rad_data = RasterUtilClass.ReadRaster(radius).data</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        slo_data = RasterUtilClass.ReadRaster(slope).data</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        velR = RasterUtilClass.ReadRaster(velocity)</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        vel_data = velR.data</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        xsize = velR.nCols</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        ysize = velR.nRows</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        noDataValue = velR.noDataValue</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="keyword">def </span>initial_variables(vel, strlk, slp, rad):</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            <span class="keywordflow">if</span> abs(vel - noDataValue) &lt; UTIL_ZERO:</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                <span class="keywordflow">return</span> DEFAULT_NODATA</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            <span class="keywordflow">if</span> strlk &lt;= 0:</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                tmp_weight = 1</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                tmp_weight = 0</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            <span class="comment"># 0 is river</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            <span class="keywordflow">if</span> slp &lt; 0.0005:</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                slp = 0.0005</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            <span class="comment"># dampGrid = vel * rad / (slp / 100. * 2.) # No need to divide 100 in</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            <span class="comment"># my view. By LJ</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            damp_grid = vel * rad / (slp * 2.)</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            celerity = vel * 5. / 3.</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            tmp_weight *= damp_grid * 2. / numpy.power(celerity, 3.)</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            <span class="keywordflow">return</span> tmp_weight</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        initial_variables_numpy = numpy.frompyfunc(initial_variables, 4, 1)</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        weight = initial_variables_numpy(vel_data, strlk_data, slo_data, rad_data)</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        delta_s_sqr = TerrainUtilClass.calculate_flow_length(flow_dir_file, weight, flow_dir_code)</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        <span class="keyword">def </span>cal_delta_s(vel, sqr):</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            <span class="keywordflow">if</span> abs(vel - noDataValue) &lt; UTIL_ZERO:</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                <span class="keywordflow">return</span> noDataValue</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                <span class="keywordflow">return</span> math.sqrt(sqr) / 3600.</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        cal_delta_s_numpy = numpy.frompyfunc(cal_delta_s, 2, 1)</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        delta_s = cal_delta_s_numpy(vel_data, delta_s_sqr)</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        RasterUtilClass.WriteGTiffFile(delta_s_file, ysize, xsize, delta_s, strlkR.geotrans, strlkR.srs,</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                                       DEFAULT_NODATA, GDT_Float32)</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00279"></a><span class="lineno"><a class="line" href="../../d1/d88/a00128.html#a7d6c89558fce7535960be431b4b96338">  279</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d1/d88/a00128.html#a7d6c89558fce7535960be431b4b96338">calculate_latitude_dependent_parameters</a>(lat_file, min_dayl_file, dormhr_file):</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="stringliteral">        Calculate latitude dependent parameters, include:</span></div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="stringliteral">           1. minimum daylength (daylmn), 2. day length threshold for dormancy (dormhr)</span></div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        <span class="comment"># calculate minimum daylength, from readwgn.f of SWAT</span></div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        <span class="comment"># daylength=2*acos(-tan(sd)*tan(lat))/omega</span></div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        <span class="comment"># where solar declination, sd, = -23.5 degrees for minimum daylength in</span></div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        <span class="comment"># northern hemisphere and -tan(sd) = .4348</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        <span class="comment"># absolute value is taken of tan(lat) to convert southern hemisphere</span></div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        <span class="comment"># values to northern hemisphere</span></div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        <span class="comment"># the angular velocity of the earth&#39;s rotation, omega, = 15 deg/hr or</span></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        <span class="comment"># 0.2618 rad/hr and 2/0.2618 = 7.6394</span></div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        cellLatR = RasterUtilClass.ReadRaster(lat_file)</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        latData = cellLatR.data</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        <span class="comment"># daylmnData = cellLatR.data</span></div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        zero = numpy.zeros((cellLatR.nRows, cellLatR.nCols))</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        <span class="comment"># nodata = numpy.ones((cellLatR.nRows, cellLatR.nCols)) * cellLatR.noDataValue</span></div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        <span class="comment"># convert degrees to radians (2pi/360=1/57.296)</span></div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        daylmnData = 0.4348 * numpy.abs(numpy.tan(latData / 57.296))</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        condition = daylmnData &lt; 1.</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        daylmnData = numpy.where(condition, numpy.arccos(daylmnData), zero)</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        <span class="comment"># condition2 = latData != cellLatR.noDataValue</span></div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        daylmnData *= 7.6394</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        daylmnData = numpy.where(cellLatR.validZone, daylmnData, latData)</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        RasterUtilClass.WriteGTiffFile(min_dayl_file, cellLatR.nRows, cellLatR.nCols,</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                                       daylmnData, cellLatR.geotrans, cellLatR.srs, cellLatR.noDataValue, GDT_Float32)</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        <span class="comment"># calculate day length threshold for dormancy</span></div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        <span class="keyword">def </span>calDormHr(lat):</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;            <span class="keywordflow">if</span> lat == cellLatR.noDataValue:</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                <span class="keywordflow">return</span> cellLatR.noDataValue</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                <span class="keywordflow">if</span> 20. &lt;= lat &lt;= 40.:</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                    <span class="keywordflow">return</span> (numpy.abs(lat - 20.)) / 20.</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;                <span class="keywordflow">elif</span> lat &gt; 40.:</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;                    <span class="keywordflow">return</span> 1.</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                <span class="keywordflow">elif</span> lat &lt; 20.:</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                    <span class="keywordflow">return</span> -1.</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        calDormHr_numpy = numpy.frompyfunc(calDormHr, 1, 1)</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        <span class="comment"># dormhrData = numpy.copy(latData)</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <span class="keywordflow">if</span> dorm_hr &lt; -UTIL_ZERO:</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;            dormhrData = calDormHr_numpy(latData)</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;            dormhrData = numpy.where(cellLatR.validZone, numpy.ones((cellLatR.nRows, cellLatR.nCols)) * dorm_hr,</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;                                     latData)</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        RasterUtilClass.WriteGTiffFile(dormhr_file, cellLatR.nRows, cellLatR.nCols, dormhrData, cellLatR.geotrans,</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;                                       cellLatR.srs, cellLatR.noDataValue, GDT_Float32)</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00331"></a><span class="lineno"><a class="line" href="../../d1/d88/a00128.html#a9555901425025a6f590dcf07776c485c">  331</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d1/d88/a00128.html#a9555901425025a6f590dcf07776c485c">calculate_channel_width</a>(acc_file, chwidth_file):</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Calculate channel width.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        accR = RasterUtilClass.ReadRaster(acc_file)</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        xsize = accR.nCols</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        ysize = accR.nRows</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        noDataValue = accR.noDataValue</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        dx = accR.dx</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        cellArea = dx * dx</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        <span class="comment"># storm frequency   a      b</span></div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        <span class="comment"># 2                 1      0.56</span></div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        <span class="comment"># 10                1.2    0.56</span></div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        <span class="comment"># 100               1.4    0.56</span></div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        a = 1.2</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        b = 0.56</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        <span class="comment"># TODO: Figure out what&#39;s means, and move it to text.py or config.py. LJ</span></div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        tmpOnes = numpy.ones((ysize, xsize))</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        width = tmpOnes * DEFAULT_NODATA</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        validValues = numpy.where(accR.validZone, accR.data, tmpOnes)</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        width = numpy.where(accR.validZone, numpy.power(</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;            (a * (validValues + 1) * cellArea / 1000000.), b), width)</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        RasterUtilClass.WriteGTiffFile(chwidth_file, ysize, xsize, width, accR.geotrans,</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;                                       accR.srs, DEFAULT_NODATA, GDT_Float32)</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        <span class="keywordflow">return</span> width</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    <span class="keyword">def </span>add_channel_width_to_shp(reach_shp_file, stream_link_file, width_data):</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        streamLink = RasterUtilClass.ReadRaster(stream_link_file)</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        nRows = streamLink.nRows</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;        nCols = streamLink.nCols</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        noDataValue = streamLink.noDataValue</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;        dataStream = streamLink.data</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;        chWidthDic = dict()</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;        chNumDic = dict()</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(nRows):</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;            <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(nCols):</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;                <span class="keywordflow">if</span> abs(dataStream[i][j] - noDataValue) &gt; UTIL_ZERO:</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                    id = int(dataStream[i][j])</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                    chNumDic.setdefault(id, 0)</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;                    chWidthDic.setdefault(id, 0)</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;                    chNumDic[id] += 1</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;                    chWidthDic[id] += width_data[i][j]</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        <span class="keywordflow">for</span> k <span class="keywordflow">in</span> chNumDic:</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;            chWidthDic[k] /= chNumDic[k]</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        <span class="comment"># add channel width_data field to reach shp file</span></div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;        dsReach = ogr.Open(reach_shp_file, update = <span class="keyword">True</span>)</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        layerReach = dsReach.GetLayer(0)</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        layerDef = layerReach.GetLayerDefn()</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        iLink = layerDef.GetFieldIndex(FLD_LINKNO)</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        iWidth = layerDef.GetFieldIndex(REACH_WIDTH)</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        iDepth = layerDef.GetFieldIndex(REACH_DEPTH)</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        <span class="keywordflow">if</span> iWidth &lt; 0:</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;            new_field = ogr.FieldDefn(REACH_WIDTH, ogr.OFTReal)</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;            layerReach.CreateField(new_field)</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        <span class="keywordflow">if</span> iDepth &lt; 0:</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;            new_field = ogr.FieldDefn(REACH_DEPTH, ogr.OFTReal)</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;            layerReach.CreateField(new_field)</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;            <span class="comment"># grid_code:feature map</span></div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        <span class="comment"># ftmap = {}</span></div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;        layerReach.ResetReading()</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        ft = layerReach.GetNextFeature()</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        <span class="keywordflow">while</span> ft <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;            id = ft.GetFieldAsInteger(iLink)</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;            w = 1</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;            <span class="keywordflow">if</span> id <span class="keywordflow">in</span> chWidthDic.keys():</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;                w = chWidthDic[id]</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;            ft.SetField(REACH_WIDTH, w)</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;            ft.SetField(REACH_DEPTH, default_reach_depth)</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;            layerReach.SetFeature(ft)</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;            ft = layerReach.GetNextFeature()</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;        layerReach.SyncToDisk()</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;        dsReach.Destroy()</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;        del dsReach</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;<span class="keyword">def </span>terrain_parameters_extration():</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Main entrance for terrain related spatial parameters extraction. Algorithm from WetSpa.</span></div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;    status_file = WORKING_DIR + os.sep + DIR_NAME_LOG + os.sep + FN_STATUS_EXTRACTTERRAINPARAM</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;    f = open(status_file, <span class="stringliteral">&#39;w&#39;</span>)</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;    geodata2dbdir = WORKING_DIR + os.sep + DIR_NAME_GEODATA2DB</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;    <span class="comment"># 1. Calculate initial channel width by accumulated area and add width to reach.shp.</span></div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;    status_output(<span class="stringliteral">&quot;Calculate initial channel width and added to reach.shp...&quot;</span>, 10, f)</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;    acc_file = geodata2dbdir + os.sep + accM</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    channel_width_file = geodata2dbdir + os.sep + chwidthName</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;    channel_shp_file = WORKING_DIR + os.sep + DIR_NAME_GEOSHP + os.sep + reachesOut</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    streamlink_file = geodata2dbdir + os.sep + streamLinkOut</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;    chwidth_data = TerrainUtilClass.calculate_channel_width(acc_file, channel_width_file)</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    TerrainUtilClass.add_channel_width_to_shp(channel_shp_file, streamlink_file, chwidth_data)</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;    <span class="comment"># 2. Initialize depression storage capacity</span></div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    status_output(<span class="stringliteral">&quot;Generating depression storage capacity...&quot;</span>, 20, f)</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;    slope_file = geodata2dbdir + os.sep + slopeM</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;    soil_texture_file = geodata2dbdir + os.sep + soilTexture</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;    landuse_file = geodata2dbdir + os.sep + landuseMFile</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;    depression_file = geodata2dbdir + os.sep + depressionFile</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;    sqlite_dbfile = WORKING_DIR + os.sep + DIR_NAME_IMPORT2DB + os.sep + sqlite_file</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    TerrainUtilClass.depression_capacity(sqlite_dbfile, landuse_file, soil_texture_file, slope_file,</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;                                         depression_file)</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    <span class="comment"># 2. Calculate IUH</span></div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;    <span class="keywordflow">if</span> genIUH:</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;        status_output(<span class="stringliteral">&quot;Prepare parameters for IUH...&quot;</span>, 30, f)</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;        radius_file = geodata2dbdir + os.sep + radiusFile</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;        TerrainUtilClass.hydrological_radius(acc_file, radius_file, <span class="stringliteral">&quot;T2&quot;</span>)</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        manning_file = geodata2dbdir + os.sep + ManningFile</div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;        velocity_file = geodata2dbdir + os.sep + velocityFile</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;        TerrainUtilClass.flow_velocity(slope_file, radius_file, manning_file, velocity_file)</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;        flow_dir_file = geodata2dbdir + os.sep + flowDirOut</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;        t0_s_file = geodata2dbdir + os.sep + t0_sFile</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;        flow_model_code = <span class="stringliteral">&quot;TauDEM&quot;</span></div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> isTauDEM:</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;            flow_model_code = <span class="stringliteral">&quot;ArcGIS&quot;</span></div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;        TerrainUtilClass.flow_time_to_stream(streamlink_file, velocity_file, flow_dir_file, t0_s_file, flow_model_code)</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;        delta_s_file = geodata2dbdir + os.sep + delta_sFile</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;        TerrainUtilClass.std_of_flow_time_to_stream(streamlink_file, flow_dir_file, slope_file, radius_file,</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;                                                    velocity_file, delta_s_file, flow_model_code)</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;        <span class="comment"># IUH calculation and import to MongoDB are implemented in db_build_mongodb.py</span></div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;    <span class="comment"># 3. Calculate position (i.e. latitude) related parameters</span></div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;    status_output(<span class="stringliteral">&quot;Calculate latitude dependent parameters...&quot;</span>, 40, f)</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;    lat_file = geodata2dbdir + os.sep + cellLat</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;    min_dayl_file = geodata2dbdir + os.sep + daylMin</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;    dormhr_file = geodata2dbdir + os.sep + dormhr</div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;    TerrainUtilClass.calculate_latitude_dependent_parameters(lat_file, min_dayl_file, dormhr_file)</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;    status_output(<span class="stringliteral">&quot;Terrain related spatial parameters extracted done!&quot;</span>, 100, f)</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;    f.close()</div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;</div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;    LoadConfiguration(getconfigfile())</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;    terrain_parameters_extration()</div>
+<div class="ttc" id="a00128_html_a7e9b60e560ab175ab455df6d7cec5ac2"><div class="ttname"><a href="../../d1/d88/a00128.html#a7e9b60e560ab175ab455df6d7cec5ac2">seims.preprocess.sp_terrain.TerrainUtilClass.std_of_flow_time_to_stream</a></div><div class="ttdeci">def std_of_flow_time_to_stream</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/ded/a00196_source.html#l00231">sp_terrain.py:231</a></div></div>
+<div class="ttc" id="a00128_html_a9555901425025a6f590dcf07776c485c"><div class="ttname"><a href="../../d1/d88/a00128.html#a9555901425025a6f590dcf07776c485c">seims.preprocess.sp_terrain.TerrainUtilClass.calculate_channel_width</a></div><div class="ttdeci">def calculate_channel_width</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/ded/a00196_source.html#l00331">sp_terrain.py:331</a></div></div>
+<div class="ttc" id="a00128_html_a7d6c89558fce7535960be431b4b96338"><div class="ttname"><a href="../../d1/d88/a00128.html#a7d6c89558fce7535960be431b4b96338">seims.preprocess.sp_terrain.TerrainUtilClass.calculate_latitude_dependent_parameters</a></div><div class="ttdeci">def calculate_latitude_dependent_parameters</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/ded/a00196_source.html#l00279">sp_terrain.py:279</a></div></div>
+<div class="ttc" id="a00128_html_a5c10dac47d0ad9c63655a8142657674e"><div class="ttname"><a href="../../d1/d88/a00128.html#a5c10dac47d0ad9c63655a8142657674e">seims.preprocess.sp_terrain.TerrainUtilClass.flow_length_cell</a></div><div class="ttdeci">def flow_length_cell</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/ded/a00196_source.html#l00034">sp_terrain.py:34</a></div></div>
+<div class="ttc" id="a00128_html_aa2b4540dab28bde9ae1a57fbfcfef35f"><div class="ttname"><a href="../../d1/d88/a00128.html#aa2b4540dab28bde9ae1a57fbfcfef35f">seims.preprocess.sp_terrain.TerrainUtilClass.hydrological_radius</a></div><div class="ttdeci">def hydrological_radius</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/ded/a00196_source.html#l00154">sp_terrain.py:154</a></div></div>
+<div class="ttc" id="a00128_html_a74de38d4a6b2688c4526c7dc572647d9"><div class="ttname"><a href="../../d1/d88/a00128.html#a74de38d4a6b2688c4526c7dc572647d9">seims.preprocess.sp_terrain.TerrainUtilClass.calculate_flow_length</a></div><div class="ttdeci">def calculate_flow_length</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/ded/a00196_source.html#l00068">sp_terrain.py:68</a></div></div>
+<div class="ttc" id="a00128_html_a140dc66a884892e5f0684aaaffbe8c55"><div class="ttname"><a href="../../d1/d88/a00128.html#a140dc66a884892e5f0684aaaffbe8c55">seims.preprocess.sp_terrain.TerrainUtilClass.flow_time_to_stream</a></div><div class="ttdeci">def flow_time_to_stream</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/ded/a00196_source.html#l00212">sp_terrain.py:212</a></div></div>
+<div class="ttc" id="a00034_html"><div class="ttname"><a href="../../db/df3/a00034.html">pygeoc.hydro.hydro.FlowDirectionCode</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d72/a00204_source.html#l00010">hydro.py:10</a></div></div>
+<div class="ttc" id="a00128_html_affba372986602502212c8141affcec1f"><div class="ttname"><a href="../../d1/d88/a00128.html#affba372986602502212c8141affcec1f">seims.preprocess.sp_terrain.TerrainUtilClass.depression_capacity</a></div><div class="ttdeci">def depression_capacity</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/ded/a00196_source.html#l00089">sp_terrain.py:89</a></div></div>
+<div class="ttc" id="a00552_html"><div class="ttname"><a href="../../dd/de9/a00552.html">pygeoc.hydro.hydro</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d72/a00204_source.html#l00001">hydro.py:1</a></div></div>
+<div class="ttc" id="a00128_html_acd2db81b2b25ade27fd14fae97ec0450"><div class="ttname"><a href="../../d1/d88/a00128.html#acd2db81b2b25ade27fd14fae97ec0450">seims.preprocess.sp_terrain.TerrainUtilClass.flow_velocity</a></div><div class="ttdeci">def flow_velocity</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/ded/a00196_source.html#l00180">sp_terrain.py:180</a></div></div>
+<div class="ttc" id="a00557_html"><div class="ttname"><a href="../../d8/df0/a00557.html">pygeoc.raster.raster</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd2/a00207_source.html#l00001">raster.py:1</a></div></div>
+<div class="ttc" id="a00128_html"><div class="ttname"><a href="../../d1/d88/a00128.html">seims.preprocess.sp_terrain.TerrainUtilClass</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d7/ded/a00196_source.html#l00027">sp_terrain.py:27</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>sd_hillslope.py</b></li>
-    <li class="footer">Generated on Mon Mar 20 2017 13:54:04 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_28e21eaa60bbcf907d8ec8f42033d556.html">preprocess</a></li><li class="navelem"><b>sp_terrain.py</b></li>
+    <li class="footer">Generated on Mon Mar 20 2017 14:12:56 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
