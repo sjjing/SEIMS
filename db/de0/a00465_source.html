@@ -130,7 +130,7 @@ $(document).ready(function(){initNavTree('db/de0/a00465_source.html','../../');}
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;ModelException.h&quot;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;omp.h&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
 <div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#a5c187e844ad928d76bdc4744c39902d7">   18</a></span>&#160;<a class="code" href="../../d5/d79/a00030.html#a5c187e844ad928d76bdc4744c39902d7">DepressionFSDaily::DepressionFSDaily</a>(<span class="keywordtype">void</span>) : m_nCells(-1), m_depCo(NODATA_VALUE),</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                                             m_depCap(NULL),</div>
@@ -260,7 +260,7 @@ $(document).ready(function(){initNavTree('db/de0/a00465_source.html','../../');}
 <div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#a6f55886c44ca86564a8dd6913a746268">  148</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/d79/a00030.html#a6f55886c44ca86564a8dd6913a746268">DepressionFSDaily::SetValue</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data) {</div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_DEPREIN)) { <a class="code" href="../../d5/d79/a00030.html#af7de53843bee81cb01de19789b415e63">m_depCo</a> = data; }</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_OMP_THREADNUM)) { omp_set_num_threads((<span class="keywordtype">int</span>) data); }</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_OMP_THREADNUM)) { SetOpenMPThread((<span class="keywordtype">int</span>) data); }</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_DEP_LINSLEY, <span class="stringliteral">&quot;SetValue&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk + <span class="stringliteral">&quot; does not exist.&quot;</span>);</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    }</div>
@@ -326,7 +326,7 @@ $(document).ready(function(){initNavTree('db/de0/a00465_source.html','../../');}
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5bf5a4201e7cd7ac6c5f03aeeeae8b2c.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_0ef194b8a49b9503e13347290ce8d139.html">DEP_LINSLEY</a></li><li class="navelem"><b>DepressionFSDaily.cpp</b></li>
-    <li class="footer">Generated on Mon Mar 20 2017 10:01:56 for SEIMS by
+    <li class="footer">Generated on Mon Mar 20 2017 13:32:04 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

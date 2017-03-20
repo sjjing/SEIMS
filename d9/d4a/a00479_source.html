@@ -126,7 +126,7 @@ $(document).ready(function(){initNavTree('d9/d4a/a00479_source.html','../../');}
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;omp.h&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
 <div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="../../df/d13/a00085.html#a336a61f72337672a097f03f267d3b62d">   14</a></span>&#160;<a class="code" href="../../df/d13/a00085.html#a336a61f72337672a097f03f267d3b62d">PER_PI::PER_PI</a>(<span class="keywordtype">void</span>) : m_soilLayers(-1), m_dt(-1), m_nCells(-1), m_frozenT(NODATA_VALUE),</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;                       m_ks(NULL), m_sat(NULL), m_poreIndex(NULL), m_fc(NULL),</div>
@@ -272,7 +272,7 @@ $(document).ready(function(){initNavTree('d9/d4a/a00479_source.html','../../');}
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, Tag_TimeStep)) { <a class="code" href="../../df/d13/a00085.html#ad4c434befa1fd7e3243f028426714dec">m_dt</a> = int(data); }</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_T_SOIL)) { <a class="code" href="../../df/d13/a00085.html#aeb309ff363331defd810c061cb61a81b">m_frozenT</a> = data; }</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_OMP_THREADNUM)) { omp_set_num_threads((<span class="keywordtype">int</span>) data); }</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_OMP_THREADNUM)) { SetOpenMPThread((<span class="keywordtype">int</span>) data); }</div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(MID_PER_PI, <span class="stringliteral">&quot;SetValue&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + s + <span class="stringliteral">&quot; does not exist.&quot;</span>);</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    }</div>
@@ -375,7 +375,7 @@ $(document).ready(function(){initNavTree('d9/d4a/a00479_source.html','../../');}
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5bf5a4201e7cd7ac6c5f03aeeeae8b2c.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_68a8dd22200964c828ab99bf260d6767.html">PER_PI</a></li><li class="navelem"><b>PER_PI.cpp</b></li>
-    <li class="footer">Generated on Mon Mar 20 2017 10:01:56 for SEIMS by
+    <li class="footer">Generated on Mon Mar 20 2017 13:32:04 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

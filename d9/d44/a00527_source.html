@@ -119,14 +119,14 @@ $(document).ready(function(){initNavTree('d9/d44/a00527_source.html','../../');}
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d5/d81/a00528.html">NUTR_CH.h</a>&quot;</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d8/df7/a00331.html">MetadataInfo.h</a>&quot;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;ModelException.h&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;util.h&quot;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;omp.h&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;set&gt;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span> </div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;omp.h&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#define CHECK_POINTER(moduleName, varName) if (varName == NULL) throw ModelException(moduleName, &quot;CheckInputData&quot;, &quot;The parameter: varName has not been set.&quot;);</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define CHECK_POSITIVE(moduleName, varName) if (varName &gt; 0)    throw ModelException(moduleName, &quot;CheckInputData&quot;, &quot;The parameter: varName has not been set.&quot;);</span></div>
@@ -240,7 +240,7 @@ $(document).ready(function(){initNavTree('d9/d44/a00527_source.html','../../');}
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_OMP_THREADNUM)) {</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        omp_set_num_threads((<span class="keywordtype">int</span>) value);</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        SetOpenMPThread((<span class="keywordtype">int</span>) value);</div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    }</div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="preprocessor">#ifdef STORM_MODEL</span></div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, Tag_ChannelTimeStep))</div>
@@ -458,7 +458,7 @@ $(document).ready(function(){initNavTree('d9/d44/a00527_source.html','../../');}
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_3996e886b1e07c3846ebc60dfa15d754.html">nutrient</a></li><li class="navelem"><a class="el" href="../../dir_cf21ecdfa68d1a73975f95d7ffa0c86f.html">NUTR_CH</a></li><li class="navelem"><a class="el" href="../../d9/d44/a00527.html">NUTR_CH.cpp</a></li>
-    <li class="footer">Generated on Mon Mar 20 2017 10:01:56 for SEIMS by
+    <li class="footer">Generated on Mon Mar 20 2017 13:32:04 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
