@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/nutrient/NutrSED/NutrientTransportSediment.h Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/nutrient/NutrOL_IKW/NutrOL_IKW.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,175 +112,123 @@ $(document).ready(function(){initNavTree('d4/d79/a00540_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">NutrientTransportSediment.h</div>  </div>
+<div class="title">NutrOL_IKW.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;NutrientCommon.h&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html">   37</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../da/dec/a00080.html">NutrientTransportSediment</a> : <span class="keyword">public</span> <a class="code" href="../../d1/dd6/a00108.html">SimulationModule</a> {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <a class="code" href="../../da/dec/a00080.html">NutrientTransportSediment</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#ifndef SEIMS_NutOLRout_PARAMS_INCLUDE</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEIMS_NutOLRout_PARAMS_INCLUDE</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">class </span>NutrientOL_IKW : <span class="keyword">public</span> <a class="code" href="../../d1/dd6/a00108.html">SimulationModule</a> {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    NutrientOL_IKW(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    ~NutrientOL_IKW(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> value);</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    ~<a class="code" href="../../da/dec/a00080.html">NutrientTransportSediment</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nRows, <span class="keywordtype">int</span> nCols, <span class="keywordtype">float</span> **data);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nRows, <span class="keywordtype">int</span> nCols, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute();</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> value);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetSubbasins(<a class="code" href="../../de/d11/a00021.html">clsSubbasins</a> *);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *nRows, <span class="keywordtype">int</span> *nCols, <span class="keywordtype">float</span> ***data);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a6e8c4b7309b38787918b3bd2b2b9274c">   59</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../da/dec/a00080.html#a6e8c4b7309b38787918b3bd2b2b9274c">m_cellWidth</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a5a99879a4320148e124bbf90136cd992">   61</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../da/dec/a00080.html#a5a99879a4320148e124bbf90136cd992">m_cellArea</a>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a3f155548574e708228a5e30a75eb46f1">   63</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../da/dec/a00080.html#a3f155548574e708228a5e30a75eb46f1">m_nCells</a>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#aef8ee9dfb82c04aba881f91f8e8b89ff">   65</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../da/dec/a00080.html#aef8ee9dfb82c04aba881f91f8e8b89ff">m_nSoilLayers</a>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a310cb789c0992bea088124320477eeb6">   67</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../da/dec/a00080.html#a310cb789c0992bea088124320477eeb6">m_soiLayers</a>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a633bf2ec6dc7b1a27f19e9d66569ad5f">   69</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../da/dec/a00080.html#a633bf2ec6dc7b1a27f19e9d66569ad5f">m_sol_rock</a>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a994001aaf9a16ae4c5b25f4c3158a936">   71</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../da/dec/a00080.html#a994001aaf9a16ae4c5b25f4c3158a936">m_sol_wsatur</a>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="comment">/* carbon modeling method</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">     *   = 0 Static soil carbon (old mineralization routines)</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">     *   = 1 C-FARM one carbon pool model</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">     *   = 2 Century model</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">int</span> m_CbnModel;</div>
-<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a2a90ca0c1bb506f48767498e4ee44d21">   79</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../da/dec/a00080.html#a2a90ca0c1bb506f48767498e4ee44d21">m_enratio</a>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="comment">// soil loss caused by water erosion</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#aa0233719101c97677d241fed81c1baf0">   84</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../da/dec/a00080.html#aa0233719101c97677d241fed81c1baf0">m_sedEroded</a>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="comment">// surface runoff generated</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">float</span> *m_surfaceRunoff;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="comment">//bulk density of the soil</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">float</span> **m_sol_bd;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="comment">// thickness of soil layer</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">float</span> **m_soilThick;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a54bfef98e113c5e2033b2e146e46b277">   94</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../da/dec/a00080.html#a54bfef98e113c5e2033b2e146e46b277">m_nSubbasins</a>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a24787b8fbb1a261648395fee87814234">   96</a></span>&#160;    vector&lt;int&gt; <a class="code" href="../../da/dec/a00080.html#a24787b8fbb1a261648395fee87814234">m_subbasinIDs</a>;</div>
-<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a79e0b01dfd4dedc5affafd179795a0ab">   98</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../da/dec/a00080.html#a79e0b01dfd4dedc5affafd179795a0ab">m_subbasin</a>;</div>
-<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a5dd45e7dd09286ceb9bc8ce6179195bb">  100</a></span>&#160;    <a class="code" href="../../de/d11/a00021.html">clsSubbasins</a> *<a class="code" href="../../da/dec/a00080.html#a5dd45e7dd09286ceb9bc8ce6179195bb">m_subbasinsInfo</a>;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="comment">//amount of organic nitrogen in surface runoff</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a38c3dda9b03eb807bbaad04c9956e5cf">  104</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../da/dec/a00080.html#a38c3dda9b03eb807bbaad04c9956e5cf">m_sedorgn</a>;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="comment">//amount of organic phosphorus in surface runoff</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordtype">float</span> *m_sedorgp;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="comment">//amount of active mineral phosphorus sorbed to sediment in surface runoff</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">float</span> *m_sedminpa;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="comment">//amount of stable mineral phosphorus sorbed to sediment in surface runoff</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordtype">float</span> *m_sedminps;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#acc82e32be7a21c4b7d3118d63f9baf43">  114</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../da/dec/a00080.html#acc82e32be7a21c4b7d3118d63f9baf43">m_sedorgnToCh</a>;  <span class="comment">// amount of organic N in surface runoff to channel, kg</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordtype">float</span> *m_sedorgpToCh;  <span class="comment">// amount of organic P in surface runoff to channel, kg</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordtype">float</span> *m_sedminpaToCh; <span class="comment">// amount of active mineral P in surface runoff to channel, kg</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordtype">float</span> *m_sedminpsToCh; <span class="comment">// amount of stable mineral P in surface runoff to channel, kg</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="comment">//amount of nitrogen stored in the active organic (humic) nitrogen pool, kg N/ha</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#adc21a135c70f7eb2f507cdf198facc8f">  121</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../da/dec/a00080.html#adc21a135c70f7eb2f507cdf198facc8f">m_sol_aorgn</a>;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="comment">//amount of nitrogen stored in the fresh organic (residue) pool, kg N/ha</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordtype">float</span> **m_sol_fon;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="comment">//amount of nitrogen stored in the stable organic N pool, kg N/ha</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordtype">float</span> **m_sol_orgn;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="comment">//amount of phosphorus stored in the organic P pool, kg P/ha</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordtype">float</span> **m_sol_orgp;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="comment">//amount of phosphorus stored in the fresh organic (residue) pool, kg P/ha</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordtype">float</span> **m_sol_fop;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="comment">//amount of phosphorus in the soil layer stored in the stable mineral phosphorus pool, kg P/ha</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordtype">float</span> **m_sol_stap;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="comment">//amount of phosphorus stored in the active mineral phosphorus pool, kg P/ha</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordtype">float</span> **m_sol_actp;</div>
-<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#ac287fcb9b94cd33e309a5528852c5cd8">  135</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../da/dec/a00080.html#ac287fcb9b94cd33e309a5528852c5cd8">m_sol_mp</a>;</div>
-<div class="line"><a name="l00138"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a099313891360f8ba4d60d1302a7747e3">  138</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../da/dec/a00080.html#a099313891360f8ba4d60d1302a7747e3">m_sol_LSN</a>;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordtype">float</span> **m_sol_LMN;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keywordtype">float</span> **m_sol_HPN;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordtype">float</span> **m_sol_HSN;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keywordtype">float</span> **m_sol_HPC;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">float</span> **m_sol_HSC;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordtype">float</span> **m_sol_LMC;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordtype">float</span> **m_sol_LSC;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordtype">float</span> **m_sol_LS;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordtype">float</span> **m_sol_LM;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordtype">float</span> **m_sol_LSL;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">float</span> **m_sol_LSLC;</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordtype">float</span> **m_sol_LSLNC;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">float</span> **m_sol_BMC;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordtype">float</span> **m_sol_WOC;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordtype">float</span> **m_sol_perco;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordtype">float</span> **m_sol_laterq;</div>
-<div class="line"><a name="l00156"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a79b2f974fe19e184486aa3c1e91a36aa">  156</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../da/dec/a00080.html#a79b2f974fe19e184486aa3c1e91a36aa">m_sol_latC</a>; </div>
-<div class="line"><a name="l00157"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#aab92dee136a29d77c0f4b9f9f63ee00e">  157</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../da/dec/a00080.html#aab92dee136a29d77c0f4b9f9f63ee00e">m_sol_percoC</a>; </div>
-<div class="line"><a name="l00158"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#ad6b877d47e25795f821596e4784b21ef">  158</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../da/dec/a00080.html#ad6b877d47e25795f821596e4784b21ef">m_laterC</a>; </div>
-<div class="line"><a name="l00159"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#ab89a015550d948ede44548f3cffe1a9c">  159</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../da/dec/a00080.html#ab89a015550d948ede44548f3cffe1a9c">m_percoC</a>; </div>
-<div class="line"><a name="l00160"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#af3b748862365eeadc7c92a4506f43527">  160</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../da/dec/a00080.html#af3b748862365eeadc7c92a4506f43527">m_sedCLoss</a>; </div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordtype">bool</span> CheckInputData_CENTURY(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keywordtype">bool</span> CheckInputData_CFARM(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="keywordtype">void</span> OrgNRemovedInRunoff_StaticMethod(<span class="keywordtype">int</span> i);</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keywordtype">void</span> OrgNRemovedInRunoff_CFARMOneCarbonModel(<span class="keywordtype">int</span> i);</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="keywordtype">void</span> OrgNRemovedInRunoff_CENTURY(<span class="keywordtype">int</span> i);</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="keywordtype">void</span> OrgPAttachedtoSed(<span class="keywordtype">int</span> i);</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keywordtype">void</span> initialOutputs();</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;};</div>
-<div class="ttc" id="a00080_html_aab92dee136a29d77c0f4b9f9f63ee00e"><div class="ttname"><a href="../../da/dec/a00080.html#aab92dee136a29d77c0f4b9f9f63ee00e">NutrientTransportSediment::m_sol_percoC</a></div><div class="ttdeci">float ** m_sol_percoC</div><div class="ttdoc">lateral flow Carbon loss in each soil layer </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00157">NutrientTransportSediment.h:157</a></div></div>
-<div class="ttc" id="a00080_html_ac287fcb9b94cd33e309a5528852c5cd8"><div class="ttname"><a href="../../da/dec/a00080.html#ac287fcb9b94cd33e309a5528852c5cd8">NutrientTransportSediment::m_sol_mp</a></div><div class="ttdeci">float ** m_sol_mp</div><div class="ttdoc">for C-FARM one carbon model </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00135">NutrientTransportSediment.h:135</a></div></div>
-<div class="ttc" id="a00080_html_a54bfef98e113c5e2033b2e146e46b277"><div class="ttname"><a href="../../da/dec/a00080.html#a54bfef98e113c5e2033b2e146e46b277">NutrientTransportSediment::m_nSubbasins</a></div><div class="ttdeci">int m_nSubbasins</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00094">NutrientTransportSediment.h:94</a></div></div>
-<div class="ttc" id="a00080_html_a3f155548574e708228a5e30a75eb46f1"><div class="ttname"><a href="../../da/dec/a00080.html#a3f155548574e708228a5e30a75eb46f1">NutrientTransportSediment::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">number of cells </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00063">NutrientTransportSediment.h:63</a></div></div>
-<div class="ttc" id="a00080_html_a79b2f974fe19e184486aa3c1e91a36aa"><div class="ttname"><a href="../../da/dec/a00080.html#a79b2f974fe19e184486aa3c1e91a36aa">NutrientTransportSediment::m_sol_latC</a></div><div class="ttdeci">float ** m_sol_latC</div><div class="ttdoc">outputs </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00156">NutrientTransportSediment.h:156</a></div></div>
-<div class="ttc" id="a00080_html_a2a90ca0c1bb506f48767498e4ee44d21"><div class="ttname"><a href="../../da/dec/a00080.html#a2a90ca0c1bb506f48767498e4ee44d21">NutrientTransportSediment::m_enratio</a></div><div class="ttdeci">float * m_enratio</div><div class="ttdoc">enrichment ratio </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00079">NutrientTransportSediment.h:79</a></div></div>
-<div class="ttc" id="a00021_html"><div class="ttname"><a href="../../de/d11/a00021.html">clsSubbasins</a></div><div class="ttdoc">Manager all Subbasin related parameters and methods. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/d7b/a00296_source.html#l00236">clsSubbasin.h:236</a></div></div>
-<div class="ttc" id="a00080_html_a310cb789c0992bea088124320477eeb6"><div class="ttname"><a href="../../da/dec/a00080.html#a310cb789c0992bea088124320477eeb6">NutrientTransportSediment::m_soiLayers</a></div><div class="ttdeci">int m_soiLayers</div><div class="ttdoc">maximum soil layers </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00067">NutrientTransportSediment.h:67</a></div></div>
-<div class="ttc" id="a00080_html_a5dd45e7dd09286ceb9bc8ce6179195bb"><div class="ttname"><a href="../../da/dec/a00080.html#a5dd45e7dd09286ceb9bc8ce6179195bb">NutrientTransportSediment::m_subbasinsInfo</a></div><div class="ttdeci">clsSubbasins * m_subbasinsInfo</div><div class="ttdoc">subbasins information </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00100">NutrientTransportSediment.h:100</a></div></div>
-<div class="ttc" id="a00080_html_a633bf2ec6dc7b1a27f19e9d66569ad5f"><div class="ttname"><a href="../../da/dec/a00080.html#a633bf2ec6dc7b1a27f19e9d66569ad5f">NutrientTransportSediment::m_sol_rock</a></div><div class="ttdeci">float ** m_sol_rock</div><div class="ttdoc">soil rock content, % </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00069">NutrientTransportSediment.h:69</a></div></div>
-<div class="ttc" id="a00080_html_af3b748862365eeadc7c92a4506f43527"><div class="ttname"><a href="../../da/dec/a00080.html#af3b748862365eeadc7c92a4506f43527">NutrientTransportSediment::m_sedCLoss</a></div><div class="ttdeci">float * m_sedCLoss</div><div class="ttdoc">percolation Carbon loss in soil profile </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00160">NutrientTransportSediment.h:160</a></div></div>
-<div class="ttc" id="a00080_html_a994001aaf9a16ae4c5b25f4c3158a936"><div class="ttname"><a href="../../da/dec/a00080.html#a994001aaf9a16ae4c5b25f4c3158a936">NutrientTransportSediment::m_sol_wsatur</a></div><div class="ttdeci">float ** m_sol_wsatur</div><div class="ttdoc">sol_ul, soil saturated water amount, mm </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00071">NutrientTransportSediment.h:71</a></div></div>
-<div class="ttc" id="a00080_html_a24787b8fbb1a261648395fee87814234"><div class="ttname"><a href="../../da/dec/a00080.html#a24787b8fbb1a261648395fee87814234">NutrientTransportSediment::m_subbasinIDs</a></div><div class="ttdeci">vector&lt; int &gt; m_subbasinIDs</div><div class="ttdoc">subbasin IDs </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00096">NutrientTransportSediment.h:96</a></div></div>
-<div class="ttc" id="a00080_html_a099313891360f8ba4d60d1302a7747e3"><div class="ttname"><a href="../../da/dec/a00080.html#a099313891360f8ba4d60d1302a7747e3">NutrientTransportSediment::m_sol_LSN</a></div><div class="ttdeci">float ** m_sol_LSN</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00138">NutrientTransportSediment.h:138</a></div></div>
-<div class="ttc" id="a00080_html_ab89a015550d948ede44548f3cffe1a9c"><div class="ttname"><a href="../../da/dec/a00080.html#ab89a015550d948ede44548f3cffe1a9c">NutrientTransportSediment::m_percoC</a></div><div class="ttdeci">float * m_percoC</div><div class="ttdoc">lateral flow Carbon loss in soil profile </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00159">NutrientTransportSediment.h:159</a></div></div>
-<div class="ttc" id="a00080_html_aef8ee9dfb82c04aba881f91f8e8b89ff"><div class="ttname"><a href="../../da/dec/a00080.html#aef8ee9dfb82c04aba881f91f8e8b89ff">NutrientTransportSediment::m_nSoilLayers</a></div><div class="ttdeci">float * m_nSoilLayers</div><div class="ttdoc">soil layers </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00065">NutrientTransportSediment.h:65</a></div></div>
-<div class="ttc" id="a00080_html_adc21a135c70f7eb2f507cdf198facc8f"><div class="ttname"><a href="../../da/dec/a00080.html#adc21a135c70f7eb2f507cdf198facc8f">NutrientTransportSediment::m_sol_aorgn</a></div><div class="ttdeci">float ** m_sol_aorgn</div><div class="ttdoc">input &amp; output </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00121">NutrientTransportSediment.h:121</a></div></div>
-<div class="ttc" id="a00080_html_ad6b877d47e25795f821596e4784b21ef"><div class="ttname"><a href="../../da/dec/a00080.html#ad6b877d47e25795f821596e4784b21ef">NutrientTransportSediment::m_laterC</a></div><div class="ttdeci">float * m_laterC</div><div class="ttdoc">percolation Carbon loss in each soil layer </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00158">NutrientTransportSediment.h:158</a></div></div>
-<div class="ttc" id="a00080_html_a5a99879a4320148e124bbf90136cd992"><div class="ttname"><a href="../../da/dec/a00080.html#a5a99879a4320148e124bbf90136cd992">NutrientTransportSediment::m_cellArea</a></div><div class="ttdeci">float m_cellArea</div><div class="ttdoc">cell area of grid map (ha) </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00061">NutrientTransportSediment.h:61</a></div></div>
-<div class="ttc" id="a00080_html_acc82e32be7a21c4b7d3118d63f9baf43"><div class="ttname"><a href="../../da/dec/a00080.html#acc82e32be7a21c4b7d3118d63f9baf43">NutrientTransportSediment::m_sedorgnToCh</a></div><div class="ttdeci">float * m_sedorgnToCh</div><div class="ttdoc">output to channel </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00114">NutrientTransportSediment.h:114</a></div></div>
-<div class="ttc" id="a00108_html"><div class="ttname"><a href="../../d1/dd6/a00108.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df7/a00331_source.html#l00040">SimulationModule.h:40</a></div></div>
-<div class="ttc" id="a00080_html_aa0233719101c97677d241fed81c1baf0"><div class="ttname"><a href="../../da/dec/a00080.html#aa0233719101c97677d241fed81c1baf0">NutrientTransportSediment::m_sedEroded</a></div><div class="ttdeci">float * m_sedEroded</div><div class="ttdoc">inputs </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00084">NutrientTransportSediment.h:84</a></div></div>
-<div class="ttc" id="a00080_html_a6e8c4b7309b38787918b3bd2b2b9274c"><div class="ttname"><a href="../../da/dec/a00080.html#a6e8c4b7309b38787918b3bd2b2b9274c">NutrientTransportSediment::m_cellWidth</a></div><div class="ttdeci">float m_cellWidth</div><div class="ttdoc">cell width of grid map (m) </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00059">NutrientTransportSediment.h:59</a></div></div>
-<div class="ttc" id="a00080_html"><div class="ttname"><a href="../../da/dec/a00080.html">NutrientTransportSediment</a></div><div class="ttdoc">Nutrient removed and lost with the eroded sediment in surface runoff. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00037">NutrientTransportSediment.h:37</a></div></div>
-<div class="ttc" id="a00080_html_a79e0b01dfd4dedc5affafd179795a0ab"><div class="ttname"><a href="../../da/dec/a00080.html#a79e0b01dfd4dedc5affafd179795a0ab">NutrientTransportSediment::m_subbasin</a></div><div class="ttdeci">float * m_subbasin</div><div class="ttdoc">subbasin grid (subbasins ID) </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00098">NutrientTransportSediment.h:98</a></div></div>
-<div class="ttc" id="a00080_html_a38c3dda9b03eb807bbaad04c9956e5cf"><div class="ttname"><a href="../../da/dec/a00080.html#a38c3dda9b03eb807bbaad04c9956e5cf">NutrientTransportSediment::m_sedorgn</a></div><div class="ttdeci">float * m_sedorgn</div><div class="ttdoc">output data </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d79/a00540_source.html#l00104">NutrientTransportSediment.h:104</a></div></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">//virtual void GetValue(const char* key, float* value);</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">//virtual void Get2DData(const char* key, int* nRows, int* nCols, float*** data);</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">float</span> m_cellWidth;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">int</span> m_nCells;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">int</span> m_nLayers;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">float</span> **m_routingLayers;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">float</span> **m_flowInIndex;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">float</span> m_TimeStep;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">// input data</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> *m_FlowWidth;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">float</span> *m_chWidth;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">float</span> *m_streamLink;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">float</span> *m_latno3;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">float</span> *m_surqno3;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">//float* m_ammo;</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> *m_surqsolp;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">float</span> *m_no3gw;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">float</span> *m_minpgw;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">//amount of organic nitrogen in surface runoff</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">float</span> *m_sedorgn;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="comment">//amount of organic phosphorus in surface runoff</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">float</span> *m_sedorgp;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="comment">//amount of active mineral phosphorus absorbed to sediment in surface runoff</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">float</span> *m_sedminpa;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="comment">//amount of stable mineral phosphorus absorbed to sediment in surface runoff</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">float</span> *m_sedminps;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">float</span> *m_cod;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">float</span> *m_Sed_kg;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">float</span> *m_Qsn;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">float</span> *m_SedDet;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">float</span> *m_SedDep;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="comment">//test</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">float</span> *m_ChV;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordtype">float</span> *m_QV;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordtype">float</span> *m_fract;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordtype">float</span> *m_surqno3ToCh;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordtype">float</span> *m_latno3ToCh;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordtype">float</span> *m_no3gwToCh;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordtype">float</span> *m_surqsolpToCh;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">float</span> *m_minpgwToCh;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordtype">float</span> *m_sedorgnToCh;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordtype">float</span> *m_sedorgpToCh;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordtype">float</span> *m_sedminpaToCh;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordtype">float</span> *m_sedminpsToCh;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordtype">float</span> *m_ammoToCh;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordtype">float</span> *m_nitriteToCh;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordtype">float</span> *m_codToCh;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">void</span> initial();</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordtype">void</span> initialOutputs();</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordtype">void</span> NutrientinOverland(<span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordtype">float</span> NutToChannel(<span class="keywordtype">int</span> i, <span class="keywordtype">float</span> nut);</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordtype">float</span> CalculateSedinFlowFraction(<span class="keywordtype">int</span> <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;};</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
+<div class="ttc" id="a00108_html"><div class="ttname"><a href="../../d1/dd6/a00108.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d91/a00335_source.html#l00040">SimulationModule.h:40</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_4ed5f285e548ebfb97e1d33992ea4b64.html">nutrient</a></li><li class="navelem"><a class="el" href="../../dir_87f0d4e1ba7fa85b19a71ffe02dc4d63.html">NutrSED</a></li><li class="navelem"><b>NutrientTransportSediment.h</b></li>
-    <li class="footer">Generated on Mon Mar 20 2017 14:12:57 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_3996e886b1e07c3846ebc60dfa15d754.html">nutrient</a></li><li class="navelem"><a class="el" href="../../dir_17e749b4d2d7b6c48431b89fbecc3fcb.html">NutrOL_IKW</a></li><li class="navelem"><b>NutrOL_IKW.h</b></li>
+    <li class="footer">Generated on Mon Mar 20 2017 14:35:28 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

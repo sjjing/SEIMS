@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/test/IO_TEST/IO_test.h Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/nutrient/NutrOL_IUH/NutrOL_IUH.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,68 +112,177 @@ $(document).ready(function(){initNavTree('d0/ddb/a00542_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">IO_test.h</div>  </div>
+<div class="title">NutrOL_IUH.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;Scenario.h&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d8/d0a/a00292.html">clsReach.h</a>&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span>MainBMP;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">class </span>IO_TEST : <span class="keyword">public</span> <a class="code" href="../../d1/dd6/a00108.html">SimulationModule</a> {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">int</span> m_nCells;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordtype">float</span> *m_raster1D;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">int</span> m_soilLayers;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">float</span> *m_nSoilLayrs;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">float</span> **m_raster2D;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">float</span> *m_output1Draster;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">float</span> **m_output2Draster;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="../../d5/d1e/a00103.html">Scenario</a> *m_scenario;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="../../dd/da2/a00019.html">clsReaches</a> *m_reaches;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    IO_TEST(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ~IO_TEST(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">int</span> Execute();</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">void</span> Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">int</span> col, <span class="keywordtype">float</span> **data);</div>
+<a href="../../d0/ddb/a00542.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#ifndef SEIMS_NutOLRout_PARAMS_INCLUDE</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEIMS_NutOLRout_PARAMS_INCLUDE</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html">   33</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/d53/a00081.html">NutrOL_IUH</a> : <span class="keyword">public</span> <a class="code" href="../../d1/dd6/a00108.html">SimulationModule</a> {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="../../d8/d53/a00081.html">NutrOL_IUH</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    ~<a class="code" href="../../d8/d53/a00081.html">NutrOL_IUH</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> value);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">//virtual void Set2DData(const char *key, int nRows, int nCols, float **data);</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute();</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">void</span> Get2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">int</span> *col, <span class="keywordtype">float</span> ***data);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> SetScenario(<a class="code" href="../../d5/d1e/a00103.html">Scenario</a> *sce);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">void</span> SetReaches(<a class="code" href="../../dd/da2/a00019.html">clsReaches</a> *reaches);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;};</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="ttc" id="a00103_html"><div class="ttname"><a href="../../d5/d1e/a00103.html">MainBMP::Scenario</a></div><div class="ttdoc">Main class of scenario in BMP database. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/dc3/a00284_source.html#l00041">Scenario.h:41</a></div></div>
-<div class="ttc" id="a00108_html"><div class="ttname"><a href="../../d1/dd6/a00108.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df7/a00331_source.html#l00040">SimulationModule.h:40</a></div></div>
-<div class="ttc" id="a00292_html"><div class="ttname"><a href="../../d8/d0a/a00292.html">clsReach.h</a></div><div class="ttdoc">Class to store reach related parameters from REACHES table. </div></div>
-<div class="ttc" id="a00019_html"><div class="ttname"><a href="../../dd/da2/a00019.html">clsReaches</a></div><div class="ttdoc">Read and store all reaches information as input parameters. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d0a/a00292_source.html#l00212">clsReach.h:212</a></div></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">//virtual void GetValue(const char* key, float* value);</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">//virtual void Get2DData(const char* key, int* nRows, int* nCols, float*** data);</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a0e98bb203e28af11c12de1c5f6a4bfe7">   52</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d8/d53/a00081.html#a0e98bb203e28af11c12de1c5f6a4bfe7">m_cellWidth</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a4db93e329ca608d69227311ed453a09e">   54</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d8/d53/a00081.html#a4db93e329ca608d69227311ed453a09e">m_nCells</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">//int m_nLayers;</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"></span>    <span class="comment">//float **m_routingLayers;</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment"></span>    <span class="comment">//float **m_flowInIndex;</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a41f976fe6466287139415d1f05b6008b">   61</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> <a class="code" href="../../d8/d53/a00081.html#a41f976fe6466287139415d1f05b6008b">m_TimeStep</a>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="comment">// input data</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"></span>    <span class="comment">//float *m_FlowWidth;</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment"></span>    <span class="comment">//float *m_chWidth;</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment"></span>    <span class="comment">//float *m_streamLink;</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a5f8536ed83e5aca31561dc41d3ce0115">   72</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d8/d53/a00081.html#a5f8536ed83e5aca31561dc41d3ce0115">m_iuhCell</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a013b8b6cd55d4669fa8818df53544b14">   74</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d8/d53/a00081.html#a013b8b6cd55d4669fa8818df53544b14">m_iuhCols</a>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a1b1e18b4441dc0231bc16684c268d3bb">   76</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d8/d53/a00081.html#a1b1e18b4441dc0231bc16684c268d3bb">m_nsub</a>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a5bacfe3b3d5c869629ab5a259f2225cd">   78</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a5bacfe3b3d5c869629ab5a259f2225cd">m_subbasin</a>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="comment">//temporary</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">int</span> m_cellNutrCols;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="comment">//float **m_cellFlow;</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">float</span> **m_cellsurqno3;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordtype">float</span> **m_celllatno3;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">float</span> **m_cellno3gw;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">float</span> **m_cellsurqsolp;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">float</span> **m_cellminpgw;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">float</span> **m_cellsedorgn;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">float</span> **m_cellsedorgp;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordtype">float</span> **m_cellsedminpa;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">float</span> **m_cellsedminps;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="comment">//float **m_cellammo;</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="comment">//float **m_cellnitrite;</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">float</span> **m_cellcod;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a0a71a385ed9895b30fcadccd6f93ad67">   97</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a0a71a385ed9895b30fcadccd6f93ad67">m_latno3</a>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a7291b6869b71d6789d734f2a805e7a8e">   99</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a7291b6869b71d6789d734f2a805e7a8e">m_surqno3</a>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#aec4b83a989fa11468e307c535a286442">  101</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#aec4b83a989fa11468e307c535a286442">m_surqsolp</a>;</div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a7972dabf7c30befe2588230951656cb6">  103</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a7972dabf7c30befe2588230951656cb6">m_no3gw</a>;</div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a3004e645a15a378d6f8dab5c836485e0">  105</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a3004e645a15a378d6f8dab5c836485e0">m_minpgw</a>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="comment">//amount of organic nitrogen in surface runoff</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordtype">float</span> *m_sedorgn;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="comment">//amount of organic phosphorus in surface runoff</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">float</span> *m_sedorgp;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="comment">//amount of active mineral phosphorus absorbed to sediment in surface runoff</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordtype">float</span> *m_sedminpa;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">//amount of stable mineral phosphorus absorbed to sediment in surface runoff</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordtype">float</span> *m_sedminps;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="comment">//float* m_ammo;</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="comment"></span>    <span class="comment">//float* m_nitrite;</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#ada3753f7b6a3bcbe067cc13c63403930">  119</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#ada3753f7b6a3bcbe067cc13c63403930">m_cod</a>;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="comment">// Variables to calculate the ratio that flow and sediment into channel</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a0dcaccc18329790479a99d5fc377f7ff">  123</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a0dcaccc18329790479a99d5fc377f7ff">m_Soer</a>;</div>
+<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a06010e0bbc580c28f5d0787348c57af9">  125</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a06010e0bbc580c28f5d0787348c57af9">m_Sed_kg</a>;</div>
+<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a51a6e6dc7eeb5b26512a74f43b486a16">  127</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a51a6e6dc7eeb5b26512a74f43b486a16">m_Suru</a>;</div>
+<div class="line"><a name="l00129"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a3bd1a55c56115cc895f21ae50bef36cc">  129</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a3bd1a55c56115cc895f21ae50bef36cc">m_Q_Flow</a>;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#af50c6276a2ea59743c4fe9e24a4399c9">  134</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#af50c6276a2ea59743c4fe9e24a4399c9">m_surqno3ToCh</a>;</div>
+<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#adfda3a60619d6b7a27aebdbc6c59173f">  136</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#adfda3a60619d6b7a27aebdbc6c59173f">m_latno3ToCh</a>;</div>
+<div class="line"><a name="l00138"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a018ec89dd308e06b71ba44082d9a5a35">  138</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a018ec89dd308e06b71ba44082d9a5a35">m_no3gwToCh</a>;</div>
+<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a19797322fa116ba78ac3ffc36b0b8bb6">  140</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a19797322fa116ba78ac3ffc36b0b8bb6">m_surqsolpToCh</a>;</div>
+<div class="line"><a name="l00142"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a1f2b2572ef7f9af977641dac910db060">  142</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a1f2b2572ef7f9af977641dac910db060">m_minpgwToCh</a>;</div>
+<div class="line"><a name="l00144"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a7bccd8d9d8697cf3c2f819f26959a77f">  144</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a7bccd8d9d8697cf3c2f819f26959a77f">m_sedorgnToCh</a>;</div>
+<div class="line"><a name="l00146"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#abd8fa1c99cfc31b797cfa6c49bc26ab4">  146</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#abd8fa1c99cfc31b797cfa6c49bc26ab4">m_sedorgpToCh</a>;</div>
+<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a97235e8d133fd1b562ebe4a1a042a2d5">  148</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a97235e8d133fd1b562ebe4a1a042a2d5">m_sedminpaToCh</a>;</div>
+<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#ad892b57492e3d2db3e0fea63165f3792">  150</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#ad892b57492e3d2db3e0fea63165f3792">m_sedminpsToCh</a>;</div>
+<div class="line"><a name="l00152"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a5611ff119890677a61126615e6f31096">  152</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a5611ff119890677a61126615e6f31096">m_ammoToCh</a>;</div>
+<div class="line"><a name="l00154"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a9bf2c5f29023e0cbd76ebd0a524f9b60">  154</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a9bf2c5f29023e0cbd76ebd0a524f9b60">m_nitriteToCh</a>;</div>
+<div class="line"><a name="l00156"></a><span class="lineno"><a class="line" href="../../d8/d53/a00081.html#a7b3b0bbeb745ef65a89b7dc43fb96dfd">  156</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d53/a00081.html#a7b3b0bbeb745ef65a89b7dc43fb96dfd">m_codToCh</a>;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordtype">void</span> initialOutputs();</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="comment">//     /*!</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="comment">//     *    \brief calculate the sediment routing of overland flow.</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="comment">//     *</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="comment">//     *    \param ID The id of cell in grid map</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="comment">//     *    \return the nutrient of flowing to channel for each channel cell, kg</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="comment">//     */</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="comment">//     float NutToChannel(int id, float nut);</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordtype">float</span> CalculateSedinFlowFraction(<span class="keywordtype">int</span> <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordtype">float</span> CalculateFlowFraction(<span class="keywordtype">int</span> <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordtype">float</span> **GetnewNutrient(<span class="keywordtype">int</span> <span class="keywordtype">id</span>, <span class="keywordtype">float</span> *nutr, <span class="keywordtype">float</span> **cellNutr, <span class="keywordtype">float</span> ratio);</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keywordtype">float</span> GettotalNutr(<span class="keywordtype">float</span> *NutrToCh);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;};</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
+<div class="ttc" id="a00081_html_af50c6276a2ea59743c4fe9e24a4399c9"><div class="ttname"><a href="../../d8/d53/a00081.html#af50c6276a2ea59743c4fe9e24a4399c9">NutrOL_IUH::m_surqno3ToCh</a></div><div class="ttdeci">float * m_surqno3ToCh</div><div class="ttdoc">output data </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00134">NutrOL_IUH.h:134</a></div></div>
+<div class="ttc" id="a00081_html_a1f2b2572ef7f9af977641dac910db060"><div class="ttname"><a href="../../d8/d53/a00081.html#a1f2b2572ef7f9af977641dac910db060">NutrOL_IUH::m_minpgwToCh</a></div><div class="ttdeci">float * m_minpgwToCh</div><div class="ttdoc">soluble P loading to reach in groundwater (kg) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00142">NutrOL_IUH.h:142</a></div></div>
+<div class="ttc" id="a00081_html_a4db93e329ca608d69227311ed453a09e"><div class="ttname"><a href="../../d8/d53/a00081.html#a4db93e329ca608d69227311ed453a09e">NutrOL_IUH::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">number of cells </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00054">NutrOL_IUH.h:54</a></div></div>
+<div class="ttc" id="a00081_html_a018ec89dd308e06b71ba44082d9a5a35"><div class="ttname"><a href="../../d8/d53/a00081.html#a018ec89dd308e06b71ba44082d9a5a35">NutrOL_IUH::m_no3gwToCh</a></div><div class="ttdeci">float * m_no3gwToCh</div><div class="ttdoc">nitrate loading to reach in groundwater (kg) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00138">NutrOL_IUH.h:138</a></div></div>
+<div class="ttc" id="a00081_html_a7b3b0bbeb745ef65a89b7dc43fb96dfd"><div class="ttname"><a href="../../d8/d53/a00081.html#a7b3b0bbeb745ef65a89b7dc43fb96dfd">NutrOL_IUH::m_codToCh</a></div><div class="ttdeci">float * m_codToCh</div><div class="ttdoc">cod to reach in surface runoff (kg) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00156">NutrOL_IUH.h:156</a></div></div>
+<div class="ttc" id="a00081_html_a5bacfe3b3d5c869629ab5a259f2225cd"><div class="ttname"><a href="../../d8/d53/a00081.html#a5bacfe3b3d5c869629ab5a259f2225cd">NutrOL_IUH::m_subbasin</a></div><div class="ttdeci">float * m_subbasin</div><div class="ttdoc">subbasin grid ( sub-watersheds ID) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00078">NutrOL_IUH.h:78</a></div></div>
+<div class="ttc" id="a00081_html_abd8fa1c99cfc31b797cfa6c49bc26ab4"><div class="ttname"><a href="../../d8/d53/a00081.html#abd8fa1c99cfc31b797cfa6c49bc26ab4">NutrOL_IUH::m_sedorgpToCh</a></div><div class="ttdeci">float * m_sedorgpToCh</div><div class="ttdoc">organic phosphorus in surface runoff (kg) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00146">NutrOL_IUH.h:146</a></div></div>
+<div class="ttc" id="a00081_html_aec4b83a989fa11468e307c535a286442"><div class="ttname"><a href="../../d8/d53/a00081.html#aec4b83a989fa11468e307c535a286442">NutrOL_IUH::m_surqsolp</a></div><div class="ttdeci">float * m_surqsolp</div><div class="ttdoc">amount of soluble phosphorus in surface runoff </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00101">NutrOL_IUH.h:101</a></div></div>
+<div class="ttc" id="a00081_html_a41f976fe6466287139415d1f05b6008b"><div class="ttname"><a href="../../d8/d53/a00081.html#a41f976fe6466287139415d1f05b6008b">NutrOL_IUH::m_TimeStep</a></div><div class="ttdeci">float m_TimeStep</div><div class="ttdoc">Routing layers according to the flow direction. There are not flow relationships within each layer...</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00061">NutrOL_IUH.h:61</a></div></div>
+<div class="ttc" id="a00081_html_a013b8b6cd55d4669fa8818df53544b14"><div class="ttname"><a href="../../d8/d53/a00081.html#a013b8b6cd55d4669fa8818df53544b14">NutrOL_IUH::m_iuhCols</a></div><div class="ttdeci">int m_iuhCols</div><div class="ttdoc">the number of columns of Ol_iuh </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00074">NutrOL_IUH.h:74</a></div></div>
+<div class="ttc" id="a00081_html_a0a71a385ed9895b30fcadccd6f93ad67"><div class="ttname"><a href="../../d8/d53/a00081.html#a0a71a385ed9895b30fcadccd6f93ad67">NutrOL_IUH::m_latno3</a></div><div class="ttdeci">float * m_latno3</div><div class="ttdoc">amount of nitrate transported with lateral flow </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00097">NutrOL_IUH.h:97</a></div></div>
+<div class="ttc" id="a00081_html_a0dcaccc18329790479a99d5fc377f7ff"><div class="ttname"><a href="../../d8/d53/a00081.html#a0dcaccc18329790479a99d5fc377f7ff">NutrOL_IUH::m_Soer</a></div><div class="ttdeci">float * m_Soer</div><div class="ttdoc">sediment from soil erosion (kg) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00123">NutrOL_IUH.h:123</a></div></div>
+<div class="ttc" id="a00081_html_ada3753f7b6a3bcbe067cc13c63403930"><div class="ttname"><a href="../../d8/d53/a00081.html#ada3753f7b6a3bcbe067cc13c63403930">NutrOL_IUH::m_cod</a></div><div class="ttdeci">float * m_cod</div><div class="ttdoc">amount of ammonium transported with lateral flow // No calculation before </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00119">NutrOL_IUH.h:119</a></div></div>
+<div class="ttc" id="a00081_html_a9bf2c5f29023e0cbd76ebd0a524f9b60"><div class="ttname"><a href="../../d8/d53/a00081.html#a9bf2c5f29023e0cbd76ebd0a524f9b60">NutrOL_IUH::m_nitriteToCh</a></div><div class="ttdeci">float * m_nitriteToCh</div><div class="ttdoc">nitrite to reach in surface runoff (kg) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00154">NutrOL_IUH.h:154</a></div></div>
+<div class="ttc" id="a00081_html_a5611ff119890677a61126615e6f31096"><div class="ttname"><a href="../../d8/d53/a00081.html#a5611ff119890677a61126615e6f31096">NutrOL_IUH::m_ammoToCh</a></div><div class="ttdeci">float * m_ammoToCh</div><div class="ttdoc">ammonium to reach in surface runoff (kg) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00152">NutrOL_IUH.h:152</a></div></div>
+<div class="ttc" id="a00081_html_a7972dabf7c30befe2588230951656cb6"><div class="ttname"><a href="../../d8/d53/a00081.html#a7972dabf7c30befe2588230951656cb6">NutrOL_IUH::m_no3gw</a></div><div class="ttdeci">float * m_no3gw</div><div class="ttdoc">nitrate loading to reach in groundwater </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00103">NutrOL_IUH.h:103</a></div></div>
+<div class="ttc" id="a00081_html_adfda3a60619d6b7a27aebdbc6c59173f"><div class="ttname"><a href="../../d8/d53/a00081.html#adfda3a60619d6b7a27aebdbc6c59173f">NutrOL_IUH::m_latno3ToCh</a></div><div class="ttdeci">float * m_latno3ToCh</div><div class="ttdoc">NO3-N in lateral flow (kg) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00136">NutrOL_IUH.h:136</a></div></div>
+<div class="ttc" id="a00081_html_a06010e0bbc580c28f5d0787348c57af9"><div class="ttname"><a href="../../d8/d53/a00081.html#a06010e0bbc580c28f5d0787348c57af9">NutrOL_IUH::m_Sed_kg</a></div><div class="ttdeci">float * m_Sed_kg</div><div class="ttdoc">sediment in flow (kg) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00125">NutrOL_IUH.h:125</a></div></div>
+<div class="ttc" id="a00081_html_a1b1e18b4441dc0231bc16684c268d3bb"><div class="ttname"><a href="../../d8/d53/a00081.html#a1b1e18b4441dc0231bc16684c268d3bb">NutrOL_IUH::m_nsub</a></div><div class="ttdeci">int m_nsub</div><div class="ttdoc">the total number of sub-basins </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00076">NutrOL_IUH.h:76</a></div></div>
+<div class="ttc" id="a00081_html"><div class="ttname"><a href="../../d8/d53/a00081.html">NutrOL_IUH</a></div><div class="ttdoc">IUH overland method to calculates the concentration of nutrient in overland flow. ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00033">NutrOL_IUH.h:33</a></div></div>
+<div class="ttc" id="a00081_html_ad892b57492e3d2db3e0fea63165f3792"><div class="ttname"><a href="../../d8/d53/a00081.html#ad892b57492e3d2db3e0fea63165f3792">NutrOL_IUH::m_sedminpsToCh</a></div><div class="ttdeci">float * m_sedminpsToCh</div><div class="ttdoc">stable mineral phosphorus adsorbed to sediment in surface runoff (kg) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00150">NutrOL_IUH.h:150</a></div></div>
+<div class="ttc" id="a00081_html_a0e98bb203e28af11c12de1c5f6a4bfe7"><div class="ttname"><a href="../../d8/d53/a00081.html#a0e98bb203e28af11c12de1c5f6a4bfe7">NutrOL_IUH::m_cellWidth</a></div><div class="ttdeci">float m_cellWidth</div><div class="ttdoc">cell width of grid map (m) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00052">NutrOL_IUH.h:52</a></div></div>
+<div class="ttc" id="a00081_html_a97235e8d133fd1b562ebe4a1a042a2d5"><div class="ttname"><a href="../../d8/d53/a00081.html#a97235e8d133fd1b562ebe4a1a042a2d5">NutrOL_IUH::m_sedminpaToCh</a></div><div class="ttdeci">float * m_sedminpaToCh</div><div class="ttdoc">active mineral phosphorus adsorbed to sediment in surface runoff (kg) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00148">NutrOL_IUH.h:148</a></div></div>
+<div class="ttc" id="a00081_html_a3004e645a15a378d6f8dab5c836485e0"><div class="ttname"><a href="../../d8/d53/a00081.html#a3004e645a15a378d6f8dab5c836485e0">NutrOL_IUH::m_minpgw</a></div><div class="ttdeci">float * m_minpgw</div><div class="ttdoc">soluble P loading to reach in groundwater </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00105">NutrOL_IUH.h:105</a></div></div>
+<div class="ttc" id="a00081_html_a3bd1a55c56115cc895f21ae50bef36cc"><div class="ttname"><a href="../../d8/d53/a00081.html#a3bd1a55c56115cc895f21ae50bef36cc">NutrOL_IUH::m_Q_Flow</a></div><div class="ttdeci">float * m_Q_Flow</div><div class="ttdoc">sediment in flow (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00129">NutrOL_IUH.h:129</a></div></div>
+<div class="ttc" id="a00081_html_a5f8536ed83e5aca31561dc41d3ce0115"><div class="ttname"><a href="../../d8/d53/a00081.html#a5f8536ed83e5aca31561dc41d3ce0115">NutrOL_IUH::m_iuhCell</a></div><div class="ttdeci">float ** m_iuhCell</div><div class="ttdoc">flow width (m) of overland plane </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00072">NutrOL_IUH.h:72</a></div></div>
+<div class="ttc" id="a00108_html"><div class="ttname"><a href="../../d1/dd6/a00108.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d91/a00335_source.html#l00040">SimulationModule.h:40</a></div></div>
+<div class="ttc" id="a00081_html_a51a6e6dc7eeb5b26512a74f43b486a16"><div class="ttname"><a href="../../d8/d53/a00081.html#a51a6e6dc7eeb5b26512a74f43b486a16">NutrOL_IUH::m_Suru</a></div><div class="ttdeci">float * m_Suru</div><div class="ttdoc">sediment from soil erosion (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00127">NutrOL_IUH.h:127</a></div></div>
+<div class="ttc" id="a00081_html_a19797322fa116ba78ac3ffc36b0b8bb6"><div class="ttname"><a href="../../d8/d53/a00081.html#a19797322fa116ba78ac3ffc36b0b8bb6">NutrOL_IUH::m_surqsolpToCh</a></div><div class="ttdeci">float * m_surqsolpToCh</div><div class="ttdoc">soluble phosphorus in surface runoff (kg) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00140">NutrOL_IUH.h:140</a></div></div>
+<div class="ttc" id="a00081_html_a7bccd8d9d8697cf3c2f819f26959a77f"><div class="ttname"><a href="../../d8/d53/a00081.html#a7bccd8d9d8697cf3c2f819f26959a77f">NutrOL_IUH::m_sedorgnToCh</a></div><div class="ttdeci">float * m_sedorgnToCh</div><div class="ttdoc">organic nitrogen in surface runoff (kg) </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00144">NutrOL_IUH.h:144</a></div></div>
+<div class="ttc" id="a00081_html_a7291b6869b71d6789d734f2a805e7a8e"><div class="ttname"><a href="../../d8/d53/a00081.html#a7291b6869b71d6789d734f2a805e7a8e">NutrOL_IUH::m_surqno3</a></div><div class="ttdeci">float * m_surqno3</div><div class="ttdoc">amount of nitrate transported with surface runoff </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddb/a00542_source.html#l00099">NutrOL_IUH.h:99</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_ccdfa86c0a284586147bc8c505bb8802.html">test</a></li><li class="navelem"><a class="el" href="../../dir_c1243ab35b554cfa01eefc019467c6c5.html">IO_TEST</a></li><li class="navelem"><b>IO_test.h</b></li>
-    <li class="footer">Generated on Mon Mar 20 2017 14:12:57 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_3996e886b1e07c3846ebc60dfa15d754.html">nutrient</a></li><li class="navelem"><a class="el" href="../../dir_0d0e3566892f3355d84a619f41335f68.html">NutrOL_IUH</a></li><li class="navelem"><a class="el" href="../../d0/ddb/a00542.html">NutrOL_IUH.h</a></li>
+    <li class="footer">Generated on Mon Mar 20 2017 14:35:28 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

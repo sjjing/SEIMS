@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/pygeoc/pygeoc/hydro/postTauDEM.py Source File</title>
+<title>SEIMS: seims/pygeoc/examples/basic_raster_operations.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,278 +112,40 @@ $(document).ready(function(){initNavTree('d5/d13/a00205_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">postTauDEM.py</div>  </div>
+<div class="title">basic_raster_operations.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># coding=utf-8</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># @Post process of TauDEM</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># @Author: Junzhi Liu, 2012-4-12</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># @Revised: Liang-Jun Zhu, 2016-7-7</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"># @Revised: Liang-Jun Zhu, 2017-2-17</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> os</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> sys</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> numpy</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> gdal <span class="keyword">import</span> GDT_Int16, GDT_Float32</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> osgeo <span class="keyword">import</span> ogr</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">from</span> ..utils.utils <span class="keyword">import</span> MathClass, FileClass, UtilClass</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> ..utils.const <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> ..raster.raster <span class="keyword">import</span> RasterUtilClass</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">from</span> text <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="../../d0/d33/a00027.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d0/d33/a00027.html">D8Util</a>(object):</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Utility functions based on D8 flow direction of TauDEM&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keyword">def </span>__init__(self):</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">pass</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="../../d0/d33/a00027.html#af44b13957af0d0fe3c066451e94efc31">   28</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d0/d33/a00027.html#af44b13957af0d0fe3c066451e94efc31">converttoarcgiscode</a>(d8tau, d8esri):</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Convert D8 flow direction code to ArcGIS rule&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        dirconvertmap = {1.: 1.,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                         2.: 128.,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                         3.: 64.,</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                         4.: 32.,</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                         5.: 16.,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                         6.: 8.,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                         7.: 4.,</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                         8.: 2.}</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        RasterUtilClass.RasterReclassify(d8tau, dirconvertmap, d8esri)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="../../d0/d33/a00027.html#af66ee81586d67e4835526ec32b021396">   41</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d0/d33/a00027.html#af66ee81586d67e4835526ec32b021396">downstream_index</a>(dir_value, i, j):</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;find downslope coordinate for D8 of TauDEM.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        drow, dcol = D8DIR_TD_DELTA[dir_value]</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">return</span> i + drow, j + dcol</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../dc/d87/a00032.html">   47</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dc/d87/a00032.html">DinfUtil</a>(object):</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Utility functions based on Dinf flow direction&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">def </span>__init__(self):</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">pass</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../dc/d87/a00032.html#a310f48b49d71b12549aee5c4f8f8a859">   54</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../dc/d87/a00032.html#a310f48b49d71b12549aee5c4f8f8a859">checkorthogonal</a>(angle):</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Check the given Dinf angle based on D8 flow direction encoding code by ArcGIS&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">if</span> MathClass.floatequal(angle, e):</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">return</span> 1  <span class="comment"># 1</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">elif</span> MathClass.floatequal(angle, ne):</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">return</span> 128  <span class="comment"># 2</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">elif</span> MathClass.floatequal(angle, n):</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">return</span> 64  <span class="comment"># 3</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">elif</span> MathClass.floatequal(angle, nw):</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">return</span> 32  <span class="comment"># 4</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">elif</span> MathClass.floatequal(angle, w):</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">return</span> 16  <span class="comment"># 5</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">elif</span> MathClass.floatequal(angle, sw):</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">return</span> 8  <span class="comment"># 6</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordflow">elif</span> MathClass.floatequal(angle, s):</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordflow">return</span> 4  <span class="comment"># 7</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordflow">elif</span> MathClass.floatequal(angle, se):</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">return</span> 2  <span class="comment"># 8</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../dc/d87/a00032.html#ae56562a9a5799c4b17d1aa162e48352f">   74</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../dc/d87/a00032.html#ae56562a9a5799c4b17d1aa162e48352f">compressdinf</a>(angle, nodata):</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="stringliteral">        :param angle: D-inf flow direction angle</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="stringliteral">        :param nodata: NoData value</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="stringliteral">        :return: Compressed flow direction and weight of the first direction</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keywordflow">if</span> MathClass.floatequal(angle, nodata):</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">return</span> DEFAULT_NODATA, DEFAULT_NODATA</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        d = DinfUtil.checkorthogonal(angle)</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">if</span> d <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">return</span> d, 1</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordflow">if</span> angle &lt; ne:</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            a1 = angle</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            d = 129  <span class="comment"># 1+128</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">elif</span> angle &lt; n:</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            a1 = angle - ne</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            d = 192  <span class="comment"># 128+64</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">elif</span> angle &lt; nw:</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            a1 = angle - n</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            d = 96  <span class="comment"># 64+32</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordflow">elif</span> angle &lt; w:</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            a1 = angle - nw</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            d = 48  <span class="comment"># 32+16</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">elif</span> angle &lt; sw:</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            a1 = angle - w</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            d = 24  <span class="comment"># 16+8</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">elif</span> angle &lt; s:</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            a1 = angle - sw</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            d = 12  <span class="comment"># 8+4</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordflow">elif</span> angle &lt; se:</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            a1 = angle - s</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            d = 6  <span class="comment"># 4+2</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            a1 = angle - se</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            d = 3  <span class="comment"># 2+1</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordflow">return</span> d, a1 / math.pi * 4.0</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keyword">def </span>outputcompresseddinf(dinfflowang, compdinffile, weightfile):</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        dinf_R = RasterUtilClass.ReadRaster(dinfflowang)</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        data = dinf_R.data</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        xsize = dinf_R.nCols</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        ysize = dinf_R.nRows</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        noDataValue = dinf_R.noDataValue</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        calDirCode = numpy.frompyfunc(DinfUtil.compressdinf, 2, 2)</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        dirCode, weight = calDirCode(data, noDataValue)</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        RasterUtilClass.WriteGTiffFile(compdinffile, ysize, xsize, dirCode,</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                                       dinf_R.geotrans, dinf_R.srs, DEFAULT_NODATA, GDT_Int16)</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        RasterUtilClass.WriteGTiffFile(weightfile, ysize, xsize, weight, dinf_R.geotrans,</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                                       dinf_R.srs, DEFAULT_NODATA, GDT_Float32)</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keyword">def </span>dinfdownslopedirection(a):</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        d = DinfUtil.checkorthogonal(a)</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keywordflow">if</span> d != 0:</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            down = [d]</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="keywordflow">return</span> down</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="keywordflow">if</span> a &lt; ne:  <span class="comment"># 129 = 1+128</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                down = [1, 2]</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            <span class="keywordflow">elif</span> a &lt; n:  <span class="comment"># 192 = 128+64</span></div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                down = [2, 3]</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            <span class="keywordflow">elif</span> a &lt; nw:  <span class="comment"># 96 = 64+32</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                down = [3, 4]</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="keywordflow">elif</span> a &lt; w:  <span class="comment"># 48 = 32+16</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                down = [4, 5]</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;            <span class="keywordflow">elif</span> a &lt; sw:  <span class="comment"># 24 = 16+8</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                down = [5, 6]</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keywordflow">elif</span> a &lt; s:  <span class="comment"># 12 = 8+4</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                down = [6, 7]</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            <span class="keywordflow">elif</span> a &lt; se:  <span class="comment"># 6 = 4+2</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                down = [7, 8]</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            <span class="keywordflow">else</span>:  <span class="comment"># 3 = 2+1</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                down = [8, 1]</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <span class="keywordflow">return</span> down</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00153"></a><span class="lineno"><a class="line" href="../../dc/d87/a00032.html#a4968a4a60ae072acc33f5f9549c20b71">  153</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../dc/d87/a00032.html#a4968a4a60ae072acc33f5f9549c20b71">downstream_index_dinf</a>(dinfdir_value, i, j):</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;find downslope coordinate for Dinf of TauDEM.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        downDirs = DinfUtil.dinfdownslopedirection(dinfdir_value)</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        downCoors = []</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keywordflow">for</span> dir <span class="keywordflow">in</span> downDirs:</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            row, col = D8Util.downstream_index(dir, i, j)</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            downCoors.append([row, col])</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="keywordflow">return</span> downCoors</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
-<div class="line"><a name="l00163"></a><span class="lineno"><a class="line" href="../../da/d72/a00124.html">  163</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../da/d72/a00124.html">SubbasinUtil</a>(object):</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Utility functions of subbasin (raster and vector)&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keyword">def </span>__init__(self):</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keywordflow">pass</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
-<div class="line"><a name="l00170"></a><span class="lineno"><a class="line" href="../../df/dc8/a00122.html">  170</a></span>&#160;<span class="keyword">class </span>StreamnetUtil(object):</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Utility functions of stream network&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keyword">def </span>__init__(self):</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="keywordflow">pass</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00177"></a><span class="lineno"><a class="line" href="../../df/dc8/a00122.html#ab16ee7672c351371cd1cef955bd3f05b">  177</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/dc8/a00122.html#ab16ee7672c351371cd1cef955bd3f05b">serializestreamnet</a>(streamNetFile, outputReachFile):</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Eliminate reach with zero length and return the reach ID map.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        FileClass.copyfiles(streamNetFile, outputReachFile)</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        dsReach = ogr.Open(outputReachFile, update = <span class="keyword">True</span>)</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        layerReach = dsReach.GetLayer(0)</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        layerDef = layerReach.GetLayerDefn()</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        iLink = layerDef.GetFieldIndex(FLD_LINKNO)</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        iLinkDownSlope = layerDef.GetFieldIndex(FLD_DSLINKNO)</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        iLen = layerDef.GetFieldIndex(REACH_LENGTH)</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        oldIdList = []</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="comment"># there are some reaches with zero length.</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <span class="comment"># this program will remove these zero-length reaches</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <span class="comment"># outputDic is used to store the downstream reaches of these zero-length</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <span class="comment"># reaches</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        outputDic = {}</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        ft = layerReach.GetNextFeature()</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <span class="keywordflow">while</span> ft <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            id = ft.GetFieldAsInteger(iLink)</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            reachLen = ft.GetFieldAsDouble(iLen)</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            <span class="keywordflow">if</span> <span class="keywordflow">not</span> id <span class="keywordflow">in</span> oldIdList:</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                <span class="keywordflow">if</span> reachLen &lt; DELTA:</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                    downstreamId = ft.GetFieldAsInteger(iLinkDownSlope)</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                    outputDic[id] = downstreamId</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                    oldIdList.append(id)</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            ft = layerReach.GetNextFeature()</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        oldIdList.sort()</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        idMap = {}</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        n = len(oldIdList)</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(n):</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;            idMap[oldIdList[i]] = i + 1</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <span class="comment"># print idMap</span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        <span class="comment"># change old ID to new ID</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        layerReach.ResetReading()</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        ft = layerReach.GetNextFeature()</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        <span class="keywordflow">while</span> ft <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;            id = ft.GetFieldAsInteger(iLink)</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            <span class="keywordflow">if</span> <span class="keywordflow">not</span> id <span class="keywordflow">in</span> idMap:</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;                layerReach.DeleteFeature(ft.GetFID())</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                ft = layerReach.GetNextFeature()</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            dsId = ft.GetFieldAsInteger(iLinkDownSlope)</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            dsId = outputDic.get(dsId, dsId)</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            dsId = outputDic.get(dsId, dsId)</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            ft.SetField(FLD_LINKNO, idMap[id])</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            <span class="keywordflow">if</span> dsId <span class="keywordflow">in</span> idMap:</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                ft.SetField(FLD_DSLINKNO, idMap[dsId])</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                <span class="comment"># print dsId</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                ft.SetField(FLD_DSLINKNO, -1)</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            layerReach.SetFeature(ft)</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            ft = layerReach.GetNextFeature()</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        dsReach.ExecuteSQL(<span class="stringliteral">&quot;REPACK reach&quot;</span>)</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        layerReach.SyncToDisk()</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        dsReach.Destroy()</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        del dsReach</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        <span class="keywordflow">return</span> idMap</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00241"></a><span class="lineno"><a class="line" href="../../df/dc8/a00122.html#a2ca77e500f3d97edbfaabdeb11154c88">  241</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/dc8/a00122.html#a2ca77e500f3d97edbfaabdeb11154c88">assignstreamidraster</a>(stream_file, subbasin_file, out_stream_file):</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Assign stream link ID according to subbasin ID.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        stream_raster = RasterUtilClass.ReadRaster(stream_file)</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        stream_data = stream_raster.data</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        nrows = stream_raster.nRows</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        ncols = stream_raster.nCols</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        nodata = stream_raster.noDataValue</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        subbain_data = RasterUtilClass.ReadRaster(subbasin_file).data</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        nodata_array = numpy.ones((nrows, ncols)) * nodata</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        newstream_data = numpy.where(stream_data &gt; 0, subbain_data, nodata_array)</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        RasterUtilClass.WriteGTiffFile(out_stream_file, nrows, ncols, newstream_data, stream_raster.geotrans,</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;                                       stream_raster.srs, nodata, GDT_Int16)</div>
-<div class="ttc" id="a00124_html"><div class="ttname"><a href="../../da/d72/a00124.html">pygeoc.hydro.postTauDEM.SubbasinUtil</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d13/a00205_source.html#l00163">postTauDEM.py:163</a></div></div>
-<div class="ttc" id="a00032_html_a310f48b49d71b12549aee5c4f8f8a859"><div class="ttname"><a href="../../dc/d87/a00032.html#a310f48b49d71b12549aee5c4f8f8a859">pygeoc.hydro.postTauDEM.DinfUtil.checkorthogonal</a></div><div class="ttdeci">def checkorthogonal</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d13/a00205_source.html#l00054">postTauDEM.py:54</a></div></div>
-<div class="ttc" id="a00027_html"><div class="ttname"><a href="../../d0/d33/a00027.html">pygeoc.hydro.postTauDEM.D8Util</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d13/a00205_source.html#l00021">postTauDEM.py:21</a></div></div>
-<div class="ttc" id="a00032_html_ae56562a9a5799c4b17d1aa162e48352f"><div class="ttname"><a href="../../dc/d87/a00032.html#ae56562a9a5799c4b17d1aa162e48352f">pygeoc.hydro.postTauDEM.DinfUtil.compressdinf</a></div><div class="ttdeci">def compressdinf</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d13/a00205_source.html#l00074">postTauDEM.py:74</a></div></div>
-<div class="ttc" id="a00032_html"><div class="ttname"><a href="../../dc/d87/a00032.html">pygeoc.hydro.postTauDEM.DinfUtil</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d13/a00205_source.html#l00047">postTauDEM.py:47</a></div></div>
-<div class="ttc" id="a00027_html_af44b13957af0d0fe3c066451e94efc31"><div class="ttname"><a href="../../d0/d33/a00027.html#af44b13957af0d0fe3c066451e94efc31">pygeoc.hydro.postTauDEM.D8Util.converttoarcgiscode</a></div><div class="ttdeci">def converttoarcgiscode</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d13/a00205_source.html#l00028">postTauDEM.py:28</a></div></div>
-<div class="ttc" id="a00122_html_a2ca77e500f3d97edbfaabdeb11154c88"><div class="ttname"><a href="../../df/dc8/a00122.html#a2ca77e500f3d97edbfaabdeb11154c88">pygeoc.hydro.postTauDEM.StreamnetUtil.assignstreamidraster</a></div><div class="ttdeci">def assignstreamidraster</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d13/a00205_source.html#l00241">postTauDEM.py:241</a></div></div>
-<div class="ttc" id="a00027_html_af66ee81586d67e4835526ec32b021396"><div class="ttname"><a href="../../d0/d33/a00027.html#af66ee81586d67e4835526ec32b021396">pygeoc.hydro.postTauDEM.D8Util.downstream_index</a></div><div class="ttdeci">def downstream_index</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d13/a00205_source.html#l00041">postTauDEM.py:41</a></div></div>
-<div class="ttc" id="a00032_html_a4968a4a60ae072acc33f5f9549c20b71"><div class="ttname"><a href="../../dc/d87/a00032.html#a4968a4a60ae072acc33f5f9549c20b71">pygeoc.hydro.postTauDEM.DinfUtil.downstream_index_dinf</a></div><div class="ttdeci">def downstream_index_dinf</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d13/a00205_source.html#l00153">postTauDEM.py:153</a></div></div>
-<div class="ttc" id="a00122_html_ab16ee7672c351371cd1cef955bd3f05b"><div class="ttname"><a href="../../df/dc8/a00122.html#ab16ee7672c351371cd1cef955bd3f05b">pygeoc.hydro.postTauDEM.StreamnetUtil.serializestreamnet</a></div><div class="ttdeci">def serializestreamnet</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d13/a00205_source.html#l00177">postTauDEM.py:177</a></div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># Example 1: basic raster operations</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># Related modules: pygeoc.raster</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># Created by Liang-Jun Zhu</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># Date: 2016.11</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> os</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d9/d19/a00560.html">pygeoc.raster</a> <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: PyGeoC is not successfully installed, please check and retry!&quot;</span>)</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    inputdem = <span class="stringliteral">&quot;.%sdata%sJamaica_dem.tif&quot;</span> % (os.sep, os.sep)</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    demr = ReadRaster(inputdem)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment"># metadata information</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;rows: %d, cols: %d&quot;</span> % (demr.nRows, demr.nCols))</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;LLCornerX: %f, LLCornerY: %f&quot;</span> % (demr.xMin, demr.yMin))</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;cell size: %f&quot;</span> % demr.dx)</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Coornate system (if stated): %s&quot;</span> % demr.srs)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="comment"># basic statistics, nodata is excluded</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;mean: %f, max: %f, min: %f&quot;</span> % (demr.GetAverage(), demr.GetMax(), demr.GetMin()))</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;std: %f, sum: %f&quot;</span> % (demr.GetSTD(), demr.GetSum()))</div>
+<div class="ttc" id="a00560_html"><div class="ttname"><a href="../../d9/d19/a00560.html">pygeoc.raster</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/db8/a00158_source.html#l00001">__init__.py:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_996a37d77ab9a897409bb2bccdd441d0.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_20b8404e74335e1811349ef7dc8474cb.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_72e6fdb3b4eddbef8424c462c18ed9d7.html">hydro</a></li><li class="navelem"><b>postTauDEM.py</b></li>
-    <li class="footer">Generated on Mon Mar 20 2017 14:12:56 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_d8b73b43b5bed3f628cfe27c845cae28.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_9b03254056ec560765c67c293e8c12b7.html">examples</a></li><li class="navelem"><b>basic_raster_operations.py</b></li>
+    <li class="footer">Generated on Mon Mar 20 2017 14:35:27 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

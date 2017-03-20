@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/postprocess/run_models_dingguang.py Source File</title>
+<title>SEIMS: seims/postprocess/read_subbasins_output.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,59 +112,79 @@ $(document).ready(function(){initNavTree('d1/d0d/a00171_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">run_models_dingguang.py</div>  </div>
+<div class="title">read_subbasins_output.py</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">def </span>SumByFile(filename, year):</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    f = open(filename)</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    lines = f.readlines()</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    f.close()</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    s = 0</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordflow">for</span> line <span class="keywordflow">in</span> lines:</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        items = line.split()</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keywordflow">if</span> len(items) &lt; 3:</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordflow">if</span> items[0][:4] == str(year):</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            s += float(items[-1])</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">return</span> s</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;dirlist = []</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;baseFolder = <span class="stringliteral">r&quot;C:\z_code\Hydro\SEIMS\model_data\dingguang\model_dingguang_30m_longterm&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;baseSceneID = <span class="stringliteral">&quot;0&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;ScenarioIDs = [<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;3&quot;</span>, <span class="stringliteral">&quot;4&quot;</span>]</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;ScenarioNames = [<span class="stringliteral">&quot;DemoExtend_ALL&quot;</span>, <span class="stringliteral">&quot;DemoExtend_PLANT&quot;</span>, <span class="stringliteral">&quot;DemoExtend_ANIMAL&quot;</span>, <span class="stringliteral">&quot;DemoExtend_SEWAGE&quot;</span>]</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;year = 2014</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;subbasinID = 0</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"># statistics base scenario outputs</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;baseParDict = {<span class="stringliteral">&#39;COD&#39;</span>: 0., <span class="stringliteral">&#39;TN&#39;</span>: 0., <span class="stringliteral">&#39;TP&#39;</span>: 0.}</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordflow">for</span> par <span class="keywordflow">in</span> baseParDict.keys():</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    filename = <span class="stringliteral">r&#39;%s\OUTPUT%s\%d_CH_%s.txt&#39;</span> % (baseFolder, baseSceneID, subbasinID, par)</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    baseParDict[par] = round(SumByFile(filename, year) / 1000., 2)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&quot;base Scene, &quot;</span>, baseParDict</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordflow">for</span> idx, sceneID <span class="keywordflow">in</span> enumerate(ScenarioIDs):</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    parDict = {<span class="stringliteral">&#39;COD&#39;</span>: 0., <span class="stringliteral">&#39;TN&#39;</span>: 0., <span class="stringliteral">&#39;TP&#39;</span>: 0.}</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    reduceDict = {<span class="stringliteral">&#39;COD&#39;</span>: 0., <span class="stringliteral">&#39;TN&#39;</span>: 0., <span class="stringliteral">&#39;TP&#39;</span>: 0.}</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    reduceRateDict = {<span class="stringliteral">&#39;COD&#39;</span>: 0., <span class="stringliteral">&#39;TN&#39;</span>: 0., <span class="stringliteral">&#39;TP&#39;</span>: 0.}</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">for</span> par <span class="keywordflow">in</span> parDict.keys():</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        filename = <span class="stringliteral">r&#39;%s\OUTPUT%s\%d_CH_%s.txt&#39;</span> % (baseFolder, sceneID, subbasinID, par)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        parDict[par] = round(SumByFile(filename, year) / 1000., 2)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        reduceDict[par] = round(baseParDict[par] - parDict[par], 2)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        reduceRateDict[par] = round(reduceDict[par] / baseParDict[par], 2)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">print</span> ScenarioNames[idx], parDict</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&quot;    reduce, &quot;</span>, reduceDict</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&quot;    reduceRate, &quot;</span>, reduceRateDict</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">import</span> os</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">def </span>read_subbasins_output(files, years):</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    outputs = {}</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keywordflow">for</span> vname, fnames <span class="keywordflow">in</span> files.items():</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <span class="keywordflow">if</span> vname <span class="keywordflow">not</span> <span class="keywordflow">in</span> outputs.keys():</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;            outputs[vname] = {}</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keywordflow">for</span> fname <span class="keywordflow">in</span> fnames:</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;            f = open(fname)</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            lines = f.readlines()</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;            f.close()</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            cursubbasinID = -1</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            <span class="keywordflow">for</span> line <span class="keywordflow">in</span> lines:</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                items = line.split()</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                <span class="comment"># print (items)</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                <span class="keywordflow">if</span> len(items) == 2 <span class="keywordflow">and</span> items[0] == <span class="stringliteral">&#39;Subbasin:&#39;</span>:  <span class="comment"># indicate a new subbasin</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                    cursubbasinID = int(items[1])</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                    <span class="comment"># print (cursubbasinID)</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                    <span class="keywordflow">if</span> cursubbasinID <span class="keywordflow">not</span> <span class="keywordflow">in</span> outputs[vname].keys():</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                        outputs.get(vname)[cursubbasinID] = {}</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                    <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                <span class="keywordflow">if</span> len(items) &lt; 3:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                    <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="keywordflow">if</span> cursubbasinID &lt; 0:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                    <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <span class="keywordflow">for</span> year <span class="keywordflow">in</span> years:</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                    <span class="keywordflow">if</span> items[0][:4] == str(year):</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                        <span class="keywordflow">if</span> year <span class="keywordflow">not</span> <span class="keywordflow">in</span> outputs.get(vname)[cursubbasinID].keys():</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                            outputs.get(vname)[cursubbasinID][year] = 0.</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                        outputs.get(vname)[cursubbasinID][year] += float(items[-1])</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">return</span> outputs</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    modeloutputdir = <span class="stringliteral">r&#39;C:\z_code\Hydro\SEIMS\model_data\dingguang\model_dingguang_30m_longterm\OUTPUT0&#39;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    inputfiles = {<span class="stringliteral">&#39;TNout&#39;</span>: [<span class="stringliteral">&#39;0_CH_TN&#39;</span>], <span class="stringliteral">&#39;TPout&#39;</span>: [<span class="stringliteral">&#39;0_CH_TP&#39;</span>], <span class="stringliteral">&#39;CODout&#39;</span>: [<span class="stringliteral">&#39;0_CH_COD&#39;</span>],</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                  <span class="stringliteral">&#39;TNin&#39;</span> : [<span class="stringliteral">&#39;0_SUR_NH4_TOCH&#39;</span>, <span class="stringliteral">&#39;0_SUR_NO3_TOCH&#39;</span>, <span class="stringliteral">&#39;0_SEDORGNTOCH&#39;</span>, <span class="stringliteral">&#39;0_NO3GWTOCH&#39;</span>,</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                            <span class="stringliteral">&#39;0_LATNO3TOCH&#39;</span>, <span class="stringliteral">&#39;0_ptTNToCh&#39;</span>],</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                  <span class="stringliteral">&#39;TPin&#39;</span> : [<span class="stringliteral">&#39;0_SUR_SOLP_TOCH&#39;</span>, <span class="stringliteral">&#39;0_SEDMINPATOCH&#39;</span>, <span class="stringliteral">&#39;0_SEDMINPSTOCH&#39;</span>, <span class="stringliteral">&#39;0_SEDORGPTOCH&#39;</span>,</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                            <span class="stringliteral">&#39;0_MINPGWTOCH&#39;</span>, <span class="stringliteral">&#39;0_ptTPToCh&#39;</span>],</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                  <span class="stringliteral">&#39;CODin&#39;</span>: [<span class="stringliteral">&#39;0_SUR_COD_TOCH&#39;</span>, <span class="stringliteral">&#39;0_ptCODTOCH&#39;</span>]}</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    years = [2014]</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    strs = <span class="stringliteral">&quot;subbasin\\variable-year &quot;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">for</span> vname <span class="keywordflow">in</span> inputfiles.keys():</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">for</span> year <span class="keywordflow">in</span> years:</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            strs += <span class="stringliteral">&quot; %s-%d&quot;</span> % (vname, year)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">for</span> i, fname <span class="keywordflow">in</span> enumerate(inputfiles.get(vname)):</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            inputfiles.get(vname)[i] = modeloutputdir + os.sep + fname + <span class="stringliteral">&quot;.txt&quot;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    outputs = read_subbasins_output(inputfiles, years)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">print</span> (strs)  <span class="comment"># header line</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    printdict = {}</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">for</span> vname, vdict <span class="keywordflow">in</span> outputs.items():</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">for</span> subid, subdict <span class="keywordflow">in</span> vdict.items():</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordflow">if</span> subid <span class="keywordflow">not</span> <span class="keywordflow">in</span> printdict.keys():</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                printdict[subid] = <span class="stringliteral">&quot;%d&quot;</span> % subid</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">for</span> year <span class="keywordflow">in</span> years:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                printdict[subid] += <span class="stringliteral">&quot; %f&quot;</span> % subdict.get(year)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">for</span> subid, subvalues <span class="keywordflow">in</span> printdict.items():</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&quot;%s&quot;</span> % (subvalues))</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_236412b5be74f3bb1c56b1b13d93de41.html">postprocess</a></li><li class="navelem"><b>run_models_dingguang.py</b></li>
-    <li class="footer">Generated on Mon Mar 20 2017 14:12:56 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_61da0db7be14312bde940296c0e3c020.html">postprocess</a></li><li class="navelem"><b>read_subbasins_output.py</b></li>
+    <li class="footer">Generated on Mon Mar 20 2017 14:35:27 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

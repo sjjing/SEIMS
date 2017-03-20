@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology/PERCO_DARCY/Percolation.h File Reference</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology/IKW_IF/InterFlow_IKW.h File Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -114,41 +114,46 @@ $(document).ready(function(){initNavTree('d9/d69/a00451.html','../../');});
   <div class="summary">
 <a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
-<div class="title">Percolation.h File Reference</div>  </div>
+<div class="title">InterFlow_IKW.h File Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
+
+<p>Interflow routing using implicit finite difference method kinematic wave method in LISEM model.  
+<a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;string&gt;</code><br/>
-<code>#include &lt;vector&gt;</code><br/>
-<code>#include &lt;sstream&gt;</code><br/>
+<code>#include &lt;ctime&gt;</code><br/>
+<code>#include &lt;cmath&gt;</code><br/>
+<code>#include &lt;map&gt;</code><br/>
 <code>#include &quot;SimulationModule.h&quot;</code><br/>
 </div><div class="textblock"><div class="dynheader">
-Include dependency graph for Percolation.h:</div>
+Include dependency graph for InterFlow_IKW.h:</div>
 <div class="dyncontent">
-<div class="center"><img src="../../df/d96/a00714.png" border="0" usemap="#seims_2src_2seims__main_2modules_2hydrology_2_p_e_r_c_o___d_a_r_c_y_2_percolation_8h" alt=""/></div>
-<map name="seims_2src_2seims__main_2modules_2hydrology_2_p_e_r_c_o___d_a_r_c_y_2_percolation_8h" id="seims_2src_2seims__main_2modules_2hydrology_2_p_e_r_c_o___d_a_r_c_y_2_percolation_8h">
-<area shape="rect" id="node5" href="../../d8/df7/a00331_source.html" title="SimulationModule.h" alt="" coords="1959,117,2123,147"/><area shape="rect" id="node6" href="../../d6/db6/a00241_source.html" title="ModelException.h" alt="" coords="1857,581,2007,611"/><area shape="rect" id="node8" href="../../db/dc3/a00284_source.html" title="Scenario.h" alt="" coords="1437,195,1536,224"/><area shape="rect" id="node41" href="../../d8/d0a/a00292.html" title="Class to store reach related parameters from REACHES table. " alt="" coords="2163,349,2265,379"/><area shape="rect" id="node44" href="../../db/d7b/a00296_source.html" title="clsSubbasin.h" alt="" coords="1780,272,1903,301"/><area shape="rect" id="node13" href="../../d2/dc8/a00242_source.html" title="utilities.h" alt="" coords="1240,504,1325,533"/><area shape="rect" id="node32" href="../../d4/d08/a00237_source.html" title="MongoUtil.h" alt="" coords="1730,427,1837,456"/><area shape="rect" id="node35" href="../../d0/dcd/a00280.html" title="BMP related const strings &#160;Liang&#45;Jun Zhu. " alt="" coords="535,504,636,533"/><area shape="rect" id="node36" href="../../d3/d5e/a00275_source.html" title="BMPFactory.h" alt="" coords="1127,349,1249,379"/><area shape="rect" id="node37" href="../../d6/d4b/a00277.html" title="Plant management operations factory. " alt="" coords="692,272,879,301"/><area shape="rect" id="node39" href="../../d2/d82/a00279_source.html" title="BMPPointSourceFactory.h" alt="" coords="953,272,1163,301"/><area shape="rect" id="node40" href="../../d0/d19/a00273_source.html" title="BMPArealSourceFactory.h" alt="" coords="1238,272,1449,301"/><area shape="rect" id="node14" href="../../d6/d08/a00244_source.html" title="utils.h" alt="" coords="1039,581,1103,611"/><area shape="rect" id="node38" href="../../dc/dc9/a00282_source.html" title="PlantManagementOperation.h" alt="" coords="761,427,995,456"/><area shape="rect" id="node42" href="../../d4/db5/a00328.html" title="Define some const variables used by MetadataInfo class. " alt="" coords="2610,581,2779,611"/><area shape="rect" id="node43" href="../../dc/d50/a00332_source.html" title="text.h" alt="" coords="2117,427,2176,456"/><area shape="rect" id="node45" href="../../da/d2e/a00238_source.html" title="clsRasterData.cpp" alt="" coords="2290,349,2443,379"/><area shape="rect" id="node46" href="../../d0/d27/a00239_source.html" title="clsRasterData.h" alt="" coords="2257,427,2392,456"/></map>
+<div class="center"><img src="../../d3/d82/a00717.png" border="0" usemap="#seims_2src_2seims__main_2modules_2hydrology_2_i_k_w___i_f_2_inter_flow___i_k_w_8h" alt=""/></div>
+<map name="seims_2src_2seims__main_2modules_2hydrology_2_i_k_w___i_f_2_inter_flow___i_k_w_8h" id="seims_2src_2seims__main_2modules_2hydrology_2_i_k_w___i_f_2_inter_flow___i_k_w_8h">
+<area shape="rect" id="node6" href="../../df/d91/a00335_source.html" title="SimulationModule.h" alt="" coords="1915,117,2079,147"/><area shape="rect" id="node7" href="../../d6/d22/a00245_source.html" title="ModelException.h" alt="" coords="990,581,1140,611"/><area shape="rect" id="node9" href="../../da/ddc/a00288_source.html" title="Scenario.h" alt="" coords="1344,195,1443,224"/><area shape="rect" id="node41" href="../../db/d7b/a00296.html" title="Class to store reach related parameters from REACHES table. " alt="" coords="2061,349,2163,379"/><area shape="rect" id="node44" href="../../db/da2/a00300_source.html" title="clsSubbasin.h" alt="" coords="1936,272,2059,301"/><area shape="rect" id="node14" href="../../d4/d9a/a00246_source.html" title="utilities.h" alt="" coords="879,504,964,533"/><area shape="rect" id="node32" href="../../d6/db6/a00241_source.html" title="MongoUtil.h" alt="" coords="1775,427,1883,456"/><area shape="rect" id="node35" href="../../db/dc3/a00284.html" title="BMP related const strings &#160;Liang&#45;Jun Zhu. " alt="" coords="988,504,1089,533"/><area shape="rect" id="node36" href="../../d2/d82/a00279_source.html" title="BMPFactory.h" alt="" coords="935,349,1057,379"/><area shape="rect" id="node37" href="../../d2/d04/a00281.html" title="Plant management operations factory. " alt="" coords="547,272,733,301"/><area shape="rect" id="node39" href="../../dd/dfe/a00283_source.html" title="BMPPointSourceFactory.h" alt="" coords="757,272,967,301"/><area shape="rect" id="node40" href="../../d6/d4b/a00277_source.html" title="BMPArealSourceFactory.h" alt="" coords="1145,272,1356,301"/><area shape="rect" id="node15" href="../../dd/dd7/a00248_source.html" title="utils.h" alt="" coords="901,581,965,611"/><area shape="rect" id="node38" href="../../d5/d7b/a00286_source.html" title="PlantManagementOperation.h" alt="" coords="1060,427,1293,456"/><area shape="rect" id="node42" href="../../dc/d50/a00332.html" title="Define some const variables used by MetadataInfo class. " alt="" coords="2283,581,2452,611"/><area shape="rect" id="node43" href="../../dd/d1d/a00336_source.html" title="text.h" alt="" coords="2010,427,2069,456"/><area shape="rect" id="node45" href="../../d2/dc8/a00242_source.html" title="clsRasterData.cpp" alt="" coords="2247,349,2400,379"/><area shape="rect" id="node46" href="../../d6/d82/a00243_source.html" title="clsRasterData.h" alt="" coords="2252,427,2387,456"/></map>
 </div>
 </div>
 <p><a href="../../d9/d69/a00451_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d1e/a00087.html">Percolation_DARCY</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate percolation using Darcy law.  <a href="../../d1/d1e/a00087.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d2d/a00047.html">InterFlow_IKW</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Interflow routing using implicit finite difference method.  <a href="../../d6/d2d/a00047.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><dl class="section author"><dt>Author</dt><dd>Junzhi Liu </dd></dl>
-<dl class="section date"><dt>Date</dt><dd>May 2013 </dd></dl>
+<div class="textblock"><p>Interflow routing using implicit finite difference method kinematic wave method in LISEM model. </p>
+<dl class="section author"><dt>Author</dt><dd>Junzhi Liu </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>Feb. 2011 </dd></dl>
 
-<p>Definition in file <a class="el" href="../../d9/d69/a00451_source.html">Percolation.h</a>.</p>
+<p>Definition in file <a class="el" href="../../d9/d69/a00451_source.html">InterFlow_IKW.h</a>.</p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_99bdb527073c7386edccfc4b4e89b92c.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_1af1d716c68796bb1303495dd0a105d3.html">PERCO_DARCY</a></li><li class="navelem"><a class="el" href="../../d9/d69/a00451.html">Percolation.h</a></li>
-    <li class="footer">Generated on Mon Mar 20 2017 14:12:57 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_b025a90df650157315ed0b6f97f5b0af.html">IKW_IF</a></li><li class="navelem"><a class="el" href="../../d9/d69/a00451.html">InterFlow_IKW.h</a></li>
+    <li class="footer">Generated on Mon Mar 20 2017 14:35:29 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

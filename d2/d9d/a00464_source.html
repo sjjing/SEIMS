@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/GWA_RE/ReservoirMethod.h Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology/SUR_SGA/test.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,152 +112,122 @@ $(document).ready(function(){initNavTree('d2/d9d/a00464_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">ReservoirMethod.h</div>  </div>
+<div class="title">test.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="../../d2/d9d/a00464.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#ifndef SEIMS_GWA_RESERVOIR_METHOD_INCLUED</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEIMS_GWA_RESERVOIR_METHOD_INCLUED</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#include &quot;clsSubbasin.h&quot;</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d3/d5d/a00463.html">StormGreenAmpt.h</a>&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;ctime&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define N 1</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordtype">void</span> InitValue(<span class="keywordtype">float</span> *a, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> value) {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i) {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        a[i] = value;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    }</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">int</span> main() {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">int</span> threadCount = 10;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="../../d8/dfa/a00121.html">StormGreenAmpt</a> ga;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    ga.<a class="code" href="../../d1/dd6/a00108.html#a8526abbeed3f49071f39e0c17559e522">SetDate</a>(100);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a1f74ecd97f49df43e5e656e2a66814d5">SetValue</a>(<span class="stringliteral">&quot;TimeStep&quot;</span>, 1.0f);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a1f74ecd97f49df43e5e656e2a66814d5">SetValue</a>(<span class="stringliteral">&quot;T_snow&quot;</span>, 0.0f);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a1f74ecd97f49df43e5e656e2a66814d5">SetValue</a>(<span class="stringliteral">&quot;t_soil&quot;</span>, 0.0f);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a1f74ecd97f49df43e5e656e2a66814d5">SetValue</a>(<span class="stringliteral">&quot;T0&quot;</span>, 1.0f);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">float</span> *ks = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];<span class="comment">//mm/h</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    InitValue(ks, N, 13.2f);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;Conductivity&quot;</span>, N, ks);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">float</span> *clay = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    InitValue(clay, N, 0.10f);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;Clay&quot;</span>, N, clay);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">float</span> *sand = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    InitValue(sand, N, 0.70f);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;Sand&quot;</span>, N, sand);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">float</span> *porosity = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    InitValue(porosity, N, 0.437f);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;porosity&quot;</span>, N, porosity);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">float</span> *wp = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    InitValue(wp, N, 10.0f);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;Wiltingpoint&quot;</span>, N, wp);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">float</span> *initMst = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    InitValue(initMst, N, 0.1f);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;InitialSoilMoisture&quot;</span>, N, initMst);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html">   63</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/dcc/a00102.html">ReservoirMethod</a> : <span class="keyword">public</span> <a class="code" href="../../d1/dd6/a00108.html">SimulationModule</a> {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <a class="code" href="../../d9/dcc/a00102.html">ReservoirMethod</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    ~<a class="code" href="../../d9/dcc/a00102.html">ReservoirMethod</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> value);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nrows, <span class="keywordtype">int</span> ncols, <span class="keywordtype">float</span> **data);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetSubbasins(<a class="code" href="../../de/d11/a00021.html">clsSubbasins</a> *);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *nRows, <span class="keywordtype">float</span> **data);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *nRows, <span class="keywordtype">int</span> *nCols, <span class="keywordtype">float</span> ***data);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="comment">//virtual TimeStepType GetTimeStepType()</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">//{</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="comment">//  return TIMESTEP_CHANNEL;</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="comment">//};</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span> n);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="comment">/*</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="comment">     * \brief initial outputs as default values</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">void</span> initialOutputs();</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">//inputs</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a98ec57ecc2e1e2da55722fda7fe57f68">  115</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d9/dcc/a00102.html#a98ec57ecc2e1e2da55722fda7fe57f68">m_TimeStep</a>;</div>
-<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#aa83af229513cc0581609b5ab3e2421f3">  117</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d9/dcc/a00102.html#aa83af229513cc0581609b5ab3e2421f3">m_nCells</a>;</div>
-<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a961d8802de37f9412bf6454725f95b89">  119</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d9/dcc/a00102.html#a961d8802de37f9412bf6454725f95b89">m_CellWidth</a>;</div>
-<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a92543863f5d585c44fd72b4d40620c25">  121</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d9/dcc/a00102.html#a92543863f5d585c44fd72b4d40620c25">m_nSoilLayers</a>;</div>
-<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a0ed9315d456e9ee4c463b2385c5ad047">  123</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d9/dcc/a00102.html#a0ed9315d456e9ee4c463b2385c5ad047">m_soilLayers</a>;</div>
-<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a77fc75cb970e5d2278a6a17d72cee445">  125</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d9/dcc/a00102.html#a77fc75cb970e5d2278a6a17d72cee445">m_soilThick</a>;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="comment">//float m_upSoilDepth;</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#ac7f7721f70b05466ae2c501e58eed598">  130</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d9/dcc/a00102.html#ac7f7721f70b05466ae2c501e58eed598">m_dp_co</a>;</div>
-<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a41b6cfc16190964b8270f3e3ae66e0bd">  132</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d9/dcc/a00102.html#a41b6cfc16190964b8270f3e3ae66e0bd">m_Kg</a>;</div>
-<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a8306ed95e7505ccb2d7908ee93238a36">  134</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d9/dcc/a00102.html#a8306ed95e7505ccb2d7908ee93238a36">m_Base_ex</a>;</div>
-<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a1a1874fe716515842b80dfb7b69f2ebb">  136</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d9/dcc/a00102.html#a1a1874fe716515842b80dfb7b69f2ebb">m_perc</a>;</div>
-<div class="line"><a name="l00138"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a20a0a91604172206e1b9763182a8e923">  138</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d9/dcc/a00102.html#a20a0a91604172206e1b9763182a8e923">m_D_EI</a>;</div>
-<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a3efc0eb8420f7ebdbfd88c231627cd3e">  140</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d9/dcc/a00102.html#a3efc0eb8420f7ebdbfd88c231627cd3e">m_D_ED</a>;</div>
-<div class="line"><a name="l00142"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a81f7f8ea0e6254bc7098e4e7f75f031f">  142</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d9/dcc/a00102.html#a81f7f8ea0e6254bc7098e4e7f75f031f">m_D_ES</a>;</div>
-<div class="line"><a name="l00144"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#ae190a51ab89ae8937c7fcc7686701a31">  144</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d9/dcc/a00102.html#ae190a51ab89ae8937c7fcc7686701a31">m_plantEP</a>;</div>
-<div class="line"><a name="l00146"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a7f81ffd996f2733af7a2c0bf43971bdf">  146</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d9/dcc/a00102.html#a7f81ffd996f2733af7a2c0bf43971bdf">m_D_PET</a>;</div>
-<div class="line"><a name="l00148"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#aaf6217afdea218d53fd4665aa9c77c85">  148</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d9/dcc/a00102.html#aaf6217afdea218d53fd4665aa9c77c85">m_GW0</a>;</div>
-<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a7edda44ccdda0029bb4af931dd81e236">  150</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d9/dcc/a00102.html#a7edda44ccdda0029bb4af931dd81e236">m_GWMAX</a>;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordtype">float</span> *m_petSubbasin;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordtype">float</span> *m_gwStore;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
-<div class="line"><a name="l00157"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a41ab7cc58cdac85b1390df9aeac351e7">  157</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d9/dcc/a00102.html#a41ab7cc58cdac85b1390df9aeac351e7">m_Slope</a>;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
-<div class="line"><a name="l00160"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#af09b486e380e514c863e61baf926c150">  160</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d9/dcc/a00102.html#af09b486e380e514c863e61baf926c150">m_soilStorage</a>;</div>
-<div class="line"><a name="l00162"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a08e9b063919c4813a1dea5be6845bfa1">  162</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d9/dcc/a00102.html#a08e9b063919c4813a1dea5be6845bfa1">m_soilDepth</a>;</div>
-<div class="line"><a name="l00164"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a39678c6ba419775115e8c0e0daec216d">  164</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d9/dcc/a00102.html#a39678c6ba419775115e8c0e0daec216d">m_VgroundwaterFromBankStorage</a>;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="comment">//output</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> *m_T_Perco;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordtype">float</span> *m_T_PerDep;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordtype">float</span> *m_T_RG;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordtype">float</span> *m_T_QG;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keywordtype">float</span> *m_D_Revap;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordtype">float</span> *m_T_Revap;</div>
-<div class="line"><a name="l00180"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#ac633ba72522a4b254edf06de722c9c06">  180</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d9/dcc/a00102.html#ac633ba72522a4b254edf06de722c9c06">m_T_GWWB</a>;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="comment">//   float *m_subbasin;</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a6f9bc9c54cda245d599ed806d1f8b515">  185</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">int</span> <a class="code" href="../../d9/dcc/a00102.html#a6f9bc9c54cda245d599ed806d1f8b515">m_nSubbasins</a>;</div>
-<div class="line"><a name="l00187"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a82fc33fa981c6afe39962b4b1e623b74">  187</a></span>&#160;    vector&lt;int&gt; <a class="code" href="../../d9/dcc/a00102.html#a82fc33fa981c6afe39962b4b1e623b74">m_subbasinIDs</a>;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="comment">//   int m_subbasinSelectedCount;</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="comment"></span>    <span class="comment">//   float *m_subbasinSelected;</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keywordtype">bool</span> m_firstRun;</div>
-<div class="line"><a name="l00194"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a33a08970bb99c06577cbce19e53ca367">  194</a></span>&#160;    <a class="code" href="../../de/d11/a00021.html">clsSubbasins</a> *<a class="code" href="../../d9/dcc/a00102.html#a33a08970bb99c06577cbce19e53ca367">m_subbasinsInfo</a>;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="comment">// vector&lt;Subbasin *&gt; m_subbasinList;</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="comment">/*</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="comment">     * \brief Set groundwater related subbasin parameters</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="comment">     * \sa Subbasin</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="comment">     * \sa clsSubbasins</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keywordtype">void</span> setSubbasinInfos();</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;};</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="preprocessor"></span></div>
-<div class="ttc" id="a00102_html_aa83af229513cc0581609b5ab3e2421f3"><div class="ttname"><a href="../../d9/dcc/a00102.html#aa83af229513cc0581609b5ab3e2421f3">ReservoirMethod::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">Valid cells number. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00117">ReservoirMethod.h:117</a></div></div>
-<div class="ttc" id="a00102_html_a1a1874fe716515842b80dfb7b69f2ebb"><div class="ttname"><a href="../../d9/dcc/a00102.html#a1a1874fe716515842b80dfb7b69f2ebb">ReservoirMethod::m_perc</a></div><div class="ttdeci">float ** m_perc</div><div class="ttdoc">the amount of water percolated from the soil water reservoir and input to the groundwater reservoir f...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00136">ReservoirMethod.h:136</a></div></div>
-<div class="ttc" id="a00102_html_a98ec57ecc2e1e2da55722fda7fe57f68"><div class="ttname"><a href="../../d9/dcc/a00102.html#a98ec57ecc2e1e2da55722fda7fe57f68">ReservoirMethod::m_TimeStep</a></div><div class="ttdeci">int m_TimeStep</div><div class="ttdoc">time step, second </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00115">ReservoirMethod.h:115</a></div></div>
-<div class="ttc" id="a00102_html_a77fc75cb970e5d2278a6a17d72cee445"><div class="ttname"><a href="../../d9/dcc/a00102.html#a77fc75cb970e5d2278a6a17d72cee445">ReservoirMethod::m_soilThick</a></div><div class="ttdeci">float ** m_soilThick</div><div class="ttdoc">soil thickness of each layer </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00125">ReservoirMethod.h:125</a></div></div>
-<div class="ttc" id="a00102_html_a41ab7cc58cdac85b1390df9aeac351e7"><div class="ttname"><a href="../../d9/dcc/a00102.html#a41ab7cc58cdac85b1390df9aeac351e7">ReservoirMethod::m_Slope</a></div><div class="ttdeci">float * m_Slope</div><div class="ttdoc">slope (percent, or drop/distance, or tan) of each cell </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00157">ReservoirMethod.h:157</a></div></div>
-<div class="ttc" id="a00102_html_a33a08970bb99c06577cbce19e53ca367"><div class="ttname"><a href="../../d9/dcc/a00102.html#a33a08970bb99c06577cbce19e53ca367">ReservoirMethod::m_subbasinsInfo</a></div><div class="ttdeci">clsSubbasins * m_subbasinsInfo</div><div class="ttdoc">All subbasins information,. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00194">ReservoirMethod.h:194</a></div></div>
-<div class="ttc" id="a00021_html"><div class="ttname"><a href="../../de/d11/a00021.html">clsSubbasins</a></div><div class="ttdoc">Manager all Subbasin related parameters and methods. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/d7b/a00296_source.html#l00236">clsSubbasin.h:236</a></div></div>
-<div class="ttc" id="a00102_html_a41b6cfc16190964b8270f3e3ae66e0bd"><div class="ttname"><a href="../../d9/dcc/a00102.html#a41b6cfc16190964b8270f3e3ae66e0bd">ReservoirMethod::m_Kg</a></div><div class="ttdeci">float m_Kg</div><div class="ttdoc">baseflow recession coefficient </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00132">ReservoirMethod.h:132</a></div></div>
-<div class="ttc" id="a00102_html_a39678c6ba419775115e8c0e0daec216d"><div class="ttname"><a href="../../d9/dcc/a00102.html#a39678c6ba419775115e8c0e0daec216d">ReservoirMethod::m_VgroundwaterFromBankStorage</a></div><div class="ttdeci">float * m_VgroundwaterFromBankStorage</div><div class="ttdoc">ground water from bank storage, passed from channel routing module </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00164">ReservoirMethod.h:164</a></div></div>
-<div class="ttc" id="a00102_html_a20a0a91604172206e1b9763182a8e923"><div class="ttname"><a href="../../d9/dcc/a00102.html#a20a0a91604172206e1b9763182a8e923">ReservoirMethod::m_D_EI</a></div><div class="ttdeci">float * m_D_EI</div><div class="ttdoc">evaporation from interception storage (mm) from the interception module </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00138">ReservoirMethod.h:138</a></div></div>
-<div class="ttc" id="a00102_html_a7edda44ccdda0029bb4af931dd81e236"><div class="ttname"><a href="../../d9/dcc/a00102.html#a7edda44ccdda0029bb4af931dd81e236">ReservoirMethod::m_GWMAX</a></div><div class="ttdeci">float m_GWMAX</div><div class="ttdoc">maximum ground water storage </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00150">ReservoirMethod.h:150</a></div></div>
-<div class="ttc" id="a00102_html_a6f9bc9c54cda245d599ed806d1f8b515"><div class="ttname"><a href="../../d9/dcc/a00102.html#a6f9bc9c54cda245d599ed806d1f8b515">ReservoirMethod::m_nSubbasins</a></div><div class="ttdeci">int m_nSubbasins</div><div class="ttdoc">subbasin number </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00185">ReservoirMethod.h:185</a></div></div>
-<div class="ttc" id="a00102_html_a81f7f8ea0e6254bc7098e4e7f75f031f"><div class="ttname"><a href="../../d9/dcc/a00102.html#a81f7f8ea0e6254bc7098e4e7f75f031f">ReservoirMethod::m_D_ES</a></div><div class="ttdeci">float * m_D_ES</div><div class="ttdoc">evaporation from the soil water storage (mm) from the soil ET module </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00142">ReservoirMethod.h:142</a></div></div>
-<div class="ttc" id="a00102_html_a7f81ffd996f2733af7a2c0bf43971bdf"><div class="ttname"><a href="../../d9/dcc/a00102.html#a7f81ffd996f2733af7a2c0bf43971bdf">ReservoirMethod::m_D_PET</a></div><div class="ttdeci">float * m_D_PET</div><div class="ttdoc">PET(mm) from the PET modules. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00146">ReservoirMethod.h:146</a></div></div>
-<div class="ttc" id="a00102_html_a0ed9315d456e9ee4c463b2385c5ad047"><div class="ttname"><a href="../../d9/dcc/a00102.html#a0ed9315d456e9ee4c463b2385c5ad047">ReservoirMethod::m_soilLayers</a></div><div class="ttdeci">float * m_soilLayers</div><div class="ttdoc">soil layers number of each cell </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00123">ReservoirMethod.h:123</a></div></div>
-<div class="ttc" id="a00102_html_a961d8802de37f9412bf6454725f95b89"><div class="ttname"><a href="../../d9/dcc/a00102.html#a961d8802de37f9412bf6454725f95b89">ReservoirMethod::m_CellWidth</a></div><div class="ttdeci">float m_CellWidth</div><div class="ttdoc">cell size of the grid (m) </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00119">ReservoirMethod.h:119</a></div></div>
-<div class="ttc" id="a00102_html_a82fc33fa981c6afe39962b4b1e623b74"><div class="ttname"><a href="../../d9/dcc/a00102.html#a82fc33fa981c6afe39962b4b1e623b74">ReservoirMethod::m_subbasinIDs</a></div><div class="ttdeci">vector&lt; int &gt; m_subbasinIDs</div><div class="ttdoc">subbasin IDs </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00187">ReservoirMethod.h:187</a></div></div>
-<div class="ttc" id="a00102_html_af09b486e380e514c863e61baf926c150"><div class="ttname"><a href="../../d9/dcc/a00102.html#af09b486e380e514c863e61baf926c150">ReservoirMethod::m_soilStorage</a></div><div class="ttdeci">float ** m_soilStorage</div><div class="ttdoc">soil storage </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00160">ReservoirMethod.h:160</a></div></div>
-<div class="ttc" id="a00102_html_a3efc0eb8420f7ebdbfd88c231627cd3e"><div class="ttname"><a href="../../d9/dcc/a00102.html#a3efc0eb8420f7ebdbfd88c231627cd3e">ReservoirMethod::m_D_ED</a></div><div class="ttdeci">float * m_D_ED</div><div class="ttdoc">evaporation from the depression storage (mm) from the depression module </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00140">ReservoirMethod.h:140</a></div></div>
-<div class="ttc" id="a00102_html_ac7f7721f70b05466ae2c501e58eed598"><div class="ttname"><a href="../../d9/dcc/a00102.html#ac7f7721f70b05466ae2c501e58eed598">ReservoirMethod::m_dp_co</a></div><div class="ttdeci">float m_dp_co</div><div class="ttdoc">groundwater Revap coefficient </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00130">ReservoirMethod.h:130</a></div></div>
-<div class="ttc" id="a00108_html"><div class="ttname"><a href="../../d1/dd6/a00108.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df7/a00331_source.html#l00040">SimulationModule.h:40</a></div></div>
-<div class="ttc" id="a00102_html_a92543863f5d585c44fd72b4d40620c25"><div class="ttname"><a href="../../d9/dcc/a00102.html#a92543863f5d585c44fd72b4d40620c25">ReservoirMethod::m_nSoilLayers</a></div><div class="ttdeci">int m_nSoilLayers</div><div class="ttdoc">maximum soil layers number </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00121">ReservoirMethod.h:121</a></div></div>
-<div class="ttc" id="a00102_html_a08e9b063919c4813a1dea5be6845bfa1"><div class="ttname"><a href="../../d9/dcc/a00102.html#a08e9b063919c4813a1dea5be6845bfa1">ReservoirMethod::m_soilDepth</a></div><div class="ttdeci">float ** m_soilDepth</div><div class="ttdoc">soil depth of each layer, the maximum soil depth is used here, i.e., m_soilDepth[i][(int)m_soilLayers...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00162">ReservoirMethod.h:162</a></div></div>
-<div class="ttc" id="a00102_html_aaf6217afdea218d53fd4665aa9c77c85"><div class="ttname"><a href="../../d9/dcc/a00102.html#aaf6217afdea218d53fd4665aa9c77c85">ReservoirMethod::m_GW0</a></div><div class="ttdeci">float m_GW0</div><div class="ttdoc">initial ground water storage (or at time t-1) </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00148">ReservoirMethod.h:148</a></div></div>
-<div class="ttc" id="a00102_html_ae190a51ab89ae8937c7fcc7686701a31"><div class="ttname"><a href="../../d9/dcc/a00102.html#ae190a51ab89ae8937c7fcc7686701a31">ReservoirMethod::m_plantEP</a></div><div class="ttdeci">float * m_plantEP</div><div class="ttdoc">actual amount of transpiration (mm H2O) </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00144">ReservoirMethod.h:144</a></div></div>
-<div class="ttc" id="a00102_html_a8306ed95e7505ccb2d7908ee93238a36"><div class="ttname"><a href="../../d9/dcc/a00102.html#a8306ed95e7505ccb2d7908ee93238a36">ReservoirMethod::m_Base_ex</a></div><div class="ttdeci">float m_Base_ex</div><div class="ttdoc">baseflow recession exponent </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00134">ReservoirMethod.h:134</a></div></div>
-<div class="ttc" id="a00102_html"><div class="ttname"><a href="../../d9/dcc/a00102.html">ReservoirMethod</a></div><div class="ttdoc">Reservoir Method to calculate groundwater balance and baseflow of longterm model. ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00063">ReservoirMethod.h:63</a></div></div>
-<div class="ttc" id="a00102_html_ac633ba72522a4b254edf06de722c9c06"><div class="ttname"><a href="../../d9/dcc/a00102.html#ac633ba72522a4b254edf06de722c9c06">ReservoirMethod::m_T_GWWB</a></div><div class="ttdeci">float ** m_T_GWWB</div><div class="ttdoc">groundwater water balance statistics </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00180">ReservoirMethod.h:180</a></div></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">float</span> *pNet = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    InitValue(pNet, N, 0.6f);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_NEPR&quot;</span>, N, pNet);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">float</span> *tMin = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    InitValue(tMin, N, 10.0f);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_Tmin&quot;</span>, N, tMin);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">float</span> *tMax = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    InitValue(tMax, N, 25.0f);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_Tmax&quot;</span>, N, tMax);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">float</span> *soilMoisture = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    InitValue(soilMoisture, N, 0.1f);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_SOMO&quot;</span>, N, soilMoisture);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">float</span> *sd = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    InitValue(sd, N, 0.0f);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_DPST&quot;</span>, N, sd);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">float</span> *tSoil = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    InitValue(tSoil, N, 20.0f);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_SOTE&quot;</span>, N, tSoil);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">float</span> *sa = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    InitValue(sa, N, 0.0f);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_SNAC&quot;</span>, N, sa);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">float</span> *sm = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    InitValue(sm, N, 0.0f);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    ga.<a class="code" href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_SNME&quot;</span>, N, sm);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    clock_t t1, t2;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    t1 = clock();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="comment">//#pragma omp parallel for</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 200; i++) {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        ga.<a class="code" href="../../d8/dfa/a00121.html#a2b3ec9d687c6d566cb2d5b6e4b61d54d">Execute</a>();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordtype">float</span> *p;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordtype">int</span> n;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        ga.<a class="code" href="../../d8/dfa/a00121.html#ad5335343382ffe9302d721f5a7c574aa">Get1DData</a>(<span class="stringliteral">&quot;Infil&quot;</span>, &amp;n, &amp;p);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="comment">//cout &lt;&lt; p[0] &lt;&lt; &quot;\n&quot;;</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    cout &lt;&lt; endl;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    t2 = clock();</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    cout &lt;&lt; t2 - t1 &lt;&lt; endl;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div>
+<div class="ttc" id="a00121_html_a2b3ec9d687c6d566cb2d5b6e4b61d54d"><div class="ttname"><a href="../../d8/dfa/a00121.html#a2b3ec9d687c6d566cb2d5b6e4b61d54d">StormGreenAmpt::Execute</a></div><div class="ttdeci">virtual int Execute(void)</div><div class="ttdoc">Execute the simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/dcb/a00462_source.html#l00204">StormGreenAmpt.cpp:204</a></div></div>
+<div class="ttc" id="a00121_html"><div class="ttname"><a href="../../d8/dfa/a00121.html">StormGreenAmpt</a></div><div class="ttdoc">Green Ampt Method to calculate infiltration and excess precipitation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/a00463_source.html#l00028">StormGreenAmpt.h:28</a></div></div>
+<div class="ttc" id="a00463_html"><div class="ttname"><a href="../../d3/d5d/a00463.html">StormGreenAmpt.h</a></div><div class="ttdoc">Green Ampt Method to calculate infiltration and excess precipitation. </div></div>
+<div class="ttc" id="a00108_html_a8526abbeed3f49071f39e0c17559e522"><div class="ttname"><a href="../../d1/dd6/a00108.html#a8526abbeed3f49071f39e0c17559e522">SimulationModule::SetDate</a></div><div class="ttdeci">virtual void SetDate(time_t t, int yearIdx)</div><div class="ttdoc">Set date time, as well as the sequence number of the entire simulation. Added by LJ for statistics co...</div><div class="ttdef"><b>Definition:</b> <a href="../../df/d91/a00335_source.html#l00052">SimulationModule.h:52</a></div></div>
+<div class="ttc" id="a00121_html_ad5335343382ffe9302d721f5a7c574aa"><div class="ttname"><a href="../../d8/dfa/a00121.html#ad5335343382ffe9302d721f5a7c574aa">StormGreenAmpt::Get1DData</a></div><div class="ttdeci">virtual void Get1DData(const char *key, int *n, float **data)</div><div class="ttdoc">Get 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/dcb/a00462_source.html#l00068">StormGreenAmpt.cpp:68</a></div></div>
+<div class="ttc" id="a00121_html_a99dae76458ad662444fd4f4a8905dbc6"><div class="ttname"><a href="../../d8/dfa/a00121.html#a99dae76458ad662444fd4f4a8905dbc6">StormGreenAmpt::Set1DData</a></div><div class="ttdeci">virtual void Set1DData(const char *key, int n, float *data)</div><div class="ttdoc">Set 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/dcb/a00462_source.html#l00350">StormGreenAmpt.cpp:350</a></div></div>
+<div class="ttc" id="a00121_html_a1f74ecd97f49df43e5e656e2a66814d5"><div class="ttname"><a href="../../d8/dfa/a00121.html#a1f74ecd97f49df43e5e656e2a66814d5">StormGreenAmpt::SetValue</a></div><div class="ttdeci">virtual void SetValue(const char *key, float value)</div><div class="ttdoc">Set data, DT_Single. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/dcb/a00462_source.html#l00320">StormGreenAmpt.cpp:320</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e815a90a524b22b5b34e29517df36994.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_f51df338177cc9c390e53ab5b557ece3.html">GWA_RE</a></li><li class="navelem"><a class="el" href="../../d2/d9d/a00464.html">ReservoirMethod.h</a></li>
-    <li class="footer">Generated on Mon Mar 20 2017 14:12:57 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_4007bc7af592d6693c5c1bdb2836af59.html">SUR_SGA</a></li><li class="navelem"><b>test.cpp</b></li>
+    <li class="footer">Generated on Mon Mar 20 2017 14:35:28 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
