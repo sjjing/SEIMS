@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/util/seims.h Source File</title>
+<title>SEIMS: seims/src/seims_main/base/module_setting/SettingsOutput.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,28 +112,75 @@ $(document).ready(function(){initNavTree('dd/d4e/a00329_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">seims.h</div>  </div>
+<div class="title">SettingsOutput.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef SEIMS_HEADER</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEIMS_HEADER</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">enum</span> LayeringMethod {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        UP_DOWN,</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        DOWN_UP</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;};</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">enum</span> FlowDirectionMethod {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    TauDEM = 0,</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    ArcGIS = 1</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;};</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#endif</span></div>
+<a href="../../dd/d4e/a00329.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../de/dc8/a00325.html">Settings.h</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;PrintInfo.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;MongoUtil.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;clsRasterData.cpp&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">class </span>SettingsOutput :</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">public</span> <a class="code" href="../../d7/d70/a00106.html">Settings</a> {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    SettingsOutput(<span class="keywordtype">int</span> subBasinID, <span class="keywordtype">string</span> fileName, mongoc_client_t *conn, <span class="keywordtype">string</span> dbName, mongoc_gridfs_t *gfs);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    SettingsOutput(<span class="keywordtype">int</span> subBasinID, mongoc_client_t *conn, <span class="keywordtype">string</span> dbName, mongoc_gridfs_t *gfs);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    ~SettingsOutput(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d7/d70/a00106.html#ac9dd22ed739c4c396bf9cc2f8edf7787">LoadSettingsFromFile</a>(<span class="keywordtype">int</span> subBasinID, <span class="keywordtype">string</span> fileOutPath);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">/*</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">     * \brief Load output setting from MongoDB</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">     * Which is combination of \sa LoadSettingsFromFile() and ParseOutputSettings()</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">bool</span> LoadSettingsOutputFromMongoDB(<span class="keywordtype">int</span> subBasinID);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">/*</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">     * \brief Read subbasin numbers, outlet ID, etc. from MongoDB</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">void</span> SetSubbasinIDs();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> Dump(<span class="keywordtype">string</span>);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">void</span> checkDate(time_t, time_t);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">//bool isOutputASCFile(void);</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    vector&lt;PrintInfo *&gt; m_printInfos;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">/* All the output settings</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">     * key: OutputID</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">     * value: \sa PrintInfo instance</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    map&lt;string, PrintInfo *&gt; m_printInfosMap;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    mongoc_client_t *m_conn;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">string</span> m_dbName;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    mongoc_gridfs_t *m_outputGfs;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">int</span> m_nSubbasins;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">int</span> m_outletID;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">bool</span> ParseOutputSettings(<span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;};</div>
+<div class="ttc" id="a00106_html"><div class="ttname"><a href="../../d7/d70/a00106.html">Settings</a></div><div class="ttdoc">Basic setting class. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/dc8/a00325_source.html#l00032">Settings.h:32</a></div></div>
+<div class="ttc" id="a00325_html"><div class="ttname"><a href="../../de/dc8/a00325.html">Settings.h</a></div><div class="ttdoc">Settings class to store the settings information from Configuration files. </div></div>
+<div class="ttc" id="a00106_html_ac9dd22ed739c4c396bf9cc2f8edf7787"><div class="ttname"><a href="../../d7/d70/a00106.html#ac9dd22ed739c4c396bf9cc2f8edf7787">Settings::LoadSettingsFromFile</a></div><div class="ttdeci">virtual bool LoadSettingsFromFile(string filename)</div><div class="ttdoc">Load the settings value from the given file. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d8f/a00324_source.html#l00035">Settings.cpp:35</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_c45fff51ca6bdea500732eefc9a455a0.html">base</a></li><li class="navelem"><a class="el" href="../../dir_99fe2cf84de190043b9abc66419e5eed.html">util</a></li><li class="navelem"><b>seims.h</b></li>
-    <li class="footer">Generated on Mon Mar 20 2017 01:45:10 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_cce2c0ac50386f26b5b526fa8626cc77.html">module_setting</a></li><li class="navelem"><a class="el" href="../../dd/d4e/a00329.html">SettingsOutput.h</a></li>
+    <li class="footer">Generated on Mon Mar 20 2017 09:29:32 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

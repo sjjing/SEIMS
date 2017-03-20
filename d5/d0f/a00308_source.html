@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/data/RegularMeasurement.h Source File</title>
+<title>SEIMS: seims/src/seims_main/base/data/NutrientCommon.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,46 +112,40 @@ $(document).ready(function(){initNavTree('d5/d0f/a00308_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">RegularMeasurement.h</div>  </div>
+<div class="title">NutrientCommon.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;Measurement.h&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;text.h&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;MongoUtil.h&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../d0/d61/a00100.html">   27</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d0/d61/a00100.html">RegularMeasurement</a> : <span class="keyword">public</span> <a class="code" href="../../d3/d8b/a00059.html">Measurement</a> {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <a class="code" href="../../d0/d61/a00100.html#aa99c037597c244227ecfd437a8644432">RegularMeasurement</a>(mongoc_client_t *conn, <span class="keywordtype">string</span> hydroDBName, <span class="keywordtype">string</span> sitesList, <span class="keywordtype">string</span> siteType, time_t startTime,</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                       time_t endTime, time_t interval);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="../../d0/d61/a00100.html#a1f44d19ffde71e64385f25b24732ff83">~RegularMeasurement</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">float</span> *<a class="code" href="../../d0/d61/a00100.html#a6528f99c36c06961b7eeafbccc2a5f52">GetSiteDataByTime</a>(time_t t);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../d0/d61/a00100.html#a2fb71444556a70bf7aac4b5af38dd04b">   53</a></span>&#160;    vector&lt;float *&gt; <a class="code" href="../../d0/d61/a00100.html#a2fb71444556a70bf7aac4b5af38dd04b">m_siteData</a>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="../../d0/d61/a00100.html#a6fffb32a797276d7cc6b2bd8b2f369c8">   55</a></span>&#160;    time_t <a class="code" href="../../d0/d61/a00100.html#a6fffb32a797276d7cc6b2bd8b2f369c8">m_interval</a>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;};</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="ttc" id="a00100_html_a6528f99c36c06961b7eeafbccc2a5f52"><div class="ttname"><a href="../../d0/d61/a00100.html#a6528f99c36c06961b7eeafbccc2a5f52">RegularMeasurement::GetSiteDataByTime</a></div><div class="ttdeci">virtual float * GetSiteDataByTime(time_t t)</div><div class="ttdoc">Get site date by time pData. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/da2/a00307_source.html#l00124">RegularMeasurement.cpp:124</a></div></div>
-<div class="ttc" id="a00059_html"><div class="ttname"><a href="../../d3/d8b/a00059.html">Measurement</a></div><div class="ttdoc">Get HydroClimate measurement data from MongoDB. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00026">Measurement.h:26</a></div></div>
-<div class="ttc" id="a00100_html_a2fb71444556a70bf7aac4b5af38dd04b"><div class="ttname"><a href="../../d0/d61/a00100.html#a2fb71444556a70bf7aac4b5af38dd04b">RegularMeasurement::m_siteData</a></div><div class="ttdeci">vector&lt; float * &gt; m_siteData</div><div class="ttdoc">site data : the first dimension is time, and the second dimension is data by sites ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00308_source.html#l00053">RegularMeasurement.h:53</a></div></div>
-<div class="ttc" id="a00100_html_aa99c037597c244227ecfd437a8644432"><div class="ttname"><a href="../../d0/d61/a00100.html#aa99c037597c244227ecfd437a8644432">RegularMeasurement::RegularMeasurement</a></div><div class="ttdeci">RegularMeasurement(mongoc_client_t *conn, string hydroDBName, string sitesList, string siteType, time_t startTime, time_t endTime, time_t interval)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/da2/a00307_source.html#l00013">RegularMeasurement.cpp:13</a></div></div>
-<div class="ttc" id="a00100_html"><div class="ttname"><a href="../../d0/d61/a00100.html">RegularMeasurement</a></div><div class="ttdoc">Regular hydroclimate data, e.g., daily data. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00308_source.html#l00027">RegularMeasurement.h:27</a></div></div>
-<div class="ttc" id="a00100_html_a6fffb32a797276d7cc6b2bd8b2f369c8"><div class="ttname"><a href="../../d0/d61/a00100.html#a6fffb32a797276d7cc6b2bd8b2f369c8">RegularMeasurement::m_interval</a></div><div class="ttdeci">time_t m_interval</div><div class="ttdoc">data record interval </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00308_source.html#l00055">RegularMeasurement.h:55</a></div></div>
-<div class="ttc" id="a00100_html_a1f44d19ffde71e64385f25b24732ff83"><div class="ttname"><a href="../../d0/d61/a00100.html#a1f44d19ffde71e64385f25b24732ff83">RegularMeasurement::~RegularMeasurement</a></div><div class="ttdeci">~RegularMeasurement(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/da2/a00307_source.html#l00112">RegularMeasurement.cpp:112</a></div></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="../../d9/da5/a00075.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/da5/a00075.html">NutrCommon</a> {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="../../d9/da5/a00075.html#a85da2638da5e74825b3e093c4dd376bc">NutrCommon</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <a class="code" href="../../d9/da5/a00075.html#a72018258681a4955354768caae5cc3a6">~NutrCommon</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="comment">/* Calculate enrichment ratio for nutrient transport with runoff and sediment</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">     * enrsb.f of SWAT</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">     * \param sedyld sediment yield, kg</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">     * \param surfq surface runoff, mm</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">     * \param area area, ha</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code" href="../../d9/da5/a00075.html#a5bd3575c6ad1a946cb9ec440927ef95e">CalEnrichmentRatio</a>(<span class="keywordtype">float</span> sedyld, <span class="keywordtype">float</span> surfq, <span class="keywordtype">float</span> area);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;};</div>
+<div class="ttc" id="a00075_html_a85da2638da5e74825b3e093c4dd376bc"><div class="ttname"><a href="../../d9/da5/a00075.html#a85da2638da5e74825b3e093c4dd376bc">NutrCommon::NutrCommon</a></div><div class="ttdeci">NutrCommon(void)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/da2/a00307_source.html#l00003">NutrientCommon.cpp:3</a></div></div>
+<div class="ttc" id="a00075_html_a5bd3575c6ad1a946cb9ec440927ef95e"><div class="ttname"><a href="../../d9/da5/a00075.html#a5bd3575c6ad1a946cb9ec440927ef95e">NutrCommon::CalEnrichmentRatio</a></div><div class="ttdeci">static float CalEnrichmentRatio(float sedyld, float surfq, float area)</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/da2/a00307_source.html#l00009">NutrientCommon.cpp:9</a></div></div>
+<div class="ttc" id="a00075_html_a72018258681a4955354768caae5cc3a6"><div class="ttname"><a href="../../d9/da5/a00075.html#a72018258681a4955354768caae5cc3a6">NutrCommon::~NutrCommon</a></div><div class="ttdeci">~NutrCommon(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/da2/a00307_source.html#l00006">NutrientCommon.cpp:6</a></div></div>
+<div class="ttc" id="a00075_html"><div class="ttname"><a href="../../d9/da5/a00075.html">NutrCommon</a></div><div class="ttdoc">Define some common used function in Nutrient cycling modules, e.g., NUTRMV, NUTRSED. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00308_source.html#l00017">NutrientCommon.h:17</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_c45fff51ca6bdea500732eefc9a455a0.html">base</a></li><li class="navelem"><a class="el" href="../../dir_95ea3284629f852ef8fc739a31cb2498.html">data</a></li><li class="navelem"><b>RegularMeasurement.h</b></li>
-    <li class="footer">Generated on Mon Mar 20 2017 01:45:10 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_24d0af58b2644ad205aa9a0d9adbb65a.html">data</a></li><li class="navelem"><b>NutrientCommon.h</b></li>
+    <li class="footer">Generated on Mon Mar 20 2017 09:29:32 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/SNO_WB/SNO_WB.h Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/SNO_DD/SNO_DD.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,90 +112,83 @@ $(document).ready(function(){initNavTree('d5/d0f/a00494_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SNO_WB.h</div>  </div>
+<div class="title">SNO_DD.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <a href="../../d5/d0f/a00494.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;ctime&gt;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;subbasin.h&quot;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../db/d57/a00112.html">   33</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../db/d57/a00112.html">SNO_WB</a> : <span class="keyword">public</span> <a class="code" href="../../d1/dd6/a00108.html">SimulationModule</a> {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="../../db/d57/a00112.html">SNO_WB</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    ~<a class="code" href="../../db/d57/a00112.html">SNO_WB</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> GetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> *value);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">//virtual void Get2DData(const char* key, int* nRows, int* nCols, float*** data);</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;ctime&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../d4/d81/a00110.html">   34</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d4/d81/a00110.html">SNO_DD</a> : <span class="keyword">public</span> <a class="code" href="../../d1/dd6/a00108.html">SimulationModule</a> {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="../../d4/d81/a00110.html">SNO_DD</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ~<a class="code" href="../../d4/d81/a00110.html">SNO_DD</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute();</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> initialOutputs();</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="../../db/d57/a00112.html#a16bf7ef02b2a4d4af6a1c26ccb00bdfb">   58</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../db/d57/a00112.html#a16bf7ef02b2a4d4af6a1c26ccb00bdfb">m_nCells</a>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="comment">//time_t m_Date; // there is no need to define m_Date again. By LJ.</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">float</span> m_t0;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">float</span> m_tsnow;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">float</span> m_kblow;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">float</span> m_swe0;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">float</span> *m_SA;  <span class="comment">//snow accumulation</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment">//float** m_snowWaterBalance; //the output average values of selected subbasin</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">float</span> *m_Pnet;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="comment">//net precipitation</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">float</span> *m_SR; <span class="comment">//snow redistribution</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">float</span> *m_SE; <span class="comment">//snow sublimation</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">float</span> *m_SM; <span class="comment">//snow melt</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="../../d4/d81/a00110.html#a87f0b15b96ce0a086e00332a96f1d10f">   58</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d4/d81/a00110.html#a87f0b15b96ce0a086e00332a96f1d10f">m_nCells</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="../../d4/d81/a00110.html#a80be4c394aea86b3a919b6a85d9d1207">   60</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d4/d81/a00110.html#a80be4c394aea86b3a919b6a85d9d1207">m_t0</a>;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="../../d4/d81/a00110.html#ab2efd42ec98121545aa57d5346d7037d">   62</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d4/d81/a00110.html#ab2efd42ec98121545aa57d5346d7037d">m_kblow</a>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="../../d4/d81/a00110.html#ab780c64fa8f83f2a74c79ed3195e20ba">   64</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d4/d81/a00110.html#ab780c64fa8f83f2a74c79ed3195e20ba">m_tsnow</a>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="../../d4/d81/a00110.html#afbd03c7aabfc78abaeb052e9181b9323">   66</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d4/d81/a00110.html#afbd03c7aabfc78abaeb052e9181b9323">m_csnow</a>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../d4/d81/a00110.html#a08fd0ef56aa95302c2c4ac58ebe3a26a">   68</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d4/d81/a00110.html#a08fd0ef56aa95302c2c4ac58ebe3a26a">m_crain</a>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment">//float m_swe0;</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="comment">//float m_swe;</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="comment">//float m_lastSWE;</span></div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">float</span> m_SWE; <span class="comment">//total average SA of the watershed</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">//following four variable don&#39;t participate calculation, just for output</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">float</span> *m_P;    <span class="comment">//precipitation</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">float</span> *m_tMax;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">float</span> *m_tMean;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">float</span> *m_WindSpeed;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="comment">//int m_nCells;</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../d4/d81/a00110.html#ad892f8d833ce30735aedd000c770fe78">   75</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d4/d81/a00110.html#ad892f8d833ce30735aedd000c770fe78">m_tMean</a>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../d4/d81/a00110.html#ac57c71e8f20399dcca5efe545507fc22">   77</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d4/d81/a00110.html#ac57c71e8f20399dcca5efe545507fc22">m_Pnet</a>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="../../d4/d81/a00110.html#a50c2f2406db15e80cbde734106aef89d">   80</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d4/d81/a00110.html#a50c2f2406db15e80cbde734106aef89d">m_SR</a>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="../../d4/d81/a00110.html#a1d827e93d08efc6502ca9345e3152be8">   82</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d4/d81/a00110.html#a1d827e93d08efc6502ca9345e3152be8">m_SE</a>;</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">//float* m_subbasin;    //subbasin grid</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="comment">//int m_subbasinSelectedCount;</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="comment">//float* m_subbasinSelected;    //subbasin selected to output</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="comment">//map&lt;int,subbasin*&gt;* m_subbasinList;</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment"></span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">void</span> initialOutputs();</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="comment">//void setValueToSubbasin(void);</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="comment">//void getSubbasinList(int cellCount, float* subbasinGrid, int subbasinSelectedCount, float* subbasinSelected);</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;};</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="ttc" id="a00112_html_a16bf7ef02b2a4d4af6a1c26ccb00bdfb"><div class="ttname"><a href="../../db/d57/a00112.html#a16bf7ef02b2a4d4af6a1c26ccb00bdfb">SNO_WB::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">Valid cells number. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00058">SNO_WB.h:58</a></div></div>
-<div class="ttc" id="a00112_html"><div class="ttname"><a href="../../db/d57/a00112.html">SNO_WB</a></div><div class="ttdoc">Calculate snow water balance. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00033">SNO_WB.h:33</a></div></div>
-<div class="ttc" id="a00108_html"><div class="ttname"><a href="../../d1/dd6/a00108.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df7/a00331_source.html#l00040">SimulationModule.h:40</a></div></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">//result</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="../../d4/d81/a00110.html#af2b774eceb4a247dc829f4861daed384">   86</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> *<a class="code" href="../../d4/d81/a00110.html#af2b774eceb4a247dc829f4861daed384">m_SM</a>;</div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="../../d4/d81/a00110.html#a9672e0f416cbb4fc7795d79cf04cb9a2">   88</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d4/d81/a00110.html#a9672e0f416cbb4fc7795d79cf04cb9a2">m_SA</a>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;};</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="ttc" id="a00110_html_ab780c64fa8f83f2a74c79ed3195e20ba"><div class="ttname"><a href="../../d4/d81/a00110.html#ab780c64fa8f83f2a74c79ed3195e20ba">SNO_DD::m_tsnow</a></div><div class="ttdeci">float m_tsnow</div><div class="ttdoc">Snowfall temperature, i.e., precipitation as snow. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00064">SNO_DD.h:64</a></div></div>
+<div class="ttc" id="a00110_html"><div class="ttname"><a href="../../d4/d81/a00110.html">SNO_DD</a></div><div class="ttdoc">Calculate snow melt by Degree-Day method. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00034">SNO_DD.h:34</a></div></div>
+<div class="ttc" id="a00110_html_afbd03c7aabfc78abaeb052e9181b9323"><div class="ttname"><a href="../../d4/d81/a00110.html#afbd03c7aabfc78abaeb052e9181b9323">SNO_DD::m_csnow</a></div><div class="ttdeci">float m_csnow</div><div class="ttdoc">temperature impact factor </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00066">SNO_DD.h:66</a></div></div>
+<div class="ttc" id="a00110_html_ac57c71e8f20399dcca5efe545507fc22"><div class="ttname"><a href="../../d4/d81/a00110.html#ac57c71e8f20399dcca5efe545507fc22">SNO_DD::m_Pnet</a></div><div class="ttdeci">float * m_Pnet</div><div class="ttdoc">net precipitation </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00077">SNO_DD.h:77</a></div></div>
+<div class="ttc" id="a00110_html_a50c2f2406db15e80cbde734106aef89d"><div class="ttname"><a href="../../d4/d81/a00110.html#a50c2f2406db15e80cbde734106aef89d">SNO_DD::m_SR</a></div><div class="ttdeci">float * m_SR</div><div class="ttdoc">snow redistribution </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00080">SNO_DD.h:80</a></div></div>
+<div class="ttc" id="a00110_html_a1d827e93d08efc6502ca9345e3152be8"><div class="ttname"><a href="../../d4/d81/a00110.html#a1d827e93d08efc6502ca9345e3152be8">SNO_DD::m_SE</a></div><div class="ttdeci">float * m_SE</div><div class="ttdoc">snow sublimation, snoev in SWAT in etact.f </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00082">SNO_DD.h:82</a></div></div>
+<div class="ttc" id="a00110_html_ad892f8d833ce30735aedd000c770fe78"><div class="ttname"><a href="../../d4/d81/a00110.html#ad892f8d833ce30735aedd000c770fe78">SNO_DD::m_tMean</a></div><div class="ttdeci">float * m_tMean</div><div class="ttdoc">mean temperature </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00075">SNO_DD.h:75</a></div></div>
+<div class="ttc" id="a00110_html_ab2efd42ec98121545aa57d5346d7037d"><div class="ttname"><a href="../../d4/d81/a00110.html#ab2efd42ec98121545aa57d5346d7037d">SNO_DD::m_kblow</a></div><div class="ttdeci">float m_kblow</div><div class="ttdoc">fraction coefficient of precipitation as snow </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00062">SNO_DD.h:62</a></div></div>
+<div class="ttc" id="a00110_html_a87f0b15b96ce0a086e00332a96f1d10f"><div class="ttname"><a href="../../d4/d81/a00110.html#a87f0b15b96ce0a086e00332a96f1d10f">SNO_DD::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">Valid cells number. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00058">SNO_DD.h:58</a></div></div>
+<div class="ttc" id="a00108_html"><div class="ttname"><a href="../../d1/dd6/a00108.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d91/a00335_source.html#l00040">SimulationModule.h:40</a></div></div>
+<div class="ttc" id="a00110_html_a08fd0ef56aa95302c2c4ac58ebe3a26a"><div class="ttname"><a href="../../d4/d81/a00110.html#a08fd0ef56aa95302c2c4ac58ebe3a26a">SNO_DD::m_crain</a></div><div class="ttdeci">float m_crain</div><div class="ttdoc">Rainfall impact factor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00068">SNO_DD.h:68</a></div></div>
+<div class="ttc" id="a00110_html_a9672e0f416cbb4fc7795d79cf04cb9a2"><div class="ttname"><a href="../../d4/d81/a00110.html#a9672e0f416cbb4fc7795d79cf04cb9a2">SNO_DD::m_SA</a></div><div class="ttdeci">float * m_SA</div><div class="ttdoc">Snow accumulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00088">SNO_DD.h:88</a></div></div>
+<div class="ttc" id="a00110_html_af2b774eceb4a247dc829f4861daed384"><div class="ttname"><a href="../../d4/d81/a00110.html#af2b774eceb4a247dc829f4861daed384">SNO_DD::m_SM</a></div><div class="ttdeci">float * m_SM</div><div class="ttdoc">Snow melt. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00086">SNO_DD.h:86</a></div></div>
+<div class="ttc" id="a00110_html_a80be4c394aea86b3a919b6a85d9d1207"><div class="ttname"><a href="../../d4/d81/a00110.html#a80be4c394aea86b3a919b6a85d9d1207">SNO_DD::m_t0</a></div><div class="ttdeci">float m_t0</div><div class="ttdoc">Mean air temperature at which snow melt will occur, sub_smtmp. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0f/a00494_source.html#l00060">SNO_DD.h:60</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e815a90a524b22b5b34e29517df36994.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_ab61e5882fb85006e22352455c7b91d0.html">SNO_WB</a></li><li class="navelem"><a class="el" href="../../d5/d0f/a00494.html">SNO_WB.h</a></li>
-    <li class="footer">Generated on Mon Mar 20 2017 01:45:10 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5bf5a4201e7cd7ac6c5f03aeeeae8b2c.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_51a10276d5dae08852de26fee44abc1b.html">SNO_DD</a></li><li class="navelem"><a class="el" href="../../d5/d0f/a00494.html">SNO_DD.h</a></li>
+    <li class="footer">Generated on Mon Mar 20 2017 09:29:32 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

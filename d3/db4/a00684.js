@@ -1,76 +1,65 @@
 var a00684 =
 [
-    [ "PlantManagementOperation", "d4/d7d/a00093.html", [
-      [ "PlantManagementOperation", "d4/d7d/a00093.html#a08d0d690cddb5bae8e7143f54cf0f05b", null ],
-      [ "~PlantManagementOperation", "d4/d7d/a00093.html#a808041af891a2a84e51b5c6af7503c3c", null ],
-      [ "dump", "d4/d7d/a00093.html#a7eb5b2742a475a67d5b615b9dc60095f", null ],
-      [ "m_day", "d4/d7d/a00093.html#a86dbd0fc98db4de521727bb621a591a4", null ],
-      [ "m_frHU", "d4/d7d/a00093.html#a205d1060e4e5de5d5aeaffb0298964ab", null ],
-      [ "m_mgtOp", "d4/d7d/a00093.html#a15bc6209cedadf38c05d77d0a74658d6", null ],
-      [ "m_month", "d4/d7d/a00093.html#af32ba3fa08dbddf3c43c5ca929df123a", null ],
-      [ "m_parameters", "d4/d7d/a00093.html#a22a357d2e84820f077517403342ef061", null ],
-      [ "m_useBaseHUSC", "d4/d7d/a00093.html#ac88dbda51aa7da05257c03993d4ec409", null ],
-      [ "m_year", "d4/d7d/a00093.html#ac45a30a11d48c2d1148f6aa2ee031c77", null ]
-    ] ],
-    [ "PlantOperation", "dc/d54/a00094.html", [
-      [ "PlantOperation", "dc/d54/a00094.html#af3ad78c0195c484e8965af08f5daa329", null ],
-      [ "dump", "dc/d54/a00094.html#acc771d02de94e8756ecd92533dd0b3c3", null ]
-    ] ],
-    [ "IrrigationOperation", "d2/dee/a00049.html", [
-      [ "IrrigationOperation", "d2/dee/a00049.html#a8861173d21839cea2789145e1edefc64", null ],
-      [ "dump", "d2/dee/a00049.html#a36ff6f730ba7a0446035bb12540e5ead", null ]
-    ] ],
-    [ "FertilizerOperation", "d0/dc0/a00033.html", [
-      [ "FertilizerOperation", "d0/dc0/a00033.html#a8a3274bcf3ec25f5f0bd6c42d6be2141", null ],
-      [ "dump", "d0/dc0/a00033.html#a07cffb92ff4518550affc4bc0b2cca0f", null ],
-      [ "m_frtSurface", "d0/dc0/a00033.html#ab27820b1bdcdf20f517bc494ea4e08f3", null ]
-    ] ],
-    [ "PesticideOperation", "db/ddf/a00088.html", [
-      [ "PesticideOperation", "db/ddf/a00088.html#adb1bf53bfd14e9f28a620838b166cf7e", null ],
-      [ "dump", "db/ddf/a00088.html#aa73d5067b0249011b0990078b563a992", null ]
-    ] ],
-    [ "HarvestKillOperation", "d1/dc6/a00037.html", [
-      [ "HarvestKillOperation", "d1/dc6/a00037.html#a1682b0931a5ddc0388939934bf8ebfc8", null ],
-      [ "dump", "d1/dc6/a00037.html#a444c492c0a3521720d3ba70162e6cda4", null ]
-    ] ],
-    [ "TillageOperation", "d9/d47/a00129.html", [
-      [ "TillageOperation", "d9/d47/a00129.html#a02bfe61b561c4719b56abf0cf4ede42d", null ],
-      [ "dump", "d9/d47/a00129.html#ac8da224e1ef7af4e00e187364ad6defc", null ]
-    ] ],
-    [ "HarvestOnlyOperation", "d8/d41/a00038.html", [
-      [ "HarvestOnlyOperation", "d8/d41/a00038.html#aba8b8590f1ff254d77c5b65b30da9342", null ],
-      [ "dump", "d8/d41/a00038.html#a2d5d28478a092aba27973947c396fe8f", null ]
-    ] ],
-    [ "KillOperation", "d4/d6d/a00055.html", [
-      [ "KillOperation", "d4/d6d/a00055.html#a2bf825ec156d1ceebe96675d2e614773", null ],
-      [ "dump", "d4/d6d/a00055.html#af20c18f47f188a06ee6c1602e8981421", null ]
-    ] ],
-    [ "GrazingOperation", "d4/d8c/a00035.html", [
-      [ "GrazingOperation", "d4/d8c/a00035.html#a4b53bfd13b799f079dfd835b0f068dac", null ],
-      [ "dump", "d4/d8c/a00035.html#af37d8e17a8eba8d4e9722dd017438ff4", null ]
-    ] ],
-    [ "AutoIrrigationOperation", "de/d21/a00006.html", [
-      [ "AutoIrrigationOperation", "de/d21/a00006.html#aa6feaf3607303685239e942b54a3a811", null ],
-      [ "dump", "de/d21/a00006.html#a24de3888f4531537d51e24089ecfe443", null ]
-    ] ],
-    [ "AutoFertilizerOperation", "dd/dad/a00005.html", [
-      [ "AutoFertilizerOperation", "dd/dad/a00005.html#a4e125d72b3c34519e38acaa7eec45c33", null ],
-      [ "dump", "dd/dad/a00005.html#a651d9b9fef90388357f1a704d1bc3011", null ]
-    ] ],
-    [ "ReleaseImpoundOperation", "d4/d3a/a00101.html", [
-      [ "ReleaseImpoundOperation", "d4/d3a/a00101.html#a307b2068adef362e6f2a5e703b1eccf6", null ],
-      [ "dump", "d4/d3a/a00101.html#a5f576fc437bce9c2b1045be098769f11", null ]
-    ] ],
-    [ "ContinuousFertilizerOperation", "dc/de2/a00024.html", [
-      [ "ContinuousFertilizerOperation", "dc/de2/a00024.html#a5cc0b8ef9374afae17ebf74a12e0a10e", null ],
-      [ "dump", "dc/de2/a00024.html#a4496ac7183dad26e1961c652f282674a", null ]
-    ] ],
-    [ "ContinuousPesticideOperation", "d3/dfe/a00025.html", [
-      [ "ContinuousPesticideOperation", "d3/dfe/a00025.html#a23740d9cde1300e8de5f6e94ed42768a", null ],
-      [ "dump", "d3/dfe/a00025.html#a852edd79d89876db8a5192a21013cc60", null ]
-    ] ],
-    [ "BurningOperation", "d7/dd4/a00013.html", [
-      [ "BurningOperation", "d7/dd4/a00013.html#a1015b775b0292a85865350a117f086c7", null ],
-      [ "dump", "d7/dd4/a00013.html#a95f9c4c40592b0410190b67cc6666039", null ]
+    [ "NutrientMovementViaWater", "d9/da4/a00078.html", [
+      [ "CheckInputData", "d9/da4/a00078.html#aab388aeeceacb8ee4e82d05492e0b546", null ],
+      [ "CheckInputSize", "d9/da4/a00078.html#aa7f1e2ccf58c9d20cb77434646f0bad2", null ],
+      [ "Execute", "d9/da4/a00078.html#a2e09ece5be33dad9aef85a92bd3e24a8", null ],
+      [ "Get1DData", "d9/da4/a00078.html#ae70591ca36047c813f87b065c1fe9d74", null ],
+      [ "GetValue", "d9/da4/a00078.html#a7575a19202cb751851e20ded6c5c8226", null ],
+      [ "initialOutputs", "d9/da4/a00078.html#aa02493a99ae27efb883a0bef4a881204", null ],
+      [ "NitrateLoss", "d9/da4/a00078.html#a41948a0a5d1aa357ce5498c608123447", null ],
+      [ "PhosphorusLoss", "d9/da4/a00078.html#a143e0c1107f6df05194735d7a99866fb", null ],
+      [ "Set1DData", "d9/da4/a00078.html#a9fc84b049c6608f54d9971b0a3206205", null ],
+      [ "Set2DData", "d9/da4/a00078.html#a77ebff496051bf87a6c8723db93992a6", null ],
+      [ "SetSubbasins", "d9/da4/a00078.html#a0c61e9c7bbc225a112116753bb3f0e02", null ],
+      [ "SetValue", "d9/da4/a00078.html#a7515cb485f87b9531fe30d3ff259797a", null ],
+      [ "SubbasinWaterQuality", "d9/da4/a00078.html#af0839a1ef48ccef4cf89b298b5f70b45", null ],
+      [ "m_cellArea", "d9/da4/a00078.html#ad71e232f7b7cadf6d371e8911c7f7206", null ],
+      [ "m_cellWidth", "d9/da4/a00078.html#a07e2fc5d3f6c17f3c1b439b014bf871a", null ],
+      [ "m_cod_k", "d9/da4/a00078.html#abb01816f5273b17ccb2d633e23dd19ea", null ],
+      [ "m_cod_n", "d9/da4/a00078.html#ac2bb7833e5b61d228f052de8d56afc3a", null ],
+      [ "m_conv_wt", "d9/da4/a00078.html#afb4dbbbfd583bddc9e65036afedfd74d", null ],
+      [ "m_dis_stream", "d9/da4/a00078.html#a846647e33ec3d07dd7d69d21551c7539", null ],
+      [ "m_flat", "d9/da4/a00078.html#a6348ac7993274f6b656f90b47768562c", null ],
+      [ "m_flowOutIndex", "d9/da4/a00078.html#a545cf99f8bf6cb6c03be4addec9e71f8", null ],
+      [ "m_isep_opt", "d9/da4/a00078.html#a3de50dea136ee01680659b137e4e99d9", null ],
+      [ "m_latno3", "d9/da4/a00078.html#a823c0f5552dfe94574957e9d1cb19588", null ],
+      [ "m_latno3ToCh", "d9/da4/a00078.html#a66609daf6fe78478b07b50c4ce034e3d", null ],
+      [ "m_ldrain", "d9/da4/a00078.html#a42cd779bd6bd174d593e2a4ee51bcf14", null ],
+      [ "m_nCells", "d9/da4/a00078.html#a51bca324fdc33d080c95fae93e719d4b", null ],
+      [ "m_nperco", "d9/da4/a00078.html#a9e3aeac4af0501f185f3b8056b185eae", null ],
+      [ "m_nRoutingLayers", "d9/da4/a00078.html#a5d662678e06cedf6a428012daebdc775", null ],
+      [ "m_nSoilLayers", "d9/da4/a00078.html#aabe7e0fa55cf6cceab6d3100261cc72e", null ],
+      [ "m_nSubbasins", "d9/da4/a00078.html#a865f03581cf111014b1efdc38b7399bb", null ],
+      [ "m_perco_n", "d9/da4/a00078.html#a87f6cafe3c13581952f5bc634d489f56", null ],
+      [ "m_perco_p", "d9/da4/a00078.html#aa84cde9a8393a53663fa823104f2672d", null ],
+      [ "m_phoskd", "d9/da4/a00078.html#afc8ae27ba429458856a0858d789d925c", null ],
+      [ "m_pperco", "d9/da4/a00078.html#a54283e26d00aa68c7f51e165e09a4ba7", null ],
+      [ "m_qtile", "d9/da4/a00078.html#ad65a6aee02280e9b481d87805bcc5e35", null ],
+      [ "m_routingLayers", "d9/da4/a00078.html#a0ce31a27c36035ad15ea7632d4e8f6bb", null ],
+      [ "m_sedc_d", "d9/da4/a00078.html#a653d4a834667348abc036b7dc5d0a5e4", null ],
+      [ "m_sedimentYield", "d9/da4/a00078.html#a55e90095e28cb8f2a133c56e1fdd7800", null ],
+      [ "m_sedorgn", "d9/da4/a00078.html#aee2ece2776993802b0081d26213056b9", null ],
+      [ "m_soiLayers", "d9/da4/a00078.html#ae8d3cc075a4f226a85e1ef0b09b179dc", null ],
+      [ "m_sol_bd", "d9/da4/a00078.html#a7fcdc8b6c23a2d8c07df401e16f9bb4e", null ],
+      [ "m_sol_cbn", "d9/da4/a00078.html#ad2425b4bfaf807ad7d3aeb564cbb9803", null ],
+      [ "m_sol_crk", "d9/da4/a00078.html#a2da17ad0437b4f9917190dafa4e20adc", null ],
+      [ "m_sol_no3", "d9/da4/a00078.html#a98a49e8ea9f2298f2aa92e4ca1192642", null ],
+      [ "m_sol_perco", "d9/da4/a00078.html#a60881fe791a110b8dd48ff57b67122c4", null ],
+      [ "m_sol_solp", "d9/da4/a00078.html#ac377f547e591ded71152949a35dde89f", null ],
+      [ "m_sol_thick", "d9/da4/a00078.html#afed19a0f088565ae9c848f8d78ca1902", null ],
+      [ "m_sol_wsatur", "d9/da4/a00078.html#abe0947cc86d2d9d421e0b237108cd9cb", null ],
+      [ "m_sol_z", "d9/da4/a00078.html#a8b2db808c62da4e08d417c3ff893c68d", null ],
+      [ "m_streamLink", "d9/da4/a00078.html#a1caaaf5c055652910fa4d1f946a891ec", null ],
+      [ "m_subbasin", "d9/da4/a00078.html#ad39516eed92652d91b18bc3b6b8bcb10", null ],
+      [ "m_subbasinIDs", "d9/da4/a00078.html#a194176e32c493fb0cb70423b43770c83", null ],
+      [ "m_subbasinsInfo", "d9/da4/a00078.html#aa1fb8c285c0c08274a16b986b8b19fda", null ],
+      [ "m_surchl_a", "d9/da4/a00078.html#a464d64f77d22aba457a42ea1f8d72140", null ],
+      [ "m_surcod", "d9/da4/a00078.html#a69e2e499f497cccd8cf1e73e2b76c849", null ],
+      [ "m_surqnh4", "d9/da4/a00078.html#a34c29256deb56ccc31ebb63f68baf673", null ],
+      [ "m_surqno3", "d9/da4/a00078.html#af48f9af94b7705c4bb8e4b1e9d1bff9f", null ],
+      [ "m_surqsolp", "d9/da4/a00078.html#a50d321b0df924f1e5d2d27d68de66c90", null ],
+      [ "m_tmean", "d9/da4/a00078.html#a656a6409c67079ea3c6b2f0f7cc79324", null ],
+      [ "m_wshd_plch", "d9/da4/a00078.html#a0a41196d36e0ab75783bc6dacf7dfcde", null ]
     ] ]
 ];
