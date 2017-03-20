@@ -2,6 +2,8 @@ var NAVTREE =
 [
   [ "SEIMS", "index.html", [
     [ "PyGeoC", "d7/d46/a00002.html", null ],
+    [ "Deprecated List", "df/d9e/a00686.html", null ],
+    [ "Modules", "modules.html", "modules" ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ]
     ] ],
@@ -12,11 +14,20 @@ var NAVTREE =
       [ "Class Members", "functions.html", [
         [ "All", "functions.html", "functions_dup" ],
         [ "Functions", "functions_func.html", "functions_func" ],
-        [ "Variables", "functions_vars.html", null ]
+        [ "Variables", "functions_vars.html", "functions_vars" ]
       ] ]
     ] ],
     [ "Files", null, [
-      [ "File List", "files.html", "files" ]
+      [ "File List", "files.html", "files" ],
+      [ "File Members", "globals.html", [
+        [ "All", "globals.html", null ],
+        [ "Functions", "globals_func.html", null ],
+        [ "Variables", "globals_vars.html", null ],
+        [ "Typedefs", "globals_type.html", null ],
+        [ "Enumerations", "globals_enum.html", null ],
+        [ "Enumerator", "globals_eval.html", null ],
+        [ "Macros", "globals_defs.html", null ]
+      ] ]
     ] ]
   ] ]
 ];
@@ -24,7 +35,19 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"d9/db6/a00146_source.html"
+"d1/d2b/a00018.html#a2da47bb758e3819a339cba6932134313",
+"d2/d79/a00051.html#ae3824fdc58ea40e18e4dc9fc6a91fdd4",
+"d4/d51/a00017.html#a2b270b3d9e61bc581fef9cb4c5039837",
+"d4/de8/a00061.html#a09f47a78e825d5ce6a95a04668999d92",
+"d4/dee/a00008.html#adb927fa99bb72f39eb61da75d8eb0713",
+"d6/db2/a00601.html",
+"d8/dfc/a00327_source.html",
+"d9/dd5/a00432_source.html",
+"da/dec/a00080.html#adfd16824d2026edc5321ae1e4d536010",
+"db/df8/a00076.html#a053d4ea8f63cbd6818d32d7ebb78a3db",
+"dd/d32/a00041.html#a790a99e9dec3e7248338982e32f2a61d",
+"de/df3/a00185_source.html",
+"dir_4088e1d09e5c510438918859fe4880de.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

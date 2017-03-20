@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['landuseutilclass',['LanduseUtilClass',['../d2/de7/a00014.html',1,'seims::preprocess::sp_landuse']]]
+  ['grazingoperation',['GrazingOperation',['../d4/d8c/a00035.html',1,'MainBMP::PlantManagement']]],
+  ['gwaterreservoir',['GWaterReservoir',['../de/d8c/a00036.html',1,'']]]
 ];

@@ -1,6 +1,7 @@
 var a00022 =
 [
-    [ "__init__", "d7/de0/a00022.html#a662527617859dd63672465d52cc50fbc", null ],
-    [ "CheckData", "d7/de0/a00022.html#af08da47431231d888ceb16a435f35730", null ],
-    [ "SoilDict", "d7/de0/a00022.html#a98a512de44c8a833a3221e441070551a", null ]
+    [ "Get1DData", "d7/de0/a00022.html#a1b2832f37325e31503995626135bdb67", null ],
+    [ "Set1DData", "d7/de0/a00022.html#a06bb50257ea4080511c1d6448684f9f3", null ],
+    [ "m_Data", "d7/de0/a00022.html#ab896e92ea639d8981eb1a16d89264f16", null ],
+    [ "m_Rows", "d7/de0/a00022.html#ac5ce2b186049bee1f70280c20a8fee6f", null ]
 ];

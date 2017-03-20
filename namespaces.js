@@ -1,5 +1,6 @@
 var namespaces =
 [
-    [ "seims", "dd/d4c/a00177.html", "dd/d4c/a00177" ],
-    [ "setup", "d0/d24/a00222.html", null ]
+    [ "MainBMP", "d9/d8b/a00547.html", null ],
+    [ "seims", "d0/dc2/a00564.html", "d0/dc2/a00564" ],
+    [ "setup", "db/d3f/a00609.html", null ]
 ];
