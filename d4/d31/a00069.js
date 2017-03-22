@@ -6,7 +6,6 @@ var a00069 =
     [ "Get1DData", "d4/d31/a00069.html#a1dd8dd605c6ea8261307f70836f1f31d", null ],
     [ "Get2DData", "d4/d31/a00069.html#acb231cdb179a4eff0d9b29520e981c48", null ],
     [ "GetValue", "d4/d31/a00069.html#a870e4df9618c1878f5ad0d35913f3e94", null ],
-    [ "Power", "d4/d31/a00069.html#a9fa514c81c6bcb211e59ff0649a34f41", null ],
     [ "Set1DData", "d4/d31/a00069.html#aea5953945549df16c6fa344bb5df11a0", null ],
     [ "Set2DData", "d4/d31/a00069.html#a976fe5731c665c381852d630efc1c674", null ],
     [ "SetValue", "d4/d31/a00069.html#a9cf7965040a48543533ac845653e496c", null ],
@@ -18,7 +17,6 @@ var a00069 =
     [ "m_chStorage", "d4/d31/a00069.html#a35f2bf20d8673abc676cfb6b6f1325be", null ],
     [ "m_chWidth", "d4/d31/a00069.html#a48c5f35c97ad8df44c5f243602443f1f", null ],
     [ "m_delta", "d4/d31/a00069.html#a91c10950f63f2cc77e2246bb9b749322", null ],
-    [ "m_diagonal", "d4/d31/a00069.html#ab5c3efc62a304551cc80f2b01edefda9", null ],
     [ "m_direction", "d4/d31/a00069.html#aa6205ec39d585227f734673fa727ba6d", null ],
     [ "m_dt", "d4/d31/a00069.html#a3d107d3daa2cbdd384ad4e843b7c76c6", null ],
     [ "m_flowInIndex", "d4/d31/a00069.html#a9043ea052341b3354499df36e27bd143", null ],
@@ -44,7 +42,5 @@ var a00069 =
     [ "m_streamLink", "d4/d31/a00069.html#aeb47f77ad204c8f839182473d14b99f9", null ],
     [ "m_streamOrder", "d4/d31/a00069.html#a4c585f4ae451b11700b5beee754d5334", null ],
     [ "m_v0", "d4/d31/a00069.html#a17c66cd21e2f926dc8723cab65720959", null ],
-    [ "m_vScalingFactor", "d4/d31/a00069.html#a2f95db7ded80b4c2997fc441612a9607", null ],
-    [ "SQ2", "d4/d31/a00069.html#a99574f0ffc0919f7fa869a4300c8b767", null ],
-    [ "TWO_THIRDS", "d4/d31/a00069.html#a0ecc2d800de213f9ceffda167b5815dd", null ]
+    [ "m_vScalingFactor", "d4/d31/a00069.html#a2f95db7ded80b4c2997fc441612a9607", null ]
 ];

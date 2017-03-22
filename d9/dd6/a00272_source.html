@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/iuh/WatershedIUHCalculator.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/base/bmps/BMPArealSourceFactory.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('d9/dd6/a00272_source.html','../../');}
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,335 +112,330 @@ $(document).ready(function(){initNavTree('d9/dd6/a00272_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">WatershedIUHCalculator.cpp</div>  </div>
+<div class="title">BMPArealSourceFactory.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;WatershedIUHCalculator.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;iomanip&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;WatershedIUHCalculator::WatershedIUHCalculator(<span class="keywordtype">string</span> inputfile, <span class="keywordtype">string</span> watershedfile,</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                               <span class="keywordtype">string</span> stream_networkfile, <span class="keywordtype">string</span> t0file, <span class="keywordtype">string</span> deltafile,</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                                               <span class="keywordtype">string</span> runoffcofile,</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                               <span class="keywordtype">string</span> uhcellfile, <span class="keywordtype">string</span> uhsubfile, <span class="keywordtype">string</span> uhwatershedfile)</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    : <a class="code" href="../../d1/dea/a00054.html">IUHCalculator</a>(inputfile, watershedfile, stream_networkfile, t0file,</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                    deltafile), runoffCoFile(runoffcofile),</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;      uhCellFile(uhcellfile), uhSubFile(uhsubfile), uhWatershedFile(uhwatershedfile) {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <a class="code" href="../../d1/dea/a00054.html#ada0a43ef89e61b07de87d672e5240b5e">readData</a>();</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;}</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;WatershedIUHCalculator::WatershedIUHCalculator(<span class="keywordtype">string</span> inputfile, <span class="keywordtype">string</span> watershedfile,</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                                               <span class="keywordtype">string</span> stream_networkfile, <span class="keywordtype">string</span> t0file, <span class="keywordtype">string</span> deltafile,</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                                               <span class="keywordtype">string</span> runoffcofile,</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                                               <span class="keywordtype">string</span> uhwatershedfile)</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    : <a class="code" href="../../d1/dea/a00054.html">IUHCalculator</a>(inputfile, watershedfile, stream_networkfile, t0file,</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                    deltafile), runoffCoFile(runoffcofile),</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;      uhWatershedFile(uhwatershedfile) {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="../../d1/dea/a00054.html#ada0a43ef89e61b07de87d672e5240b5e">readData</a>();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordtype">void</span> WatershedIUHCalculator::readData() {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="../../d1/dea/a00054.html#ada0a43ef89e61b07de87d672e5240b5e">IUHCalculator::readData</a>();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment">//initialization</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">string</span> strTemp;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    ifstream runoffCoIf(runoffCoFile.c_str());</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    runoffCo.resize(nRows);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nRows; ++i) {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        runoffCo[i].resize(nCols);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 7; ++i) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        getline(runoffCoIf, strTemp);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    }</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nRows; ++i) {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; nCols; ++j) {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            runoffCoIf &gt;&gt; runoffCo[i][j];</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    runoffCoIf.close();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    uhCell.resize(nCells);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    uh1.resize(nCells);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nCells; ++i) {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        uhCell[i].resize(mt + 1);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        uh1[i].resize(mt + 1);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt;= mt; ++j) {</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            uhCell[i][j] = 0.0;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            uh1[i][j] = 0.0;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    uhSub.resize(nSubs);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    uh2.resize(nSubs);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    runoffSub.resize(nSubs);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nSubs; ++i) {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        runoffSub[i] = 0.0;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        uhSub[i].resize(mt + 1);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        uh2[i].resize(mt + 1);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt;= mt; ++j) {</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            uhSub[i][j] = 0.0;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            uh2[i][j] = 0.0;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    uhWatershed.resize(mt + 1);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    uh3.resize(mt + 1);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= mt; ++i) {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        uhWatershed[i] = 0.0;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        uh3[i] = 0.0;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;WatershedIUHCalculator::~WatershedIUHCalculator(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="keywordtype">int</span> WatershedIUHCalculator::calCell(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    ofstream cellOf(uhCellFile.c_str());</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">int</span> nc = 0;                       <span class="comment">//number of cell</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    maxtSub = 0;                  <span class="comment">//maximum length of uhSub</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nRows; ++i) {</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; nCols; ++j) {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keywordflow">if</span> (watershed[i][j] &lt;= 0) {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            }</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="comment">//this part is the same as the corresponding part in the RiverIUHCalculator</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="comment">//start</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordtype">int</span> mint = int(max(0.0, t0[i][j] - 3 * delta[i][j]) + 0.5);    <span class="comment">//start time of IUH</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordtype">int</span> maxt = min(<span class="keywordtype">int</span>(t0[i][j] + 5 * delta[i][j] + 0.5), mt);       <span class="comment">//end time</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            maxt = max(maxt, 1);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordtype">double</span> sumUh = 0.0;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> m = mint; m &lt;= maxt; ++m) {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                <span class="keywordtype">double</span> delta0 = max(0.01, delta[i][j]);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                <span class="keywordtype">double</span> t00 = max(0.01, t0[i][j]);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                <span class="keywordtype">double</span> ti = max(0.01, <span class="keywordtype">double</span>(m));</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                uhCell[nc][m] = IUHti(delta0, t00, ti);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                <span class="comment">//double test = uhCell[nc][m];</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="comment">//cout&lt;&lt;&quot;uhCell:&quot;&lt;&lt;nc&lt;&lt;&quot; = &quot; &lt;&lt;test&lt;&lt;&quot;\n&quot;;   // test</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                sumUh += uhCell[nc][m];</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            <span class="keywordflow">if</span> (abs(sumUh) &lt; IUHZERO) {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                uhCell[nc][0] = 1.0;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                mint = 0;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                maxt = 1;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> m = mint; m &lt;= maxt; ++m) {</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                    uhCell[nc][m] = uhCell[nc][m] / sumUh;  <span class="comment">//make sum of uhCell to 1</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                    <span class="keywordflow">if</span> (uhCell[nc][m] &lt; 0.001 || uhCell[nc][m] &gt; 1) {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                        uhCell[nc][m] = 0.0;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                    }</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                }</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            }</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <span class="comment">//define start and end time of uh_cell</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            <span class="keywordtype">int</span> mint0 = 0;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> m = mint; m &lt;= maxt; ++m) {</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                <span class="keywordflow">if</span> (uhCell[nc][m] &gt; 0.0005) {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                    mint0 = m;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                }</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            }</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            mint = mint0;   </div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            <span class="keywordtype">int</span> maxt0 = 0;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> m = mint; m &lt;= maxt; ++m) {</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                <span class="keywordflow">if</span> (uhCell[nc][m] &lt; 0.0005) {</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                    maxt0 = m - 1;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                }</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            }</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            maxt = max(mint, maxt0);  </div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            <span class="comment">//end</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            maxtSub = max(maxtSub, maxt);</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="comment">//cell IUH integration</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            <span class="keywordflow">if</span> (dt &gt;= 1) {</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                <span class="keywordtype">double</span> uhSum = 0.0;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = 0; k &lt;= int(maxt / dt); ++k) {</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> x = 1; x &lt;= dt; ++x) {</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                        uh1[nc][k] += uhCell[nc][k * dt + x - 1];</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                    }</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                    uhSum += uh1[nc][k];</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                }</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                mint0 = 0;</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                maxt0 = int(maxt / dt);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = mint0; k &lt;= maxt0; ++k) {</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                    uh1[nc][k] /= uhSum;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                }</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> m = mint; m &lt;= maxt; ++m) {</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                    uh1[nc][m] = uhCell[nc][m];</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                }</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                mint0 = mint;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                maxt0 = maxt;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            }</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            cellOf &lt;&lt; setw(7) &lt;&lt; mint0 &lt;&lt; setw(7) &lt;&lt; maxt0;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = mint0; k &lt;= maxt0; ++k) {</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                cellOf &lt;&lt; setiosflags(ios::fixed) &lt;&lt; setw(7) &lt;&lt; setprecision(3) &lt;&lt; uh1[nc][k];</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            }</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            cellOf &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="comment">//summation of uhCell for each subwatershed</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            <span class="keywordtype">int</span> ns = watershed[i][j] - 1;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> m = mint; m &lt;= maxt; ++m) {</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                uhSub[ns][m] += uhCell[nc][m] * runoffCo[i][j];</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            }</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            runoffSub[ns] += runoffCo[i][j];</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            nc += 1;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        }</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;BMPArealSourceFactory.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using namespace </span>MainBMP;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="../../da/da0/a00009.html#a163d84742bb3ecae9fb3ba7e80f7a132">    5</a></span>&#160;<a class="code" href="../../da/da0/a00009.html#a163d84742bb3ecae9fb3ba7e80f7a132">BMPArealSrcFactory::BMPArealSrcFactory</a>(<span class="keywordtype">int</span> scenarioId, <span class="keywordtype">int</span> bmpId, <span class="keywordtype">int</span> subScenario, <span class="keywordtype">int</span> bmpType, <span class="keywordtype">int</span> bmpPriority,</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                                       <span class="keywordtype">string</span> distribution, <span class="keywordtype">string</span> collection, <span class="keywordtype">string</span> location)</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    : <a class="code" href="../../d7/dec/a00010.html">BMPFactory</a>(scenarioId, bmpId, subScenario, bmpType, bmpPriority, distribution, collection, location) {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <a class="code" href="../../da/da0/a00009.html#aa8645a97140549027b3407a717efcec0">m_arealSrcMgtTab</a> = <a class="code" href="../../d7/dec/a00010.html#a5e7c835b8bfebb1c03f2bebf59a8a4fe">m_bmpCollection</a>;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <a class="code" href="../../da/da0/a00009.html#a3457d4f2867b5997bc15fe230ae09492">m_arealSrcIDs</a> = SplitStringForInt(location, <span class="charliteral">&#39;,&#39;</span>);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    vector &lt;string&gt; dist = SplitString(distribution, <span class="charliteral">&#39;|&#39;</span>);</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">if</span> (dist.size() == 4 &amp;&amp; StringMatch(dist[0], FLD_SCENARIO_DIST_RASTER)) {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <a class="code" href="../../da/da0/a00009.html#a083480be0d29bd7506911524a8342223">m_arealSrcDistName</a> = dist[1];</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="../../da/da0/a00009.html#a8ab953ff525f4e877487e2945afd9d44">m_arealSrcDistTab</a> = dist[2];</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <a class="code" href="../../da/da0/a00009.html#ae451b497f2b1fda3fb3306a6b35e84f5">m_arealSrc</a> = atoi(dist[3].c_str());</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(<span class="stringliteral">&quot;BMPArealSourceFactory&quot;</span>,</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                             <span class="stringliteral">&quot;Initialization&quot;</span>,</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                             <span class="stringliteral">&quot;The distribution field must follow the format: RASTER|CoreRasterName|DistrubutionTable|SrcIDs.\n&quot;</span>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    }</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="../../da/da0/a00009.html#a5ba3449df87c0b05613728d110e96895">m_loadedMgtFieldIDs</a> = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;}</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="../../da/da0/a00009.html#a5825de8b92284a6bd5f32eb5adc70d29">   23</a></span>&#160;<a class="code" href="../../da/da0/a00009.html#a5825de8b92284a6bd5f32eb5adc70d29">BMPArealSrcFactory::~BMPArealSrcFactory</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">if</span> (!m_arealSrcLocsMap.empty()) {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">for</span> (map&lt;int, ArealSourceLocations *&gt;::iterator it = m_arealSrcLocsMap.begin();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;             it != m_arealSrcLocsMap.end();) {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="keywordflow">if</span> (it-&gt;second != NULL) {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                <span class="keyword">delete</span> it-&gt;second;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                it-&gt;second = NULL;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            it = m_arealSrcLocsMap.erase(it);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        m_arealSrcLocsMap.clear();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">if</span> (!m_arealSrcMgtMap.empty()) {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">for</span> (map&lt;int, ArealSourceMgtParams *&gt;::iterator it = m_arealSrcMgtMap.begin();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;             it != m_arealSrcMgtMap.end();) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordflow">if</span> (it-&gt;second != NULL) {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keyword">delete</span> it-&gt;second;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                it-&gt;second = NULL;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            it = m_arealSrcMgtMap.erase(it);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        m_arealSrcMgtMap.clear();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../da/da0/a00009.html#a4eab0495193ed0d0a0392c042fbd8c39">   48</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/da0/a00009.html#a4eab0495193ed0d0a0392c042fbd8c39">BMPArealSrcFactory::loadBMP</a>(mongoc_client_t *conn, <span class="keywordtype">string</span> &amp;bmpDBName) {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <a class="code" href="../../da/da0/a00009.html#a4abb57178213c0f4eae6336c5b4c9b48">ReadArealSourceManagements</a>(conn, bmpDBName);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="../../da/da0/a00009.html#a2cc534d2526b34f4a597251ee4531c27">ReadArealSourceLocations</a>(conn, bmpDBName);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../da/da0/a00009.html#a4abb57178213c0f4eae6336c5b4c9b48">   53</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/da0/a00009.html#a4abb57178213c0f4eae6336c5b4c9b48">BMPArealSrcFactory::ReadArealSourceManagements</a>(mongoc_client_t *conn, <span class="keywordtype">string</span> &amp;bmpDBName) {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    bson_t *b = bson_new();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    bson_t *child1 = bson_new(), *child2 = bson_new();</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    BSON_APPEND_DOCUMENT_BEGIN(b, <span class="stringliteral">&quot;$query&quot;</span>, child1);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    BSON_APPEND_INT32(child1, BMP_FLD_SUB, <a class="code" href="../../d7/dec/a00010.html#ac6e3a1de03788dfc2c59b0075ea874be">m_subScenarioId</a>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    bson_append_document_end(b, child1);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    BSON_APPEND_DOCUMENT_BEGIN(b, <span class="stringliteral">&quot;$orderby&quot;</span>, child2);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    BSON_APPEND_INT32(child2, BMP_FLD_SEQUENCE, 1);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    bson_append_document_end(b, child2);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    bson_destroy(child1);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    bson_destroy(child2);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    mongoc_cursor_t *cursor;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">const</span> bson_t *bsonTable;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    mongoc_collection_t *collection = NULL;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    bson_iter_t iter;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    collection = mongoc_client_get_collection(conn, bmpDBName.c_str(), <a class="code" href="../../da/da0/a00009.html#aa8645a97140549027b3407a717efcec0">m_arealSrcMgtTab</a>.c_str());</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">if</span> (collection == NULL) {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(<span class="stringliteral">&quot;BMPs Scenario&quot;</span>, <span class="stringliteral">&quot;Read Areal Source Management&quot;</span>,</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                             <span class="stringliteral">&quot;Failed to get collection: &quot;</span> + <a class="code" href="../../da/da0/a00009.html#aa8645a97140549027b3407a717efcec0">m_arealSrcMgtTab</a> + <span class="stringliteral">&quot;.\n&quot;</span>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    cursor = mongoc_collection_find(collection, MONGOC_QUERY_NONE, 0, 0, 0, b, NULL, NULL);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordtype">int</span> count =</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        1; </div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">while</span> (mongoc_cursor_next(cursor, &amp;bsonTable)) {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <a class="code" href="../../da/da0/a00009.html#acdfb2c27962c2dc8b6a587c650ba538a">m_arealSrcMgtSeqs</a>.push_back(count);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        m_arealSrcMgtMap[count] = <span class="keyword">new</span> ArealSourceMgtParams(bsonTable, iter);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        count++;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    bson_destroy(b);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    mongoc_collection_destroy(collection);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    mongoc_cursor_destroy(cursor);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="../../da/da0/a00009.html#a2cc534d2526b34f4a597251ee4531c27">   89</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/da0/a00009.html#a2cc534d2526b34f4a597251ee4531c27">BMPArealSrcFactory::ReadArealSourceLocations</a>(mongoc_client_t *conn, <span class="keywordtype">string</span> &amp;bmpDBName) {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    bson_t *b = bson_new();</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    bson_t *child1 = bson_new();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    BSON_APPEND_DOCUMENT_BEGIN(b, <span class="stringliteral">&quot;$query&quot;</span>, child1);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    BSON_APPEND_INT32(child1, BMP_ARSRC_FLD_CODE, <a class="code" href="../../da/da0/a00009.html#ae451b497f2b1fda3fb3306a6b35e84f5">m_arealSrc</a>);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    bson_append_document_end(b, child1);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    bson_destroy(child1);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    mongoc_cursor_t *cursor;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">const</span> bson_t *bsonTable;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    mongoc_collection_t *collection = NULL;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    bson_iter_t iter;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    collection = mongoc_client_get_collection(conn, bmpDBName.c_str(), <a class="code" href="../../da/da0/a00009.html#a8ab953ff525f4e877487e2945afd9d44">m_arealSrcDistTab</a>.c_str());</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">if</span> (collection == NULL) {</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(<span class="stringliteral">&quot;BMPs Scenario&quot;</span>, <span class="stringliteral">&quot;Read Areal Source Distributions&quot;</span>,</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                             <span class="stringliteral">&quot;Failed to get collection: &quot;</span> + <a class="code" href="../../da/da0/a00009.html#a8ab953ff525f4e877487e2945afd9d44">m_arealSrcDistTab</a> + <span class="stringliteral">&quot;.\n&quot;</span>);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    cursor = mongoc_collection_find(collection, MONGOC_QUERY_NONE, 0, 0, 0, b, NULL, NULL);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordflow">while</span> (mongoc_cursor_next(cursor, &amp;bsonTable)) {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <a class="code" href="../../d0/d0b/a00004.html">ArealSourceLocations</a> *curArSrcLoc = <span class="keyword">new</span> <a class="code" href="../../d0/d0b/a00004.html">ArealSourceLocations</a>(bsonTable, iter);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keywordtype">int</span> curArSrcID = curArSrcLoc-&gt;<a class="code" href="../../d0/d0b/a00004.html#aa4f1d91e4729ace2fc08a4acab968821">GetArealSourceID</a>();</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keywordflow">if</span> (ValueInVector(curArSrcID, <a class="code" href="../../da/da0/a00009.html#a3457d4f2867b5997bc15fe230ae09492">m_arealSrcIDs</a>)) {</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            m_arealSrcLocsMap[curArSrcID] = curArSrcLoc;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            RemoveValueInVector(curArSrcID, <a class="code" href="../../da/da0/a00009.html#a3457d4f2867b5997bc15fe230ae09492">m_arealSrcIDs</a>);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    }</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    bson_destroy(b);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    mongoc_collection_destroy(collection);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    mongoc_cursor_destroy(cursor);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;}</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="keywordtype">void</span> BMPArealSrcFactory::SetArealSrcLocsMap(<span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *mgtField) {</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">for</span> (map&lt;int, ArealSourceLocations *&gt;::iterator it = m_arealSrcLocsMap.begin(); it != m_arealSrcLocsMap.end();</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;         it++) {</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <a class="code" href="../../d0/d0b/a00004.html">ArealSourceLocations</a> *tmpArealLoc = it-&gt;second;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">if</span> (tmpArealLoc-&gt;<a class="code" href="../../d0/d0b/a00004.html#a685a31046f34b612e2f748a6a5aaa580">GetValidCells</a>() &lt; 0 &amp;&amp; tmpArealLoc-&gt;<a class="code" href="../../d0/d0b/a00004.html#a86e38a8ca85fc90f3e96750f487f585f">GetCellsIndex</a>().empty()) {</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            tmpArealLoc-&gt;<a class="code" href="../../d0/d0b/a00004.html#a399dbcf5e788c29a3d73de021c9d442d">SetValidCells</a>(n, mgtField);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        }</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <a class="code" href="../../da/da0/a00009.html#a5ba3449df87c0b05613728d110e96895">m_loadedMgtFieldIDs</a> = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;}</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="../../da/da0/a00009.html#a384bee10a8954c7b1c38c75e17b81f98">  134</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/da0/a00009.html#a384bee10a8954c7b1c38c75e17b81f98">BMPArealSrcFactory::Dump</a>(ostream *fs) {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">if</span> (fs == NULL) <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    *fs &lt;&lt; <span class="stringliteral">&quot;Point Source Management Factory: &quot;</span> &lt;&lt; endl &lt;&lt;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="stringliteral">&quot;    SubScenario ID: &quot;</span> &lt;&lt; <a class="code" href="../../d7/dec/a00010.html#ac6e3a1de03788dfc2c59b0075ea874be">m_subScenarioId</a> &lt;&lt; endl;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordflow">for</span> (vector&lt;int&gt;::iterator it = <a class="code" href="../../da/da0/a00009.html#acdfb2c27962c2dc8b6a587c650ba538a">m_arealSrcMgtSeqs</a>.begin(); it != <a class="code" href="../../da/da0/a00009.html#acdfb2c27962c2dc8b6a587c650ba538a">m_arealSrcMgtSeqs</a>.end(); it++) {</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        map&lt;int, ArealSourceMgtParams *&gt;::iterator findIdx = m_arealSrcMgtMap.find(*it);</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <span class="keywordflow">if</span> (findIdx != m_arealSrcMgtMap.end()) {</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            m_arealSrcMgtMap[*it]-&gt;Dump(fs);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        }</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    }</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordflow">for</span> (vector&lt;int&gt;::iterator it = <a class="code" href="../../da/da0/a00009.html#a3457d4f2867b5997bc15fe230ae09492">m_arealSrcIDs</a>.begin(); it != <a class="code" href="../../da/da0/a00009.html#a3457d4f2867b5997bc15fe230ae09492">m_arealSrcIDs</a>.end(); it++) {</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        map&lt;int, ArealSourceLocations *&gt;::iterator findIdx = m_arealSrcLocsMap.find(*it);</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keywordflow">if</span> (findIdx != m_arealSrcLocsMap.end()) {</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            m_arealSrcLocsMap[*it]-&gt;Dump(fs);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        }</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    }</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;}</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="comment">/*                  ArealSourceMgtParams                                        */</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;ArealSourceMgtParams::ArealSourceMgtParams(<span class="keyword">const</span> bson_t *&amp;bsonTable, bson_iter_t &amp;iter)</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    : m_startDate(0), m_endDate(0), m_waterVolume(0.f), m_sedimentConc(0.f), m_TNConc(0.f), m_NO3Conc(0.f),</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;      m_NH4Conc(0.f), m_OrgNConc(0.f), m_TPConc(0.f), m_SolPConc(0.f), m_OrgPConc(0.f), m_COD(0.f),</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;      m_name(<span class="stringliteral">&quot;&quot;</span>), m_seqence(-1) {</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_FLD_NAME)) {</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        m_name = GetStringFromBsonIterator(&amp;iter);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    }</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_FLD_SEQUENCE)) {</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        GetNumericFromBsonIterator(&amp;iter, m_seqence);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    }</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSRC_FLD_Q)) {</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        GetNumericFromBsonIterator(&amp;iter, m_waterVolume);</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    }</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSRC_FLD_SED)) {</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        GetNumericFromBsonIterator(&amp;iter, m_sedimentConc);</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    }</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSRC_FLD_TN)) {</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        GetNumericFromBsonIterator(&amp;iter, m_TNConc);</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    }</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSRC_FLD_NO3)) {</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        GetNumericFromBsonIterator(&amp;iter, m_NO3Conc);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    }</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSRC_FLD_NH4)) {</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        GetNumericFromBsonIterator(&amp;iter, m_NH4Conc);</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    }</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    cellOf.close();</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;}</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="keywordtype">int</span> WatershedIUHCalculator::calSub(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    ofstream subOf(uhSubFile.c_str());</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    sumRunCo = 0.0;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nSubs; ++i) {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <span class="keywordtype">int</span> mint = 0;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <span class="keywordtype">int</span> maxt = 0;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="keywordtype">double</span> uhSum = 0.0;</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt;= maxtSub; ++j) {</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            uhSub[i][j] /= runoffSub[i];</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            <span class="keywordflow">if</span> (uhSub[i][j] &gt;= 0.001) {</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                uhSum += uhSub[i][j];</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            }</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;            uhWatershed[j] += uhSub[i][j] * runoffSub[i];</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        }</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt;= maxtSub; ++j) {</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            <span class="keywordflow">if</span> (uhSub[i][j] &gt; 0.001) {</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                mint = j;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            }</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        }</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = mint; j &lt;= maxtSub; ++j) {</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            uhSub[i][j] /= uhSum;</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            <span class="keywordflow">if</span> (uhSub[i][j] &lt; 0.001) {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                maxt = max(mint + 1, j - 1);</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            }</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        }</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        <span class="comment">//subwatershed IUH integration</span></div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="keywordflow">if</span> (dt &gt; 1) {</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            uhSum = 0.0;</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = 0; k &lt;= int(maxt / dt); ++k) {</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                <span class="keywordflow">for</span> (<span class="keywordtype">int</span> x = 0; x &lt; dt; ++x) {</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                    uh2[i][k] += uhSub[i][k * dt + x];</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                }</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                uhSum += uh2[i][k];</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            }</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            mint = 0;</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            maxt = int(maxt / dt);</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = mint; k &lt;= maxt; ++k) {</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                uh2[i][k] /= uhSum;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            }</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = mint; j &lt;= maxt; ++j) {</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                uh2[i][j] = uhSub[i][j];</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            }</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        }</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        subOf &lt;&lt; setw(7) &lt;&lt; mint &lt;&lt; setw(7) &lt;&lt; maxt;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = mint; k &lt;= maxt; ++k) {</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            subOf &lt;&lt; setiosflags(ios::fixed) &lt;&lt; setw(7) &lt;&lt; setprecision(3) &lt;&lt; uh2[i][k];</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        }</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        subOf &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        sumRunCo += runoffSub[i];</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    }</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    subOf.close();</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;}</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="keywordtype">int</span> WatershedIUHCalculator::calWatershed(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    ofstream wsOf(uhWatershedFile.c_str());</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keywordtype">int</span> mint = 0;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    <span class="keywordtype">int</span> maxt = 0;</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keywordtype">double</span> uhSum = 0.0;</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= maxtSub; ++i) {</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        uhWatershed[i] /= sumRunCo;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="keywordflow">if</span> (uhWatershed[i] &gt;= 0.001) {</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            uhSum += uhWatershed[i];</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        }</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSRC_FLD_ORGN)) {</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        GetNumericFromBsonIterator(&amp;iter, m_OrgNConc);</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    }</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSRC_FLD_TP)) {</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        GetNumericFromBsonIterator(&amp;iter, m_TPConc);</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    }</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSRC_FLD_SOLP)) {</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        GetNumericFromBsonIterator(&amp;iter, m_SolPConc);</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    }</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSRC_FLD_ORGP)) {</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        GetNumericFromBsonIterator(&amp;iter, m_OrgPConc);</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    }</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSRC_FLD_COD)) {</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        GetNumericFromBsonIterator(&amp;iter, m_COD);</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    }</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="keywordtype">int</span> sYear = -1, sMonth = -1, sDay = -1, eYear = -1, eMonth = -1, eDay = -1;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_FLD_SYEAR)) {</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        GetNumericFromBsonIterator(&amp;iter, sYear);</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    }</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_FLD_SMONTH)) {</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        GetNumericFromBsonIterator(&amp;iter, sMonth);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    }</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_FLD_SDAY)) {</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        GetNumericFromBsonIterator(&amp;iter, sDay);</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    }</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_FLD_EYEAR)) {</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        GetNumericFromBsonIterator(&amp;iter, eYear);</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    }</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_FLD_EMONTH)) {</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        GetNumericFromBsonIterator(&amp;iter, eMonth);</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    }</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_FLD_EDAY)) {</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        GetNumericFromBsonIterator(&amp;iter, eDay);</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    }</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keywordflow">if</span> (sYear &gt; 0 &amp;&amp; sMonth &gt; 0 &amp;&amp; sDay &gt; 0) {</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        m_startDate = ConvertYMDToTime(sYear, sMonth, sDay);</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    }</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="keywordflow">if</span> (eYear &gt; 0 &amp;&amp; eMonth &gt; 0 &amp;&amp; eDay &gt; 0) {</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        m_endDate = ConvertYMDToTime(eYear, eMonth, eDay);</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    }</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;}</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;ArealSourceMgtParams::~ArealSourceMgtParams(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;}</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="keywordtype">void</span> ArealSourceMgtParams::Dump(ostream *fs) {</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordflow">if</span> (fs == NULL) <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    *fs &lt;&lt; <span class="stringliteral">&quot;    Point Source Managements: &quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="keywordflow">if</span> (m_startDate != 0) {</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        *fs &lt;&lt; <span class="stringliteral">&quot;      Start Date: &quot;</span> &lt;&lt; ConvertToString(&amp;m_startDate) &lt;&lt; endl;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    }</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="keywordflow">if</span> (m_endDate != 0) {</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        *fs &lt;&lt; <span class="stringliteral">&quot;      End Date: &quot;</span> &lt;&lt; ConvertToString(&amp;m_endDate) &lt;&lt; endl;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    }</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    *fs &lt;&lt; <span class="stringliteral">&quot;      WaterVolume: &quot;</span> &lt;&lt; m_waterVolume &lt;&lt; <span class="stringliteral">&quot;, Sediment: &quot;</span> &lt;&lt; m_sedimentConc &lt;&lt;</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        <span class="stringliteral">&quot;, TN: &quot;</span> &lt;&lt; m_TNConc &lt;&lt; <span class="stringliteral">&quot;, NO3: &quot;</span> &lt;&lt; m_NO3Conc &lt;&lt;</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        <span class="stringliteral">&quot;, NH4: &quot;</span> &lt;&lt; m_NH4Conc &lt;&lt; <span class="stringliteral">&quot;, OrgN: &quot;</span> &lt;&lt; m_OrgNConc &lt;&lt;</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="stringliteral">&quot;, TP: &quot;</span> &lt;&lt; m_TPConc &lt;&lt; <span class="stringliteral">&quot;, MinP: &quot;</span> &lt;&lt; m_SolPConc &lt;&lt;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        <span class="stringliteral">&quot;, OrgP: &quot;</span> &lt;&lt; m_OrgPConc &lt;&lt; endl;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;}</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="comment">/*                      ArealSourceLocations                                           */</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;</div>
+<div class="line"><a name="l00248"></a><span class="lineno"><a class="line" href="../../d0/d0b/a00004.html#a16bc19582ad47e4ca5591f7661baac79">  248</a></span>&#160;<a class="code" href="../../d0/d0b/a00004.html#a16bc19582ad47e4ca5591f7661baac79">ArealSourceLocations::ArealSourceLocations</a>(<span class="keyword">const</span> bson_t *&amp;bsonTable, bson_iter_t &amp;iter)</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    : m_nCells(-1), m_size(0.f) {</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_FLD_NAME)) {</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        <a class="code" href="../../d0/d0b/a00004.html#a0195d5db00328313e4e950b013da2008">m_name</a> = GetStringFromBsonIterator(&amp;iter);</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    }</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSRC_FLD_PTSRCID)) {</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        GetNumericFromBsonIterator(&amp;iter, <a class="code" href="../../d0/d0b/a00004.html#ab487de6934750f32ddb1c810aa94d928">m_arealSrcID</a>);</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    }</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSRC_FLD_SIZE)) {</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        GetNumericFromBsonIterator(&amp;iter, <a class="code" href="../../d0/d0b/a00004.html#aa4d342707bb8f6b6803ffa6515a10024">m_size</a>);</div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    }</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt;= maxtSub; ++i) {</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        <span class="keywordflow">if</span> (uhWatershed[i] &gt; 0.001) {</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            mint = i;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        }</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    }</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = mint; i &lt;= maxtSub; ++i) {</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        uhWatershed[i] /= uhSum;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        <span class="keywordflow">if</span> (uhWatershed[i] &lt; 0.001) {</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            maxt = max(mint, i - 1);</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        }</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    }</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="comment">//watershed IUH integration</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="keywordflow">if</span> (dt &gt; 1) {</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        uhSum = 0.0;</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = 0; k &lt;= int(maxt / dt); ++k) {</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> x = 0; x &lt; dt; ++x) {</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;                uh3[k] += uhWatershed[k * dt + x];</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;            }</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            uhSum += uh3[k];</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        }</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        mint = 0;</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        maxt = int(maxt / dt);</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = mint; k &lt;= maxt; ++k) {</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;            uh3[k] /= uhSum;</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        }</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = mint; j &lt;= maxt; ++j) {</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;            uh3[j] = uhWatershed[j];</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        }</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    }</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    wsOf &lt;&lt; mint &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; maxt &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span>;</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = mint; k &lt;= maxt; ++k) {</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        wsOf &lt;&lt; uh3[k] &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span>;</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    }</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    wsOf &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    wsOf.close();</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;}</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="keywordtype">int</span> WatershedIUHCalculator::calIUH(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    calCell();</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    calSub();</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    calWatershed();</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;}</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="keywordtype">int</span> WatershedIUHCalculator::calIUHSubwatershed(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    calCell();</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    calSub();</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;}</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="keywordtype">int</span> WatershedIUHCalculator::calIUHCell(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    <span class="keywordflow">return</span> calCell();</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;}</div>
-<div class="ttc" id="a00054_html_ada0a43ef89e61b07de87d672e5240b5e"><div class="ttname"><a href="../../d1/dea/a00054.html#ada0a43ef89e61b07de87d672e5240b5e">IUHCalculator::readData</a></div><div class="ttdeci">virtual void readData()</div><div class="ttdoc">Read data. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d35/a00266_source.html#l00014">IUHCalculator.cpp:14</a></div></div>
-<div class="ttc" id="a00054_html"><div class="ttname"><a href="../../d1/dea/a00054.html">IUHCalculator</a></div><div class="ttdoc">This class is the base class of IUH calculation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/dd4/a00267_source.html#l00024">IUHCalculator.h:24</a></div></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;}</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;</div>
+<div class="line"><a name="l00261"></a><span class="lineno"><a class="line" href="../../d0/d0b/a00004.html#a67718a78ba782d831f7fbd156f5179c8">  261</a></span>&#160;<a class="code" href="../../d0/d0b/a00004.html#a67718a78ba782d831f7fbd156f5179c8">ArealSourceLocations::~ArealSourceLocations</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;}</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;</div>
+<div class="line"><a name="l00264"></a><span class="lineno"><a class="line" href="../../d0/d0b/a00004.html#a399dbcf5e788c29a3d73de021c9d442d">  264</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d0/d0b/a00004.html#a399dbcf5e788c29a3d73de021c9d442d">ArealSourceLocations::SetValidCells</a>(<span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *mgtFieldIDs) {</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="keywordflow">if</span> (n &gt; 0 &amp;&amp; mgtFieldIDs != NULL) {</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            <span class="keywordflow">if</span> (FloatEqual(<a class="code" href="../../d0/d0b/a00004.html#ab487de6934750f32ddb1c810aa94d928">m_arealSrcID</a>, (<span class="keywordtype">int</span>) mgtFieldIDs[i])) {</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                <a class="code" href="../../d0/d0b/a00004.html#a3c9456bae94a09993ffc89792b0a2484">m_cellsIndex</a>.push_back(i);</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;            }</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        }</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        vector&lt;int&gt;(<a class="code" href="../../d0/d0b/a00004.html#a3c9456bae94a09993ffc89792b0a2484">m_cellsIndex</a>).swap(<a class="code" href="../../d0/d0b/a00004.html#a3c9456bae94a09993ffc89792b0a2484">m_cellsIndex</a>);</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        <a class="code" href="../../d0/d0b/a00004.html#aff43f13dc8e6912584d984d2bd49c993">m_nCells</a> = (int) <a class="code" href="../../d0/d0b/a00004.html#a3c9456bae94a09993ffc89792b0a2484">m_cellsIndex</a>.size();</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(<span class="stringliteral">&quot;ArealSourceLocations&quot;</span>, <span class="stringliteral">&quot;SetValidCells&quot;</span>,</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                             <span class="stringliteral">&quot;The array size of must be greater than 0 and the array must not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    }</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;}</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;</div>
+<div class="line"><a name="l00279"></a><span class="lineno"><a class="line" href="../../d0/d0b/a00004.html#a0299c66b40ee7914b9f0a4b49867189b">  279</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d0/d0b/a00004.html#a0299c66b40ee7914b9f0a4b49867189b">ArealSourceLocations::Dump</a>(ostream *fs) {</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="keywordflow">if</span> (fs == NULL) <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    *fs &lt;&lt; <span class="stringliteral">&quot;      Point Source Location: &quot;</span> &lt;&lt; endl &lt;&lt;</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        <span class="stringliteral">&quot;        ARSRCID: &quot;</span> &lt;&lt; <a class="code" href="../../d0/d0b/a00004.html#ab487de6934750f32ddb1c810aa94d928">m_arealSrcID</a> &lt;&lt; <span class="stringliteral">&quot;, Valid Cells Number: &quot;</span> &lt;&lt; <a class="code" href="../../d0/d0b/a00004.html#aff43f13dc8e6912584d984d2bd49c993">m_nCells</a> &lt;&lt;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        <span class="stringliteral">&quot;, Size: &quot;</span> &lt;&lt; <a class="code" href="../../d0/d0b/a00004.html#aa4d342707bb8f6b6803ffa6515a10024">m_size</a> &lt;&lt; endl;</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;}</div>
+<div class="ttc" id="a00010_html"><div class="ttname"><a href="../../d7/dec/a00010.html">MainBMP::BMPFactory</a></div><div class="ttdoc">Base class to initiate a BMP data. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5e/a00275_source.html#l00025">BMPFactory.h:25</a></div></div>
+<div class="ttc" id="a00004_html_a399dbcf5e788c29a3d73de021c9d442d"><div class="ttname"><a href="../../d0/d0b/a00004.html#a399dbcf5e788c29a3d73de021c9d442d">MainBMP::ArealSourceLocations::SetValidCells</a></div><div class="ttdeci">void SetValidCells(int n, float *mgtFieldIDs)</div><div class="ttdoc">load valid cells index </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd6/a00272_source.html#l00264">BMPArealSourceFactory.cpp:264</a></div></div>
+<div class="ttc" id="a00009_html_a5ba3449df87c0b05613728d110e96895"><div class="ttname"><a href="../../da/da0/a00009.html#a5ba3449df87c0b05613728d110e96895">MainBMP::BMPArealSrcFactory::m_loadedMgtFieldIDs</a></div><div class="ttdeci">bool m_loadedMgtFieldIDs</div><div class="ttdoc">flag </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00281">BMPArealSourceFactory.h:281</a></div></div>
+<div class="ttc" id="a00009_html_a384bee10a8954c7b1c38c75e17b81f98"><div class="ttname"><a href="../../da/da0/a00009.html#a384bee10a8954c7b1c38c75e17b81f98">MainBMP::BMPArealSrcFactory::Dump</a></div><div class="ttdeci">void Dump(ostream *fs)</div><div class="ttdoc">Output. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd6/a00272_source.html#l00134">BMPArealSourceFactory.cpp:134</a></div></div>
+<div class="ttc" id="a00004_html_aa4f1d91e4729ace2fc08a4acab968821"><div class="ttname"><a href="../../d0/d0b/a00004.html#aa4f1d91e4729ace2fc08a4acab968821">MainBMP::ArealSourceLocations::GetArealSourceID</a></div><div class="ttdeci">int GetArealSourceID()</div><div class="ttdoc">Get point source ID. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00039">BMPArealSourceFactory.h:39</a></div></div>
+<div class="ttc" id="a00004_html_a16bc19582ad47e4ca5591f7661baac79"><div class="ttname"><a href="../../d0/d0b/a00004.html#a16bc19582ad47e4ca5591f7661baac79">MainBMP::ArealSourceLocations::ArealSourceLocations</a></div><div class="ttdeci">ArealSourceLocations(const bson_t *&amp;bsonTab, bson_iter_t &amp;iter)</div><div class="ttdoc">Constructor, read and calculate areal BMP locations related parameters from Raster. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd6/a00272_source.html#l00248">BMPArealSourceFactory.cpp:248</a></div></div>
+<div class="ttc" id="a00009_html_acdfb2c27962c2dc8b6a587c650ba538a"><div class="ttname"><a href="../../da/da0/a00009.html#acdfb2c27962c2dc8b6a587c650ba538a">MainBMP::BMPArealSrcFactory::m_arealSrcMgtSeqs</a></div><div class="ttdeci">vector&lt; int &gt; m_arealSrcMgtSeqs</div><div class="ttdoc">Sequences of point source managements. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00268">BMPArealSourceFactory.h:268</a></div></div>
+<div class="ttc" id="a00004_html_a0299c66b40ee7914b9f0a4b49867189b"><div class="ttname"><a href="../../d0/d0b/a00004.html#a0299c66b40ee7914b9f0a4b49867189b">MainBMP::ArealSourceLocations::Dump</a></div><div class="ttdeci">void Dump(ostream *fs)</div><div class="ttdoc">Output. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd6/a00272_source.html#l00279">BMPArealSourceFactory.cpp:279</a></div></div>
+<div class="ttc" id="a00004_html_aa4d342707bb8f6b6803ffa6515a10024"><div class="ttname"><a href="../../d0/d0b/a00004.html#aa4d342707bb8f6b6803ffa6515a10024">MainBMP::ArealSourceLocations::m_size</a></div><div class="ttdeci">float m_size</div><div class="ttdoc">size, used to calculate amount of pollutants </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00073">BMPArealSourceFactory.h:73</a></div></div>
+<div class="ttc" id="a00004_html_a685a31046f34b612e2f748a6a5aaa580"><div class="ttname"><a href="../../d0/d0b/a00004.html#a685a31046f34b612e2f748a6a5aaa580">MainBMP::ArealSourceLocations::GetValidCells</a></div><div class="ttdeci">int GetValidCells()</div><div class="ttdoc">Located subbasin ID. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00054">BMPArealSourceFactory.h:54</a></div></div>
+<div class="ttc" id="a00009_html_a8ab953ff525f4e877487e2945afd9d44"><div class="ttname"><a href="../../da/da0/a00009.html#a8ab953ff525f4e877487e2945afd9d44">MainBMP::BMPArealSrcFactory::m_arealSrcDistTab</a></div><div class="ttdeci">string m_arealSrcDistTab</div><div class="ttdoc">areal source distribution table </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00277">BMPArealSourceFactory.h:277</a></div></div>
+<div class="ttc" id="a00004_html_a0195d5db00328313e4e950b013da2008"><div class="ttname"><a href="../../d0/d0b/a00004.html#a0195d5db00328313e4e950b013da2008">MainBMP::ArealSourceLocations::m_name</a></div><div class="ttdeci">string m_name</div><div class="ttdoc">name </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00067">BMPArealSourceFactory.h:67</a></div></div>
+<div class="ttc" id="a00010_html_ac6e3a1de03788dfc2c59b0075ea874be"><div class="ttname"><a href="../../d7/dec/a00010.html#ac6e3a1de03788dfc2c59b0075ea874be">MainBMP::BMPFactory::m_subScenarioId</a></div><div class="ttdeci">int m_subScenarioId</div><div class="ttdoc">SubScenario ID within one BMP ID. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5e/a00275_source.html#l00068">BMPFactory.h:68</a></div></div>
+<div class="ttc" id="a00063_html"><div class="ttname"><a href="../../d1/d6f/a00063.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/db6/a00241_source.html#l00020">ModelException.h:20</a></div></div>
+<div class="ttc" id="a00009_html_aa8645a97140549027b3407a717efcec0"><div class="ttname"><a href="../../da/da0/a00009.html#aa8645a97140549027b3407a717efcec0">MainBMP::BMPArealSrcFactory::m_arealSrcMgtTab</a></div><div class="ttdeci">string m_arealSrcMgtTab</div><div class="ttdoc">Collection of point source management parameters. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00266">BMPArealSourceFactory.h:266</a></div></div>
+<div class="ttc" id="a00009_html_a083480be0d29bd7506911524a8342223"><div class="ttname"><a href="../../da/da0/a00009.html#a083480be0d29bd7506911524a8342223">MainBMP::BMPArealSrcFactory::m_arealSrcDistName</a></div><div class="ttdeci">string m_arealSrcDistName</div><div class="ttdoc">core file name of areal source locations, such as MGT_FIELDS </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00275">BMPArealSourceFactory.h:275</a></div></div>
+<div class="ttc" id="a00009_html_a5825de8b92284a6bd5f32eb5adc70d29"><div class="ttname"><a href="../../da/da0/a00009.html#a5825de8b92284a6bd5f32eb5adc70d29">MainBMP::BMPArealSrcFactory::~BMPArealSrcFactory</a></div><div class="ttdeci">~BMPArealSrcFactory(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd6/a00272_source.html#l00023">BMPArealSourceFactory.cpp:23</a></div></div>
+<div class="ttc" id="a00010_html_a5e7c835b8bfebb1c03f2bebf59a8a4fe"><div class="ttname"><a href="../../d7/dec/a00010.html#a5e7c835b8bfebb1c03f2bebf59a8a4fe">MainBMP::BMPFactory::m_bmpCollection</a></div><div class="ttdeci">string m_bmpCollection</div><div class="ttdoc">Collection to. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5e/a00275_source.html#l00078">BMPFactory.h:78</a></div></div>
+<div class="ttc" id="a00004_html_a86e38a8ca85fc90f3e96750f487f585f"><div class="ttname"><a href="../../d0/d0b/a00004.html#a86e38a8ca85fc90f3e96750f487f585f">MainBMP::ArealSourceLocations::GetCellsIndex</a></div><div class="ttdeci">vector&lt; int &gt; &amp; GetCellsIndex()</div><div class="ttdoc">index of valid cells </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00049">BMPArealSourceFactory.h:49</a></div></div>
+<div class="ttc" id="a00009_html_a4eab0495193ed0d0a0392c042fbd8c39"><div class="ttname"><a href="../../da/da0/a00009.html#a4eab0495193ed0d0a0392c042fbd8c39">MainBMP::BMPArealSrcFactory::loadBMP</a></div><div class="ttdeci">void loadBMP(mongoc_client_t *conn, string &amp;bmpDBName)</div><div class="ttdoc">Load BMP parameters from MongoDB. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd6/a00272_source.html#l00048">BMPArealSourceFactory.cpp:48</a></div></div>
+<div class="ttc" id="a00009_html_ae451b497f2b1fda3fb3306a6b35e84f5"><div class="ttname"><a href="../../da/da0/a00009.html#ae451b497f2b1fda3fb3306a6b35e84f5">MainBMP::BMPArealSrcFactory::m_arealSrc</a></div><div class="ttdeci">int m_arealSrc</div><div class="ttdoc">areal source code </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00264">BMPArealSourceFactory.h:264</a></div></div>
+<div class="ttc" id="a00004_html_aff43f13dc8e6912584d984d2bd49c993"><div class="ttname"><a href="../../d0/d0b/a00004.html#aff43f13dc8e6912584d984d2bd49c993">MainBMP::ArealSourceLocations::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">valid cell number </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00069">BMPArealSourceFactory.h:69</a></div></div>
+<div class="ttc" id="a00004_html_ab487de6934750f32ddb1c810aa94d928"><div class="ttname"><a href="../../d0/d0b/a00004.html#ab487de6934750f32ddb1c810aa94d928">MainBMP::ArealSourceLocations::m_arealSrcID</a></div><div class="ttdeci">int m_arealSrcID</div><div class="ttdoc">ID of point source. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00065">BMPArealSourceFactory.h:65</a></div></div>
+<div class="ttc" id="a00009_html_a163d84742bb3ecae9fb3ba7e80f7a132"><div class="ttname"><a href="../../da/da0/a00009.html#a163d84742bb3ecae9fb3ba7e80f7a132">MainBMP::BMPArealSrcFactory::BMPArealSrcFactory</a></div><div class="ttdeci">BMPArealSrcFactory(int scenarioId, int bmpId, int subScenario, int bmpType, int bmpPriority, string distribution, string collection, string location)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd6/a00272_source.html#l00005">BMPArealSourceFactory.cpp:5</a></div></div>
+<div class="ttc" id="a00009_html_a2cc534d2526b34f4a597251ee4531c27"><div class="ttname"><a href="../../da/da0/a00009.html#a2cc534d2526b34f4a597251ee4531c27">MainBMP::BMPArealSrcFactory::ReadArealSourceLocations</a></div><div class="ttdeci">void ReadArealSourceLocations(mongoc_client_t *conn, string &amp;bmpDBName)</div><div class="ttdoc">Load areal BMP location related parameters from MongoDB. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd6/a00272_source.html#l00089">BMPArealSourceFactory.cpp:89</a></div></div>
+<div class="ttc" id="a00004_html_a67718a78ba782d831f7fbd156f5179c8"><div class="ttname"><a href="../../d0/d0b/a00004.html#a67718a78ba782d831f7fbd156f5179c8">MainBMP::ArealSourceLocations::~ArealSourceLocations</a></div><div class="ttdeci">~ArealSourceLocations(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd6/a00272_source.html#l00261">BMPArealSourceFactory.cpp:261</a></div></div>
+<div class="ttc" id="a00009_html_a4abb57178213c0f4eae6336c5b4c9b48"><div class="ttname"><a href="../../da/da0/a00009.html#a4abb57178213c0f4eae6336c5b4c9b48">MainBMP::BMPArealSrcFactory::ReadArealSourceManagements</a></div><div class="ttdeci">void ReadArealSourceManagements(mongoc_client_t *conn, string &amp;bmpDBName)</div><div class="ttdoc">Load areal BMP location related parameters from MongoDB. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd6/a00272_source.html#l00053">BMPArealSourceFactory.cpp:53</a></div></div>
+<div class="ttc" id="a00004_html"><div class="ttname"><a href="../../d0/d0b/a00004.html">MainBMP::ArealSourceLocations</a></div><div class="ttdoc">Base class of point BMP, mainly store location related parameters. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00022">BMPArealSourceFactory.h:22</a></div></div>
+<div class="ttc" id="a00004_html_a3c9456bae94a09993ffc89792b0a2484"><div class="ttname"><a href="../../d0/d0b/a00004.html#a3c9456bae94a09993ffc89792b0a2484">MainBMP::ArealSourceLocations::m_cellsIndex</a></div><div class="ttdeci">vector&lt; int &gt; m_cellsIndex</div><div class="ttdoc">index of valid cells </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00071">BMPArealSourceFactory.h:71</a></div></div>
+<div class="ttc" id="a00009_html_a3457d4f2867b5997bc15fe230ae09492"><div class="ttname"><a href="../../da/da0/a00009.html#a3457d4f2867b5997bc15fe230ae09492">MainBMP::BMPArealSrcFactory::m_arealSrcIDs</a></div><div class="ttdeci">vector&lt; int &gt; m_arealSrcIDs</div><div class="ttdoc">Field IDs of areal source of current subScenario. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d19/a00273_source.html#l00279">BMPArealSourceFactory.h:279</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2b61984990e472053a6caf1b984c1e37.html">iuh</a></li><li class="navelem"><b>WatershedIUHCalculator.cpp</b></li>
-    <li class="footer">Generated on Tue Mar 21 2017 05:31:29 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_c4eaa6a6e6c4ee7b087e3de60cab1bbc.html">bmps</a></li><li class="navelem"><b>BMPArealSourceFactory.cpp</b></li>
+    <li class="footer">Generated on Wed Mar 22 2017 16:43:17 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

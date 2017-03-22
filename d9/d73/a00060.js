@@ -1,6 +1,5 @@
 var a00060 =
 [
-    [ "OpenTag", "d9/d73/a00060.html#a69ae39fafa99f5df99219f6ceba83ae9", null ],
     [ "m_Info", "d9/d73/a00060.html#a198c06e1084efade404ae7cb0c8b2920", null ],
     [ "m_oClass", "d9/d73/a00060.html#a1a8276b621b77495068b9a4a9f3d098c", null ],
     [ "m_strSchemaVersion", "d9/d73/a00060.html#ae0991113a1ad420c68e3475bf5d4b830", null ],

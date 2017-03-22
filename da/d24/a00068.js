@@ -55,6 +55,7 @@ var a00068 =
     [ "m_qsCh", "da/d24/a00068.html#ad375286f9c0a1921df8ef58b6b5666e7", null ],
     [ "m_qsSub", "da/d24/a00068.html#af3eb766ebf070623cd47c82e875ca51d", null ],
     [ "m_reachDownStream", "da/d24/a00068.html#a72b10e45b27b8230fb7268938484f1db", null ],
+    [ "m_reachLayers", "da/d24/a00068.html#a3d4136f27b80b818e3db2cfd7952bc74", null ],
     [ "m_reachUpStream", "da/d24/a00068.html#a3f999fc179d5abec14cdff03c57c3985", null ],
     [ "m_seepage", "da/d24/a00068.html#a4152019a630faffa626fa8c2c0a99030", null ],
     [ "m_subbasin", "da/d24/a00068.html#aaba297b9945199456522602299277cb1", null ],

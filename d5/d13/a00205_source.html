@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/pygeoc/examples/basic_raster_operations.py Source File</title>
+<title>SEIMS: seims/pygeoc/pygeoc/hydro/hydro.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('d5/d13/a00205_source.html','../../');}
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,40 +112,63 @@ $(document).ready(function(){initNavTree('d5/d13/a00205_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">basic_raster_operations.py</div>  </div>
+<div class="title">hydro.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># Example 1: basic raster operations</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># Related modules: pygeoc.raster</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># Created by Liang-Jun Zhu</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># Date: 2016.11</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> os</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d9/d19/a00560.html">pygeoc.raster</a> <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: PyGeoC is not successfully installed, please check and retry!&quot;</span>)</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># coding=utf-8</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> math</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">from</span> ..utils.utils <span class="keyword">import</span> StringClass</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;SQ2 = math.sqrt(2.)</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="../../d4/d8c/a00035.html">   10</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d4/d8c/a00035.html">FlowDirectionCode</a>(object):</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Definition of flow direction code and shift coordinate.&quot;&quot;&quot;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    inputdem = <span class="stringliteral">&quot;.%sdata%sJamaica_dem.tif&quot;</span> % (os.sep, os.sep)</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    demr = ReadRaster(inputdem)</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment"># metadata information</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;rows: %d, cols: %d&quot;</span> % (demr.nRows, demr.nCols))</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;LLCornerX: %f, LLCornerY: %f&quot;</span> % (demr.xMin, demr.yMin))</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;cell size: %f&quot;</span> % demr.dx)</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Coornate system (if stated): %s&quot;</span> % demr.srs)</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="comment"># basic statistics, nodata is excluded</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;mean: %f, max: %f, min: %f&quot;</span> % (demr.GetAverage(), demr.GetMax(), demr.GetMin()))</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;std: %f, sum: %f&quot;</span> % (demr.GetSTD(), demr.GetSum()))</div>
-<div class="ttc" id="a00560_html"><div class="ttname"><a href="../../d9/d19/a00560.html">pygeoc.raster</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/db8/a00158_source.html#l00001">__init__.py:1</a></div></div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="../../d4/d8c/a00035.html#aae78c3e8ee03a3e696f05b310328c8dd">   13</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d8c/a00035.html#aae78c3e8ee03a3e696f05b310328c8dd">__init__</a>(self, flow_model):</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="stringliteral">        Initialization.</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="stringliteral">        :param flow_model(string): Currently, &quot;TauDEM&quot; and &quot;ArcGIS&quot; are supported.</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        self.<a class="code" href="../../d4/d8c/a00035.html#ac499742c737cda6a19ac9cc7961851ea">cell_length</a> = {}</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        self.<a class="code" href="../../d4/d8c/a00035.html#a545a40d49641682eb3daac19651d1e99">cell_shift</a> = {}</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordflow">if</span> StringClass.stringmatch(flow_model, <span class="stringliteral">&quot;TauDEM&quot;</span>):</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            <span class="comment"># The value of direction is as following (TauDEM):</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <span class="comment"># 4  3  2</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="comment"># 5     1</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <span class="comment"># 6  7  8</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="comment"># TauDEM flow direction code</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            self.<a class="code" href="../../d4/d8c/a00035.html#ac499742c737cda6a19ac9cc7961851ea">cell_length</a> = {1: 1, 3: 1, 5: 1, 7: 1, 2: SQ2, 4: SQ2, 6: SQ2, 8: SQ2}</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            self.<a class="code" href="../../d4/d8c/a00035.html#a545a40d49641682eb3daac19651d1e99">cell_shift</a> = {1: [0, 1], 2: [-1, 1], 3: [-1, 0], 4: [-1, -1],</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                               5: [0, -1], 6: [1, -1], 7: [1, 0], 8: [1, 1]}</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordflow">elif</span> StringClass.stringmatch(flow_model, <span class="stringliteral">&quot;ArcGIS&quot;</span>):</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <span class="comment"># The value of direction is as following (ArcGIS):</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="comment"># 32 64 128</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            <span class="comment"># 64     1</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="comment"># 8   4  2</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="comment"># ArcGIS flow direction code</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            self.<a class="code" href="../../d4/d8c/a00035.html#ac499742c737cda6a19ac9cc7961851ea">cell_length</a> = {1: 1, 4: 1, 16: 1, 64: 1, 2: SQ2, 8: SQ2, 32: SQ2, 128: SQ2}</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            self.<a class="code" href="../../d4/d8c/a00035.html#a545a40d49641682eb3daac19651d1e99">cell_shift</a> = {1 : [0, 1], 2: [1, 1], 4: [1, 0], 8: [1, -1],</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                               16: [0, -1], 32: [-1, -1], 64: [-1, 0], 128: [-1, 1]}</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">def </span>get_cell_length(self):</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keywordflow">return</span> self.<a class="code" href="../../d4/d8c/a00035.html#ac499742c737cda6a19ac9cc7961851ea">cell_length</a></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">def </span>get_cell_shift(self):</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">return</span> self.<a class="code" href="../../d4/d8c/a00035.html#a545a40d49641682eb3daac19651d1e99">cell_shift</a></div>
+<div class="ttc" id="a00035_html"><div class="ttname"><a href="../../d4/d8c/a00035.html">pygeoc.hydro.hydro.FlowDirectionCode</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d13/a00205_source.html#l00010">hydro.py:10</a></div></div>
+<div class="ttc" id="a00035_html_ac499742c737cda6a19ac9cc7961851ea"><div class="ttname"><a href="../../d4/d8c/a00035.html#ac499742c737cda6a19ac9cc7961851ea">pygeoc.hydro.hydro.FlowDirectionCode.cell_length</a></div><div class="ttdeci">cell_length</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d13/a00205_source.html#l00018">hydro.py:18</a></div></div>
+<div class="ttc" id="a00035_html_aae78c3e8ee03a3e696f05b310328c8dd"><div class="ttname"><a href="../../d4/d8c/a00035.html#aae78c3e8ee03a3e696f05b310328c8dd">pygeoc.hydro.hydro.FlowDirectionCode.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d13/a00205_source.html#l00013">hydro.py:13</a></div></div>
+<div class="ttc" id="a00035_html_a545a40d49641682eb3daac19651d1e99"><div class="ttname"><a href="../../d4/d8c/a00035.html#a545a40d49641682eb3daac19651d1e99">pygeoc.hydro.hydro.FlowDirectionCode.cell_shift</a></div><div class="ttdeci">cell_shift</div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d13/a00205_source.html#l00019">hydro.py:19</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_d8b73b43b5bed3f628cfe27c845cae28.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_9b03254056ec560765c67c293e8c12b7.html">examples</a></li><li class="navelem"><b>basic_raster_operations.py</b></li>
-    <li class="footer">Generated on Tue Mar 21 2017 05:31:29 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_d8b73b43b5bed3f628cfe27c845cae28.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_40ac51da4d01f07ce353fa50d7389af2.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_3bc3c8455419c771b2ca0421583485cb.html">hydro</a></li><li class="navelem"><b>hydro.py</b></li>
+    <li class="footer">Generated on Wed Mar 22 2017 16:43:17 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

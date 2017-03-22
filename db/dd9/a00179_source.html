@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/preprocess/bmp_import_scenario.py Source File</title>
+<title>SEIMS: seims/preprocess/db_import_daily_rainfall.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('db/dd9/a00179_source.html','../../');}
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,104 +112,107 @@ $(document).ready(function(){initNavTree('db/dd9/a00179_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">bmp_import_scenario.py</div>  </div>
+<div class="title">db_import_daily_rainfall.py</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># coding=utf-8</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># @Import BMP Scenario related parameters to MongoDB</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># @Author Liang-Jun Zhu</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># @Date   2016-6-16</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># @Import daily precipitation data</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># @Author: Junzhi Liu</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># @Revised: Liang-Jun Zhu</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d2/d50/a00561.html">pygeoc.raster.raster</a> <span class="keyword">import</span> RasterUtilClass</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d8/dd2/a00565.html">pygeoc.utils.utils</a> <span class="keyword">import</span> MathClass</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> config <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> utility <span class="keyword">import</span> LoadConfiguration, ReadDataItemsFromTxt</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"># for test main</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> db_mongodb <span class="keyword">import</span> ConnectMongoDB</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">def </span>ImportBMPTables(maindb, scenariodb):</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="stringliteral">    Import BMPs Scenario data to MongoDB</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> useScernario:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">False</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Import BMP Scenario Data... &quot;</span>)</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    BMPFiles = FileClass.getfilenamebysuffixes(BMP_DATA_DIR, [<span class="stringliteral">&#39;.txt&#39;</span>])</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    BMP_tabs = []</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    BMP_tabs_path = []</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">for</span> f <span class="keywordflow">in</span> BMPFiles:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        BMP_tabs.append(f.split(<span class="stringliteral">&#39;.&#39;</span>)[0])</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        BMP_tabs_path.append(BMP_DATA_DIR + os.sep + f)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment"># create if collection not existed</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    cList = scenariodb.collection_names()</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">for</span> item <span class="keywordflow">in</span> BMP_tabs:</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> StringClass.stringinlist(item.upper(), cList):</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            scenariodb.create_collection(item.upper())</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            scenariodb.drop_collection(item.upper())</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment"># Read subbasin.tif and dist2Stream.tif</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    subbasinR = RasterUtilClass.ReadRaster(WORKING_DIR + os.sep + DIR_NAME_GEODATA2DB + os.sep + subbasinOut)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    dist2StreamR = RasterUtilClass.ReadRaster(WORKING_DIR + os.sep + DIR_NAME_GEODATA2DB + os.sep + dist2StreamD8M)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment"># End reading</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(len(BMP_tabs_path)):</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        bmpTxt = BMP_tabs_path[j]</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        bmpTabName = BMP_tabs[j]</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        dataArray = ReadDataItemsFromTxt(bmpTxt)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        fieldArray = dataArray[0]</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        dataArray = dataArray[1:]</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">for</span> item <span class="keywordflow">in</span> dataArray:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            dic = {}</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(fieldArray)):</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <span class="keywordflow">if</span> MathClass.isnumerical(item[i]):</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                    dic[fieldArray[i].upper()] = float(item[i])</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                    dic[fieldArray[i].upper()] = str(item[i]).upper()</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keywordflow">if</span> StringClass.stringinlist(Tag_ST_LocalX, dic.keys()) <span class="keywordflow">and</span> StringClass.stringinlist(Tag_ST_LocalY,</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                                                                                dic.keys()):</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                subbsnID = subbasinR.GetValueByXY(</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                    dic[Tag_ST_LocalX.upper()], dic[Tag_ST_LocalY.upper()])</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                distance = dist2StreamR.GetValueByXY(</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    dic[Tag_ST_LocalX.upper()], dic[Tag_ST_LocalY.upper()])</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keywordflow">if</span> subbsnID <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span> <span class="keywordflow">and</span> distance <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    dic[REACH_SUBBASIN.upper()] = float(subbsnID)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                    dic[BMP_FLD_PT_DISTDOWN.upper()] = float(distance)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                    scenariodb[bmpTabName.upper()].find_one_and_replace(dic, dic, upsert = <span class="keyword">True</span>)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                scenariodb[bmpTabName.upper()].find_one_and_replace(dic, dic, upsert = <span class="keyword">True</span>)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment"># print &#39;BMP tables are imported.&#39;</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment"># Write BMP database name into Model main database</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    cList = maindb.collection_names()</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> StringClass.stringinlist(DB_TAB_BMP_DB.upper(), cList):</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        maindb.create_collection(DB_TAB_BMP_DB.upper())</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> time</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> datetime</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> pymongo</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> config <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> utility <span class="keyword">import</span> LoadConfiguration, ReadDataItemsFromTxt</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"># for test main</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">from</span> db_import_sites <span class="keyword">import</span> ImportHydroClimateSitesInfo</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> db_mongodb <span class="keyword">import</span> ConnectMongoDB</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">def </span>ImportPrecipitation(db, ClimateDateFile, sitesLoc, isFirst):</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    climDataItems = ReadDataItemsFromTxt(ClimateDateFile)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    climFlds = climDataItems[0]</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    StationID = []</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(3, len(climFlds)):</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        StationID.append(climFlds[i])</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(1, len(climDataItems)):</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        dic = {}</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        precipitation = []</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        curY = 0</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        curM = 0</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        curD = 0</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(len(climDataItems[i])):</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            <span class="keywordflow">if</span> StringClass.stringmatch(climFlds[j], Tag_DT_Year):</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                curY = int(climDataItems[i][j])</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(climFlds[j], Tag_DT_Month):</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                curM = int(climDataItems[i][j])</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(climFlds[j], Tag_DT_Day):</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                curD = int(climDataItems[i][j])</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keywordflow">for</span> k <span class="keywordflow">in</span> range(len(StationID)):</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                    <span class="keywordflow">if</span> StringClass.stringmatch(climFlds[j], StationID[k]):</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                        precipitation.append(float(climDataItems[i][j]))</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        dt = datetime.datetime(curY, curM, curD, 0, 0)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        sec = time.mktime(dt.timetuple())</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        utcTime = time.gmtime(sec)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        dic[Tag_DT_LocalT.upper()] = dt</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        dic[Tag_DT_Zone.upper()] = time.timezone / 3600.</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        dic[Tag_DT_UTC.upper()] = datetime.datetime(</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            utcTime[0], utcTime[1], utcTime[2], utcTime[3])</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(len(StationID)):</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            curDic = {}</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            curDic[Tag_DT_Value.upper()] = precipitation[j]</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            curDic[Tag_DT_StationID.upper()] = int(StationID[j])</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            curDic[Tag_DT_Type.upper()] = DataType_Precipitation</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            curDic[Tag_DT_Zone.upper()] = dic[Tag_DT_Zone.upper()]</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            curDic[Tag_DT_LocalT.upper()] = dic[Tag_DT_LocalT.upper()]</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            curDic[Tag_DT_UTC.upper()] = dic[Tag_DT_UTC.upper()]</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            curfilter = {Tag_DT_StationID.upper(): curDic[Tag_DT_StationID.upper()],</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                         Tag_DT_Type.upper()     : curDic[Tag_DT_Type.upper()],</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                         Tag_DT_UTC.upper()      : curDic[Tag_DT_UTC.upper()]}</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keywordflow">if</span> (isFirst):</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                db[DB_TAB_DATAVALUES.upper()].insert_one(curDic)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                db[DB_TAB_DATAVALUES.upper()].find_one_and_replace(curfilter, curDic, upsert = <span class="keyword">True</span>)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment"># Create index</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    db[DB_TAB_DATAVALUES.upper()].create_index(</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        [(Tag_DT_StationID.upper(), pymongo.ASCENDING),</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;         (Tag_DT_Type.upper(), pymongo.ASCENDING),</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;         (Tag_DT_UTC.upper(), pymongo.ASCENDING)])</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    bmpInfoDic = dict()</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    bmpInfoDic[FLD_DB.upper()] = BMPScenarioDBName</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    maindb[DB_TAB_BMP_DB.upper()].find_one_and_replace(bmpInfoDic, bmpInfoDic, upsert = <span class="keyword">True</span>)</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">True</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    LoadConfiguration(getconfigfile())</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    client = ConnectMongoDB(HOSTNAME, PORT)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    conn = client.get_conn()</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    miandb = conn[ClimateDBName]</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    scenariodb = conn[BMPScenarioDBName]</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    ImportBMPTables(miandb, scenariodb)</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    client.close()</div>
-<div class="ttc" id="a00561_html"><div class="ttname"><a href="../../d2/d50/a00561.html">pygeoc.raster.raster</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/ded/a00211_source.html#l00001">raster.py:1</a></div></div>
-<div class="ttc" id="a00565_html"><div class="ttname"><a href="../../d8/dd2/a00565.html">pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dd1/a00214_source.html#l00001">utils.py:1</a></div></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">def </span>ImportDailyPrecData(db, sitePLoc):</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Import Daily Precipitation Data... &quot;</span>)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    cList = db.collection_names()</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    firstImport = <span class="keyword">False</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> StringClass.stringinlist(DB_TAB_DATAVALUES, cList):</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        db.create_collection(DB_TAB_DATAVALUES.upper())</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        firstImport = <span class="keyword">True</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    ImportPrecipitation(db, PrecDailyFile, sitePLoc, firstImport)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    LoadConfiguration(getconfigfile())</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    client = ConnectMongoDB(HOSTNAME, PORT)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    conn = client.get_conn()</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    db = conn[ClimateDBName]</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    SitesMList, SitesPList = ImportHydroClimateSitesInfo(db)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    ImportDailyPrecData(db, SitesPList)</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    client.close()</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>bmp_import_scenario.py</b></li>
-    <li class="footer">Generated on Tue Mar 21 2017 05:31:29 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>db_import_daily_rainfall.py</b></li>
+    <li class="footer">Generated on Wed Mar 22 2017 16:43:17 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

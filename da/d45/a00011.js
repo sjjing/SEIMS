@@ -9,6 +9,8 @@ var a00011 =
     [ "GetOperations", "da/d45/a00011.html#a99606e1d69332f65cf96335866576c08", null ],
     [ "GetOperationSequence", "da/d45/a00011.html#ab0a0c1e10d0c8380333bcb183354d5ab", null ],
     [ "loadBMP", "da/d45/a00011.html#a39699900801a893106824a92c744154b", null ],
+    [ "m_bmpPlantOps", "da/d45/a00011.html#a85082e4d199b12b63d83b24934322312", null ],
+    [ "m_bmpSequence", "da/d45/a00011.html#a6ced6c110b41852c3931a3a9ed503b28", null ],
     [ "m_location", "da/d45/a00011.html#a514c51623eeb813de414b0dbcac9e8e5", null ],
     [ "m_luccID", "da/d45/a00011.html#a0c9286037905fd4d3623261bf8e7d84e", null ],
     [ "m_name", "da/d45/a00011.html#a9b36d475cdb1b002f4933c3168f4c1ef", null ],

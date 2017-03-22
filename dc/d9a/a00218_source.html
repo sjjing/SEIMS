@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/pyseims_check.py Source File</title>
+<title>SEIMS: seims/scenario_analysis/scenario.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('dc/d9a/a00218_source.html','../../');}
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,104 +112,182 @@ $(document).ready(function(){initNavTree('dc/d9a/a00218_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">pyseims_check.py</div>  </div>
+<div class="title">scenario.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="../../d6/d75/a00604.html">    1</a></span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="stringliteral">   This file is part of SEIMS and for checking the dependent packages.</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># 1. pygeoc</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">import</span> pygeoc</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d9/d19/a00560.html">pygeoc.raster</a> <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d0/d3e/a00566.html">pygeoc.vector</a> <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d8/d75/a00555.html">pygeoc.hydro</a> <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d3/d2f/a00562.html">pygeoc.utils</a> <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: PyGeoC is not successfully installed, please check and retry!&quot;</span>)</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;PyGeoC-%s has been installed!&quot;</span> % pygeoc.__version__)</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"># 2. gdal</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">import</span> osgeo</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">from</span> osgeo <span class="keyword">import</span> ogr</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">from</span> osgeo <span class="keyword">import</span> osr</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">from</span> osgeo <span class="keyword">import</span> gdalconst</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">from</span> osgeo <span class="keyword">import</span> gdal_array</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">from</span> osgeo <span class="keyword">import</span> gdal</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: GDAL is not successfully installed, please check and retry!&quot;</span>)</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;GDAL-%s has been installed!&quot;</span> % osgeo.__version__)</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment"># 3. numpy</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">import</span> numpy</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: NumPy is not successfully installed, please check and retry!&quot;</span>)</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;NumPy-%s has been installed!&quot;</span> % numpy.__version__)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"># 4. pymongo</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">import</span> pymongo</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: pymongo is not successfully installed, please check and retry!&quot;</span>)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;pymongo-%s has been installed!&quot;</span> % pymongo.__version__)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"># 5. networkx</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">import</span> networkx</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: networkx is not successfully installed, please check and retry!&quot;</span>)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;networkx-%s has been installed!&quot;</span> % networkx.__version__)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"># 6. shapely</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">import</span> shapely</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: shapely is not successfully installed, please check and retry!&quot;</span>)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;shapely-%s has been installed!&quot;</span> % shapely.__version__)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"># 7. matplotlib</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">import</span> matplotlib</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: matplotlib is not successfully installed, please check and retry!&quot;</span>)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;matplotlib-%s has been installed!&quot;</span> % matplotlib.__version__)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"># 8. pathlib2</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">import</span> pathlib2</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: pathlib2 is not successfully installed, please check and retry!&quot;</span>)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;pathlib2 has been installed!&quot;</span>)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"># 9. deap</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">import</span> deap</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: deap is not successfully installed, please check and retry!&quot;</span>)</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;deap-%s has been installed!&quot;</span> % deap.__version__)</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"># 10. scoop</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">import</span> scoop</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: scoop is not successfully installed, please check and retry!&quot;</span>)</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;scoop-%s.%s has been installed!&quot;</span> % (scoop.__version__, scoop.__revision__))</div>
-<div class="ttc" id="a00562_html"><div class="ttname"><a href="../../d3/d2f/a00562.html">pygeoc.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/db9/a00159_source.html#l00001">__init__.py:1</a></div></div>
-<div class="ttc" id="a00555_html"><div class="ttname"><a href="../../d8/d75/a00555.html">pygeoc.hydro</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/db7/a00157_source.html#l00001">__init__.py:1</a></div></div>
-<div class="ttc" id="a00566_html"><div class="ttname"><a href="../../d0/d3e/a00566.html">pygeoc.vector</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d38/a00160_source.html#l00001">__init__.py:1</a></div></div>
-<div class="ttc" id="a00560_html"><div class="ttname"><a href="../../d9/d19/a00560.html">pygeoc.raster</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/db8/a00158_source.html#l00001">__init__.py:1</a></div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># @Class Scenario</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># @Author Huiran GAO</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># @Date   2016-10-29</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> os, sys</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> random</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> time</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> scoop</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> subprocess <span class="keyword">import</span> Popen</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> subprocess <span class="keyword">import</span> PIPE</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> config <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> readTextInfo <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">class </span>Scenario:</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">def </span>__init__(self):</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        self.id = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        self.attributes = []</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        self.field_Num = farm_Num</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        self.point_cattle_Num = point_cattle_Num</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        self.point_pig_Num = point_pig_Num</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        self.point_sewage_Num = point_sewage_Num</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        self.sce_list = []</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        self.cost_eco = 0.</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        self.benefit_env = 0.</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">def </span>getIdfromMongo(self):</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral">        set new scenario id according to the existing</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">         scenario ids, i.e., the max id + 1</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        client = <a class="code" href="../../de/de1/a00065.html">MongoClient</a>(HOSTNAME, PORT)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        db = client[BMPScenarioDBName]</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        collection = db.BMP_SCENARIOS</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        idsList = []</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">for</span> s <span class="keywordflow">in</span> collection.find():</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            idsList.append(int(s[<span class="stringliteral">&#39;ID&#39;</span>]))</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        idList = list(set(idsList))</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        self.id = idList[-1] + 1</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">def </span>setId(self, id):</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral">        set new scenario id by given number</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="stringliteral">        :param id:</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        self.id = id</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">def </span>create(self):</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="comment"># Create a scenario numeric string</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">for</span> _ <span class="keywordflow">in</span> range(self.field_Num):</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            self.attributes.append(selectBMPatRandom(bmps_farm))</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">for</span> _ <span class="keywordflow">in</span> range(self.point_cattle_Num):</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            self.attributes.append(selectBMPatRandom(bmps_cattle))</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">for</span> _ <span class="keywordflow">in</span> range(self.point_pig_Num):</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            self.attributes.append(selectBMPatRandom(bmps_pig))</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">for</span> _ <span class="keywordflow">in</span> range(self.point_sewage_Num):</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            self.attributes.append(selectBMPatRandom(bmps_sewage))</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">def </span>decoding(self):</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="comment"># scenario section</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">if</span> len(self.attributes) == 0:</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">raise</span> Exception(<span class="stringliteral">&quot;&#39;attributes&#39; cannot be Null!&quot;</span>)</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">if</span> self.id <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordflow">raise</span> Exception(<span class="stringliteral">&quot;&#39;id&#39; cannot be None!&quot;</span>)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        field_index = self.field_Num</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        point_cattle_index = self.point_cattle_Num + field_index</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        point_pig_index = self.point_pig_Num + point_cattle_index</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        point_sewage_index = self.point_sewage_Num + point_pig_index</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="comment"># farm field</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">for</span> f <span class="keywordflow">in</span> range(len(bmps_farm)):</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            scenario_Row = <span class="stringliteral">&quot;&quot;</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            scenario_Row += str(self.id) + <span class="stringliteral">&quot;\tsName&quot;</span> + str(self.id) + <span class="stringliteral">&quot;\t12\t&quot;</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            farm_BMP_do = <span class="keyword">False</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, field_index):</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keywordflow">if</span> self.attributes[i] == 1:</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                    farm_BMP_do = <span class="keyword">True</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                    farm_BMP_do = <span class="keyword">False</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">if</span> farm_BMP_do:</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                scenario_Row += str(bmps_farm[f] + 2) + <span class="stringliteral">&quot;\t&quot;</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                scenario_Row += str(bmps_farm[f]) + <span class="stringliteral">&quot;\t&quot;</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            scenario_Row += <span class="stringliteral">&quot;RASTER|MGT_FIELDS\tPLANT_MANAGEMENT\tALL&quot;</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            self.sce_list.append(scenario_Row)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="comment"># point source</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        cattleConfig = getPointConfig(self.attributes, bmps_cattle, point_cattle, field_index, point_cattle_index)</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        pigConfig = getPointConfig(self.attributes, bmps_pig, point_pig, point_cattle_index, point_pig_index)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        sewageConfig = getPointConfig(self.attributes, bmps_sewage, point_sewage, point_pig_index, point_sewage_index)</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        self.sce_list.extend(decodPointScenario(self.id, cattleConfig, 10000))</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        self.sce_list.extend(decodPointScenario(self.id, pigConfig, 20000))</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        self.sce_list.extend(decodPointScenario(self.id, sewageConfig, 40000))</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keyword">def </span>importoMongo(self, hostname, port, dbname):</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="stringliteral">        Import scenario list to MongoDB</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="stringliteral">        :return:</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="stringliteral">        &#39;&#39;&#39;</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        client = <a class="code" href="../../de/de1/a00065.html">MongoClient</a>(hostname, port)</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        db = client[dbname]</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        collection = db.BMP_SCENARIOS</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        keyarray = [<span class="stringliteral">&quot;ID&quot;</span>, <span class="stringliteral">&quot;NAME&quot;</span>, <span class="stringliteral">&quot;BMPID&quot;</span>, <span class="stringliteral">&quot;SUBSCENARIO&quot;</span>, <span class="stringliteral">&quot;DISTRIBUTION&quot;</span>, <span class="stringliteral">&quot;COLLECTION&quot;</span>, <span class="stringliteral">&quot;LOCATION&quot;</span>]</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">for</span> line <span class="keywordflow">in</span> self.sce_list:</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            conf = {}</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            li_list = line.split(<span class="stringliteral">&#39;\t&#39;</span>)</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(li_list)):</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                <span class="keywordflow">if</span> isNumericValue(li_list[i]):</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                    conf[keyarray[i]] = float(li_list[i])</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                    conf[keyarray[i]] = str(li_list[i]).upper()</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            collection.insert(conf)</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keyword">def </span>cost(self):</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordflow">if</span> len(self.attributes) == 0:</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            <span class="keywordflow">raise</span> Exception(<span class="stringliteral">&quot;&#39;attributes&#39; cannot be Null!&quot;</span>)</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        field_index = self.field_Num</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        point_cattle_index = self.point_cattle_Num + field_index</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        point_pig_index = self.point_pig_Num + point_cattle_index</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        point_sewage_index = self.point_sewage_Num + point_pig_index</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="keywordflow">for</span> i1 <span class="keywordflow">in</span> range(0, field_index):</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            self.cost_eco += bmps_farm_cost[int(self.attributes[i1])]</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordflow">for</span> i2 <span class="keywordflow">in</span> range(field_index, point_cattle_index):</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            self.cost_eco += bmps_cattle_cost[int(self.attributes[i2])] * point_cattle_size[i2 - field_index]</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordflow">for</span> i3 <span class="keywordflow">in</span> range(point_cattle_index, point_pig_index):</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            self.cost_eco += bmps_pig_cost[int(self.attributes[i3])] * point_pig_size[i3 - point_cattle_index]</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">for</span> i4 <span class="keywordflow">in</span> range(point_pig_index, point_sewage_index):</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            self.cost_eco += bmps_sewage_cost[int(self.attributes[i4])]</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keyword">def </span>benefit(self):</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        printInfo(<span class="stringliteral">&quot;Scenario ID: &quot;</span> + str(self.id))</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        startT = time.time()</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        cmdStr = <span class="stringliteral">&quot;%s %s %d %d %s %d %d&quot;</span> % (</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        model_Exe, model_Workdir, threadsNum, layeringMethod, HOSTNAME, PORT, self.id)</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="comment"># print cmdStr</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        process = Popen(cmdStr, shell = <span class="keyword">True</span>, stdout = PIPE)</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keywordflow">while</span> process.stdout.readline() != <span class="stringliteral">&quot;&quot;</span>:</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            line = process.stdout.readline().split(<span class="stringliteral">&quot;\n&quot;</span>)</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            <span class="keywordflow">if</span> line[0] != <span class="stringliteral">&quot;&quot;</span> <span class="keywordflow">and</span> len(line[0]) == 20:</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                lineArr = line[0].split(<span class="stringliteral">&#39; &#39;</span>)[0].split(<span class="stringliteral">&#39;-&#39;</span>)</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                <span class="keywordflow">if</span> int(lineArr[2]) == 1:</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                    sys.stdout.write(str(lineArr[0]) + <span class="stringliteral">&quot;-&quot;</span> + str(lineArr[1]) + <span class="stringliteral">&quot; &quot;</span>)</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        process.wait()</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        time.sleep(1)</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keywordflow">if</span> process.returncode == 0:</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            <span class="comment"># if True:</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            dataDir = model_Workdir + os.sep + <span class="stringliteral">&quot;OUTPUT&quot;</span> + str(self.id)</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            polluteList = [<span class="stringliteral">&#39;CH_COD&#39;</span>, <span class="stringliteral">&#39;CH_TN&#39;</span>, <span class="stringliteral">&#39;CH_TP&#39;</span>]</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            polluteWt = [27., 4., 1.]</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            <span class="keywordflow">for</span> pp <span class="keywordflow">in</span> range(len(polluteList)):</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                simData = ReadSimfromTxt(timeStart, timeEnd, dataDir, polluteList[pp], subbasinID = 0)</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                self.benefit_env += sum(simData) / polluteWt[pp]</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="comment"># print self.benefit_env</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        printInfo(<span class="stringliteral">&quot;cost_eco: &quot;</span> + str(self.cost_eco))</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        printInfo(<span class="stringliteral">&quot;benefit_env: &quot;</span> + str(self.benefit_env))</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        endT = time.time()</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        printInfo(<span class="stringliteral">&quot;SEIMS running time: %.2fs&quot;</span> % (endT - startT))</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keyword">def </span>saveInfo(self, txtfile):</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        outfile = file(txtfile, <span class="stringliteral">&#39;a&#39;</span>)</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        infoStr = str(self.id) + <span class="stringliteral">&quot;\t&quot;</span> + str(self.cost_eco) + <span class="stringliteral">&quot;\t&quot;</span> + str(self.benefit_env) \</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                  + <span class="stringliteral">&quot;\t&quot;</span> + str(self.attributes) + LF</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        outfile.write(infoStr)</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        outfile.close()</div>
+<div class="ttc" id="a00065_html"><div class="ttname"><a href="../../de/de1/a00065.html">MongoClient</a></div><div class="ttdoc">Create a MongoDB Client. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d08/a00237_source.html#l00039">MongoUtil.h:39</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><b>pyseims_check.py</b></li>
-    <li class="footer">Generated on Tue Mar 21 2017 05:31:29 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e9804dfb28c80687c0b1771681283077.html">scenario_analysis</a></li><li class="navelem"><b>scenario.py</b></li>
+    <li class="footer">Generated on Wed Mar 22 2017 16:43:17 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -2,7 +2,7 @@ var NAVTREE =
 [
   [ "SEIMS", "index.html", [
     [ "PyGeoC", "d7/d46/a00002.html", null ],
-    [ "Deprecated List", "da/dd4/a00690.html", null ],
+    [ "Deprecated List", "d8/d7a/a00669.html", null ],
     [ "Modules", "modules.html", "modules" ],
     [ "Namespaces", null, [
       [ "Namespace List", "namespaces.html", "namespaces" ]
@@ -23,10 +23,8 @@ var NAVTREE =
         [ "All", "globals.html", null ],
         [ "Functions", "globals_func.html", null ],
         [ "Variables", "globals_vars.html", null ],
-        [ "Typedefs", "globals_type.html", null ],
         [ "Enumerations", "globals_enum.html", null ],
-        [ "Enumerator", "globals_eval.html", null ],
-        [ "Macros", "globals_defs.html", null ]
+        [ "Enumerator", "globals_eval.html", null ]
       ] ]
     ] ]
   ] ]
@@ -35,19 +33,19 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"d1/d1e/a00087.html#a71b3bfe33c9cdd7d43af1bea3315306c",
-"d1/de3/a00306_source.html",
-"d4/d3e/a00116.html#a07144c011d3feb0d68aa578695207a5a",
-"d4/dca/a00048.html#a791ad6ea393d47fd1c1c2ba04a395bd5",
-"d4/dee/a00008.html#aa2516af89e1bc7229e1218b3e80eef1a",
-"d6/d82/a00293_source.html",
-"d8/dfa/a00121.html#a7d2a13682cb44c3bac435094e67aff92",
-"d9/dcc/a00102.html#a77fc75cb970e5d2278a6a17d72cee445",
-"da/dec/a00080.html#a6807948224cfcde886f194bbd345ef4b",
-"db/db6/a00074.html#afc5820cbbe915bd228a3f1e42bd9349d",
-"dc/dfe/a00125.html#a52f0d2ebe7b5ea6e12ebf37486e8cac5",
-"de/d36/a00123.html#af7ebaabf1edfa557240b456d459f76fc",
-"df/d86/a00012.html"
+"d1/d22/a00057.html#a2296e51befff84d28e66ea5256ab59fe",
+"d1/dd6/a00108.html#a81f9752e63768ee4803246181b2a49a9",
+"d3/dea/a00046.html#aaac83716639a14e8b428de4fcf38ec7d",
+"d4/d7d/a00093.html#acf12f5dc38ba5bf0bf8da666d4c1ace7",
+"d4/dee/a00008.html#a13d404c611e76ce58a7951f4ad5ff469",
+"d6/d2c/a00072.html#a045129e69d1dbddacc94b8bbb6a27372",
+"d7/dec/a00010.html#a6076fb64d01de5f66056b9dab2b2d8f0",
+"d9/da1/a00396_source.html",
+"da/da0/a00009.html#a384bee10a8954c7b1c38c75e17b81f98",
+"db/db6/a00074.html#af1da2a59738151467ae8146d1060c3bd",
+"dd/d6d/a00111.html#acc4670d9a1276d9e00cc2abcd01aa460",
+"df/d61/a00031.html#a582ff7c218be8f662bdf4a236f919e33",
+"dir_b627c2baceb35d13f78c327a406f023c.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

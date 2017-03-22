@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/pygeoc/examples/vector_module.py Source File</title>
+<title>SEIMS: seims/pygeoc/pygeoc/hydro/TauDEM.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('de/dd2/a00207_source.html','../../');}
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Typedefs</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Macros</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(10)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(11)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,129 +112,340 @@ $(document).ready(function(){initNavTree('de/dd2/a00207_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">vector_module.py</div>  </div>
+<div class="title">TauDEM.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">from</span> osgeo <span class="keyword">import</span> gdal, ogr</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">import</span> os, sys</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">def </span>ReadDataItemsFromTxt(txtFile):</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">    Read data items include title from text file</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">    :param txtFile: data file</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="stringliteral">    :return: 2D data array</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="stringliteral">    &#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    f = open(txtFile)</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    dataItems = []</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">for</span> line <span class="keywordflow">in</span> f:</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        strLine = line.split(<span class="stringliteral">&#39;\n&#39;</span>)[0]</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keywordflow">if</span> strLine != <span class="stringliteral">&#39;&#39;</span> <span class="keywordflow">and</span> strLine.find(<span class="stringliteral">&#39;#&#39;</span>) &lt; 0:</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            lineList = strLine.split(<span class="stringliteral">&#39;\t&#39;</span>)</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            dataItems.append(lineList)</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    f.close()</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">return</span> dataItems</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># coding=utf-8</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># @TauDEM Utility Class</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">#  includes Fill, FlowDirD8, FlowDirDinf, FlowAccD8, StreamRaster, MoveOutlet,</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">#           StreamSkeleton(peukerdouglas), StreamNet, DropAnalysis, D8DistDownToStream</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"># @Author: Liang-Jun Zhu</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"># Thanks to the open-source software QSWAT by Chris George.</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> os</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> ..utils.utils <span class="keyword">import</span> UtilClass, MathClass, FileClass</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../da/d72/a00124.html">   16</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../da/d72/a00124.html">TauDEM</a>(object):</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Methods for calling TauDEM executables.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">def </span>__init__(self):</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordflow">pass</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">def </span>WriteLineShp(lineList, outShp, lineFieldsList = None):</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&quot;Write line shapefile: %s&quot;</span> % outShp</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    gdal.SetConfigOption(<span class="stringliteral">&quot;GDAL_FILENAME_IS_UTF8&quot;</span>, <span class="stringliteral">&quot;NO&quot;</span>)  <span class="comment">## support for path in Chinese</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    gdal.SetConfigOption(<span class="stringliteral">&quot;SHAPE_ENCODING&quot;</span>, <span class="stringliteral">&quot;&quot;</span>)  <span class="comment">## suppoert for field in Chinese</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    ogr.RegisterAll()</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    driver = ogr.GetDriverByName(<span class="stringliteral">&quot;ESRI Shapefile&quot;</span>)</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">if</span> driver <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordflow">print</span> <span class="stringliteral">&quot;ESRI Shapefile driver not available.&quot;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        sys.exit(1)</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">if</span> os.path.exists(outShp):</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        driver.DeleteDataSource(outShp)</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    fieldName = []</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    fieldNameIdx = 0</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">if</span> lineFieldsList <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">if</span> len(lineList) != len(lineFieldsList):</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordflow">if</span> len(lineList) + 1 == len(lineFieldsList):</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                fieldName = lineFieldsList[0]</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                fieldNameIdx = 1</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                sys.exit(1)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            fieldLength = len(lineFieldsList[0])</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(fieldLength):</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                name = <span class="stringliteral">&#39;lineName&#39;</span> + str(i)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                fieldName.append(name)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            fieldNameIdx = 0</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        fieldName = [<span class="stringliteral">&#39;LineName&#39;</span>]</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        fieldNameIdx = 0</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ds = driver.CreateDataSource(outShp.rpartition(os.sep)[0])</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span> ds <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">print</span> <span class="stringliteral">&quot;ERROR Output: Creation of output file failed.&quot;</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        sys.exit(1)</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    lyr = ds.CreateLayer(outShp.rpartition(os.sep)[2].split(<span class="stringliteral">&#39;.&#39;</span>)[0], <span class="keywordtype">None</span>, ogr.wkbLineString)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">## create fields</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">for</span> fld <span class="keywordflow">in</span> fieldName:</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        nameField = ogr.FieldDefn(fld, ogr.OFTString)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        lyr.CreateField(nameField)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">for</span> l <span class="keywordflow">in</span> lineList:</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        idx = lineList.index(l)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">if</span> len(l) &gt; 1:</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            line = ogr.Geometry(ogr.wkbLineString)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">for</span> i <span class="keywordflow">in</span> l:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                line.AddPoint(i[0], i[1])</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            templine = ogr.CreateGeometryFromJson(line.ExportToJson())</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            feature = ogr.Feature(lyr.GetLayerDefn())</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            feature.SetGeometry(templine)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="keywordflow">for</span> fld <span class="keywordflow">in</span> fieldName:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                idx2 = fieldName.index(fld)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                <span class="keywordflow">if</span> lineFieldsList <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                    <span class="keywordflow">if</span> fieldNameIdx == 1:</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                        fieldValue = lineFieldsList[idx + 1][idx2]</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                        fieldValue = lineFieldsList[idx][idx2]</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                    fieldValue = <span class="stringliteral">&#39; &#39;</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                <span class="comment"># print fieldValue</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                feature.SetField(fld, fieldValue)</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            lyr.CreateFeature(feature)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            feature.Destroy()</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    ds.Destroy()</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keyword">def </span>Points2Lines(txtFile, category, xName, yName):</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    baseName = os.path.basename(txtFile).split(<span class="stringliteral">&#39;.&#39;</span>)[0]</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    lineShpPath = os.path.dirname(txtFile) + os.sep + baseName + <span class="stringliteral">&#39;.shp&#39;</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    pointsData = ReadDataItemsFromTxt(txtFile)</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    fieldArray = pointsData[0]</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    dataArray = pointsData[1:]</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    categoryIdx = fieldArray.index(category)</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    xIdx = fieldArray.index(xName)</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    yIdx = fieldArray.index(yName)</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    linePointsList = []</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    categoryList = []</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordflow">for</span> item <span class="keywordflow">in</span> dataArray:</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">if</span> (item[categoryIdx] <span class="keywordflow">not</span> <span class="keywordflow">in</span> categoryList):</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            categoryList.append(item[categoryIdx])</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            linePointsList.append([[float(item[xIdx]), float(item[yIdx])]])</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            idx = categoryList.index(item[categoryIdx])</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            linePointsList[idx].append([float(item[xIdx]), float(item[yIdx])])</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">print</span> linePointsList</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    WriteLineShp(linePointsList, lineShpPath)</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    pointsTxt = <span class="stringliteral">r&#39;E:\test\points2lines\saddle_1.txt&#39;</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    Category = <span class="stringliteral">&#39;no&#39;</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    XName = <span class="stringliteral">&#39;globalx&#39;</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    YName = <span class="stringliteral">&#39;globaly&#39;</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    Points2Lines(pointsTxt, Category, XName, YName)</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">def </span>error(msg, log_file = None):</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        UtilClass.printmsg(msg)</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">if</span> log_file <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            UtilClass.writelog(log_file, msg, <span class="stringliteral">&#39;append&#39;</span>)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">raise</span> RuntimeError(msg)</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">def </span>log(lines, log_file = None):</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        err = <span class="keyword">False</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordflow">for</span> line <span class="keywordflow">in</span> lines:</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keywordflow">if</span> log_file <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                UtilClass.writelog(log_file, line, <span class="stringliteral">&#39;append&#39;</span>)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keywordflow">if</span> <span class="stringliteral">&#39;BAD TERMINATION&#39;</span> <span class="keywordflow">in</span> line.upper():</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                err = <span class="keyword">True</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">if</span> err:</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            TauDEM.error(<span class="stringliteral">&quot;Error occurred when calling TauDEM function, please check!\n&quot;</span>, log_file)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="../../da/d72/a00124.html#a6cf978d2191ac5a187c01b51d8281586">   41</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../da/d72/a00124.html#a6cf978d2191ac5a187c01b51d8281586">run</a>(function_name, in_files, in_params = None, out_files = None, mpi_params = None, log_params = None):</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">        Run TauDEM function.</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral">        The command will not execute if:</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral">            1) any input file does not exist;</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="stringliteral">            2) all output files exist and were last modified no earlier than any input file.</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="stringliteral">        An error will be detected after running the TauDEM command if:</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="stringliteral">            1) any output file does not exist ;</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="stringliteral">            2) any output file was last modified earilier than any input file.</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="stringliteral">        :param function_name: TauDEM function name (with or without path) as string</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="stringliteral">        :param in_files: Required. Dict of pairs of parameter id (string) and file path (string) for input files.</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="stringliteral">        :param in_params: Optional. Dict of pairs of parameter id (string) and value (or None for a flag parameter</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="stringliteral">                          without a value) for input parameters.</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="stringliteral">        :param out_files: Optional. Dict of pairs of parameter id (string) and file path (string) for output files.</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="stringliteral">        :param mpi_params: Optional. Dict of pairs of parameter id (string) and value or path for MPI setting.</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="stringliteral">                           e.g. {&#39;mpipath&#39;:&#39;/soft/bin&#39;,&#39;hostfile&#39;:&#39;/soft/bin/cluster.node&#39;,&#39;n&#39;:4} or</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="stringliteral">                                {&#39;mpipath&#39;:&#39;/soft/bin&#39;, &#39;n&#39;:4} or {&#39;n&#39;:4}</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="stringliteral">        :param log_params: Optional. Dict of pairs of parameter id (string) and value or path for runtime and log</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="stringliteral">                           output parameters. e.g. {&#39;logfile&#39;: &#39;/home/user/log.txt&#39;}</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="stringliteral">        :return True if TauDEM run successfully, otherwise False.</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment"># check the log parameter</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        log_file = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">if</span> log_params <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordflow">if</span> type(log_params) != dict:</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                TauDEM.error(<span class="stringliteral">&quot;The log parameter must be a dict!\n&quot;</span>)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keywordflow">if</span> <span class="stringliteral">&#39;logfile&#39;</span> <span class="keywordflow">in</span> log_params <span class="keywordflow">and</span> log_params[<span class="stringliteral">&#39;logfile&#39;</span>] <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                log_file = log_params[<span class="stringliteral">&#39;logfile&#39;</span>]</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="comment"># check input files</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">if</span> in_files <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            TauDEM.error(<span class="stringliteral">&quot;Input files parameter is required!\n&quot;</span>, log_file)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">if</span> type(in_files) != dict:</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            TauDEM.error(<span class="stringliteral">&quot;The input files parameter must be a dict!\n&quot;</span>)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">for</span> (pid, path) <span class="keywordflow">in</span> in_files.items():</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="keywordflow">if</span> path <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span> <span class="keywordflow">and</span> <span class="keywordflow">not</span> os.path.exists(path):</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                TauDEM.error(<span class="stringliteral">&quot;Input files parameter %s: %s is not existed!\n&quot;</span> % (pid, path), log_file)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="comment"># check output files to figure out if current run is necessary.</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="comment"># need_run = True</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="comment"># basedatetime = 0.</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="comment"># for (pid, path) in in_files.items():</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="comment">#     if path is not None and os.path.getmtime(path) &gt; basedatetime:</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="comment">#         basedatetime = os.path.getmtime(path)</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="comment"># if out_files is not None:</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="comment">#     for (pid, out_file) in out_files.items():</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="comment">#         if out_file is not None and FileClass.isuptodate(out_file, basedatetime):</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="comment">#             need_run = False</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="comment">#             break</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="comment"># if not need_run:</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="comment">#     return True</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="comment"># remove out_files to avoid any file IO related error</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordflow">if</span> out_files <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="keywordflow">if</span> type(out_files) != dict:</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                TauDEM.error(<span class="stringliteral">&quot;The output files parameter must be a dict!\n&quot;</span>)</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">for</span> (pid, out_file) <span class="keywordflow">in</span> out_files.items():</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                <span class="keywordflow">if</span> out_file <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                    FileClass.removefiles(out_file)</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="comment"># concatenate command line</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        commands = []</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="comment"># MPI header</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">if</span> mpi_params <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">if</span> type(mpi_params) != dict:</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                TauDEM.error(<span class="stringliteral">&quot;The MPI settings parameter must be a dict!\n&quot;</span>)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="keywordflow">if</span> <span class="stringliteral">&#39;mpipath&#39;</span> <span class="keywordflow">in</span> mpi_params <span class="keywordflow">and</span> mpi_params[<span class="stringliteral">&#39;mpipath&#39;</span>] <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                commands.append(mpi_params[<span class="stringliteral">&#39;mpipath&#39;</span>] + os.sep + <span class="stringliteral">&#39;mpiexec&#39;</span>)</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                commands.append(<span class="stringliteral">&#39;mpiexec&#39;</span>)</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="keywordflow">if</span> <span class="stringliteral">&#39;hostfile&#39;</span> <span class="keywordflow">in</span> mpi_params <span class="keywordflow">and</span> mpi_params[<span class="stringliteral">&#39;hostfile&#39;</span>] <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                commands.append(<span class="stringliteral">&#39;-f&#39;</span>)</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                commands.append(mpi_params[<span class="stringliteral">&#39;hostfile&#39;</span>])</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            <span class="keywordflow">if</span> <span class="stringliteral">&#39;n&#39;</span> <span class="keywordflow">in</span> mpi_params <span class="keywordflow">and</span> mpi_params[<span class="stringliteral">&#39;n&#39;</span>] &gt; 1:</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                commands.append(<span class="stringliteral">&#39;-n&#39;</span>)</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                commands.append(str(mpi_params[<span class="stringliteral">&#39;n&#39;</span>]))</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            <span class="keywordflow">else</span>:  <span class="comment"># If number of processor is less equal than 1, then do not call mpiexec.</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                commands = []</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="comment"># append TauDEM function name, which can be full path or just one name</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        commands.append(function_name)</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="comment"># append input files</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordflow">for</span> (pid, infile) <span class="keywordflow">in</span> in_files.items():</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            <span class="keywordflow">if</span> infile <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <span class="keywordflow">if</span> pid[0] != <span class="stringliteral">&#39;-&#39;</span>:</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                pid = <span class="stringliteral">&#39;-&#39;</span> + pid</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            commands.append(pid)</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            commands.append(infile)</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="comment"># append input parameters</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordflow">if</span> in_params <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="keywordflow">if</span> type(in_params) != dict:</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                TauDEM.error(<span class="stringliteral">&quot;The input parameters must be a dict!\n&quot;</span>)</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="keywordflow">for</span> (pid, v) <span class="keywordflow">in</span> in_params.items():</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                <span class="keywordflow">if</span> pid[0] != <span class="stringliteral">&#39;-&#39;</span>:</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                    pid = <span class="stringliteral">&#39;-&#39;</span> + pid</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                commands.append(pid)</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                <span class="comment"># allow for parameter which is an flag without value</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                <span class="keywordflow">if</span> v != <span class="stringliteral">&#39;&#39;</span> <span class="keywordflow">and</span> v <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                    <span class="keywordflow">if</span> MathClass.isnumerical(v):</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                        commands.append(str(v))</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                    <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                        commands.append(v)</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="comment"># append output parameters</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="keywordflow">if</span> out_files <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            <span class="keywordflow">for</span> (pid, outfile) <span class="keywordflow">in</span> out_files.items():</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                <span class="keywordflow">if</span> outfile <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                    <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                <span class="keywordflow">if</span> pid[0] != <span class="stringliteral">&#39;-&#39;</span>:</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                    pid = <span class="stringliteral">&#39;-&#39;</span> + pid</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                commands.append(pid)</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                commands.append(outfile)</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="comment"># run command</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="comment"># print (commands)</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        runmsg = UtilClass.runcommand(commands)</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        TauDEM.log(runmsg, log_file)</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">True</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keyword">def </span>fullpath(name, dirname = None):</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <span class="keywordflow">if</span> name <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;            <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <span class="keywordflow">if</span> os.sep <span class="keywordflow">in</span> name:  <span class="comment"># name is full path already</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            <span class="keywordflow">return</span> name</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <span class="keywordflow">if</span> dirname <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            <span class="keywordflow">return</span> dirname + os.sep + name</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            <span class="keywordflow">return</span> name</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00171"></a><span class="lineno"><a class="line" href="../../da/d72/a00124.html#a2426b206cb3454ef8d24ffb518b99b36">  171</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../da/d72/a00124.html#a2426b206cb3454ef8d24ffb518b99b36">Fill</a>(np, workingdir, dem, filleddem, mpiexedir = None, exedir = None, log_file = None, hostfile = None):</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Run pit remove using the flooding approach &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        os.chdir(workingdir)</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="keywordflow">return</span> TauDEM.run(TauDEM.fullpath(<span class="stringliteral">&#39;pitremove&#39;</span>, exedir), {<span class="stringliteral">&#39;-z&#39;</span>: dem}, <span class="keywordtype">None</span>, {<span class="stringliteral">&#39;-fel&#39;</span>: filleddem},</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                          {<span class="stringliteral">&#39;mpipath&#39;</span>: mpiexedir, <span class="stringliteral">&#39;hostfile&#39;</span>: hostfile, <span class="stringliteral">&#39;n&#39;</span>: np},</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                          {<span class="stringliteral">&#39;logfile&#39;</span>: TauDEM.fullpath(log_file, workingdir)})</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keyword">def </span><a class="code" href="../../da/d72/a00124.html#a333eb87615464b0bf4a31bbb33712672">FlowDirD8</a>(np, workingdir, filleddem, flowdir, slope, mpiexedir = None, exedir = None, log_file = None,</div>
+<div class="line"><a name="l00180"></a><span class="lineno"><a class="line" href="../../da/d72/a00124.html#a333eb87615464b0bf4a31bbb33712672">  180</a></span>&#160;                  hostfile = <span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Run D8 flow direction&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        os.chdir(workingdir)</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keywordflow">return</span> TauDEM.run(TauDEM.fullpath(<span class="stringliteral">&#39;d8flowdir&#39;</span>, exedir), {<span class="stringliteral">&#39;-fel&#39;</span>: filleddem}, <span class="keywordtype">None</span>,</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                          {<span class="stringliteral">&#39;-p&#39;</span>: flowdir, <span class="stringliteral">&#39;-sd8&#39;</span>: slope},</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                          {<span class="stringliteral">&#39;mpipath&#39;</span>: mpiexedir, <span class="stringliteral">&#39;hostfile&#39;</span>: hostfile, <span class="stringliteral">&#39;n&#39;</span>: np},</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                          {<span class="stringliteral">&#39;logfile&#39;</span>: TauDEM.fullpath(log_file, workingdir)})</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keyword">def </span><a class="code" href="../../da/d72/a00124.html#a5383652a3346e17410340ff0e3745b70">FlowDirDinf</a>(np, workingdir, filleddem, flowangle, slope, mpiexedir = None, exedir = None, log_file = None,</div>
+<div class="line"><a name="l00190"></a><span class="lineno"><a class="line" href="../../da/d72/a00124.html#a5383652a3346e17410340ff0e3745b70">  190</a></span>&#160;                    hostfile = <span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Run Dinf flow direction&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        os.chdir(workingdir)</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <span class="keywordflow">return</span> TauDEM.run(TauDEM.fullpath(<span class="stringliteral">&#39;dinfflowdir&#39;</span>, exedir), {<span class="stringliteral">&#39;-fel&#39;</span>: filleddem}, <span class="keywordtype">None</span>,</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                          {<span class="stringliteral">&#39;-ang&#39;</span>: flowangle, <span class="stringliteral">&#39;-slp&#39;</span>: slope},</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                          {<span class="stringliteral">&#39;mpipath&#39;</span>: mpiexedir, <span class="stringliteral">&#39;hostfile&#39;</span>: hostfile, <span class="stringliteral">&#39;n&#39;</span>: np},</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                          {<span class="stringliteral">&#39;logfile&#39;</span>: TauDEM.fullpath(log_file, workingdir)})</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="keyword">def </span><a class="code" href="../../da/d72/a00124.html#a7cba41fa0d62bca3a7d30d2a88cfb943">FlowAccD8</a>(np, workingdir, flowdir, acc, outlet = None, streamskeleton = None, mpiexedir = None, exedir = None,</div>
+<div class="line"><a name="l00200"></a><span class="lineno"><a class="line" href="../../da/d72/a00124.html#a7cba41fa0d62bca3a7d30d2a88cfb943">  200</a></span>&#160;                  edgecontaimination = <span class="keyword">False</span>, log_file = <span class="keywordtype">None</span>, hostfile = <span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Run Accumulate area according to D8 flow direction&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <span class="comment"># -nc means do not consider edge contaimination</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> edgecontaimination:</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            in_params = {<span class="stringliteral">&#39;-nc&#39;</span>: <span class="keywordtype">None</span>}</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            in_params = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        os.chdir(workingdir)</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        <span class="keywordflow">return</span> TauDEM.run(TauDEM.fullpath(<span class="stringliteral">&#39;aread8&#39;</span>, exedir), {<span class="stringliteral">&#39;-p&#39;</span>: flowdir, <span class="stringliteral">&#39;-o&#39;</span>: outlet, <span class="stringliteral">&#39;-wg&#39;</span>: streamskeleton},</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                          in_params, {<span class="stringliteral">&#39;-ad8&#39;</span>: acc}, {<span class="stringliteral">&#39;mpipath&#39;</span>: mpiexedir, <span class="stringliteral">&#39;hostfile&#39;</span>: hostfile, <span class="stringliteral">&#39;n&#39;</span>: np},</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                          {<span class="stringliteral">&#39;logfile&#39;</span>: TauDEM.fullpath(log_file, workingdir)})</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keyword">def </span><a class="code" href="../../da/d72/a00124.html#ab5359e25d7e37aa67a581008ed3baa00">FlowAccDinf</a>(np, workingdir, angfile, sca, outlet = None, mpiexedir = None, exedir = None,</div>
+<div class="line"><a name="l00214"></a><span class="lineno"><a class="line" href="../../da/d72/a00124.html#ab5359e25d7e37aa67a581008ed3baa00">  214</a></span>&#160;                    edgecontaimination = <span class="keyword">False</span>, log_file = <span class="keywordtype">None</span>, hostfile = <span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Run Accumulate area according to Dinf flow direction&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="comment"># -nc means do not consider edge contaimination</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        <span class="keywordflow">if</span> edgecontaimination:</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            in_params = {<span class="stringliteral">&#39;-nc&#39;</span>: <span class="keywordtype">None</span>}</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            in_params = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        os.chdir(workingdir)</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        <span class="keywordflow">return</span> TauDEM.run(TauDEM.fullpath(<span class="stringliteral">&#39;areadinf&#39;</span>, exedir), {<span class="stringliteral">&#39;-ang&#39;</span>: angfile},</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                          in_params, {<span class="stringliteral">&#39;-sca&#39;</span>: sca, <span class="stringliteral">&#39;-o&#39;</span>: outlet},</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                          {<span class="stringliteral">&#39;mpipath&#39;</span>: mpiexedir, <span class="stringliteral">&#39;hostfile&#39;</span>: hostfile, <span class="stringliteral">&#39;n&#39;</span>: np},</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                          {<span class="stringliteral">&#39;logfile&#39;</span>: TauDEM.fullpath(log_file, workingdir)})</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keyword">def </span><a class="code" href="../../da/d72/a00124.html#a90ac93f5d407f9fe36e3f2491fbf92f3">GridNet</a>(np, workingdir, pfile, plenfile, tlenfile, gordfile, outlet = None, mpiexedir = None, exedir = None,</div>
+<div class="line"><a name="l00229"></a><span class="lineno"><a class="line" href="../../da/d72/a00124.html#a90ac93f5d407f9fe36e3f2491fbf92f3">  229</a></span>&#160;                log_file = <span class="keywordtype">None</span>, hostfile = <span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Run GridNet&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        os.chdir(workingdir)</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <span class="keywordflow">return</span> TauDEM.run(TauDEM.fullpath(<span class="stringliteral">&#39;gridnet&#39;</span>, exedir), {<span class="stringliteral">&#39;-p&#39;</span>: pfile, <span class="stringliteral">&#39;-o&#39;</span>: outlet},</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                          <span class="keywordtype">None</span>, {<span class="stringliteral">&#39;-plen&#39;</span>: plenfile, <span class="stringliteral">&#39;-tlen&#39;</span>: tlenfile, <span class="stringliteral">&#39;-gord&#39;</span>: gordfile},</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;                          {<span class="stringliteral">&#39;mpipath&#39;</span>: mpiexedir, <span class="stringliteral">&#39;hostfile&#39;</span>: hostfile, <span class="stringliteral">&#39;n&#39;</span>: np},</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;                          {<span class="stringliteral">&#39;logfile&#39;</span>: TauDEM.fullpath(log_file, workingdir)})</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="keyword">def </span><a class="code" href="../../da/d72/a00124.html#ae115fc8afb760e2a825f8502a66d0e62">StreamRaster</a>(np, workingdir, acc, streamRaster, threshold = 1000, mpiexedir = None, exedir = None,</div>
+<div class="line"><a name="l00239"></a><span class="lineno"><a class="line" href="../../da/d72/a00124.html#ae115fc8afb760e2a825f8502a66d0e62">  239</a></span>&#160;                     log_file = <span class="keywordtype">None</span>, hostfile = <span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Run threshold for stream raster&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        os.chdir(workingdir)</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        <span class="keywordflow">return</span> TauDEM.run(TauDEM.fullpath(<span class="stringliteral">&#39;threshold&#39;</span>, exedir),</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                          {<span class="stringliteral">&#39;-ssa&#39;</span>: acc}, {<span class="stringliteral">&#39;-thresh&#39;</span>: threshold}, {<span class="stringliteral">&#39;-src&#39;</span>: streamRaster},</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                          {<span class="stringliteral">&#39;mpipath&#39;</span>: mpiexedir, <span class="stringliteral">&#39;hostfile&#39;</span>: hostfile, <span class="stringliteral">&#39;n&#39;</span>: np},</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                          {<span class="stringliteral">&#39;logfile&#39;</span>: TauDEM.fullpath(log_file, workingdir)})</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="keyword">def </span><a class="code" href="../../da/d72/a00124.html#a0f6c3f0c48b2b00990a228ada244b9da">StreamNet</a>(np, workingdir, filleddem, flowdir, acc, streamRaster, modifiedOutlet, streamOrder, chNetwork,</div>
+<div class="line"><a name="l00249"></a><span class="lineno"><a class="line" href="../../da/d72/a00124.html#a0f6c3f0c48b2b00990a228ada244b9da">  249</a></span>&#160;                  chCoord, streamNet, subbasin, mpiexedir = <span class="keywordtype">None</span>, exedir = <span class="keywordtype">None</span>, log_file = <span class="keywordtype">None</span>, hostfile = <span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Run streamnet&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        os.chdir(workingdir)</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <span class="keywordflow">return</span> TauDEM.run(TauDEM.fullpath(<span class="stringliteral">&#39;streamnet&#39;</span>, exedir),</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                          {<span class="stringliteral">&#39;-fel&#39;</span>: filleddem, <span class="stringliteral">&#39;-p&#39;</span>: flowdir, <span class="stringliteral">&#39;-ad8&#39;</span>: acc, <span class="stringliteral">&#39;-src&#39;</span>: streamRaster, <span class="stringliteral">&#39;-o&#39;</span>: modifiedOutlet},</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                          <span class="keywordtype">None</span>, {<span class="stringliteral">&#39;-ord&#39;</span>: streamOrder, <span class="stringliteral">&#39;-tree&#39;</span>: chNetwork, <span class="stringliteral">&#39;-coord&#39;</span>: chCoord, <span class="stringliteral">&#39;-net&#39;</span>: streamNet,</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                                 <span class="stringliteral">&#39;-w&#39;</span>  : subbasin}, {<span class="stringliteral">&#39;mpipath&#39;</span>: mpiexedir, <span class="stringliteral">&#39;hostfile&#39;</span>: hostfile, <span class="stringliteral">&#39;n&#39;</span>: np},</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                          {<span class="stringliteral">&#39;logfile&#39;</span>: TauDEM.fullpath(log_file, workingdir)})</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="keyword">def </span><a class="code" href="../../da/d72/a00124.html#aa4cb55b3cc8d0d96673bcdff5c69c608">MoveOutlet</a>(np, workingdir, flowdir, streamRaster, outlet, modifiedOutlet, mpiexedir = None, exedir = None,</div>
+<div class="line"><a name="l00260"></a><span class="lineno"><a class="line" href="../../da/d72/a00124.html#aa4cb55b3cc8d0d96673bcdff5c69c608">  260</a></span>&#160;                   log_file = <span class="keywordtype">None</span>, hostfile = <span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Run move the given outlets to stream&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        os.chdir(workingdir)</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        <span class="keywordflow">return</span> TauDEM.run(TauDEM.fullpath(<span class="stringliteral">&#39;moveoutletstostrm&#39;</span>, exedir),</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                          {<span class="stringliteral">&#39;-p&#39;</span>: flowdir, <span class="stringliteral">&#39;-src&#39;</span>: streamRaster, <span class="stringliteral">&#39;-o&#39;</span>: outlet}, <span class="keywordtype">None</span>,</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                          {<span class="stringliteral">&#39;-om&#39;</span>: modifiedOutlet}, {<span class="stringliteral">&#39;mpipath&#39;</span>: mpiexedir, <span class="stringliteral">&#39;hostfile&#39;</span>: hostfile, <span class="stringliteral">&#39;n&#39;</span>: np},</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                          {<span class="stringliteral">&#39;logfile&#39;</span>: TauDEM.fullpath(log_file, workingdir)})</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="keyword">def </span><a class="code" href="../../da/d72/a00124.html#a87576cc0cbbbe97b59696757de7e3f04">D8DistDownToStream</a>(np, workingdir, p, fel, src, dist, distancemethod, thresh, mpiexedir = None, exedir = None,</div>
+<div class="line"><a name="l00270"></a><span class="lineno"><a class="line" href="../../da/d72/a00124.html#a87576cc0cbbbe97b59696757de7e3f04">  270</a></span>&#160;                           log_file = <span class="keywordtype">None</span>, hostfile = <span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Run D8 distance to stream&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        os.chdir(workingdir)</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        <span class="keywordflow">return</span> TauDEM.run(TauDEM.fullpath(<span class="stringliteral">&#39;d8distdowntostream&#39;</span>, exedir),</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                          {<span class="stringliteral">&#39;-fel&#39;</span>: fel, <span class="stringliteral">&#39;-p&#39;</span>: p, <span class="stringliteral">&#39;-src&#39;</span>: src}, {<span class="stringliteral">&#39;-thresh&#39;</span>: thresh, <span class="stringliteral">&#39;-m&#39;</span>: distancemethod},</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                          {<span class="stringliteral">&#39;-dist&#39;</span>: dist}, {<span class="stringliteral">&#39;mpipath&#39;</span>: mpiexedir, <span class="stringliteral">&#39;hostfile&#39;</span>: hostfile, <span class="stringliteral">&#39;n&#39;</span>: np},</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                          {<span class="stringliteral">&#39;logfile&#39;</span>: TauDEM.fullpath(log_file, workingdir)})</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keyword">def </span><a class="code" href="../../da/d72/a00124.html#a08868158fc982ca571ba5cc22f979b3c">StreamSkeleton</a>(np, workingdir, fel, streamSkeleton, mpiexedir = None, exedir = None, log_file = None,</div>
+<div class="line"><a name="l00280"></a><span class="lineno"><a class="line" href="../../da/d72/a00124.html#a08868158fc982ca571ba5cc22f979b3c">  280</a></span>&#160;                       hostfile = <span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Run peuker-douglas function&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        os.chdir(workingdir)</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        <span class="keywordflow">return</span> TauDEM.run(TauDEM.fullpath(<span class="stringliteral">&#39;peukerdouglas&#39;</span>, exedir), {<span class="stringliteral">&#39;-fel&#39;</span>: fel}, <span class="keywordtype">None</span>,</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                          {<span class="stringliteral">&#39;-ss&#39;</span>: streamSkeleton}, {<span class="stringliteral">&#39;mpipath&#39;</span>: mpiexedir, <span class="stringliteral">&#39;hostfile&#39;</span>: hostfile, <span class="stringliteral">&#39;n&#39;</span>: np},</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                          {<span class="stringliteral">&#39;logfile&#39;</span>: TauDEM.fullpath(log_file, workingdir)})</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    <span class="keyword">def </span>DropAnalysis(np, workingdir, fel, p, ad8, ssa, outlet, minthresh, maxthresh, numthresh, logspace, drp,</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;                     mpiexedir = <span class="keywordtype">None</span>, exedir = <span class="keywordtype">None</span>, log_file = <span class="keywordtype">None</span>, hostfile = <span class="keywordtype">None</span>):</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        os.chdir(workingdir)</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        parstr = <span class="stringliteral">&#39;%f %f %f&#39;</span> % (minthresh, maxthresh, numthresh)</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        <span class="keywordflow">if</span> logspace == <span class="stringliteral">&#39;false&#39;</span>:</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;            parstr += <span class="stringliteral">&#39; 1&#39;</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;            parstr += <span class="stringliteral">&#39; 0&#39;</span></div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        <span class="keywordflow">return</span> TauDEM.run(TauDEM.fullpath(<span class="stringliteral">&#39;dropanalysis&#39;</span>, exedir),</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                          {<span class="stringliteral">&#39;-fel&#39;</span>: fel, <span class="stringliteral">&#39;-p&#39;</span>: p, <span class="stringliteral">&#39;-ad8&#39;</span>: ad8, <span class="stringliteral">&#39;-ssa&#39;</span>: ssa, <span class="stringliteral">&#39;-o&#39;</span>: outlet}, {<span class="stringliteral">&#39;-par&#39;</span>: parstr},</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                          {<span class="stringliteral">&#39;-drp&#39;</span>: drp}, {<span class="stringliteral">&#39;mpipath&#39;</span>: mpiexedir, <span class="stringliteral">&#39;hostfile&#39;</span>: hostfile, <span class="stringliteral">&#39;n&#39;</span>: np},</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                          {<span class="stringliteral">&#39;logfile&#39;</span>: TauDEM.fullpath(log_file, workingdir)})</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    workingspace = <span class="stringliteral">r&quot;D:\test&quot;</span></div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    execdir = <span class="stringliteral">r&quot;C:\z_code\Hydro\SEIMS2017\seims\bin&quot;</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    log = <span class="stringliteral">&quot;taudem.log&quot;</span></div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    dem = <span class="stringliteral">&quot;dem_30m.tif&quot;</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    feldem = <span class="stringliteral">&quot;dem_fel.tif&quot;</span></div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    flowd8 = <span class="stringliteral">&quot;flowd8.tif&quot;</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    sloped8 = <span class="stringliteral">&quot;slpd8.tif&quot;</span></div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    TauDEM.Fill(1, workingspace, dem, feldem)</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    TauDEM.FlowDirD8(4, workingspace, feldem, flowd8, sloped8)</div>
+<div class="ttc" id="a00124_html"><div class="ttname"><a href="../../da/d72/a00124.html">pygeoc.hydro.TauDEM.TauDEM</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd2/a00207_source.html#l00016">TauDEM.py:16</a></div></div>
+<div class="ttc" id="a00124_html_a5383652a3346e17410340ff0e3745b70"><div class="ttname"><a href="../../da/d72/a00124.html#a5383652a3346e17410340ff0e3745b70">pygeoc.hydro.TauDEM.TauDEM.FlowDirDinf</a></div><div class="ttdeci">def FlowDirDinf</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd2/a00207_source.html#l00190">TauDEM.py:190</a></div></div>
+<div class="ttc" id="a00124_html_ae115fc8afb760e2a825f8502a66d0e62"><div class="ttname"><a href="../../da/d72/a00124.html#ae115fc8afb760e2a825f8502a66d0e62">pygeoc.hydro.TauDEM.TauDEM.StreamRaster</a></div><div class="ttdeci">def StreamRaster</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd2/a00207_source.html#l00239">TauDEM.py:239</a></div></div>
+<div class="ttc" id="a00124_html_a90ac93f5d407f9fe36e3f2491fbf92f3"><div class="ttname"><a href="../../da/d72/a00124.html#a90ac93f5d407f9fe36e3f2491fbf92f3">pygeoc.hydro.TauDEM.TauDEM.GridNet</a></div><div class="ttdeci">def GridNet</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd2/a00207_source.html#l00229">TauDEM.py:229</a></div></div>
+<div class="ttc" id="a00124_html_a0f6c3f0c48b2b00990a228ada244b9da"><div class="ttname"><a href="../../da/d72/a00124.html#a0f6c3f0c48b2b00990a228ada244b9da">pygeoc.hydro.TauDEM.TauDEM.StreamNet</a></div><div class="ttdeci">def StreamNet</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd2/a00207_source.html#l00249">TauDEM.py:249</a></div></div>
+<div class="ttc" id="a00124_html_a87576cc0cbbbe97b59696757de7e3f04"><div class="ttname"><a href="../../da/d72/a00124.html#a87576cc0cbbbe97b59696757de7e3f04">pygeoc.hydro.TauDEM.TauDEM.D8DistDownToStream</a></div><div class="ttdeci">def D8DistDownToStream</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd2/a00207_source.html#l00270">TauDEM.py:270</a></div></div>
+<div class="ttc" id="a00124_html_a333eb87615464b0bf4a31bbb33712672"><div class="ttname"><a href="../../da/d72/a00124.html#a333eb87615464b0bf4a31bbb33712672">pygeoc.hydro.TauDEM.TauDEM.FlowDirD8</a></div><div class="ttdeci">def FlowDirD8</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd2/a00207_source.html#l00180">TauDEM.py:180</a></div></div>
+<div class="ttc" id="a00124_html_a2426b206cb3454ef8d24ffb518b99b36"><div class="ttname"><a href="../../da/d72/a00124.html#a2426b206cb3454ef8d24ffb518b99b36">pygeoc.hydro.TauDEM.TauDEM.Fill</a></div><div class="ttdeci">def Fill</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd2/a00207_source.html#l00171">TauDEM.py:171</a></div></div>
+<div class="ttc" id="a00124_html_a7cba41fa0d62bca3a7d30d2a88cfb943"><div class="ttname"><a href="../../da/d72/a00124.html#a7cba41fa0d62bca3a7d30d2a88cfb943">pygeoc.hydro.TauDEM.TauDEM.FlowAccD8</a></div><div class="ttdeci">def FlowAccD8</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd2/a00207_source.html#l00200">TauDEM.py:200</a></div></div>
+<div class="ttc" id="a00124_html_a6cf978d2191ac5a187c01b51d8281586"><div class="ttname"><a href="../../da/d72/a00124.html#a6cf978d2191ac5a187c01b51d8281586">pygeoc.hydro.TauDEM.TauDEM.run</a></div><div class="ttdeci">def run</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd2/a00207_source.html#l00041">TauDEM.py:41</a></div></div>
+<div class="ttc" id="a00124_html_a08868158fc982ca571ba5cc22f979b3c"><div class="ttname"><a href="../../da/d72/a00124.html#a08868158fc982ca571ba5cc22f979b3c">pygeoc.hydro.TauDEM.TauDEM.StreamSkeleton</a></div><div class="ttdeci">def StreamSkeleton</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd2/a00207_source.html#l00280">TauDEM.py:280</a></div></div>
+<div class="ttc" id="a00124_html_ab5359e25d7e37aa67a581008ed3baa00"><div class="ttname"><a href="../../da/d72/a00124.html#ab5359e25d7e37aa67a581008ed3baa00">pygeoc.hydro.TauDEM.TauDEM.FlowAccDinf</a></div><div class="ttdeci">def FlowAccDinf</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd2/a00207_source.html#l00214">TauDEM.py:214</a></div></div>
+<div class="ttc" id="a00124_html_aa4cb55b3cc8d0d96673bcdff5c69c608"><div class="ttname"><a href="../../da/d72/a00124.html#aa4cb55b3cc8d0d96673bcdff5c69c608">pygeoc.hydro.TauDEM.TauDEM.MoveOutlet</a></div><div class="ttdeci">def MoveOutlet</div><div class="ttdef"><b>Definition:</b> <a href="../../de/dd2/a00207_source.html#l00260">TauDEM.py:260</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_d8b73b43b5bed3f628cfe27c845cae28.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_9b03254056ec560765c67c293e8c12b7.html">examples</a></li><li class="navelem"><b>vector_module.py</b></li>
-    <li class="footer">Generated on Tue Mar 21 2017 05:31:29 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_d8b73b43b5bed3f628cfe27c845cae28.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_40ac51da4d01f07ce353fa50d7389af2.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_3bc3c8455419c771b2ca0421583485cb.html">hydro</a></li><li class="navelem"><b>TauDEM.py</b></li>
+    <li class="footer">Generated on Wed Mar 22 2017 16:43:17 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

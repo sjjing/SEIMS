@@ -1,6 +1,6 @@
 var namespaces =
 [
-    [ "MainBMP", "d9/d87/a00551.html", null ],
-    [ "seims", "dc/d40/a00568.html", "dc/d40/a00568" ],
-    [ "setup", "d1/d6e/a00613.html", null ]
+    [ "MainBMP", "d7/d41/a00532.html", null ],
+    [ "seims", "d5/d21/a00549.html", "d5/d21/a00549" ],
+    [ "setup", "da/de4/a00594.html", null ]
 ];
