@@ -1,29 +1,5 @@
 var a00610 =
 [
-    [ "IUH_SED_OL", "de/d85/a00618.html", "de/d85/a00618" ],
-    [ "DEP_LINSLEY", "d4/d10/a00635.html", "d4/d10/a00635" ],
-    [ "GWA_RE", "db/ddc/a00636.html", "db/ddc/a00636" ],
-    [ "IKW_REACH", "de/dbb/a00637.html", "de/dbb/a00637" ],
-    [ "IUH_IF", "d1/daa/a00638.html", "d1/daa/a00638" ],
-    [ "IUH_OL", "dd/db6/a00639.html", "dd/db6/a00639" ],
-    [ "MUSK_CH", "dc/d62/a00640.html", "dc/d62/a00640" ],
-    [ "PER_PI", "db/d3a/a00641.html", "db/d3a/a00641" ],
-    [ "PER_STR", "df/dcf/a00642.html", "df/dcf/a00642" ],
-    [ "PET_H", "de/d19/a00643.html", "de/d19/a00643" ],
-    [ "PET_PM", "d9/d0f/a00644.html", "d9/d0f/a00644" ],
-    [ "PET_PT", "d6/dcf/a00645.html", "d6/dcf/a00645" ],
-    [ "PI_MSM", "d6/d08/a00646.html", "d6/d08/a00646" ],
-    [ "SET_LM", "d3/d8e/a00647.html", "d3/d8e/a00647" ],
-    [ "SNO_DD", "dd/d1f/a00648.html", "dd/d1f/a00648" ],
-    [ "SNO_SP", "dd/d6b/a00649.html", "dd/d6b/a00649" ],
-    [ "SNO_WB", "da/d36/a00650.html", "da/d36/a00650" ],
-    [ "SOL_WB", "de/d33/a00651.html", "de/d33/a00651" ],
-    [ "SRD_MB", "df/d37/a00652.html", "df/d37/a00652" ],
-    [ "SSM_PE", "de/ddd/a00653.html", "de/ddd/a00653" ],
-    [ "SSR_DA", "d9/d2a/a00654.html", null ],
-    [ "STP_FP", "d8/ddc/a00655.html", "d8/ddc/a00655" ],
-    [ "SUR_CN", "dc/df2/a00656.html", "dc/df2/a00656" ],
-    [ "SUR_ES", "da/dc3/a00657.html", "da/dc3/a00657" ],
-    [ "SUR_GA", "d9/db8/a00658.html", "d9/db8/a00658" ],
-    [ "SUR_MR", "dc/d91/a00659.html", "dc/d91/a00659" ]
+    [ "ITP", "d4/dc4/a00617.html", "d4/dc4/a00617" ],
+    [ "TSD_RD", "de/d85/a00618.html", "de/d85/a00618" ]
 ];

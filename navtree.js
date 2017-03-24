@@ -2,10 +2,9 @@ var NAVTREE =
 [
   [ "SEIMS", "index.html", [
     [ "PyGeoC", "d7/d46/a00002.html", null ],
-    [ "Deprecated List", "d8/d7a/a00669.html", null ],
     [ "Modules", "modules.html", "modules" ],
-    [ "Namespaces", null, [
-      [ "Namespace List", "namespaces.html", "namespaces" ]
+    [ "Packages", null, [
+      [ "Packages", "namespaces.html", "namespaces" ]
     ] ],
     [ "Classes", null, [
       [ "Class List", "annotated.html", "annotated" ],
@@ -33,19 +32,19 @@ var NAVTREE =
 var NAVTREEINDEX =
 [
 ".html",
-"d1/d22/a00057.html#a2296e51befff84d28e66ea5256ab59fe",
-"d1/dd6/a00108.html#a81f9752e63768ee4803246181b2a49a9",
-"d3/dea/a00046.html#aaac83716639a14e8b428de4fcf38ec7d",
-"d4/d7d/a00093.html#acf12f5dc38ba5bf0bf8da666d4c1ace7",
-"d4/dee/a00008.html#a13d404c611e76ce58a7951f4ad5ff469",
-"d6/d2c/a00072.html#a045129e69d1dbddacc94b8bbb6a27372",
-"d7/dec/a00010.html#a6076fb64d01de5f66056b9dab2b2d8f0",
-"d9/da1/a00396_source.html",
-"da/da0/a00009.html#a384bee10a8954c7b1c38c75e17b81f98",
-"db/db6/a00074.html#af1da2a59738151467ae8146d1060c3bd",
-"dd/d6d/a00111.html#acc4670d9a1276d9e00cc2abcd01aa460",
-"df/d61/a00031.html#a582ff7c218be8f662bdf4a236f919e33",
-"dir_b627c2baceb35d13f78c327a406f023c.html"
+"d1/d1e/a00087.html#a6a84ccbe006075efd0e5f596fecdd5bc",
+"d1/d7c/a00003.html#a1e6fa9a402c1eda8c4d927ef9b54dbc0",
+"d2/db1/a00070.html#ad406c15c4eac8436ce6ab2c972bb4f08",
+"d4/d51/a00017.html#a3f0c650e90af05616c1a13f087d00684",
+"d4/de8/a00061.html#a17e53f1d7e6d385be6cbdb15877afa29",
+"d4/dee/a00008.html#af36db8c57d9c3cc66b5a9cad011fb822",
+"d7/d70/a00106.html#aafd60bc9d4176a0cf64af01aed881980",
+"d9/d2e/a00056.html#af837ea49bc3fd3fb4a28c0ea62034fc2",
+"da/d24/a00068.html#a9fe831d74b1b76ccddaec480cfc00bd6",
+"db/ddf/a00088.html#a621e842b8c0bc203bcdc3e4222218910",
+"dd/d42/a00109.html#ad410e7ba1b5d28e2db53e23a994413ba",
+"de/de8/a00405_source.html",
+"dir_6b189f7a1a73ffca3847defd2728ab7d.html"
 ];
 
 var SYNCONMSG = 'click to disable panel synchronisation';

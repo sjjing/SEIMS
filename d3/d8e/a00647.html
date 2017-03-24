@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: SET_LM</title>
+<title>SEIMS: PET_PM</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -54,7 +54,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
-      <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="../../namespaces.html"><span>Packages</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
       <li>
@@ -108,35 +108,52 @@ $(document).ready(function(){initNavTree('d3/d8e/a00647.html','../../');});
   <div class="summary">
 <a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
-<div class="title">SET_LM<div class="ingroups"><a class="el" href="../../da/d6e/a00610.html">Hydrology_longterm</a></div></div>  </div>
+<div class="title">PET_PM<div class="ingroups"><a class="el" href="../../d0/d8d/a00612.html">Hydrology_longterm</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>Calculate soil Temperature.  
+<p>Calculate potential evapotranspiration using Penman-Monteith method.  
 <a href="#details">More...</a></p>
 <div class="dynheader">
-Collaboration diagram for SET_LM:</div>
+Collaboration diagram for PET_PM:</div>
 <div class="dyncontent">
 <center><table><tr><td><img src="../../d3/d8e/a00647.png" border="0" alt="" usemap="#d3_2d8e_2a00647"/>
 <map name="d3_2d8e_2a00647" id="d3_2d8e_2a00647">
-<area shape="rect" id="node1" href="../../da/d6e/a00610.html" title="Longterm hydrology related modules. " alt="" coords="6,4,173,33"/></map>
+<area shape="rect" id="node1" href="../../d0/d8d/a00612.html" title="Longterm hydrology related modules. " alt="" coords="6,4,173,33"/></map>
 </td></tr></table></center>
 </div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d3a/a00101.html">SET_LM</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate soil Temperature.  <a href="../../d4/d3a/a00101.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d1e/a00087.html">PETPenmanMonteith</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Penman Monteith Method to Compute PET.  <a href="../../d1/d1e/a00087.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p>Calculate soil Temperature. </p>
+<p>Calculate potential evapotranspiration using Penman-Monteith method. </p>
+<p>Potential evapotranspiration using Penman Monteith Method.</p>
+<dl class="section author"><dt>Author</dt><dd>Junzhi Liu </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>Nov. 2010  LiangJun Zhu </dd>
+<dd>
+May. 2016 </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>: 1. Add m_tMean from database, which may be measurement value or the mean of tMax and tMin;<ol type="1">
+<li>The PET calculate is changed from site-based to cell-based, because PET is not only dependent on Climate site data;</li>
+</ol>
+</dd></dl>
+<ol type="1">
+<li>Add ecology related parameters (initialized value).</li>
+<li>Add potential plant transpiration as output.</li>
+<li>Add m_VPD, m_dayLen as outputs, which will be used in BIO_EPIC module</li>
+<li>change m_vpd2 and m_gsi from DT_Single to DT_Raster1D, see readplant.f of SWAT</li>
+<li>Add m_phuBase as outputs, which will be used in MGT_SWAT module</li>
+</ol>
+<p>Penman Monteith Method to Compute PET </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Wed Mar 22 2017 16:43:18 for SEIMS by
+    <li class="footer">Generated on Fri Mar 24 2017 06:20:32 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

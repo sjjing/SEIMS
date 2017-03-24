@@ -1,9 +1,10 @@
 var a00102 =
 [
-    [ "Settings", "d9/dcc/a00102.html#a3714d5ef1ba032f74183aacb77fd711a", null ],
-    [ "~Settings", "d9/dcc/a00102.html#ae79d9331e3fa87d009ef089b8dade21c", null ],
-    [ "LoadSettingsFromFile", "d9/dcc/a00102.html#ac9dd22ed739c4c396bf9cc2f8edf7787", null ],
-    [ "Value", "d9/dcc/a00102.html#a7f5d6a01b9ae2afb3b11c9a2a1c64705", null ],
-    [ "m_settingFileName", "d9/dcc/a00102.html#a3500ad45ec6280654665da4acefef9ab", null ],
-    [ "m_Settings", "d9/dcc/a00102.html#aad392017fd9b84f3d07dbab78d2911d3", null ]
+    [ "CheckInputData", "d9/dcc/a00102.html#ad8e0115e3ded51047067d9d84b5fe8f4", null ],
+    [ "CheckInputSize", "d9/dcc/a00102.html#a67ae96879b74013b221fa81275086f42", null ],
+    [ "Execute", "d9/dcc/a00102.html#aa9b938e08bf9df68bdc175a86c41fdc0", null ],
+    [ "Get1DData", "d9/dcc/a00102.html#a6965c172477d51b3f6cc80f4603a9d4c", null ],
+    [ "Set1DData", "d9/dcc/a00102.html#ac38f0919363f9f5efa50b0038fb28f7a", null ],
+    [ "Set2DData", "d9/dcc/a00102.html#a578808702086688a2ad7cd861f0fe547", null ],
+    [ "SetValue", "d9/dcc/a00102.html#a3835542ebbb1a1846a9ead1e9c8b5726", null ]
 ];

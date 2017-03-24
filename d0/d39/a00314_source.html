@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/module_setting/ParamInfo.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/base/module_setting/ModuleFactory.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -54,7 +54,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
-      <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="../../namespaces.html"><span>Packages</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li>
@@ -112,112 +112,161 @@ $(document).ready(function(){initNavTree('d0/d39/a00314_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">ParamInfo.cpp</div>  </div>
+<div class="title">ModuleFactory.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;ParamInfo.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a15ad9d14f6328ecf026b5e4e04dbba88">    5</a></span>&#160;<a class="code" href="../../da/dec/a00080.html#a15ad9d14f6328ecf026b5e4e04dbba88">ParamInfo::ParamInfo</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    Reset();</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;}</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a5acc8010c5db8b46f36c34bfd4be0209">    9</a></span>&#160;<a class="code" href="../../da/dec/a00080.html#a5acc8010c5db8b46f36c34bfd4be0209">ParamInfo::~ParamInfo</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;}</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a3c37b3486a6f80eb3d05e29d11f24502">   12</a></span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../da/dec/a00080.html#a3c37b3486a6f80eb3d05e29d11f24502">ParamInfo::GetAdjustedValue</a>() {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">float</span> res = Value;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordflow">if</span> (FloatEqual(res, NODATA_VALUE)) {  </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keywordflow">return</span> res;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    }</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">if</span> (StringMatch(Use, PARAM_USE_Y)) {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordflow">if</span> (StringMatch(Change, PARAM_CHANGE_RC)) {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            res = Value * Impact;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(Change, PARAM_CHANGE_AC)) {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            res = Value + Impact;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (Change == PARAM_CHANGE_NC) {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="comment">//don&#39;t change</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        }</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">return</span> res;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#aaee91ca6510c999cd689171a704575e8">   29</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dec/a00080.html#aaee91ca6510c999cd689171a704575e8">ParamInfo::Adjust1DArray</a>(<span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data) {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">if</span> (StringMatch(Use, <span class="keywordtype">string</span>(PARAM_USE_Y))) {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">if</span> (StringMatch(Change, PARAM_CHANGE_RC) &amp;&amp; !FloatEqual(Impact, 1.f)) {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <span class="keywordflow">if</span> (!FloatEqual(data[i], NODATA_VALUE)) {  </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                    data[i] *= Impact;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            }</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(Change, PARAM_CHANGE_AC) &amp;&amp; !FloatEqual(Impact, 0.f)) {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                <span class="keywordflow">if</span> (!FloatEqual(data[i], NODATA_VALUE)) {  </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                    data[i] += Impact;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a80511ea5a368997e89066aee66788e2e">   49</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dec/a00080.html#a80511ea5a368997e89066aee66788e2e">ParamInfo::Adjust1DRaster</a>(<span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data) {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    Adjust1DArray(n, data);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;tinyxml.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;seims.h&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;SEIMS_ModuleSetting.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;MetadataInfo.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;ParamInfo.h&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;SpecifiedData.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;clsInterpolationWeightData.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;SettingsInput.h&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using namespace </span>MainBMP;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">class </span>ModuleFactory {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ModuleFactory(<span class="keywordtype">string</span> &amp;configFileName, <span class="keywordtype">string</span> &amp;modelPath, mongoc_client_t *conn, <span class="keywordtype">string</span> &amp;dbName,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                  <span class="keywordtype">int</span> subBasinID, LayeringMethod layingMethod, <span class="keywordtype">int</span> scenarioID);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ~ModuleFactory(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">float</span> CreateModuleList(<span class="keywordtype">string</span> dbName, <span class="keywordtype">int</span> subbasinID, <span class="keywordtype">int</span> numThreads, LayeringMethod layeringMethod,</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                           <a class="code" href="../../d4/d51/a00017.html">clsRasterData&lt;float&gt;</a> *templateRaster, <a class="code" href="../../d0/dc2/a00104.html">SettingsInput</a> *settingsInput,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                           vector&lt;SimulationModule *&gt; &amp;modules);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> UpdateInput(vector&lt;SimulationModule *&gt; &amp;modules, <a class="code" href="../../d0/dc2/a00104.html">SettingsInput</a> *input, time_t t);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> GetValueFromDependencyModule(<span class="keywordtype">int</span> iModule, vector&lt;SimulationModule *&gt; &amp;modules);</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a25d08aee0e83774468aaebfeb7f6e3e5">   53</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dec/a00080.html#a25d08aee0e83774468aaebfeb7f6e3e5">ParamInfo::Adjust2DArray</a>(<span class="keywordtype">int</span> n, <span class="keywordtype">float</span> **data) {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">int</span> curCols = (int) data[i][0];</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        Adjust1DArray(curCols, data[i] + 1);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a32f9eead1547f38be571ae13d164d627">   61</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dec/a00080.html#a32f9eead1547f38be571ae13d164d627">ParamInfo::Adjust2DRaster</a>(<span class="keywordtype">int</span> n, <span class="keywordtype">int</span> lyrs, <span class="keywordtype">float</span> **data) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        Adjust1DArray(lyrs, data[i]);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../da/dec/a00080.html#a86b59d5285b7826b2b98b8afac9732e3">   68</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/dec/a00080.html#a86b59d5285b7826b2b98b8afac9732e3">ParamInfo::Reset</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    Change = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    Description = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    Dimension = <a class="code" href="../../d4/db5/a00328.html#gac6cf78ef837450cfb19495fe34976b8ca805fbcbe894d2d1acacc96a6ffd82c2a">DT_Unknown</a>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    Impact = 0.0;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    Maximum = 0.0;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    Minimun = 0.0;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    ModuleID = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    Name = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    Source = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    Units = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    Use = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    Value = 0.0;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    DependPara = NULL;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    IsConstant = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    ClimateType = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    IsOutput = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    OutputToOthers = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    initialized = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
-<div class="ttc" id="a00080_html_aaee91ca6510c999cd689171a704575e8"><div class="ttname"><a href="../../da/dec/a00080.html#aaee91ca6510c999cd689171a704575e8">ParamInfo::Adjust1DArray</a></div><div class="ttdeci">void Adjust1DArray(int n, float *data)</div><div class="ttdoc">Adjust 1D array. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d39/a00314_source.html#l00029">ParamInfo.cpp:29</a></div></div>
-<div class="ttc" id="a00080_html_a5acc8010c5db8b46f36c34bfd4be0209"><div class="ttname"><a href="../../da/dec/a00080.html#a5acc8010c5db8b46f36c34bfd4be0209">ParamInfo::~ParamInfo</a></div><div class="ttdeci">~ParamInfo(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d39/a00314_source.html#l00009">ParamInfo.cpp:9</a></div></div>
-<div class="ttc" id="a00080_html_a80511ea5a368997e89066aee66788e2e"><div class="ttname"><a href="../../da/dec/a00080.html#a80511ea5a368997e89066aee66788e2e">ParamInfo::Adjust1DRaster</a></div><div class="ttdeci">void Adjust1DRaster(int n, float *data)</div><div class="ttdoc">Adjust 1D Raster,. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d39/a00314_source.html#l00049">ParamInfo.cpp:49</a></div></div>
-<div class="ttc" id="a00080_html_a15ad9d14f6328ecf026b5e4e04dbba88"><div class="ttname"><a href="../../da/dec/a00080.html#a15ad9d14f6328ecf026b5e4e04dbba88">ParamInfo::ParamInfo</a></div><div class="ttdeci">ParamInfo(void)</div><div class="ttdoc">Construct an empty instance. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d39/a00314_source.html#l00005">ParamInfo.cpp:5</a></div></div>
-<div class="ttc" id="a00080_html_a25d08aee0e83774468aaebfeb7f6e3e5"><div class="ttname"><a href="../../da/dec/a00080.html#a25d08aee0e83774468aaebfeb7f6e3e5">ParamInfo::Adjust2DArray</a></div><div class="ttdeci">void Adjust2DArray(int n, float **data)</div><div class="ttdoc">Adjust 2D array. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d39/a00314_source.html#l00053">ParamInfo.cpp:53</a></div></div>
-<div class="ttc" id="a00080_html_a32f9eead1547f38be571ae13d164d627"><div class="ttname"><a href="../../da/dec/a00080.html#a32f9eead1547f38be571ae13d164d627">ParamInfo::Adjust2DRaster</a></div><div class="ttdeci">void Adjust2DRaster(int n, int lyr, float **data)</div><div class="ttdoc">Adjust 2D Raster. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d39/a00314_source.html#l00061">ParamInfo.cpp:61</a></div></div>
-<div class="ttc" id="a00328_html_gac6cf78ef837450cfb19495fe34976b8ca805fbcbe894d2d1acacc96a6ffd82c2a"><div class="ttname"><a href="../../d4/db5/a00328.html#gac6cf78ef837450cfb19495fe34976b8ca805fbcbe894d2d1acacc96a6ffd82c2a">DT_Unknown</a></div><div class="ttdoc">Unknown type. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/db5/a00328_source.html#l00074">MetadataInfoConst.h:74</a></div></div>
-<div class="ttc" id="a00080_html_a3c37b3486a6f80eb3d05e29d11f24502"><div class="ttname"><a href="../../da/dec/a00080.html#a3c37b3486a6f80eb3d05e29d11f24502">ParamInfo::GetAdjustedValue</a></div><div class="ttdeci">float GetAdjustedValue()</div><div class="ttdoc">Return the adjusted value for this parameter. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d39/a00314_source.html#l00012">ParamInfo.cpp:12</a></div></div>
-<div class="ttc" id="a00080_html_a86b59d5285b7826b2b98b8afac9732e3"><div class="ttname"><a href="../../da/dec/a00080.html#a86b59d5285b7826b2b98b8afac9732e3">ParamInfo::Reset</a></div><div class="ttdeci">void Reset(void)</div><div class="ttdoc">Reset the contents of the object to default values. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d39/a00314_source.html#l00068">ParamInfo.cpp:68</a></div></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> FindOutputParameter(<span class="keywordtype">string</span> &amp;outputID, <span class="keywordtype">int</span> &amp;iModule, <a class="code" href="../../d8/d53/a00081.html">ParamInfo</a> *&amp;paraInfo);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">string</span> GetModuleID(<span class="keywordtype">int</span> i) { <span class="keywordflow">return</span> m_moduleIDs[i]; }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> AddMaskRaster(<span class="keywordtype">string</span>, <a class="code" href="../../d4/d51/a00017.html">clsRasterData&lt;float&gt;</a> *);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">typedef</span> <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> *(*InstanceFunction)(void);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">typedef</span> <span class="keyword">const</span> <span class="keywordtype">char</span> *(*MetadataFunction)(void);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    map &lt;string, InstanceFunction&gt; m_instanceFuncs;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    map &lt;string, MetadataFunction&gt; m_metadataFuncs;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">string</span> m_modulePath;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">int</span> m_subBasinID;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    LayeringMethod m_layingMethod;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    vector &lt;string&gt; m_moduleIDs;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#ifdef windows</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor"></span>    vector&lt;HINSTANCE&gt; m_dllHandles;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor"></span>    vector&lt;void *&gt; m_dllHandles;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor"></span>    map&lt;string, SEIMSModuleSetting *&gt; m_settings;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    map&lt;string, const char *&gt; m_metadata;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    map &lt;string, vector&lt;ParamInfo&gt;&gt; m_parameters;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    map &lt;string, vector&lt;ParamInfo&gt;&gt; m_inputs;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    map &lt;string, vector&lt;ParamInfo&gt;&gt; m_outputs;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <a class="code" href="../../d0/dc2/a00104.html">SettingsInput</a> *m_setingsInput;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordtype">string</span> m_host;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">int</span> m_port;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">string</span> m_dbName;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">string</span> m_dbScenario;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordtype">int</span> m_scenarioID;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    mongoc_client_t *m_conn;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    mongoc_gridfs_t *m_spatialData;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    map&lt;string, ParamInfo *&gt; m_parametersInDB;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    map&lt;string, float *&gt; m_1DArrayMap;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    map&lt;string, int&gt; m_1DLenMap;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    map&lt;string, float **&gt; m_2DArrayMap;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    map&lt;string, int&gt; m_2DRowsLenMap;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    map&lt;string, int&gt; m_2DColsLenMap;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    map&lt;string, clsInterpolationWeightData *&gt; m_weightDataMap;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    map&lt;string, clsRasterData &lt; float&gt; *&gt;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    m_rsMap;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <a class="code" href="../../d0/d61/a00100.html">Scenario</a> *m_scenario;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <a class="code" href="../../dd/da2/a00019.html">clsReaches</a> *m_reaches;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <a class="code" href="../../de/d11/a00021.html">clsSubbasins</a> *m_subbasins;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordtype">void</span> Init(<span class="keyword">const</span> <span class="keywordtype">string</span> &amp;configFileName);</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keywordtype">bool</span> LoadSettingsFromFile(<span class="keyword">const</span> <span class="keywordtype">char</span> *filename, vector &lt;vector&lt;string&gt;&gt; &amp;settings);</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordtype">void</span> ReadConfigFile(<span class="keyword">const</span> <span class="keywordtype">char</span> *configFileName);</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordtype">void</span> ReadDLL(<span class="keywordtype">string</span> &amp;moduleID, <span class="keywordtype">string</span> &amp;dllID);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> *GetInstance(<span class="keywordtype">string</span> &amp;moduleID);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <a class="code" href="../../de/d94/a00603.html#gac6cf78ef837450cfb19495fe34976b8c">dimensionTypes</a> MatchType(<span class="keywordtype">string</span> strType);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordtype">bool</span> IsConstantInputFromName(<span class="keywordtype">string</span> &amp;name);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordtype">void</span> ReadParameterSetting(<span class="keywordtype">string</span> &amp;moduleID, TiXmlDocument &amp;doc, SEIMSModuleSetting *setting);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordtype">void</span> ReadInputSetting(<span class="keywordtype">string</span> &amp;moduleID, TiXmlDocument &amp;doc, SEIMSModuleSetting *setting);</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordtype">void</span> ReadOutputSetting(<span class="keywordtype">string</span> &amp;moduleID, TiXmlDocument &amp;doc, SEIMSModuleSetting *setting);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordtype">void</span> GetBMPScenarioDBName();</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordtype">string</span> GetComparableName(<span class="keywordtype">string</span> &amp;paraName);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <a class="code" href="../../d8/d53/a00081.html">ParamInfo</a> *FindDependentParam(<a class="code" href="../../d8/d53/a00081.html">ParamInfo</a> &amp;paramInfo);</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordtype">void</span> ReadParametersFromMongoDB();</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keywordtype">void</span> SetData(<span class="keywordtype">string</span> &amp;dbName, <span class="keywordtype">int</span> nSubbasin, SEIMSModuleSetting *setting, <a class="code" href="../../d8/d53/a00081.html">ParamInfo</a> *param,</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                 <a class="code" href="../../d4/d51/a00017.html">clsRasterData&lt;float&gt;</a> *templateRaster,</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                 <a class="code" href="../../d0/dc2/a00104.html">SettingsInput</a> *settingsInput, <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> *pModule, <span class="keywordtype">bool</span> vertitalItp);</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordtype">void</span> SetValue(<a class="code" href="../../d8/d53/a00081.html">ParamInfo</a> *param, <a class="code" href="../../d4/d51/a00017.html">clsRasterData&lt;float&gt;</a> *templateRaster, <a class="code" href="../../d0/dc2/a00104.html">SettingsInput</a> *settingsInput,</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                  <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> *pModule);</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordtype">void</span> Set1DData(<span class="keywordtype">string</span> &amp;dbName, <span class="keywordtype">string</span> &amp;paraName, <span class="keywordtype">string</span> &amp;remoteFileName, <a class="code" href="../../d4/d51/a00017.html">clsRasterData&lt;float&gt;</a> *templateRaster,</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                   <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> *pModule, <a class="code" href="../../d0/dc2/a00104.html">SettingsInput</a> *settingsInput, <span class="keywordtype">bool</span> vertitalItp);</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keywordtype">void</span> Set2DData(<span class="keywordtype">string</span> &amp;dbName, <span class="keywordtype">string</span> &amp;paraName, <span class="keywordtype">int</span> nSubbasin, <span class="keywordtype">string</span> &amp;remoteFileName,</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                   <a class="code" href="../../d4/d51/a00017.html">clsRasterData&lt;float&gt;</a> *templateRaster, <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> *pModule);</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordtype">void</span> SetRaster(<span class="keywordtype">string</span> &amp;dbName, <span class="keywordtype">string</span> &amp;paraName, <span class="keywordtype">string</span> &amp;remoteFileName, <a class="code" href="../../d4/d51/a00017.html">clsRasterData&lt;float&gt;</a> *templateRaster,</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                   <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> *pModule);</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keywordtype">void</span> SetScenario(<a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> *pModule);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordtype">void</span> SetReaches(<a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> *pModule);</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="keywordtype">void</span> SetSubbasins(<a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> *pModule);</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="comment">//void ReadMultiReachInfo(const string &amp;filename, LayeringMethod layeringMethod, int&amp; nRows, int&amp; nCols, float**&amp; data);</span></div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="comment"></span>    <span class="comment">//void ReadSingleReachInfo(int nSubbasin, const string &amp;filename, LayeringMethod layeringMethod, int&amp; nAttr, int&amp; nReaches, float**&amp; data);</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;};</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
+<div class="ttc" id="a00603_html_gac6cf78ef837450cfb19495fe34976b8c"><div class="ttname"><a href="../../de/d94/a00603.html#gac6cf78ef837450cfb19495fe34976b8c">dimensionTypes</a></div><div class="ttdeci">dimensionTypes</div><div class="ttdoc">enum of dimension data types </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4e/a00329_source.html#l00072">MetadataInfoConst.h:72</a></div></div>
+<div class="ttc" id="a00021_html"><div class="ttname"><a href="../../de/d11/a00021.html">clsSubbasins</a></div><div class="ttdoc">Manager all Subbasin related parameters and methods. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d4a/a00297_source.html#l00232">clsSubbasin.h:232</a></div></div>
+<div class="ttc" id="a00106_html"><div class="ttname"><a href="../../d7/d70/a00106.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d50/a00332_source.html#l00045">SimulationModule.h:45</a></div></div>
+<div class="ttc" id="a00100_html"><div class="ttname"><a href="../../d0/d61/a00100.html">MainBMP::Scenario</a></div><div class="ttdoc">Main class of scenario in BMP database. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d58/a00285_source.html#l00033">Scenario.h:33</a></div></div>
+<div class="ttc" id="a00081_html"><div class="ttname"><a href="../../d8/d53/a00081.html">ParamInfo</a></div><div class="ttdoc">Class to store and manage parameter information from the parameter database. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/db8/a00316_source.html#l00025">ParamInfo.h:25</a></div></div>
+<div class="ttc" id="a00017_html"><div class="ttname"><a href="../../d4/d51/a00017.html">clsRasterData&lt; float &gt;</a></div></div>
+<div class="ttc" id="a00104_html"><div class="ttname"><a href="../../d0/dc2/a00104.html">SettingsInput</a></div><div class="ttdoc">Input settings for SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d8f/a00324_source.html#l00026">SettingsInput.h:26</a></div></div>
+<div class="ttc" id="a00019_html"><div class="ttname"><a href="../../dd/da2/a00019.html">clsReaches</a></div><div class="ttdoc">Read and store all reaches information as input parameters. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d82/a00293_source.html#l00206">clsReach.h:206</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_cce2c0ac50386f26b5b526fa8626cc77.html">module_setting</a></li><li class="navelem"><b>ParamInfo.cpp</b></li>
-    <li class="footer">Generated on Wed Mar 22 2017 16:43:17 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_cce2c0ac50386f26b5b526fa8626cc77.html">module_setting</a></li><li class="navelem"><b>ModuleFactory.h</b></li>
+    <li class="footer">Generated on Fri Mar 24 2017 06:20:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

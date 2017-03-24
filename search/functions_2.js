@@ -1,7 +1,7 @@
 var searchData=
 [
   ['base_5fvariabledata',['base_VariableData',['../de/d5e/a00007.html#a40eb0905d7a4c4aafb523e14b6d412ae',1,'base_VariableData::base_VariableData(void)'],['../de/d5e/a00007.html#ae5e2c42f75af4f7eb86b2ec17dfcf188',1,'base_VariableData::base_VariableData(const base_VariableData &amp;obj)']]],
-  ['basicstatistics',['basicStatistics',['../d7/d06/a00131.html#ab5ca6440704ff8b4266fa8f1e0b48e5f',1,'utilsMath::basicStatistics(T *values, int num, double **derivedvalues, T exclude=(T) NODATA_VALUE)'],['../d7/d06/a00131.html#a165610fa0084a29d68b17b65225f0673',1,'utilsMath::basicStatistics(T **values, int num, int lyrs, double ***derivedvalues, T exclude=(T) NODATA_VALUE)']]],
+  ['basicstatistics',['basicStatistics',['../d5/deb/a00132.html#ab5ca6440704ff8b4266fa8f1e0b48e5f',1,'utilsMath::basicStatistics(T *values, int num, double **derivedvalues, T exclude=(T) NODATA_VALUE)'],['../d5/deb/a00132.html#a165610fa0084a29d68b17b65225f0673',1,'utilsMath::basicStatistics(T **values, int num, int lyrs, double ***derivedvalues, T exclude=(T) NODATA_VALUE)']]],
   ['biomass_5fepic',['Biomass_EPIC',['../d4/dee/a00008.html#a1e9ddb27730463b84e08447779b2bd38',1,'Biomass_EPIC']]],
   ['bmparealsrcfactory',['BMPArealSrcFactory',['../da/da0/a00009.html#a163d84742bb3ecae9fb3ba7e80f7a132',1,'MainBMP::BMPArealSrcFactory']]],
   ['bmpfactory',['BMPFactory',['../d7/dec/a00010.html#a457f06d52cfb916e99c6440ca628f7df',1,'MainBMP::BMPFactory']]],

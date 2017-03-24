@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/README.md Source File</title>
+<title>SEIMS: seims/preprocess/README.md Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -54,7 +54,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
-      <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="../../namespaces.html"><span>Packages</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li>
@@ -112,85 +112,31 @@ $(document).ready(function(){initNavTree('de/d14/a00139.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">seims/README.md</div>  </div>
+<div class="title">seims/preprocess/README.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># SEIMS 代码框架</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span>----------------------</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;SEIMS模型数据预处理</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;=================</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;SEIMS模型主要编程语言为C++和Python，C++代码编译采用CMake管理，以支持Windows、Linux、macOS等平台。</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;地学计算中有很多通用的操作，比如，如对栅格文件的读写、对数据库的读写、对基本对象（字符串、文件及文件夹等）的操作。因此将这些通用的操作部分进行独立维护、扩充，采用Git的subtree功能进行组织管理独立子库，独立子库包括：</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;+ 1.[PyGeoC: 用于地学计算的简单Python包](https:<span class="comment">//github.com/lreis2415/PyGeoC)，包括hydro, raster, vector, utils等子模块</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;+ 2.用于地学计算的C++基础类，这些类均可单独编译、调试：</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    + 2.1.[UtilsClass: 字符串、时间、数组等基础操作](https:<span class="comment">//github.com/lreis2415/UtilsClass)</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    + 2.2.[MongoUtilClass: 基于mongo-c-driver封装的MongoDB简单操作类](https:<span class="comment">//github.com/lreis2415/MongoUtilClass)</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    + 2.3.[RasterClass: 支持ASCII、GDAL和MongoDB的读写，支持掩膜运算等的栅格类](https:<span class="comment">//github.com/lreis2415/RasterClass)</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;此外，SEIMS的[wiki文档](https:<span class="comment">//github.com/lreis2415/SEIMS2017/wiki)，用于地形参数提取、子流域划分的[TauDEM](https://github.com/lreis2415/TauDEM)，和用于子流域层次的任务划分的[METIS](https://github.com/lreis2415/metis)也均采用独立子库管理。</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;-----------------------------</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;下图为SEIMS模型总体结构图：</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;![seims_structure](http:<span class="comment">//i.imgur.com/uYNK0po.jpg)</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">## 1. doc</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;包括wiki，代码文档自动生成脚本（基于doxygen），代码格式规范（style），以及原理文档整理（theory）。</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">## 2. data</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;示例数据。</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">## 3. seims</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;模型源代码。</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">### 3.1. src</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;+ src文件夹中包含SEIMS模型所有C++源码，经过编译、安装之后，所有可执行文件和动态链接库均位于bin文件夹内，如TauDEM、metis、grid_layering（用于水文模型并行计算的栅格分层算法，支持D8、Dinf算法）、iuh（WetSpa模型中的瞬时地貌单位线算法）等。</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;+ 将来需要新增的模块功能代码也在此添加。</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;+ 预处理（preprocess）和运行模型（run_model）阶段将调用bin目录下的相关文件。</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">### 3.2. database</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;模型默认参数设置、土地利用和土壤等属性查找表。</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">### 3.3. pygeoc</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;[pygeoc](https:<span class="comment">//github.com/lreis2415/PyGeoC)为SEIMS中python计算脚本（即preprocess、postprocess、scenario_analysis等）的基础，其包括水文、栅格、矢量、通用等功能模块。</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;详细介绍请参见[PyGeoC的Wiki](https:<span class="comment">//github.com/lreis2415/PyGeoC/wiki)。</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">### 3.4. preprocess</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;模型数据预处理程序，包括气象数据导入、子流域划分、土地利用及土壤参数提取、栅格分层等操作，预处理结束后，模型所需数据均导入mongodb数据库中。</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">### 3.5. postprocess</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;模型运行后处理程序，包括生成水文过程图等。</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">### 3.6. calibration</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;TODO，模型率定。</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor">### 3.7. scenario_analysis</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;基于NSAG-II优化算法的情景优化分析。</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">## 1.文件名约定</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor"></span>SEIMS模型预处理包括空间离散化（即子流域划分）、空间参数提取（土壤、土地利用等）、水文气象数据处理、最佳管理措施（BMPs）导入以及计算任务划分（MPI并行版本），因此对预处理脚本文件名进行如下约定：</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;+ 文件名全小写</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;+ 文件名应简明扼要概括代码功能，关键字用下划线分割</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;+ 文件名根据功能划分，加上对应前缀，前缀规定如下：</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    + 空间离散化 `sd_`</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    + 空间参数提取 `sp`</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    + 水文气象数据处理 `hydro_`</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    + 最佳管理措施导入 `bmp_`</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    + 计算任务划分 `mpi_`</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;+ </div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><b>README.md</b></li>
-    <li class="footer">Generated on Wed Mar 22 2017 16:43:17 for SEIMS by
+    <li class="footer">Generated on Fri Mar 24 2017 06:20:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

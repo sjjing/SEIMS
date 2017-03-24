@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/data/Measurement.h Source File</title>
+<title>SEIMS: seims/src/seims_main/base/data/Measurement.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -54,7 +54,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
-      <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="../../namespaces.html"><span>Packages</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li>
@@ -112,62 +112,33 @@ $(document).ready(function(){initNavTree('db/da2/a00300_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Measurement.h</div>  </div>
+<div class="title">Measurement.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;MongoUtil.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="../../d3/d8b/a00059.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d3/d8b/a00059.html">Measurement</a> {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="../../d3/d8b/a00059.html">Measurement</a>(mongoc_client_t *conn, <span class="keywordtype">string</span> hydroDBName, <span class="keywordtype">string</span> sitesList, <span class="keywordtype">string</span> siteType, time_t startDate,</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                time_t endDate);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="../../d3/d8b/a00059.html">Measurement</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">float</span> *GetSiteDataByTime(time_t t) = 0;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../d3/d8b/a00059.html#a797e90045c3f01415abc68ebe02683d8">   42</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d3/d8b/a00059.html#a797e90045c3f01415abc68ebe02683d8">NumberOfSites</a>() { <span class="keywordflow">return</span> (<span class="keywordtype">int</span>) m_siteIDList.size(); }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../d3/d8b/a00059.html#abce1040e808838a0a8c4fba864e1ffcb">   45</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="../../d3/d8b/a00059.html#abce1040e808838a0a8c4fba864e1ffcb">Type</a>() { <span class="keywordflow">return</span> m_type; }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../d3/d8b/a00059.html#ad839a0019995f509b5802b8948513a6b">   48</a></span>&#160;    time_t <a class="code" href="../../d3/d8b/a00059.html#ad839a0019995f509b5802b8948513a6b">StartTime</a>() { <span class="keywordflow">return</span> m_startTime; }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../d3/d8b/a00059.html#a6bdfbe35c64f4efa24989c10474d078c">   51</a></span>&#160;    time_t <a class="code" href="../../d3/d8b/a00059.html#a6bdfbe35c64f4efa24989c10474d078c">EndTime</a>() { <span class="keywordflow">return</span> m_endTime; }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="../../d3/d8b/a00059.html#aab660b24d053833228d17eaa5b965a86">   55</a></span>&#160;    mongoc_client_t *<a class="code" href="../../d3/d8b/a00059.html#aab660b24d053833228d17eaa5b965a86">m_conn</a>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../d3/d8b/a00059.html#a801eb1c569a843a5326b36e7bb76119e">   57</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="../../d3/d8b/a00059.html#a801eb1c569a843a5326b36e7bb76119e">m_hydroDBName</a>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../d3/d8b/a00059.html#acffdb39ed0357326cec16264231ae695">   59</a></span>&#160;    vector&lt;int&gt; <a class="code" href="../../d3/d8b/a00059.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../d3/d8b/a00059.html#ae17b0ffa8e6e6b5ac42092b485c4f204">   61</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="../../d3/d8b/a00059.html#ae17b0ffa8e6e6b5ac42092b485c4f204">m_type</a>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../d3/d8b/a00059.html#a1d95627d0865cc35b930939076aa7da6">   63</a></span>&#160;    time_t <a class="code" href="../../d3/d8b/a00059.html#a1d95627d0865cc35b930939076aa7da6">m_startTime</a>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../d3/d8b/a00059.html#a1c62f2abba7a613bc6edeca6152751f9">   65</a></span>&#160;    time_t <a class="code" href="../../d3/d8b/a00059.html#a1c62f2abba7a613bc6edeca6152751f9">m_endTime</a>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="../../d3/d8b/a00059.html#a2114a606e03739f92b2ba8825fc1334c">   67</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d3/d8b/a00059.html#a2114a606e03739f92b2ba8825fc1334c">pData</a>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;};</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="ttc" id="a00059_html_aab660b24d053833228d17eaa5b965a86"><div class="ttname"><a href="../../d3/d8b/a00059.html#aab660b24d053833228d17eaa5b965a86">Measurement::m_conn</a></div><div class="ttdeci">mongoc_client_t * m_conn</div><div class="ttdoc">MongoDB client object. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00055">Measurement.h:55</a></div></div>
-<div class="ttc" id="a00059_html_acffdb39ed0357326cec16264231ae695"><div class="ttname"><a href="../../d3/d8b/a00059.html#acffdb39ed0357326cec16264231ae695">Measurement::m_siteIDList</a></div><div class="ttdeci">vector&lt; int &gt; m_siteIDList</div><div class="ttdoc">Site IDs list. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00059">Measurement.h:59</a></div></div>
-<div class="ttc" id="a00059_html_a2114a606e03739f92b2ba8825fc1334c"><div class="ttname"><a href="../../d3/d8b/a00059.html#a2114a606e03739f92b2ba8825fc1334c">Measurement::pData</a></div><div class="ttdeci">float * pData</div><div class="ttdoc">Measurement data of all sites in given date. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00067">Measurement.h:67</a></div></div>
-<div class="ttc" id="a00059_html"><div class="ttname"><a href="../../d3/d8b/a00059.html">Measurement</a></div><div class="ttdoc">Get HydroClimate measurement data from MongoDB. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00019">Measurement.h:19</a></div></div>
-<div class="ttc" id="a00059_html_a797e90045c3f01415abc68ebe02683d8"><div class="ttname"><a href="../../d3/d8b/a00059.html#a797e90045c3f01415abc68ebe02683d8">Measurement::NumberOfSites</a></div><div class="ttdeci">int NumberOfSites()</div><div class="ttdoc">Get Number of site. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00042">Measurement.h:42</a></div></div>
-<div class="ttc" id="a00059_html_ae17b0ffa8e6e6b5ac42092b485c4f204"><div class="ttname"><a href="../../d3/d8b/a00059.html#ae17b0ffa8e6e6b5ac42092b485c4f204">Measurement::m_type</a></div><div class="ttdeci">string m_type</div><div class="ttdoc">Site type, M means meteorology, and P means precipitation. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00061">Measurement.h:61</a></div></div>
-<div class="ttc" id="a00059_html_ad839a0019995f509b5802b8948513a6b"><div class="ttname"><a href="../../d3/d8b/a00059.html#ad839a0019995f509b5802b8948513a6b">Measurement::StartTime</a></div><div class="ttdeci">time_t StartTime()</div><div class="ttdoc">start time </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00048">Measurement.h:48</a></div></div>
-<div class="ttc" id="a00059_html_a6bdfbe35c64f4efa24989c10474d078c"><div class="ttname"><a href="../../d3/d8b/a00059.html#a6bdfbe35c64f4efa24989c10474d078c">Measurement::EndTime</a></div><div class="ttdeci">time_t EndTime()</div><div class="ttdoc">end time </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00051">Measurement.h:51</a></div></div>
-<div class="ttc" id="a00059_html_a801eb1c569a843a5326b36e7bb76119e"><div class="ttname"><a href="../../d3/d8b/a00059.html#a801eb1c569a843a5326b36e7bb76119e">Measurement::m_hydroDBName</a></div><div class="ttdeci">string m_hydroDBName</div><div class="ttdoc">HydroClimate database name. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00057">Measurement.h:57</a></div></div>
-<div class="ttc" id="a00059_html_a1d95627d0865cc35b930939076aa7da6"><div class="ttname"><a href="../../d3/d8b/a00059.html#a1d95627d0865cc35b930939076aa7da6">Measurement::m_startTime</a></div><div class="ttdeci">time_t m_startTime</div><div class="ttdoc">Start time. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00063">Measurement.h:63</a></div></div>
-<div class="ttc" id="a00059_html_a1c62f2abba7a613bc6edeca6152751f9"><div class="ttname"><a href="../../d3/d8b/a00059.html#a1c62f2abba7a613bc6edeca6152751f9">Measurement::m_endTime</a></div><div class="ttdeci">time_t m_endTime</div><div class="ttdoc">End time. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00065">Measurement.h:65</a></div></div>
-<div class="ttc" id="a00059_html_abce1040e808838a0a8c4fba864e1ffcb"><div class="ttname"><a href="../../d3/d8b/a00059.html#abce1040e808838a0a8c4fba864e1ffcb">Measurement::Type</a></div><div class="ttdeci">string Type()</div><div class="ttdoc">Get HydroClimate site type, &quot;M&quot; or &quot;P&quot;. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00045">Measurement.h:45</a></div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Measurement.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="../../d3/d8b/a00059.html#a4ceebf09b2dbb7edfefe10c7f64b0683">    3</a></span>&#160;<a class="code" href="../../d3/d8b/a00059.html#a4ceebf09b2dbb7edfefe10c7f64b0683">Measurement::Measurement</a>(mongoc_client_t *conn, <span class="keywordtype">string</span> hydroDBName, <span class="keywordtype">string</span> sitesList, <span class="keywordtype">string</span> siteType, time_t startTime,</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;                         time_t endTime) : m_conn(conn), m_hydroDBName(hydroDBName), m_type(siteType),</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                           m_startTime(startTime), m_endTime(endTime), pData(NULL) {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <a class="code" href="../../d3/d8b/a00059.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a> = SplitStringForInt(sitesList, <span class="charliteral">&#39;,&#39;</span>);</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    sort(<a class="code" href="../../d3/d8b/a00059.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a>.begin(), <a class="code" href="../../d3/d8b/a00059.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a>.end());</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <a class="code" href="../../d3/d8b/a00059.html#a2114a606e03739f92b2ba8825fc1334c">pData</a> = <span class="keyword">new</span> <span class="keywordtype">float</span>[<a class="code" href="../../d3/d8b/a00059.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a>.size()];</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="../../d3/d8b/a00059.html#a6743c23fdd99a63831f93979bef779c8">   11</a></span>&#160;<a class="code" href="../../d3/d8b/a00059.html#a6743c23fdd99a63831f93979bef779c8">Measurement::~Measurement</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d3/d8b/a00059.html#a2114a606e03739f92b2ba8825fc1334c">pData</a> != NULL) Release1DArray(<a class="code" href="../../d3/d8b/a00059.html#a2114a606e03739f92b2ba8825fc1334c">pData</a>);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}</div>
+<div class="ttc" id="a00059_html_a4ceebf09b2dbb7edfefe10c7f64b0683"><div class="ttname"><a href="../../d3/d8b/a00059.html#a4ceebf09b2dbb7edfefe10c7f64b0683">Measurement::Measurement</a></div><div class="ttdeci">Measurement(mongoc_client_t *conn, string hydroDBName, string sitesList, string siteType, time_t startDate, time_t endDate)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00003">Measurement.cpp:3</a></div></div>
+<div class="ttc" id="a00059_html_acffdb39ed0357326cec16264231ae695"><div class="ttname"><a href="../../d3/d8b/a00059.html#acffdb39ed0357326cec16264231ae695">Measurement::m_siteIDList</a></div><div class="ttdeci">vector&lt; int &gt; m_siteIDList</div><div class="ttdoc">Site IDs list. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d50/a00301_source.html#l00059">Measurement.h:59</a></div></div>
+<div class="ttc" id="a00059_html_a2114a606e03739f92b2ba8825fc1334c"><div class="ttname"><a href="../../d3/d8b/a00059.html#a2114a606e03739f92b2ba8825fc1334c">Measurement::pData</a></div><div class="ttdeci">float * pData</div><div class="ttdoc">Measurement data of all sites in given date. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d50/a00301_source.html#l00067">Measurement.h:67</a></div></div>
+<div class="ttc" id="a00059_html_a6743c23fdd99a63831f93979bef779c8"><div class="ttname"><a href="../../d3/d8b/a00059.html#a6743c23fdd99a63831f93979bef779c8">Measurement::~Measurement</a></div><div class="ttdeci">virtual ~Measurement(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/da2/a00300_source.html#l00011">Measurement.cpp:11</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_24d0af58b2644ad205aa9a0d9adbb65a.html">data</a></li><li class="navelem"><b>Measurement.h</b></li>
-    <li class="footer">Generated on Wed Mar 22 2017 16:43:17 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_24d0af58b2644ad205aa9a0d9adbb65a.html">data</a></li><li class="navelem"><b>Measurement.cpp</b></li>
+    <li class="footer">Generated on Fri Mar 24 2017 06:20:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

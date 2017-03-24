@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/module_setting/SEIMS_ModuleSetting.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/base/module_setting/PrintInfo.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -54,7 +54,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
       <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
-      <li><a href="../../namespaces.html"><span>Namespaces</span></a></li>
+      <li><a href="../../namespaces.html"><span>Packages</span></a></li>
       <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="../../files.html"><span>Files</span></a></li>
       <li>
@@ -112,118 +112,198 @@ $(document).ready(function(){initNavTree('d2/d41/a00318_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SEIMS_ModuleSetting.cpp</div>  </div>
+<div class="title">PrintInfo.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;SEIMS_ModuleSetting.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;SEIMSModuleSetting::SEIMSModuleSetting(<span class="keywordtype">string</span> moduleId, <span class="keywordtype">string</span> setting) {</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    m_moduleId = moduleId;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    m_settingString = setting;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    getSettings();</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;SEIMSModuleSetting::~SEIMSModuleSetting(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordtype">void</span> SEIMSModuleSetting::getSettings() {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    m_settings = SplitString(m_settingString, <span class="charliteral">&#39;_&#39;</span>);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;}</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">string</span> SEIMSModuleSetting::dataTypeString() { <span class="keywordflow">return</span> dataType2String(dataType()); }</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;time.h&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;iomanip&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;ParamInfo.h&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;MongoUtil.h&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &quot;clsRasterData.cpp&quot;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keywordtype">float</span> SEIMSModuleSetting::dataType() {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">if</span> (m_moduleId.find(MID_ITP) == string::npos &amp;&amp; m_moduleId.find(MID_TSD_RD) == string::npos) {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">return</span> -1.0f;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">if</span> (m_settings.size() &lt; 2) {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(<span class="stringliteral">&quot;SEIMSModuleSetting&quot;</span>, <span class="stringliteral">&quot;dataType&quot;</span>, <span class="stringliteral">&quot;Module &quot;</span> + m_moduleId +</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <span class="stringliteral">&quot; does not appoint data type in the second column.&quot;</span>);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        }</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordtype">float</span> dataType = dataTypeString2Float(m_settings.at(1));</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordflow">if</span> (dataType == -1.0f) {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(<span class="stringliteral">&quot;SEIMSModuleSetting&quot;</span>, <span class="stringliteral">&quot;dataType&quot;</span>,</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                                 <span class="stringliteral">&quot;The data type of module &quot;</span> + m_moduleId +</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                                     <span class="stringliteral">&quot; is not correct. It must be P, TMEAN, TMIN, TMAX or PET.&quot;</span>);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">return</span> dataType;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordtype">bool</span> SEIMSModuleSetting::needDoVerticalInterpolation() {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">if</span> (m_moduleId.find(MID_ITP) == string::npos) {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">if</span> (m_settings.size() &lt; 3) {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(<span class="stringliteral">&quot;SEIMSModuleSetting&quot;</span>, <span class="stringliteral">&quot;needDoVerticalInterpolation&quot;</span>,</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                                 <span class="stringliteral">&quot;Module &quot;</span> + m_moduleId +</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                     <span class="stringliteral">&quot; does not appoint vertical interpolation in the third column.&quot;</span>);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordtype">int</span> iIsDoVerticalInterpolation = atoi(m_settings.at(2).c_str());</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">return</span> iIsDoVerticalInterpolation == 0 ? <span class="keyword">false</span> : <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keywordtype">string</span> SEIMSModuleSetting::channelRoutingMethod(<span class="keywordtype">int</span> methodIndex) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">if</span> (!StringMatch(m_moduleId, <span class="stringliteral">&quot;ChannelRouting&quot;</span>)) { <span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>; }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">if</span> (<span class="keywordtype">int</span>(m_settings.size()) &lt; methodIndex + 1) {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d1/d6f/a00063.html">ModelException</a>(<span class="stringliteral">&quot;SEIMSModuleSetting&quot;</span>, <span class="stringliteral">&quot;needDoVerticalInterpolation&quot;</span>, <span class="stringliteral">&quot;Module &quot;</span> + m_moduleId +</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="stringliteral">&quot; does not appoint vertical interpolation in the third column.&quot;</span>);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        }</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="../../d6/d75/a00604.html#ga0271fcfc94579b48ed1dd87309d8e118">   31</a></span>&#160;<span class="keyword">enum</span> <a class="code" href="../../d6/d75/a00604.html#ga0271fcfc94579b48ed1dd87309d8e118">AggregationType</a> {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        AT_Unknown = 0,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        AT_Sum = 1,</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        AT_Average = 2,</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        AT_Minimum = 3,</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        AT_Maximum = 4,</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        AT_SpecificCells = 5</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;};</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html">   53</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dc/d54/a00094.html">PrintInfoItem</a> {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#ab460b6c2f3a527adead6c48704ac2e94">   56</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../dc/d54/a00094.html#ab460b6c2f3a527adead6c48704ac2e94">m_Counter</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">//  //! values of specific cells, e.g., landuse, curvature, and slope</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">//  clsSpecificOutput*  m_specificOutput;</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">//public:</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">//  void setSpecificCellRasterOutput(string projectPath,string databasePath,</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">//      clsRasterData* templateRasterData,string outputID);</span></div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">return</span> m_settings.at(methodIndex);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keywordtype">string</span> SEIMSModuleSetting::channelFlowRoutingMethod() {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">return</span> channelRoutingMethod(1);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;}</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#a98ff04d42a58d9143838f51e353ac616">   66</a></span>&#160;    mongoc_client_t *<a class="code" href="../../dc/d54/a00094.html#a98ff04d42a58d9143838f51e353ac616">conn</a>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#a79673ba1af901bbba0589a807f9ef0e2">   68</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="../../dc/d54/a00094.html#a79673ba1af901bbba0589a807f9ef0e2">dbName</a>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#a823bae160e4cb323e2090ef92dfedce3">   70</a></span>&#160;    mongoc_gridfs_t *<a class="code" href="../../dc/d54/a00094.html#a823bae160e4cb323e2090ef92dfedce3">gfs</a>;</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keywordtype">string</span> SEIMSModuleSetting::channelSedimentRoutingMethod() {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">return</span> channelRoutingMethod(2);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keywordtype">string</span> SEIMSModuleSetting::channelNutrientRoutingMethod() {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">return</span> channelRoutingMethod(3);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keywordtype">float</span> SEIMSModuleSetting::dataTypeString2Float(<span class="keywordtype">string</span> dataType) {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">if</span> (StringMatch(dataType, DataType_Precipitation)) <span class="keywordflow">return</span> 1.0f;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">if</span> (StringMatch(dataType, DataType_MeanTemperature)) <span class="keywordflow">return</span> 2.0f;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">if</span> (StringMatch(dataType, DataType_MinimumTemperature)) <span class="keywordflow">return</span> 3.0f;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">if</span> (StringMatch(dataType, DataType_MaximumTemperature)) <span class="keywordflow">return</span> 4.0f;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">if</span> (StringMatch(dataType, DataType_PotentialEvapotranspiration)) <span class="keywordflow">return</span> 5.0f;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span> (StringMatch(dataType, DataType_SolarRadiation)) <span class="keywordflow">return</span> 6.0f;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">if</span> (StringMatch(dataType, DataType_WindSpeed)) <span class="keywordflow">return</span> 7.0f;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">if</span> (StringMatch(dataType, DataType_RelativeAirMoisture)) <span class="keywordflow">return</span> 8.0f;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">return</span> -1.0f;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keywordtype">string</span> SEIMSModuleSetting::dataType2String(<span class="keywordtype">float</span> dataType) {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordflow">switch</span> ((<span class="keywordtype">int</span>) dataType) {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordflow">case</span> 1:<span class="keywordflow">return</span> DataType_Precipitation;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordflow">case</span> 2:<span class="keywordflow">return</span> DataType_MeanTemperature;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">case</span> 3:<span class="keywordflow">return</span> DataType_MinimumTemperature;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">case</span> 4:<span class="keywordflow">return</span> DataType_MaximumTemperature;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">case</span> 5:<span class="keywordflow">return</span> DataType_PotentialEvapotranspiration;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keywordflow">case</span> 6:<span class="keywordflow">return</span> DataType_SolarRadiation;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">case</span> 7:<span class="keywordflow">return</span> DataType_WindSpeed;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordflow">case</span> 8:<span class="keywordflow">return</span> DataType_RelativeAirMoisture;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordflow">default</span>:<span class="keywordflow">return</span> <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    }</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;}</div>
-<div class="ttc" id="a00063_html"><div class="ttname"><a href="../../d1/d6f/a00063.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/db6/a00241_source.html#l00020">ModelException.h:20</a></div></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="../../dc/d54/a00094.html">PrintInfoItem</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    ~<a class="code" href="../../dc/d54/a00094.html">PrintInfoItem</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#a11fd7296e1569526b0d6492d51279480">   79</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../dc/d54/a00094.html#a11fd7296e1569526b0d6492d51279480">m_1DDataWithRowCol</a>;</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#ad721246fee2ce07dc582b24fbb379707">   81</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../dc/d54/a00094.html#ad721246fee2ce07dc582b24fbb379707">m_nRows</a>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#acf12f5dc38ba5bf0bf8da666d4c1ace7">   83</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../dc/d54/a00094.html#acf12f5dc38ba5bf0bf8da666d4c1ace7">m_1DData</a>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#aad11b3857fa025ae40e3d9dc385cb6a4">   85</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../dc/d54/a00094.html#aad11b3857fa025ae40e3d9dc385cb6a4">m_nLayers</a>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#acfbda7dcd2f8e3b57b1a055ea4f6e907">   87</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../dc/d54/a00094.html#acfbda7dcd2f8e3b57b1a055ea4f6e907">m_2DData</a>;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#ac73f976ed6e88731d37e7f71be2ea278">   90</a></span>&#160;    map&lt;time_t, float&gt; <a class="code" href="../../dc/d54/a00094.html#ac73f976ed6e88731d37e7f71be2ea278">TimeSeriesData</a>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#af3d5c98284dc5c24d647e1b8c3632b82">   92</a></span>&#160;    map&lt;time_t, float *&gt; <a class="code" href="../../dc/d54/a00094.html#af3d5c98284dc5c24d647e1b8c3632b82">TimeSeriesDataForSubbasin</a>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#a7e1fe489fc69f264988d7b1ecc5fc8b0">   94</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../dc/d54/a00094.html#a7e1fe489fc69f264988d7b1ecc5fc8b0">TimeSeriesDataForSubbasinCount</a>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">void</span> add1DTimeSeriesResult(time_t, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#a49ec52fb38337dc49e11a69f60ce82c7">  101</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../dc/d54/a00094.html#a49ec52fb38337dc49e11a69f60ce82c7">SiteID</a>;</div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#a5c44bed1632e5437c5eb10a81746ac02">  103</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../dc/d54/a00094.html#a5c44bed1632e5437c5eb10a81746ac02">SiteIndex</a>;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#aff33b9daf343d9aba25f4c30ae957c78">  106</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../dc/d54/a00094.html#aff33b9daf343d9aba25f4c30ae957c78">SubbasinID</a>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">int</span> SubbasinIndex;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#a82d2d8e630ea5dfd798c7756b03ffe7e">  111</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="../../dc/d54/a00094.html#a82d2d8e630ea5dfd798c7756b03ffe7e">StartTime</a>;</div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#aa61fa3ea9611b0dbdc474ffd73859eca">  113</a></span>&#160;    time_t <a class="code" href="../../dc/d54/a00094.html#aa61fa3ea9611b0dbdc474ffd73859eca">m_startTime</a>;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#ab0c2bcd87797bff74be13dfb72a57710">  116</a></span>&#160;    time_t <a class="code" href="../../dc/d54/a00094.html#ab0c2bcd87797bff74be13dfb72a57710">getStartTime</a>() { <span class="keywordflow">return</span> m_startTime; };</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#a321c1d7a311144b7647a2f4fe1e598b4">  119</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../dc/d54/a00094.html#a321c1d7a311144b7647a2f4fe1e598b4">setStartTime</a>(time_t &amp;st) { m_startTime = st; }</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#a05a0c3b24ead8c32bc6d00b97671b3fb">  122</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="../../dc/d54/a00094.html#a05a0c3b24ead8c32bc6d00b97671b3fb">EndTime</a>;</div>
+<div class="line"><a name="l00124"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#ad5cdb8c4b138424b8c128f2286f19fa6">  124</a></span>&#160;    time_t <a class="code" href="../../dc/d54/a00094.html#ad5cdb8c4b138424b8c128f2286f19fa6">m_endTime</a>;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#a42dd1b1b4254b741a00822ebd6d5e2e8">  127</a></span>&#160;    time_t <a class="code" href="../../dc/d54/a00094.html#a42dd1b1b4254b741a00822ebd6d5e2e8">getEndTime</a>() { <span class="keywordflow">return</span> m_endTime; };</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#af33c7ed6f5d03d83c038aca391ce313f">  130</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../dc/d54/a00094.html#af33c7ed6f5d03d83c038aca391ce313f">setEndTime</a>(time_t &amp;st) { m_endTime = st; }</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#ab30b377ee5e5cb354d6517a9ba1ac962">  133</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="../../dc/d54/a00094.html#ab30b377ee5e5cb354d6517a9ba1ac962">Suffix</a>;</div>
+<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#a1e69f120921612a3181adac382c11777">  135</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="../../dc/d54/a00094.html#a1e69f120921612a3181adac382c11777">Filename</a>;</div>
+<div class="line"><a name="l00137"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#aced5aa41fc3361568c5a01d313a9f4c5">  137</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="../../dc/d54/a00094.html#aced5aa41fc3361568c5a01d313a9f4c5">AggType</a>;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keywordtype">void</span> Flush(<span class="keywordtype">string</span>, <a class="code" href="../../d4/d51/a00017.html">clsRasterData&lt;float&gt;</a> *, <span class="keywordtype">string</span>);</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">bool</span> IsDateInRange(time_t dt);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordtype">void</span> AggregateData(<span class="keywordtype">int</span> numrows, <span class="keywordtype">float</span> **data, <a class="code" href="../../d6/d75/a00604.html#ga0271fcfc94579b48ed1dd87309d8e118">AggregationType</a> type, <span class="keywordtype">float</span> NoDataValue);</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">void</span> AggregateData(time_t time, <span class="keywordtype">int</span> numrows, <span class="keywordtype">float</span> *data);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordtype">void</span> AggregateData2D(time_t time, <span class="keywordtype">int</span> nRows, <span class="keywordtype">int</span> nCols, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
+<div class="line"><a name="l00157"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#a4fc7700ec931610f3012d989de602564">  157</a></span>&#160;    <span class="keywordtype">void</span> <a class="code" href="../../dc/d54/a00094.html#a4fc7700ec931610f3012d989de602564">setAggregationType</a>(<a class="code" href="../../d6/d75/a00604.html#ga0271fcfc94579b48ed1dd87309d8e118">AggregationType</a> type) { m_AggregationType = type; };</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
+<div class="line"><a name="l00160"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#a1bb39b8b1c5928a9024e05b538dc824c">  160</a></span>&#160;    <a class="code" href="../../d6/d75/a00604.html#ga0271fcfc94579b48ed1dd87309d8e118">AggregationType</a> <a class="code" href="../../dc/d54/a00094.html#a1bb39b8b1c5928a9024e05b538dc824c">getAggregationType</a>(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> m_AggregationType; };</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keyword">static</span> <a class="code" href="../../d6/d75/a00604.html#ga0271fcfc94579b48ed1dd87309d8e118">AggregationType</a> MatchAggregationType(<span class="keywordtype">string</span> type);</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="../../dc/d54/a00094.html#ab5c0b2a4ce5da29c3c8e7a1ef5c7e189">  167</a></span>&#160;    <a class="code" href="../../d6/d75/a00604.html#ga0271fcfc94579b48ed1dd87309d8e118">AggregationType</a> <a class="code" href="../../dc/d54/a00094.html#ab5c0b2a4ce5da29c3c8e7a1ef5c7e189">m_AggregationType</a>;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;};</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="keyword">class </span>PrintInfo {</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keywordtype">int</span> m_Interval;</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="keywordtype">string</span> m_IntervalUnits;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keywordtype">int</span> m_moduleIndex;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keywordtype">string</span> m_OutputID;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <a class="code" href="../../d8/d53/a00081.html">ParamInfo</a> *m_param;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    vector&lt;PrintInfoItem *&gt; m_PrintItems;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="comment">//void setSpecificCellRasterOutput(string projectPath, string databasePath,clsRasterData* templateRasterData);</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    vector&lt;int&gt; m_subbasinSeleted;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="keywordtype">float</span> *m_subbasinSelectedArray;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    PrintInfo(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    ~PrintInfo(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="keywordtype">int</span> ItemCount(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> m_PrintItems.size(); };</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordtype">void</span> getSubbasinSelected(<span class="keywordtype">int</span> *count, <span class="keywordtype">float</span> **subbasins);</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keywordtype">void</span> setOutputID(<span class="keywordtype">string</span> <span class="keywordtype">id</span>) { m_OutputID = id; };</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="keywordtype">string</span> getOutputID(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> m_OutputID; };</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <span class="keywordtype">string</span> getOutputTimeSeriesHeader(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keywordtype">void</span> setInterval(<span class="keywordtype">int</span> interval) { m_Interval = interval; };</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordtype">int</span> getInterval(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> m_Interval; };</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keywordtype">void</span> setIntervalUnits(<span class="keywordtype">string</span> units) { m_IntervalUnits = units; };</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="keywordtype">string</span> getIntervalUnits(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> m_IntervalUnits; };</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="keywordtype">void</span> AddPrintItem(<span class="keywordtype">string</span> start, <span class="keywordtype">string</span> end, <span class="keywordtype">string</span> file, <span class="keywordtype">string</span> sufi);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="keywordtype">void</span> AddPrintItem(<span class="keywordtype">string</span> type, <span class="keywordtype">string</span> start, <span class="keywordtype">string</span> end, <span class="keywordtype">string</span> file, <span class="keywordtype">string</span> sufi, mongoc_client_t *conn,</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                      mongoc_gridfs_t *gfs);</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keywordtype">void</span> AddPrintItem(<span class="keywordtype">string</span> start, <span class="keywordtype">string</span> end, <span class="keywordtype">string</span> file, <span class="keywordtype">string</span> sitename, <span class="keywordtype">string</span> sufi, mongoc_client_t *conn,</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                      mongoc_gridfs_t *gfs, <span class="keywordtype">bool</span> isSubbasin);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <a class="code" href="../../dc/d54/a00094.html">PrintInfoItem</a> *getPrintInfoItem(<span class="keywordtype">int</span> index);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;};</div>
+<div class="ttc" id="a00094_html_acf12f5dc38ba5bf0bf8da666d4c1ace7"><div class="ttname"><a href="../../dc/d54/a00094.html#acf12f5dc38ba5bf0bf8da666d4c1ace7">PrintInfoItem::m_1DData</a></div><div class="ttdeci">float * m_1DData</div><div class="ttdoc">For 1D raster/array data. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00083">PrintInfo.h:83</a></div></div>
+<div class="ttc" id="a00094_html_ad5cdb8c4b138424b8c128f2286f19fa6"><div class="ttname"><a href="../../dc/d54/a00094.html#ad5cdb8c4b138424b8c128f2286f19fa6">PrintInfoItem::m_endTime</a></div><div class="ttdeci">time_t m_endTime</div><div class="ttdoc">End time time_t. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00124">PrintInfo.h:124</a></div></div>
+<div class="ttc" id="a00094_html_a1bb39b8b1c5928a9024e05b538dc824c"><div class="ttname"><a href="../../dc/d54/a00094.html#a1bb39b8b1c5928a9024e05b538dc824c">PrintInfoItem::getAggregationType</a></div><div class="ttdeci">AggregationType getAggregationType(void)</div><div class="ttdoc">Get the Aggregation type. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00160">PrintInfo.h:160</a></div></div>
+<div class="ttc" id="a00094_html_aa61fa3ea9611b0dbdc474ffd73859eca"><div class="ttname"><a href="../../dc/d54/a00094.html#aa61fa3ea9611b0dbdc474ffd73859eca">PrintInfoItem::m_startTime</a></div><div class="ttdeci">time_t m_startTime</div><div class="ttdoc">Start time time_t. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00113">PrintInfo.h:113</a></div></div>
+<div class="ttc" id="a00094_html_a98ff04d42a58d9143838f51e353ac616"><div class="ttname"><a href="../../dc/d54/a00094.html#a98ff04d42a58d9143838f51e353ac616">PrintInfoItem::conn</a></div><div class="ttdeci">mongoc_client_t * conn</div><div class="ttdoc">MongoDB client. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00066">PrintInfo.h:66</a></div></div>
+<div class="ttc" id="a00094_html_af33c7ed6f5d03d83c038aca391ce313f"><div class="ttname"><a href="../../dc/d54/a00094.html#af33c7ed6f5d03d83c038aca391ce313f">PrintInfoItem::setEndTime</a></div><div class="ttdeci">void setEndTime(time_t &amp;st)</div><div class="ttdoc">set end time time_t </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00130">PrintInfo.h:130</a></div></div>
+<div class="ttc" id="a00094_html_a82d2d8e630ea5dfd798c7756b03ffe7e"><div class="ttname"><a href="../../dc/d54/a00094.html#a82d2d8e630ea5dfd798c7756b03ffe7e">PrintInfoItem::StartTime</a></div><div class="ttdeci">string StartTime</div><div class="ttdoc">Start time string. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00111">PrintInfo.h:111</a></div></div>
+<div class="ttc" id="a00094_html_a79673ba1af901bbba0589a807f9ef0e2"><div class="ttname"><a href="../../dc/d54/a00094.html#a79673ba1af901bbba0589a807f9ef0e2">PrintInfoItem::dbName</a></div><div class="ttdeci">string dbName</div><div class="ttdoc">Database name. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00068">PrintInfo.h:68</a></div></div>
+<div class="ttc" id="a00094_html_a42dd1b1b4254b741a00822ebd6d5e2e8"><div class="ttname"><a href="../../dc/d54/a00094.html#a42dd1b1b4254b741a00822ebd6d5e2e8">PrintInfoItem::getEndTime</a></div><div class="ttdeci">time_t getEndTime()</div><div class="ttdoc">Get end time time_t. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00127">PrintInfo.h:127</a></div></div>
+<div class="ttc" id="a00094_html_a5c44bed1632e5437c5eb10a81746ac02"><div class="ttname"><a href="../../dc/d54/a00094.html#a5c44bed1632e5437c5eb10a81746ac02">PrintInfoItem::SiteIndex</a></div><div class="ttdeci">int SiteIndex</div><div class="ttdoc">The subbasin id. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00103">PrintInfo.h:103</a></div></div>
+<div class="ttc" id="a00094_html_ab0c2bcd87797bff74be13dfb72a57710"><div class="ttname"><a href="../../dc/d54/a00094.html#ab0c2bcd87797bff74be13dfb72a57710">PrintInfoItem::getStartTime</a></div><div class="ttdeci">time_t getStartTime()</div><div class="ttdoc">get start time time_t </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00116">PrintInfo.h:116</a></div></div>
+<div class="ttc" id="a00094_html_ab460b6c2f3a527adead6c48704ac2e94"><div class="ttname"><a href="../../dc/d54/a00094.html#ab460b6c2f3a527adead6c48704ac2e94">PrintInfoItem::m_Counter</a></div><div class="ttdeci">int m_Counter</div><div class="ttdoc">Counter of time series data, i.e., how many data has been aggregated. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00056">PrintInfo.h:56</a></div></div>
+<div class="ttc" id="a00094_html_ab5c0b2a4ce5da29c3c8e7a1ef5c7e189"><div class="ttname"><a href="../../dc/d54/a00094.html#ab5c0b2a4ce5da29c3c8e7a1ef5c7e189">PrintInfoItem::m_AggregationType</a></div><div class="ttdeci">AggregationType m_AggregationType</div><div class="ttdoc">Aggregation type of current print item. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00167">PrintInfo.h:167</a></div></div>
+<div class="ttc" id="a00604_html_ga0271fcfc94579b48ed1dd87309d8e118"><div class="ttname"><a href="../../d6/d75/a00604.html#ga0271fcfc94579b48ed1dd87309d8e118">AggregationType</a></div><div class="ttdeci">AggregationType</div><div class="ttdoc">Aggregation type for OUTPUT. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00031">PrintInfo.h:31</a></div></div>
+<div class="ttc" id="a00094_html_ab30b377ee5e5cb354d6517a9ba1ac962"><div class="ttname"><a href="../../dc/d54/a00094.html#ab30b377ee5e5cb354d6517a9ba1ac962">PrintInfoItem::Suffix</a></div><div class="ttdeci">string Suffix</div><div class="ttdoc">file suffix, e.g., txt, tif, asc, etc. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00133">PrintInfo.h:133</a></div></div>
+<div class="ttc" id="a00094_html_ac73f976ed6e88731d37e7f71be2ea278"><div class="ttname"><a href="../../dc/d54/a00094.html#ac73f976ed6e88731d37e7f71be2ea278">PrintInfoItem::TimeSeriesData</a></div><div class="ttdeci">map&lt; time_t, float &gt; TimeSeriesData</div><div class="ttdoc">For time series data of a single subbasin, DT_Single. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00090">PrintInfo.h:90</a></div></div>
+<div class="ttc" id="a00094_html_acfbda7dcd2f8e3b57b1a055ea4f6e907"><div class="ttname"><a href="../../dc/d54/a00094.html#acfbda7dcd2f8e3b57b1a055ea4f6e907">PrintInfoItem::m_2DData</a></div><div class="ttdeci">float ** m_2DData</div><div class="ttdoc">For 2D raster/array data. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00087">PrintInfo.h:87</a></div></div>
+<div class="ttc" id="a00094_html_ad721246fee2ce07dc582b24fbb379707"><div class="ttname"><a href="../../dc/d54/a00094.html#ad721246fee2ce07dc582b24fbb379707">PrintInfoItem::m_nRows</a></div><div class="ttdeci">int m_nRows</div><div class="ttdoc">rows number, i.e., number of valid cells </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00081">PrintInfo.h:81</a></div></div>
+<div class="ttc" id="a00081_html"><div class="ttname"><a href="../../d8/d53/a00081.html">ParamInfo</a></div><div class="ttdoc">Class to store and manage parameter information from the parameter database. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/db8/a00316_source.html#l00025">ParamInfo.h:25</a></div></div>
+<div class="ttc" id="a00017_html"><div class="ttname"><a href="../../d4/d51/a00017.html">clsRasterData&lt; float &gt;</a></div></div>
+<div class="ttc" id="a00094_html_af3d5c98284dc5c24d647e1b8c3632b82"><div class="ttname"><a href="../../dc/d54/a00094.html#af3d5c98284dc5c24d647e1b8c3632b82">PrintInfoItem::TimeSeriesDataForSubbasin</a></div><div class="ttdeci">map&lt; time_t, float * &gt; TimeSeriesDataForSubbasin</div><div class="ttdoc">For time series data of a single subbasin, DT_Raster1D or DT_Array1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00092">PrintInfo.h:92</a></div></div>
+<div class="ttc" id="a00094_html_a7e1fe489fc69f264988d7b1ecc5fc8b0"><div class="ttname"><a href="../../dc/d54/a00094.html#a7e1fe489fc69f264988d7b1ecc5fc8b0">PrintInfoItem::TimeSeriesDataForSubbasinCount</a></div><div class="ttdeci">int TimeSeriesDataForSubbasinCount</div><div class="ttdoc">Count of. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00094">PrintInfo.h:94</a></div></div>
+<div class="ttc" id="a00094_html_a823bae160e4cb323e2090ef92dfedce3"><div class="ttname"><a href="../../dc/d54/a00094.html#a823bae160e4cb323e2090ef92dfedce3">PrintInfoItem::gfs</a></div><div class="ttdeci">mongoc_gridfs_t * gfs</div><div class="ttdoc">GridFS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00070">PrintInfo.h:70</a></div></div>
+<div class="ttc" id="a00094_html_aad11b3857fa025ae40e3d9dc385cb6a4"><div class="ttname"><a href="../../dc/d54/a00094.html#aad11b3857fa025ae40e3d9dc385cb6a4">PrintInfoItem::m_nLayers</a></div><div class="ttdeci">int m_nLayers</div><div class="ttdoc">number of layers of 2D raster data </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00085">PrintInfo.h:85</a></div></div>
+<div class="ttc" id="a00094_html_a05a0c3b24ead8c32bc6d00b97671b3fb"><div class="ttname"><a href="../../dc/d54/a00094.html#a05a0c3b24ead8c32bc6d00b97671b3fb">PrintInfoItem::EndTime</a></div><div class="ttdeci">string EndTime</div><div class="ttdoc">End time string. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00122">PrintInfo.h:122</a></div></div>
+<div class="ttc" id="a00094_html_aced5aa41fc3361568c5a01d313a9f4c5"><div class="ttname"><a href="../../dc/d54/a00094.html#aced5aa41fc3361568c5a01d313a9f4c5">PrintInfoItem::AggType</a></div><div class="ttdeci">string AggType</div><div class="ttdoc">Aggregation type string. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00137">PrintInfo.h:137</a></div></div>
+<div class="ttc" id="a00094_html_a4fc7700ec931610f3012d989de602564"><div class="ttname"><a href="../../dc/d54/a00094.html#a4fc7700ec931610f3012d989de602564">PrintInfoItem::setAggregationType</a></div><div class="ttdeci">void setAggregationType(AggregationType type)</div><div class="ttdoc">Set the Aggregation type. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00157">PrintInfo.h:157</a></div></div>
+<div class="ttc" id="a00094_html_a11fd7296e1569526b0d6492d51279480"><div class="ttname"><a href="../../dc/d54/a00094.html#a11fd7296e1569526b0d6492d51279480">PrintInfoItem::m_1DDataWithRowCol</a></div><div class="ttdeci">float ** m_1DDataWithRowCol</div><div class="ttdoc">Aggregated data, the second dimension contains: row, col, value. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00079">PrintInfo.h:79</a></div></div>
+<div class="ttc" id="a00094_html"><div class="ttname"><a href="../../dc/d54/a00094.html">PrintInfoItem</a></div><div class="ttdoc">Class stores a single output item of an OuputID. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00053">PrintInfo.h:53</a></div></div>
+<div class="ttc" id="a00094_html_aff33b9daf343d9aba25f4c30ae957c78"><div class="ttname"><a href="../../dc/d54/a00094.html#aff33b9daf343d9aba25f4c30ae957c78">PrintInfoItem::SubbasinID</a></div><div class="ttdeci">int SubbasinID</div><div class="ttdoc">The subbasin index. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00106">PrintInfo.h:106</a></div></div>
+<div class="ttc" id="a00094_html_a49ec52fb38337dc49e11a69f60ce82c7"><div class="ttname"><a href="../../dc/d54/a00094.html#a49ec52fb38337dc49e11a69f60ce82c7">PrintInfoItem::SiteID</a></div><div class="ttdeci">int SiteID</div><div class="ttdoc">The site index in output array1D variable. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00101">PrintInfo.h:101</a></div></div>
+<div class="ttc" id="a00094_html_a1e69f120921612a3181adac382c11777"><div class="ttname"><a href="../../dc/d54/a00094.html#a1e69f120921612a3181adac382c11777">PrintInfoItem::Filename</a></div><div class="ttdeci">string Filename</div><div class="ttdoc">output filename without suffix </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00135">PrintInfo.h:135</a></div></div>
+<div class="ttc" id="a00094_html_a321c1d7a311144b7647a2f4fe1e598b4"><div class="ttname"><a href="../../dc/d54/a00094.html#a321c1d7a311144b7647a2f4fe1e598b4">PrintInfoItem::setStartTime</a></div><div class="ttdeci">void setStartTime(time_t &amp;st)</div><div class="ttdoc">set start time time_t </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d41/a00318_source.html#l00119">PrintInfo.h:119</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_cce2c0ac50386f26b5b526fa8626cc77.html">module_setting</a></li><li class="navelem"><b>SEIMS_ModuleSetting.cpp</b></li>
-    <li class="footer">Generated on Wed Mar 22 2017 16:43:17 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_cce2c0ac50386f26b5b526fa8626cc77.html">module_setting</a></li><li class="navelem"><b>PrintInfo.h</b></li>
+    <li class="footer">Generated on Fri Mar 24 2017 06:20:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
