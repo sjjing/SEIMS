@@ -1,8 +1,5 @@
 var a00097 =
 [
-    [ "RegularMeasurement", "d1/d84/a00097.html#aa99c037597c244227ecfd437a8644432", null ],
-    [ "~RegularMeasurement", "d1/d84/a00097.html#a1f44d19ffde71e64385f25b24732ff83", null ],
-    [ "GetSiteDataByTime", "d1/d84/a00097.html#a6528f99c36c06961b7eeafbccc2a5f52", null ],
-    [ "m_interval", "d1/d84/a00097.html#a6fffb32a797276d7cc6b2bd8b2f369c8", null ],
-    [ "m_siteData", "d1/d84/a00097.html#a2fb71444556a70bf7aac4b5af38dd04b", null ]
+    [ "ReleaseImpoundOperation", "d1/d84/a00097.html#a307b2068adef362e6f2a5e703b1eccf6", null ],
+    [ "dump", "d1/d84/a00097.html#a5f576fc437bce9c2b1045be098769f11", null ]
 ];

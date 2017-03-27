@@ -115,81 +115,85 @@ $(document).ready(function(){initNavTree('dd/d52/a00221_source.html','../../');}
 <div class="title">main.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;MongoUtil.h&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define HEADER_RS_NODATA        &quot;NODATA_VALUE&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_XLL           &quot;XLLCENTER&quot;  </span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#define HEADER_RS_YLL           &quot;YLLCENTER&quot;  </span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define HEADER_RS_NROWS         &quot;NROWS&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_NCOLS         &quot;NCOLS&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_CELLSIZE      &quot;CELLSIZE&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_LAYERS        &quot;LAYERS&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_SRS           &quot;SRS&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="keyword">const</span> <span class="keywordtype">char</span> *RASTER_HEADERS[8] = {HEADER_RS_NCOLS, HEADER_RS_NROWS, HEADER_RS_XLL, HEADER_RS_YLL, HEADER_RS_CELLSIZE,</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                                 HEADER_RS_NODATA, HEADER_RS_LAYERS, HEADER_RS_SRS};</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordtype">int</span> main() {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;*** MongoUtil Demo ***&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Get a MongoDB instance&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">string</span> ip = <span class="stringliteral">&quot;127.0.0.1&quot;</span>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">int</span> port = 27017;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    MongoClient client = MongoClient(ip.c_str(), port);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    mongoc_client_t *conn = client.getConn();</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Get database names&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    vector &lt;string&gt; dbnames = client.getDatabaseNames();</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">for</span> (vector&lt;string&gt;::iterator it = dbnames.begin(); it != dbnames.end(); it++) {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        cout &lt;&lt; *it &lt;&lt; endl;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    cout &lt;&lt; endl;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    mongoc_database_t *db = client.getDatabase(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;model_dianbu2_30m_longterm&quot;</span>));</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    mongoc_collection_t *coll = client.getCollection(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;model_dianbu2_30m_longterm&quot;</span>), <span class="keywordtype">string</span>(<span class="stringliteral">&quot;FILE_IN&quot;</span>));</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Get collection names&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">//vector&lt;string&gt; colnames = client.getCollectionNames(string(&quot;model_dianbu2_30m_longterm&quot;));</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment"></span>    vector &lt;string&gt; colnames = <a class="code" href="../../d9/db3/a00066.html">MongoDatabase</a>(conn, <span class="keywordtype">string</span>(<span class="stringliteral">&quot;model_dianbu2_30m_longterm&quot;</span>)).<a class="code" href="../../d9/db3/a00066.html#a04dda00a89eae1c83d925948ec9ca03a">getCollectionNames</a>();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">for</span> (vector&lt;string&gt;::iterator it = colnames.begin(); it != colnames.end(); it++) {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        cout &lt;&lt; *it &lt;&lt; endl;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    cout &lt;&lt; endl;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    mongoc_gridfs_t *gfs = client.getGridFS(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;model_dianbu2_30m_longterm&quot;</span>), <span class="keywordtype">string</span>(<span class="stringliteral">&quot;SPATIAL&quot;</span>));</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Get GridFS file names&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">//vector&lt;string&gt; gfsfilenames = client.getGridFSFileNames(string(&quot;model_dianbu2_30m_longterm&quot;), string(&quot;SPATIAL&quot;));</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"></span>    vector &lt;string&gt; gfsfilenames = <a class="code" href="../../dc/ddf/a00067.html">MongoGridFS</a>().<a class="code" href="../../dc/ddf/a00067.html#a10838c3a31522bbb4c3c505ec1848f3b">getFileNames</a>(gfs);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">//vector&lt;string&gt; gfsfilenames = MongoGridFS(gfs).getFileNames();</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Totally &quot;</span> &lt;&lt; gfsfilenames.size() &lt;&lt; <span class="stringliteral">&quot; files existed!&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <a class="code" href="../../dc/ddf/a00067.html">MongoGridFS</a> mgfs = <a class="code" href="../../dc/ddf/a00067.html">MongoGridFS</a>(gfs);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">int</span> length;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">char</span> *databuf;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    mgfs.<a class="code" href="../../dc/ddf/a00067.html#a59803caa23585bfff0b5e039da5a9512">getStreamData</a>(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;0_AWC&quot;</span>), databuf, length);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    bson_t *metadata = mgfs.<a class="code" href="../../dc/ddf/a00067.html#ad9e826d6e16e45c388fa23c327cdfca1">getFileMetadata</a>(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;0_AWC&quot;</span>));</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 7; i++) {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordtype">double</span> tmp;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        GetNumericFromBson(metadata, RASTER_HEADERS[i], tmp);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        cout &lt;&lt; RASTER_HEADERS[i] &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; tmp &lt;&lt; endl;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">string</span> srs = GetStringFromBson(metadata, HEADER_RS_SRS);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;srs: &quot;</span> &lt;&lt; srs &lt;&lt; endl;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    mgfs.<a class="code" href="../../dc/ddf/a00067.html#af69c8de18c04e4b3f41ffe3dd99d957b">writeStreamData</a>(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;AWC&quot;</span>), databuf, length, metadata);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}</div>
-<div class="ttc" id="a00067_html"><div class="ttname"><a href="../../dc/ddf/a00067.html">MongoGridFS</a></div><div class="ttdoc">Create a MongoDB GridFS instance. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d2e/a00238_source.html#l00147">MongoUtil.h:147</a></div></div>
-<div class="ttc" id="a00067_html_af69c8de18c04e4b3f41ffe3dd99d957b"><div class="ttname"><a href="../../dc/ddf/a00067.html#af69c8de18c04e4b3f41ffe3dd99d957b">MongoGridFS::writeStreamData</a></div><div class="ttdeci">void writeStreamData(string const &amp;gfilename, char *&amp;buf, size_t &amp;length, const bson_t *p, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Write stream data to a GridFS file. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d08/a00237_source.html#l00289">MongoUtil.cpp:289</a></div></div>
-<div class="ttc" id="a00066_html"><div class="ttname"><a href="../../d9/db3/a00066.html">MongoDatabase</a></div><div class="ttdoc">Create a MongoDB database instance. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d2e/a00238_source.html#l00112">MongoUtil.h:112</a></div></div>
-<div class="ttc" id="a00067_html_a59803caa23585bfff0b5e039da5a9512"><div class="ttname"><a href="../../dc/ddf/a00067.html#a59803caa23585bfff0b5e039da5a9512">MongoGridFS::getStreamData</a></div><div class="ttdeci">void getStreamData(string const &amp;gfilename, char *&amp;databuf, size_t &amp;datalength, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get stream data of a given GridFS file name. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d08/a00237_source.html#l00262">MongoUtil.cpp:262</a></div></div>
-<div class="ttc" id="a00067_html_a10838c3a31522bbb4c3c505ec1848f3b"><div class="ttname"><a href="../../dc/ddf/a00067.html#a10838c3a31522bbb4c3c505ec1848f3b">MongoGridFS::getFileNames</a></div><div class="ttdeci">vector&lt; string &gt; getFileNames(mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get GridFS file names. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d08/a00237_source.html#l00216">MongoUtil.cpp:216</a></div></div>
-<div class="ttc" id="a00067_html_ad9e826d6e16e45c388fa23c327cdfca1"><div class="ttname"><a href="../../dc/ddf/a00067.html#ad9e826d6e16e45c388fa23c327cdfca1">MongoGridFS::getFileMetadata</a></div><div class="ttdeci">bson_t * getFileMetadata(string const &amp;gfilename, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get metadata of a given GridFS file name. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d08/a00237_source.html#l00242">MongoUtil.cpp:242</a></div></div>
-<div class="ttc" id="a00066_html_a04dda00a89eae1c83d925948ec9ca03a"><div class="ttname"><a href="../../d9/db3/a00066.html#a04dda00a89eae1c83d925948ec9ca03a">MongoDatabase::getCollectionNames</a></div><div class="ttdeci">vector&lt; string &gt; getCollectionNames()</div><div class="ttdoc">Get collection names in current database. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d08/a00237_source.html#l00131">MongoUtil.cpp:131</a></div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#if (defined _DEBUG) &amp;&amp; (defined MSVC) &amp;&amp; (defined VLD)</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;vld.h&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* Run Visual Leak Detector during Debug */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;MongoUtil.h&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define HEADER_RS_NODATA        &quot;NODATA_VALUE&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_XLL           &quot;XLLCENTER&quot;  </span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#define HEADER_RS_YLL           &quot;YLLCENTER&quot;  </span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#define HEADER_RS_NROWS         &quot;NROWS&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_NCOLS         &quot;NCOLS&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_CELLSIZE      &quot;CELLSIZE&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_LAYERS        &quot;LAYERS&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_SRS           &quot;SRS&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="keyword">const</span> <span class="keywordtype">char</span> *RASTER_HEADERS[8] = {HEADER_RS_NCOLS, HEADER_RS_NROWS, HEADER_RS_XLL, HEADER_RS_YLL, HEADER_RS_CELLSIZE,</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                                 HEADER_RS_NODATA, HEADER_RS_LAYERS, HEADER_RS_SRS};</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">int</span> main() {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;*** MongoUtil Demo ***&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Get a MongoDB instance&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">string</span> ip = <span class="stringliteral">&quot;127.0.0.1&quot;</span>;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">int</span> port = 27017;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    MongoClient client = MongoClient(ip.c_str(), port);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    mongoc_client_t *conn = client.getConn();</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Get database names&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    vector &lt;string&gt; dbnames = client.getDatabaseNames();</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">for</span> (vector&lt;string&gt;::iterator it = dbnames.begin(); it != dbnames.end(); it++) {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        cout &lt;&lt; *it &lt;&lt; endl;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    cout &lt;&lt; endl;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    mongoc_database_t *db = client.getDatabase(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;model_dianbu2_30m_longterm&quot;</span>));</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    mongoc_collection_t *coll = client.getCollection(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;model_dianbu2_30m_longterm&quot;</span>), <span class="keywordtype">string</span>(<span class="stringliteral">&quot;FILE_IN&quot;</span>));</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Get collection names&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">//vector&lt;string&gt; colnames = client.getCollectionNames(string(&quot;model_dianbu2_30m_longterm&quot;));</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"></span>    vector &lt;string&gt; colnames = <a class="code" href="../../de/de1/a00065.html">MongoDatabase</a>(conn, <span class="keywordtype">string</span>(<span class="stringliteral">&quot;model_dianbu2_30m_longterm&quot;</span>)).<a class="code" href="../../de/de1/a00065.html#a9c54374bea343cefcf91e85619cef8ec">getCollectionNames</a>();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">for</span> (vector&lt;string&gt;::iterator it = colnames.begin(); it != colnames.end(); it++) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        cout &lt;&lt; *it &lt;&lt; endl;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    cout &lt;&lt; endl;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    mongoc_gridfs_t *gfs = client.getGridFS(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;model_dianbu2_30m_longterm&quot;</span>), <span class="keywordtype">string</span>(<span class="stringliteral">&quot;SPATIAL&quot;</span>));</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Get GridFS file names&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="comment">//vector&lt;string&gt; gfsfilenames = client.getGridFSFileNames(string(&quot;model_dianbu2_30m_longterm&quot;), string(&quot;SPATIAL&quot;));</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"></span>    vector &lt;string&gt; gfsfilenames = <a class="code" href="../../d9/db3/a00066.html">MongoGridFS</a>().<a class="code" href="../../d9/db3/a00066.html#af1e8ad99d6bdb84805c4adb2fe4ca63a">getFileNames</a>(gfs);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment">//vector&lt;string&gt; gfsfilenames = MongoGridFS(gfs).getFileNames();</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Totally &quot;</span> &lt;&lt; gfsfilenames.size() &lt;&lt; <span class="stringliteral">&quot; files existed!&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <a class="code" href="../../d9/db3/a00066.html">MongoGridFS</a> mgfs = <a class="code" href="../../d9/db3/a00066.html">MongoGridFS</a>(gfs);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">size_t</span> length;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">char</span> *databuf;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    mgfs.<a class="code" href="../../d9/db3/a00066.html#a59803caa23585bfff0b5e039da5a9512">getStreamData</a>(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;0_AWC&quot;</span>), databuf, length);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    bson_t *metadata = mgfs.<a class="code" href="../../d9/db3/a00066.html#ad9e826d6e16e45c388fa23c327cdfca1">getFileMetadata</a>(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;0_AWC&quot;</span>));</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 7; i++) {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="keywordtype">double</span> tmp;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        GetNumericFromBson(metadata, RASTER_HEADERS[i], tmp);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        cout &lt;&lt; RASTER_HEADERS[i] &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; tmp &lt;&lt; endl;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">string</span> srs = GetStringFromBson(metadata, HEADER_RS_SRS);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;srs: &quot;</span> &lt;&lt; srs &lt;&lt; endl;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    mgfs.<a class="code" href="../../d9/db3/a00066.html#af69c8de18c04e4b3f41ffe3dd99d957b">writeStreamData</a>(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;AWC&quot;</span>), databuf, length, metadata);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    Release1DArray(databuf);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
+<div class="ttc" id="a00066_html_af69c8de18c04e4b3f41ffe3dd99d957b"><div class="ttname"><a href="../../d9/db3/a00066.html#af69c8de18c04e4b3f41ffe3dd99d957b">MongoGridFS::writeStreamData</a></div><div class="ttdeci">void writeStreamData(string const &amp;gfilename, char *&amp;buf, size_t &amp;length, const bson_t *p, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Write stream data to a GridFS file. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d2e/a00238_source.html#l00291">MongoUtil.cpp:291</a></div></div>
+<div class="ttc" id="a00066_html_af1e8ad99d6bdb84805c4adb2fe4ca63a"><div class="ttname"><a href="../../d9/db3/a00066.html#af1e8ad99d6bdb84805c4adb2fe4ca63a">MongoGridFS::getFileNames</a></div><div class="ttdeci">void getFileNames(vector&lt; string &gt; &amp;fileExisted, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get GridFS file names. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d2e/a00238_source.html#l00218">MongoUtil.cpp:218</a></div></div>
+<div class="ttc" id="a00066_html_a59803caa23585bfff0b5e039da5a9512"><div class="ttname"><a href="../../d9/db3/a00066.html#a59803caa23585bfff0b5e039da5a9512">MongoGridFS::getStreamData</a></div><div class="ttdeci">void getStreamData(string const &amp;gfilename, char *&amp;databuf, size_t &amp;datalength, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get stream data of a given GridFS file name. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d2e/a00238_source.html#l00264">MongoUtil.cpp:264</a></div></div>
+<div class="ttc" id="a00065_html_a9c54374bea343cefcf91e85619cef8ec"><div class="ttname"><a href="../../de/de1/a00065.html#a9c54374bea343cefcf91e85619cef8ec">MongoDatabase::getCollectionNames</a></div><div class="ttdeci">void getCollectionNames(vector&lt; string &gt; &amp;)</div><div class="ttdoc">Get collection names in current database. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d2e/a00238_source.html#l00135">MongoUtil.cpp:135</a></div></div>
+<div class="ttc" id="a00066_html_ad9e826d6e16e45c388fa23c327cdfca1"><div class="ttname"><a href="../../d9/db3/a00066.html#ad9e826d6e16e45c388fa23c327cdfca1">MongoGridFS::getFileMetadata</a></div><div class="ttdeci">bson_t * getFileMetadata(string const &amp;gfilename, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get metadata of a given GridFS file name. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d2e/a00238_source.html#l00244">MongoUtil.cpp:244</a></div></div>
+<div class="ttc" id="a00066_html"><div class="ttname"><a href="../../d9/db3/a00066.html">MongoGridFS</a></div><div class="ttdoc">Create a MongoDB GridFS instance. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d27/a00239_source.html#l00147">MongoUtil.h:147</a></div></div>
+<div class="ttc" id="a00065_html"><div class="ttname"><a href="../../de/de1/a00065.html">MongoDatabase</a></div><div class="ttdoc">Create a MongoDB database instance. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d27/a00239_source.html#l00112">MongoUtil.h:112</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_56b1596c4d72ede71823cdba70d715a1.html">commonlibs</a></li><li class="navelem"><a class="el" href="../../dir_6c8659227d40b2417dce38dbeff5e81f.html">MongoUtilClass</a></li><li class="navelem"><b>main.cpp</b></li>
-    <li class="footer">Generated on Fri Mar 24 2017 06:40:31 for SEIMS by
+    <li class="footer">Generated on Mon Mar 27 2017 13:53:32 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

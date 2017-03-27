@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/util/SimulationModule.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/base/util/seims.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,25 +112,35 @@ $(document).ready(function(){initNavTree('d8/df7/a00331_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SimulationModule.cpp</div>  </div>
+<div class="title">seims.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="../../d7/d70/a00106.html#aa9934866122995dc98611de6515f47c5">    3</a></span>&#160;<a class="code" href="../../d7/d70/a00106.html#aa9934866122995dc98611de6515f47c5">SimulationModule::SimulationModule</a>(<span class="keywordtype">void</span>) : m_date(-1), m_tsCounter(1), m_inputsSetDone(false) {</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;}</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../d7/d70/a00106.html#a75fc67bcf8bc5a1dc0eb467af5a9861c">    6</a></span>&#160;<a class="code" href="../../d7/d70/a00106.html#a75fc67bcf8bc5a1dc0eb467af5a9861c">SimulationModule::~SimulationModule</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;}</div>
-<div class="ttc" id="a00106_html_aa9934866122995dc98611de6515f47c5"><div class="ttname"><a href="../../d7/d70/a00106.html#aa9934866122995dc98611de6515f47c5">SimulationModule::SimulationModule</a></div><div class="ttdeci">SimulationModule(void)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df7/a00331_source.html#l00003">SimulationModule.cpp:3</a></div></div>
-<div class="ttc" id="a00106_html_a75fc67bcf8bc5a1dc0eb467af5a9861c"><div class="ttname"><a href="../../d7/d70/a00106.html#a75fc67bcf8bc5a1dc0eb467af5a9861c">SimulationModule::~SimulationModule</a></div><div class="ttdeci">virtual ~SimulationModule(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df7/a00331_source.html#l00006">SimulationModule.cpp:6</a></div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;text.h&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">enum</span> LayeringMethod {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    UP_DOWN,</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    DOWN_UP</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;};</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">enum</span> FlowDirectionMethod {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    TauDEM = 0,</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    ArcGIS = 1</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;};</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">const</span> <span class="keywordtype">int</span> DiagonalCCW[9] = {0, 0, 1, 0, 1, 0, 1, 0, 1};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">const</span> <span class="keywordtype">float</span> _23 = 0.6666666666666666f;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">const</span> <span class="keywordtype">float</span> SQ2 = 1.4142135623730951f;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#define MIN_FLUX        1e-12f </span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#define MAX_ITERS_KW    10     </span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#define MIN_SLOPE       1e-6f  /// \def minimum slope (tan value)</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_16f99eef7c51cef769cb6e51b0647be9.html">util</a></li><li class="navelem"><b>SimulationModule.cpp</b></li>
-    <li class="footer">Generated on Fri Mar 24 2017 06:40:32 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_16f99eef7c51cef769cb6e51b0647be9.html">util</a></li><li class="navelem"><b>seims.h</b></li>
+    <li class="footer">Generated on Mon Mar 27 2017 13:53:33 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

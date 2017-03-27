@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology/IKW_CH/main.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology/CH_DW/main.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -120,7 +120,7 @@ $(document).ready(function(){initNavTree('d0/d53/a00232_source.html','../../');}
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;ctime&gt;</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;IKW_CH.h&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;DiffusiveWave.h&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;clsRasterData.h&quot;</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span>std;</div>
@@ -142,13 +142,13 @@ $(document).ready(function(){initNavTree('d0/d53/a00232_source.html','../../');}
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    ofs &lt;&lt; endl;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">void</span> Test(ImplicitKinematicWave &amp;ikw) {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">void</span> Test(<a class="code" href="../../d5/d79/a00030.html">DiffusiveWave</a> &amp;ikw) {</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 1000; ++i) {</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="comment">//cout &lt;&lt; i &lt;&lt; endl;</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="comment">//ikw.SetDate(i+1);</span></div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="comment">//if (i == 180)</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="comment">//  SetValue(sr, cellsCount, 0.0f);</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        ikw.Execute();</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        ikw.<a class="code" href="../../d5/d79/a00030.html#a32930ed2ea09e6a4a52c5e73a73606ff">Execute</a>();</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="comment">//ikw.Get1DData(&quot;CellQs&quot;, &amp;nn, &amp;qs);</span></div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="comment">//ikw.Get1DData(&quot;CellH&quot;, &amp;nn, &amp;h);</span></div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="comment">//Output(qs, cellsCount, qFile);</span></div>
@@ -218,22 +218,22 @@ $(document).ready(function(){initNavTree('d0/d53/a00232_source.html','../../');}
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    SetValue(mn, cellsCount, 0.2f);</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    SetValue(sr, cellsCount, 5.5556e-6f * dt);</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    ImplicitKinematicWave ikw;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <a class="code" href="../../d5/d79/a00030.html">DiffusiveWave</a> ikw;</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    ikw.SetDate(1);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    ikw.<a class="code" href="../../d7/d70/a00106.html#a8526abbeed3f49071f39e0c17559e522">SetDate</a>(1);</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    ikw.SetValue(<span class="stringliteral">&quot;Theta&quot;</span>, 0.65f);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    ikw.SetValue(<span class="stringliteral">&quot;TimeStep&quot;</span>, dt);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    ikw.<a class="code" href="../../d5/d79/a00030.html#a5aedf04d7e26794909d899224666f25f">SetValue</a>(<span class="stringliteral">&quot;Theta&quot;</span>, 0.65f);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    ikw.<a class="code" href="../../d5/d79/a00030.html#a5aedf04d7e26794909d899224666f25f">SetValue</a>(<span class="stringliteral">&quot;TimeStep&quot;</span>, dt);</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="comment">//ikw.SetValue(&quot;CellWidth&quot;, 9.144f);</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    ikw.SetValue(<span class="stringliteral">&quot;CellWidth&quot;</span>, dx);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    ikw.<a class="code" href="../../d5/d79/a00030.html#a5aedf04d7e26794909d899224666f25f">SetValue</a>(<span class="stringliteral">&quot;CellWidth&quot;</span>, dx);</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    ikw.Set1DData(<span class="stringliteral">&quot;Slope&quot;</span>, cellsCount, s0);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    ikw.Set1DData(<span class="stringliteral">&quot;Manning_n&quot;</span>, cellsCount, mn);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    ikw.Set1DData(<span class="stringliteral">&quot;FlowDirection&quot;</span>, cellsCount, dir);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    ikw.Set1DData(<span class="stringliteral">&quot;D_SURU&quot;</span>, cellsCount, sr);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    ikw.<a class="code" href="../../d5/d79/a00030.html#a747ebc9bf8de4491bb4e7ee2d71535c0">Set1DData</a>(<span class="stringliteral">&quot;Slope&quot;</span>, cellsCount, s0);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    ikw.<a class="code" href="../../d5/d79/a00030.html#a747ebc9bf8de4491bb4e7ee2d71535c0">Set1DData</a>(<span class="stringliteral">&quot;Manning_n&quot;</span>, cellsCount, mn);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    ikw.<a class="code" href="../../d5/d79/a00030.html#a747ebc9bf8de4491bb4e7ee2d71535c0">Set1DData</a>(<span class="stringliteral">&quot;FlowDirection&quot;</span>, cellsCount, dir);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    ikw.<a class="code" href="../../d5/d79/a00030.html#a747ebc9bf8de4491bb4e7ee2d71535c0">Set1DData</a>(<span class="stringliteral">&quot;D_SURU&quot;</span>, cellsCount, sr);</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    ikw.Set2DData(<span class="stringliteral">&quot;FlowInIndex&quot;</span>, cellsCount, 1, (<span class="keywordtype">float</span> **) flowIn);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    ikw.Set2DData(<span class="stringliteral">&quot;RoutingLayers&quot;</span>, layerCount, 1, (<span class="keywordtype">float</span> **) rtLayers);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    ikw.<a class="code" href="../../d5/d79/a00030.html#a87a9bd59e8f5b225d1597cee1e21f93a">Set2DData</a>(<span class="stringliteral">&quot;FlowInIndex&quot;</span>, cellsCount, 1, (<span class="keywordtype">float</span> **) flowIn);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    ikw.<a class="code" href="../../d5/d79/a00030.html#a87a9bd59e8f5b225d1597cee1e21f93a">Set2DData</a>(<span class="stringliteral">&quot;RoutingLayers&quot;</span>, layerCount, 1, (<span class="keywordtype">float</span> **) rtLayers);</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="comment">//int nn;</span></div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="comment">//float *h, *qs;</span></div>
@@ -275,14 +275,20 @@ $(document).ready(function(){initNavTree('d0/d53/a00232_source.html','../../');}
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="comment">//system(&quot;pause&quot;);</span></div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;}</div>
-<div class="ttc" id="a00017_html"><div class="ttname"><a href="../../d4/d51/a00017.html">clsRasterData</a></div><div class="ttdoc">Raster data (1D and 2D) I/O class Support I/O between TIFF, ASCII file or/and MongoBD database...</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d21/a00240_source.html#l00097">clsRasterData.h:97</a></div></div>
+<div class="ttc" id="a00030_html"><div class="ttname"><a href="../../d5/d79/a00030.html">DiffusiveWave</a></div><div class="ttdoc">Routing in the channel. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00023">DiffusiveWave.h:23</a></div></div>
+<div class="ttc" id="a00030_html_a32930ed2ea09e6a4a52c5e73a73606ff"><div class="ttname"><a href="../../d5/d79/a00030.html#a32930ed2ea09e6a4a52c5e73a73606ff">DiffusiveWave::Execute</a></div><div class="ttdeci">virtual int Execute()</div><div class="ttdoc">Main execute function. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00285">DiffusiveWave.cpp:285</a></div></div>
+<div class="ttc" id="a00030_html_a5aedf04d7e26794909d899224666f25f"><div class="ttname"><a href="../../d5/d79/a00030.html#a5aedf04d7e26794909d899224666f25f">DiffusiveWave::SetValue</a></div><div class="ttdeci">virtual void SetValue(const char *key, float data)</div><div class="ttdoc">Set value. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00366">DiffusiveWave.cpp:366</a></div></div>
+<div class="ttc" id="a00030_html_a747ebc9bf8de4491bb4e7ee2d71535c0"><div class="ttname"><a href="../../d5/d79/a00030.html#a747ebc9bf8de4491bb4e7ee2d71535c0">DiffusiveWave::Set1DData</a></div><div class="ttdeci">virtual void Set1DData(const char *key, int n, float *data)</div><div class="ttdoc">Set 1D data. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00390">DiffusiveWave.cpp:390</a></div></div>
+<div class="ttc" id="a00017_html"><div class="ttname"><a href="../../d4/d51/a00017.html">clsRasterData</a></div><div class="ttdoc">Raster data (1D and 2D) I/O class Support I/O between TIFF, ASCII file or/and MongoBD database...</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/db6/a00241_source.html#l00098">clsRasterData.h:98</a></div></div>
+<div class="ttc" id="a00030_html_a87a9bd59e8f5b225d1597cee1e21f93a"><div class="ttname"><a href="../../d5/d79/a00030.html#a87a9bd59e8f5b225d1597cee1e21f93a">DiffusiveWave::Set2DData</a></div><div class="ttdeci">virtual void Set2DData(const char *key, int nrows, int ncols, float **data)</div><div class="ttdoc">Set 2D data. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00468">DiffusiveWave.cpp:468</a></div></div>
+<div class="ttc" id="a00106_html_a8526abbeed3f49071f39e0c17559e522"><div class="ttname"><a href="../../d7/d70/a00106.html#a8526abbeed3f49071f39e0c17559e522">SimulationModule::SetDate</a></div><div class="ttdeci">virtual void SetDate(time_t t, int yearIdx)</div><div class="ttdoc">Set date time, as well as the sequence number of the entire simulation. Added by LJ for statistics co...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d0a/a00333_source.html#l00057">SimulationModule.h:57</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_1561bf22ec9d4d642e5c10d5de1c2143.html">IKW_CH</a></li><li class="navelem"><b>main.cpp</b></li>
-    <li class="footer">Generated on Fri Mar 24 2017 06:40:31 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_8a81cd33acf53112108d86c731f7fa13.html">CH_DW</a></li><li class="navelem"><b>main.cpp</b></li>
+    <li class="footer">Generated on Mon Mar 27 2017 13:53:32 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

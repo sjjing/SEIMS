@@ -12,6 +12,5 @@ var searchData=
   ['clstsd_5frd',['clsTSD_RD',['../d7/de0/a00022.html',1,'']]],
   ['connectmongodb',['ConnectMongoDB',['../d3/d52/a00023.html',1,'seims::preprocess::db_mongodb']]],
   ['continuousfertilizeroperation',['ContinuousFertilizerOperation',['../dc/de2/a00024.html',1,'MainBMP::PlantManagement']]],
-  ['continuouspesticideoperation',['ContinuousPesticideOperation',['../d3/dfe/a00025.html',1,'MainBMP::PlantManagement']]],
-  ['coordinate',['Coordinate',['../d6/d5b/a00026.html',1,'']]]
+  ['continuouspesticideoperation',['ContinuousPesticideOperation',['../d3/dfe/a00025.html',1,'MainBMP::PlantManagement']]]
 ];

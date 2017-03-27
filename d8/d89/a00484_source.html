@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/SET_LM/SET_LM.h Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/SET_LM/SET_LM.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,66 +112,222 @@ $(document).ready(function(){initNavTree('d8/d89/a00484_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SET_LM.h</div>  </div>
+<div class="title">SET_LM.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/dcc/a00102.html">SET_LM</a> : <span class="keyword">public</span> <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">int</span> m_nCells;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">int</span> m_nSoilLayers;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">float</span> m_upSoilDepth;</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;seims.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;SET_LM.h&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;SET_LM::SET_LM(<span class="keywordtype">void</span>) : m_nSoilLayers(2), m_nCells(-1), m_fc(NULL), m_wp(NULL), m_EI(NULL), m_PET(NULL), m_ED(NULL),</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                       m_sm(NULL), m_soilT(NULL),</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                       m_frozenT(-99.f), m_rootDepth(NULL), m_soilET(NULL), m_upSoilDepth(200.f) {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;SET_LM::~SET_LM(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">if</span> (m_soilET != NULL) {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keyword">delete</span>[] m_soilET;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    }</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">//Execute module</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#aa9b938e08bf9df68bdc175a86c41fdc0">   18</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d9/dcc/a00102.html#aa9b938e08bf9df68bdc175a86c41fdc0">SET_LM::Execute</a>() {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="../../d9/dcc/a00102.html#ad8e0115e3ded51047067d9d84b5fe8f4">CheckInputData</a>();</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordflow">if</span> (m_soilET == NULL) {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        m_soilET = <span class="keyword">new</span> <span class="keywordtype">float</span>[m_nCells];</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    }</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; m_nCells; i++) {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        m_soilET[i] = 0.0f;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordflow">if</span> (m_soilT[i] &lt;= m_frozenT) {    <span class="comment">//if the soil temperature is lower than tFrozen, then ES = 0.</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        }</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">float</span> **m_sm;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">float</span> **m_fc;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">float</span> **m_wp;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">float</span> *m_PET;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">float</span> *m_EI;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">float</span> *m_ED;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">float</span> *m_rootDepth;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">float</span> *m_soilT;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">float</span> m_frozenT;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordtype">float</span> et2d[2];</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordtype">float</span> depth[2];</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        depth[0] = m_upSoilDepth;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        depth[1] = m_rootDepth[i] - m_upSoilDepth;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">if</span> (depth[1] &lt; 0) {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            ostringstream oss;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            oss &lt;&lt; <span class="stringliteral">&quot;The root depth at cell(&quot;</span> &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;) is &quot;</span> &lt;&lt; m_rootDepth[i] &lt;&lt;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="stringliteral">&quot;, and is less than the upper soil depth (&quot;</span> &lt;&lt; m_upSoilDepth &lt;&lt; endl;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;Execute&quot;</span>, oss.str());</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        }</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">float</span> *m_soilET;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <a class="code" href="../../d9/dcc/a00102.html">SET_LM</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    ~<a class="code" href="../../d9/dcc/a00102.html">SET_LM</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute();</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nRows, <span class="keywordtype">float</span> *data);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nrows, <span class="keywordtype">int</span> ncols, <span class="keywordtype">float</span> **data);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *nRows, <span class="keywordtype">float</span> **data);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">float</span> etDeficiency = m_PET[i] - m_EI[i] - m_ED[i];</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; m_nSoilLayers; j++) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">if</span> (etDeficiency &lt;= 0.f) {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            et2d[j] = 0.f;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">if</span> (m_sm[i][j] &gt;= m_fc[i][j]) {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                et2d[j] = etDeficiency;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (m_sm[i][j] &gt;= m_wp[i][j]) {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                et2d[j] = etDeficiency * (m_sm[i][j] - m_wp[i][j]) / (m_fc[i][j] - m_wp[i][j]);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                et2d[j] = 0.0f;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordtype">float</span> sm0 = m_sm[i][j];</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordtype">float</span> availableWater = (m_sm[i][j] - m_wp[i][j]) * depth[j];</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">if</span> (et2d[j] &gt; availableWater) {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                et2d[j] = availableWater;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                m_sm[i][j] = m_wp[i][j];</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                m_sm[i][j] -= et2d[j] / depth[j];</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            }</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="ttc" id="a00106_html"><div class="ttname"><a href="../../d7/d70/a00106.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d50/a00332_source.html#l00045">SimulationModule.h:45</a></div></div>
-<div class="ttc" id="a00102_html"><div class="ttname"><a href="../../d9/dcc/a00102.html">SET_LM</a></div><div class="ttdoc">Calculate soil Temperature. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d89/a00484_source.html#l00025">SET_LM.h:25</a></div></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keywordflow">if</span> (m_sm[i][j] &lt; 0.f) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;SET_LM\t&quot;</span> &lt;&lt; sm0 &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; m_wp[i][j] &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; m_sm[i][j] &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                     &lt;&lt; availableWater / depth[j] &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; et2d[j] / depth[j] &lt;&lt; endl;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;Execute&quot;</span>, <span class="stringliteral">&quot;moisture is less than zero.&quot;</span>);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            etDeficiency -= et2d[j];</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            m_soilET[i] += et2d[j];</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    }</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;}</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a6965c172477d51b3f6cc80f4603a9d4c">   84</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d9/dcc/a00102.html#a6965c172477d51b3f6cc80f4603a9d4c">SET_LM::Get1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *nRows, <span class="keywordtype">float</span> **data) {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, VAR_SOET)) {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        *data = m_soilET;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;getResult&quot;</span>,</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                             <span class="stringliteral">&quot;Result &quot;</span> + s + <span class="stringliteral">&quot; does not exist in SET_LM method. Please contact the module developer.&quot;</span>);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    }</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    *nRows = m_nCells;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a3835542ebbb1a1846a9ead1e9c8b5726">   96</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d9/dcc/a00102.html#a3835542ebbb1a1846a9ead1e9c8b5726">SET_LM::SetValue</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data) {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, VAR_T_SOIL)) {</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        m_frozenT = data;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_OMP_THREADNUM)) {</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        SetOpenMPThread((<span class="keywordtype">int</span>) data);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;SetValue&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + s +</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="stringliteral">&quot; does not exist in SET_LM method. Please contact the module developer.&quot;</span>);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;}</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#ac38f0919363f9f5efa50b0038fb28f7a">  108</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d9/dcc/a00102.html#ac38f0919363f9f5efa50b0038fb28f7a">SET_LM::Set1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nRows, <span class="keywordtype">float</span> *data) {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <a class="code" href="../../d9/dcc/a00102.html#a67ae96879b74013b221fa81275086f42">CheckInputSize</a>(key, nRows);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, VAR_SOILDEPTH)) {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        m_rootDepth = data;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_INET)) {</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        m_EI = data;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_PET)) {</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        m_PET = data;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_DEET)) {</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        m_ED = data;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_SOTE)) {</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        m_soilT = data;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;SetValue&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + s +</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <span class="stringliteral">&quot; does not exist in SET_LM method. Please contact the module developer.&quot;</span>);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;}</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a578808702086688a2ad7cd861f0fe547">  130</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d9/dcc/a00102.html#a578808702086688a2ad7cd861f0fe547">SET_LM::Set2DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nrows, <span class="keywordtype">int</span> ncols, <span class="keywordtype">float</span> **data) {</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <a class="code" href="../../d9/dcc/a00102.html#a67ae96879b74013b221fa81275086f42">CheckInputSize</a>(key, nrows);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    m_nSoilLayers = ncols;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_FIELDCAP)) {</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        m_fc = data;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_WILTPOINT)) {</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        m_wp = data;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_SOL_ST)) {</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        m_sm = data;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;PER_PI&quot;</span>, <span class="stringliteral">&quot;Set1DData&quot;</span>,</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                             <span class="stringliteral">&quot;Parameter &quot;</span> + sk + <span class="stringliteral">&quot; does not exist. Please contact the module developer.&quot;</span>);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    }</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;}</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#ad8e0115e3ded51047067d9d84b5fe8f4">  147</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d9/dcc/a00102.html#ad8e0115e3ded51047067d9d84b5fe8f4">SET_LM::CheckInputData</a>() {</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordflow">if</span> (m_nCells &lt;= 0) {</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The dimension of the input data can not be less than zero.&quot;</span>);</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    }</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordflow">if</span> (m_fc == NULL) {</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The Soil field capacity can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    }</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordflow">if</span> (m_wp == NULL) {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The plant wilting point moisture can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    }</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordflow">if</span> (m_EI == NULL) {</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The EI can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    }</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordflow">if</span> (m_PET == NULL) {</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The PET can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    }</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordflow">if</span> (m_ED == NULL) {</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The ED can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    }</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordflow">if</span> (m_sm == NULL) {</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The soil moisture can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    }</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordflow">if</span> (m_soilT == NULL) {</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The soil temerature can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    }</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordflow">if</span> (m_frozenT &lt; -90.0f) {</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The threshold soil freezing temerature can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    }</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordflow">if</span> (m_nSoilLayers != 2) {</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;Only 2 soil layers are supported now.&quot;</span>);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    }</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;}</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
+<div class="line"><a name="l00182"></a><span class="lineno"><a class="line" href="../../d9/dcc/a00102.html#a67ae96879b74013b221fa81275086f42">  182</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d9/dcc/a00102.html#a67ae96879b74013b221fa81275086f42">SET_LM::CheckInputSize</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n) {</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keywordflow">if</span> (n &lt;= 0) {</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;CheckInputSize&quot;</span>,</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                             <span class="stringliteral">&quot;Input data for &quot;</span> + <span class="keywordtype">string</span>(key) + <span class="stringliteral">&quot; is invalid. The size could not be less than zero.&quot;</span>);</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    }</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordflow">if</span> (m_nCells != n) {</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <span class="keywordflow">if</span> (m_nCells &lt;= 0) {</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            m_nCells = n;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(<span class="stringliteral">&quot;SET_LM&quot;</span>, <span class="stringliteral">&quot;CheckInputSize&quot;</span>, <span class="stringliteral">&quot;Input data for &quot;</span> + <span class="keywordtype">string</span>(key) +</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                <span class="stringliteral">&quot; is invalid. All the input data should have same size.&quot;</span>);</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        }</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    }</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;}</div>
+<div class="ttc" id="a00102_html_ac38f0919363f9f5efa50b0038fb28f7a"><div class="ttname"><a href="../../d9/dcc/a00102.html#ac38f0919363f9f5efa50b0038fb28f7a">SET_LM::Set1DData</a></div><div class="ttdeci">virtual void Set1DData(const char *key, int nRows, float *data)</div><div class="ttdoc">Set 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d89/a00484_source.html#l00108">SET_LM.cpp:108</a></div></div>
+<div class="ttc" id="a00102_html_a67ae96879b74013b221fa81275086f42"><div class="ttname"><a href="../../d9/dcc/a00102.html#a67ae96879b74013b221fa81275086f42">SET_LM::CheckInputSize</a></div><div class="ttdeci">bool CheckInputSize(const char *, int)</div><div class="ttdoc">checke the input size. Make sure all the input data have same dimension. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d89/a00484_source.html#l00182">SET_LM.cpp:182</a></div></div>
+<div class="ttc" id="a00062_html"><div class="ttname"><a href="../../df/d03/a00062.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d82/a00243_source.html#l00020">ModelException.h:20</a></div></div>
+<div class="ttc" id="a00102_html_a6965c172477d51b3f6cc80f4603a9d4c"><div class="ttname"><a href="../../d9/dcc/a00102.html#a6965c172477d51b3f6cc80f4603a9d4c">SET_LM::Get1DData</a></div><div class="ttdeci">virtual void Get1DData(const char *key, int *nRows, float **data)</div><div class="ttdoc">Get 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d89/a00484_source.html#l00084">SET_LM.cpp:84</a></div></div>
+<div class="ttc" id="a00102_html_ad8e0115e3ded51047067d9d84b5fe8f4"><div class="ttname"><a href="../../d9/dcc/a00102.html#ad8e0115e3ded51047067d9d84b5fe8f4">SET_LM::CheckInputData</a></div><div class="ttdeci">bool CheckInputData(void)</div><div class="ttdoc">check the input data. Make sure all the input data is available. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d89/a00484_source.html#l00147">SET_LM.cpp:147</a></div></div>
+<div class="ttc" id="a00102_html_a3835542ebbb1a1846a9ead1e9c8b5726"><div class="ttname"><a href="../../d9/dcc/a00102.html#a3835542ebbb1a1846a9ead1e9c8b5726">SET_LM::SetValue</a></div><div class="ttdeci">virtual void SetValue(const char *key, float data)</div><div class="ttdoc">Set data, DT_Single. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d89/a00484_source.html#l00096">SET_LM.cpp:96</a></div></div>
+<div class="ttc" id="a00102_html_a578808702086688a2ad7cd861f0fe547"><div class="ttname"><a href="../../d9/dcc/a00102.html#a578808702086688a2ad7cd861f0fe547">SET_LM::Set2DData</a></div><div class="ttdeci">virtual void Set2DData(const char *key, int nrows, int ncols, float **data)</div><div class="ttdoc">Set 2D data, by default, DT_Raster2D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d89/a00484_source.html#l00130">SET_LM.cpp:130</a></div></div>
+<div class="ttc" id="a00102_html_aa9b938e08bf9df68bdc175a86c41fdc0"><div class="ttname"><a href="../../d9/dcc/a00102.html#aa9b938e08bf9df68bdc175a86c41fdc0">SET_LM::Execute</a></div><div class="ttdeci">virtual int Execute()</div><div class="ttdoc">Execute the simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d89/a00484_source.html#l00018">SET_LM.cpp:18</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5bf5a4201e7cd7ac6c5f03aeeeae8b2c.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_b394b39f0860413dd523e22f54b22095.html">SET_LM</a></li><li class="navelem"><b>SET_LM.h</b></li>
-    <li class="footer">Generated on Fri Mar 24 2017 06:40:32 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5bf5a4201e7cd7ac6c5f03aeeeae8b2c.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_b394b39f0860413dd523e22f54b22095.html">SET_LM</a></li><li class="navelem"><b>SET_LM.cpp</b></li>
+    <li class="footer">Generated on Mon Mar 27 2017 13:53:33 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

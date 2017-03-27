@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/iuh/IUHCalculator.cpp Source File</title>
+<title>SEIMS: seims/src/import_raster/SubBasin.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,112 +112,37 @@ $(document).ready(function(){initNavTree('df/da9/a00263_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">IUHCalculator.cpp</div>  </div>
+<div class="title">SubBasin.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d3/dcc/a00264.html">IUHCalculator.h</a>&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">class </span>SubBasin {</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    SubBasin(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;IUHCalculator::IUHCalculator(<span class="keywordtype">string</span> inputfile, <span class="keywordtype">string</span> watershedfile,</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                             <span class="keywordtype">string</span> stream_networkfile, <span class="keywordtype">string</span> t0file, <span class="keywordtype">string</span> deltafile)</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    : inputFile(inputfile), watershedFile(watershedfile),</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;      strnetworkFile(stream_networkfile), t0File(t0file), deltaFile(deltafile),</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;      mt(200), nRows(0), nCols(0), dt(24), nCells(0), nSubs(0), nLinks(0) {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="../../d1/dea/a00054.html#ada0a43ef89e61b07de87d672e5240b5e">   14</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d1/dea/a00054.html#ada0a43ef89e61b07de87d672e5240b5e">IUHCalculator::readData</a>() {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordtype">string</span> strTemp;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    SubBasin(<span class="keywordtype">int</span> xMin, <span class="keywordtype">int</span> yMin, <span class="keywordtype">int</span> xMax, <span class="keywordtype">int</span> yMax) {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        this-&gt;xMin = xMin;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        this-&gt;yMin = yMin;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        this-&gt;xMax = xMax;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        this-&gt;yMax = yMax;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        this-&gt;cellCount = 0;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    };</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    ~SubBasin(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">int</span> xMin, yMin, xMax, yMax;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="comment">// count of valid cells</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordtype">int</span> cellCount;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;};</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    ifstream watershedIf(watershedFile.c_str());  <span class="comment">// subbasin.asc</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    watershedIf &gt;&gt; strTemp &gt;&gt; nCols;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    watershedIf &gt;&gt; strTemp &gt;&gt; nRows;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 6; ++i) {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        getline(watershedIf, strTemp);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    }</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    ifstream strnetworkIf(strnetworkFile.c_str());</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    ifstream t0If(t0File.c_str());</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    ifstream deltaIf(deltaFile.c_str());</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment">//ifstream runoffCoIf(runoffCoFile.c_str());</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 7; ++i) {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        getline(strnetworkIf, strTemp);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        getline(t0If, strTemp);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        getline(deltaIf, strTemp);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="comment">//getline(runoffCoIf,strTemp);</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    }</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    watershed.resize(nRows);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    strnetwork.resize(nRows);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    link.resize(nRows);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    t0.resize(nRows);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    delta.resize(nRows);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">//runoffCo.resize(nRows);</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nRows; ++i) {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        watershed[i].resize(nCols);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        strnetwork[i].resize(nCols);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        link[i].resize(nCols);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        t0[i].resize(nCols);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        delta[i].resize(nCols);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment">//runoffCo[i].resize(nCols);</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">//read the watershed and link data</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    nCells = 0;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nRows; ++i) {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; nCols; ++j) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            watershedIf &gt;&gt; watershed[i][j];</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            strnetworkIf &gt;&gt; strnetwork[i][j];</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">if</span> (watershed[i][j] &lt;= 0 || strnetwork[i][j] &lt;= 0) {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                link[i][j] = -99;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="comment">//linkIf &gt;&gt; link[i][j];</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            t0If &gt;&gt; t0[i][j];</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            deltaIf &gt;&gt; delta[i][j];</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="comment">//runoffCoIf &gt;&gt; runoffCo[i][j];</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">if</span> (watershed[i][j] &gt; 0) {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                nCells += 1;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                nSubs = max(nSubs, watershed[i][j]);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                <span class="keywordflow">if</span> (strnetwork[i][j] &gt; 0) {</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                    link[i][j] = watershed[i][j] * strnetwork[i][j];</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                    nLinks += 1;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    watershedIf.close();</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    strnetworkIf.close();</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    t0If.close();</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    deltaIf.close();</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="comment">//runoffCoIf.close();</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;IUHCalculator::~IUHCalculator(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;}</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="../../d1/dea/a00054.html#a39da0e3315d838724ff5f3ac5f98303e">   92</a></span>&#160;<span class="keywordtype">double</span> <a class="code" href="../../d1/dea/a00054.html#a39da0e3315d838724ff5f3ac5f98303e">IUHCalculator::IUHti</a>(<span class="keywordtype">double</span> delta0, <span class="keywordtype">double</span> t00, <span class="keywordtype">double</span> ti) {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">double</span> tmp1 = 1 / (delta0 * sqrt(2 * 3.1416 * pow(ti, 3.0) / pow(t00, 3.0)));</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">double</span> tmp2 = pow(ti - t00, 2.0) / (2.0 * pow(delta0, 2.0) * ti / t00);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">return</span> tmp1 * exp(-tmp2);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="ttc" id="a00264_html"><div class="ttname"><a href="../../d3/dcc/a00264.html">IUHCalculator.h</a></div><div class="ttdoc">Class of IUH calculation. </div></div>
-<div class="ttc" id="a00054_html_a39da0e3315d838724ff5f3ac5f98303e"><div class="ttname"><a href="../../d1/dea/a00054.html#a39da0e3315d838724ff5f3ac5f98303e">IUHCalculator::IUHti</a></div><div class="ttdeci">double IUHti(double delta0, double t00, double ti)</div><div class="ttdoc">Calculate IUH for time step ti. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/da9/a00263_source.html#l00092">IUHCalculator.cpp:92</a></div></div>
-<div class="ttc" id="a00054_html_ada0a43ef89e61b07de87d672e5240b5e"><div class="ttname"><a href="../../d1/dea/a00054.html#ada0a43ef89e61b07de87d672e5240b5e">IUHCalculator::readData</a></div><div class="ttdeci">virtual void readData()</div><div class="ttdoc">Read data. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/da9/a00263_source.html#l00014">IUHCalculator.cpp:14</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2b61984990e472053a6caf1b984c1e37.html">iuh</a></li><li class="navelem"><b>IUHCalculator.cpp</b></li>
-    <li class="footer">Generated on Fri Mar 24 2017 06:40:31 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_435c9a9499964d811ba1ba7d2091ae22.html">import_raster</a></li><li class="navelem"><b>SubBasin.h</b></li>
+    <li class="footer">Generated on Mon Mar 27 2017 13:53:32 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

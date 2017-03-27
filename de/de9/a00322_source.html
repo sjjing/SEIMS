@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/module_setting/Settings.h Source File</title>
+<title>SEIMS: seims/src/seims_main/base/module_setting/Settings.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,45 +112,99 @@ $(document).ready(function(){initNavTree('de/de9/a00322_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Settings.h</div>  </div>
+<div class="title">Settings.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Settings.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="../../d5/d1e/a00103.html#a3714d5ef1ba032f74183aacb77fd711a">    3</a></span>&#160;<a class="code" href="../../d5/d1e/a00103.html#a3714d5ef1ba032f74183aacb77fd711a">Settings::Settings</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;}</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../d5/d1e/a00103.html#ae79d9331e3fa87d009ef089b8dade21c">    6</a></span>&#160;<a class="code" href="../../d5/d1e/a00103.html#ae79d9331e3fa87d009ef089b8dade21c">Settings::~Settings</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">m_Settings</a>.size() &gt; 0) {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <a class="code" href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">m_Settings</a>.clear();</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        string2DArray(<a class="code" href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">m_Settings</a>).swap(<a class="code" href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">m_Settings</a>); </div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    }</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;}</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">typedef</span> vector &lt;vector&lt;string&gt;&gt; string2DArray;</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="../../d5/d1e/a00103.html#a7f5d6a01b9ae2afb3b11c9a2a1c64705">   13</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="../../d5/d1e/a00103.html#a7f5d6a01b9ae2afb3b11c9a2a1c64705">Settings::Value</a>(<span class="keywordtype">string</span> tag) {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordtype">string</span> res = <span class="stringliteral">&quot;&quot;</span>;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="../../d5/d1e/a00103.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d5/d1e/a00103.html">Settings</a> {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">   25</a></span>&#160;    string2DArray <a class="code" href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">m_Settings</a>;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">m_Settings</a>.size() &gt; 0) {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> idx = 0; idx &lt; <a class="code" href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">m_Settings</a>.size(); idx++) {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            <span class="keywordflow">if</span> (StringMatch(<a class="code" href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">m_Settings</a>[idx][0], tag)) {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                res = <a class="code" href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">m_Settings</a>[idx][1];</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            }</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        }</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    }</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">return</span> res;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <a class="code" href="../../d5/d1e/a00103.html">Settings</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="../../d5/d1e/a00103.html">Settings</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">bool</span> LoadSettingsFromFile(<span class="keywordtype">string</span> filename);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Dump(<span class="keywordtype">string</span>);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">string</span> Value(<span class="keywordtype">string</span> tag);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../d5/d1e/a00103.html#a3500ad45ec6280654665da4acefef9ab">   44</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="../../d5/d1e/a00103.html#a3500ad45ec6280654665da4acefef9ab">m_settingFileName</a>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;};</div>
-<div class="ttc" id="a00103_html"><div class="ttname"><a href="../../d5/d1e/a00103.html">Settings</a></div><div class="ttdoc">Basic setting class. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/de9/a00322_source.html#l00022">Settings.h:22</a></div></div>
-<div class="ttc" id="a00103_html_a3500ad45ec6280654665da4acefef9ab"><div class="ttname"><a href="../../d5/d1e/a00103.html#a3500ad45ec6280654665da4acefef9ab">Settings::m_settingFileName</a></div><div class="ttdeci">string m_settingFileName</div><div class="ttdoc">input setting file path </div><div class="ttdef"><b>Definition:</b> <a href="../../de/de9/a00322_source.html#l00044">Settings.h:44</a></div></div>
-<div class="ttc" id="a00103_html_aad392017fd9b84f3d07dbab78d2911d3"><div class="ttname"><a href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">Settings::m_Settings</a></div><div class="ttdeci">string2DArray m_Settings</div><div class="ttdoc">Store setting key and values. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/de9/a00322_source.html#l00025">Settings.h:25</a></div></div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../d5/d1e/a00103.html#ac9dd22ed739c4c396bf9cc2f8edf7787">   27</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d5/d1e/a00103.html#ac9dd22ed739c4c396bf9cc2f8edf7787">Settings::LoadSettingsFromFile</a>(<span class="keywordtype">string</span> filename) {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="../../d5/d1e/a00103.html#a3500ad45ec6280654665da4acefef9ab">m_settingFileName</a> = filename;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">bool</span> bStatus = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    ifstream myfile;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">string</span> line;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="comment">// open the file</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        myfile.open(filename.c_str(), ios::in);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">if</span> (myfile.is_open()) {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <span class="keywordflow">while</span> (!myfile.eof()) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                <span class="keywordflow">if</span> (myfile.good()) {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                    getline(myfile, line);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                    line = trim(line);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                    <span class="keywordflow">if</span> ((line.size() &gt; 0) &amp;&amp; (line[0] != <span class="charliteral">&#39;#&#39;</span>)) <span class="comment">// ignore comments and empty lines</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                    {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                        <span class="comment">// parse the line into separate items</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                        vector &lt;string&gt; tokens = SplitString(line, <span class="charliteral">&#39;|&#39;</span>);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                        <span class="comment">// is there anything in the token list?</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                        <span class="keywordflow">if</span> (tokens.size() &gt; 0) {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; tokens.size(); i++) {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                tokens[i] = trim(tokens[i]);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                            }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                            <span class="comment">// is there anything in the first item?</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                            <span class="keywordflow">if</span> (tokens[0].size() &gt; 0) {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                                <span class="comment">// there is something to add so resize the header list to append it</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                                <span class="keywordtype">int</span> sz = <a class="code" href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">m_Settings</a>.size(); <span class="comment">// get the current number of rows</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                                <a class="code" href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">m_Settings</a>.resize(sz + 1);        <span class="comment">// resize with one more row</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                <a class="code" href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">m_Settings</a>[sz] = tokens;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                                bStatus = <span class="keyword">true</span>; <span class="comment">// consider this a success</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                            } <span class="comment">// if there is nothing in the first item of the token list there is nothing to add to the header list</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                        }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                    }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            bStatus = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            myfile.close();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">catch</span> (...) {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        myfile.close();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;LoadSettingsFromFileOutFile, Load output setting file: &quot;</span> &lt;&lt; string(filename) &lt;&lt; <span class="stringliteral">&quot; failed!&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">return</span> bStatus;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keywordtype">void</span> Settings::Dump(<span class="keywordtype">string</span> fileName) {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
+<div class="ttc" id="a00103_html_a3714d5ef1ba032f74183aacb77fd711a"><div class="ttname"><a href="../../d5/d1e/a00103.html#a3714d5ef1ba032f74183aacb77fd711a">Settings::Settings</a></div><div class="ttdeci">Settings(void)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/de9/a00322_source.html#l00003">Settings.cpp:3</a></div></div>
+<div class="ttc" id="a00103_html_ac9dd22ed739c4c396bf9cc2f8edf7787"><div class="ttname"><a href="../../d5/d1e/a00103.html#ac9dd22ed739c4c396bf9cc2f8edf7787">Settings::LoadSettingsFromFile</a></div><div class="ttdeci">virtual bool LoadSettingsFromFile(string filename)</div><div class="ttdoc">Load the settings value from the given file. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/de9/a00322_source.html#l00027">Settings.cpp:27</a></div></div>
+<div class="ttc" id="a00103_html_a3500ad45ec6280654665da4acefef9ab"><div class="ttname"><a href="../../d5/d1e/a00103.html#a3500ad45ec6280654665da4acefef9ab">Settings::m_settingFileName</a></div><div class="ttdeci">string m_settingFileName</div><div class="ttdoc">input setting file path </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d55/a00323_source.html#l00044">Settings.h:44</a></div></div>
+<div class="ttc" id="a00103_html_ae79d9331e3fa87d009ef089b8dade21c"><div class="ttname"><a href="../../d5/d1e/a00103.html#ae79d9331e3fa87d009ef089b8dade21c">Settings::~Settings</a></div><div class="ttdeci">virtual ~Settings(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/de9/a00322_source.html#l00006">Settings.cpp:6</a></div></div>
+<div class="ttc" id="a00103_html_a7f5d6a01b9ae2afb3b11c9a2a1c64705"><div class="ttname"><a href="../../d5/d1e/a00103.html#a7f5d6a01b9ae2afb3b11c9a2a1c64705">Settings::Value</a></div><div class="ttdeci">string Value(string tag)</div><div class="ttdoc">Return the value for the entry with the given tag. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/de9/a00322_source.html#l00013">Settings.cpp:13</a></div></div>
+<div class="ttc" id="a00103_html_aad392017fd9b84f3d07dbab78d2911d3"><div class="ttname"><a href="../../d5/d1e/a00103.html#aad392017fd9b84f3d07dbab78d2911d3">Settings::m_Settings</a></div><div class="ttdeci">string2DArray m_Settings</div><div class="ttdoc">Store setting key and values. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d55/a00323_source.html#l00025">Settings.h:25</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_cce2c0ac50386f26b5b526fa8626cc77.html">module_setting</a></li><li class="navelem"><b>Settings.h</b></li>
-    <li class="footer">Generated on Fri Mar 24 2017 06:40:32 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_cce2c0ac50386f26b5b526fa8626cc77.html">module_setting</a></li><li class="navelem"><b>Settings.cpp</b></li>
+    <li class="footer">Generated on Mon Mar 27 2017 13:53:33 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
