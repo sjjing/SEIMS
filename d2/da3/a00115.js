@@ -8,7 +8,6 @@ var a00115 =
     [ "Get1DData", "d2/da3/a00115.html#aa3a3045c77277a20a0e5e22ce29d92d9", null ],
     [ "Set1DData", "d2/da3/a00115.html#adeec7e0f843b21c14531c79bedbd0d43", null ],
     [ "SetValue", "d2/da3/a00115.html#a221d957f52e9eea5586f1c8a02841afc", null ],
-    [ "m_Ccoe", "d2/da3/a00115.html#a3454289beca39472b995719ea4b1cc97", null ],
     [ "m_CellWith", "d2/da3/a00115.html#ab1e70d8e44078447a422a76793557f5c", null ],
     [ "m_DETSplash", "d2/da3/a00115.html#ad5aa4d31faba63c30c212f63d631e95b", null ],
     [ "m_nCells", "d2/da3/a00115.html#ac589f4a8677fbc93ba6e3b6c89591c2e", null ],
