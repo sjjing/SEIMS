@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology/CH_DW/DiffusiveWave.cpp Source File</title>
+<title>SEIMS: seims/include/gtest/internal/gtest-linked_ptr.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,543 +112,259 @@ $(document).ready(function(){initNavTree('df/d70/a00431_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">DiffusiveWave.cpp</div>  </div>
+<div class="title">gtest-linked_ptr.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;seims.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;DiffusiveWave.h&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#a68509e9ba166447db382c7e7436afcf5">    7</a></span>&#160;<a class="code" href="../../d5/d79/a00030.html#a68509e9ba166447db382c7e7436afcf5">DiffusiveWave::DiffusiveWave</a>(<span class="keywordtype">void</span>) : m_nCells(-1), m_chNumber(-1), m_dt(-1.0f), m_CellWidth(-1.0f),</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                                     m_s0(NULL), m_direction(NULL), m_reachDownStream(NULL), m_chWidth(NULL),</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                                     m_qs(NULL), m_hCh(NULL), m_qCh(NULL), m_prec(NULL), m_qSubbasin(NULL),</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                     m_elevation(NULL),</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                                     m_flowLen(NULL), m_qi(NULL), m_streamLink(NULL), m_reachId(NULL),</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                     m_sourceCellIds(NULL),</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;                                     m_idUpReach(-1), m_idOutlet(-1), m_qUpReach(0.f), m_manningScalingFactor(0.f) {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#a85532cec475b39f5f02cc9756df8dcd8">   17</a></span>&#160;<a class="code" href="../../d5/d79/a00030.html#a85532cec475b39f5f02cc9756df8dcd8">DiffusiveWave::~DiffusiveWave</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a> != NULL) {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>; ++i) {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;            <span class="keyword">delete</span>[] <a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a>[i];</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keyword">delete</span>[] <a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a>;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    }</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a> != NULL) {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>; ++i) {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="keyword">delete</span>[] <a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a>[i];</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        }</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keyword">delete</span>[] <a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#a871f4c44937d05e3a667cfa4860c472c">m_flowLen</a> != NULL) {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>; ++i) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="keyword">delete</span>[] <a class="code" href="../../d5/d79/a00030.html#a871f4c44937d05e3a667cfa4860c472c">m_flowLen</a>[i];</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        }</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keyword">delete</span>[] <a class="code" href="../../d5/d79/a00030.html#a871f4c44937d05e3a667cfa4860c472c">m_flowLen</a>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    }</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#a42fb6e842f17ec055c849fd4a0a5d951">m_sourceCellIds</a> != NULL) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="keyword">delete</span>[] <a class="code" href="../../d5/d79/a00030.html#a42fb6e842f17ec055c849fd4a0a5d951">m_sourceCellIds</a>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    }</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#a38b68fc0ef15a76ec947478c1e07f968">m_qSubbasin</a> != NULL) {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keyword">delete</span>[] <a class="code" href="../../d5/d79/a00030.html#a38b68fc0ef15a76ec947478c1e07f968">m_qSubbasin</a>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;}</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#a4c358f25e7de1a6a6ec7ec1e3901ab18">   49</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d5/d79/a00030.html#a4c358f25e7de1a6a6ec7ec1e3901ab18">DiffusiveWave::CheckInputData</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d7/d70/a00106.html#aabd631c05d3e74aa9970f7415f2f5de7">m_date</a> &lt;= 0) {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;You have not set the Date variable.&quot;</span>);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d5/d79/a00030.html#a7b50ffc8793f72552fb30b9db66c818a">m_nCells</a> &lt;= 0) {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The cell number of the input can not be less than zero.&quot;</span>);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d5/d79/a00030.html#af4b310d929a670f52e33cc100b69ef02">m_dt</a> &lt;= 0) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;You have not set the TimeStep variable.&quot;</span>);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d5/d79/a00030.html#a9f63ca37e098bba8b3ca9649f177f93d">m_CellWidth</a> &lt;= 0) {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;You have not set the CellWidth variable.&quot;</span>);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d5/d79/a00030.html#a1e50b6e5e6fb1644ac6d0dd092049932">m_manningScalingFactor</a> &lt;= 0) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;You have not set the manning scaling factor variable.&quot;</span>);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">if</span> (m_s0 == NULL) {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: slope has not been set.&quot;</span>);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#aa44948612c7efc15087f019262ca02e6">m_direction</a> == NULL) {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: flow direction has not been set.&quot;</span>);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright 2003 Google Inc.</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// All rights reserved.</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Redistribution and use in source and binary forms, with or without</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// modification, are permitted provided that the following conditions are</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// met:</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//     * Redistributions of source code must retain the above copyright</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">// notice, this list of conditions and the following disclaimer.</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">//     * Redistributions in binary form must reproduce the above</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// copyright notice, this list of conditions and the following disclaimer</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// in the documentation and/or other materials provided with the</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// distribution.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">//     * Neither the name of Google Inc. nor the names of its</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// contributors may be used to endorse or promote products derived from</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// this software without specific prior written permission.</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">// Authors: Dan Egnor (egnor@google.com)</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">// A &quot;smart&quot; pointer type with reference tracking.  Every pointer to a</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">// particular object is kept on a circular linked list.  When the last pointer</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">// to an object is destroyed or reassigned, the object is deleted.</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">// Used properly, this deletes the object when the last reference goes away.</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">// There are several caveats:</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">// - Like all reference counting schemes, cycles lead to leaks.</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">// - Each smart pointer is actually two pointers (8 bytes instead of 4).</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">// - Every time a pointer is assigned, the entire list of pointers to that</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">//   object is traversed.  This class is therefore NOT SUITABLE when there</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">//   will often be more than two or three pointers to a particular object.</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">// - References are only tracked as long as linked_ptr&lt;&gt; objects are copied.</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">//   If a linked_ptr&lt;&gt; is converted to a raw pointer and back, BAD THINGS</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">//   will happen (double deletion).</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">// A good use of this class is storing object references in STL containers.</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">// You can safely put linked_ptr&lt;&gt; in a vector&lt;&gt;.</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">// Other uses may not be as good.</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">// Note: If you use an incomplete type with linked_ptr&lt;&gt;, the class</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">// *containing* linked_ptr&lt;&gt; must have a constructor and destructor (even</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">// if they do nothing!).</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">// Bill Gibbons suggested we use something like this.</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">// Thread Safety:</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">//   Unlike other linked_ptr implementations, in this implementation</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">//   a linked_ptr object is thread-safe in the sense that:</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">//     - it&#39;s safe to copy linked_ptr objects concurrently,</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">//     - it&#39;s safe to copy *from* a linked_ptr and read its underlying</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">//       raw pointer (e.g. via get()) concurrently, and</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">//     - it&#39;s safe to write to two linked_ptrs that point to the same</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">//       shared object concurrently.</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">// TODO(wan@google.com): rename this to safe_linked_ptr to avoid</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">// confusion with normal linked_ptr.</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#ifndef GTEST_INCLUDE_GTEST_INTERNAL_GTEST_LINKED_PTR_H_</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define GTEST_INCLUDE_GTEST_INTERNAL_GTEST_LINKED_PTR_H_</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#include &lt;stdlib.h&gt;</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#include &lt;assert.h&gt;</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#include &quot;gtest/internal/gtest-port.h&quot;</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">namespace </span>testing {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">namespace </span>internal {</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#a6ef86662adae4fcea4018b23f4fdf2a6">m_chWidth</a> == NULL) {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: CHWIDTH has not been set.&quot;</span>);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#a9ba1816aa23b610ffb46bea52883e598">m_streamLink</a> == NULL) {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: STREAM_LINK has not been set.&quot;</span>);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#a8710f01ad7bcc2ccac66493607faf4e7">m_prec</a> == NULL) {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: D_P(precipitation) has not been set.&quot;</span>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#a3a742b4e7c8257f617a6c996b0b7dbaa">m_elevation</a> == NULL) {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: Elevation has not been set.&quot;</span>);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;}</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">// Protects copying of all linked_ptr objects.</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;GTEST_API_ GTEST_DECLARE_STATIC_MUTEX_(g_linked_ptr_mutex);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">// This is used internally by all instances of linked_ptr&lt;&gt;.  It needs to be</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">// a non-template class because different types of linked_ptr&lt;&gt; can refer to</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">// the same object (linked_ptr&lt;Superclass&gt;(obj) vs linked_ptr&lt;Subclass&gt;(obj)).</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">// So, it needs to be possible for different types of linked_ptr to participate</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">// in the same circular linked list, so we need a single class type here.</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">// DO NOT USE THIS CLASS DIRECTLY YOURSELF.  Use linked_ptr&lt;T&gt;.</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">class </span>linked_ptr_internal {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  <span class="comment">// Create a new circle that includes only this instance.</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="keywordtype">void</span> join_new() {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    next_ = <span class="keyword">this</span>;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  }</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#a582ff7c218be8f662bdf4a236f919e33">   97</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/d79/a00030.html#a582ff7c218be8f662bdf4a236f919e33">DiffusiveWave::initialOutputs</a>() {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d5/d79/a00030.html#a7b50ffc8793f72552fb30b9db66c818a">m_nCells</a> &lt;= 0) {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;initialOutputs&quot;</span>, <span class="stringliteral">&quot;The cell number of the input can not be less than zero.&quot;</span>);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a> == NULL) {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="comment">// find source cells the reaches</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a42fb6e842f17ec055c849fd4a0a5d951">m_sourceCellIds</a> = <span class="keyword">new</span> <span class="keywordtype">int</span>[<a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>];</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>; ++i) {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <a class="code" href="../../d5/d79/a00030.html#a42fb6e842f17ec055c849fd4a0a5d951">m_sourceCellIds</a>[i] = -1;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d5/d79/a00030.html#a7b50ffc8793f72552fb30b9db66c818a">m_nCells</a>; i++) {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            <span class="keywordflow">if</span> (FloatEqual(<a class="code" href="../../d5/d79/a00030.html#a9ba1816aa23b610ffb46bea52883e598">m_streamLink</a>[i], NODATA_VALUE)) {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            }</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="keywordtype">int</span> reachId = (int) <a class="code" href="../../d5/d79/a00030.html#a9ba1816aa23b610ffb46bea52883e598">m_streamLink</a>[i];</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="keywordtype">bool</span> isSource = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = 1; k &lt;= (int) <a class="code" href="../../d5/d79/a00030.html#ac64aee5b5a652c34978c023cf894a17d">m_flowInIndex</a>[i][0]; ++k) {</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                <span class="keywordtype">int</span> flowInId = (int) <a class="code" href="../../d5/d79/a00030.html#ac64aee5b5a652c34978c023cf894a17d">m_flowInIndex</a>[i][k];</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                <span class="keywordtype">int</span> flowInReachId = (int) <a class="code" href="../../d5/d79/a00030.html#a9ba1816aa23b610ffb46bea52883e598">m_streamLink</a>[flowInId];</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                <span class="keywordflow">if</span> (flowInReachId == reachId) {</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                    isSource = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                    <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                }</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <span class="comment">// Many linked_ptr operations may change p.link_ for some linked_ptr</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  <span class="comment">// variable p in the same circle as this object.  Therefore we need</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <span class="comment">// to prevent two such operations from occurring concurrently.</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="comment">//</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  <span class="comment">// Note that different types of linked_ptr objects can coexist in a</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="comment">// circle (e.g. linked_ptr&lt;Base&gt;, linked_ptr&lt;Derived1&gt;, and</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  <span class="comment">// linked_ptr&lt;Derived2&gt;).  Therefore we must use a single mutex to</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  <span class="comment">// protect all linked_ptr objects.  This can create serious</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  <span class="comment">// contention in production code, but is acceptable in a testing</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <span class="comment">// framework.</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <span class="comment">// Join an existing circle.</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <span class="keywordtype">void</span> join(linked_ptr_internal <span class="keyword">const</span>* ptr)</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      GTEST_LOCK_EXCLUDED_(g_linked_ptr_mutex) {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    MutexLock lock(&amp;g_linked_ptr_mutex);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    linked_ptr_internal <span class="keyword">const</span>* p = ptr;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">while</span> (p-&gt;next_ != ptr) {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      assert(p-&gt;next_ != <span class="keyword">this</span> &amp;&amp;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;             <span class="stringliteral">&quot;Trying to join() a linked ring we are already in. &quot;</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;             <span class="stringliteral">&quot;Is GMock thread safety enabled?&quot;</span>);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      p = p-&gt;next_;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    }</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    p-&gt;next_ = <span class="keyword">this</span>;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    next_ = ptr;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  }</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <span class="keywordflow">if</span> ((<span class="keywordtype">int</span>) <a class="code" href="../../d5/d79/a00030.html#ac64aee5b5a652c34978c023cf894a17d">m_flowInIndex</a>[i][0] == 0) {</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                isSource = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            }</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            <span class="keywordflow">if</span> (isSource) {</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                <span class="keywordtype">int</span> reachIndex = <a class="code" href="../../d5/d79/a00030.html#af70292137dfa05222f9d3849322c983f">m_idToIndex</a>[reachId];</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                <a class="code" href="../../d5/d79/a00030.html#a42fb6e842f17ec055c849fd4a0a5d951">m_sourceCellIds</a>[reachIndex] = i;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            }</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        }</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="comment">//for(int i = 0; i &lt; m_chNumber; i++)</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="comment">//  cout &lt;&lt; m_sourceCellIds[i] &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="comment">// get the cells in reaches according to flow direction</span></div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> iCh = 0; iCh &lt; <a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>; iCh++) {</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            <span class="keywordtype">int</span> iCell = <a class="code" href="../../d5/d79/a00030.html#a42fb6e842f17ec055c849fd4a0a5d951">m_sourceCellIds</a>[iCh];</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            <span class="keywordtype">int</span> reachId = (int) <a class="code" href="../../d5/d79/a00030.html#a9ba1816aa23b610ffb46bea52883e598">m_streamLink</a>[iCell];</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="keywordflow">while</span> ((<span class="keywordtype">int</span>) <a class="code" href="../../d5/d79/a00030.html#a9ba1816aa23b610ffb46bea52883e598">m_streamLink</a>[iCell] == reachId) {</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                <a class="code" href="../../d5/d79/a00030.html#a1a771e1ba0e78c7d664cf3f74642bd11">m_reachs</a>[iCh].push_back(iCell);</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                iCell = (int) <a class="code" href="../../d5/d79/a00030.html#a2df2e84709db84da5cc15c038cfa1ff5">m_flowOutIndex</a>[iCell];</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            }</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        }</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keywordflow">if</span> (m_reachLayers.empty()) {</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>; i++) {</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                <span class="keywordtype">int</span> order = (int) <a class="code" href="../../d5/d79/a00030.html#a27acb24133eb534d81bce5c37b5bac42">m_streamOrder</a>[i];</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                m_reachLayers[order].push_back(i);</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            }</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        }</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a> = <span class="keyword">new</span> <span class="keywordtype">float</span> *[<a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>];</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a> = <span class="keyword">new</span> <span class="keywordtype">float</span> *[<a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>];</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  <span class="comment">// Leave whatever circle we&#39;re part of.  Returns true if we were the</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  <span class="comment">// last member of the circle.  Once this is done, you can join() another.</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  <span class="keywordtype">bool</span> depart()</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;      GTEST_LOCK_EXCLUDED_(g_linked_ptr_mutex) {</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    MutexLock lock(&amp;g_linked_ptr_mutex);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordflow">if</span> (next_ == <span class="keyword">this</span>) <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    linked_ptr_internal <span class="keyword">const</span>* p = next_;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordflow">while</span> (p-&gt;next_ != <span class="keyword">this</span>) {</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      assert(p-&gt;next_ != next_ &amp;&amp;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;             <span class="stringliteral">&quot;Trying to depart() a linked ring we are not in. &quot;</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;             <span class="stringliteral">&quot;Is GMock thread safety enabled?&quot;</span>);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      p = p-&gt;next_;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    }</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    p-&gt;next_ = next_;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  }</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  <span class="keyword">mutable</span> linked_ptr_internal <span class="keyword">const</span>* next_;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;};</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="keyword">class </span>linked_ptr {</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  <span class="keyword">typedef</span> T element_type;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  <span class="comment">// Take over ownership of a raw pointer.  This should happen as soon as</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;  <span class="comment">// possible after the object is created.</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  <span class="keyword">explicit</span> linked_ptr(T* ptr = NULL) { capture(ptr); }</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  ~linked_ptr() { depart(); }</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a871f4c44937d05e3a667cfa4860c472c">m_flowLen</a> = <span class="keyword">new</span> <span class="keywordtype">float</span> *[<a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>];</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a38b68fc0ef15a76ec947478c1e07f968">m_qSubbasin</a> = <span class="keyword">new</span> <span class="keywordtype">float</span>[<a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>];</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>; ++i) {</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            <span class="keywordtype">int</span> n = <a class="code" href="../../d5/d79/a00030.html#a1a771e1ba0e78c7d664cf3f74642bd11">m_reachs</a>[i].size();</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            <a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a>[i] = <span class="keyword">new</span> <span class="keywordtype">float</span>[n];</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            <a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a>[i] = <span class="keyword">new</span> <span class="keywordtype">float</span>[n];</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <a class="code" href="../../d5/d79/a00030.html#a871f4c44937d05e3a667cfa4860c472c">m_flowLen</a>[i] = <span class="keyword">new</span> <span class="keywordtype">float</span>[n];</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            <a class="code" href="../../d5/d79/a00030.html#a38b68fc0ef15a76ec947478c1e07f968">m_qSubbasin</a>[i] = 0.f;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <span class="keywordtype">int</span> id;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            <span class="keywordtype">float</span> s0, dx;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; n; ++j) {</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                <a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a>[i][j] = 0.f;</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                <a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a>[i][j] = 0.f;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                <span class="keywordtype">id</span> = <a class="code" href="../../d5/d79/a00030.html#a1a771e1ba0e78c7d664cf3f74642bd11">m_reachs</a>[i][j];</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                s0 = m_s0[id];</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                <span class="keywordflow">if</span> (FloatEqual(s0, 0.f)) {</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                    s0 = MINI_SLOPE;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                }</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                <span class="comment">// slope length needs to be corrected by slope angle</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                dx = <a class="code" href="../../d5/d79/a00030.html#a9f63ca37e098bba8b3ca9649f177f93d">m_CellWidth</a> / cos(atan(s0));</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                <span class="keywordtype">int</span> dir = (int) <a class="code" href="../../d5/d79/a00030.html#aa44948612c7efc15087f019262ca02e6">m_direction</a>[<span class="keywordtype">id</span>];</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                <span class="comment">//if ((int) m_diagonal[dir] == 1) {</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                <span class="keywordflow">if</span> (DiagonalCCW[dir] == 1) {</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                    dx = SQ2 * dx;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                }</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                <a class="code" href="../../d5/d79/a00030.html#a871f4c44937d05e3a667cfa4860c472c">m_flowLen</a>[i][j] = dx;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            }</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        }</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    }</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;}</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;</div>
-<div class="line"><a name="l00194"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#a822ecc8f1778e3cd2e388ffcb17cc766">  194</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/d79/a00030.html#a822ecc8f1778e3cd2e388ffcb17cc766">DiffusiveWave::ChannelFlow</a>(<span class="keywordtype">int</span> iReach, <span class="keywordtype">int</span> iCell, <span class="keywordtype">int</span> <span class="keywordtype">id</span>) {</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="keywordtype">float</span> qUp = 0.f;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="keywordtype">float</span> hUp = 0.f;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="keywordflow">if</span> (iReach == 0 &amp;&amp; iCell == 0) {</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        qUp = <a class="code" href="../../d5/d79/a00030.html#a4c6815a2857b29107f25a6d1c93c467e">m_qUpReach</a>;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    }</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="comment">// inflow from upstream channel</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keywordflow">if</span> (iCell == 0)<span class="comment">// inflow of this cell is the last cell of the upstream reach</span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    {</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; <a class="code" href="../../d5/d79/a00030.html#a62f1abb675198810c9939790739f3ca2">m_reachUpStream</a>[iReach].size(); ++i) {</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;            <span class="keywordtype">int</span> upReachId = <a class="code" href="../../d5/d79/a00030.html#a62f1abb675198810c9939790739f3ca2">m_reachUpStream</a>[iReach][i];</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            <span class="keywordflow">if</span> (upReachId &gt;= 0) {</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                <span class="keywordtype">int</span> upCellsNum = <a class="code" href="../../d5/d79/a00030.html#a1a771e1ba0e78c7d664cf3f74642bd11">m_reachs</a>[upReachId].size();</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                <span class="keywordtype">int</span> upCellId = <a class="code" href="../../d5/d79/a00030.html#a1a771e1ba0e78c7d664cf3f74642bd11">m_reachs</a>[upReachId][upCellsNum - 1];</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;                qUp += <a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a>[upReachId][upCellsNum - 1];</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <span class="comment">// Copy an existing linked_ptr&lt;&gt;, adding ourselves to the list of references.</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt; linked_ptr(linked_ptr&lt;U&gt; <span class="keyword">const</span>&amp; ptr) { copy(&amp;ptr); }</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  linked_ptr(linked_ptr <span class="keyword">const</span>&amp; ptr) {  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    assert(&amp;ptr != <span class="keyword">this</span>);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    copy(&amp;ptr);</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  }</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  <span class="comment">// Assignment releases the old value and acquires the new.</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt; linked_ptr&amp; operator=(linked_ptr&lt;U&gt; <span class="keyword">const</span>&amp; ptr) {</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    depart();</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    copy(&amp;ptr);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  linked_ptr&amp; operator=(linked_ptr <span class="keyword">const</span>&amp; ptr) {</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordflow">if</span> (&amp;ptr != <span class="keyword">this</span>) {</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      depart();</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;      copy(&amp;ptr);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    }</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  }</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;  <span class="comment">// Smart pointer members.</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;  <span class="keywordtype">void</span> reset(T* ptr = NULL) {</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    depart();</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    capture(ptr);</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  }</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  T* <span class="keyword">get</span>() <span class="keyword">const</span> { <span class="keywordflow">return</span> value_; }</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;  T* operator-&gt;()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> value_; }</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;  T&amp; operator*()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> *value_; }</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <span class="keywordtype">bool</span> operator==(T* p)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> value_ == p; }</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  <span class="keywordtype">bool</span> operator!=(T* p)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> value_ != p; }</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  <span class="keywordtype">bool</span> operator==(linked_ptr&lt;U&gt; <span class="keyword">const</span>&amp; ptr)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordflow">return</span> value_ == ptr.get();</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;  }</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;  <span class="keywordtype">bool</span> operator!=(linked_ptr&lt;U&gt; <span class="keyword">const</span>&amp; ptr)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keywordflow">return</span> value_ != ptr.get();</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  }</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;  <span class="keyword">friend</span> <span class="keyword">class </span>linked_ptr;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  T* value_;</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  linked_ptr_internal link_;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  <span class="keywordtype">void</span> depart() {</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordflow">if</span> (link_.depart()) <span class="keyword">delete</span> value_;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;  }</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  <span class="keywordtype">void</span> capture(T* ptr) {</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    value_ = ptr;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    link_.join_new();</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;  }</div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                <span class="keywordtype">float</span> hWater = <a class="code" href="../../d5/d79/a00030.html#a3a742b4e7c8257f617a6c996b0b7dbaa">m_elevation</a>[upCellId] + <a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a>[upReachId][upCellsNum - 1];</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                <span class="keywordflow">if</span> (hWater &gt; hUp) {</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                    hUp = hWater;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                }</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            }</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        }</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        qUp = <a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a>[iReach][iCell - 1];</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        hUp = <a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a>[iReach][iCell - 1];</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    }</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="comment">//float b = 0.6f;</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keywordtype">float</span> h = <a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a>[iReach][iCell];</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keywordtype">float</span> dx = <a class="code" href="../../d5/d79/a00030.html#a871f4c44937d05e3a667cfa4860c472c">m_flowLen</a>[iReach][iCell];</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keywordtype">float</span> qLat = <a class="code" href="../../d5/d79/a00030.html#a8710f01ad7bcc2ccac66493607faf4e7">m_prec</a>[id] / 1000.f * <a class="code" href="../../d5/d79/a00030.html#a6ef86662adae4fcea4018b23f4fdf2a6">m_chWidth</a>[id];</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#a2570b85c699bb256b1d1b503f41aa92b">m_qs</a> != NULL) {</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        qLat += <a class="code" href="../../d5/d79/a00030.html#a2570b85c699bb256b1d1b503f41aa92b">m_qs</a>[id] / dx;</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    }</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#a4f36262d07a91479dcaf19a2cc69312e">m_qi</a> != NULL) {</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        qLat += <a class="code" href="../../d5/d79/a00030.html#a4f36262d07a91479dcaf19a2cc69312e">m_qi</a>[id] / dx;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    }</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <span class="keywordflow">if</span> (qLat &lt; MIN_FLUX &amp;&amp; qUp &lt; MIN_FLUX) {</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a>[iReach][iCell] = 0.f;</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a>[iReach][iCell] = 0.f;</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    }</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="keywordtype">float</span> perim = 2.f * h + <a class="code" href="../../d5/d79/a00030.html#a6ef86662adae4fcea4018b23f4fdf2a6">m_chWidth</a>[iReach];</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="keywordtype">float</span> sf = (hUp - <a class="code" href="../../d5/d79/a00030.html#a3a742b4e7c8257f617a6c996b0b7dbaa">m_elevation</a>[id] - h) / dx;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keywordflow">if</span> (sf &lt; MINI_SLOPE) {</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        sf = MINI_SLOPE;</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    }</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keywordtype">float</span> c = 1.f / 3600.f * <a class="code" href="../../d5/d79/a00030.html#a1e50b6e5e6fb1644ac6d0dd092049932">m_manningScalingFactor</a> * <a class="code" href="../../d5/d79/a00030.html#a217523adff205da7424bb395c6c6f760">m_reachN</a>[iReach] * pow(perim, _23) / sqrt(sf);</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    c = pow(c, 0.6f);</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keywordtype">float</span> d = 1.f;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    <span class="keywordtype">int</span> counter = 0;</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keywordtype">float</span> qLast = <a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a>[iReach][iCell];</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <span class="keywordtype">float</span> qNew = qLast;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keywordflow">if</span> (qNew &lt; MIN_FLUX) {</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        qNew = qLat;</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    }</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="keywordflow">while</span> (abs(d) &gt; MIN_FLUX &amp;&amp; counter &lt; 10) {</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        d = (qNew * <a class="code" href="../../d5/d79/a00030.html#af4b310d929a670f52e33cc100b69ef02">m_dt</a> / dx + c * Power(qNew, 0.6f) - qUp * <a class="code" href="../../d5/d79/a00030.html#af4b310d929a670f52e33cc100b69ef02">m_dt</a> / dx - c * Power(qLast, 0.6f) - qLat * <a class="code" href="../../d5/d79/a00030.html#af4b310d929a670f52e33cc100b69ef02">m_dt</a>) /</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            (<a class="code" href="../../d5/d79/a00030.html#af4b310d929a670f52e33cc100b69ef02">m_dt</a> / dx + c * 0.6f / Power(qNew, 0.4f));</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        <span class="comment">//if(d != d)</span></div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        <span class="comment">//  int test = 1;</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        qNew -= d;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        counter++;</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    }</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="keywordflow">if</span> (qNew &lt; 0.f) {</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        qNew = 0.f;</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    }</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="keywordtype">float</span> qAvail = <a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a>[iReach][iCell] * m_chWidth[iReach] * dx / <a class="code" href="../../d5/d79/a00030.html#af4b310d929a670f52e33cc100b69ef02">m_dt</a> + qLat * dx + qUp;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <span class="keywordflow">if</span> (qNew &gt; qAvail) {</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a>[iReach][iCell] = qAvail;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a>[iReach][iCell] = 0.f;</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a>[iReach][iCell] = qNew;<span class="comment">//m_hCh[iReach][iCell]</span></div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a>[iReach][iCell] = c * pow(qNew, 0.6f) / m_chWidth[iReach];</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        <span class="comment">//float hh = (qUp + qLat*dx - qNew)*m_dt/(m_chWidth[iReach]*dx) + m_hCh[iReach][iCell];</span></div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    }</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;}</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;</div>
-<div class="line"><a name="l00285"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#a32930ed2ea09e6a4a52c5e73a73606ff">  285</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d5/d79/a00030.html#a32930ed2ea09e6a4a52c5e73a73606ff">DiffusiveWave::Execute</a>() {</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    <span class="comment">//check the data</span></div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    <a class="code" href="../../d5/d79/a00030.html#a4c358f25e7de1a6a6ec7ec1e3901ab18">CheckInputData</a>();</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <a class="code" href="../../d5/d79/a00030.html#a582ff7c218be8f662bdf4a236f919e33">initialOutputs</a>();</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    <span class="comment">//Output1DArray(m_nCells, m_prec, &quot;f:\\p2.txt&quot;);</span></div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    map &lt; int, vector &lt; int &gt; &gt; ::iterator</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    it;</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    <span class="keywordflow">for</span> (it = m_reachLayers.begin(); it != m_reachLayers.end(); it++) {</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;        <span class="comment">// There are not any flow relationship within each routing layer.</span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        <span class="comment">// So parallelization can be done here.</span></div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        <span class="keywordtype">int</span> nReaches = it-&gt;second.size();</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        <span class="comment">// the size of m_reachLayers (map) is equal to the maximum stream order</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nReaches; ++i) {</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;            <span class="keywordtype">int</span> reachIndex = it-&gt;second[i]; <span class="comment">// index in the array</span></div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            vector&lt;int&gt; &amp;vecCells = <a class="code" href="../../d5/d79/a00030.html#a1a771e1ba0e78c7d664cf3f74642bd11">m_reachs</a>[reachIndex];</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            <span class="keywordtype">int</span> n = vecCells.size();</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> iCell = 0; iCell &lt; n; ++iCell) {</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                <a class="code" href="../../d5/d79/a00030.html#a822ecc8f1778e3cd2e388ffcb17cc766">ChannelFlow</a>(reachIndex, iCell, vecCells[iCell]);</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;            }</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;            <a class="code" href="../../d5/d79/a00030.html#a38b68fc0ef15a76ec947478c1e07f968">m_qSubbasin</a>[reachIndex] = <a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a>[reachIndex][n - 1];</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        }</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    }</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;}</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;</div>
-<div class="line"><a name="l00313"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#a1aeb56e1df2ea7ce213b942cd8a351dc">  313</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d5/d79/a00030.html#a1aeb56e1df2ea7ce213b942cd8a351dc">DiffusiveWave::CheckInputSize</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n) {</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    <span class="keywordflow">if</span> (n &lt;= 0) {</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        <span class="comment">//this-&gt;StatusMsg(&quot;Input data for &quot;+string(key) +&quot; is invalid. The size could not be less than zero.&quot;);</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    }</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d5/d79/a00030.html#a7b50ffc8793f72552fb30b9db66c818a">m_nCells</a> != n) {</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d5/d79/a00030.html#a7b50ffc8793f72552fb30b9db66c818a">m_nCells</a> &lt;= 0) { this-&gt;<a class="code" href="../../d5/d79/a00030.html#a7b50ffc8793f72552fb30b9db66c818a">m_nCells</a> = n; }</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;            <span class="comment">//this-&gt;StatusMsg(&quot;Input data for &quot;+string(key) +&quot; is invalid. All the input data should have same size.&quot;);</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;            ostringstream oss;</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;            oss &lt;&lt; <span class="stringliteral">&quot;Input data for &quot;</span> + string(key) &lt;&lt; <span class="stringliteral">&quot; is invalid with size: &quot;</span> &lt;&lt; n &lt;&lt; <span class="stringliteral">&quot;. The origin size is &quot;</span> &lt;&lt;</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;                <a class="code" href="../../d5/d79/a00030.html#a7b50ffc8793f72552fb30b9db66c818a">m_nCells</a> &lt;&lt; <span class="stringliteral">&quot;.\n&quot;</span>;</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;CheckInputSize&quot;</span>, oss.str());</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        }</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    }</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;}</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;</div>
-<div class="line"><a name="l00333"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#a537f3021561ef01e3aca8468c9440631">  333</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../d5/d79/a00030.html#a537f3021561ef01e3aca8468c9440631">DiffusiveWave::CheckInputSizeChannel</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n) {</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    <span class="keywordflow">if</span> (n &lt;= 0) {</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        <span class="comment">//this-&gt;StatusMsg(&quot;Input data for &quot;+string(key) +&quot; is invalid. The size could not be less than zero.&quot;);</span></div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    }</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a> != n) {</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a> &lt;= 0) { this-&gt;<a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a> = n; }</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;            <span class="comment">//this-&gt;StatusMsg(&quot;Input data for &quot;+string(key) +&quot; is invalid. All the input data should have same size.&quot;);</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        }</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    }</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;}</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;</div>
-<div class="line"><a name="l00350"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#ab388a5ca394d6d0bddaac1b03ce22ffd">  350</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/d79/a00030.html#ab388a5ca394d6d0bddaac1b03ce22ffd">DiffusiveWave::GetValue</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> *value) {</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_QOUTLET)) {</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        map &lt; int, vector &lt; int &gt; &gt; ::iterator</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;        it = m_reachLayers.end();</div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        it--;</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;        <span class="keywordtype">int</span> reachId = it-&gt;second[0];</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        <span class="keywordtype">int</span> iLastCell = <a class="code" href="../../d5/d79/a00030.html#a1a771e1ba0e78c7d664cf3f74642bd11">m_reachs</a>[reachId].size() - 1;</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;        *value = <a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a>[reachId][iLastCell];</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        <span class="comment">//*value = m_hToChannel[m_idOutlet];</span></div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        <span class="comment">//*value = m_qs[m_idOutlet];</span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;        <span class="comment">//*value = m_qs[m_idOutlet] + m_qCh[reachId][iLastCell];</span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    }</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;}</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;</div>
-<div class="line"><a name="l00366"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#a5aedf04d7e26794909d899224666f25f">  366</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/d79/a00030.html#a5aedf04d7e26794909d899224666f25f">DiffusiveWave::SetValue</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data) {</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, Tag_HillSlopeTimeStep)) {</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#af4b310d929a670f52e33cc100b69ef02">m_dt</a> = data;</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, Tag_CellSize)) {</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a7b50ffc8793f72552fb30b9db66c818a">m_nCells</a> = (int) data;</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, Tag_CellWidth)) {</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a9f63ca37e098bba8b3ca9649f177f93d">m_CellWidth</a> = data;</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        <span class="comment">//else if (StringMatch(sk, &quot;ID_UPREACH&quot;))</span></div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        <span class="comment">//  m_idUpReach = (int)data;</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        <span class="comment">//else if(StringMatch(sk, &quot;QUPREACH&quot;))</span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        <span class="comment">//  m_qUpReach = data;</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_OMP_THREADNUM)) {</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;        SetOpenMPThread((<span class="keywordtype">int</span>) data);</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_CH_MANNING_FACTOR)) {  </div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a1e50b6e5e6fb1644ac6d0dd092049932">m_manningScalingFactor</a> = data;</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;SetSingleData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;            + <span class="stringliteral">&quot; does not exist. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    }</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;}</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;</div>
-<div class="line"><a name="l00390"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#a747ebc9bf8de4491bb4e7ee2d71535c0">  390</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/d79/a00030.html#a747ebc9bf8de4491bb4e7ee2d71535c0">DiffusiveWave::Set1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data) {</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    <span class="comment">//check the input data</span></div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    <a class="code" href="../../d5/d79/a00030.html#a1aeb56e1df2ea7ce213b942cd8a351dc">CheckInputSize</a>(key, n);</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_SLOPE)) {</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        m_s0 = data;</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_DEM)) {</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a3a742b4e7c8257f617a6c996b0b7dbaa">m_elevation</a> = data;</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_FLOWDIR)) {</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#aa44948612c7efc15087f019262ca02e6">m_direction</a> = data;</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_PCP)) {</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a8710f01ad7bcc2ccac66493607faf4e7">m_prec</a> = data;</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_QSOIL)) {</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a4f36262d07a91479dcaf19a2cc69312e">m_qi</a> = data;</div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_QOVERLAND)) {</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a2570b85c699bb256b1d1b503f41aa92b">m_qs</a> = data;</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;        <span class="comment">//else if(StringMatch(sk, &quot;Manning_nCh&quot;)) /// read from reach parameters table, LJ</span></div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;        <span class="comment">//  m_reachN = data;</span></div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_CHWIDTH)) {</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a6ef86662adae4fcea4018b23f4fdf2a6">m_chWidth</a> = data;</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_STREAM_LINK)) {</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a9ba1816aa23b610ffb46bea52883e598">m_streamLink</a> = data;</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, Tag_FLOWOUT_INDEX_D8)) {</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a2df2e84709db84da5cc15c038cfa1ff5">m_flowOutIndex</a> = data;</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d5/d79/a00030.html#a7b50ffc8793f72552fb30b9db66c818a">m_nCells</a>; i++) {</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#a2df2e84709db84da5cc15c038cfa1ff5">m_flowOutIndex</a>[i] &lt; 0) {</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;                m_idOutlet = i;</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;            }</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;        }</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;Set1DData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;            + <span class="stringliteral">&quot; does not exist. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;    }</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;}</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;</div>
-<div class="line"><a name="l00429"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#ade0a895a3265f557839f48a35f6304c4">  429</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/d79/a00030.html#ade0a895a3265f557839f48a35f6304c4">DiffusiveWave::Get1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data) {</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;    <span class="comment">//*n = m_nCells;</span></div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;    *n = <a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>;</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_QSUBBASIN)) {</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        *data = <a class="code" href="../../d5/d79/a00030.html#a38b68fc0ef15a76ec947478c1e07f968">m_qSubbasin</a>;</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    }</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;        <span class="comment">/*else if (StringMatch(sk, &quot;CHWATH&quot;))</span></div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;<span class="comment">        {</span></div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;<span class="comment">        *data = m_chwath;</span></div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;<span class="comment">        }</span></div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;<span class="comment">        else if (StringMatch(sk, &quot;CHQCH&quot;))</span></div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;<span class="comment">        {</span></div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;<span class="comment">        *data = m_chwath;</span></div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;<span class="comment">        }*/</span></div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;Get1DData&quot;</span>, <span class="stringliteral">&quot;Output &quot;</span> + sk</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;            +</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;                <span class="stringliteral">&quot; does not exist in the current module. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;    }</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;}</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;</div>
-<div class="line"><a name="l00452"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#abb91dc7ba26731387e440f5b67f77fce">  452</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/d79/a00030.html#abb91dc7ba26731387e440f5b67f77fce">DiffusiveWave::Get2DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *nRows, <span class="keywordtype">int</span> *nCols, <span class="keywordtype">float</span> ***data) {</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;    *nRows = <a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>;</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_QCH)) {</div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;        *data = <a class="code" href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">m_qCh</a>;</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_HCH)) {</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;        *data = <a class="code" href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">m_hCh</a>;</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;Get2DData&quot;</span>, <span class="stringliteral">&quot;Output &quot;</span> + sk</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;            +</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;                <span class="stringliteral">&quot; does not exist in the current module. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;    }</div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;</div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;}</div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;</div>
-<div class="line"><a name="l00468"></a><span class="lineno"><a class="line" href="../../d5/d79/a00030.html#a87a9bd59e8f5b225d1597cee1e21f93a">  468</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/d79/a00030.html#a87a9bd59e8f5b225d1597cee1e21f93a">DiffusiveWave::Set2DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nrows, <span class="keywordtype">int</span> ncols, <span class="keywordtype">float</span> **data) {</div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, Tag_ReachParameter)) {</div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a> = ncols;   <span class="comment">// overland is nrows;</span></div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;        m_reachId = data[0];</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a27acb24133eb534d81bce5c37b5bac42">m_streamOrder</a> = data[1];</div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#ab72f1a378689cb5221cfddee5af8ab82">m_reachDownStream</a> = data[2];</div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a217523adff205da7424bb395c6c6f760">m_reachN</a> = data[3];</div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>; i++) {</div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;            <a class="code" href="../../d5/d79/a00030.html#af70292137dfa05222f9d3849322c983f">m_idToIndex</a>[(int) m_reachId[i]] = i;</div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;        }</div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;</div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#a62f1abb675198810c9939790739f3ca2">m_reachUpStream</a>.resize(m_chNumber);</div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">m_chNumber</a>; i++) {</div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;            <span class="keywordtype">int</span> downStreamId = int(<a class="code" href="../../d5/d79/a00030.html#ab72f1a378689cb5221cfddee5af8ab82">m_reachDownStream</a>[i]);</div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;            <span class="keywordflow">if</span> (downStreamId &lt;= 0) {</div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;                <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;            }</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../d5/d79/a00030.html#af70292137dfa05222f9d3849322c983f">m_idToIndex</a>.find(downStreamId) != <a class="code" href="../../d5/d79/a00030.html#af70292137dfa05222f9d3849322c983f">m_idToIndex</a>.end()) {</div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;                <span class="keywordtype">int</span> downStreamIndex = <a class="code" href="../../d5/d79/a00030.html#af70292137dfa05222f9d3849322c983f">m_idToIndex</a>.at(downStreamId);</div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;                <a class="code" href="../../d5/d79/a00030.html#a62f1abb675198810c9939790739f3ca2">m_reachUpStream</a>[downStreamIndex].push_back(i);</div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;            }</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;        }</div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;</div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, Tag_FLOWIN_INDEX_D8)) {</div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;        <a class="code" href="../../d5/d79/a00030.html#ac64aee5b5a652c34978c023cf894a17d">m_flowInIndex</a> = data;</div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_CH_DW, <span class="stringliteral">&quot;Set1DData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk</div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;            + <span class="stringliteral">&quot; does not exist. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;    }</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;}</div>
-<div class="ttc" id="a00030_html_af70292137dfa05222f9d3849322c983f"><div class="ttname"><a href="../../d5/d79/a00030.html#af70292137dfa05222f9d3849322c983f">DiffusiveWave::m_idToIndex</a></div><div class="ttdeci">map&lt; int, int &gt; m_idToIndex</div><div class="ttdoc">map from subbasin id to index of the array </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00141">DiffusiveWave.h:141</a></div></div>
-<div class="ttc" id="a00030_html_abb91dc7ba26731387e440f5b67f77fce"><div class="ttname"><a href="../../d5/d79/a00030.html#abb91dc7ba26731387e440f5b67f77fce">DiffusiveWave::Get2DData</a></div><div class="ttdeci">virtual void Get2DData(const char *key, int *nRows, int *nCols, float ***data)</div><div class="ttdoc">Get 2D data. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00452">DiffusiveWave.cpp:452</a></div></div>
-<div class="ttc" id="a00030_html_aa44948612c7efc15087f019262ca02e6"><div class="ttname"><a href="../../d5/d79/a00030.html#aa44948612c7efc15087f019262ca02e6">DiffusiveWave::m_direction</a></div><div class="ttdeci">float * m_direction</div><div class="ttdoc">flow direction by the rule of TauDEM 4 3 2 5 1 6 7 8 </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00078">DiffusiveWave.h:78</a></div></div>
-<div class="ttc" id="a00030_html_ab72f1a378689cb5221cfddee5af8ab82"><div class="ttname"><a href="../../d5/d79/a00030.html#ab72f1a378689cb5221cfddee5af8ab82">DiffusiveWave::m_reachDownStream</a></div><div class="ttdeci">float * m_reachDownStream</div><div class="ttdoc">downstream id (The value is 0 if there if no downstream reach) </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00130">DiffusiveWave.h:130</a></div></div>
-<div class="ttc" id="a00030_html_a1a771e1ba0e78c7d664cf3f74642bd11"><div class="ttname"><a href="../../d5/d79/a00030.html#a1a771e1ba0e78c7d664cf3f74642bd11">DiffusiveWave::m_reachs</a></div><div class="ttdeci">map&lt; int, vector&lt; int &gt; &gt; m_reachs</div><div class="ttdoc">reach links </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00151">DiffusiveWave.h:151</a></div></div>
-<div class="ttc" id="a00030_html_a8710f01ad7bcc2ccac66493607faf4e7"><div class="ttname"><a href="../../d5/d79/a00030.html#a8710f01ad7bcc2ccac66493607faf4e7">DiffusiveWave::m_prec</a></div><div class="ttdeci">float * m_prec</div><div class="ttdoc">precipitation </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00081">DiffusiveWave.h:81</a></div></div>
-<div class="ttc" id="a00030_html_a32930ed2ea09e6a4a52c5e73a73606ff"><div class="ttname"><a href="../../d5/d79/a00030.html#a32930ed2ea09e6a4a52c5e73a73606ff">DiffusiveWave::Execute</a></div><div class="ttdeci">virtual int Execute()</div><div class="ttdoc">Main execute function. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00285">DiffusiveWave.cpp:285</a></div></div>
-<div class="ttc" id="a00030_html_a2570b85c699bb256b1d1b503f41aa92b"><div class="ttname"><a href="../../d5/d79/a00030.html#a2570b85c699bb256b1d1b503f41aa92b">DiffusiveWave::m_qs</a></div><div class="ttdeci">float * m_qs</div><div class="ttdoc">overland flow to channel (m3/s) </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00083">DiffusiveWave.h:83</a></div></div>
-<div class="ttc" id="a00030_html_a42fb6e842f17ec055c849fd4a0a5d951"><div class="ttname"><a href="../../d5/d79/a00030.html#a42fb6e842f17ec055c849fd4a0a5d951">DiffusiveWave::m_sourceCellIds</a></div><div class="ttdeci">int * m_sourceCellIds</div><div class="ttdoc">id of source cells of reaches </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00154">DiffusiveWave.h:154</a></div></div>
-<div class="ttc" id="a00106_html_aabd631c05d3e74aa9970f7415f2f5de7"><div class="ttname"><a href="../../d7/d70/a00106.html#aabd631c05d3e74aa9970f7415f2f5de7">SimulationModule::m_date</a></div><div class="ttdeci">time_t m_date</div><div class="ttdoc">date time </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d0a/a00333_source.html#l00166">SimulationModule.h:166</a></div></div>
-<div class="ttc" id="a00030_html_a871f4c44937d05e3a667cfa4860c472c"><div class="ttname"><a href="../../d5/d79/a00030.html#a871f4c44937d05e3a667cfa4860c472c">DiffusiveWave::m_flowLen</a></div><div class="ttdeci">float ** m_flowLen</div><div class="ttdoc">convert direction code to whether diagonal </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00124">DiffusiveWave.h:124</a></div></div>
-<div class="ttc" id="a00030_html_ab3b6147571cd2d1291d9c3f561878833"><div class="ttname"><a href="../../d5/d79/a00030.html#ab3b6147571cd2d1291d9c3f561878833">DiffusiveWave::m_chNumber</a></div><div class="ttdeci">int m_chNumber</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00128">DiffusiveWave.h:128</a></div></div>
-<div class="ttc" id="a00062_html"><div class="ttname"><a href="../../df/d03/a00062.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d82/a00243_source.html#l00020">ModelException.h:20</a></div></div>
-<div class="ttc" id="a00030_html_a6ef86662adae4fcea4018b23f4fdf2a6"><div class="ttname"><a href="../../d5/d79/a00030.html#a6ef86662adae4fcea4018b23f4fdf2a6">DiffusiveWave::m_chWidth</a></div><div class="ttdeci">float * m_chWidth</div><div class="ttdoc">channel width (raster type to keep consistent with the one in IKW_CH, zero for overland cells) ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00065">DiffusiveWave.h:65</a></div></div>
-<div class="ttc" id="a00030_html_a5aedf04d7e26794909d899224666f25f"><div class="ttname"><a href="../../d5/d79/a00030.html#a5aedf04d7e26794909d899224666f25f">DiffusiveWave::SetValue</a></div><div class="ttdeci">virtual void SetValue(const char *key, float data)</div><div class="ttdoc">Set value. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00366">DiffusiveWave.cpp:366</a></div></div>
-<div class="ttc" id="a00030_html_af4b310d929a670f52e33cc100b69ef02"><div class="ttname"><a href="../../d5/d79/a00030.html#af4b310d929a670f52e33cc100b69ef02">DiffusiveWave::m_dt</a></div><div class="ttdeci">float m_dt</div><div class="ttdoc">slope (percent) </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00061">DiffusiveWave.h:61</a></div></div>
-<div class="ttc" id="a00030_html_a747ebc9bf8de4491bb4e7ee2d71535c0"><div class="ttname"><a href="../../d5/d79/a00030.html#a747ebc9bf8de4491bb4e7ee2d71535c0">DiffusiveWave::Set1DData</a></div><div class="ttdeci">virtual void Set1DData(const char *key, int n, float *data)</div><div class="ttdoc">Set 1D data. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00390">DiffusiveWave.cpp:390</a></div></div>
-<div class="ttc" id="a00030_html_a582ff7c218be8f662bdf4a236f919e33"><div class="ttname"><a href="../../d5/d79/a00030.html#a582ff7c218be8f662bdf4a236f919e33">DiffusiveWave::initialOutputs</a></div><div class="ttdeci">void initialOutputs()</div><div class="ttdoc">Valid cells number. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00097">DiffusiveWave.cpp:97</a></div></div>
-<div class="ttc" id="a00030_html_a1aeb56e1df2ea7ce213b942cd8a351dc"><div class="ttname"><a href="../../d5/d79/a00030.html#a1aeb56e1df2ea7ce213b942cd8a351dc">DiffusiveWave::CheckInputSize</a></div><div class="ttdeci">bool CheckInputSize(const char *key, int n)</div><div class="ttdoc">Check input size. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00313">DiffusiveWave.cpp:313</a></div></div>
-<div class="ttc" id="a00030_html_a4f36262d07a91479dcaf19a2cc69312e"><div class="ttname"><a href="../../d5/d79/a00030.html#a4f36262d07a91479dcaf19a2cc69312e">DiffusiveWave::m_qi</a></div><div class="ttdeci">float * m_qi</div><div class="ttdoc">interflow to channel (m3/s) </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00085">DiffusiveWave.h:85</a></div></div>
-<div class="ttc" id="a00030_html_a38b68fc0ef15a76ec947478c1e07f968"><div class="ttname"><a href="../../d5/d79/a00030.html#a38b68fc0ef15a76ec947478c1e07f968">DiffusiveWave::m_qSubbasin</a></div><div class="ttdeci">float * m_qSubbasin</div><div class="ttdoc">discharge at subasin outlet </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00102">DiffusiveWave.h:102</a></div></div>
-<div class="ttc" id="a00030_html_ab388a5ca394d6d0bddaac1b03ce22ffd"><div class="ttname"><a href="../../d5/d79/a00030.html#ab388a5ca394d6d0bddaac1b03ce22ffd">DiffusiveWave::GetValue</a></div><div class="ttdeci">virtual void GetValue(const char *key, float *value)</div><div class="ttdoc">Get value of Qoutlet. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00350">DiffusiveWave.cpp:350</a></div></div>
-<div class="ttc" id="a00030_html_a4c6815a2857b29107f25a6d1c93c467e"><div class="ttname"><a href="../../d5/d79/a00030.html#a4c6815a2857b29107f25a6d1c93c467e">DiffusiveWave::m_qUpReach</a></div><div class="ttdeci">float m_qUpReach</div><div class="ttdoc">channel flow from upstream subbasin(assuming there is only channel flow between subbasins) ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00109">DiffusiveWave.h:109</a></div></div>
-<div class="ttc" id="a00030_html_a9f63ca37e098bba8b3ca9649f177f93d"><div class="ttname"><a href="../../d5/d79/a00030.html#a9f63ca37e098bba8b3ca9649f177f93d">DiffusiveWave::m_CellWidth</a></div><div class="ttdeci">float m_CellWidth</div><div class="ttdoc">time step (second) </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00059">DiffusiveWave.h:59</a></div></div>
-<div class="ttc" id="a00030_html_a9ba1816aa23b610ffb46bea52883e598"><div class="ttname"><a href="../../d5/d79/a00030.html#a9ba1816aa23b610ffb46bea52883e598">DiffusiveWave::m_streamLink</a></div><div class="ttdeci">float * m_streamLink</div><div class="ttdoc">stream link </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00069">DiffusiveWave.h:69</a></div></div>
-<div class="ttc" id="a00030_html_a68509e9ba166447db382c7e7436afcf5"><div class="ttname"><a href="../../d5/d79/a00030.html#a68509e9ba166447db382c7e7436afcf5">DiffusiveWave::DiffusiveWave</a></div><div class="ttdeci">DiffusiveWave(void)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00007">DiffusiveWave.cpp:7</a></div></div>
-<div class="ttc" id="a00030_html_a85532cec475b39f5f02cc9756df8dcd8"><div class="ttname"><a href="../../d5/d79/a00030.html#a85532cec475b39f5f02cc9756df8dcd8">DiffusiveWave::~DiffusiveWave</a></div><div class="ttdeci">~DiffusiveWave(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00017">DiffusiveWave.cpp:17</a></div></div>
-<div class="ttc" id="a00030_html_a62f1abb675198810c9939790739f3ca2"><div class="ttname"><a href="../../d5/d79/a00030.html#a62f1abb675198810c9939790739f3ca2">DiffusiveWave::m_reachUpStream</a></div><div class="ttdeci">vector&lt; vector&lt; int &gt; &gt; m_reachUpStream</div><div class="ttdoc">upstream id (The value is -1 if there if no upstream reach) </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00132">DiffusiveWave.h:132</a></div></div>
-<div class="ttc" id="a00030_html_ade0a895a3265f557839f48a35f6304c4"><div class="ttname"><a href="../../d5/d79/a00030.html#ade0a895a3265f557839f48a35f6304c4">DiffusiveWave::Get1DData</a></div><div class="ttdeci">virtual void Get1DData(const char *key, int *n, float **data)</div><div class="ttdoc">Get 1D data. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00429">DiffusiveWave.cpp:429</a></div></div>
-<div class="ttc" id="a00030_html_ac64aee5b5a652c34978c023cf894a17d"><div class="ttname"><a href="../../d5/d79/a00030.html#ac64aee5b5a652c34978c023cf894a17d">DiffusiveWave::m_flowInIndex</a></div><div class="ttdeci">float ** m_flowInIndex</div><div class="ttdoc">2d array of flow in cells </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00092">DiffusiveWave.h:92</a></div></div>
-<div class="ttc" id="a00030_html_a27acb24133eb534d81bce5c37b5bac42"><div class="ttname"><a href="../../d5/d79/a00030.html#a27acb24133eb534d81bce5c37b5bac42">DiffusiveWave::m_streamOrder</a></div><div class="ttdeci">float * m_streamOrder</div><div class="ttdoc">stream order </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00136">DiffusiveWave.h:136</a></div></div>
-<div class="ttc" id="a00030_html_a822ecc8f1778e3cd2e388ffcb17cc766"><div class="ttname"><a href="../../d5/d79/a00030.html#a822ecc8f1778e3cd2e388ffcb17cc766">DiffusiveWave::ChannelFlow</a></div><div class="ttdeci">void ChannelFlow(int iReach, int iCell, int id)</div><div class="ttdoc">Channel flow. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00194">DiffusiveWave.cpp:194</a></div></div>
-<div class="ttc" id="a00030_html_a273284d92c16f3f4036a24b8fc84914a"><div class="ttname"><a href="../../d5/d79/a00030.html#a273284d92c16f3f4036a24b8fc84914a">DiffusiveWave::m_hCh</a></div><div class="ttdeci">float ** m_hCh</div><div class="ttdoc">Water depth in the downslope boundary of channel cells(output) </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00097">DiffusiveWave.h:97</a></div></div>
-<div class="ttc" id="a00030_html_a7b50ffc8793f72552fb30b9db66c818a"><div class="ttname"><a href="../../d5/d79/a00030.html#a7b50ffc8793f72552fb30b9db66c818a">DiffusiveWave::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">cell width of the grid (m) </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00057">DiffusiveWave.h:57</a></div></div>
-<div class="ttc" id="a00030_html_a5205a8b4e17ebeb8ce6846596a4d436a"><div class="ttname"><a href="../../d5/d79/a00030.html#a5205a8b4e17ebeb8ce6846596a4d436a">DiffusiveWave::m_qCh</a></div><div class="ttdeci">float ** m_qCh</div><div class="ttdoc">Flux in the downslope boundary of channel cells(output) </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00099">DiffusiveWave.h:99</a></div></div>
-<div class="ttc" id="a00030_html_a87a9bd59e8f5b225d1597cee1e21f93a"><div class="ttname"><a href="../../d5/d79/a00030.html#a87a9bd59e8f5b225d1597cee1e21f93a">DiffusiveWave::Set2DData</a></div><div class="ttdeci">virtual void Set2DData(const char *key, int nrows, int ncols, float **data)</div><div class="ttdoc">Set 2D data. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00468">DiffusiveWave.cpp:468</a></div></div>
-<div class="ttc" id="a00030_html_a3a742b4e7c8257f617a6c996b0b7dbaa"><div class="ttname"><a href="../../d5/d79/a00030.html#a3a742b4e7c8257f617a6c996b0b7dbaa">DiffusiveWave::m_elevation</a></div><div class="ttdeci">float * m_elevation</div><div class="ttdoc">elevation </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00067">DiffusiveWave.h:67</a></div></div>
-<div class="ttc" id="a00030_html_a4c358f25e7de1a6a6ec7ec1e3901ab18"><div class="ttname"><a href="../../d5/d79/a00030.html#a4c358f25e7de1a6a6ec7ec1e3901ab18">DiffusiveWave::CheckInputData</a></div><div class="ttdeci">bool CheckInputData(void)</div><div class="ttdoc">Check input data. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00049">DiffusiveWave.cpp:49</a></div></div>
-<div class="ttc" id="a00030_html_a2df2e84709db84da5cc15c038cfa1ff5"><div class="ttname"><a href="../../d5/d79/a00030.html#a2df2e84709db84da5cc15c038cfa1ff5">DiffusiveWave::m_flowOutIndex</a></div><div class="ttdeci">float * m_flowOutIndex</div><div class="ttdoc">flow out index </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00094">DiffusiveWave.h:94</a></div></div>
-<div class="ttc" id="a00030_html_a217523adff205da7424bb395c6c6f760"><div class="ttname"><a href="../../d5/d79/a00030.html#a217523adff205da7424bb395c6c6f760">DiffusiveWave::m_reachN</a></div><div class="ttdeci">float * m_reachN</div><div class="ttdoc">reach manning&#39;s n </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00134">DiffusiveWave.h:134</a></div></div>
-<div class="ttc" id="a00030_html_a1e50b6e5e6fb1644ac6d0dd092049932"><div class="ttname"><a href="../../d5/d79/a00030.html#a1e50b6e5e6fb1644ac6d0dd092049932">DiffusiveWave::m_manningScalingFactor</a></div><div class="ttdeci">float m_manningScalingFactor</div><div class="ttdoc">manning scaling factor </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dd5/a00432_source.html#l00071">DiffusiveWave.h:71</a></div></div>
-<div class="ttc" id="a00030_html_a537f3021561ef01e3aca8468c9440631"><div class="ttname"><a href="../../d5/d79/a00030.html#a537f3021561ef01e3aca8468c9440631">DiffusiveWave::CheckInputSizeChannel</a></div><div class="ttdeci">bool CheckInputSizeChannel(const char *key, int n)</div><div class="ttdoc">Check input size channel. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d70/a00431_source.html#l00333">DiffusiveWave.cpp:333</a></div></div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> U&gt; <span class="keywordtype">void</span> copy(linked_ptr&lt;U&gt; <span class="keyword">const</span>* ptr) {</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    value_ = ptr-&gt;get();</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keywordflow">if</span> (value_)</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;      link_.join(&amp;ptr-&gt;link_);</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;      link_.join_new();</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;  }</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;};</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">inline</span></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="keywordtype">bool</span> operator==(T* ptr, <span class="keyword">const</span> linked_ptr&lt;T&gt;&amp; x) {</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;  <span class="keywordflow">return</span> ptr == x.get();</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;}</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="keyword">template</span>&lt;<span class="keyword">typename</span> T&gt; <span class="keyword">inline</span></div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;<span class="keywordtype">bool</span> operator!=(T* ptr, <span class="keyword">const</span> linked_ptr&lt;T&gt;&amp; x) {</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;  <span class="keywordflow">return</span> ptr != x.get();</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;}</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="comment">// A function to convert T* into linked_ptr&lt;T&gt;</span></div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="comment">// Doing e.g. make_linked_ptr(new FooBarBaz&lt;type&gt;(arg)) is a shorter notation</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="comment">// for linked_ptr&lt;FooBarBaz&lt;type&gt; &gt;(new FooBarBaz&lt;type&gt;(arg))</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;linked_ptr&lt;T&gt; make_linked_ptr(T* ptr) {</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  <span class="keywordflow">return</span> linked_ptr&lt;T&gt;(ptr);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;}</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;}  <span class="comment">// namespace internal</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;}  <span class="comment">// namespace testing</span></div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="preprocessor">#endif  // GTEST_INCLUDE_GTEST_INTERNAL_GTEST_LINKED_PTR_H_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_8a81cd33acf53112108d86c731f7fa13.html">CH_DW</a></li><li class="navelem"><b>DiffusiveWave.cpp</b></li>
-    <li class="footer">Generated on Fri Mar 31 2017 15:16:22 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_4dc27e68eab5042e55555912920560ea.html">include</a></li><li class="navelem"><a class="el" href="../../dir_a87e754047064bc630ecca1177c95510.html">gtest</a></li><li class="navelem"><a class="el" href="../../dir_9ecd747ed9778987ca588f6c86f60412.html">internal</a></li><li class="navelem"><b>gtest-linked_ptr.h</b></li>
+    <li class="footer">Generated on Fri Mar 31 2017 15:48:56 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

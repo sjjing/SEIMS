@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/SNO_DD/SNO_DD.h Source File</title>
+<title>SEIMS: seims/postprocess/test.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,80 +112,81 @@ $(document).ready(function(){initNavTree('dd/d9c/a00487_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SNO_DD.h</div>  </div>
+<div class="title">test.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="../../d1/dd6/a00108.html">   31</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d1/dd6/a00108.html">SNO_DD</a> : <span class="keyword">public</span> <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="../../d1/dd6/a00108.html">SNO_DD</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    ~<a class="code" href="../../d1/dd6/a00108.html">SNO_DD</a>(<span class="keywordtype">void</span>);</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> datetime</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> os</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> sys</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> matplotlib.cbook <span class="keyword">as</span> cbook</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> matplotlib.dates <span class="keyword">as</span> mdates</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> pymongo.errors <span class="keyword">import</span> ConnectionFailure</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;a = <span class="stringliteral">&quot;2013-10-10 23:40:00&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"># 方法:先转换为时间数组,然后转换为其他格式</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;timeArray = datetime.datetime.strptime(a, <span class="stringliteral">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;otherStyleTime = datetime.date.strftime(timeArray, <span class="stringliteral">&quot;%Y/%m/%d&quot;</span>)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordflow">print</span> otherStyleTime</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;years = mdates.YearLocator()  <span class="comment"># every year</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;months = mdates.MonthLocator()  <span class="comment"># every month</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;yearsFmt = mdates.DateFormatter(<span class="stringliteral">&#39;%Y-%M&#39;</span>)</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"># load a numpy record array from yahoo csv data with fields date,</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment"># open, close, volume, adj_close from the mpl-data/example directory.</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment"># The record array stores python datetime.date as an object array in</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment"># the date column</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;datafile = cbook.get_sample_data(<span class="stringliteral">&#39;goog.npy&#39;</span>)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment"># Python3 cannot load python2 .npy files with datetime(object) arrays</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment"># unless the encoding is set to bytes. Hovever this option was</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment"># not added until numpy 1.10 so this example will only work with</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment"># python 2 or with numpy 1.10 and later.</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    r = np.load(datafile, encoding = <span class="stringliteral">&#39;bytes&#39;</span>).view(np.recarray)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordflow">except</span> TypeError:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    r = np.load(datafile).view(np.recarray)</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute();</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;fig, ax = plt.subplots()</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;ax.plot(r.date, r.adj_close)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"># format the ticks</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;ax.xaxis.set_major_locator(years)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;ax.xaxis.set_major_formatter(yearsFmt)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;ax.xaxis.set_minor_locator(months)</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;datemin = datetime.date(r.date.min().year, 1, 1)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;datemax = datetime.date(r.date.max().year + 1, 1, 1)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;ax.set_xlim(datemin, datemax)</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> initialOutputs();</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="../../d1/dd6/a00108.html#a87f0b15b96ce0a086e00332a96f1d10f">   55</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d1/dd6/a00108.html#a87f0b15b96ce0a086e00332a96f1d10f">m_nCells</a>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../d1/dd6/a00108.html#a80be4c394aea86b3a919b6a85d9d1207">   57</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d1/dd6/a00108.html#a80be4c394aea86b3a919b6a85d9d1207">m_t0</a>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../d1/dd6/a00108.html#ab2efd42ec98121545aa57d5346d7037d">   59</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d1/dd6/a00108.html#ab2efd42ec98121545aa57d5346d7037d">m_kblow</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../d1/dd6/a00108.html#ab780c64fa8f83f2a74c79ed3195e20ba">   61</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d1/dd6/a00108.html#ab780c64fa8f83f2a74c79ed3195e20ba">m_tsnow</a>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../d1/dd6/a00108.html#afbd03c7aabfc78abaeb052e9181b9323">   63</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d1/dd6/a00108.html#afbd03c7aabfc78abaeb052e9181b9323">m_csnow</a>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../d1/dd6/a00108.html#a08fd0ef56aa95302c2c4ac58ebe3a26a">   65</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d1/dd6/a00108.html#a08fd0ef56aa95302c2c4ac58ebe3a26a">m_crain</a>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment">//float m_swe0;</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">//float m_swe;</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="comment">//float m_lastSWE;</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../d1/dd6/a00108.html#ad892f8d833ce30735aedd000c770fe78">   72</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d1/dd6/a00108.html#ad892f8d833ce30735aedd000c770fe78">m_tMean</a>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../d1/dd6/a00108.html#ac57c71e8f20399dcca5efe545507fc22">   74</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d1/dd6/a00108.html#ac57c71e8f20399dcca5efe545507fc22">m_Pnet</a>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../d1/dd6/a00108.html#a50c2f2406db15e80cbde734106aef89d">   77</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d1/dd6/a00108.html#a50c2f2406db15e80cbde734106aef89d">m_SR</a>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="../../d1/dd6/a00108.html#a1d827e93d08efc6502ca9345e3152be8">   79</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d1/dd6/a00108.html#a1d827e93d08efc6502ca9345e3152be8">m_SE</a>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="comment">//result</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="../../d1/dd6/a00108.html#af2b774eceb4a247dc829f4861daed384">   83</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> *<a class="code" href="../../d1/dd6/a00108.html#af2b774eceb4a247dc829f4861daed384">m_SM</a>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="../../d1/dd6/a00108.html#a9672e0f416cbb4fc7795d79cf04cb9a2">   85</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d1/dd6/a00108.html#a9672e0f416cbb4fc7795d79cf04cb9a2">m_SA</a>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;};</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="ttc" id="a00108_html_ac57c71e8f20399dcca5efe545507fc22"><div class="ttname"><a href="../../d1/dd6/a00108.html#ac57c71e8f20399dcca5efe545507fc22">SNO_DD::m_Pnet</a></div><div class="ttdeci">float * m_Pnet</div><div class="ttdoc">net precipitation </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9c/a00487_source.html#l00074">SNO_DD.h:74</a></div></div>
-<div class="ttc" id="a00108_html_afbd03c7aabfc78abaeb052e9181b9323"><div class="ttname"><a href="../../d1/dd6/a00108.html#afbd03c7aabfc78abaeb052e9181b9323">SNO_DD::m_csnow</a></div><div class="ttdeci">float m_csnow</div><div class="ttdoc">temperature impact factor </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9c/a00487_source.html#l00063">SNO_DD.h:63</a></div></div>
-<div class="ttc" id="a00108_html_a08fd0ef56aa95302c2c4ac58ebe3a26a"><div class="ttname"><a href="../../d1/dd6/a00108.html#a08fd0ef56aa95302c2c4ac58ebe3a26a">SNO_DD::m_crain</a></div><div class="ttdeci">float m_crain</div><div class="ttdoc">Rainfall impact factor. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9c/a00487_source.html#l00065">SNO_DD.h:65</a></div></div>
-<div class="ttc" id="a00108_html_a50c2f2406db15e80cbde734106aef89d"><div class="ttname"><a href="../../d1/dd6/a00108.html#a50c2f2406db15e80cbde734106aef89d">SNO_DD::m_SR</a></div><div class="ttdeci">float * m_SR</div><div class="ttdoc">snow redistribution </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9c/a00487_source.html#l00077">SNO_DD.h:77</a></div></div>
-<div class="ttc" id="a00108_html_a9672e0f416cbb4fc7795d79cf04cb9a2"><div class="ttname"><a href="../../d1/dd6/a00108.html#a9672e0f416cbb4fc7795d79cf04cb9a2">SNO_DD::m_SA</a></div><div class="ttdeci">float * m_SA</div><div class="ttdoc">Snow accumulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9c/a00487_source.html#l00085">SNO_DD.h:85</a></div></div>
-<div class="ttc" id="a00106_html"><div class="ttname"><a href="../../d7/d70/a00106.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d0a/a00333_source.html#l00045">SimulationModule.h:45</a></div></div>
-<div class="ttc" id="a00108_html_a1d827e93d08efc6502ca9345e3152be8"><div class="ttname"><a href="../../d1/dd6/a00108.html#a1d827e93d08efc6502ca9345e3152be8">SNO_DD::m_SE</a></div><div class="ttdeci">float * m_SE</div><div class="ttdoc">snow sublimation, snoev in SWAT in etact.f </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9c/a00487_source.html#l00079">SNO_DD.h:79</a></div></div>
-<div class="ttc" id="a00108_html_ab2efd42ec98121545aa57d5346d7037d"><div class="ttname"><a href="../../d1/dd6/a00108.html#ab2efd42ec98121545aa57d5346d7037d">SNO_DD::m_kblow</a></div><div class="ttdeci">float m_kblow</div><div class="ttdoc">fraction coefficient of precipitation as snow </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9c/a00487_source.html#l00059">SNO_DD.h:59</a></div></div>
-<div class="ttc" id="a00108_html"><div class="ttname"><a href="../../d1/dd6/a00108.html">SNO_DD</a></div><div class="ttdoc">Calculate snow melt by Degree-Day method. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9c/a00487_source.html#l00031">SNO_DD.h:31</a></div></div>
-<div class="ttc" id="a00108_html_a80be4c394aea86b3a919b6a85d9d1207"><div class="ttname"><a href="../../d1/dd6/a00108.html#a80be4c394aea86b3a919b6a85d9d1207">SNO_DD::m_t0</a></div><div class="ttdeci">float m_t0</div><div class="ttdoc">Mean air temperature at which snow melt will occur, sub_smtmp. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9c/a00487_source.html#l00057">SNO_DD.h:57</a></div></div>
-<div class="ttc" id="a00108_html_a87f0b15b96ce0a086e00332a96f1d10f"><div class="ttname"><a href="../../d1/dd6/a00108.html#a87f0b15b96ce0a086e00332a96f1d10f">SNO_DD::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">Valid cells number. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9c/a00487_source.html#l00055">SNO_DD.h:55</a></div></div>
-<div class="ttc" id="a00108_html_af2b774eceb4a247dc829f4861daed384"><div class="ttname"><a href="../../d1/dd6/a00108.html#af2b774eceb4a247dc829f4861daed384">SNO_DD::m_SM</a></div><div class="ttdeci">float * m_SM</div><div class="ttdoc">Snow melt. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9c/a00487_source.html#l00083">SNO_DD.h:83</a></div></div>
-<div class="ttc" id="a00108_html_ab780c64fa8f83f2a74c79ed3195e20ba"><div class="ttname"><a href="../../d1/dd6/a00108.html#ab780c64fa8f83f2a74c79ed3195e20ba">SNO_DD::m_tsnow</a></div><div class="ttdeci">float m_tsnow</div><div class="ttdoc">Snowfall temperature, i.e., precipitation as snow. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9c/a00487_source.html#l00061">SNO_DD.h:61</a></div></div>
-<div class="ttc" id="a00108_html_ad892f8d833ce30735aedd000c770fe78"><div class="ttname"><a href="../../d1/dd6/a00108.html#ad892f8d833ce30735aedd000c770fe78">SNO_DD::m_tMean</a></div><div class="ttdeci">float * m_tMean</div><div class="ttdoc">mean temperature </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d9c/a00487_source.html#l00072">SNO_DD.h:72</a></div></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"># format the coords message box</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">def </span>price(x):</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">return</span> <span class="stringliteral">&#39;$%1.2f&#39;</span> % x</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;ax.format_xdata = mdates.DateFormatter(<span class="stringliteral">&#39;%Y-%m-%d&#39;</span>)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;ax.format_ydata = price</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;ax.grid(<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"># rotates and right aligns the x labels, and moves the bottom of the</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"># axes up to make room for them</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;fig.autofmt_xdate()</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;plt.show()</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5bf5a4201e7cd7ac6c5f03aeeeae8b2c.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_51a10276d5dae08852de26fee44abc1b.html">SNO_DD</a></li><li class="navelem"><b>SNO_DD.h</b></li>
-    <li class="footer">Generated on Fri Mar 31 2017 15:16:22 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_61da0db7be14312bde940296c0e3c020.html">postprocess</a></li><li class="navelem"><b>test.py</b></li>
+    <li class="footer">Generated on Fri Mar 31 2017 15:48:58 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

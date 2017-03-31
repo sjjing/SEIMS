@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/STP_FP/SoilTemperatureFINPL.h Source File</title>
+<title>SEIMS: seims/preprocess/hydro_find_sites.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,72 +112,109 @@ $(document).ready(function(){initNavTree('d4/de5/a00503_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SoilTemperatureFINPL.h</div>  </div>
+<div class="title">hydro_find_sites.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># coding=utf-8</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># Find meteorology and precipitation sites in study area</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># Author: Junzhi Liu</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># Revised: Liang-Jun Zhu</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> sys</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> pymongo</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> osgeo <span class="keyword">import</span> ogr</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> shapely.wkt <span class="keyword">import</span> loads</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../db/d57/a00112.html">   27</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../db/d57/a00112.html">SoilTemperatureFINPL</a> : <span class="keyword">public</span> <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="../../db/d57/a00112.html">SoilTemperatureFINPL</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    ~<a class="code" href="../../db/d57/a00112.html">SoilTemperatureFINPL</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> value);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">//virtual void SetDate(time_t t);</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">//time_t m_date;</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="../../db/d57/a00112.html#aaa2115614c983996db13755beec72633">   52</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../db/d57/a00112.html#aaa2115614c983996db13755beec72633">m_a0</a>, m_a1, m_a2, m_a3, m_b1, m_b2, m_d1, m_d2;</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../db/d57/a00112.html#a47c261fa4a590ec350f21dd20a4c0738">   54</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../db/d57/a00112.html#a47c261fa4a590ec350f21dd20a4c0738">m_kSoil10</a>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../db/d57/a00112.html#ac1841e6ec4ed6c2ffba068eb3722132f">   57</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../db/d57/a00112.html#ac1841e6ec4ed6c2ffba068eb3722132f">m_julianDay</a>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../db/d57/a00112.html#acc4670d9a1276d9e00cc2abcd01aa460">   59</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../db/d57/a00112.html#acc4670d9a1276d9e00cc2abcd01aa460">m_nCells</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../db/d57/a00112.html#a644e35e73ac24b1f7de3102a368004b5">   61</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../db/d57/a00112.html#a644e35e73ac24b1f7de3102a368004b5">m_relativeFactor</a>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../db/d57/a00112.html#a26758fa0d2e16eb93297d5da5db97a09">   63</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../db/d57/a00112.html#a26758fa0d2e16eb93297d5da5db97a09">m_landuse</a>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="../../db/d57/a00112.html#aadcf4c514d598d8a145ed757071331f3">   66</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../db/d57/a00112.html#aadcf4c514d598d8a145ed757071331f3">m_tMean</a>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">float</span> *m_t1;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">float</span> *m_t2;</div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../db/d57/a00112.html#a2cd218fcb8d0aebe4ffd881e2721c868">   72</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../db/d57/a00112.html#a2cd218fcb8d0aebe4ffd881e2721c868">w</a>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../db/d57/a00112.html#a323c1de5dda6c8e041620dc6905c930f">   74</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../db/d57/a00112.html#a323c1de5dda6c8e041620dc6905c930f">m_soilTemp</a>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> initialOutputs();</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;};</div>
-<div class="ttc" id="a00112_html_aadcf4c514d598d8a145ed757071331f3"><div class="ttname"><a href="../../db/d57/a00112.html#aadcf4c514d598d8a145ed757071331f3">SoilTemperatureFINPL::m_tMean</a></div><div class="ttdeci">float * m_tMean</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/a00503_source.html#l00066">SoilTemperatureFINPL.h:66</a></div></div>
-<div class="ttc" id="a00112_html_a47c261fa4a590ec350f21dd20a4c0738"><div class="ttname"><a href="../../db/d57/a00112.html#a47c261fa4a590ec350f21dd20a4c0738">SoilTemperatureFINPL::m_kSoil10</a></div><div class="ttdeci">float m_kSoil10</div><div class="ttdoc">ratio between soil temperature at 10 cm and the mean </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/a00503_source.html#l00054">SoilTemperatureFINPL.h:54</a></div></div>
-<div class="ttc" id="a00112_html_a2cd218fcb8d0aebe4ffd881e2721c868"><div class="ttname"><a href="../../db/d57/a00112.html#a2cd218fcb8d0aebe4ffd881e2721c868">SoilTemperatureFINPL::w</a></div><div class="ttdeci">float w</div><div class="ttdoc">temporary variable </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/a00503_source.html#l00072">SoilTemperatureFINPL.h:72</a></div></div>
-<div class="ttc" id="a00112_html_ac1841e6ec4ed6c2ffba068eb3722132f"><div class="ttname"><a href="../../db/d57/a00112.html#ac1841e6ec4ed6c2ffba068eb3722132f">SoilTemperatureFINPL::m_julianDay</a></div><div class="ttdeci">int m_julianDay</div><div class="ttdoc">Julian day. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/a00503_source.html#l00057">SoilTemperatureFINPL.h:57</a></div></div>
-<div class="ttc" id="a00112_html_a323c1de5dda6c8e041620dc6905c930f"><div class="ttname"><a href="../../db/d57/a00112.html#a323c1de5dda6c8e041620dc6905c930f">SoilTemperatureFINPL::m_soilTemp</a></div><div class="ttdeci">float * m_soilTemp</div><div class="ttdoc">output soil temperature </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/a00503_source.html#l00074">SoilTemperatureFINPL.h:74</a></div></div>
-<div class="ttc" id="a00112_html_a644e35e73ac24b1f7de3102a368004b5"><div class="ttname"><a href="../../db/d57/a00112.html#a644e35e73ac24b1f7de3102a368004b5">SoilTemperatureFINPL::m_relativeFactor</a></div><div class="ttdeci">float * m_relativeFactor</div><div class="ttdoc">factor of soil temperature relative to short grass (degree) </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/a00503_source.html#l00061">SoilTemperatureFINPL.h:61</a></div></div>
-<div class="ttc" id="a00106_html"><div class="ttname"><a href="../../d7/d70/a00106.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d0a/a00333_source.html#l00045">SimulationModule.h:45</a></div></div>
-<div class="ttc" id="a00112_html"><div class="ttname"><a href="../../db/d57/a00112.html">SoilTemperatureFINPL</a></div><div class="ttdoc">Soil temperature. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/a00503_source.html#l00027">SoilTemperatureFINPL.h:27</a></div></div>
-<div class="ttc" id="a00112_html_aaa2115614c983996db13755beec72633"><div class="ttname"><a href="../../db/d57/a00112.html#aaa2115614c983996db13755beec72633">SoilTemperatureFINPL::m_a0</a></div><div class="ttdeci">float m_a0</div><div class="ttdoc">time </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/a00503_source.html#l00052">SoilTemperatureFINPL.h:52</a></div></div>
-<div class="ttc" id="a00112_html_acc4670d9a1276d9e00cc2abcd01aa460"><div class="ttname"><a href="../../db/d57/a00112.html#acc4670d9a1276d9e00cc2abcd01aa460">SoilTemperatureFINPL::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">count of cells </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/a00503_source.html#l00059">SoilTemperatureFINPL.h:59</a></div></div>
-<div class="ttc" id="a00112_html_a26758fa0d2e16eb93297d5da5db97a09"><div class="ttname"><a href="../../db/d57/a00112.html#a26758fa0d2e16eb93297d5da5db97a09">SoilTemperatureFINPL::m_landuse</a></div><div class="ttdeci">float * m_landuse</div><div class="ttdoc">landuse type, for distinguish calculation, such as water body. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/de5/a00503_source.html#l00063">SoilTemperatureFINPL.h:63</a></div></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> config <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"># for test main</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">from</span> utility <span class="keyword">import</span> LoadConfiguration</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> db_mongodb <span class="keyword">import</span> ConnectMongoDB</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">def </span>OGRWkt2Shapely(input_shape, idField):</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    shapely_objects = []</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    idList = []</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="comment"># print input_shape</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    shp = ogr.Open(input_shape)</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    lyr = shp.GetLayer()</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">for</span> n <span class="keywordflow">in</span> range(0, lyr.GetFeatureCount()):</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        feat = lyr.GetFeature(n)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        wkt_feat = loads(feat.geometry().ExportToWkt())</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        shapely_objects.append(wkt_feat)</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        idIndex = feat.GetFieldIndex(idField)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        idList.append(feat.GetField(idIndex))</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">return</span> shapely_objects, idList</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">def </span>FindSites(db, hydroDBName, subbasinFile, subbasinIdField, thiessenFileList, siteTypeList, mode):</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    subbasinList, subbasinIDList = OGRWkt2Shapely(subbasinFile, subbasinIdField)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    nSubbasins = len(subbasinList)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    n = len(thiessenFileList)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    siteDic = {}</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(subbasinList)):</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        subbasin = subbasinList[i]</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        id = subbasinIDList[i]</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="comment"># if not for cluster and basin.shp is used, force the SUBBASINID to 0. by LJ.</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> forCluster <span class="keywordflow">and</span> len(subbasinList) == 1:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            id = 0</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        dic = {}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        dic[FLD_SUBBASINID.upper()] = id</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        dic[FLD_DB.upper()] = hydroDBName</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        dic[FLD_MODE.upper()] = mode</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        curFileter = {FLD_SUBBASINID.upper(): id,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                      FLD_DB.upper()        : hydroDBName,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                      FLD_MODE.upper()      : mode}</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">for</span> metroID <span class="keywordflow">in</span> range(0, n):</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            thiessenFile = thiessenFileList[metroID]</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="comment"># print thiessenFile</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            siteType = siteTypeList[metroID]</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                thiessenList, thiessenIDList = OGRWkt2Shapely(thiessenFile, thiessenIdField)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">except</span>:</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                thiessenList, thiessenIDList = OGRWkt2Shapely(thiessenFile, <span class="stringliteral">&#39;Subbasin&#39;</span>)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            siteList = []</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keywordflow">for</span> polyID <span class="keywordflow">in</span> range(len(thiessenList)):</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                thiessen = thiessenList[polyID]</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                <span class="keywordflow">if</span> subbasin.intersects(thiessen):</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                    siteList.append(thiessenIDList[polyID])</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            siteList.sort()</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            slist = [str(item) <span class="keywordflow">for</span> item <span class="keywordflow">in</span> siteList]</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            siteListStr = <span class="stringliteral">&#39;,&#39;</span>.join(slist)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            siteField = <span class="stringliteral">&#39;%s%s&#39;</span> % (DB_TAB_SITELIST.upper(), siteType)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            dic[siteField] = siteListStr</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        db[DB_TAB_SITELIST.upper()].find_one_and_replace(curFileter, dic, upsert = <span class="keyword">True</span>)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    db[DB_TAB_SITELIST.upper()].create_index([(FLD_SUBBASINID.upper(), pymongo.ASCENDING),</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                              (FLD_MODE.upper(), pymongo.ASCENDING)])</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment"># print &#39;Meteorology sites table was generated.&#39;</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">return</span> nSubbasins</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment"># TEST CODE</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    LoadConfiguration(getconfigfile())</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    client = ConnectMongoDB(HOSTNAME, PORT)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    conn = client.get_conn()</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    db = conn[SpatialDBName]</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    thiessenFileList = [MeteorSitesThiessen, PrecSitesThiessen]</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    typeList = [DataType_Meteorology, DataType_Precipitation]</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> forCluster:</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        basinFile = WORKING_DIR + os.sep + basinVec</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        FindSites(db, ClimateDBName, basinFile, FLD_BASINID, thiessenFileList, typeList, <span class="stringliteral">&#39;DAILY&#39;</span>)</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    subbasinFile = WORKING_DIR + os.sep + DIR_NAME_GEOSHP + os.sep + subbasinVec  <span class="comment"># subbasin.shp, for MPI version</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    FindSites(db, ClimateDBName, subbasinFile, FLD_SUBBASINID, thiessenFileList, typeList, <span class="stringliteral">&#39;DAILY&#39;</span>)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    client.close()</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5bf5a4201e7cd7ac6c5f03aeeeae8b2c.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_0230f6dd061eaa376dec00257395e693.html">STP_FP</a></li><li class="navelem"><b>SoilTemperatureFINPL.h</b></li>
-    <li class="footer">Generated on Fri Mar 31 2017 15:16:22 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>hydro_find_sites.py</b></li>
+    <li class="footer">Generated on Fri Mar 31 2017 15:48:58 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

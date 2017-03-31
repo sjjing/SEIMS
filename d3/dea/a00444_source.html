@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology/IKW_IF/InterFlow_IKW.h Source File</title>
+<title>SEIMS: seims/build/googletest-src/googletest/samples/prime_tables.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,102 +112,139 @@ $(document).ready(function(){initNavTree('d3/dea/a00444_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">InterFlow_IKW.h</div>  </div>
+<div class="title">prime_tables.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d6/d2d/a00047.html">InterFlow_IKW</a> : <span class="keyword">public</span> <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <a class="code" href="../../d6/d2d/a00047.html">InterFlow_IKW</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    ~<a class="code" href="../../d6/d2d/a00047.html">InterFlow_IKW</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nrows, <span class="keywordtype">int</span> ncols, <span class="keywordtype">float</span> **data);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright 2008 Google Inc.</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// All Rights Reserved.</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Redistribution and use in source and binary forms, with or without</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// modification, are permitted provided that the following conditions are</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// met:</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//     * Redistributions of source code must retain the above copyright</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">// notice, this list of conditions and the following disclaimer.</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">//     * Redistributions in binary form must reproduce the above</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// copyright notice, this list of conditions and the following disclaimer</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// in the documentation and/or other materials provided with the</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// distribution.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">//     * Neither the name of Google Inc. nor the names of its</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// contributors may be used to endorse or promote products derived from</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// this software without specific prior written permission.</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">// Author: wan@google.com (Zhanyong Wan)</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">// Author: vladl@google.com (Vlad Losev)</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">// This provides interface PrimeTable that determines whether a number is a</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">// prime and determines a next prime number. This interface is used</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">// in Google Test samples demonstrating use of parameterized tests.</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#ifndef GTEST_SAMPLES_PRIME_TABLES_H_</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define GTEST_SAMPLES_PRIME_TABLES_H_</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">//float Power(float a, float n)</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">//{</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">//  if (a &gt;= 0)</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">//      return pow(a, n);</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">//  else</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">//      return -pow(-a, n);</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">//}</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> FlowInSoil(<span class="keywordtype">int</span> <span class="keywordtype">id</span>);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> initialOutputs();</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#abdf7c332fbd53e26cfe107f16914a038">   59</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d6/d2d/a00047.html#abdf7c332fbd53e26cfe107f16914a038">m_nCells</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">// The prime table interface.</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">class </span>PrimeTable {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="keyword">virtual</span> ~PrimeTable() {}</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="comment">// Returns true iff n is a prime number.</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> IsPrime(<span class="keywordtype">int</span> n) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="comment">// Returns the smallest prime number greater than p; or returns -1</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  <span class="comment">// if the next prime is beyond the capacity of the table.</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> GetNextPrime(<span class="keywordtype">int</span> p) <span class="keyword">const</span> = 0;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;};</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">// Implementation #1 calculates the primes on-the-fly.</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keyword">class </span>OnTheFlyPrimeTable : <span class="keyword">public</span> PrimeTable {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> IsPrime(<span class="keywordtype">int</span> n)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">if</span> (n &lt;= 1) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#abcc89a32c55b92a70d0671aff0d5fd02">   62</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d6/d2d/a00047.html#abcc89a32c55b92a70d0671aff0d5fd02">m_CellWidth</a>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#a91bc4f3fe377b599f1b938c1776a74cb">   64</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d6/d2d/a00047.html#a91bc4f3fe377b599f1b938c1776a74cb">m_dt</a>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#a3b80d70de126effbce39b05bb3c9a060">   66</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d6/d2d/a00047.html#a3b80d70de126effbce39b05bb3c9a060">m_chWidth</a>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#aecc3729f02915d2b5363745f7733d9b1">   69</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d6/d2d/a00047.html#aecc3729f02915d2b5363745f7733d9b1">m_s0</a>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#a8ba841bd531d52f8258ddbd34eaeeb9c">   71</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d6/d2d/a00047.html#a8ba841bd531d52f8258ddbd34eaeeb9c">m_rootDepth</a>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#ad78ae4f374cf9a78089e1efe5acdd276">   73</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d6/d2d/a00047.html#ad78ae4f374cf9a78089e1efe5acdd276">m_soilDepth</a>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#ae6fec78f0c5a73354e6b863fdc9e1d73">   75</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d6/d2d/a00047.html#ae6fec78f0c5a73354e6b863fdc9e1d73">m_ks</a>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#a088ff5f85f6140b6b328c99c38e6df18">   77</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d6/d2d/a00047.html#a088ff5f85f6140b6b328c99c38e6df18">m_landuseFactor</a>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">float</span> *m_soilMoistrue;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="comment">//float* m_residual;</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">float</span> *m_porosity;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">float</span> *m_poreIndex;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">float</span> *m_fieldCapacity;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">float</span> *m_streamLink;</div>
-<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#a0bdca251295b07f6261c9ed495a082e4">   91</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d6/d2d/a00047.html#a0bdca251295b07f6261c9ed495a082e4">m_flowInIndex</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 2; i*i &lt;= n; i++) {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <span class="comment">// n is divisible by an integer other than 1 and itself.</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="keywordflow">if</span> ((n % i) == 0) <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  }</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> GetNextPrime(<span class="keywordtype">int</span> p)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> n = p + 1; n &gt; 0; n++) {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <span class="keywordflow">if</span> (IsPrime(n)) <span class="keywordflow">return</span> n;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">// Implementation #2 pre-calculates the primes and stores the result</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">// in an array.</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keyword">class </span>PreCalculatedPrimeTable : <span class="keyword">public</span> PrimeTable {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <span class="comment">// &#39;max&#39; specifies the maximum number the prime table holds.</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keyword">explicit</span> PreCalculatedPrimeTable(<span class="keywordtype">int</span> max)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;      : is_prime_size_(max + 1), is_prime_(new bool[max + 1]) {</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    CalculatePrimesUpTo(max);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keyword">virtual</span> ~PreCalculatedPrimeTable() { <span class="keyword">delete</span>[] is_prime_; }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">bool</span> IsPrime(<span class="keywordtype">int</span> n)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">return</span> 0 &lt;= n &amp;&amp; n &lt; is_prime_size_ &amp;&amp; is_prime_[n];</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  }</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#a516f185e02a0205411851ecc664decf9">   99</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d6/d2d/a00047.html#a516f185e02a0205411851ecc664decf9">m_routingLayers</a>;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">int</span> m_nLayers;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#ab01fcacddb0b7fbfdb30901fe5e96ef0">  103</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d6/d2d/a00047.html#ab01fcacddb0b7fbfdb30901fe5e96ef0">m_sr</a>;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#a38299b86b9910323e25428472c136f6f">  106</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d6/d2d/a00047.html#a38299b86b9910323e25428472c136f6f">m_q</a>;</div>
-<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#a5984f36d9979875b6c7a7fdb11f7bd0a">  108</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d6/d2d/a00047.html#a5984f36d9979875b6c7a7fdb11f7bd0a">m_h</a>;</div>
-<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="../../d6/d2d/a00047.html#ad8643a8181d1fadf37e97934bf828214">  110</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d6/d2d/a00047.html#ad8643a8181d1fadf37e97934bf828214">m_hReturnFlow</a>;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;};</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="ttc" id="a00047_html_a3b80d70de126effbce39b05bb3c9a060"><div class="ttname"><a href="../../d6/d2d/a00047.html#a3b80d70de126effbce39b05bb3c9a060">InterFlow_IKW::m_chWidth</a></div><div class="ttdeci">float * m_chWidth</div><div class="ttdoc">channel width </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00066">InterFlow_IKW.h:66</a></div></div>
-<div class="ttc" id="a00047_html_abcc89a32c55b92a70d0671aff0d5fd02"><div class="ttname"><a href="../../d6/d2d/a00047.html#abcc89a32c55b92a70d0671aff0d5fd02">InterFlow_IKW::m_CellWidth</a></div><div class="ttdeci">float m_CellWidth</div><div class="ttdoc">cell width of the grid (m) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00062">InterFlow_IKW.h:62</a></div></div>
-<div class="ttc" id="a00047_html_ab01fcacddb0b7fbfdb30901fe5e96ef0"><div class="ttname"><a href="../../d6/d2d/a00047.html#ab01fcacddb0b7fbfdb30901fe5e96ef0">InterFlow_IKW::m_sr</a></div><div class="ttdeci">float * m_sr</div><div class="ttdoc">depression storage </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00103">InterFlow_IKW.h:103</a></div></div>
-<div class="ttc" id="a00047_html"><div class="ttname"><a href="../../d6/d2d/a00047.html">InterFlow_IKW</a></div><div class="ttdoc">Interflow routing using implicit finite difference method. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00022">InterFlow_IKW.h:22</a></div></div>
-<div class="ttc" id="a00047_html_a516f185e02a0205411851ecc664decf9"><div class="ttname"><a href="../../d6/d2d/a00047.html#a516f185e02a0205411851ecc664decf9">InterFlow_IKW::m_routingLayers</a></div><div class="ttdeci">float ** m_routingLayers</div><div class="ttdoc">Routing layers according to the flow direction. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00099">InterFlow_IKW.h:99</a></div></div>
-<div class="ttc" id="a00047_html_ae6fec78f0c5a73354e6b863fdc9e1d73"><div class="ttname"><a href="../../d6/d2d/a00047.html#ae6fec78f0c5a73354e6b863fdc9e1d73">InterFlow_IKW::m_ks</a></div><div class="ttdeci">float * m_ks</div><div class="ttdoc">conductivity (mm/h) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00075">InterFlow_IKW.h:75</a></div></div>
-<div class="ttc" id="a00106_html"><div class="ttname"><a href="../../d7/d70/a00106.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d0a/a00333_source.html#l00045">SimulationModule.h:45</a></div></div>
-<div class="ttc" id="a00047_html_a91bc4f3fe377b599f1b938c1776a74cb"><div class="ttname"><a href="../../d6/d2d/a00047.html#a91bc4f3fe377b599f1b938c1776a74cb">InterFlow_IKW::m_dt</a></div><div class="ttdeci">float m_dt</div><div class="ttdoc">time step (second) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00064">InterFlow_IKW.h:64</a></div></div>
-<div class="ttc" id="a00047_html_abdf7c332fbd53e26cfe107f16914a038"><div class="ttname"><a href="../../d6/d2d/a00047.html#abdf7c332fbd53e26cfe107f16914a038">InterFlow_IKW::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">size </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00059">InterFlow_IKW.h:59</a></div></div>
-<div class="ttc" id="a00047_html_ad8643a8181d1fadf37e97934bf828214"><div class="ttname"><a href="../../d6/d2d/a00047.html#ad8643a8181d1fadf37e97934bf828214">InterFlow_IKW::m_hReturnFlow</a></div><div class="ttdeci">float * m_hReturnFlow</div><div class="ttdoc">return flow </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00110">InterFlow_IKW.h:110</a></div></div>
-<div class="ttc" id="a00047_html_a0bdca251295b07f6261c9ed495a082e4"><div class="ttname"><a href="../../d6/d2d/a00047.html#a0bdca251295b07f6261c9ed495a082e4">InterFlow_IKW::m_flowInIndex</a></div><div class="ttdeci">float ** m_flowInIndex</div><div class="ttdoc">2d array of flow in cells </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00091">InterFlow_IKW.h:91</a></div></div>
-<div class="ttc" id="a00047_html_a5984f36d9979875b6c7a7fdb11f7bd0a"><div class="ttname"><a href="../../d6/d2d/a00047.html#a5984f36d9979875b6c7a7fdb11f7bd0a">InterFlow_IKW::m_h</a></div><div class="ttdeci">float * m_h</div><div class="ttdoc">interflow depth </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00108">InterFlow_IKW.h:108</a></div></div>
-<div class="ttc" id="a00047_html_a088ff5f85f6140b6b328c99c38e6df18"><div class="ttname"><a href="../../d6/d2d/a00047.html#a088ff5f85f6140b6b328c99c38e6df18">InterFlow_IKW::m_landuseFactor</a></div><div class="ttdeci">float m_landuseFactor</div><div class="ttdoc">scaling factor depending on land use (Ki) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00077">InterFlow_IKW.h:77</a></div></div>
-<div class="ttc" id="a00047_html_a38299b86b9910323e25428472c136f6f"><div class="ttname"><a href="../../d6/d2d/a00047.html#a38299b86b9910323e25428472c136f6f">InterFlow_IKW::m_q</a></div><div class="ttdeci">float * m_q</div><div class="ttdoc">output flow to downstream cells (output) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00106">InterFlow_IKW.h:106</a></div></div>
-<div class="ttc" id="a00047_html_ad78ae4f374cf9a78089e1efe5acdd276"><div class="ttname"><a href="../../d6/d2d/a00047.html#ad78ae4f374cf9a78089e1efe5acdd276">InterFlow_IKW::m_soilDepth</a></div><div class="ttdeci">float * m_soilDepth</div><div class="ttdoc">soil depth (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00073">InterFlow_IKW.h:73</a></div></div>
-<div class="ttc" id="a00047_html_aecc3729f02915d2b5363745f7733d9b1"><div class="ttname"><a href="../../d6/d2d/a00047.html#aecc3729f02915d2b5363745f7733d9b1">InterFlow_IKW::m_s0</a></div><div class="ttdeci">float * m_s0</div><div class="ttdoc">slope (percent) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00069">InterFlow_IKW.h:69</a></div></div>
-<div class="ttc" id="a00047_html_a8ba841bd531d52f8258ddbd34eaeeb9c"><div class="ttname"><a href="../../d6/d2d/a00047.html#a8ba841bd531d52f8258ddbd34eaeeb9c">InterFlow_IKW::m_rootDepth</a></div><div class="ttdeci">float * m_rootDepth</div><div class="ttdoc">root depth (m) /// mm? LJ </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dea/a00444_source.html#l00071">InterFlow_IKW.h:71</a></div></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="keyword">virtual</span> <span class="keywordtype">int</span> GetNextPrime(<span class="keywordtype">int</span> p)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> n = p + 1; n &lt; is_prime_size_; n++) {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <span class="keywordflow">if</span> (is_prime_[n]) <span class="keywordflow">return</span> n;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    }</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  <span class="keywordtype">void</span> CalculatePrimesUpTo(<span class="keywordtype">int</span> max) {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    ::std::fill(is_prime_, is_prime_ + is_prime_size_, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    is_prime_[0] = is_prime_[1] = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 2; i &lt;= max; i++) {</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      <span class="keywordflow">if</span> (!is_prime_[i]) <span class="keywordflow">continue</span>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      <span class="comment">// Marks all multiples of i (except i itself) as non-prime.</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;      <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 2*i; j &lt;= max; j += i) {</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        is_prime_[j] = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;      }</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    }</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  }</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  <span class="keyword">const</span> <span class="keywordtype">int</span> is_prime_size_;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  <span class="keywordtype">bool</span>* <span class="keyword">const</span> is_prime_;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="comment">// Disables compiler warning &quot;assignment operator could not be generated.&quot;</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <span class="keywordtype">void</span> operator=(<span class="keyword">const</span> PreCalculatedPrimeTable&amp; rhs);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;};</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="preprocessor">#endif  // GTEST_SAMPLES_PRIME_TABLES_H_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_b025a90df650157315ed0b6f97f5b0af.html">IKW_IF</a></li><li class="navelem"><b>InterFlow_IKW.h</b></li>
-    <li class="footer">Generated on Fri Mar 31 2017 15:16:22 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_20ca50ce979cb770beecfd08e2dc6a9c.html">build</a></li><li class="navelem"><a class="el" href="../../dir_d291fa55d68d634c394ab2de11a0506d.html">googletest-src</a></li><li class="navelem"><a class="el" href="../../dir_003e993e752d21859d372b27bc69e388.html">googletest</a></li><li class="navelem"><a class="el" href="../../dir_21c3d06384d17879d1b7efa350702144.html">samples</a></li><li class="navelem"><b>prime_tables.h</b></li>
+    <li class="footer">Generated on Fri Mar 31 2017 15:48:58 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

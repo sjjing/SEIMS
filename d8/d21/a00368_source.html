@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology/PERCO_DARCY/api.cpp Source File</title>
+<title>SEIMS: seims/build/googletest-src/googlemock/test/gmock_output_test.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,75 +112,201 @@ $(document).ready(function(){initNavTree('d8/d21/a00368_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">api.cpp</div>  </div>
+<div class="title">gmock_output_test.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Percolation.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> *</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;GetInstance() {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d2/d1f/a00083.html">Percolation_DARCY</a>();</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// function to return the XML Metadata document string</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../dd/d1f/a00648.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a>() {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="../../d3/d8b/a00059.html">MetadataInfo</a> mdi;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="comment">// set the information properties</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    mdi.SetAuthor(<span class="stringliteral">&quot;Chunping Ou&quot;</span>);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    mdi.SetClass(MCLS_PERCO, MCLSDESC_PERCO);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    mdi.SetDescription(MDESC_PERCO_DARCY);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    mdi.SetEmail(SEIMS_EMAIL);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    mdi.SetID(MID_PERCO_DARCY);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    mdi.SetName(MID_PERCO_DARCY);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    mdi.SetVersion(<span class="stringliteral">&quot;0.5&quot;</span>);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    mdi.SetWebsite(SEIMS_SITE);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    mdi.SetHelpfile(<span class="stringliteral">&quot;PERCO_DARCY.chm&quot;</span>);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    mdi.AddParameter(Tag_HillSlopeTimeStep, UNIT_SECOND, DESC_TIMESTEP, File_Input, <a class="code" href="../../dd/dbb/a00330.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    mdi.AddParameter(Tag_CellSize, UNIT_NON_DIM, DESC_CellSize, Source_ParameterDB, <a class="code" href="../../dd/dbb/a00330.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    mdi.AddParameter(Tag_CellWidth, UNIT_LEN_M, DESC_CellWidth, Source_ParameterDB, <a class="code" href="../../dd/dbb/a00330.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    mdi.AddParameter(VAR_CONDUCT, UNIT_WTRDLT_MMH, DESC_CONDUCT, Source_ParameterDB, <a class="code" href="../../dd/dbb/a00330.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    mdi.AddParameter(VAR_POROST, UNIT_STRG_M3M, DESC_POROST, Source_ParameterDB, <a class="code" href="../../dd/dbb/a00330.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    mdi.AddParameter(VAR_POREIDX, UNIT_NON_DIM, DESC_POREIDX, Source_ParameterDB, <a class="code" href="../../dd/dbb/a00330.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    mdi.AddParameter(VAR_FIELDCAP, UNIT_STRG_M3M, DESC_FIELDCAP, Source_ParameterDB, <a class="code" href="../../dd/dbb/a00330.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    mdi.AddParameter(VAR_SOILDEPTH, UNIT_DEPTH_MM, DESC_SOILDEPTH, Source_ParameterDB, <a class="code" href="../../dd/dbb/a00330.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    mdi.AddInput(VAR_SOL_ST, UNIT_DEPTH_MM, DESC_SOL_ST, Source_Module, <a class="code" href="../../dd/dbb/a00330.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">// set the output variables</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    mdi.AddOutput(VAR_PERCO, UNIT_DEPTH_MM, DESC_PERCO, <a class="code" href="../../dd/dbb/a00330.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># Copyright 2008, Google Inc.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># All rights reserved.</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"># Redistribution and use in source and binary forms, with or without</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"># modification, are permitted provided that the following conditions are</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"># met:</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">#     * Redistributions of source code must retain the above copyright</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"># notice, this list of conditions and the following disclaimer.</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">#     * Redistributions in binary form must reproduce the above</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"># copyright notice, this list of conditions and the following disclaimer</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"># in the documentation and/or other materials provided with the</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"># distribution.</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">#     * Neither the name of Google Inc. nor the names of its</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"># contributors may be used to endorse or promote products derived from</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"># this software without specific prior written permission.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"># THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment"># &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment"># LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment"># A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment"># OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"># SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment"># LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment"># DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment"># THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment"># (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment"># OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Tests the text output of Google C++ Mocking Framework.</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="stringliteral">SYNOPSIS</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">       gmock_output_test.py --build_dir=BUILD/DIR --gengolden</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="stringliteral">         # where BUILD/DIR contains the built gmock_output_test_ file.</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">       gmock_output_test.py --gengolden</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="stringliteral">       gmock_output_test.py</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment">// write out the XML file.</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">string</span> res = mdi.GetXMLDocument();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">char</span> *tmp = <span class="keyword">new</span> <span class="keywordtype">char</span>[res.size() + 1];</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    strprintf(tmp, res.size() + 1, <span class="stringliteral">&quot;%s&quot;</span>, res.c_str());</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">//mdi.AddParameter(&quot;t_soil&quot;,&quot;oC&quot;,&quot;threshold soil freezing temperature&quot;,&quot;ParameterDB_WaterBalance&quot;, DT_Single);</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">//mdi.AddInput(&quot;D_ES&quot;,&quot;mm&quot;,&quot;ES&quot;,&quot;Module&quot;,DT_Raster);                                            //from actual evapotranspiration module, the output id may not be correct.</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">//mdi.AddInput(&quot;D_SOTE&quot;,&quot;oC&quot;, &quot;Soil Temperature&quot;,&quot;Module&quot;, DT_Raster);                      //soil temperature</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">//mdi.AddParameter(&quot;Residual&quot;,&quot;m3/m3&quot;,&quot;residual moisture content&quot;,&quot;ParameterDB_WaterBalance&quot;,DT_Raster);</span></div>
-<div class="ttc" id="a00059_html"><div class="ttname"><a href="../../d3/d8b/a00059.html">MetadataInfo</a></div><div class="ttdoc">Metadata information of module. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4e/a00329_source.html#l00091">MetadataInfo.h:91</a></div></div>
-<div class="ttc" id="a00106_html"><div class="ttname"><a href="../../d7/d70/a00106.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d0a/a00333_source.html#l00045">SimulationModule.h:45</a></div></div>
-<div class="ttc" id="a00083_html"><div class="ttname"><a href="../../d2/d1f/a00083.html">Percolation_DARCY</a></div><div class="ttdoc">Calculate percolation using Darcy law. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/dfe/a00448_source.html#l00021">Percolation.h:21</a></div></div>
-<div class="ttc" id="a00648_html_ga0087c853569e2c94d58c3499365662e9"><div class="ttname"><a href="../../dd/d1f/a00648.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a></div><div class="ttdeci">SEIMS_MODULE_API const char * MetadataInformation()</div><div class="ttdoc">function to return the XML Metadata document string </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d08/a00381_source.html#l00015">api.cpp:15</a></div></div>
-<div class="ttc" id="a00330_html_gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3"><div class="ttname"><a href="../../dd/dbb/a00330.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a></div><div class="ttdoc">Raster data, same as DT_Array1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dbb/a00330_source.html#l00086">MetadataInfoConst.h:86</a></div></div>
-<div class="ttc" id="a00330_html_gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db"><div class="ttname"><a href="../../dd/dbb/a00330.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a></div><div class="ttdoc">2D raster, e.g., multi-layers of soil properties </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dbb/a00330_source.html#l00088">MetadataInfoConst.h:88</a></div></div>
-<div class="ttc" id="a00330_html_gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088"><div class="ttname"><a href="../../dd/dbb/a00330.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a></div><div class="ttdoc">Single numeric. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dbb/a00330_source.html#l00076">MetadataInfoConst.h:76</a></div></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;__author__ = <span class="stringliteral">&#39;wan@google.com (Zhanyong Wan)&#39;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">import</span> os</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">import</span> re</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">import</span> sys</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">import</span> gmock_test_utils</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"># The flag for generating the golden file</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;GENGOLDEN_FLAG = <span class="stringliteral">&#39;--gengolden&#39;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;PROGRAM_PATH = <a class="code" href="../../d7/d49/a00863.html#a5d665f984fd3a417be61a69aa8e1c6a8">gmock_test_utils.GetTestExecutablePath</a>(<span class="stringliteral">&#39;gmock_output_test_&#39;</span>)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;COMMAND = [PROGRAM_PATH, <span class="stringliteral">&#39;--gtest_stack_trace_depth=0&#39;</span>, <span class="stringliteral">&#39;--gtest_print_time=0&#39;</span>]</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;GOLDEN_NAME = <span class="stringliteral">&#39;gmock_output_test_golden.txt&#39;</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;GOLDEN_PATH = os.path.join(<a class="code" href="../../d7/d49/a00863.html#adc10edc9ab51c32c06663fdf0bf5ab14">gmock_test_utils.GetSourceDir</a>(), GOLDEN_NAME)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">def </span>ToUnixLineEnding(s):</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;Changes all Windows/Mac line endings in s to UNIX line endings.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <span class="keywordflow">return</span> s.replace(<span class="stringliteral">&#39;\r\n&#39;</span>, <span class="stringliteral">&#39;\n&#39;</span>).replace(<span class="stringliteral">&#39;\r&#39;</span>, <span class="stringliteral">&#39;\n&#39;</span>)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">def </span>RemoveReportHeaderAndFooter(output):</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;Removes Google Test result report&#39;s header and footer from the output.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  output = re.sub(<span class="stringliteral">r&#39;.*gtest_main.*\n&#39;</span>, <span class="stringliteral">&#39;&#39;</span>, output)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  output = re.sub(<span class="stringliteral">r&#39;\[.*\d+ tests.*\n&#39;</span>, <span class="stringliteral">&#39;&#39;</span>, output)</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  output = re.sub(<span class="stringliteral">r&#39;\[.* test environment .*\n&#39;</span>, <span class="stringliteral">&#39;&#39;</span>, output)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  output = re.sub(<span class="stringliteral">r&#39;\[=+\] \d+ tests .* ran.*&#39;</span>, <span class="stringliteral">&#39;&#39;</span>, output)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  output = re.sub(<span class="stringliteral">r&#39;.* FAILED TESTS\n&#39;</span>, <span class="stringliteral">&#39;&#39;</span>, output)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="keywordflow">return</span> output</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">def </span>RemoveLocations(output):</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;Removes all file location info from a Google Test program&#39;s output.</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="stringliteral">  Args:</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="stringliteral">       output:  the output of a Google Test program.</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="stringliteral">  Returns:</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="stringliteral">       output with all file location info (in the form of</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="stringliteral">       &#39;DIRECTORY/FILE_NAME:LINE_NUMBER: &#39;or</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="stringliteral">       &#39;DIRECTORY\\FILE_NAME(LINE_NUMBER): &#39;) replaced by</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="stringliteral">       &#39;FILE:#: &#39;.</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="stringliteral">  &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="keywordflow">return</span> re.sub(<span class="stringliteral">r&#39;.*[/\\](.+)(\:\d+|\(\d+\))\:&#39;</span>, <span class="stringliteral">&#39;FILE:#:&#39;</span>, output)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="keyword">def </span>NormalizeErrorMarker(output):</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;Normalizes the error marker, which is different on Windows vs on Linux.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="keywordflow">return</span> re.sub(<span class="stringliteral">r&#39; error: &#39;</span>, <span class="stringliteral">&#39; Failure\n&#39;</span>, output)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="keyword">def </span>RemoveMemoryAddresses(output):</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;Removes memory addresses from the test output.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="keywordflow">return</span> re.sub(<span class="stringliteral">r&#39;@\w+&#39;</span>, <span class="stringliteral">&#39;@0x#&#39;</span>, output)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="keyword">def </span>RemoveTestNamesOfLeakedMocks(output):</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;Removes the test names of leaked mock objects from the test output.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <span class="keywordflow">return</span> re.sub(<span class="stringliteral">r&#39;\(used in test .+\) &#39;</span>, <span class="stringliteral">&#39;&#39;</span>, output)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="keyword">def </span>GetLeakyTests(output):</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;Returns a list of test names that leak mock objects.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <span class="comment"># findall() returns a list of all matches of the regex in output.</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  <span class="comment"># For example, if &#39;(used in test FooTest.Bar)&#39; is in output, the</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  <span class="comment"># list will contain &#39;FooTest.Bar&#39;.</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  <span class="keywordflow">return</span> re.findall(<span class="stringliteral">r&#39;\(used in test (.+)\)&#39;</span>, output)</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="keyword">def </span>GetNormalizedOutputAndLeakyTests(output):</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;Normalizes the output of gmock_output_test_.</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="stringliteral">  Args:</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="stringliteral">    output: The test output.</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="stringliteral">  Returns:</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="stringliteral">    A tuple (the normalized test output, the list of test names that have</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="stringliteral">    leaked mocks).</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="stringliteral">  &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  output = ToUnixLineEnding(output)</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;  output = RemoveReportHeaderAndFooter(output)</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  output = NormalizeErrorMarker(output)</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;  output = RemoveLocations(output)</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  output = RemoveMemoryAddresses(output)</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;  <span class="keywordflow">return</span> (RemoveTestNamesOfLeakedMocks(output), GetLeakyTests(output))</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="keyword">def </span>GetShellCommandOutput(cmd):</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;Runs a command in a sub-process, and returns its STDOUT in a string.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;  <span class="keywordflow">return</span> <a class="code" href="../../d7/d49/a00863.html#a31a0e33565ec805d314cb0a4eb8317e6">gmock_test_utils.Subprocess</a>(cmd, capture_stderr=<span class="keyword">False</span>).output</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="keyword">def </span>GetNormalizedCommandOutputAndLeakyTests(cmd):</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  <span class="stringliteral">&quot;&quot;&quot;Runs a command and returns its normalized output and a list of leaky tests.</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="stringliteral">  Args:</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="stringliteral">    cmd:  the shell command.</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="stringliteral">  &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;  <span class="comment"># Disables exception pop-ups on Windows.</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  os.environ[<span class="stringliteral">&#39;GTEST_CATCH_EXCEPTIONS&#39;</span>] = <span class="stringliteral">&#39;1&#39;</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <span class="keywordflow">return</span> GetNormalizedOutputAndLeakyTests(GetShellCommandOutput(cmd))</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="keyword">class </span>GMockOutputTest(<a class="code" href="../../d7/d49/a00863.html#a959c5af591e4d49b6d35745205b64509">gmock_test_utils.TestCase</a>):</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  <span class="keyword">def </span>testOutput(self):</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    (output, leaky_tests) = GetNormalizedCommandOutputAndLeakyTests(COMMAND)</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    golden_file = open(GOLDEN_PATH, <span class="stringliteral">&#39;rb&#39;</span>)</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    golden = golden_file.read()</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    golden_file.close()</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="comment"># The normalized output should match the golden file.</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    self.assertEquals(golden, output)</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="comment"># The raw output should contain 2 leaked mock object errors for</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="comment"># test GMockOutputTest.CatchesLeakedMocks.</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    self.assertEquals([<span class="stringliteral">&#39;GMockOutputTest.CatchesLeakedMocks&#39;</span>,</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                       <span class="stringliteral">&#39;GMockOutputTest.CatchesLeakedMocks&#39;</span>],</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                      leaky_tests)</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  <span class="keywordflow">if</span> sys.argv[1:] == [GENGOLDEN_FLAG]:</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    (output, _) = GetNormalizedCommandOutputAndLeakyTests(COMMAND)</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    golden_file = open(GOLDEN_PATH, <span class="stringliteral">&#39;wb&#39;</span>)</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    golden_file.write(output)</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    golden_file.close()</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <a class="code" href="../../d7/d49/a00863.html#a9b2cf95bf6894ed862c17a1bba821c88">gmock_test_utils.Main</a>()</div>
+<div class="ttc" id="a00863_html_adc10edc9ab51c32c06663fdf0bf5ab14"><div class="ttname"><a href="../../d7/d49/a00863.html#adc10edc9ab51c32c06663fdf0bf5ab14">gmock_test_utils.GetSourceDir</a></div><div class="ttdeci">def GetSourceDir</div><div class="ttdef"><b>Definition:</b> <a href="../../df/dee/a00369_source.html#l00054">gmock_test_utils.py:54</a></div></div>
+<div class="ttc" id="a00863_html_a5d665f984fd3a417be61a69aa8e1c6a8"><div class="ttname"><a href="../../d7/d49/a00863.html#a5d665f984fd3a417be61a69aa8e1c6a8">gmock_test_utils.GetTestExecutablePath</a></div><div class="ttdeci">def GetTestExecutablePath</div><div class="ttdef"><b>Definition:</b> <a href="../../df/dee/a00369_source.html#l00060">gmock_test_utils.py:60</a></div></div>
+<div class="ttc" id="a00863_html_a31a0e33565ec805d314cb0a4eb8317e6"><div class="ttname"><a href="../../d7/d49/a00863.html#a31a0e33565ec805d314cb0a4eb8317e6">gmock_test_utils.Subprocess</a></div><div class="ttdeci">Subprocess</div><div class="ttdef"><b>Definition:</b> <a href="../../df/dee/a00369_source.html#l00100">gmock_test_utils.py:100</a></div></div>
+<div class="ttc" id="a00863_html_a959c5af591e4d49b6d35745205b64509"><div class="ttname"><a href="../../d7/d49/a00863.html#a959c5af591e4d49b6d35745205b64509">gmock_test_utils.TestCase</a></div><div class="ttdeci">TestCase</div><div class="ttdef"><b>Definition:</b> <a href="../../df/dee/a00369_source.html#l00101">gmock_test_utils.py:101</a></div></div>
+<div class="ttc" id="a00863_html_a9b2cf95bf6894ed862c17a1bba821c88"><div class="ttname"><a href="../../d7/d49/a00863.html#a9b2cf95bf6894ed862c17a1bba821c88">gmock_test_utils.Main</a></div><div class="ttdeci">def Main</div><div class="ttdef"><b>Definition:</b> <a href="../../df/dee/a00369_source.html#l00109">gmock_test_utils.py:109</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_849e41db369126c0c34bd1c491f3dbc9.html">PERCO_DARCY</a></li><li class="navelem"><b>api.cpp</b></li>
-    <li class="footer">Generated on Fri Mar 31 2017 15:16:21 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_20ca50ce979cb770beecfd08e2dc6a9c.html">build</a></li><li class="navelem"><a class="el" href="../../dir_d291fa55d68d634c394ab2de11a0506d.html">googletest-src</a></li><li class="navelem"><a class="el" href="../../dir_5b3bf8c0844aee0ec32ccbde0615e666.html">googlemock</a></li><li class="navelem"><a class="el" href="../../dir_9a83306d6167f59127428709fe7d58a6.html">test</a></li><li class="navelem"><b>gmock_output_test.py</b></li>
+    <li class="footer">Generated on Fri Mar 31 2017 15:48:56 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
