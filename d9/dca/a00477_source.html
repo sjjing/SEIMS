@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/postprocess/config.py Source File</title>
+<title>SEIMS: seims/pygeoc/pygeoc/hydro/hydro.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,78 +112,66 @@ $(document).ready(function(){initNavTree('d9/dca/a00477_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">config.py</div>  </div>
+<div class="title">hydro.py</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># coding=utf-8</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># @Configuration of Postprocess for SEIMS</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> ConfigParser</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">from</span> RelativeImportModules <span class="keyword">import</span> import_parents</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"># import util module located in SEIMS/preprocess</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordflow">if</span> __package__ <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    __package__ = import_parents(level = 2)</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> ..preprocess.util <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> ..preprocess.text <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"># Load model configuration from *.ini file</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;cf = ConfigParser.ConfigParser()</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;cf.read(GetINIfile())</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"># 1. Directories</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;MODEL_DIR = <span class="keywordtype">None</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keywordflow">if</span> <span class="stringliteral">&#39;PATH&#39;</span> <span class="keywordflow">in</span> cf.sections():</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    MODEL_DIR = cf.get(<span class="stringliteral">&#39;PATH&#39;</span>, <span class="stringliteral">&#39;MODEL_DIR&#39;</span>.lower())</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;[PATH] section MUST be existed in *.ini file.&quot;</span>)</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> isPathExists(MODEL_DIR):</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">raise</span> IOError(<span class="stringliteral">&quot;Please Check Directories defined in [PATH]&quot;</span>)</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment"># 2. MongoDB</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordflow">if</span> <span class="stringliteral">&#39;MONGODB&#39;</span> <span class="keywordflow">in</span> cf.sections():</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    HOSTNAME = cf.get(<span class="stringliteral">&#39;MONGODB&#39;</span>, <span class="stringliteral">&#39;HOSTNAME&#39;</span>.lower())</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    PORT = cf.getint(<span class="stringliteral">&#39;MONGODB&#39;</span>, <span class="stringliteral">&#39;PORT&#39;</span>.lower())</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    ClimateDBName = cf.get(<span class="stringliteral">&#39;MONGODB&#39;</span>, <span class="stringliteral">&#39;ClimateDBName&#39;</span>.lower())</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    SpatialDBName = cf.get(<span class="stringliteral">&#39;MONGODB&#39;</span>, <span class="stringliteral">&#39;SpatialDBName&#39;</span>.lower())</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;[MONGODB] section MUST be existed in *.ini file.&quot;</span>)</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> isIPValid(HOSTNAME):</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;HOSTNAME illegal defined in [MONGODB]!&quot;</span>)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment"># 3. Parameters</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;PLOT_SUBBASINID = -1</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;PLOTVAR_STRING = <span class="stringliteral">&#39;&#39;</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;PLOT_VARS = []</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordflow">if</span> <span class="stringliteral">&#39;PARAMETERS&#39;</span> <span class="keywordflow">in</span> cf.sections():</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    PLOT_SUBBASINID = cf.getint(<span class="stringliteral">&#39;PARAMETERS&#39;</span>, <span class="stringliteral">&#39;PLOT_SUBBASINID&#39;</span>.lower())</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    PLOTVAR_STRING = cf.get(<span class="stringliteral">&#39;PARAMETERS&#39;</span>, <span class="stringliteral">&#39;PLOT_VARIABLES&#39;</span>.lower())</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;[PARAMETERS] section MUST be existed in *.ini file.&quot;</span>)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordflow">if</span> PLOT_SUBBASINID &lt; 0:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;PLOT_SUBBASINID must be greater or equal than 0.&quot;</span>)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keywordflow">if</span> PLOTVAR_STRING != <span class="stringliteral">&#39;&#39;</span>:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    PLOT_VARS = SplitStr(StripStr(PLOTVAR_STRING))</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;PLOT_VARIABLES illegal defined in [PARAMETERS]!&quot;</span>)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment"># 4. Optional_Parameters</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keywordflow">if</span> <span class="stringliteral">&#39;OPTIONAL_PARAMETERS&#39;</span> <span class="keywordflow">in</span> cf.sections():</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    TIME_Start = cf.get(<span class="stringliteral">&#39;OPTIONAL_PARAMETERS&#39;</span>, <span class="stringliteral">&#39;Time_start&#39;</span>.lower())</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    TIME_End = cf.get(<span class="stringliteral">&#39;OPTIONAL_PARAMETERS&#39;</span>, <span class="stringliteral">&#39;Time_end&#39;</span>.lower())</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;[OPTIONAL_PARAMETERS] section MUST be existed in *.ini file.&quot;</span>)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;TIME_StartArray = datetime.datetime.strptime(TIME_Start, <span class="stringliteral">&quot;%Y-%m-%d&quot;</span>)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;TIME_EndArray = datetime.datetime.strptime(TIME_End, <span class="stringliteral">&quot;%Y-%m-%d&quot;</span>)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keywordflow">if</span> TIME_StartArray &gt; TIME_EndArray:</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Wrong time setted in [OPTIONAL_PARAMETERS]!&quot;</span>)</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">## @package hydro</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">#  Hydrology relation functions</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> math</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">from</span> ..utils.utils <span class="keyword">import</span> StringClass</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;SQ2 = math.sqrt(2.)</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="../../d5/d4e/a00141.html">   13</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d5/d4e/a00141.html">FlowDirectionCode</a>(object):</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Definition of flow direction code and shift coordinate.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno"><a class="line" href="../../d5/d4e/a00141.html#aae78c3e8ee03a3e696f05b310328c8dd">   16</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d5/d4e/a00141.html#aae78c3e8ee03a3e696f05b310328c8dd">__init__</a>(self, flow_model):</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="stringliteral">        Initialization.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="stringliteral">        :param flow_model(string): Currently, &quot;TauDEM&quot; and &quot;ArcGIS&quot; are supported.</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        self.<a class="code" href="../../d5/d4e/a00141.html#ac499742c737cda6a19ac9cc7961851ea">cell_length</a> = {}</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        self.<a class="code" href="../../d5/d4e/a00141.html#a545a40d49641682eb3daac19651d1e99">cell_shift</a> = {}</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordflow">if</span> StringClass.stringmatch(flow_model, <span class="stringliteral">&quot;TauDEM&quot;</span>):</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            <span class="comment"># The value of direction is as following (TauDEM):</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;            <span class="comment"># 4  3  2</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            <span class="comment"># 5     1</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="comment"># 6  7  8</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <span class="comment"># TauDEM flow direction code</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            self.<a class="code" href="../../d5/d4e/a00141.html#ac499742c737cda6a19ac9cc7961851ea">cell_length</a> = {1: 1, 3: 1, 5: 1, 7: 1, 2: SQ2, 4: SQ2, 6: SQ2, 8: SQ2}</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            self.<a class="code" href="../../d5/d4e/a00141.html#a545a40d49641682eb3daac19651d1e99">cell_shift</a> = {1: [0, 1], 2: [-1, 1], 3: [-1, 0], 4: [-1, -1],</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                               5: [0, -1], 6: [1, -1], 7: [1, 0], 8: [1, 1]}</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordflow">elif</span> StringClass.stringmatch(flow_model, <span class="stringliteral">&quot;ArcGIS&quot;</span>):</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="comment"># The value of direction is as following (ArcGIS):</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            <span class="comment"># 32 64 128</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="comment"># 64     1</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="comment"># 8   4  2</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <span class="comment"># ArcGIS flow direction code</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            self.<a class="code" href="../../d5/d4e/a00141.html#ac499742c737cda6a19ac9cc7961851ea">cell_length</a> = {1: 1, 4: 1, 16: 1, 64: 1, 2: SQ2, 8: SQ2, 32: SQ2, 128: SQ2}</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            self.<a class="code" href="../../d5/d4e/a00141.html#a545a40d49641682eb3daac19651d1e99">cell_shift</a> = {1 : [0, 1], 2: [1, 1], 4: [1, 0], 8: [1, -1],</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                               16: [0, -1], 32: [-1, -1], 64: [-1, 0], 128: [-1, 1]}</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">def </span>get_cell_length(self):</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">return</span> self.<a class="code" href="../../d5/d4e/a00141.html#ac499742c737cda6a19ac9cc7961851ea">cell_length</a></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">def </span>get_cell_shift(self):</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">return</span> self.<a class="code" href="../../d5/d4e/a00141.html#a545a40d49641682eb3daac19651d1e99">cell_shift</a></div>
+<div class="ttc" id="a00141_html_ac499742c737cda6a19ac9cc7961851ea"><div class="ttname"><a href="../../d5/d4e/a00141.html#ac499742c737cda6a19ac9cc7961851ea">pygeoc.hydro.hydro.FlowDirectionCode.cell_length</a></div><div class="ttdeci">cell_length</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dca/a00477_source.html#l00021">hydro.py:21</a></div></div>
+<div class="ttc" id="a00141_html_a545a40d49641682eb3daac19651d1e99"><div class="ttname"><a href="../../d5/d4e/a00141.html#a545a40d49641682eb3daac19651d1e99">pygeoc.hydro.hydro.FlowDirectionCode.cell_shift</a></div><div class="ttdeci">cell_shift</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dca/a00477_source.html#l00022">hydro.py:22</a></div></div>
+<div class="ttc" id="a00141_html"><div class="ttname"><a href="../../d5/d4e/a00141.html">pygeoc.hydro.hydro.FlowDirectionCode</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dca/a00477_source.html#l00013">hydro.py:13</a></div></div>
+<div class="ttc" id="a00141_html_aae78c3e8ee03a3e696f05b310328c8dd"><div class="ttname"><a href="../../d5/d4e/a00141.html#aae78c3e8ee03a3e696f05b310328c8dd">pygeoc.hydro.hydro.FlowDirectionCode.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dca/a00477_source.html#l00016">hydro.py:16</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_61da0db7be14312bde940296c0e3c020.html">postprocess</a></li><li class="navelem"><b>config.py</b></li>
-    <li class="footer">Generated on Fri Mar 31 2017 23:03:54 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_d8b73b43b5bed3f628cfe27c845cae28.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_40ac51da4d01f07ce353fa50d7389af2.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_3bc3c8455419c771b2ca0421583485cb.html">hydro</a></li><li class="navelem"><b>hydro.py</b></li>
+    <li class="footer">Generated on Sat Apr 1 2017 10:30:52 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

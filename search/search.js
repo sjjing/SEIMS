@@ -13,8 +13,8 @@ var indexSectionsWithContent =
   3: "dims",
   4: "_abcdefghiklmnoprstuvw~",
   5: "abcdefghilmnoprstuvwx",
-  6: "admr",
-  7: "dm",
+  6: "ad",
+  7: "d",
   8: "abcdeghikmnpstu",
   9: "acdfikpsvx"
 };

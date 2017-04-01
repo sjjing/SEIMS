@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/pygeoc/pygeoc/hydro/text.py Source File</title>
+<title>SEIMS: seims/src/commonlibs/UtilsClass/ModelException.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,22 +112,52 @@ $(document).ready(function(){initNavTree('da/def/a00513_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">text.py</div>  </div>
+<div class="title">ModelException.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># Field name of stream shapefile of TauDEM</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;FLD_LINKNO = <span class="stringliteral">&quot;LINKNO&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;FLD_DSLINKNO = <span class="stringliteral">&quot;DSLINKNO&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;REACH_WIDTH = <span class="stringliteral">&quot;WIDTH&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;REACH_LENGTH = <span class="stringliteral">&quot;LENGTH&quot;</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;REACH_DEPTH = <span class="stringliteral">&quot;DEPTH&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef MODEL_EXCEPTION</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define MODEL_EXCEPTION</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &lt;exception&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="../../d0/d81/a00180.html">   20</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d0/d81/a00180.html">ModelException</a> :</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">public</span> exception {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="../../d0/d81/a00180.html">ModelException</a>(<span class="keywordtype">string</span>, <span class="keywordtype">string</span>, <span class="keywordtype">string</span>);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    ~<a class="code" href="../../d0/d81/a00180.html">ModelException</a>(<span class="keywordtype">void</span>) <span class="keywordflow">throw</span>();</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">string</span> toString();</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../d0/d81/a00180.html#ad628c8e55ba32a0a106b66174ebdc725">   42</a></span>&#160;    <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../d0/d81/a00180.html#ad628c8e55ba32a0a106b66174ebdc725">what</a>() <span class="keyword">const</span> throw() {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordtype">string</span> descri = <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        descri = <span class="stringliteral">&quot;Class:&quot;</span> + m_className + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        descri += <span class="stringliteral">&quot;Function:&quot;</span> + m_functionName + <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        descri += <span class="stringliteral">&quot;Message:&quot;</span> + m_msg;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">return</span> descri.c_str();</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">string</span> m_className;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">string</span> m_functionName;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">string</span> m_msg;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;};</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* MODEL_EXCEPTION */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="a00180_html_ad628c8e55ba32a0a106b66174ebdc725"><div class="ttname"><a href="../../d0/d81/a00180.html#ad628c8e55ba32a0a106b66174ebdc725">ModelException::what</a></div><div class="ttdeci">const char * what() const </div><div class="ttdoc">Construct error information (char* version) </div><div class="ttdef"><b>Definition:</b> <a href="../../da/def/a00513_source.html#l00042">ModelException.h:42</a></div></div>
+<div class="ttc" id="a00180_html"><div class="ttname"><a href="../../d0/d81/a00180.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/def/a00513_source.html#l00020">ModelException.h:20</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_d8b73b43b5bed3f628cfe27c845cae28.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_40ac51da4d01f07ce353fa50d7389af2.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_3bc3c8455419c771b2ca0421583485cb.html">hydro</a></li><li class="navelem"><b>text.py</b></li>
-    <li class="footer">Generated on Fri Mar 31 2017 23:03:54 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_56b1596c4d72ede71823cdba70d715a1.html">commonlibs</a></li><li class="navelem"><a class="el" href="../../dir_aac0e29c14a456ffe7dc6a7d8b055d76.html">UtilsClass</a></li><li class="navelem"><b>ModelException.h</b></li>
+    <li class="footer">Generated on Sat Apr 1 2017 10:30:52 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

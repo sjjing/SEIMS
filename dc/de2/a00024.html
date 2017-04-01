@@ -152,7 +152,7 @@ $(document).ready(function(){initNavTree('dc/de2/a00024.html','../../');});
 <li>a <em>testing</em> tool to cut your tests' outbound dependencies and probe the interaction between your module and its collaborators.</li>
 </ul>
 <h1>Getting Started</h1>
-<p>Using Google Mock is easy! Inside your C++ source file, just <code>#include</code> <code>&lt;gtest/gtest.h&gt;</code> and <code>&lt;gmock/gmock.h&gt;</code>, and you are ready to go.</p>
+<p>Using Google Mock is easy! Inside your C++ source file, just <code>#include</code> <code>&lt;<a class="el" href="../../db/db9/a00387_source.html">gtest/gtest.h</a>&gt;</code> and <code>&lt;<a class="el" href="../../d8/df7/a00331_source.html">gmock/gmock.h</a>&gt;</code>, and you are ready to go.</p>
 <h1>A Case for Mock Turtles</h1>
 <p>Let's look at an example. Suppose you are developing a graphics program that relies on a LOGO-like API for drawing. How would you test that it does the right thing? Well, you can run it and compare the screen with a golden screen snapshot, but let's admit it: tests like this are expensive to run and fragile (What if you just upgraded to a shiny new graphics card that has better anti-aliasing? Suddenly you have to update all your golden images.). It would be too painful if all your tests are like this. Fortunately, you learned about Dependency Injection and know the right thing to do: instead of having your application talk to the drawing API directly, wrap the API in an interface (say, <code>Turtle</code>) and code to that interface:</p>
 <p>``` class Turtle { ... virtual ~Turtle() {} virtual void PenUp() = 0; virtual void PenDown() = 0; virtual void Forward(int distance) = 0; virtual void Turn(int degrees) = 0; virtual void GoTo(int x, int y) = 0; virtual int GetX() const = 0; virtual int GetY() const = 0; }; ```</p>
@@ -179,9 +179,9 @@ $(document).ready(function(){initNavTree('dc/de2/a00024.html','../../');});
 <li>Repeat until all virtual functions you want to mock are done.</li>
 </ol>
 <p>After the process, you should have something like:</p>
-<p>``` #include &lt;gmock/gmock.h&gt; // Brings in Google Mock. class MockTurtle : public Turtle { public: ... MOCK_METHOD0(PenUp, void()); MOCK_METHOD0(PenDown, void()); MOCK_METHOD1(Forward, void(int distance)); MOCK_METHOD1(Turn, void(int degrees)); MOCK_METHOD2(GoTo, void(int x, int y)); MOCK_CONST_METHOD0(GetX, int()); MOCK_CONST_METHOD0(GetY, int()); }; ```</p>
+<p>``` #include &lt;<a class="el" href="../../d8/df7/a00331_source.html">gmock/gmock.h</a>&gt; // Brings in Google Mock. class MockTurtle : public Turtle { public: ... MOCK_METHOD0(PenUp, void()); MOCK_METHOD0(PenDown, void()); MOCK_METHOD1(Forward, void(int distance)); MOCK_METHOD1(Turn, void(int degrees)); MOCK_METHOD2(GoTo, void(int x, int y)); MOCK_CONST_METHOD0(GetX, int()); MOCK_CONST_METHOD0(GetY, int()); }; ```</p>
 <p>You don't need to define these mock methods somewhere else - the <code>MOCK_METHOD*</code> macros will generate the definitions for you. It's that simple! Once you get the hang of it, you can pump out mock classes faster than your source-control system can handle your check-ins.</p>
-<p><b>Tip:</b> If even this is too much work for you, you'll find the <code><a class="el" href="../../d7/ddb/a00361_source.html">gmock_gen.py</a></code> tool in Google Mock's <code>scripts/generator/</code> directory (courtesy of the <a href="http://code.google.com/p/cppclean/">cppclean</a> project) useful. This command-line tool requires that you have Python 2.4 installed. You give it a C++ file and the name of an abstract class defined in it, and it will print the definition of the mock class for you. Due to the complexity of the C++ language, this script may not always work, but it can be quite handy when it does. For more details, read the <a href="http://code.google.com/p/googlemock/source/browse/trunk/scripts/generator/README">user documentation</a>.</p>
+<p><b>Tip:</b> If even this is too much work for you, you'll find the <code><a class="el" href="../../d8/d8e/a00344_source.html">gmock_gen.py</a></code> tool in Google Mock's <code>scripts/generator/</code> directory (courtesy of the <a href="http://code.google.com/p/cppclean/">cppclean</a> project) useful. This command-line tool requires that you have Python 2.4 installed. You give it a C++ file and the name of an abstract class defined in it, and it will print the definition of the mock class for you. Due to the complexity of the C++ language, this script may not always work, but it can be quite handy when it does. For more details, read the <a href="http://code.google.com/p/googlemock/source/browse/trunk/scripts/generator/README">user documentation</a>.</p>
 <h2>Where to Put It</h2>
 <p>When you define a mock class, you need to decide where to put its definition. Some people put it in a <code>*_test.cc</code>. This is fine when the interface being mocked (say, <code>Foo</code>) is owned by the same person or team. Otherwise, when the owner of <code>Foo</code> changes it, your test could break. (You can't really expect <code>Foo</code>'s maintainer to fix every test that uses <code>Foo</code>, can you?)</p>
 <p>So, the rule of thumb is: if you need to mock <code>Foo</code> and it's owned by others, define the mock class in <code>Foo</code>'s package (better, in a <code>testing</code> sub-package such that you can clearly separate production code and testing utilities), and put it in a <code>mock_foo.h</code>. Then everyone can reference <code>mock_foo.h</code> from their tests. If <code>Foo</code> ever changes, there is only one copy of <code>MockFoo</code> to change, and only tests that depend on the changed methods need to be fixed.</p>
@@ -204,7 +204,7 @@ $(document).ready(function(){initNavTree('dc/de2/a00024.html','../../');});
 <li>When a mock is destructed, Google Mock will automatically check whether all expectations on it have been satisfied.</li>
 </ol>
 <p>Here's an example:</p>
-<p>``` #include "path/to/mock-turtle.h" #include &lt;gmock/gmock.h&gt; #include &lt;gtest/gtest.h&gt; using ::testing::AtLeast; // #1</p>
+<p>``` #include "path/to/mock-turtle.h" #include &lt;<a class="el" href="../../d8/df7/a00331_source.html">gmock/gmock.h</a>&gt; #include &lt;<a class="el" href="../../db/db9/a00387_source.html">gtest/gtest.h</a>&gt; using ::testing::AtLeast; // #1</p>
 <p>TEST(PainterTest, CanDrawSomething) { MockTurtle turtle; // #2 EXPECT_CALL(turtle, PenDown()) // #3 .Times(AtLeast(1));</p>
 <p>Painter painter(&amp;turtle); // #4</p>
 <p>EXPECT_TRUE(painter.DrawCircle(0, 0, 10)); } // #5</p>
@@ -308,7 +308,7 @@ $(document).ready(function(){initNavTree('dc/de2/a00024.html','../../');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 31 2017 23:03:56 for SEIMS by
+    <li class="footer">Generated on Sat Apr 1 2017 10:30:54 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

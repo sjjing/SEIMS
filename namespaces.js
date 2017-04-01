@@ -1,8 +1,8 @@
 var namespaces =
 [
-    [ "hydro", "d2/da1/a00879.html", null ],
-    [ "MainBMP", "d1/d8f/a00880.html", "d1/d8f/a00880" ],
-    [ "pygeoc", "db/d18/a00885.html", null ],
-    [ "seims", "d9/db0/a00900.html", "d9/db0/a00900" ],
-    [ "setup", "d1/db0/a00945.html", null ]
+    [ "hydro", "d1/de6/a00837.html", null ],
+    [ "MainBMP", "d2/dc7/a00838.html", "d2/dc7/a00838" ],
+    [ "pygeoc", "dc/d22/a00843.html", null ],
+    [ "seims", "d0/d66/a00858.html", "d0/d66/a00858" ],
+    [ "setup", "d4/d1c/a00903.html", null ]
 ];

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/data/ClimateParams.h Source File</title>
+<title>SEIMS: seims/src/seims_main/base/util/SimulationModule.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,39 +112,25 @@ $(document).ready(function(){initNavTree('d5/d0a/a00602_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">ClimateParams.h</div>  </div>
+<div class="title">SimulationModule.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keywordtype">int</span> GetYear(time_t &amp;);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keywordtype">int</span> GetMonth(time_t &amp;);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordtype">int</span> GetDay(time_t &amp;);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">int</span> JulianDay(time_t &amp;);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordtype">float</span> LatentHeatVapor(<span class="keywordtype">float</span> &amp;tmean);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keywordtype">void</span> MaxSolarRadiation(<span class="keywordtype">int</span> &amp;jDay, <span class="keywordtype">float</span> &amp;lat, <span class="keywordtype">float</span> &amp;dayL, <span class="keywordtype">float</span> &amp;maxSR);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="keywordtype">float</span> MeanBarometricPressure(<span class="keywordtype">float</span> &amp;elev);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keywordtype">float</span> PsychrometricConst(<span class="keywordtype">float</span> &amp;tmean, <span class="keywordtype">float</span> &amp;elev);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keywordtype">float</span> SaturationVaporPressure(<span class="keywordtype">float</span> &amp;t);</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="../../dc/d98/a00225.html#aa9934866122995dc98611de6515f47c5">    3</a></span>&#160;<a class="code" href="../../dc/d98/a00225.html#aa9934866122995dc98611de6515f47c5">SimulationModule::SimulationModule</a>(<span class="keywordtype">void</span>) : m_date(-1), m_tsCounter(1), m_inputsSetDone(false) {</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;}</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../dc/d98/a00225.html#a75fc67bcf8bc5a1dc0eb467af5a9861c">    6</a></span>&#160;<a class="code" href="../../dc/d98/a00225.html#a75fc67bcf8bc5a1dc0eb467af5a9861c">SimulationModule::~SimulationModule</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;}</div>
+<div class="ttc" id="a00225_html_a75fc67bcf8bc5a1dc0eb467af5a9861c"><div class="ttname"><a href="../../dc/d98/a00225.html#a75fc67bcf8bc5a1dc0eb467af5a9861c">SimulationModule::~SimulationModule</a></div><div class="ttdeci">virtual ~SimulationModule(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0a/a00602_source.html#l00006">SimulationModule.cpp:6</a></div></div>
+<div class="ttc" id="a00225_html_aa9934866122995dc98611de6515f47c5"><div class="ttname"><a href="../../dc/d98/a00225.html#aa9934866122995dc98611de6515f47c5">SimulationModule::SimulationModule</a></div><div class="ttdeci">SimulationModule(void)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d0a/a00602_source.html#l00003">SimulationModule.cpp:3</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_24d0af58b2644ad205aa9a0d9adbb65a.html">data</a></li><li class="navelem"><b>ClimateParams.h</b></li>
-    <li class="footer">Generated on Fri Mar 31 2017 23:03:55 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_16f99eef7c51cef769cb6e51b0647be9.html">util</a></li><li class="navelem"><b>SimulationModule.cpp</b></li>
+    <li class="footer">Generated on Sat Apr 1 2017 10:30:52 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

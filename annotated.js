@@ -43,18 +43,18 @@ var annotated =
     [ "gtest_xml_test_utils", null, [
       [ "GTestXMLTestCase", "dd/db2/a00151.html", "dd/db2/a00151" ]
     ] ],
-    [ "hydro", "d2/da1/a00879.html", null ],
-    [ "MainBMP", "d1/d8f/a00880.html", "d1/d8f/a00880" ],
+    [ "hydro", "d1/de6/a00837.html", null ],
+    [ "MainBMP", "d2/dc7/a00838.html", "d2/dc7/a00838" ],
     [ "pump", null, [
       [ "Cursor", "d5/deb/a00132.html", "d5/deb/a00132" ],
       [ "Token", "d0/da7/a00250.html", "d0/da7/a00250" ]
     ] ],
-    [ "pygeoc", "db/d18/a00885.html", "db/d18/a00885" ],
+    [ "pygeoc", "dc/d22/a00843.html", "dc/d22/a00843" ],
     [ "release_docs", null, [
       [ "WikiBrancher", "d9/d8d/a00262.html", "d9/d8d/a00262" ]
     ] ],
-    [ "seims", "d9/db0/a00900.html", "d9/db0/a00900" ],
-    [ "setup", "d1/db0/a00945.html", null ],
+    [ "seims", "d0/d66/a00858.html", "d0/d66/a00858" ],
+    [ "setup", "d4/d1c/a00903.html", null ],
     [ "upload", null, [
       [ "ClientLoginError", "df/d6a/a00119.html", null ],
       [ "AbstractRpcServer", "d3/d32/a00105.html", "d3/d32/a00105" ],

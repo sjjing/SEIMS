@@ -336,7 +336,7 @@ to interfaces": instead of talking to the <code>Concrete</code> class, your code
 <p>Since matchers are basically predicates that also know how to describe themselves, there is a way to take advantage of them in <a href="http://code.google.com/p/googletest/">Google Test</a> assertions. It's called <code>ASSERT_THAT</code> and <code>EXPECT_THAT</code>:</p>
 <p>``` ASSERT_THAT(value, matcher); // Asserts that value matches matcher. EXPECT_THAT(value, matcher); // The non-fatal version. ```</p>
 <p>For example, in a Google Test test you can write:</p>
-<p>``` #include &lt;gmock/gmock.h&gt;</p>
+<p>``` #include &lt;<a class="el" href="../../d8/df7/a00331_source.html">gmock/gmock.h</a>&gt;</p>
 <p>using ::testing::AllOf; using ::testing::Ge; using ::testing::Le; using ::testing::MatchesRegex; using ::testing::StartsWith; ...</p>
 <p>EXPECT_THAT(Foo(), StartsWith("Hello")); EXPECT_THAT(Bar(), MatchesRegex("Line \\d+")); ASSERT_THAT(Baz(), AllOf(Ge(5), Le(10))); ```</p>
 <p>which (as you can probably guess) executes <code>Foo()</code>, <code>Bar()</code>, and <code>Baz()</code>, and verifies that:</p>
@@ -649,7 +649,7 @@ too large."</code>. If the second warning contains this message too, #2 will mat
 <p>// Expects *foo to die after bar-&gt;A() and before bar-&gt;B(). EXPECT_CALL(*bar, A()); EXPECT_CALL(*foo, Die()); EXPECT_CALL(*bar, B()); } ```</p>
 <p>And that's that.</p>
 <h2>Using Google Mock and Threads</h2>
-<p><b>IMPORTANT NOTE:</b> What we describe in this recipe is <b>NOT</b> true yet, as Google Mock is not currently thread-safe. However, all we need to make it thread-safe is to implement some synchronization operations in <code>&lt;gtest/internal/gtest-port.h&gt;</code> - and then the information below will become true.</p>
+<p><b>IMPORTANT NOTE:</b> What we describe in this recipe is <b>NOT</b> true yet, as Google Mock is not currently thread-safe. However, all we need to make it thread-safe is to implement some synchronization operations in <code>&lt;<a class="el" href="../../d4/d27/a00392_source.html">gtest/internal/gtest-port.h</a>&gt;</code> - and then the information below will become true.</p>
 <p>In a <b>unit</b> test, it's best if you could isolate and test a piece of code in a single-threaded context. That avoids race conditions and dead locks, and makes debugging your test much easier.</p>
 <p>Yet many programs are multi-threaded, and sometimes to test something we need to pound on it from more than one thread. Google Mock works for this purpose too.</p>
 <p>Remember the steps for using a mock:</p>
@@ -699,8 +699,8 @@ too large."</code>. If the second warning contains this message too, #2 will mat
 <p>``` (global-set-key "\M-m" 'compile) ; m is for make (global-set-key [M-down] 'next-error) (global-set-key [M-up] '(lambda () (interactive) (next-error -1))) ```</p>
 <p>Then you can type <code>M-m</code> to start a build, or <code>M-up</code>/<code>M-down</code> to move back and forth between errors.</p>
 <h2>Fusing Google Mock Source Files</h2>
-<p>Google Mock's implementation consists of dozens of files (excluding its own tests). Sometimes you may want them to be packaged up in fewer files instead, such that you can easily copy them to a new machine and start hacking there. For this we provide an experimental Python script <code><a class="el" href="../../db/ddc/a00353_source.html">fuse_gmock_files.py</a></code> in the <code>scripts/</code> directory (starting with release 1.2.0). Assuming you have Python 2.4 or above installed on your machine, just go to that directory and run ``` python <a class="el" href="../../db/ddc/a00353_source.html">fuse_gmock_files.py</a> OUTPUT_DIR ```</p>
-<p>and you should see an <code>OUTPUT_DIR</code> directory being created with files <code>gtest/gtest.h</code>, <code>gmock/gmock.h</code>, and <code>gmock-gtest-all.cc</code> in it. These three files contain everything you need to use Google Mock (and Google Test). Just copy them to anywhere you want and you are ready to write tests and use mocks. You can use the <a href="http://code.google.com/p/googlemock/source/browse/trunk/scripts/test/Makefile">scrpts/test/Makefile</a> file as an example on how to compile your tests against them.</p>
+<p>Google Mock's implementation consists of dozens of files (excluding its own tests). Sometimes you may want them to be packaged up in fewer files instead, such that you can easily copy them to a new machine and start hacking there. For this we provide an experimental Python script <code><a class="el" href="../../dd/d1d/a00336_source.html">fuse_gmock_files.py</a></code> in the <code>scripts/</code> directory (starting with release 1.2.0). Assuming you have Python 2.4 or above installed on your machine, just go to that directory and run ``` python <a class="el" href="../../dd/d1d/a00336_source.html">fuse_gmock_files.py</a> OUTPUT_DIR ```</p>
+<p>and you should see an <code>OUTPUT_DIR</code> directory being created with files <code><a class="el" href="../../db/db9/a00387_source.html">gtest/gtest.h</a></code>, <code><a class="el" href="../../d8/df7/a00331_source.html">gmock/gmock.h</a></code>, and <code>gmock-gtest-all.cc</code> in it. These three files contain everything you need to use Google Mock (and Google Test). Just copy them to anywhere you want and you are ready to write tests and use mocks. You can use the <a href="http://code.google.com/p/googlemock/source/browse/trunk/scripts/test/Makefile">scrpts/test/Makefile</a> file as an example on how to compile your tests against them.</p>
 <h1>Extending Google Mock</h1>
 <h2>Writing New Matchers Quickly</h2>
 <p>The <code>MATCHER*</code> family of macros can be used to define custom matchers easily. The syntax:</p>
@@ -762,7 +762,7 @@ too large."</code>. If the second warning contains this message too, #2 will mat
 <p>``` class DivisibleBy7Matcher : public MatcherInterface&lt;int&gt; { public: virtual bool MatchAndExplain(int n, MatchResultListener* listener) const { const int remainder = n % 7; if (remainder != 0) { *listener &lt;&lt; "the remainder is " &lt;&lt; remainder; } return remainder == 0; } ... }; ```</p>
 <p>Then, <code>EXPECT_THAT(x, DivisibleBy7());</code> may general a message like this: ``` Value of: x Expected: is divisible by 7 Actual: 23 (the remainder is 2) ```</p>
 <h2>Writing New Polymorphic Matchers</h2>
-<p>You've learned how to write your own matchers in the previous recipe. Just one problem: a matcher created using <code>MakeMatcher()</code> only works for one particular type of arguments. If you want a <em>polymorphic</em> matcher that works with arguments of several types (for instance, <code>Eq(x)</code> can be used to match a <code>value</code> as long as <code>value</code> == <code>x</code> compiles &ndash; <code>value</code> and <code>x</code> don't have to share the same type), you can learn the trick from <code>&lt;gmock/gmock-matchers.h&gt;</code> but it's a bit involved.</p>
+<p>You've learned how to write your own matchers in the previous recipe. Just one problem: a matcher created using <code>MakeMatcher()</code> only works for one particular type of arguments. If you want a <em>polymorphic</em> matcher that works with arguments of several types (for instance, <code>Eq(x)</code> can be used to match a <code>value</code> as long as <code>value</code> == <code>x</code> compiles &ndash; <code>value</code> and <code>x</code> don't have to share the same type), you can learn the trick from <code>&lt;<a class="el" href="../../d8/d23/a00326_source.html">gmock/gmock-matchers.h</a>&gt;</code> but it's a bit involved.</p>
 <p>Fortunately, most of the time you can define a polymorphic matcher easily with the help of <code>MakePolymorphicMatcher()</code>. Here's how you can define <code>NotNull()</code> as an example:</p>
 <p>``` using ::testing::MakePolymorphicMatcher; using ::testing::MatchResultListener; using ::testing::NotNull; using ::testing::PolymorphicMatcher;</p>
 <p>class NotNullMatcher { public: // To implement a polymorphic matcher, first define a COPYABLE class // that has three members MatchAndExplain(), DescribeTo(), and // DescribeNegationTo(), like the following.</p>
@@ -941,7 +941,7 @@ too large."</code>. If the second warning contains this message too, #2 will mat
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 31 2017 23:03:56 for SEIMS by
+    <li class="footer">Generated on Sat Apr 1 2017 10:30:54 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

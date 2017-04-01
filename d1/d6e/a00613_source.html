@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/data/Measurement.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/main/main_omp/invoke.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,33 +112,108 @@ $(document).ready(function(){initNavTree('d1/d6e/a00613_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Measurement.cpp</div>  </div>
+<div class="title">invoke.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Measurement.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;invoke.h&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="../../de/d45/a00175.html#a4ceebf09b2dbb7edfefe10c7f64b0683">    3</a></span>&#160;<a class="code" href="../../de/d45/a00175.html#a4ceebf09b2dbb7edfefe10c7f64b0683">Measurement::Measurement</a>(mongoc_client_t *conn, <span class="keywordtype">string</span> hydroDBName, <span class="keywordtype">string</span> sitesList, <span class="keywordtype">string</span> siteType, time_t startTime,</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;                         time_t endTime) : m_conn(conn), m_hydroDBName(hydroDBName), m_type(siteType),</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                           m_startTime(startTime), m_endTime(endTime), pData(NULL) {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <a class="code" href="../../de/d45/a00175.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a> = SplitStringForInt(sitesList, <span class="charliteral">&#39;,&#39;</span>);</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    sort(<a class="code" href="../../de/d45/a00175.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a>.begin(), <a class="code" href="../../de/d45/a00175.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a>.end());</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <a class="code" href="../../de/d45/a00175.html#a2114a606e03739f92b2ba8825fc1334c">pData</a> = <span class="keyword">new</span> <span class="keywordtype">float</span>[<a class="code" href="../../de/d45/a00175.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a>.size()];</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="../../de/d45/a00175.html#a6743c23fdd99a63831f93979bef779c8">   11</a></span>&#160;<a class="code" href="../../de/d45/a00175.html#a6743c23fdd99a63831f93979bef779c8">Measurement::~Measurement</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../de/d45/a00175.html#a2114a606e03739f92b2ba8825fc1334c">pData</a> != NULL) Release1DArray(<a class="code" href="../../de/d45/a00175.html#a2114a606e03739f92b2ba8825fc1334c">pData</a>);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}</div>
-<div class="ttc" id="a00175_html_a2114a606e03739f92b2ba8825fc1334c"><div class="ttname"><a href="../../de/d45/a00175.html#a2114a606e03739f92b2ba8825fc1334c">Measurement::pData</a></div><div class="ttdeci">float * pData</div><div class="ttdoc">Measurement data of all sites in given date. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d80/a00614_source.html#l00067">Measurement.h:67</a></div></div>
-<div class="ttc" id="a00175_html_a4ceebf09b2dbb7edfefe10c7f64b0683"><div class="ttname"><a href="../../de/d45/a00175.html#a4ceebf09b2dbb7edfefe10c7f64b0683">Measurement::Measurement</a></div><div class="ttdeci">Measurement(mongoc_client_t *conn, string hydroDBName, string sitesList, string siteType, time_t startDate, time_t endDate)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d6e/a00613_source.html#l00003">Measurement.cpp:3</a></div></div>
-<div class="ttc" id="a00175_html_a6743c23fdd99a63831f93979bef779c8"><div class="ttname"><a href="../../de/d45/a00175.html#a6743c23fdd99a63831f93979bef779c8">Measurement::~Measurement</a></div><div class="ttdeci">virtual ~Measurement(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d6e/a00613_source.html#l00011">Measurement.cpp:11</a></div></div>
-<div class="ttc" id="a00175_html_acffdb39ed0357326cec16264231ae695"><div class="ttname"><a href="../../de/d45/a00175.html#acffdb39ed0357326cec16264231ae695">Measurement::m_siteIDList</a></div><div class="ttdeci">vector&lt; int &gt; m_siteIDList</div><div class="ttdoc">Site IDs list. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d80/a00614_source.html#l00059">Measurement.h:59</a></div></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keywordtype">void</span> checkTable(vector &lt;string&gt; &amp;tableNameList, <span class="keywordtype">string</span> dbName, <span class="keyword">const</span> <span class="keywordtype">char</span> *tableName) {</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    <span class="comment">//ostringstream oss;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    <span class="comment">//oss &lt;&lt; dbName &lt;&lt; &quot;.&quot; &lt;&lt; tableName;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="comment">//if (tableNameList.find(oss.str()) == tableNameList.end())</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    vector&lt;string&gt;::iterator it = find(tableNameList.begin(), tableNameList.end(), string(tableName));</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">if</span> (it == tableNameList.end()) {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        cerr &lt;&lt; <span class="stringliteral">&quot;The &quot;</span> &lt;&lt; tableName &lt;&lt; <span class="stringliteral">&quot; table does not exist in database: &quot;</span> &lt;&lt; dbName.c_str() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        exit(-1);</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    }</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keywordtype">void</span> checkDatabase(mongoc_client_t *conn, <span class="keywordtype">string</span> dbName) {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    vector &lt;string&gt; tableNames;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <a class="code" href="../../dc/d52/a00183.html">MongoDatabase</a>(conn, dbName).<a class="code" href="../../dc/d52/a00183.html#a9c54374bea343cefcf91e85619cef8ec">getCollectionNames</a>(tableNames);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    checkTable(tableNames, dbName, DB_TAB_PARAMETERS);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#ifndef MULTIPLY_REACHES</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span>    checkTable(tableNames, dbName, DB_TAB_REACH);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* not MULTIPLY_REACHES */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span>    checkTable(tableNames, dbName, DB_TAB_SPATIAL);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="comment">//checkTable(tableNames, dbName, DB_TAB_LOOKUP_LANDUSE);</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="comment">//checkTable(tableNames, dbName, DB_TAB_LOOKUP_SOIL);</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="comment">//checkTable(tableNames, dbName, DB_TAB_SITES);</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> checkProject(<span class="keywordtype">string</span> projectPath) {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">string</span> checkFilePath = projectPath + File_Config;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">if</span> (!FileExists(checkFilePath)) {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d0/d81/a00180.html">ModelException</a>(<span class="stringliteral">&quot;ModelMain&quot;</span>, <span class="stringliteral">&quot;checkProject&quot;</span>, checkFilePath +</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            <span class="stringliteral">&quot; does not exist or has not the read permission!&quot;</span>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    }</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    checkFilePath = projectPath + File_Input;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">if</span> (!FileExists(checkFilePath)) {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d0/d81/a00180.html">ModelException</a>(<span class="stringliteral">&quot;ModelMain&quot;</span>, <span class="stringliteral">&quot;checkProject&quot;</span>, checkFilePath +</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <span class="stringliteral">&quot; does not exist or has not the read permission!&quot;</span>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    checkFilePath = projectPath + File_Output;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">if</span> (!FileExists(checkFilePath)) {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d0/d81/a00180.html">ModelException</a>(<span class="stringliteral">&quot;ModelMain&quot;</span>, <span class="stringliteral">&quot;checkProject&quot;</span>, checkFilePath +</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            <span class="stringliteral">&quot; does not exist or has not the read permission!&quot;</span>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">// create OUTPUT folder and empty it</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keywordtype">int</span> MainMongoDB(<span class="keywordtype">string</span> modelPath, <span class="keywordtype">char</span> *host, <span class="keywordtype">int</span> port, <span class="keywordtype">int</span> scenarioID, <span class="keywordtype">int</span> numThread, LayeringMethod layeringMethod) {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">try</span> {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">string</span> exePath = GetAppPath();</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">string</span> modulePath = exePath;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordtype">string</span> projectPath = modelPath + SEP;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordtype">string</span> configFile = projectPath + File_Config;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        checkProject(projectPath);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">size_t</span> nameIdx = modelPath.rfind(SEP);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">string</span> dbName = modelPath.substr(nameIdx + 1);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        MongoClient dbclient = MongoClient(host, port);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="comment">//mongoc_client_t *conn = dbclient.getConn();</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        vector&lt;string&gt; dbnames = dbclient.getDatabaseNames();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">if</span> (!ValueInVector(dbName, dbnames)) {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d0/d81/a00180.html">ModelException</a>(MODEL_NAME, <span class="stringliteral">&quot;MainMongoDB&quot;</span>, <span class="stringliteral">&quot;Database: &quot;</span> + dbName + <span class="stringliteral">&quot; is not existed in MongoDB!\n&quot;</span>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordtype">int</span> nSubbasin = 0;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment">/*/// 3.1 Load model basic Input (e.g. simulation period) from &quot;file.in&quot; file or MongoDB</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">        SettingsInput *input = new SettingsInput(conn, dbName, nSubbasin);</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">        ModuleFactory *factory = new ModuleFactory(configFile, modulePath, conn, dbName, nSubbasin, layeringMethod,</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">                                                   scenarioID);</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">        ModelMain main(conn, dbName, projectPath, input, factory, nSubbasin, scenarioID, numThread, layeringMethod);*/</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <a class="code" href="../../d8/d64/a00181.html">ModelMain</a> main(&amp;dbclient, dbName, projectPath, modulePath, layeringMethod, nSubbasin, scenarioID, numThread);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        main.Execute();</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        main.Output();</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">catch</span> (<a class="code" href="../../d0/d81/a00180.html">ModelException</a>&amp; e) {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        cout &lt;&lt; e.<a class="code" href="../../d0/d81/a00180.html#aee5445c8d05c17a796a7bd40654d62fd">toString</a>() &lt;&lt; endl;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        exit(EXIT_FAILURE);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">catch</span> (exception e) {</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        cout &lt;&lt; e.what() &lt;&lt; endl;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        exit(EXIT_FAILURE);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    }</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div>
+<div class="ttc" id="a00180_html_aee5445c8d05c17a796a7bd40654d62fd"><div class="ttname"><a href="../../d0/d81/a00180.html#aee5445c8d05c17a796a7bd40654d62fd">ModelException::toString</a></div><div class="ttdeci">string toString()</div><div class="ttdoc">Construct error information (string version) </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dfb/a00512_source.html#l00013">ModelException.cpp:13</a></div></div>
+<div class="ttc" id="a00183_html"><div class="ttname"><a href="../../dc/d52/a00183.html">MongoDatabase</a></div><div class="ttdoc">Create a MongoDB database instance. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/db6/a00509_source.html#l00112">MongoUtil.h:112</a></div></div>
+<div class="ttc" id="a00181_html"><div class="ttname"><a href="../../d8/d64/a00181.html">ModelMain</a></div><div class="ttdoc">SEIMS OpenMP version, Class to control the whole model. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/db5/a00616_source.html#l00039">ModelMain.h:39</a></div></div>
+<div class="ttc" id="a00183_html_a9c54374bea343cefcf91e85619cef8ec"><div class="ttname"><a href="../../dc/d52/a00183.html#a9c54374bea343cefcf91e85619cef8ec">MongoDatabase::getCollectionNames</a></div><div class="ttdeci">void getCollectionNames(vector&lt; string &gt; &amp;)</div><div class="ttdoc">Get collection names in current database. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d30/a00508_source.html#l00135">MongoUtil.cpp:135</a></div></div>
+<div class="ttc" id="a00180_html"><div class="ttname"><a href="../../d0/d81/a00180.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/def/a00513_source.html#l00020">ModelException.h:20</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_24d0af58b2644ad205aa9a0d9adbb65a.html">data</a></li><li class="navelem"><b>Measurement.cpp</b></li>
-    <li class="footer">Generated on Fri Mar 31 2017 23:03:55 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_c151e3c36c54954dcb4737f82d8a1963.html">main</a></li><li class="navelem"><a class="el" href="../../dir_37d1583536611718be90d0be15bfcf38.html">main_omp</a></li><li class="navelem"><b>invoke.cpp</b></li>
+    <li class="footer">Generated on Sat Apr 1 2017 10:30:52 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

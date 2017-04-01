@@ -109,7 +109,7 @@ $(document).ready(function(){initNavTree('df/d03/a00062.html','../../');});
 <div class="title">V1_5_AdvancedGuide </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>Now that you have read <a class="el" href="../../d7/d08/a00378_source.html">Primer</a> and learned how to write tests using Google Test, it's time to learn some new tricks. This document will show you more assertions as well as how to construct complex failure messages, propagate fatal failures, reuse and speed up your test fixtures, and use various flags with your tests.</p>
+<div class="textblock"><p>Now that you have read <a class="el" href="../../d7/ddb/a00361_source.html">Primer</a> and learned how to write tests using Google Test, it's time to learn some new tricks. This document will show you more assertions as well as how to construct complex failure messages, propagate fatal failures, reuse and speed up your test fixtures, and use various flags with your tests.</p>
 <h1>More Assertions</h1>
 <p>This section covers some less frequently used, but still significant, assertions.</p>
 <h2>Explicit Success and Failure</h2>
@@ -654,7 +654,7 @@ b and c (4 and 10) are not mutually prime, as they have a common divisor 2.<br/>
 <p>Another way to test private members is to refactor them into an implementation class, which is then declared in a <code>*-internal.h</code> file. Your clients aren't allowed to include this header but your tests can. Such is called the Pimpl (Private Implementation) idiom.</p>
 <p>Or, you can declare an individual test as a friend of your class by adding this line in the class body:</p>
 <p>``` FRIEND_TEST(TestCaseName, TestName); ```</p>
-<p>For example, ``` // foo.h #include &lt;gtest/gtest_prod.h&gt;</p>
+<p>For example, ``` // foo.h #include &lt;<a class="el" href="../../d9/d0a/a00390_source.html">gtest/gtest_prod.h</a>&gt;</p>
 <p>// Defines FRIEND_TEST. class Foo { ... private: FRIEND_TEST(FooTest, BarReturnsZeroOnNull); int Bar(void* x); };</p>
 <p>// foo_test.cc ... TEST(FooTest, BarReturnsZeroOnNull) { Foo foo; EXPECT_EQ(0, foo.Bar(NULL)); // Uses Foo's private member Bar(). } ```</p>
 <p>Pay special attention when your class is defined in a namespace, as you should define your test fixtures and tests in the same namespace if you want them to be friends of your class. For example, if the code to be tested looks like:</p>
@@ -668,7 +668,7 @@ b and c (4 and 10) are not mutually prime, as they have a common divisor 2.<br/>
 <h1>Catching Failures</h1>
 <p>If you are building a testing utility on top of Google Test, you'll want to test your utility. What framework would you use to test it? Google Test, of course.</p>
 <p>The challenge is to verify that your testing utility reports failures correctly. In frameworks that report a failure by throwing an exception, you could catch the exception and assert on it. But Google Test doesn't use exceptions, so how do we test that a piece of code generates an expected failure?</p>
-<p><code>&lt;gtest/gtest-spi.h&gt;</code> contains some constructs to do this. After <code>#include</code>ing this header, you can use</p>
+<p><code>&lt;<a class="el" href="../../d2/d56/a00384_source.html">gtest/gtest-spi.h</a>&gt;</code> contains some constructs to do this. After <code>#include</code>ing this header, you can use</p>
 <p>| <code>EXPECT_FATAL_FAILURE(</code>_statement, substring_<code>);</code> | |:-----------------------------------------------&mdash;|</p>
 <p>to assert that <em>statement</em> generates a fatal (e.g. <code>ASSERT_*</code>) failure whose message contains the given <em>substring</em>, or use</p>
 <p>| <code>EXPECT_NONFATAL_FAILURE(</code>_statement, substring_<code>);</code> | |:--------------------------------------------------&mdash;|</p>
@@ -683,7 +683,7 @@ b and c (4 and 10) are not mutually prime, as they have a common divisor 2.<br/>
 <ol type="1">
 <li><em>statement</em> in <code>EXPECT_FATAL_FAILURE()</code> cannot return a value.</li>
 </ol>
-<p><em>Note:</em> Google Test is designed with threads in mind. Once the synchronization primitives in <code>&lt;gtest/internal/gtest-port.h&gt;</code> have been implemented, Google Test will become thread-safe, meaning that you can then use assertions in multiple threads concurrently. Before</p>
+<p><em>Note:</em> Google Test is designed with threads in mind. Once the synchronization primitives in <code>&lt;<a class="el" href="../../d4/d27/a00392_source.html">gtest/internal/gtest-port.h</a>&gt;</code> have been implemented, Google Test will become thread-safe, meaning that you can then use assertions in multiple threads concurrently. Before</p>
 <p>that, however, Google Test only supports single-threaded usage. Once thread-safe, <code>EXPECT_FATAL_FAILURE()</code> and <code>EXPECT_NONFATAL_FAILURE()</code> will capture failures in the current thread only. If <em>statement</em> creates new threads, failures in these threads will be ignored. If you want to capture failures from all threads instead, you should use the following macros:</p>
 <table class="doxtable">
 <tr>
@@ -841,7 +841,7 @@ b and c (4 and 10) are not mutually prime, as they have a common divisor 2.<br/>
 <p><em>Availability:</em> Windows. <code>GTEST_CATCH_EXCEPTIONS</code> and <code>--gtest_catch_exceptions</code> have no effect on Google Test's behavior on Linux or Mac, even if exceptions are enabled. It is possible to add support for catching exceptions on these platforms, but it is not implemented yet.</p>
 <h3>Letting Another Testing Framework Drive</h3>
 <p>If you work on a project that has already been using another testing framework and is not ready to completely switch to Google Test yet, you can get much of Google Test's benefit by using its assertions in your existing tests. Just change your <code>main()</code> function to look like:</p>
-<p>``` #include &lt;gtest/gtest.h&gt;</p>
+<p>``` #include &lt;<a class="el" href="../../db/db9/a00387_source.html">gtest/gtest.h</a>&gt;</p>
 <p>int main(int argc, char** argv) { ::testing::GTEST_FLAG(throw_on_failure) = true; // Important: Google Test must be initialized. ::testing::InitGoogleTest(&amp;argc, argv);</p>
 <p>... whatever your existing testing framework requires ... } ```</p>
 <p>With that, you can use Google Test assertions in addition to the native assertions your testing framework provides, for example:</p>
@@ -877,16 +877,16 @@ b and c (4 and 10) are not mutually prime, as they have a common divisor 2.<br/>
 </ul>
 <p><em>Availability:</em> Linux, Windows, Mac; since version 1.3.0.</p>
 <h1>Fusing Google Test Source Files</h1>
-<p>Google Test's implementation consists of ~30 files (excluding its own tests). Sometimes you may want them to be packaged up in two files (a <code>.h</code> and a <code>.cc</code>) instead, such that you can easily copy them to a new machine and start hacking there. For this we provide an experimental Python script <code><a class="el" href="../../de/df4/a00450_source.html">fuse_gtest_files.py</a></code> in the <code>scripts/</code> directory (since release 1.3.0). Assuming you have Python 2.4 or above installed on your machine, just go to that directory and run ``` python <a class="el" href="../../de/df4/a00450_source.html">fuse_gtest_files.py</a> OUTPUT_DIR ```</p>
-<p>and you should see an <code>OUTPUT_DIR</code> directory being created with files <code>gtest/gtest.h</code> and <code>gtest/gtest-all.cc</code> in it. These files contain everything you need to use Google Test. Just copy them to anywhere you want and you are ready to write tests. You can use the <a href="../../../scripts/test/Makefile">scrpts/test/Makefile</a> file as an example on how to compile your tests against them.</p>
+<p>Google Test's implementation consists of ~30 files (excluding its own tests). Sometimes you may want them to be packaged up in two files (a <code>.h</code> and a <code>.cc</code>) instead, such that you can easily copy them to a new machine and start hacking there. For this we provide an experimental Python script <code><a class="el" href="../../de/d3d/a00409_source.html">fuse_gtest_files.py</a></code> in the <code>scripts/</code> directory (since release 1.3.0). Assuming you have Python 2.4 or above installed on your machine, just go to that directory and run ``` python <a class="el" href="../../de/d3d/a00409_source.html">fuse_gtest_files.py</a> OUTPUT_DIR ```</p>
+<p>and you should see an <code>OUTPUT_DIR</code> directory being created with files <code><a class="el" href="../../db/db9/a00387_source.html">gtest/gtest.h</a></code> and <code>gtest/gtest-all.cc</code> in it. These files contain everything you need to use Google Test. Just copy them to anywhere you want and you are ready to write tests. You can use the <a href="../../../scripts/test/Makefile">scrpts/test/Makefile</a> file as an example on how to compile your tests against them.</p>
 <h1>Where to Go from Here</h1>
-<p>Congratulations! You've now learned more advanced Google Test tools and are ready to tackle more complex testing tasks. If you want to dive even deeper, you can read the <a class="el" href="../../d4/d13/a00377_source.html">FAQ</a>. </p>
+<p>Congratulations! You've now learned more advanced Google Test tools and are ready to tackle more complex testing tasks. If you want to dive even deeper, you can read the <a class="el" href="../../d0/d65/a00360_source.html">FAQ</a>. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 31 2017 23:03:57 for SEIMS by
+    <li class="footer">Generated on Sat Apr 1 2017 10:30:54 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

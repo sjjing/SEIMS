@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/pygeoc/pygeoc/utils/parseConfig.py Source File</title>
+<title>SEIMS: seims/src/field_partition/fieldTnode.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,34 +112,31 @@ $(document).ready(function(){initNavTree('d9/d24/a00524_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">parseConfig.py</div>  </div>
+<div class="title">fieldTnode.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> argparse</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">from</span> utils <span class="keyword">import</span> FileClass</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;fieldTnode.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">class </span>C(object):</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keywordflow">pass</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">def </span>getconfigfile():</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="comment"># Get model configuration file name</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    c = C()</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    parser = argparse.ArgumentParser(</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        description = <span class="stringliteral">&quot;Read configuration file.&quot;</span>)</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    parser.add_argument(<span class="stringliteral">&#39;-ini&#39;</span>, help = <span class="stringliteral">&quot;Full path of configuration file&quot;</span>)</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    args = parser.parse_args(namespace = c)</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    ini_file = args.ini</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    FileClass.checkfileexists(ini_file)</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">return</span> ini_file</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;fieldTnode::fieldTnode(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    m_Tparent = NULL;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    m_degree = -1;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    m_field = NULL;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;fieldTnode::~fieldTnode(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_d8b73b43b5bed3f628cfe27c845cae28.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_40ac51da4d01f07ce353fa50d7389af2.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_5c5dabb6bbb885889c010b426b775fae.html">utils</a></li><li class="navelem"><b>parseConfig.py</b></li>
-    <li class="footer">Generated on Fri Mar 31 2017 23:03:54 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_5dad1625e7f9729766baa8f13d29b59c.html">field_partition</a></li><li class="navelem"><b>fieldTnode.cpp</b></li>
+    <li class="footer">Generated on Sat Apr 1 2017 10:30:52 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

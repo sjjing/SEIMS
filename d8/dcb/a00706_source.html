@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/SUR_CN/api.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology/DEP_FS/DepressionFS.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,99 +112,69 @@ $(document).ready(function(){initNavTree('d8/dcb/a00706_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">api.cpp</div>  </div>
+<div class="title">DepressionFS.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../dc/d5e/a00817.html">SUR_CN.h</a>&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <a class="code" href="../../dc/d98/a00225.html">SimulationModule</a> *</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;GetInstance() {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d2/dc8/a00242.html">SUR_CN</a>();</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// function to return the XML Metadata document string</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="../../dd/dac/a01008.html#ga0087c853569e2c94d58c3499365662e9">   12</a></span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../dd/dac/a01008.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a>() {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="../../dd/d4c/a00177.html">MetadataInfo</a> mdi;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="comment">// set the information properties</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    mdi.SetAuthor(<span class="stringliteral">&quot;Wu Hui&quot;</span>);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    mdi.SetClass(MCLS_SUR_RUNOFF, MCLSDESC_SUR_RUNOFF);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    mdi.SetDescription(MDESC_SUR_CN);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    mdi.SetEmail(SEIMS_EMAIL);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    mdi.SetHelpfile(<span class="stringliteral">&quot;SUR_CN.chm&quot;</span>);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    mdi.SetID(MID_SUR_CN);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    mdi.SetName(MID_SUR_CN);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    mdi.SetVersion(<span class="stringliteral">&quot;0.1&quot;</span>);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    mdi.SetWebsite(SEIMS_SITE);</div>
+<a href="../../d8/dcb/a00706.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    mdi.AddParameter(VAR_T_SNOW, UNIT_TEMP_DEG, DESC_T_SNOW, Source_ParameterDB, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    mdi.AddParameter(VAR_T_SOIL, UNIT_TEMP_DEG, DESC_T_SOIL, Source_ParameterDB, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    mdi.AddParameter(VAR_T0, UNIT_TEMP_DEG, DESC_T0, Source_ParameterDB, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    mdi.AddParameter(VAR_S_FROZEN, UNIT_NON_DIM, DESC_S_FROZEN, Source_ParameterDB, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    mdi.AddParameter(VAR_CN2, UNIT_NON_DIM, DESC_CN2, Source_ParameterDB, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    mdi.AddParameter(VAR_MOIST_IN, UNIT_VOL_FRA_M3M3, DESC_MOIST_IN, Source_ParameterDB, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    mdi.AddParameter(VAR_ROOTDEPTH, UNIT_LEN_M, DESC_ROOTDEPTH, Source_ParameterDB, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    mdi.AddParameter(VAR_SOILDEPTH, UNIT_LEN_M, DESC_SOILDEPTH, Source_ParameterDB, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    mdi.AddParameter(VAR_FIELDCAP, UNIT_VOL_FRA_M3M3, DESC_FIELDCAP, Source_ParameterDB, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    mdi.AddParameter(VAR_POROST, UNIT_NON_DIM, DESC_POROST, Source_ParameterDB, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    mdi.AddParameter(VAR_WILTPOINT, UNIT_VOL_FRA_M3M3, DESC_WILTPOINT, Source_ParameterDB, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    mdi.AddInput(VAR_NEPR, UNIT_DEPTH_MM, DESC_NEPR, Source_Module,</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                 <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);                    <span class="comment">//from interception module</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    mdi.AddInput(VAR_TMEAN, UNIT_TEMP_DEG, DESC_TMEAN, Source_Module, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    mdi.AddInput(VAR_DPST, UNIT_DEPTH_MM, DESC_DPST, Source_Module,</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                 <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);                    <span class="comment">//from depression module</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    mdi.AddInput(VAR_SOTE, UNIT_TEMP_DEG, DESC_SOTE, Source_Module,</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                 <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);            <span class="comment">//from soil temperature module</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    mdi.AddInput(VAR_SNAC, UNIT_DEPTH_MM, DESC_SNAC, Source_Module,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                 <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);                    <span class="comment">//from snow accumulation module</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    mdi.AddInput(VAR_SNME, UNIT_DEPTH_MM, DESC_SNME, Source_Module,</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                 <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);                                <span class="comment">//from snowmelt module</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../d5/d5b/a00135.html">   38</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d5/d5b/a00135.html">DepressionFS</a> : <span class="keyword">public</span> <a class="code" href="../../dc/d98/a00225.html">SimulationModule</a> {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <a class="code" href="../../d5/d5b/a00135.html">DepressionFS</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    ~<a class="code" href="../../d5/d5b/a00135.html">DepressionFS</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    mdi.AddOutput(VAR_EXCP, UNIT_DEPTH_MM, DESC_EXCP, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);<span class="comment">// just for depression module.</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    mdi.AddOutput(VAR_INFIL, UNIT_DEPTH_MM, DESC_INFIL, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    mdi.AddOutput(VAR_SOL_ST, UNIT_DEPTH_MM, DESC_SOL_ST, <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">// write out the XML file.</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">string</span> res = mdi.GetXMLDocument();</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">char</span> *tmp = <span class="keyword">new</span> <span class="keywordtype">char</span>[res.size() + 1];</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    strprintf(tmp, res.size() + 1, <span class="stringliteral">&quot;%s&quot;</span>, res.c_str());</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">//mdi.AddParameter(VAR_DEPREIN, UNIT_NON_DIM, DESC_DEPREIN, Source_ParameterDB, DT_Single);</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">//mdi.AddInput(VAR_TMIN, UNIT_TEMP_DEG, DESC_TMIN, Source_Module,DT_Raster1D);  //from interpolation module</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">//mdi.AddInput(VAR_TMAX, UNIT_TEMP_DEG, DESC_TMAX, Source_Module,DT_Raster1D);  //from interpolation module</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">//mdi.AddDependency(&quot;Interpolation&quot;,&quot;Interpolation module&quot;);      //for pNet,T,</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">//mdi.AddDependency(&quot;Soil water&quot;,&quot;Soil Water Balance module&quot;);    // soilMoisture at given day</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">//mdi.AddDependency(&quot;Depression&quot;,&quot;Depression Storage module&quot;);     // SD</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">//mdi.AddDependency(&quot;soil temperature&quot;,&quot;Soil temperature module&quot;);  // TS</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">//mdi.AddDependency(&quot;Snow balance&quot;,&quot;Snow balance module&quot;);          // SA</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">//mdi.AddDependency(&quot;Snowmelt&quot;,&quot;Snowmelt module&quot;);                  // SM</span></div>
-<div class="ttc" id="a00642_html_gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3"><div class="ttname"><a href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a></div><div class="ttdoc">Raster data, same as DT_Array1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/dcf/a00642_source.html#l00086">MetadataInfoConst.h:86</a></div></div>
-<div class="ttc" id="a00242_html"><div class="ttname"><a href="../../d2/dc8/a00242.html">SUR_CN</a></div><div class="ttdoc">SCS Curve Number Method to calculate infiltration and excess precipitation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d5e/a00817_source.html#l00047">SUR_CN.h:47</a></div></div>
-<div class="ttc" id="a00642_html_gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db"><div class="ttname"><a href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a></div><div class="ttdoc">2D raster, e.g., multi-layers of soil properties </div><div class="ttdef"><b>Definition:</b> <a href="../../df/dcf/a00642_source.html#l00088">MetadataInfoConst.h:88</a></div></div>
-<div class="ttc" id="a00817_html"><div class="ttname"><a href="../../dc/d5e/a00817.html">SUR_CN.h</a></div><div class="ttdoc">SCS Curve Number Method to calculate infiltration and excess precipitation. </div></div>
-<div class="ttc" id="a00225_html"><div class="ttname"><a href="../../dc/d98/a00225.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dcf/a00645_source.html#l00045">SimulationModule.h:45</a></div></div>
-<div class="ttc" id="a00642_html_gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088"><div class="ttname"><a href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a></div><div class="ttdoc">Single numeric. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/dcf/a00642_source.html#l00076">MetadataInfoConst.h:76</a></div></div>
-<div class="ttc" id="a01008_html_ga0087c853569e2c94d58c3499365662e9"><div class="ttname"><a href="../../dd/dac/a01008.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a></div><div class="ttdeci">SEIMS_MODULE_API const char * MetadataInformation()</div><div class="ttdoc">function to return the XML Metadata document string </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dd2/a00693_source.html#l00015">api.cpp:15</a></div></div>
-<div class="ttc" id="a00177_html"><div class="ttname"><a href="../../dd/d4c/a00177.html">MetadataInfo</a></div><div class="ttdoc">Metadata information of module. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/d3a/a00641_source.html#l00091">MetadataInfo.h:91</a></div></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="../../d5/d5b/a00135.html#ad57e04a7dc0b0058628574bf22b17e8b">   60</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d5/d5b/a00135.html#ad57e04a7dc0b0058628574bf22b17e8b">m_nCells</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../d5/d5b/a00135.html#a5817c75d4bbfbdfd8ec4d58045a4e1d9">   63</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d5/d5b/a00135.html#a5817c75d4bbfbdfd8ec4d58045a4e1d9">m_depCo</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../d5/d5b/a00135.html#a6ce504413d1677dd565a6cd120fc6597">   65</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d5b/a00135.html#a6ce504413d1677dd565a6cd120fc6597">m_depCap</a>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../d5/d5b/a00135.html#a2271f5d76746d34da5407ffb7d03a19b">   68</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d5b/a00135.html#a2271f5d76746d34da5407ffb7d03a19b">m_pet</a>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="../../d5/d5b/a00135.html#adb2445504dbddb88819bdbbaae403e3a">   70</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d5b/a00135.html#adb2445504dbddb88819bdbbaae403e3a">m_ei</a>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="comment">// state variables (output)</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../d5/d5b/a00135.html#a45f46a8f39c5a96518c35b82127f2691">   74</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d5b/a00135.html#a45f46a8f39c5a96518c35b82127f2691">m_sd</a>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="../../d5/d5b/a00135.html#a2a346f7d4c55cf593401bf08ca0652ec">   76</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d5b/a00135.html#a2a346f7d4c55cf593401bf08ca0652ec">m_sr</a>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../d5/d5b/a00135.html#ada7e687d5d87387f1f52dbd0074624ee">   78</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d5b/a00135.html#ada7e687d5d87387f1f52dbd0074624ee">m_storageCapSurplus</a>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">void</span> initialOutputs();</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="../../d5/d5b/a00135.html#ac055334e35fb65b2c5f971b7f6ebc620">   83</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d5/d5b/a00135.html#ac055334e35fb65b2c5f971b7f6ebc620">m_checkInput</a>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;};</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="ttc" id="a00135_html_a6ce504413d1677dd565a6cd120fc6597"><div class="ttname"><a href="../../d5/d5b/a00135.html#a6ce504413d1677dd565a6cd120fc6597">DepressionFS::m_depCap</a></div><div class="ttdeci">float * m_depCap</div><div class="ttdoc">depression storage capacity </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/dcb/a00706_source.html#l00065">DepressionFS.h:65</a></div></div>
+<div class="ttc" id="a00135_html_adb2445504dbddb88819bdbbaae403e3a"><div class="ttname"><a href="../../d5/d5b/a00135.html#adb2445504dbddb88819bdbbaae403e3a">DepressionFS::m_ei</a></div><div class="ttdeci">float * m_ei</div><div class="ttdoc">evaporation from the interception storage </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/dcb/a00706_source.html#l00070">DepressionFS.h:70</a></div></div>
+<div class="ttc" id="a00135_html"><div class="ttname"><a href="../../d5/d5b/a00135.html">DepressionFS</a></div><div class="ttdoc">A simple fill and spill method method to calculate depression storage. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/dcb/a00706_source.html#l00038">DepressionFS.h:38</a></div></div>
+<div class="ttc" id="a00135_html_ad57e04a7dc0b0058628574bf22b17e8b"><div class="ttname"><a href="../../d5/d5b/a00135.html#ad57e04a7dc0b0058628574bf22b17e8b">DepressionFS::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">valid cells number </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/dcb/a00706_source.html#l00060">DepressionFS.h:60</a></div></div>
+<div class="ttc" id="a00135_html_a5817c75d4bbfbdfd8ec4d58045a4e1d9"><div class="ttname"><a href="../../d5/d5b/a00135.html#a5817c75d4bbfbdfd8ec4d58045a4e1d9">DepressionFS::m_depCo</a></div><div class="ttdeci">float m_depCo</div><div class="ttdoc">initial depression storage coefficient </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/dcb/a00706_source.html#l00063">DepressionFS.h:63</a></div></div>
+<div class="ttc" id="a00135_html_a2a346f7d4c55cf593401bf08ca0652ec"><div class="ttname"><a href="../../d5/d5b/a00135.html#a2a346f7d4c55cf593401bf08ca0652ec">DepressionFS::m_sr</a></div><div class="ttdeci">float * m_sr</div><div class="ttdoc">surface runoff </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/dcb/a00706_source.html#l00076">DepressionFS.h:76</a></div></div>
+<div class="ttc" id="a00135_html_a2271f5d76746d34da5407ffb7d03a19b"><div class="ttname"><a href="../../d5/d5b/a00135.html#a2271f5d76746d34da5407ffb7d03a19b">DepressionFS::m_pet</a></div><div class="ttdeci">float * m_pet</div><div class="ttdoc">pet </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/dcb/a00706_source.html#l00068">DepressionFS.h:68</a></div></div>
+<div class="ttc" id="a00135_html_ada7e687d5d87387f1f52dbd0074624ee"><div class="ttname"><a href="../../d5/d5b/a00135.html#ada7e687d5d87387f1f52dbd0074624ee">DepressionFS::m_storageCapSurplus</a></div><div class="ttdeci">float * m_storageCapSurplus</div><div class="ttdoc">surplus of storage capacity </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/dcb/a00706_source.html#l00078">DepressionFS.h:78</a></div></div>
+<div class="ttc" id="a00225_html"><div class="ttname"><a href="../../dc/d98/a00225.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d94/a00603_source.html#l00045">SimulationModule.h:45</a></div></div>
+<div class="ttc" id="a00135_html_ac055334e35fb65b2c5f971b7f6ebc620"><div class="ttname"><a href="../../d5/d5b/a00135.html#ac055334e35fb65b2c5f971b7f6ebc620">DepressionFS::m_checkInput</a></div><div class="ttdeci">bool m_checkInput</div><div class="ttdoc">whether check inputs, TODO Is it useless? By LJ </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/dcb/a00706_source.html#l00083">DepressionFS.h:83</a></div></div>
+<div class="ttc" id="a00135_html_a45f46a8f39c5a96518c35b82127f2691"><div class="ttname"><a href="../../d5/d5b/a00135.html#a45f46a8f39c5a96518c35b82127f2691">DepressionFS::m_sd</a></div><div class="ttdeci">float * m_sd</div><div class="ttdoc">depression storage </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/dcb/a00706_source.html#l00074">DepressionFS.h:74</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5bf5a4201e7cd7ac6c5f03aeeeae8b2c.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_4fb0ab30bcae65d6a1b59d2986869bb8.html">SUR_CN</a></li><li class="navelem"><b>api.cpp</b></li>
-    <li class="footer">Generated on Fri Mar 31 2017 23:03:55 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_2b6acf6fd44d6ce05f607e1b9f3873b3.html">DEP_FS</a></li><li class="navelem"><a class="el" href="../../d8/dcb/a00706.html">DepressionFS.h</a></li>
+    <li class="footer">Generated on Sat Apr 1 2017 10:30:53 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

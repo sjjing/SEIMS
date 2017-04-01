@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: Bmps</title>
+<title>SEIMS: PET_PM</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,44 +106,54 @@ $(document).ready(function(){initNavTree('d4/d94/a00967.html','../../');});
 
 <div class="header">
   <div class="summary">
-<a href="#namespaces">Namespaces</a> &#124;
 <a href="#nested-classes">Classes</a>  </div>
   <div class="headertitle">
-<div class="title">Bmps<div class="ingroups"><a class="el" href="../../de/dad/a00963.html">Base</a></div></div>  </div>
+<div class="title">PET_PM<div class="ingroups"><a class="el" href="../../d8/dbb/a00932.html">Hydrology_longterm</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
 
-<p>BMPs related settings.  
+<p>Calculate potential evapotranspiration using Penman-Monteith method.  
 <a href="#details">More...</a></p>
 <div class="dynheader">
-Collaboration diagram for Bmps:</div>
+Collaboration diagram for PET_PM:</div>
 <div class="dyncontent">
 <center><table><tr><td><img src="../../d4/d94/a00967.png" border="0" alt="" usemap="#d4_2d94_2a00967"/>
 <map name="d4_2d94_2a00967" id="d4_2d94_2a00967">
-<area shape="rect" id="node2" href="../../de/dad/a00963.html" title="Base modules, e.g., data, util, module_setting. " alt="" coords="5,4,64,33"/></map>
+<area shape="rect" id="node1" href="../../d8/dbb/a00932.html" title="Longterm hydrology related modules. " alt="" coords="6,4,173,33"/></map>
 </td></tr></table></center>
 </div>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="namespaces"></a>
-Namespaces</h2></td></tr>
-<tr class="memitem:d1/d8f/a00880"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d8f/a00880.html">MainBMP</a></td></tr>
-<tr class="memdesc:d1/d8f/a00880"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base namespace for implementation of BMP configuration. <br/></td></tr>
-<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/df3/a00219.html">MainBMP::Scenario</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Main class of scenario in BMP database.  <a href="../../dd/df3/a00219.html#details">More...</a><br/></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d5/d13/a00205.html">PETPenmanMonteith</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Penman Monteith Method to Compute PET.  <a href="../../d5/d13/a00205.html#details">More...</a><br/></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<p>BMPs related settings. </p>
+<p>Calculate potential evapotranspiration using Penman-Monteith method. </p>
+<p>Potential evapotranspiration using Penman Monteith Method.</p>
+<dl class="section author"><dt>Author</dt><dd>Junzhi Liu </dd></dl>
+<dl class="section date"><dt>Date</dt><dd>Nov. 2010  LiangJun Zhu </dd>
+<dd>
+May. 2016 </dd></dl>
+<dl class="section note"><dt>Note</dt><dd>: 1. Add m_tMean from database, which may be measurement value or the mean of tMax and tMin;<ol type="1">
+<li>The PET calculate is changed from site-based to cell-based, because PET is not only dependent on Climate site data;</li>
+</ol>
+</dd></dl>
+<ol type="1">
+<li>Add ecology related parameters (initialized value).</li>
+<li>Add potential plant transpiration as output.</li>
+<li>Add m_VPD, m_dayLen as outputs, which will be used in BIO_EPIC module</li>
+<li>change m_vpd2 and m_gsi from DT_Single to DT_Raster1D, see readplant.f of SWAT</li>
+<li>Add m_phuBase as outputs, which will be used in MGT_SWAT module</li>
+</ol>
+<p>Penman Monteith Method to Compute PET </p>
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Mar 31 2017 23:03:57 for SEIMS by
+    <li class="footer">Generated on Sat Apr 1 2017 10:30:55 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

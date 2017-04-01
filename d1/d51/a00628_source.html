@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/module_setting/ParamInfo.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/erosion/SEDR_SBAGNOLD/api.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,112 +112,90 @@ $(document).ready(function(){initNavTree('d1/d51/a00628_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">ParamInfo.cpp</div>  </div>
+<div class="title">api.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;ParamInfo.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;SEDR_SBAGNOLD.h&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="../../d8/d72/a00199.html#a15ad9d14f6328ecf026b5e4e04dbba88">    5</a></span>&#160;<a class="code" href="../../d8/d72/a00199.html#a15ad9d14f6328ecf026b5e4e04dbba88">ParamInfo::ParamInfo</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    Reset();</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;}</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../d8/d72/a00199.html#a5acc8010c5db8b46f36c34bfd4be0209">    9</a></span>&#160;<a class="code" href="../../d8/d72/a00199.html#a5acc8010c5db8b46f36c34bfd4be0209">ParamInfo::~ParamInfo</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;}</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="../../d8/d72/a00199.html#a3c37b3486a6f80eb3d05e29d11f24502">   12</a></span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../d8/d72/a00199.html#a3c37b3486a6f80eb3d05e29d11f24502">ParamInfo::GetAdjustedValue</a>() {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">float</span> res = Value;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordflow">if</span> (FloatEqual(res, NODATA_VALUE)) {  </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <span class="keywordflow">return</span> res;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    }</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">if</span> (StringMatch(Use, PARAM_USE_Y)) {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordflow">if</span> (StringMatch(Change, PARAM_CHANGE_RC)) {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;            res = Value * Impact;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(Change, PARAM_CHANGE_AC)) {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;            res = Value + Impact;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (Change == PARAM_CHANGE_NC) {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            <span class="comment">//don&#39;t change</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        }</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">return</span> res;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;}</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../d8/d72/a00199.html#aaee91ca6510c999cd689171a704575e8">   29</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d72/a00199.html#aaee91ca6510c999cd689171a704575e8">ParamInfo::Adjust1DArray</a>(<span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data) {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">if</span> (StringMatch(Use, <span class="keywordtype">string</span>(PARAM_USE_Y))) {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">if</span> (StringMatch(Change, PARAM_CHANGE_RC) &amp;&amp; !FloatEqual(Impact, 1.f)) {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                <span class="keywordflow">if</span> (!FloatEqual(data[i], NODATA_VALUE)) {  </div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                    data[i] *= Impact;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            }</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(Change, PARAM_CHANGE_AC) &amp;&amp; !FloatEqual(Impact, 0.f)) {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span>            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                <span class="keywordflow">if</span> (!FloatEqual(data[i], NODATA_VALUE)) {  </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                    data[i] += Impact;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                }</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            }</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;}</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../d8/d72/a00199.html#a80511ea5a368997e89066aee66788e2e">   49</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d72/a00199.html#a80511ea5a368997e89066aee66788e2e">ParamInfo::Adjust1DRaster</a>(<span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data) {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    Adjust1DArray(n, data);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;}</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../d8/d72/a00199.html#a25d08aee0e83774468aaebfeb7f6e3e5">   53</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d72/a00199.html#a25d08aee0e83774468aaebfeb7f6e3e5">ParamInfo::Adjust2DArray</a>(<span class="keywordtype">int</span> n, <span class="keywordtype">float</span> **data) {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">int</span> curCols = (int) data[i][0];</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        Adjust1DArray(curCols, data[i] + 1);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../d8/d72/a00199.html#a32f9eead1547f38be571ae13d164d627">   61</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d72/a00199.html#a32f9eead1547f38be571ae13d164d627">ParamInfo::Adjust2DRaster</a>(<span class="keywordtype">int</span> n, <span class="keywordtype">int</span> lyrs, <span class="keywordtype">float</span> **data) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        Adjust1DArray(lyrs, data[i]);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../d8/d72/a00199.html#a86b59d5285b7826b2b98b8afac9732e3">   68</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/d72/a00199.html#a86b59d5285b7826b2b98b8afac9732e3">ParamInfo::Reset</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    Change = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    Description = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    Dimension = <a class="code" href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca805fbcbe894d2d1acacc96a6ffd82c2a">DT_Unknown</a>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    Impact = 0.f;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    Maximum = 0.f;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    Minimun = 0.f;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    ModuleID = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    Name = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    Source = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    Units = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    Use = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    Value = 0.f;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    DependPara = NULL;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    IsConstant = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    ClimateType = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    IsOutput = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    OutputToOthers = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    initialized = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;}</div>
-<div class="ttc" id="a00199_html_a15ad9d14f6328ecf026b5e4e04dbba88"><div class="ttname"><a href="../../d8/d72/a00199.html#a15ad9d14f6328ecf026b5e4e04dbba88">ParamInfo::ParamInfo</a></div><div class="ttdeci">ParamInfo(void)</div><div class="ttdoc">Construct an empty instance. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d51/a00628_source.html#l00005">ParamInfo.cpp:5</a></div></div>
-<div class="ttc" id="a00199_html_a3c37b3486a6f80eb3d05e29d11f24502"><div class="ttname"><a href="../../d8/d72/a00199.html#a3c37b3486a6f80eb3d05e29d11f24502">ParamInfo::GetAdjustedValue</a></div><div class="ttdeci">float GetAdjustedValue()</div><div class="ttdoc">Return the adjusted value for this parameter. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d51/a00628_source.html#l00012">ParamInfo.cpp:12</a></div></div>
-<div class="ttc" id="a00199_html_a32f9eead1547f38be571ae13d164d627"><div class="ttname"><a href="../../d8/d72/a00199.html#a32f9eead1547f38be571ae13d164d627">ParamInfo::Adjust2DRaster</a></div><div class="ttdeci">void Adjust2DRaster(int n, int lyr, float **data)</div><div class="ttdoc">Adjust 2D Raster. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d51/a00628_source.html#l00061">ParamInfo.cpp:61</a></div></div>
-<div class="ttc" id="a00199_html_a25d08aee0e83774468aaebfeb7f6e3e5"><div class="ttname"><a href="../../d8/d72/a00199.html#a25d08aee0e83774468aaebfeb7f6e3e5">ParamInfo::Adjust2DArray</a></div><div class="ttdeci">void Adjust2DArray(int n, float **data)</div><div class="ttdoc">Adjust 2D array. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d51/a00628_source.html#l00053">ParamInfo.cpp:53</a></div></div>
-<div class="ttc" id="a00642_html_gac6cf78ef837450cfb19495fe34976b8ca805fbcbe894d2d1acacc96a6ffd82c2a"><div class="ttname"><a href="../../df/dcf/a00642.html#gac6cf78ef837450cfb19495fe34976b8ca805fbcbe894d2d1acacc96a6ffd82c2a">DT_Unknown</a></div><div class="ttdoc">Unknown type. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/dcf/a00642_source.html#l00074">MetadataInfoConst.h:74</a></div></div>
-<div class="ttc" id="a00199_html_aaee91ca6510c999cd689171a704575e8"><div class="ttname"><a href="../../d8/d72/a00199.html#aaee91ca6510c999cd689171a704575e8">ParamInfo::Adjust1DArray</a></div><div class="ttdeci">void Adjust1DArray(int n, float *data)</div><div class="ttdoc">Adjust 1D array. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d51/a00628_source.html#l00029">ParamInfo.cpp:29</a></div></div>
-<div class="ttc" id="a00199_html_a5acc8010c5db8b46f36c34bfd4be0209"><div class="ttname"><a href="../../d8/d72/a00199.html#a5acc8010c5db8b46f36c34bfd4be0209">ParamInfo::~ParamInfo</a></div><div class="ttdeci">~ParamInfo(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d51/a00628_source.html#l00009">ParamInfo.cpp:9</a></div></div>
-<div class="ttc" id="a00199_html_a80511ea5a368997e89066aee66788e2e"><div class="ttname"><a href="../../d8/d72/a00199.html#a80511ea5a368997e89066aee66788e2e">ParamInfo::Adjust1DRaster</a></div><div class="ttdeci">void Adjust1DRaster(int n, float *data)</div><div class="ttdoc">Adjust 1D Raster,. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d51/a00628_source.html#l00049">ParamInfo.cpp:49</a></div></div>
-<div class="ttc" id="a00199_html_a86b59d5285b7826b2b98b8afac9732e3"><div class="ttname"><a href="../../d8/d72/a00199.html#a86b59d5285b7826b2b98b8afac9732e3">ParamInfo::Reset</a></div><div class="ttdeci">void Reset(void)</div><div class="ttdoc">Reset the contents of the object to default values. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d51/a00628_source.html#l00068">ParamInfo.cpp:68</a></div></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <a class="code" href="../../dc/d98/a00225.html">SimulationModule</a> *</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;GetInstance() {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d5/d0b/a00220.html">SEDR_SBAGNOLD</a>();</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// function to return the XML Metadata document string</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../d2/d6e/a00966.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a>() {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">string</span> res = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="../../dd/d4c/a00177.html">MetadataInfo</a> mdi;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment">// set the information properties</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    mdi.SetAuthor(<span class="stringliteral">&quot;Wu Hui; Junzhi Liu; LiangJun Zhu&quot;</span>);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    mdi.SetClass(MCLS_SED_ROUTING, MCLSDESC_SED_ROUTING);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    mdi.SetDescription(MDESC_SEDR_SBAGNOLD);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    mdi.SetEmail(SEIMS_EMAIL);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    mdi.SetHelpfile(<span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    mdi.SetID(MID_SEDR_SBAGNOLD);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    mdi.SetName(MID_SEDR_SBAGNOLD);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    mdi.SetVersion(<span class="stringliteral">&quot;1.0&quot;</span>);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    mdi.SetWebsite(SEIMS_SITE);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#ifdef STORM_MODE</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span>    mdi.AddParameter(Tag_ChannelTimeStep,UNIT_SECOND,DESC_TIMESTEP,File_Input,<a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span>    mdi.AddParameter(Tag_TimeStep, UNIT_SECOND, DESC_TIMESTEP, File_Input, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>); <span class="comment">// daily model</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* STORM_MODE */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span>    mdi.AddParameter(VAR_VCD, UNIT_NON_DIM, DESC_VCD, Source_ParameterDB, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    mdi.AddParameter(VAR_P_RF, UNIT_NON_DIM, DESC_P_RF, Source_ParameterDB, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    mdi.AddParameter(VAR_SPCON, UNIT_NON_DIM, DESC_SPCON, Source_ParameterDB, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    mdi.AddParameter(VAR_SPEXP, UNIT_NON_DIM, DESC_SPEXP, Source_ParameterDB, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    mdi.AddParameter(VAR_VCRIT, UNIT_SPEED_MS, DESC_VCRIT, Source_ParameterDB, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    mdi.AddParameter(VAR_CHS0, UNIT_STRG_M3M, DESC_CHS0, Source_ParameterDB, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    mdi.AddParameter(VAR_SED_CHI0, UNIT_DENSITY, DESC_SED_CHI0, Source_ParameterDB, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    mdi.AddParameter(VAR_REACH_PARAM, UNIT_NON_DIM, DESC_REACH_PARAM, Source_ParameterDB, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca02c975b742aa760a6b335ffba47d555c">DT_Reach</a>);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    mdi.AddParameter(VAR_SCENARIO, UNIT_NON_DIM, DESC_SCENARIO, Source_ParameterDB, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca59df0ecf1353da897fc3583006e3bdda">DT_Scenario</a>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    mdi.AddInput(VAR_SED_TO_CH, UNIT_KG, DESC_SED_TO_CH, Source_Module, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71">DT_Array1D</a>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    mdi.AddInput(VAR_QRECH, UNIT_FLOW_CMS, DESC_QRECH, Source_Module, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71">DT_Array1D</a>);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    mdi.AddInput(VAR_CHST, UNIT_VOL_M3, DESC_CHST, Source_Module, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71">DT_Array1D</a>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    mdi.AddInput(VAR_PRECHST, UNIT_VOL_M3, DESC_PRECHST, Source_Module, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71">DT_Array1D</a>);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    mdi.AddInput(VAR_CHWTDEPTH, UNIT_LEN_M, DESC_CHWTDEPTH, Source_Module, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71">DT_Array1D</a>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    mdi.AddInput(VAR_PRECHWTDEPTH, UNIT_LEN_M, DESC_PRECHWTDEPTH, Source_Module, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71">DT_Array1D</a>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    mdi.AddInput(VAR_CHWTWIDTH, UNIT_LEN_M, DESC_CHWTWIDTH, Source_Module, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71">DT_Array1D</a>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    mdi.AddOutput(VAR_SED_RECH, UNIT_KG, DESC_SED_RECH, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71">DT_Array1D</a>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    mdi.AddOutput(VAR_SED_RECHConc, UNIT_SEDCONC, DESC_SED_RECH, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71">DT_Array1D</a>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    mdi.AddOutput(VAR_SED_OUTLET, UNIT_KG, DESC_SED_OUTLET, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    mdi.AddOutput(VAR_RCH_BANKERO, UNIT_KG, DESC_RCH_BANKERO, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71">DT_Array1D</a>);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    mdi.AddOutput(VAR_RCH_DEG, UNIT_KG, DESC_RCH_DEG, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71">DT_Array1D</a>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    mdi.AddOutput(VAR_RCH_DEP, UNIT_KG, DESC_RCH_DEP, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71">DT_Array1D</a>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    mdi.AddOutput(VAR_FLPLAIN_DEP, UNIT_KG, DESC_FLPLAIN_DEP, <a class="code" href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71">DT_Array1D</a>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="comment">// set the dependencies</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    mdi.AddDependency(MCLS_OL_EROSION, MCLSDESC_OL_EROSION);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    mdi.AddDependency(MCLS_CH_ROUTING, MCLSDESC_CH_ROUTING);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    res = mdi.GetXMLDocument();</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">char</span> *tmp = <span class="keyword">new</span> <span class="keywordtype">char</span>[res.size() + 1];</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    strprintf(tmp, res.size() + 1, <span class="stringliteral">&quot;%s&quot;</span>, res.c_str());</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
+<div class="ttc" id="a00600_html_gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71"><div class="ttname"><a href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca8f7fceea4f3d9858ee2b730adec47a71">DT_Array1D</a></div><div class="ttdoc">1D array, e.g., maximum temperature of sites </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d8c/a00600_source.html#l00078">MetadataInfoConst.h:78</a></div></div>
+<div class="ttc" id="a00600_html_gac6cf78ef837450cfb19495fe34976b8ca59df0ecf1353da897fc3583006e3bdda"><div class="ttname"><a href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca59df0ecf1353da897fc3583006e3bdda">DT_Scenario</a></div><div class="ttdoc">Scenario used by BMPs. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d8c/a00600_source.html#l00090">MetadataInfoConst.h:90</a></div></div>
+<div class="ttc" id="a00600_html_gac6cf78ef837450cfb19495fe34976b8ca02c975b742aa760a6b335ffba47d555c"><div class="ttname"><a href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8ca02c975b742aa760a6b335ffba47d555c">DT_Reach</a></div><div class="ttdoc">Reach parameters. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d8c/a00600_source.html#l00092">MetadataInfoConst.h:92</a></div></div>
+<div class="ttc" id="a00600_html_gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088"><div class="ttname"><a href="../../d1/d8c/a00600.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a></div><div class="ttdoc">Single numeric. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d8c/a00600_source.html#l00076">MetadataInfoConst.h:76</a></div></div>
+<div class="ttc" id="a00220_html"><div class="ttname"><a href="../../d5/d0b/a00220.html">SEDR_SBAGNOLD</a></div><div class="ttdoc">Sediment routing using variable channel dimension(VCD) method at daily time scale. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/dbb/a00698_source.html#l00035">SEDR_SBAGNOLD.h:35</a></div></div>
+<div class="ttc" id="a00225_html"><div class="ttname"><a href="../../dc/d98/a00225.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d94/a00603_source.html#l00045">SimulationModule.h:45</a></div></div>
+<div class="ttc" id="a00177_html"><div class="ttname"><a href="../../dd/d4c/a00177.html">MetadataInfo</a></div><div class="ttdoc">Metadata information of module. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d8a/a00599_source.html#l00091">MetadataInfo.h:91</a></div></div>
+<div class="ttc" id="a00966_html_ga0087c853569e2c94d58c3499365662e9"><div class="ttname"><a href="../../d2/d6e/a00966.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a></div><div class="ttdeci">SEIMS_MODULE_API const char * MetadataInformation()</div><div class="ttdoc">function to return the XML Metadata document string </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d33/a00651_source.html#l00015">api.cpp:15</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_cce2c0ac50386f26b5b526fa8626cc77.html">module_setting</a></li><li class="navelem"><b>ParamInfo.cpp</b></li>
-    <li class="footer">Generated on Fri Mar 31 2017 23:03:55 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_0416dddcf4ae60131836efd2402708ae.html">erosion</a></li><li class="navelem"><a class="el" href="../../dir_34fe973cdb6a45ace349877b35bf9e8d.html">SEDR_SBAGNOLD</a></li><li class="navelem"><b>api.cpp</b></li>
+    <li class="footer">Generated on Sat Apr 1 2017 10:30:53 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
