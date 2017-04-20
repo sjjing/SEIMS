@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/build/googletest-src/googletest/include/gtest/internal/custom/gtest-port.h Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/SUR_ES/api.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,85 +112,82 @@ $(document).ready(function(){initNavTree('db/d95/a00391_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">gtest-port.h</div>  </div>
+<div class="title">api.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright 2015, Google Inc.</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// All rights reserved.</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Redistribution and use in source and binary forms, with or without</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// modification, are permitted provided that the following conditions are</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// met:</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//     * Redistributions of source code must retain the above copyright</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">// notice, this list of conditions and the following disclaimer.</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">//     * Redistributions in binary form must reproduce the above</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// copyright notice, this list of conditions and the following disclaimer</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// in the documentation and/or other materials provided with the</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// distribution.</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">//     * Neither the name of Google Inc. nor the names of its</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// contributors may be used to endorse or promote products derived from</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// this software without specific prior written permission.</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">// Injection point for custom user configurations.</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">// The following macros can be defined:</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">//   Flag related macros:</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">//     GTEST_FLAG(flag_name)</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">//     GTEST_USE_OWN_FLAGFILE_FLAG_  - Define to 0 when the system provides its</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">//                                     own flagfile flag parsing.</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">//     GTEST_DECLARE_bool_(name)</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">//     GTEST_DECLARE_int32_(name)</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">//     GTEST_DECLARE_string_(name)</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">//     GTEST_DEFINE_bool_(name, default_val, doc)</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="comment">//     GTEST_DEFINE_int32_(name, default_val, doc)</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">//     GTEST_DEFINE_string_(name, default_val, doc)</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">//   Test filtering:</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">//     GTEST_TEST_FILTER_ENV_VAR_ - The name of an environment variable that</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">//                                  will be used if --GTEST_FLAG(test_filter)</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">//                                  is not provided.</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">//   Logging:</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">//     GTEST_LOG_(severity)</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">//     GTEST_CHECK_(condition)</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">//     Functions LogToStderr() and FlushInfoLog() have to be provided too.</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">//   Threading:</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">//     GTEST_HAS_NOTIFICATION_ - Enabled if Notification is already provided.</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">//     GTEST_HAS_MUTEX_AND_THREAD_LOCAL_ - Enabled if Mutex and ThreadLocal are</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">//                                         already provided.</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="comment">//     Must also provide GTEST_DECLARE_STATIC_MUTEX_(mutex) and</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">//     GTEST_DEFINE_STATIC_MUTEX_(mutex)</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">//     GTEST_EXCLUSIVE_LOCK_REQUIRED_(locks)</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">//     GTEST_LOCK_EXCLUDED_(locks)</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">// ** Custom implementation starts here **</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#ifndef GTEST_INCLUDE_GTEST_INTERNAL_CUSTOM_GTEST_PORT_H_</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define GTEST_INCLUDE_GTEST_INTERNAL_CUSTOM_GTEST_PORT_H_</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor">#endif  // GTEST_INCLUDE_GTEST_INTERNAL_CUSTOM_GTEST_PORT_H_</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;ExcessRunoff.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> *</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;GetInstance() {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../dc/d87/a00032.html">ExcessRunoff</a>();</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// function to return the XML Metadata document string</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="../../d9/d0f/a00644.html#ga0087c853569e2c94d58c3499365662e9">   12</a></span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../d9/d0f/a00644.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a>() {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">string</span> res = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="../../d3/d8b/a00059.html">MetadataInfo</a> mdi;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment">// set the information properties</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    mdi.SetAuthor(<span class="stringliteral">&quot;Junzhi Liu&quot;</span>);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    mdi.SetClass(<span class="stringliteral">&quot;Surface runoff&quot;</span>,</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                 <span class="stringliteral">&quot;Calculate infiltration and excess precipitation using saturation excess mechanism.&quot;</span>);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    mdi.SetDescription(<span class="stringliteral">&quot;saturation excess method to calculate infiltration and excess precipitation.&quot;</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    mdi.SetEmail(<span class="stringliteral">&quot;liujz@lreis.ac.cn&quot;</span>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    mdi.SetHelpfile(<span class="stringliteral">&quot;SUR_ES.chm&quot;</span>);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    mdi.SetID(<span class="stringliteral">&quot;SUR_ES&quot;</span>);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    mdi.SetName(<span class="stringliteral">&quot;SUR_ES&quot;</span>);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    mdi.SetVersion(<span class="stringliteral">&quot;0.1&quot;</span>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    mdi.SetWebsite(<span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    mdi.AddParameter(<span class="stringliteral">&quot;TimeStep&quot;</span>, <span class="stringliteral">&quot;s&quot;</span>, <span class="stringliteral">&quot;time step&quot;</span>, <span class="stringliteral">&quot;file.in&quot;</span>, <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a>);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    mdi.AddParameter(<span class="stringliteral">&quot;Conductivity&quot;</span>, <span class="stringliteral">&quot;mm/h&quot;</span>, <span class="stringliteral">&quot;Soil hydraulic conductivity&quot;</span>, <span class="stringliteral">&quot;ParameterDB_WaterBalance&quot;</span>, <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    mdi.AddParameter(<span class="stringliteral">&quot;Moist_in&quot;</span>, <span class="stringliteral">&quot;%&quot;</span>, <span class="stringliteral">&quot;Initial soil moisture&quot;</span>, <span class="stringliteral">&quot;ParameterDB_WaterBalance&quot;</span>, <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    mdi.AddParameter(<span class="stringliteral">&quot;Porosity&quot;</span>, <span class="stringliteral">&quot;%&quot;</span>, <span class="stringliteral">&quot;Soil porosity&quot;</span>, <span class="stringliteral">&quot;ParameterDB_WaterBalance&quot;</span>, <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    mdi.AddParameter(<span class="stringliteral">&quot;FieldCap&quot;</span>, <span class="stringliteral">&quot;%&quot;</span>, <span class="stringliteral">&quot;Field capacity&quot;</span>, <span class="stringliteral">&quot;ParameterDB_WaterBalance&quot;</span>, <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    mdi.AddParameter(<span class="stringliteral">&quot;RootDepth&quot;</span>, <span class="stringliteral">&quot;mm&quot;</span>, <span class="stringliteral">&quot;Root depth&quot;</span>, <span class="stringliteral">&quot;ParameterDB_WaterBalance&quot;</span>, <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    mdi.AddInput(<span class="stringliteral">&quot;TMin&quot;</span>, <span class="stringliteral">&quot;degree Celsius&quot;</span>, <span class="stringliteral">&quot;The minimum air temperature&quot;</span>, <span class="stringliteral">&quot;Module&quot;</span>,</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                 <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);    <span class="comment">//from interpolation module</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    mdi.AddInput(<span class="stringliteral">&quot;TMax&quot;</span>, <span class="stringliteral">&quot;degree Celsius&quot;</span>, <span class="stringliteral">&quot;The maximum air temperature&quot;</span>, <span class="stringliteral">&quot;Module&quot;</span>,</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                 <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);    <span class="comment">//from interpolation module</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    mdi.AddInput(<span class="stringliteral">&quot;D_NEPR&quot;</span>, <span class="stringliteral">&quot;mm&quot;</span>, <span class="stringliteral">&quot;The net precipitation&quot;</span>, <span class="stringliteral">&quot;Module&quot;</span>, <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    mdi.AddInput(<span class="stringliteral">&quot;D_DPST&quot;</span>, <span class="stringliteral">&quot;mm&quot;</span>, <span class="stringliteral">&quot;The depression storage&quot;</span>, <span class="stringliteral">&quot;Module&quot;</span>, <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    mdi.AddInput(<span class="stringliteral">&quot;D_SOTE&quot;</span>, <span class="stringliteral">&quot;degree Celsius&quot;</span>, <span class="stringliteral">&quot;The soil temperature&quot;</span>, <span class="stringliteral">&quot;Module&quot;</span>,</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                 <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);            <span class="comment">//from soil temperature module</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    mdi.AddInput(<span class="stringliteral">&quot;D_SNAC&quot;</span>, <span class="stringliteral">&quot;mm&quot;</span>, <span class="stringliteral">&quot;The snow accumulation&quot;</span>, <span class="stringliteral">&quot;Module&quot;</span>,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                 <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);                    <span class="comment">//from snow accumulation module</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    mdi.AddInput(<span class="stringliteral">&quot;D_SNME&quot;</span>, <span class="stringliteral">&quot;mm&quot;</span>, <span class="stringliteral">&quot;The snowmelt&quot;</span>, <span class="stringliteral">&quot;Module&quot;</span>,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                 <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);                                <span class="comment">//from snowmelt module</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    mdi.AddOutput(<span class="stringliteral">&quot;SOMO&quot;</span>, <span class="stringliteral">&quot;%&quot;</span>, <span class="stringliteral">&quot;soil moisture&quot;</span>, <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    mdi.AddOutput(<span class="stringliteral">&quot;EXCP&quot;</span>, <span class="stringliteral">&quot;mm&quot;</span>, <span class="stringliteral">&quot;The excess precipitation&quot;</span>, <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    mdi.AddOutput(<span class="stringliteral">&quot;INFIL&quot;</span>, <span class="stringliteral">&quot;mm&quot;</span>, <span class="stringliteral">&quot;Infiltration map of watershed&quot;</span>, <a class="code" href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    res = mdi.GetXMLDocument();</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">char</span> *tmp = <span class="keyword">new</span> <span class="keywordtype">char</span>[res.size() + 1];</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    strprintf(tmp, res.size() + 1, <span class="stringliteral">&quot;%s&quot;</span>, res.c_str());</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
+<div class="ttc" id="a00059_html"><div class="ttname"><a href="../../d3/d8b/a00059.html">MetadataInfo</a></div><div class="ttdoc">Metadata information of module. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/dc8/a00325_source.html#l00091">MetadataInfo.h:91</a></div></div>
+<div class="ttc" id="a00644_html_ga0087c853569e2c94d58c3499365662e9"><div class="ttname"><a href="../../d9/d0f/a00644.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a></div><div class="ttdeci">SEIMS_MODULE_API const char * MetadataInformation()</div><div class="ttdoc">function to return the XML Metadata document string </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d13/a00377_source.html#l00015">api.cpp:15</a></div></div>
+<div class="ttc" id="a00326_html_gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3"><div class="ttname"><a href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca542b7ab7a696715c30f1afe74d7b85e3">DT_Raster1D</a></div><div class="ttdoc">Raster data, same as DT_Array1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d23/a00326_source.html#l00086">MetadataInfoConst.h:86</a></div></div>
+<div class="ttc" id="a00106_html"><div class="ttname"><a href="../../d7/d70/a00106.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4e/a00329_source.html#l00045">SimulationModule.h:45</a></div></div>
+<div class="ttc" id="a00326_html_gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088"><div class="ttname"><a href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8cad140e28204d691853ef944df5866a088">DT_Single</a></div><div class="ttdoc">Single numeric. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d23/a00326_source.html#l00076">MetadataInfoConst.h:76</a></div></div>
+<div class="ttc" id="a00032_html"><div class="ttname"><a href="../../dc/d87/a00032.html">ExcessRunoff</a></div><div class="ttdoc">Calculate infiltration and excess precipitation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d10/a00449_source.html#l00013">ExcessRunoff.h:13</a></div></div>
+<div class="ttc" id="a00326_html_gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db"><div class="ttname"><a href="../../d8/d23/a00326.html#gac6cf78ef837450cfb19495fe34976b8ca27d14586bb2e278c06b457b22d5636db">DT_Raster2D</a></div><div class="ttdoc">2D raster, e.g., multi-layers of soil properties </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d23/a00326_source.html#l00088">MetadataInfoConst.h:88</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_20ca50ce979cb770beecfd08e2dc6a9c.html">build</a></li><li class="navelem"><a class="el" href="../../dir_d291fa55d68d634c394ab2de11a0506d.html">googletest-src</a></li><li class="navelem"><a class="el" href="../../dir_003e993e752d21859d372b27bc69e388.html">googletest</a></li><li class="navelem"><a class="el" href="../../dir_17eff32a9497e101945cc58a2d88a507.html">include</a></li><li class="navelem"><a class="el" href="../../dir_3f81794fbae632a80d7263ff621ce37d.html">gtest</a></li><li class="navelem"><a class="el" href="../../dir_9810601fab1a0fd620c45f60c8dfc1cb.html">internal</a></li><li class="navelem"><a class="el" href="../../dir_ffb22349ac17b33352f9a5b36445789c.html">custom</a></li><li class="navelem"><b>gtest-port.h</b></li>
-    <li class="footer">Generated on Sat Apr 1 2017 10:30:51 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e815a90a524b22b5b34e29517df36994.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_e5a058f6f94cff200a2e934dd7cac6cc.html">SUR_ES</a></li><li class="navelem"><b>api.cpp</b></li>
+    <li class="footer">Generated on Thu Apr 20 2017 10:23:19 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

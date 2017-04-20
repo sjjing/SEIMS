@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/preprocess/db_import_sites.py Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/DEP_LINSLEY/DepressionFSDaily.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,140 +112,101 @@ $(document).ready(function(){initNavTree('dd/d63/a00455_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">db_import_sites.py</div>  </div>
+<div class="title">DepressionFSDaily.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># coding=utf-8</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># @Import hydroClimate sites information and variables</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># @Author: Liang-Jun Zhu</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> pymongo</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">from</span> config <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">from</span> utility <span class="keyword">import</span> LoadConfiguration, ReadDataItemsFromTxt</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> utility <span class="keyword">import</span> DEFAULT_NODATA</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"># for test main</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> db_mongodb <span class="keyword">import</span> ConnectMongoDB</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../dc/d55/a00226.html">   15</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dc/d55/a00226.html">SiteInfo</a>(object):</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;base class of HydroClimate site information.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">def </span><a class="code" href="../../dc/d55/a00226.html#aa829b460a4c8f2aaa2e7ae5486188053">__init__</a>(self, ID = 0, Name = &#39;&#39;, lat = DEFAULT_NODATA, lon = DEFAULT_NODATA,</div>
-<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="../../dc/d55/a00226.html#aa829b460a4c8f2aaa2e7ae5486188053">   19</a></span>&#160;                 LocalX = DEFAULT_NODATA, LocalY = DEFAULT_NODATA, alti = DEFAULT_NODATA):</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Initialize a SiteInfo object.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        self.<a class="code" href="../../dc/d55/a00226.html#a7a8ff1118102403b7aa7c72e61ffd8a8">StationID</a> = ID  <span class="comment"># integer</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        self.<a class="code" href="../../dc/d55/a00226.html#abcfad95924df7ddf6e1a6ab278d5fd35">Name</a> = Name  <span class="comment"># station name, string</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        self.<a class="code" href="../../dc/d55/a00226.html#aab108cf092a6fd013e919e92d598e254">lat</a> = lat  <span class="comment"># latitude, float degree</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        self.<a class="code" href="../../dc/d55/a00226.html#a56a2bfeb2b15af9d7c11e014493d0024">lon</a> = lon  <span class="comment"># longitude, float degree</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        self.<a class="code" href="../../dc/d55/a00226.html#a05c48f57be3c34c50cdd4e64cb27c8e2">LocalX</a> = LocalX  <span class="comment"># X coordinate in projection, float</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        self.<a class="code" href="../../dc/d55/a00226.html#afa9df43cbc3886d1bff7d672ba0e395f">LocalY</a> = LocalY  <span class="comment"># Y coordinate in projection, float</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        self.<a class="code" href="../../dc/d55/a00226.html#a90472ca13de024de8092fd05e3dd8291">alti</a> = alti  <span class="comment"># altitude, as ORIGIN: unit 0.1 meter</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*----------------------------------------------------------------------</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">*   Purpose:    A simple fill and spill method method to calculate depression storage</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">*</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">*   Created:    Junzhi Liu</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">*   Date:       14-Febrary-2011</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">*</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">*   Revision:   Zhiqiang Yu </span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">*   Date:       2011-2-15</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">*   Description:</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">*   1.  Modify the name of some parameters, input and output variables.</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">*       Please see the metadata rules for the names.</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">*   2.  Depre_in would be DT_Single. Add function SetSingleData() to </span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">*       set its value.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">*   3.  This module will be called by infiltration module to get the </span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">*       depression storage. And this module will also use the outputs</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">*       of infiltration module. The sequence of this two modules is </span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">*       infiltration-&gt;depression. When infiltration first calls the </span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">*       depression module, the execute function of depression module</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">*       is not executed before getting the outputs. So, the output </span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">*       variables should be initial in the Get1DData function. This </span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">*       initialization is realized by function initalOutputs. </span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">*   4.  Delete input D_INFIL and add input D_EXCP.</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">*   </span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">*   Revision:    LiangJunZhu</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">*   Date    :    2016-7-14</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">*   Description:</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">*---------------------------------------------------------------------*/</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">def </span>LonLat(self):</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">return</span> self.<a class="code" href="../../dc/d55/a00226.html#a56a2bfeb2b15af9d7c11e014493d0024">lon</a>, self.<a class="code" href="../../dc/d55/a00226.html#aab108cf092a6fd013e919e92d598e254">lat</a></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">def </span>LocalXY(self):</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">return</span> self.<a class="code" href="../../dc/d55/a00226.html#a05c48f57be3c34c50cdd4e64cb27c8e2">LocalX</a>, self.<a class="code" href="../../dc/d55/a00226.html#afa9df43cbc3886d1bff7d672ba0e395f">LocalY</a></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment"># Import HydroClimate sites table</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">def </span>ImportSitesTable(db, siteFile, siteType):</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    sitesLoc = {}</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    siteDataItems = ReadDataItemsFromTxt(siteFile)</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    siteFlds = siteDataItems[0]</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(1, len(siteDataItems)):</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        dic = {}</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(len(siteDataItems[i])):</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keywordflow">if</span> StringClass.stringmatch(siteFlds[j], Tag_ST_StationID):</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                dic[Tag_ST_StationID.upper()] = int(siteDataItems[i][j])</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(siteFlds[j], Tag_ST_StationName):</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                <span class="comment"># unicode(siteDataItems[i][j], &#39;gb2312&#39;)</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                dic[Tag_ST_StationName.upper()] = siteDataItems[i][j]</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(siteFlds[j], Tag_ST_LocalX):</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                dic[Tag_ST_LocalX.upper()] = float(siteDataItems[i][j])</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(siteFlds[j], Tag_ST_LocalY):</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                dic[Tag_ST_LocalY.upper()] = float(siteDataItems[i][j])</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(siteFlds[j], Tag_ST_Longitude):</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                dic[Tag_ST_Longitude.upper()] = float(siteDataItems[i][j])</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(siteFlds[j], Tag_ST_Latitude):</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                dic[Tag_ST_Latitude.upper()] = float(siteDataItems[i][j])</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(siteFlds[j], Tag_ST_Elevation):</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                dic[Tag_ST_Elevation.upper()] = float(siteDataItems[i][j])</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(siteFlds[j], Tag_ST_IsOutlet):</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                dic[Tag_ST_IsOutlet.upper()] = float(siteDataItems[i][j])</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        dic[Tag_ST_Type.upper()] = siteType</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        curfilter = {Tag_ST_StationID.upper(): dic[Tag_ST_StationID.upper()],</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                     Tag_ST_Type.upper()     : dic[Tag_ST_Type.upper()]}</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        db[Tag_ClimateDB_Sites.upper()].find_one_and_replace(</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            curfilter, dic, upsert = <span class="keyword">True</span>)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">if</span> dic[Tag_ST_StationID.upper()] <span class="keywordflow">not</span> <span class="keywordflow">in</span> sitesLoc.keys():</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            sitesLoc[dic[Tag_ST_StationID.upper()]] = <a class="code" href="../../dc/d55/a00226.html">SiteInfo</a>(dic[Tag_ST_StationID.upper()],</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                                                               dic[Tag_ST_StationName.upper()],</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                                                               dic[Tag_ST_Latitude.upper()],</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                                                               dic[Tag_ST_Longitude.upper()],</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                                                               dic[Tag_ST_LocalX.upper()],</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                                                               dic[Tag_ST_LocalY.upper()],</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                                                               dic[Tag_ST_Elevation.upper()])</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    db[Tag_ClimateDB_Sites.upper()].create_index(</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        [(Tag_ST_StationID.upper(), pymongo.ASCENDING),</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;         (Tag_ST_Type.upper(), pymongo.ASCENDING)])</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">return</span> sitesLoc</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment"># Import variables table</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keyword">def </span>ImportVariableTable(db, varFile):</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    varDataItems = ReadDataItemsFromTxt(varFile)</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    varFlds = varDataItems[0]</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(1, len(varDataItems)):</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        dic = {}</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(len(varDataItems[i])):</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            <span class="keywordflow">if</span> StringClass.stringmatch(varFlds[j], Tag_VAR_Type):</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                dic[Tag_VAR_Type.upper()] = varDataItems[i][j]</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(varFlds[j], Tag_VAR_UNIT):</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                dic[Tag_VAR_UNIT.upper()] = varDataItems[i][j]</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="comment"># If this item existed already, then update it, otherwise insert one.</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        curfilter = {Tag_VAR_Type.upper(): dic[Tag_VAR_Type.upper()]}</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        db[Tag_ClimateDB_VARs.upper()].find_one_and_replace(curfilter, dic, upsert = <span class="keyword">True</span>)</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keyword">def </span>ImportHydroClimateSitesInfo(db):</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    cList = db.collection_names()</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    tables = [Tag_ClimateDB_Sites.upper(), Tag_ClimateDB_VARs.upper()]</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">for</span> tb <span class="keywordflow">in</span> tables:</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> StringClass.stringinlist(tb, cList):</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            db.create_collection(tb)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    ImportVariableTable(db, HydroClimateVarFile)</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    SiteMLoc = ImportSitesTable(db, MetroSiteFile, DataType_Meteorology)</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    SitePLoc = ImportSitesTable(db, PrecSiteFile, DataType_Precipitation)</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">return</span> SiteMLoc, SitePLoc</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../d5/d16/a00029.html">   45</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d5/d16/a00029.html">DepressionFSDaily</a> : <span class="keyword">public</span> <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../d5/d16/a00029.html">DepressionFSDaily</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    ~<a class="code" href="../../d5/d16/a00029.html">DepressionFSDaily</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="../../d5/d16/a00029.html#a41812fdacbd055bb3d0c007c2fadbaa5">   67</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d5/d16/a00029.html#a41812fdacbd055bb3d0c007c2fadbaa5">m_nCells</a>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../d5/d16/a00029.html#a37643893dfe391d5768a93ac3157a778">   69</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d16/a00029.html#a37643893dfe391d5768a93ac3157a778">m_impoundTriger</a>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="../../d5/d16/a00029.html#aa98a63ef3fee13065868a35a32f80cbe">   71</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d16/a00029.html#aa98a63ef3fee13065868a35a32f80cbe">m_potVol</a>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../d5/d16/a00029.html#af7de53843bee81cb01de19789b415e63">   73</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d5/d16/a00029.html#af7de53843bee81cb01de19789b415e63">m_depCo</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../d5/d16/a00029.html#ab131703b62b2e663b13c7ed1eb2cbf08">   75</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d16/a00029.html#ab131703b62b2e663b13c7ed1eb2cbf08">m_depCap</a>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../d5/d16/a00029.html#a449c3732cc0a934e7895e43d481d6c59">   78</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d16/a00029.html#a449c3732cc0a934e7895e43d481d6c59">m_pet</a>;</div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="../../d5/d16/a00029.html#a50e9604f12e3cf1e731ea7477acdcc4a">   80</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d16/a00029.html#a50e9604f12e3cf1e731ea7477acdcc4a">m_ei</a>;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="../../d5/d16/a00029.html#aa69586fd84baec826d4315425ee782c3">   83</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d16/a00029.html#aa69586fd84baec826d4315425ee782c3">m_pe</a>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="comment">// state variables (output)</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="../../d5/d16/a00029.html#a8be427d2951411cfe3eb79bd07335612">   88</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d16/a00029.html#a8be427d2951411cfe3eb79bd07335612">m_sd</a>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="../../d5/d16/a00029.html#abe6254533edb2e17dd4119aa2491d933">   90</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d16/a00029.html#abe6254533edb2e17dd4119aa2491d933">m_ed</a>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno"><a class="line" href="../../d5/d16/a00029.html#a9dc508a018a02680dcedb88f82924dfb">   92</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d16/a00029.html#a9dc508a018a02680dcedb88f82924dfb">m_sr</a>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">void</span> initialOutputs(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;};</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    LoadConfiguration(getconfigfile())</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    client = ConnectMongoDB(HOSTNAME, PORT)</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    conn = client.get_conn()</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    climatedb = conn[ClimateDBName]</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    SitesMList, SitesPList = ImportHydroClimateSitesInfo(climatedb)</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    client.close()</div>
-<div class="ttc" id="a00226_html_aa829b460a4c8f2aaa2e7ae5486188053"><div class="ttname"><a href="../../dc/d55/a00226.html#aa829b460a4c8f2aaa2e7ae5486188053">seims.preprocess.db_import_sites.SiteInfo.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00019">db_import_sites.py:19</a></div></div>
-<div class="ttc" id="a00226_html_afa9df43cbc3886d1bff7d672ba0e395f"><div class="ttname"><a href="../../dc/d55/a00226.html#afa9df43cbc3886d1bff7d672ba0e395f">seims.preprocess.db_import_sites.SiteInfo.LocalY</a></div><div class="ttdeci">LocalY</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00026">db_import_sites.py:26</a></div></div>
-<div class="ttc" id="a00226_html_aab108cf092a6fd013e919e92d598e254"><div class="ttname"><a href="../../dc/d55/a00226.html#aab108cf092a6fd013e919e92d598e254">seims.preprocess.db_import_sites.SiteInfo.lat</a></div><div class="ttdeci">lat</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00023">db_import_sites.py:23</a></div></div>
-<div class="ttc" id="a00226_html_a05c48f57be3c34c50cdd4e64cb27c8e2"><div class="ttname"><a href="../../dc/d55/a00226.html#a05c48f57be3c34c50cdd4e64cb27c8e2">seims.preprocess.db_import_sites.SiteInfo.LocalX</a></div><div class="ttdeci">LocalX</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00025">db_import_sites.py:25</a></div></div>
-<div class="ttc" id="a00226_html"><div class="ttname"><a href="../../dc/d55/a00226.html">seims.preprocess.db_import_sites.SiteInfo</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00015">db_import_sites.py:15</a></div></div>
-<div class="ttc" id="a00226_html_a7a8ff1118102403b7aa7c72e61ffd8a8"><div class="ttname"><a href="../../dc/d55/a00226.html#a7a8ff1118102403b7aa7c72e61ffd8a8">seims.preprocess.db_import_sites.SiteInfo.StationID</a></div><div class="ttdeci">StationID</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00021">db_import_sites.py:21</a></div></div>
-<div class="ttc" id="a00226_html_abcfad95924df7ddf6e1a6ab278d5fd35"><div class="ttname"><a href="../../dc/d55/a00226.html#abcfad95924df7ddf6e1a6ab278d5fd35">seims.preprocess.db_import_sites.SiteInfo.Name</a></div><div class="ttdeci">Name</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00022">db_import_sites.py:22</a></div></div>
-<div class="ttc" id="a00226_html_a90472ca13de024de8092fd05e3dd8291"><div class="ttname"><a href="../../dc/d55/a00226.html#a90472ca13de024de8092fd05e3dd8291">seims.preprocess.db_import_sites.SiteInfo.alti</a></div><div class="ttdeci">alti</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00027">db_import_sites.py:27</a></div></div>
-<div class="ttc" id="a00226_html_a56a2bfeb2b15af9d7c11e014493d0024"><div class="ttname"><a href="../../dc/d55/a00226.html#a56a2bfeb2b15af9d7c11e014493d0024">seims.preprocess.db_import_sites.SiteInfo.lon</a></div><div class="ttdeci">lon</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00024">db_import_sites.py:24</a></div></div>
+<div class="ttc" id="a00029_html_abe6254533edb2e17dd4119aa2491d933"><div class="ttname"><a href="../../d5/d16/a00029.html#abe6254533edb2e17dd4119aa2491d933">DepressionFSDaily::m_ed</a></div><div class="ttdeci">float * m_ed</div><div class="ttdoc">evaporation from depression storage </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00090">DepressionFSDaily.h:90</a></div></div>
+<div class="ttc" id="a00029_html_ab131703b62b2e663b13c7ed1eb2cbf08"><div class="ttname"><a href="../../d5/d16/a00029.html#ab131703b62b2e663b13c7ed1eb2cbf08">DepressionFSDaily::m_depCap</a></div><div class="ttdeci">float * m_depCap</div><div class="ttdoc">depression storage capacity (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00075">DepressionFSDaily.h:75</a></div></div>
+<div class="ttc" id="a00029_html_a50e9604f12e3cf1e731ea7477acdcc4a"><div class="ttname"><a href="../../d5/d16/a00029.html#a50e9604f12e3cf1e731ea7477acdcc4a">DepressionFSDaily::m_ei</a></div><div class="ttdeci">float * m_ei</div><div class="ttdoc">evaporation from the interception storage </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00080">DepressionFSDaily.h:80</a></div></div>
+<div class="ttc" id="a00029_html_aa69586fd84baec826d4315425ee782c3"><div class="ttname"><a href="../../d5/d16/a00029.html#aa69586fd84baec826d4315425ee782c3">DepressionFSDaily::m_pe</a></div><div class="ttdeci">float * m_pe</div><div class="ttdoc">excess precipitation calculated in the infiltration module </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00083">DepressionFSDaily.h:83</a></div></div>
+<div class="ttc" id="a00029_html_a41812fdacbd055bb3d0c007c2fadbaa5"><div class="ttname"><a href="../../d5/d16/a00029.html#a41812fdacbd055bb3d0c007c2fadbaa5">DepressionFSDaily::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">valid cells number </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00067">DepressionFSDaily.h:67</a></div></div>
+<div class="ttc" id="a00106_html"><div class="ttname"><a href="../../d7/d70/a00106.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4e/a00329_source.html#l00045">SimulationModule.h:45</a></div></div>
+<div class="ttc" id="a00029_html_a37643893dfe391d5768a93ac3157a778"><div class="ttname"><a href="../../d5/d16/a00029.html#a37643893dfe391d5768a93ac3157a778">DepressionFSDaily::m_impoundTriger</a></div><div class="ttdeci">float * m_impoundTriger</div><div class="ttdoc">impound/release </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00069">DepressionFSDaily.h:69</a></div></div>
+<div class="ttc" id="a00029_html"><div class="ttname"><a href="../../d5/d16/a00029.html">DepressionFSDaily</a></div><div class="ttdoc">A simple fill and spill method method to calculate depression storage. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00045">DepressionFSDaily.h:45</a></div></div>
+<div class="ttc" id="a00029_html_a449c3732cc0a934e7895e43d481d6c59"><div class="ttname"><a href="../../d5/d16/a00029.html#a449c3732cc0a934e7895e43d481d6c59">DepressionFSDaily::m_pet</a></div><div class="ttdeci">float * m_pet</div><div class="ttdoc">pet </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00078">DepressionFSDaily.h:78</a></div></div>
+<div class="ttc" id="a00029_html_a9dc508a018a02680dcedb88f82924dfb"><div class="ttname"><a href="../../d5/d16/a00029.html#a9dc508a018a02680dcedb88f82924dfb">DepressionFSDaily::m_sr</a></div><div class="ttdeci">float * m_sr</div><div class="ttdoc">surface runoff </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00092">DepressionFSDaily.h:92</a></div></div>
+<div class="ttc" id="a00029_html_a8be427d2951411cfe3eb79bd07335612"><div class="ttname"><a href="../../d5/d16/a00029.html#a8be427d2951411cfe3eb79bd07335612">DepressionFSDaily::m_sd</a></div><div class="ttdeci">float * m_sd</div><div class="ttdoc">depression storage </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00088">DepressionFSDaily.h:88</a></div></div>
+<div class="ttc" id="a00029_html_af7de53843bee81cb01de19789b415e63"><div class="ttname"><a href="../../d5/d16/a00029.html#af7de53843bee81cb01de19789b415e63">DepressionFSDaily::m_depCo</a></div><div class="ttdeci">float m_depCo</div><div class="ttdoc">initial depression storage coefficient </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00073">DepressionFSDaily.h:73</a></div></div>
+<div class="ttc" id="a00029_html_aa98a63ef3fee13065868a35a32f80cbe"><div class="ttname"><a href="../../d5/d16/a00029.html#aa98a63ef3fee13065868a35a32f80cbe">DepressionFSDaily::m_potVol</a></div><div class="ttdeci">float * m_potVol</div><div class="ttdoc">pothole volume, mm </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d63/a00455_source.html#l00071">DepressionFSDaily.h:71</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>db_import_sites.py</b></li>
-    <li class="footer">Generated on Sat Apr 1 2017 10:30:52 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e815a90a524b22b5b34e29517df36994.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_b36c79fa04548de70255a6fc92dab14c.html">DEP_LINSLEY</a></li><li class="navelem"><b>DepressionFSDaily.h</b></li>
+    <li class="footer">Generated on Thu Apr 20 2017 10:23:20 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

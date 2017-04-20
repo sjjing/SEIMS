@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/build/googletest-src/googletest/docs/Documentation.md Source File</title>
+<title>SEIMS: seims/src/seims_main/base/module_setting/api.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('d2/d71/a00309.html','../../');});
+$(document).ready(function(){initNavTree('d2/d71/a00309_source.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -112,30 +112,37 @@ $(document).ready(function(){initNavTree('d2/d71/a00309.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">seims/build/googletest-src/googletest/docs/Documentation.md</div>  </div>
+<div class="title">api.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;This page lists all documentation wiki pages <span class="keywordflow">for</span> Google Test **(the SVN trunk version)**</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;-- **<span class="keywordflow">if</span> you use a released version of Google Test, please read the</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;documentation <span class="keywordflow">for</span> that specific version instead.**</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;  * [Primer](Primer.md) -- start here <span class="keywordflow">if</span> you are <span class="keyword">new</span> to Google Test.</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;  * [Samples](Samples.md) -- learn from examples.</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;  * [AdvancedGuide](AdvancedGuide.md) -- learn more about Google Test.</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;  * [XcodeGuide](XcodeGuide.md) -- how to use Google Test in Xcode on Mac.</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;  * [Frequently-Asked Questions](FAQ.md) -- check here before asking a question on the mailing list.</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;To contribute code to Google Test, read:</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  * [DevGuide](DevGuide.md) -- read <span class="keyword">this</span> _before_ writing your first patch.</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;  * [PumpManual](PumpManual.md) -- how we generate some of Google Test<span class="stringliteral">&#39;s source files.</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#ifndef SEIMS_MODULE_API</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#ifdef MSVC</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#ifdef MODULE_EXPORTS</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEIMS_MODULE_API __declspec(dllexport)</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEIMS_MODULE_API __declspec(dllimport)</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEIMS_MODULE_API</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;MetadataInfo.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../d9/d0f/a00644.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> *GetInstance();</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="a00644_html_ga0087c853569e2c94d58c3499365662e9"><div class="ttname"><a href="../../d9/d0f/a00644.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a></div><div class="ttdeci">SEIMS_MODULE_API const char * MetadataInformation(void)</div><div class="ttdoc">function to return the XML Metadata document string </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d08/a00378_source.html#l00022">api.cpp:22</a></div></div>
+<div class="ttc" id="a00106_html"><div class="ttname"><a href="../../d7/d70/a00106.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4e/a00329_source.html#l00045">SimulationModule.h:45</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>Documentation.md</b></li>
-    <li class="footer">Generated on Sat Apr 1 2017 10:30:50 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_c45fff51ca6bdea500732eefc9a455a0.html">base</a></li><li class="navelem"><a class="el" href="../../dir_625f7b8788822ee158faa8ec5ed998ad.html">module_setting</a></li><li class="navelem"><b>api.h</b></li>
+    <li class="footer">Generated on Thu Apr 20 2017 10:23:19 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

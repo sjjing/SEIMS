@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/preprocess/sd_hillslope.py Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/IUH_OL/IUH_OL.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,243 +112,94 @@ $(document).ready(function(){initNavTree('db/de0/a00465_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">sd_hillslope.py</div>  </div>
+<div class="title">IUH_OL.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> numpy</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">from</span> gdal <span class="keyword">import</span> GDT_Int16</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">from</span> <a class="code" href="../../de/d37/a00849.html">pygeoc.raster</a> <span class="keyword">import</span> RasterUtilClass</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d9/d87/a00846.html">pygeoc.hydro.postTauDEM</a> <span class="keyword">import</span> D8Util</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d9/dbb/a00852.html">pygeoc.utils.const</a> <span class="keyword">import</span> DEFAULT_NODATA, CCW_DCOL, CCW_DROW, D8DIR_TD_INFLOW_VALUES, D8DIR_TD_DELTA</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">def </span>delineate_hillslopes_downstream_method(stream_raster, flow_dir_raster, hillslope_out, stream_value_method = 0):</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="stringliteral">    Delineate hillslopes for each subbasin, include header, left, and right hillslope</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="stringliteral">    :param stream_raster: Stream cell value greater than 0 is identified by stream</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="stringliteral">                          The input stream are recommended sequenced as 1, 2, 3...</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="stringliteral">    :param flow_dir_raster: D8 flow direction in TauDEM code</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="stringliteral">    :param stream_value_method: method for stream cell&#39; value.</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="stringliteral">                                0 - keep stream link code, which is default</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="stringliteral">                                1 - Set to the value of right hillslope and head hillslope</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="stringliteral">                                2 - Set to the value of left hillslope and head hillslope</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="stringliteral">                                3 - Set stream cell to NoData</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="stringliteral">    :return hillslope_out: If the input stream are sequenced, the output hillslope will be numbered:</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="stringliteral">                              - Header hillslope: MaxStreamID * 3 + 1</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="stringliteral">                              - Right hillslope: MaxStreamID * 3 + 2</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="stringliteral">                              - Left hillslope: MaxStreamID * 3 + 3</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="stringliteral">                           If not, the output hillslope will be numbered in imprevision order.</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&quot;Delineating hillslopes (header, left, and right hillslope)...&quot;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    streamr = RasterUtilClass.ReadRaster(stream_raster)</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    stream_data = streamr.data</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    stream_nodata = streamr.noDataValue</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    geotrans = streamr.geotrans</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    srs = streamr.srs</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    nrows = streamr.nRows</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    ncols = streamr.nCols</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    flowd8r = RasterUtilClass.ReadRaster(flow_dir_raster)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    flowd8_data = flowd8r.data</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    flowd8_nodata = flowd8r.noDataValue</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">if</span> flowd8r.nRows != nrows <span class="keywordflow">or</span> flowd8r.nCols != ncols:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;The input extent of D8 flow direction is not consistent with stream data!&quot;</span>)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment"># definition of utility functions</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">def </span>inflow_stream_number(vrow, vcol):</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Count the inflow stream cell number, and the coordinate&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        neighb_stream_cell_num = 0</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        cell_coors = []</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">for</span> c <span class="keywordflow">in</span> range(8):</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            newrow = vrow + CCW_DROW[c]</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            newcol = vcol + CCW_DCOL[c]</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordflow">if</span> newrow &lt; 0 <span class="keywordflow">or</span> newrow &gt;= nrows <span class="keywordflow">or</span> newcol &lt; 0 <span class="keywordflow">or</span> newcol &gt;= ncols:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordflow">if</span> flowd8_data[newrow][newcol] == D8DIR_TD_INFLOW_VALUES[c]:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                cell_coors.append((newrow, newcol))</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <span class="keywordflow">if</span> stream_data[newrow][newcol] &gt; 0 <span class="keywordflow">and</span> stream_data[newrow][newcol] != stream_nodata:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                    neighb_stream_cell_num += 1</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">return</span> neighb_stream_cell_num, cell_coors</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html">   48</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d79/a00051.html">IUH_OL</a> : <span class="keyword">public</span> <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> {</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="../../d2/d79/a00051.html">IUH_OL</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ~<a class="code" href="../../d2/d79/a00051.html">IUH_OL</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment"># 1. assign a unique id to each link in the stream network if needed</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    assignStreamID = <span class="keyword">False</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    tmp = numpy.where((stream_data &gt; 0) &amp; (stream_data != stream_nodata), stream_data, numpy.nan)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    currentMaxID = numpy.nanmax(tmp)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    currentID = 0</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">if</span> currentMaxID == numpy.nanmin(tmp):</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        assignStreamID = <span class="keyword">True</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">if</span> assignStreamID:</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        HillslopeMtxTmp = numpy.ones((nrows, ncols)) * DEFAULT_NODATA</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">for</span> row <span class="keywordflow">in</span> range(nrows):</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="keywordflow">for</span> col <span class="keywordflow">in</span> range(ncols):</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                <span class="keywordflow">if</span> stream_data[row][col] &lt;= 0:</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                inflownum, inflowcoors = inflow_stream_number(row, col)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                <span class="keywordflow">if</span> inflownum == 0:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                    <span class="comment"># it&#39;s a headwater location so start a downstream flowpath</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                    currentID += 1</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                    tmprow = row</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                    tmpcol = col</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                    HillslopeMtxTmp[tmprow][tmpcol] = currentID</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                    flag = <span class="keyword">True</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                    <span class="keywordflow">while</span> flag:</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                        <span class="comment"># find the downslope neighbour</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                        tmpflowd8 = flowd8_data[tmprow][tmpcol]</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                        <span class="keywordflow">if</span> tmpflowd8 &lt; 0 <span class="keywordflow">or</span> tmpflowd8 == flowd8_nodata:</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                            <span class="keywordflow">if</span> stream_data[tmprow][tmpcol] &gt; 0 <span class="keywordflow">and</span> stream_data[tmprow][tmpcol] != stream_nodata:</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                                <span class="comment"># it is a valid stream cell and probably just has no downslope</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                                <span class="comment"># neighbour (e.g. at the edge of the grid)</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                                HillslopeMtxTmp[tmprow][tmpcol] = currentID</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                            <span class="keywordflow">break</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                        tmprow, tmpcol = D8Util.downstream_index(tmpflowd8, tmprow, tmpcol)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                        <span class="keywordflow">if</span> stream_data[tmprow][tmpcol] &lt;= 0:</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                            flag = <span class="keyword">False</span>  <span class="comment"># it is not a stream cell</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                            <span class="keywordflow">if</span> HillslopeMtxTmp[tmprow][tmpcol] &gt; 0:  <span class="comment"># run into a larger stream, end the downstream search</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                                <span class="keywordflow">break</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                            <span class="comment"># is it a confluence (conjunction node)</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                            inflownum, inflowcoors = inflow_stream_number(tmprow, tmpcol)</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                            <span class="keywordflow">if</span> inflownum &gt;=2:</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                                currentID += 1</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                            HillslopeMtxTmp[tmprow][tmpcol] = currentID</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        stream_data = numpy.copy(HillslopeMtxTmp)</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        currentMaxID = currentID</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment"># 2. a). find the channel heads and give them unique identifier,</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="comment">#    b). assign hillslope code according to the 3*3 neighbour of stream cells</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    HillslopeMtx = numpy.copy(stream_data)</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    HillslopeMtx[stream_data == stream_nodata] = DEFAULT_NODATA</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    headstreamCoors = []</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">for</span> row <span class="keywordflow">in</span> range(nrows):</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">for</span> col <span class="keywordflow">in</span> range(ncols):</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">if</span> stream_data[row][col] &lt;= 0:</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            inflownum, inflowcoors = inflow_stream_number(row, col)</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            currentID = stream_data[row][col]</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="keywordflow">if</span> inflownum == 0:  <span class="comment"># it is a one-order stream head</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                HillslopeMtx[row][col] = currentID * currentMaxID + 1</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                headstreamCoors.append((row, col))</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">elif</span> inflownum &gt;= 2:  <span class="comment"># it is a confluence, assign hillslope code to the non-stream inflow cells</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                non_stream_inflow_count = 0</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                <span class="keywordflow">for</span> (tmprow, tmpcol) <span class="keywordflow">in</span> inflowcoors:</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                    <span class="keywordflow">if</span> stream_data[tmprow][tmpcol] &lt;= 0:</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                        HillslopeMtx[tmprow][tmpcol] = stream_data[row][col] * currentMaxID + 1</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                        non_stream_inflow_count += 1</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                <span class="keywordflow">if</span> non_stream_inflow_count &gt; 0:</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                    HillslopeMtx[row][col] = currentID * currentMaxID + 1</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                    headstreamCoors.append((row, col))</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            <span class="comment"># search the 3*3 neighbours by clockwise and counterclockwise separately</span></div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            curflowdir = flowd8_data[row][col]</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <span class="keywordflow">if</span> curflowdir &lt;= 0 <span class="keywordflow">or</span> curflowdir == flowd8_nodata:</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            d = int(curflowdir)</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="comment"># look to the right side, i.e. clockwise</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            flag = <span class="keyword">False</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            state = <span class="keyword">False</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="keywordflow">while</span> <span class="keywordflow">not</span> flag:</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                d -= 1</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                <span class="keywordflow">if</span> d &gt; 8: d = 1</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                <span class="keywordflow">if</span> d &lt; 1: d = 8</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                tmprow = row + CCW_DROW[d - 1]</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                tmpcol = col + CCW_DCOL[d - 1]</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                tmpstream = stream_data[tmprow][tmpcol]</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                <span class="keywordflow">if</span> tmpstream &lt;= 0:</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                    state = <span class="keyword">True</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                    <span class="comment"># see if it flows into the stream cell at (row, col)</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                    <span class="keywordflow">if</span> int(flowd8_data[tmprow][tmpcol]) == D8DIR_TD_INFLOW_VALUES[d - 1]:</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                        HillslopeMtx[tmprow][tmpcol] = currentID * currentMaxID + 2</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                <span class="keywordflow">else</span>:  <span class="comment"># searched for the first stream cell on the clockwise</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                    <span class="keywordflow">if</span> state:</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                        flag = <span class="keyword">True</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            <span class="comment"># look to the left side, i.e. counterclockwise</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            flag = <span class="keyword">False</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            d = int(curflowdir)</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            k = 0</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            <span class="keywordflow">while</span> <span class="keywordflow">not</span> flag:</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                d += 1</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                <span class="keywordflow">if</span> d &gt; 8: d = 1</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                <span class="keywordflow">if</span> d &lt; 1: d = 8</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                tmprow = row + CCW_DROW[d - 1]</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                tmpcol = col + CCW_DCOL[d - 1]</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                tmpstream = stream_data[tmprow][tmpcol]</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                <span class="keywordflow">if</span> tmpstream &lt;= 0:</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                    <span class="comment"># see if it flows into the stream cell at (row, col)</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                    <span class="keywordflow">if</span> int(flowd8_data[tmprow][tmpcol]) == D8DIR_TD_INFLOW_VALUES[d - 1] <span class="keywordflow">and</span> \</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                                    HillslopeMtx[tmprow][tmpcol] &lt;= 0:</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                        HillslopeMtx[tmprow][tmpcol] = currentID * currentMaxID + 3</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                k += 1</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                <span class="keywordflow">if</span> k == 7:</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                    flag = <span class="keyword">True</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="comment"># 3. From each cell, search downstream for not assigned hillslope</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordflow">for</span> row <span class="keywordflow">in</span> range(nrows):</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordflow">for</span> col <span class="keywordflow">in</span> range(ncols):</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="keywordflow">if</span> HillslopeMtx[row][col] &gt; 0 <span class="keywordflow">or</span> flowd8_data[row][col] == flowd8_nodata:</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            flag = <span class="keyword">False</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            tmprow = row</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            tmpcol = col</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            tmpcoors = []</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            streamID = DEFAULT_NODATA</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;            <span class="keywordflow">while</span> <span class="keywordflow">not</span> flag:</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                <span class="comment"># find it&#39;s downslope neighbour</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                curflowdir = flowd8_data[tmprow][tmpcol]</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                <span class="keywordflow">if</span> curflowdir &gt; 0:</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                    tmprow, tmpcol = D8Util.downstream_index(curflowdir, tmprow, tmpcol)</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                    <span class="comment"># if the new cell already has a hillslope value, use that</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                    <span class="keywordflow">if</span> HillslopeMtx[tmprow][tmpcol] &gt; 0:</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                        streamID = HillslopeMtx[tmprow][tmpcol]</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                        flag = <span class="keyword">True</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                    flag = <span class="keyword">True</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                <span class="keywordflow">if</span> <span class="keywordflow">not</span> flag:</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                    tmpcoors.append((tmprow, tmpcol))</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            HillslopeMtx[row][col] = streamID</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            <span class="keywordflow">for</span> (crow, ccol) <span class="keywordflow">in</span> tmpcoors:</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                HillslopeMtx[crow][ccol] = streamID</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="comment"># 4. reassign stream cell&#39;s value according to stream_value_method</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keywordflow">if</span> stream_value_method != 0:</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="keywordflow">for</span> row <span class="keywordflow">in</span> range(nrows):</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            <span class="keywordflow">for</span> col <span class="keywordflow">in</span> range(ncols):</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                <span class="keywordflow">if</span> HillslopeMtx[row][col] == stream_data[row][col] &gt; 0:</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                    <span class="keywordflow">if</span> stream_value_method == 1:  <span class="comment"># right hillslope</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;                        HillslopeMtx[row][col] = stream_data[row][col] * 3 + 2</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;                    <span class="keywordflow">elif</span> stream_value_method == 2:  <span class="comment"># left hillslope</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                        HillslopeMtx[row][col] = stream_data[row][col] * 3 + 3</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                        HillslopeMtx[row][col] = DEFAULT_NODATA</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                        <span class="keywordflow">for</span> (tmprow, tmpcol) <span class="keywordflow">in</span> headstreamCoors:</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                            HillslopeMtx[tmprow][tmpcol] = DEFAULT_NODATA</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        <span class="keywordflow">for</span> (tmprow, tmpcol) <span class="keywordflow">in</span> headstreamCoors:</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            HillslopeMtx[tmprow][tmpcol] = (HillslopeMtx[tmprow][tmpcol] - 1) / 3</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="comment"># 6. Output to raster file</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordflow">if</span> <span class="stringliteral">&#39;asc&#39;</span> <span class="keywordflow">in</span> hillslope_out.lower():</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        RasterUtilClass.WriteAscFile(hillslope_out, HillslopeMtx, ncols, nrows, geotrans, DEFAULT_NODATA)</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        RasterUtilClass.WriteGTiffFile(hillslope_out, nrows, ncols, HillslopeMtx, geotrans, srs, DEFAULT_NODATA,</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;                                       GDT_Int16)</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    streamf = <span class="stringliteral">r&#39;C:\z_data_m\SEIMS2017\dianbu2_30m_omp\spatial_raster\stream_link.tif&#39;</span></div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    flowdirf = <span class="stringliteral">r&#39;C:\z_data_m\SEIMS2017\dianbu2_30m_omp\taudem_delineated\flowDirTauM.tif&#39;</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    hillslpf = <span class="stringliteral">r&#39;C:\z_data_m\SEIMS2017\dianbu2_30m_omp\spatial_raster\hillslope.tif&#39;</span></div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    delineate_hillslopes_downstream_method(streamf, flowdirf, hillslpf, 1)</div>
-<div class="ttc" id="a00846_html"><div class="ttname"><a href="../../d9/d87/a00846.html">pygeoc.hydro.postTauDEM</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dea/a00478_source.html#l00001">postTauDEM.py:1</a></div></div>
-<div class="ttc" id="a00849_html"><div class="ttname"><a href="../../de/d37/a00849.html">pygeoc.raster</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d7f/a00287_source.html#l00001">__init__.py:1</a></div></div>
-<div class="ttc" id="a00852_html"><div class="ttname"><a href="../../d9/dbb/a00852.html">pygeoc.utils.const</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d58/a00481_source.html#l00001">const.py:1</a></div></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nRows, <span class="keywordtype">int</span> nCols, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetSubbasins(<a class="code" href="../../de/d11/a00021.html">clsSubbasins</a> *);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#a61cfc964f6e0f3e435c911a05f74ce90">   73</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d2/d79/a00051.html#a61cfc964f6e0f3e435c911a05f74ce90">m_TimeStep</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">   75</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">m_nCells</a>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#afc6c25e9810f94e5b317189decc50ccb">   77</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/d79/a00051.html#afc6c25e9810f94e5b317189decc50ccb">m_CellWidth</a>;</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#a3b3c5d8c7767ccfa015cf04de7809b3b">   79</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/d79/a00051.html#a3b3c5d8c7767ccfa015cf04de7809b3b">m_cellArea</a>;</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#ab39a2d53cfa489fc43e843f870dadafa">   81</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d2/d79/a00051.html#ab39a2d53cfa489fc43e843f870dadafa">m_nSubbasins</a>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#a67e59962c6154259891ec865a1858f10">   83</a></span>&#160;    vector&lt;int&gt; <a class="code" href="../../d2/d79/a00051.html#a67e59962c6154259891ec865a1858f10">m_subbasinIDs</a>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#aa1dc7fe96259478f4044ae22823f81df">   85</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d79/a00051.html#aa1dc7fe96259478f4044ae22823f81df">m_subbasin</a>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#ae5f04a205b6ff53f1f07b4264c1c7655">   88</a></span>&#160;    <a class="code" href="../../de/d11/a00021.html">clsSubbasins</a> *<a class="code" href="../../d2/d79/a00051.html#ae5f04a205b6ff53f1f07b4264c1c7655">m_subbasinsInfo</a>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="comment">//float *m_landcover;</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#a62c439d85c32be20d508f9401682089f">   97</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> **<a class="code" href="../../d2/d79/a00051.html#a62c439d85c32be20d508f9401682089f">m_iuhCell</a>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#ad0a8d6cda853ead9e7514424bd9efc18">   99</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d2/d79/a00051.html#ad0a8d6cda853ead9e7514424bd9efc18">m_iuhCols</a>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#ae3ce9bc29a4189542dda84e3b5839d02">  101</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d79/a00051.html#ae3ce9bc29a4189542dda84e3b5839d02">m_rs</a>;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="comment">/*/// length of rainfall series</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment">    int m_nr;*/</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="comment">//temporary</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#a824633a53584503cb1ed48bbbdd46690">  110</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d2/d79/a00051.html#a824633a53584503cb1ed48bbbdd46690">m_cellFlow</a>;</div>
+<div class="line"><a name="l00112"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#aebfcc7009667c9828a6535211e86551b">  112</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d2/d79/a00051.html#aebfcc7009667c9828a6535211e86551b">m_cellFlowCols</a>;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="comment">//output</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#a545e736269756ef0fb60df86c287a76b">  117</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d79/a00051.html#a545e736269756ef0fb60df86c287a76b">m_Q_SBOF</a>;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="comment">// overland flow in each cell (mm) //added by Gao, as intermediate variable, 29 Jul 2016</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">float</span> *m_OL_Flow;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordtype">void</span> initialOutputs(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;};</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="ttc" id="a00051_html_ab39a2d53cfa489fc43e843f870dadafa"><div class="ttname"><a href="../../d2/d79/a00051.html#ab39a2d53cfa489fc43e843f870dadafa">IUH_OL::m_nSubbasins</a></div><div class="ttdeci">int m_nSubbasins</div><div class="ttdoc">the total number of subbasins </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00081">IUH_OL.h:81</a></div></div>
+<div class="ttc" id="a00051_html_a62c439d85c32be20d508f9401682089f"><div class="ttname"><a href="../../d2/d79/a00051.html#a62c439d85c32be20d508f9401682089f">IUH_OL::m_iuhCell</a></div><div class="ttdeci">float ** m_iuhCell</div><div class="ttdoc">landcover code </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00097">IUH_OL.h:97</a></div></div>
+<div class="ttc" id="a00051_html_a67e59962c6154259891ec865a1858f10"><div class="ttname"><a href="../../d2/d79/a00051.html#a67e59962c6154259891ec865a1858f10">IUH_OL::m_subbasinIDs</a></div><div class="ttdeci">vector&lt; int &gt; m_subbasinIDs</div><div class="ttdoc">subbasin IDs </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00083">IUH_OL.h:83</a></div></div>
+<div class="ttc" id="a00021_html"><div class="ttname"><a href="../../de/d11/a00021.html">clsSubbasins</a></div><div class="ttdoc">Manager all Subbasin related parameters and methods. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d5b/a00294_source.html#l00232">clsSubbasin.h:232</a></div></div>
+<div class="ttc" id="a00051_html_a3b3c5d8c7767ccfa015cf04de7809b3b"><div class="ttname"><a href="../../d2/d79/a00051.html#a3b3c5d8c7767ccfa015cf04de7809b3b">IUH_OL::m_cellArea</a></div><div class="ttdeci">float m_cellArea</div><div class="ttdoc">cell area, BE CAUTION, the unit is m^2, NOT ha!!! </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00079">IUH_OL.h:79</a></div></div>
+<div class="ttc" id="a00051_html_a545e736269756ef0fb60df86c287a76b"><div class="ttname"><a href="../../d2/d79/a00051.html#a545e736269756ef0fb60df86c287a76b">IUH_OL::m_Q_SBOF</a></div><div class="ttdeci">float * m_Q_SBOF</div><div class="ttdoc">overland flow to streams for each subbasin (m3/s) </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00117">IUH_OL.h:117</a></div></div>
+<div class="ttc" id="a00051_html_ae5f04a205b6ff53f1f07b4264c1c7655"><div class="ttname"><a href="../../d2/d79/a00051.html#ae5f04a205b6ff53f1f07b4264c1c7655">IUH_OL::m_subbasinsInfo</a></div><div class="ttdeci">clsSubbasins * m_subbasinsInfo</div><div class="ttdoc">subbasins information </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00088">IUH_OL.h:88</a></div></div>
+<div class="ttc" id="a00051_html_a61cfc964f6e0f3e435c911a05f74ce90"><div class="ttname"><a href="../../d2/d79/a00051.html#a61cfc964f6e0f3e435c911a05f74ce90">IUH_OL::m_TimeStep</a></div><div class="ttdeci">int m_TimeStep</div><div class="ttdoc">time step (sec) </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00073">IUH_OL.h:73</a></div></div>
+<div class="ttc" id="a00106_html"><div class="ttname"><a href="../../d7/d70/a00106.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4e/a00329_source.html#l00045">SimulationModule.h:45</a></div></div>
+<div class="ttc" id="a00051_html_a824633a53584503cb1ed48bbbdd46690"><div class="ttname"><a href="../../d2/d79/a00051.html#a824633a53584503cb1ed48bbbdd46690">IUH_OL::m_cellFlow</a></div><div class="ttdeci">float ** m_cellFlow</div><div class="ttdoc">store the flow of each cell in each day between min time and max time </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00110">IUH_OL.h:110</a></div></div>
+<div class="ttc" id="a00051_html_aa1dc7fe96259478f4044ae22823f81df"><div class="ttname"><a href="../../d2/d79/a00051.html#aa1dc7fe96259478f4044ae22823f81df">IUH_OL::m_subbasin</a></div><div class="ttdeci">float * m_subbasin</div><div class="ttdoc">subbasin grid (subbasins ID) </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00085">IUH_OL.h:85</a></div></div>
+<div class="ttc" id="a00051_html_ae3ce9bc29a4189542dda84e3b5839d02"><div class="ttname"><a href="../../d2/d79/a00051.html#ae3ce9bc29a4189542dda84e3b5839d02">IUH_OL::m_rs</a></div><div class="ttdeci">float * m_rs</div><div class="ttdoc">surface runoff from depression module </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00101">IUH_OL.h:101</a></div></div>
+<div class="ttc" id="a00051_html_aebfcc7009667c9828a6535211e86551b"><div class="ttname"><a href="../../d2/d79/a00051.html#aebfcc7009667c9828a6535211e86551b">IUH_OL::m_cellFlowCols</a></div><div class="ttdeci">int m_cellFlowCols</div><div class="ttdoc">the maximum of second column of OL_IUH plus 1. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00112">IUH_OL.h:112</a></div></div>
+<div class="ttc" id="a00051_html_afc6c25e9810f94e5b317189decc50ccb"><div class="ttname"><a href="../../d2/d79/a00051.html#afc6c25e9810f94e5b317189decc50ccb">IUH_OL::m_CellWidth</a></div><div class="ttdeci">float m_CellWidth</div><div class="ttdoc">cell width of the grid (m) </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00077">IUH_OL.h:77</a></div></div>
+<div class="ttc" id="a00051_html"><div class="ttname"><a href="../../d2/d79/a00051.html">IUH_OL</a></div><div class="ttdoc">IUH overland method to calculate overland flow routing. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00048">IUH_OL.h:48</a></div></div>
+<div class="ttc" id="a00051_html_ac67a95ee0dc035ce4171f18f95afca46"><div class="ttname"><a href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">IUH_OL::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">validate cells number </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00075">IUH_OL.h:75</a></div></div>
+<div class="ttc" id="a00051_html_ad0a8d6cda853ead9e7514424bd9efc18"><div class="ttname"><a href="../../d2/d79/a00051.html#ad0a8d6cda853ead9e7514424bd9efc18">IUH_OL::m_iuhCols</a></div><div class="ttdeci">int m_iuhCols</div><div class="ttdoc">the number of columns of Ol_iuh </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00099">IUH_OL.h:99</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>sd_hillslope.py</b></li>
-    <li class="footer">Generated on Sat Apr 1 2017 10:30:52 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e815a90a524b22b5b34e29517df36994.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_bdd54d61b14ff19ed17a6e6969484b3f.html">IUH_OL</a></li><li class="navelem"><b>IUH_OL.h</b></li>
+    <li class="footer">Generated on Thu Apr 20 2017 10:23:20 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

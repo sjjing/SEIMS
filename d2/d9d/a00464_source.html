@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/preprocess/sd_delineation.py Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/IUH_OL/IUH_OL.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,304 +112,241 @@ $(document).ready(function(){initNavTree('d2/d9d/a00464_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">sd_delineation.py</div>  </div>
+<div class="title">IUH_OL.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># coding=utf-8</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># @Subbasin delineation based on TauDEM, as well as calculation of latitude dependent parameters</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># @Author: Junzhi Liu</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># @Revised: Liang-Jun Zhu</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"># @Note: Improve calculation efficiency by numpy</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> shutil</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> gdal <span class="keyword">import</span> GDT_Int32, GDT_Float32</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> osr</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> ogr</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">import</span> numpy</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> <a class="code" href="../../dc/d0a/a00850.html">pygeoc.raster.raster</a> <span class="keyword">import</span> RasterUtilClass</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">from</span> <a class="code" href="../../da/de3/a00856.html">pygeoc.vector.vector</a> <span class="keyword">import</span> VectorUtilClass</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d4/d60/a00847.html">pygeoc.hydro.TauDEM</a> <span class="keyword">import</span> TauDEM</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d9/d87/a00846.html">pygeoc.hydro.postTauDEM</a> <span class="keyword">import</span> D8Util, DinfUtil, StreamnetUtil</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d6/d2f/a00854.html">pygeoc.utils.utils</a> <span class="keyword">import</span> UtilClass</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">from</span> utility <span class="keyword">import</span> LoadConfiguration, status_output, DEFAULT_NODATA</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">from</span> config <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">from</span> sd_hillslope <span class="keyword">import</span> delineate_hillslopes_downstream_method</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">def </span>output_wgs84_geojson():</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Convert ESRI shapefile to GeoJson based on WGS84 coordinate.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    src_srs = RasterUtilClass.ReadRaster(dem).srs</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    proj_srs = src_srs.ExportToProj4()</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> proj_srs:</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;The source raster %s has not coordinate, which is required!&quot;</span> % dem)</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment"># print proj_srs</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    wgs84_srs = <span class="stringliteral">&quot;EPSG:4326&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    shp_dir = WORKING_DIR + os.sep + DIR_NAME_GEOSHP</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    geo_json_dict = {GEOJSON_REACH : shp_dir + os.sep + reachesOut,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                     GEOJSON_SUBBSN: shp_dir + os.sep + subbasinVec,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                     GEOJSON_BASIN : shp_dir + os.sep + basinVec,</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                     GEOJSON_OUTLET: shp_dir + os.sep + outletVec}</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">for</span> jsonName <span class="keywordflow">in</span> geo_json_dict:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        jsonfile = shp_dir + os.sep + jsonName</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        VectorUtilClass.convert2geojson(jsonfile, proj_srs, wgs84_srs, geo_json_dict.get(jsonName))</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keyword">def </span>original_delineation():</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Original Delineation subbasin by calling TauDEM functions&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment"># Check directories</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    UtilClass.mkdir(WORKING_DIR)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    log_dir = WORKING_DIR + os.sep + DIR_NAME_LOG</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    UtilClass.mkdir(log_dir)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    status_file = log_dir + os.sep + FN_STATUS_DELINEATION</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    f_status = open(status_file, <span class="stringliteral">&#39;w&#39;</span>)</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    tau_dir = WORKING_DIR + os.sep + DIR_NAME_TAUDEM</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    UtilClass.mkdir(tau_dir)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment"># begin calling TauDEM</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    status_output(<span class="stringliteral">&quot;Fill DEM...&quot;</span>, 10, f_status)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    TauDEM.Fill(np, tau_dir, dem, filledDem, MPIEXEC_DIR, CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    status_output(<span class="stringliteral">&quot;Calculating D8 and Dinf flow direction...&quot;</span>, 20, f_status)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    TauDEM.FlowDirD8(np, tau_dir, filledDem, flowDir, slope, MPIEXEC_DIR, CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    TauDEM.FlowDirDinf(np, tau_dir, filledDem, flowDirDinf, slopeDinf, MPIEXEC_DIR, CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    DinfUtil.outputcompresseddinf(flowDirDinf, dirCodeDinf, weightDinf)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    status_output(<span class="stringliteral">&quot;D8 flow accumulation...&quot;</span>, 40, f_status)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    TauDEM.FlowAccD8(np, tau_dir, flowDir, acc, <span class="keywordtype">None</span>, <span class="keywordtype">None</span>, MPIEXEC_DIR, CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    status_output(<span class="stringliteral">&quot;Generating stream raster initially...&quot;</span>, 50, f_status)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">if</span> D8AccThreshold &gt; 0:</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        TauDEM.StreamRaster(np, tau_dir, acc, streamRaster, D8AccThreshold, MPIEXEC_DIR, CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        accD8 = tau_dir + os.sep + acc</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        minAccum, maxAccum, meanAccum, STDAccum = RasterUtilClass.RasterStatistics(accD8)</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        TauDEM.StreamRaster(np, tau_dir, acc, streamRaster, meanAccum, MPIEXEC_DIR, CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    status_output(<span class="stringliteral">&quot;Moving outlet to stream...&quot;</span>, 60, f_status)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    TauDEM.MoveOutlet(np, tau_dir, flowDir, streamRaster, outlet_file, modifiedOutlet, MPIEXEC_DIR, CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">if</span> D8AccThreshold &lt;= 0:</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        status_output(<span class="stringliteral">&quot;Generating stream skeleton...&quot;</span>, 65, f_status)</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        TauDEM.StreamSkeleton(np, tau_dir, filledDem, streamSkeleton, MPIEXEC_DIR, CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        status_output(<span class="stringliteral">&quot;Flow accumulation with outlet...&quot;</span>, 70, f_status)</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        TauDEM.FlowAccD8(np, tau_dir, flowDir, accWithWeight, modifiedOutlet, streamSkeleton, MPIEXEC_DIR,</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                         CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        status_output(<span class="stringliteral">&quot;Drop analysis to select optimal threshold...&quot;</span>, 75, f_status)</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        minAccum, maxAccum, meanAccum, STDAccum = RasterUtilClass.RasterStatistics(accWithWeight)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keywordflow">if</span> meanAccum - STDAccum &lt; 0:</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            minthresh = meanAccum</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            minthresh = meanAccum - STDAccum</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        maxthresh = meanAccum + STDAccum</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        numthresh = 20</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        logspace = <span class="stringliteral">&#39;true&#39;</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        drpFile = <span class="stringliteral">&#39;drp.txt&#39;</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        TauDEM.DropAnalysis(np, tau_dir, filledDem, flowDir, accWithWeight, accWithWeight, modifiedOutlet, minthresh,</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                            maxthresh, numthresh, logspace, drpFile, MPIEXEC_DIR, CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        drpf = open(drpFile, <span class="stringliteral">&quot;</span><span class="stringliteral">r&quot;)</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="stringliteral">        tempContents = drpf.read()</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="stringliteral">        (beg, Threshold) = tempContents.rsplit(</span><span class="stringliteral">&#39; &#39;</span>, 1)</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordflow">print</span> (Threshold)</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        drpf.close()</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        status_output(<span class="stringliteral">&quot;Generating stream raster...&quot;</span>, 80, f_status)</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        TauDEM.StreamRaster(np, tau_dir, accWithWeight, streamRaster, float(Threshold), MPIEXEC_DIR, CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        status_output(<span class="stringliteral">&quot;Flow accumulation with outlet...&quot;</span>, 70, f_status)</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        TauDEM.FlowAccD8(np, tau_dir, flowDir, acc, modifiedOutlet, <span class="keywordtype">None</span>, MPIEXEC_DIR, CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        status_output(<span class="stringliteral">&quot;Generating stream raster...&quot;</span>, 80, f_status)</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        TauDEM.StreamRaster(np, tau_dir, acc, streamRaster, D8AccThreshold, MPIEXEC_DIR, CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    status_output(<span class="stringliteral">&quot;Generating stream net...&quot;</span>, 90, f_status)</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordflow">if</span> D8AccThreshold &lt;= 0:</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        tmpAcc = accWithWeight</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        tmpAcc = acc</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    TauDEM.StreamNet(np, tau_dir, filledDem, flowDir, tmpAcc, streamRaster, modifiedOutlet, streamOrder, chNetwork,</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                     chCoord, streamNet, subbasin, MPIEXEC_DIR, CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    status_output(<span class="stringliteral">&quot;Calculating distance to stream (D8)...&quot;</span>, 95, f_status)</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    TauDEM.D8DistDownToStream(np, tau_dir, flowDir, filledDem, streamRaster, dist2StreamD8, D8DownMethod, 1,</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                              MPIEXEC_DIR, CPP_PROGRAM_DIR)</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    status_output(<span class="stringliteral">&quot;Original subbasin delineation is finished!&quot;</span>, 100, f_status)</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    f_status.close()</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="keyword">def </span>mask_raster_cpp(maskfile, originalfiles, outputfiles, default_values, configfile):</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Call mask_raster program (cpp version) to mask raster&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="comment"># write mask configuration file</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    n = len(originalfiles)</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="comment"># write mask config file</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    f = open(configfile, <span class="stringliteral">&#39;w&#39;</span>)</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    f.write(maskfile + <span class="stringliteral">&quot;\n&quot;</span>)</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    f.write(<span class="stringliteral">&quot;%d\n&quot;</span> % (n,))</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(n):</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        s = <span class="stringliteral">&quot;%s\t%d\t%s\n&quot;</span> % (originalfiles[i], default_values[i], outputfiles[i])</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        f.write(s)</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    f.close()</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="comment"># run command</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    UtilClass.runcommand(<span class="stringliteral">&#39;&quot;%s/mask_raster&quot; %s&#39;</span> % (CPP_PROGRAM_DIR, configfile))</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="keyword">def </span>mask_origin_delineated_data():</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Mask the original delineated data by Subbasin raster.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    tau_dir = WORKING_DIR + os.sep + DIR_NAME_TAUDEM</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    subbasin_tau_file = tau_dir + os.sep + subbasin</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    geodata2dbdir = WORKING_DIR + os.sep + DIR_NAME_GEODATA2DB</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    UtilClass.mkdir(geodata2dbdir)</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    mask_file = geodata2dbdir + os.sep + mask_to_ext</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    RasterUtilClass.GetMaskFromRaster(subbasin_tau_file, mask_file)</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="comment"># Total 12 raster files</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    original_files = [subbasin, flowDir, streamRaster, slope, filledDem, acc, streamOrder,</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                      flowDirDinf, dirCodeDinf, slopeDinf, weightDinf, dist2StreamD8]</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    original_files = [(tau_dir + os.sep + item) <span class="keywordflow">for</span> item <span class="keywordflow">in</span> original_files]</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;seims.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;IUH_OL.h&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;IUH_OL::IUH_OL(<span class="keywordtype">void</span>) : m_TimeStep(-1), m_nCells(-1), m_CellWidth(NODATA_VALUE), m_cellArea(NODATA_VALUE),</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                       m_nSubbasins(-1), m_subbasin(NULL), m_subbasinsInfo(NULL),</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                       m_iuhCell(NULL), m_iuhCols(-1), m_rs(NULL),</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                       m_cellFlowCols(-1), m_cellFlow(NULL), m_OL_Flow(NULL), m_Q_SBOF(NULL) {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;}</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;IUH_OL::~IUH_OL(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d79/a00051.html#a545e736269756ef0fb60df86c287a76b">m_Q_SBOF</a> != NULL) Release1DArray(<a class="code" href="../../d2/d79/a00051.html#a545e736269756ef0fb60df86c287a76b">m_Q_SBOF</a>);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d79/a00051.html#a824633a53584503cb1ed48bbbdd46690">m_cellFlow</a> != NULL) Release2DArray(<a class="code" href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">m_nCells</a>, <a class="code" href="../../d2/d79/a00051.html#a824633a53584503cb1ed48bbbdd46690">m_cellFlow</a>);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">if</span> (m_OL_Flow != NULL) Release1DArray(m_OL_Flow);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;}</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keywordtype">bool</span> IUH_OL::CheckInputData(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d7/d70/a00106.html#aabd631c05d3e74aa9970f7415f2f5de7">m_date</a> &lt; 0) {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: m_date has not been set.&quot;</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">m_nCells</a> &lt; 0) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: m_nCells has not been set.&quot;</span>);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    }</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">if</span> (FloatEqual(<a class="code" href="../../d2/d79/a00051.html#afc6c25e9810f94e5b317189decc50ccb">m_CellWidth</a>, NODATA_VALUE)) {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: m_CellWidth has not been set.&quot;</span>);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    }</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d79/a00051.html#a61cfc964f6e0f3e435c911a05f74ce90">m_TimeStep</a> &lt;= 0) {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: m_TimeStep has not been set.&quot;</span>);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d79/a00051.html#aa1dc7fe96259478f4044ae22823f81df">m_subbasin</a> == NULL) {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: m_subbasin has not been set.&quot;</span>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    }</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d79/a00051.html#ab39a2d53cfa489fc43e843f870dadafa">m_nSubbasins</a> &lt;= 0) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The subbasins number must be greater than 0.&quot;</span>);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d79/a00051.html#a67e59962c6154259891ec865a1858f10">m_subbasinIDs</a>.empty()) <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The subbasin IDs can not be EMPTY.&quot;</span>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d79/a00051.html#ae5f04a205b6ff53f1f07b4264c1c7655">m_subbasinsInfo</a> == NULL) {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: m_subbasinsInfo has not been set.&quot;</span>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d79/a00051.html#a62c439d85c32be20d508f9401682089f">m_iuhCell</a> == NULL) {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: m_iuhCell has not been set.&quot;</span>);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d79/a00051.html#ae3ce9bc29a4189542dda84e3b5839d02">m_rs</a> == NULL) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: surface runoff (m_rs) has not been set.&quot;</span>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">//if (m_landcover == NULL)</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">//  throw ModelException(MID_IUH_OL, &quot;CheckInputData&quot;, &quot;The parameter: landcover has not been set.&quot;);</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#a45c34dbcbc512214c2e8e6e150523070">   52</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d79/a00051.html#a45c34dbcbc512214c2e8e6e150523070">IUH_OL::initialOutputs</a>() {</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d79/a00051.html#a3b3c5d8c7767ccfa015cf04de7809b3b">m_cellArea</a> &lt;= 0.f) <a class="code" href="../../d2/d79/a00051.html#a3b3c5d8c7767ccfa015cf04de7809b3b">m_cellArea</a> = <a class="code" href="../../d2/d79/a00051.html#afc6c25e9810f94e5b317189decc50ccb">m_CellWidth</a> * <a class="code" href="../../d2/d79/a00051.html#afc6c25e9810f94e5b317189decc50ccb">m_CellWidth</a>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d2/d79/a00051.html#a545e736269756ef0fb60df86c287a76b">m_Q_SBOF</a> == NULL) {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        Initialize1DArray(<a class="code" href="../../d2/d79/a00051.html#ab39a2d53cfa489fc43e843f870dadafa">m_nSubbasins</a> + 1, <a class="code" href="../../d2/d79/a00051.html#a545e736269756ef0fb60df86c287a76b">m_Q_SBOF</a>, 0.f);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <a class="code" href="../../d2/d79/a00051.html#a824633a53584503cb1ed48bbbdd46690">m_cellFlow</a> = <span class="keyword">new</span> <span class="keywordtype">float</span> *[<a class="code" href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">m_nCells</a>];</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">m_nCells</a>; i++) {</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <a class="code" href="../../d2/d79/a00051.html#aebfcc7009667c9828a6535211e86551b">m_cellFlowCols</a> = max(<span class="keywordtype">int</span>(<a class="code" href="../../d2/d79/a00051.html#a62c439d85c32be20d508f9401682089f">m_iuhCell</a>[i][1] + 1), <a class="code" href="../../d2/d79/a00051.html#aebfcc7009667c9828a6535211e86551b">m_cellFlowCols</a>);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="comment">//get m_cellFlowCols, i.e. the maximum of second column of OL_IUH plus 1.</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        Initialize2DArray(m_nCells, <a class="code" href="../../d2/d79/a00051.html#aebfcc7009667c9828a6535211e86551b">m_cellFlowCols</a>, <a class="code" href="../../d2/d79/a00051.html#a824633a53584503cb1ed48bbbdd46690">m_cellFlow</a>, 0.f);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">if</span> (m_OL_Flow == NULL) {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        Initialize1DArray(<a class="code" href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">m_nCells</a>, m_OL_Flow, 0.f);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#ad796e67835e41e7c4a677a5278a2853e">   68</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d2/d79/a00051.html#ad796e67835e41e7c4a677a5278a2853e">IUH_OL::Execute</a>() {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    this-&gt;CheckInputData();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    this-&gt;<a class="code" href="../../d2/d79/a00051.html#a45c34dbcbc512214c2e8e6e150523070">initialOutputs</a>();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="comment">// delete value of last time step</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> n = 0; n &lt; <a class="code" href="../../d2/d79/a00051.html#ab39a2d53cfa489fc43e843f870dadafa">m_nSubbasins</a> + 1; n++) {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <a class="code" href="../../d2/d79/a00051.html#a545e736269756ef0fb60df86c287a76b">m_Q_SBOF</a>[n] = 0.f;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">//int nt = 0;</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">//float qs_cell = 0.f;</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">m_nCells</a>; i++) {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="comment">//forward one time step</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; <a class="code" href="../../d2/d79/a00051.html#aebfcc7009667c9828a6535211e86551b">m_cellFlowCols</a>; j++) {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            <span class="keywordflow">if</span> (j != m_cellFlowCols - 1) {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                <a class="code" href="../../d2/d79/a00051.html#a824633a53584503cb1ed48bbbdd46690">m_cellFlow</a>[i][j] = <a class="code" href="../../d2/d79/a00051.html#a824633a53584503cb1ed48bbbdd46690">m_cellFlow</a>[i][j + 1];</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                <a class="code" href="../../d2/d79/a00051.html#a824633a53584503cb1ed48bbbdd46690">m_cellFlow</a>[i][j] = 0.f;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordtype">float</span> v_rs = <a class="code" href="../../d2/d79/a00051.html#ae3ce9bc29a4189542dda84e3b5839d02">m_rs</a>[i];</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">if</span> (v_rs &gt; 0.f) {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keywordtype">int</span> min = int(this-&gt;<a class="code" href="../../d2/d79/a00051.html#a62c439d85c32be20d508f9401682089f">m_iuhCell</a>[i][0]);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keywordtype">int</span> max = int(this-&gt;<a class="code" href="../../d2/d79/a00051.html#a62c439d85c32be20d508f9401682089f">m_iuhCell</a>[i][1]);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordtype">int</span> col = 2;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = min; k &lt;= max; k++) {</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                <a class="code" href="../../d2/d79/a00051.html#a824633a53584503cb1ed48bbbdd46690">m_cellFlow</a>[i][k] += v_rs / 1000.f * <a class="code" href="../../d2/d79/a00051.html#a62c439d85c32be20d508f9401682089f">m_iuhCell</a>[i][col] * <a class="code" href="../../d2/d79/a00051.html#a3b3c5d8c7767ccfa015cf04de7809b3b">m_cellArea</a> / <a class="code" href="../../d2/d79/a00051.html#a61cfc964f6e0f3e435c911a05f74ce90">m_TimeStep</a>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                col++;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            }</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">m_nCells</a>; i++) {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="comment">//add today&#39;s flow</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordtype">int</span> subi = (int) <a class="code" href="../../d2/d79/a00051.html#aa1dc7fe96259478f4044ae22823f81df">m_subbasin</a>[i];</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">if</span> (m_nSubbasins == 1) {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            subi = 1;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (subi &gt;= m_nSubbasins + 1) {</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;Execute&quot;</span>, <span class="stringliteral">&quot;The subbasin &quot;</span> + ValueToString(subi) + <span class="stringliteral">&quot; is invalid.&quot;</span>);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <a class="code" href="../../d2/d79/a00051.html#a545e736269756ef0fb60df86c287a76b">m_Q_SBOF</a>[subi] += <a class="code" href="../../d2/d79/a00051.html#a824633a53584503cb1ed48bbbdd46690">m_cellFlow</a>[i][0];    <span class="comment">//get new value</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        m_OL_Flow[i] = <a class="code" href="../../d2/d79/a00051.html#a824633a53584503cb1ed48bbbdd46690">m_cellFlow</a>[i][0];</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        m_OL_Flow[i] = m_OL_Flow[i] * <a class="code" href="../../d2/d79/a00051.html#a61cfc964f6e0f3e435c911a05f74ce90">m_TimeStep</a> * 1000.f / <a class="code" href="../../d2/d79/a00051.html#a3b3c5d8c7767ccfa015cf04de7809b3b">m_cellArea</a>;     <span class="comment">// m3/s -&gt; mm</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="comment">//if(i == 1000) cout &lt;&lt; m_OL_Flow[i] &lt;&lt; endl;</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    }</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordtype">float</span> tmp = 0.f;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor">#pragma omp parallel for reduction(+:tmp)</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> n = 1; n &lt; m_nSubbasins + 1; n++) {</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        tmp += <a class="code" href="../../d2/d79/a00051.html#a545e736269756ef0fb60df86c287a76b">m_Q_SBOF</a>[n];        <span class="comment">//get overland flow routing for entire watershed.</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    }</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <a class="code" href="../../d2/d79/a00051.html#a545e736269756ef0fb60df86c287a76b">m_Q_SBOF</a>[0] = tmp;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;}</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="keywordtype">bool</span> IUH_OL::CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n) {</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordflow">if</span> (n &lt;= 0) {</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;CheckInputSize&quot;</span>,</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                             <span class="stringliteral">&quot;Input data for &quot;</span> + <span class="keywordtype">string</span>(key) + <span class="stringliteral">&quot; is invalid. The size could not be less than zero.&quot;</span>);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    }</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">m_nCells</a> != n) {</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">m_nCells</a> &lt;= 0) { this-&gt;<a class="code" href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">m_nCells</a> = n; }</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;CheckInputSize&quot;</span>, <span class="stringliteral">&quot;Input data for &quot;</span> + <span class="keywordtype">string</span>(key) +</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                <span class="stringliteral">&quot; is invalid. All the input data should have same size.&quot;</span>);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        }</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    }</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;}</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#ac6115fdd64d9793ea2b4ebc710f06e03">  142</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d79/a00051.html#ac6115fdd64d9793ea2b4ebc710f06e03">IUH_OL::SetValue</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> value) {</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
 <div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="comment"># output masked files</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    output_files = [subbasinM, flowDirM, streamRasterM]</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    output_files = [(tau_dir + os.sep + item) <span class="keywordflow">for</span> item <span class="keywordflow">in</span> output_files]</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    geodata2dbdir = WORKING_DIR + os.sep + DIR_NAME_GEODATA2DB</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    UtilClass.mkdir(geodata2dbdir)</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    terrain_files = [slopeM, filleddemM, accM, streamOrderM,</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                     flowDirDinfM, dirCodeDinfM, slopeDinfM, weightDinfM, dist2StreamD8M]</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    terrain_files = [(geodata2dbdir + os.sep + item) <span class="keywordflow">for</span> item <span class="keywordflow">in</span> terrain_files]</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    output_files += terrain_files</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    default_values = []</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(original_files)):</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        default_values.append(DEFAULT_NODATA)</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="comment"># other input rasters need to be masked</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="comment"># soil and landuse</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    FileClass.checkfileexists(soilSEQNFile)</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    FileClass.checkfileexists(landuseOriginFile)</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    original_files.append(soilSEQNFile)</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    output_files.append(geodata2dbdir + os.sep + soiltypeMFile)</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    default_values.append(defaultSoil)</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    original_files.append(landuseOriginFile)</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    output_files.append(geodata2dbdir + os.sep + landuseMFile)</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    default_values.append(defaultLanduse)</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="comment"># management fields</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordflow">if</span> mgtFieldFile <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span> <span class="keywordflow">and</span> FileClass.isfileexists(mgtFieldFile):</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        original_files.append(mgtFieldFile)</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        output_files.append(geodata2dbdir + os.sep + mgtFieldMFile)</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        default_values.append(DEFAULT_NODATA)</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    config_file = WORKING_DIR + os.sep + DIR_NAME_LOG + os.sep + FN_CONFIG_MASKRASTERS</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="comment"># run mask operation</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Mask original delineated data by Subbasin raster...&quot;</span>)</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    mask_raster_cpp(mask_file, original_files, output_files, default_values, config_file)</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="keyword">def </span>post_process_of_delineated_data():</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Do some necessary transfer for subbasin, stream, and flow direction raster.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="comment"># inputs</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    tau_dir = WORKING_DIR + os.sep + DIR_NAME_TAUDEM</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    stream_net_file = tau_dir + os.sep + streamNet</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    subbasin_file = tau_dir + os.sep + subbasinM</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    flow_dir_file_tau = tau_dir + os.sep + flowDirM</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    stream_raster_file = tau_dir + os.sep + streamRasterM</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="comment"># outputs</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="comment"># -- shapefile</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    shp_dir = WORKING_DIR + os.sep + DIR_NAME_GEOSHP</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    UtilClass.mkdir(shp_dir)</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="comment"># ---- outlet, copy from DIR_NAME_TAUDEM</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    FileClass.copyfiles(WORKING_DIR + os.sep + DIR_NAME_TAUDEM + os.sep + modifiedOutlet,</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                        shp_dir + os.sep + outletVec)</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="comment"># ---- reaches</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    output_reach_file = shp_dir + os.sep + reachesOut</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="comment"># ---- subbasins</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    subbasin_vector_file = shp_dir + os.sep + subbasinVec</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="comment"># -- raster file</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    geodata2dbdir = WORKING_DIR + os.sep + DIR_NAME_GEODATA2DB</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    output_subbasin_file = geodata2dbdir + os.sep + subbasinOut</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    output_flow_dir_file = geodata2dbdir + os.sep + flowDirOut</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    output_stream_link_file = geodata2dbdir + os.sep + streamLinkOut</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    output_hillslope_file = geodata2dbdir + os.sep + hillSlopeOut</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    id_map = StreamnetUtil.serializestreamnet(stream_net_file, output_reach_file)</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    RasterUtilClass.RasterReclassify(subbasin_file, id_map, output_subbasin_file, GDT_Int32)</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    StreamnetUtil.assignstreamidraster(stream_raster_file, output_subbasin_file, output_stream_link_file)</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="comment"># Convert D8 encoding rule to ArcGIS</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keywordflow">if</span> isTauDEM:</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        shutil.copy(flow_dir_file_tau, output_flow_dir_file)</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        D8Util.converttoarcgiscode(flow_dir_file_tau, output_flow_dir_file)</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="comment"># convert raster to shapefile (for subbasin and basin)</span></div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&quot;Generating subbasin vector...&quot;</span></div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    VectorUtilClass.raster2shp(output_subbasin_file, subbasin_vector_file, <span class="stringliteral">&quot;subbasin&quot;</span>, FLD_SUBBASINID)</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    mask_file = geodata2dbdir + os.sep + mask_to_ext</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    basin_vector = shp_dir + os.sep + basinVec</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&quot;Generating basin vector...&quot;</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    VectorUtilClass.raster2shp(mask_file, basin_vector, <span class="stringliteral">&quot;basin&quot;</span>, FLD_BASINID)</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="comment"># delineate hillslope</span></div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    delineate_hillslopes_downstream_method(output_stream_link_file, flow_dir_file_tau, output_hillslope_file)</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;<span class="keyword">def </span>generate_lat_raster():</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    geodata2dbdir = WORKING_DIR + os.sep + DIR_NAME_GEODATA2DB</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    dem_file = geodata2dbdir + os.sep + filleddemM</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    ds = RasterUtilClass.ReadRaster(dem_file)</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    src_srs = ds.srs</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> src_srs.ExportToProj4():</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;The source raster %s has not coordinate, which is required!&quot;</span> % dem_file)</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    dst_srs = osr.SpatialReference()</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    dst_srs.ImportFromEPSG(4326)  <span class="comment"># WGS84</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="comment"># dst_wkt = dst_srs.ExportToWkt()</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    transform = osr.CoordinateTransformation(src_srs, dst_srs)</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    point_ll = ogr.CreateGeometryFromWkt(<span class="stringliteral">&quot;POINT (%f %f)&quot;</span> % (ds.xMin, ds.yMin))</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    point_ur = ogr.CreateGeometryFromWkt(<span class="stringliteral">&quot;POINT (%f %f)&quot;</span> % (ds.xMax, ds.yMax))</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    point_ll.Transform(transform)</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    point_ur.Transform(transform)</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    lowerLat = point_ll.GetY()</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    upLat = point_ur.GetY()</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    rows = ds.nRows</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    cols = ds.nCols</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    deltaLat = (upLat - lowerLat) / float(rows)</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="keyword">def </span>cal_cell_lat(row, col):</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="keywordflow">return</span> upLat - (row + 0.5) * deltaLat</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    dataLat = numpy.fromfunction(cal_cell_lat, (rows, cols))</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    dataLat = numpy.where(ds.validZone, dataLat, ds.data)</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    RasterUtilClass.WriteGTiffFile(geodata2dbdir + os.sep + cellLat, rows, cols, dataLat, ds.geotrans, ds.srs,</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                                   ds.noDataValue, GDT_Float32)</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="keyword">def </span>SubbasinDelineation():</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Subbasin delineation workflow&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <span class="comment"># 1. Originally delineated by TauDEM</span></div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    original_delineation()</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="comment"># 2. Mask delineated raster by subbasin</span></div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    mask_origin_delineated_data()</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <span class="comment"># 3. Post processing, such as serialize strean ID, mask dataset etc.</span></div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    post_process_of_delineated_data()</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="comment"># 4. Convert current coordinate to WGS84 and convert shapefile to GeoJson.</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    output_wgs84_geojson()</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <span class="comment"># 5. Convert to WGS84 coordinate and output latitude raster.</span></div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    generate_lat_raster()</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    LoadConfiguration(getconfigfile())</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="comment"># SubbasinDelineation()</span></div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    <span class="comment"># generate_lat_raster()</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="comment"># mask_origin_delineated_data()</span></div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    post_process_of_delineated_data()</div>
-<div class="ttc" id="a00856_html"><div class="ttname"><a href="../../da/de3/a00856.html">pygeoc.vector.vector</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/da0/a00483_source.html#l00001">vector.py:1</a></div></div>
-<div class="ttc" id="a00847_html"><div class="ttname"><a href="../../d4/d60/a00847.html">pygeoc.hydro.TauDEM</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d4a/a00479_source.html#l00001">TauDEM.py:1</a></div></div>
-<div class="ttc" id="a00850_html"><div class="ttname"><a href="../../dc/d0a/a00850.html">pygeoc.raster.raster</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dc5/a00480_source.html#l00001">raster.py:1</a></div></div>
-<div class="ttc" id="a00846_html"><div class="ttname"><a href="../../d9/d87/a00846.html">pygeoc.hydro.postTauDEM</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/dea/a00478_source.html#l00001">postTauDEM.py:1</a></div></div>
-<div class="ttc" id="a00854_html"><div class="ttname"><a href="../../d6/d2f/a00854.html">pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dc5/a00343_source.html#l00001">utils.py:1</a></div></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, Tag_TimeStep)) { <a class="code" href="../../d2/d79/a00051.html#a61cfc964f6e0f3e435c911a05f74ce90">m_TimeStep</a> = (int) value; }</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, Tag_CellSize)) { <a class="code" href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">m_nCells</a> = (int) value; }</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, Tag_CellWidth)) { <a class="code" href="../../d2/d79/a00051.html#afc6c25e9810f94e5b317189decc50ccb">m_CellWidth</a> = value; }</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_OMP_THREADNUM)) { SetOpenMPThread((<span class="keywordtype">int</span>) value); }</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;SetValue&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk + <span class="stringliteral">&quot; does not exist in current method.&quot;</span>);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    }</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;}</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#aaaa1e639165c65713a05b14f32c7c85b">  154</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d79/a00051.html#aaaa1e639165c65713a05b14f32c7c85b">IUH_OL::Set1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data) {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    this-&gt;CheckInputSize(key, n);</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="comment">//set the value</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_SUBBSN)) { <a class="code" href="../../d2/d79/a00051.html#aa1dc7fe96259478f4044ae22823f81df">m_subbasin</a> = data; }</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_SURU)) {</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <a class="code" href="../../d2/d79/a00051.html#ae3ce9bc29a4189542dda84e3b5839d02">m_rs</a> = data;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <span class="comment">//else if (StringMatch(sk, VAR_LANDCOVER)) m_landcover = data;</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;Set1DData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk + <span class="stringliteral">&quot; does not exist in current method.&quot;</span>);</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    }</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;}</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#a234658cfc2b77cba6d64d2921c9b8f42">  167</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d79/a00051.html#a234658cfc2b77cba6d64d2921c9b8f42">IUH_OL::Set2DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nRows, <span class="keywordtype">int</span> nCols, <span class="keywordtype">float</span> **data) {</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_OL_IUH)) {</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        this-&gt;CheckInputSize(VAR_OL_IUH, nRows);</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <a class="code" href="../../d2/d79/a00051.html#a62c439d85c32be20d508f9401682089f">m_iuhCell</a> = data;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <a class="code" href="../../d2/d79/a00051.html#ad0a8d6cda853ead9e7514424bd9efc18">m_iuhCols</a> = nCols;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;Set2DData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk + <span class="stringliteral">&quot; does not exist.&quot;</span>);</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    }</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;}</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
+<div class="line"><a name="l00179"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#ae038c10abdfbf53746b75327ff9648b2">  179</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d79/a00051.html#ae038c10abdfbf53746b75327ff9648b2">IUH_OL::SetSubbasins</a>(<a class="code" href="../../de/d11/a00021.html">clsSubbasins</a> *subbasins) {</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d2/d79/a00051.html#ae5f04a205b6ff53f1f07b4264c1c7655">m_subbasinsInfo</a> == NULL) {</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        <a class="code" href="../../d2/d79/a00051.html#ae5f04a205b6ff53f1f07b4264c1c7655">m_subbasinsInfo</a> = subbasins;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <a class="code" href="../../d2/d79/a00051.html#ab39a2d53cfa489fc43e843f870dadafa">m_nSubbasins</a> = <a class="code" href="../../d2/d79/a00051.html#ae5f04a205b6ff53f1f07b4264c1c7655">m_subbasinsInfo</a>-&gt;<a class="code" href="../../de/d11/a00021.html#aaa03569080724aca826dfc7ca2cafa16">GetSubbasinNumber</a>();</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <a class="code" href="../../d2/d79/a00051.html#a67e59962c6154259891ec865a1858f10">m_subbasinIDs</a> = <a class="code" href="../../d2/d79/a00051.html#ae5f04a205b6ff53f1f07b4264c1c7655">m_subbasinsInfo</a>-&gt;<a class="code" href="../../de/d11/a00021.html#a47ab56c3f869f6ad4ab764f6cc9bb106">GetSubbasinIDs</a>();</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    }</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;}</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
+<div class="line"><a name="l00187"></a><span class="lineno"><a class="line" href="../../d2/d79/a00051.html#a2da2a913e9892033d71d38e23c3513bd">  187</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d2/d79/a00051.html#a2da2a913e9892033d71d38e23c3513bd">IUH_OL::Get1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data) {</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <a class="code" href="../../d2/d79/a00051.html#a45c34dbcbc512214c2e8e6e150523070">initialOutputs</a>();</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_SBOF)) {</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        *data = this-&gt;<a class="code" href="../../d2/d79/a00051.html#a545e736269756ef0fb60df86c287a76b">m_Q_SBOF</a>;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        *n = this-&gt;<a class="code" href="../../d2/d79/a00051.html#ab39a2d53cfa489fc43e843f870dadafa">m_nSubbasins</a> + 1;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_OLFLOW)) {</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        *data = this-&gt;m_OL_Flow;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        *n = this-&gt;<a class="code" href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">m_nCells</a>;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../df/d03/a00062.html">ModelException</a>(MID_IUH_OL, <span class="stringliteral">&quot;Get1DData&quot;</span>, <span class="stringliteral">&quot;Result &quot;</span> + sk + <span class="stringliteral">&quot; does not exist.&quot;</span>);</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    }</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;}</div>
+<div class="ttc" id="a00021_html_aaa03569080724aca826dfc7ca2cafa16"><div class="ttname"><a href="../../de/d11/a00021.html#aaa03569080724aca826dfc7ca2cafa16">clsSubbasins::GetSubbasinNumber</a></div><div class="ttdeci">int GetSubbasinNumber(void)</div><div class="ttdoc">Get subbasin number. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d5b/a00294_source.html#l00256">clsSubbasin.h:256</a></div></div>
+<div class="ttc" id="a00051_html_ab39a2d53cfa489fc43e843f870dadafa"><div class="ttname"><a href="../../d2/d79/a00051.html#ab39a2d53cfa489fc43e843f870dadafa">IUH_OL::m_nSubbasins</a></div><div class="ttdeci">int m_nSubbasins</div><div class="ttdoc">the total number of subbasins </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00081">IUH_OL.h:81</a></div></div>
+<div class="ttc" id="a00051_html_a62c439d85c32be20d508f9401682089f"><div class="ttname"><a href="../../d2/d79/a00051.html#a62c439d85c32be20d508f9401682089f">IUH_OL::m_iuhCell</a></div><div class="ttdeci">float ** m_iuhCell</div><div class="ttdoc">landcover code </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00097">IUH_OL.h:97</a></div></div>
+<div class="ttc" id="a00051_html_a234658cfc2b77cba6d64d2921c9b8f42"><div class="ttname"><a href="../../d2/d79/a00051.html#a234658cfc2b77cba6d64d2921c9b8f42">IUH_OL::Set2DData</a></div><div class="ttdeci">virtual void Set2DData(const char *key, int nRows, int nCols, float **data)</div><div class="ttdoc">Set 2D data, by default, DT_Raster2D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00167">IUH_OL.cpp:167</a></div></div>
+<div class="ttc" id="a00051_html_a67e59962c6154259891ec865a1858f10"><div class="ttname"><a href="../../d2/d79/a00051.html#a67e59962c6154259891ec865a1858f10">IUH_OL::m_subbasinIDs</a></div><div class="ttdeci">vector&lt; int &gt; m_subbasinIDs</div><div class="ttdoc">subbasin IDs </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00083">IUH_OL.h:83</a></div></div>
+<div class="ttc" id="a00106_html_aabd631c05d3e74aa9970f7415f2f5de7"><div class="ttname"><a href="../../d7/d70/a00106.html#aabd631c05d3e74aa9970f7415f2f5de7">SimulationModule::m_date</a></div><div class="ttdeci">time_t m_date</div><div class="ttdoc">date time </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4e/a00329_source.html#l00166">SimulationModule.h:166</a></div></div>
+<div class="ttc" id="a00062_html"><div class="ttname"><a href="../../df/d03/a00062.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d27/a00239_source.html#l00020">ModelException.h:20</a></div></div>
+<div class="ttc" id="a00021_html"><div class="ttname"><a href="../../de/d11/a00021.html">clsSubbasins</a></div><div class="ttdoc">Manager all Subbasin related parameters and methods. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d5b/a00294_source.html#l00232">clsSubbasin.h:232</a></div></div>
+<div class="ttc" id="a00051_html_a3b3c5d8c7767ccfa015cf04de7809b3b"><div class="ttname"><a href="../../d2/d79/a00051.html#a3b3c5d8c7767ccfa015cf04de7809b3b">IUH_OL::m_cellArea</a></div><div class="ttdeci">float m_cellArea</div><div class="ttdoc">cell area, BE CAUTION, the unit is m^2, NOT ha!!! </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00079">IUH_OL.h:79</a></div></div>
+<div class="ttc" id="a00051_html_a2da2a913e9892033d71d38e23c3513bd"><div class="ttname"><a href="../../d2/d79/a00051.html#a2da2a913e9892033d71d38e23c3513bd">IUH_OL::Get1DData</a></div><div class="ttdeci">virtual void Get1DData(const char *key, int *n, float **data)</div><div class="ttdoc">Get 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00187">IUH_OL.cpp:187</a></div></div>
+<div class="ttc" id="a00051_html_a545e736269756ef0fb60df86c287a76b"><div class="ttname"><a href="../../d2/d79/a00051.html#a545e736269756ef0fb60df86c287a76b">IUH_OL::m_Q_SBOF</a></div><div class="ttdeci">float * m_Q_SBOF</div><div class="ttdoc">overland flow to streams for each subbasin (m3/s) </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00117">IUH_OL.h:117</a></div></div>
+<div class="ttc" id="a00051_html_ae5f04a205b6ff53f1f07b4264c1c7655"><div class="ttname"><a href="../../d2/d79/a00051.html#ae5f04a205b6ff53f1f07b4264c1c7655">IUH_OL::m_subbasinsInfo</a></div><div class="ttdeci">clsSubbasins * m_subbasinsInfo</div><div class="ttdoc">subbasins information </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00088">IUH_OL.h:88</a></div></div>
+<div class="ttc" id="a00051_html_a61cfc964f6e0f3e435c911a05f74ce90"><div class="ttname"><a href="../../d2/d79/a00051.html#a61cfc964f6e0f3e435c911a05f74ce90">IUH_OL::m_TimeStep</a></div><div class="ttdeci">int m_TimeStep</div><div class="ttdoc">time step (sec) </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00073">IUH_OL.h:73</a></div></div>
+<div class="ttc" id="a00051_html_a45c34dbcbc512214c2e8e6e150523070"><div class="ttname"><a href="../../d2/d79/a00051.html#a45c34dbcbc512214c2e8e6e150523070">IUH_OL::initialOutputs</a></div><div class="ttdeci">void initialOutputs(void)</div><div class="ttdoc">initial outputs </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00052">IUH_OL.cpp:52</a></div></div>
+<div class="ttc" id="a00051_html_ad796e67835e41e7c4a677a5278a2853e"><div class="ttname"><a href="../../d2/d79/a00051.html#ad796e67835e41e7c4a677a5278a2853e">IUH_OL::Execute</a></div><div class="ttdeci">virtual int Execute(void)</div><div class="ttdoc">Execute the simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00068">IUH_OL.cpp:68</a></div></div>
+<div class="ttc" id="a00051_html_ae038c10abdfbf53746b75327ff9648b2"><div class="ttname"><a href="../../d2/d79/a00051.html#ae038c10abdfbf53746b75327ff9648b2">IUH_OL::SetSubbasins</a></div><div class="ttdeci">virtual void SetSubbasins(clsSubbasins *)</div><div class="ttdoc">Set pointer of clsSubbasins class which contains all subbasins information. Added by LJ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00179">IUH_OL.cpp:179</a></div></div>
+<div class="ttc" id="a00051_html_ac6115fdd64d9793ea2b4ebc710f06e03"><div class="ttname"><a href="../../d2/d79/a00051.html#ac6115fdd64d9793ea2b4ebc710f06e03">IUH_OL::SetValue</a></div><div class="ttdeci">virtual void SetValue(const char *key, float data)</div><div class="ttdoc">Set data, DT_Single. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00142">IUH_OL.cpp:142</a></div></div>
+<div class="ttc" id="a00051_html_a824633a53584503cb1ed48bbbdd46690"><div class="ttname"><a href="../../d2/d79/a00051.html#a824633a53584503cb1ed48bbbdd46690">IUH_OL::m_cellFlow</a></div><div class="ttdeci">float ** m_cellFlow</div><div class="ttdoc">store the flow of each cell in each day between min time and max time </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00110">IUH_OL.h:110</a></div></div>
+<div class="ttc" id="a00051_html_aa1dc7fe96259478f4044ae22823f81df"><div class="ttname"><a href="../../d2/d79/a00051.html#aa1dc7fe96259478f4044ae22823f81df">IUH_OL::m_subbasin</a></div><div class="ttdeci">float * m_subbasin</div><div class="ttdoc">subbasin grid (subbasins ID) </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00085">IUH_OL.h:85</a></div></div>
+<div class="ttc" id="a00051_html_ae3ce9bc29a4189542dda84e3b5839d02"><div class="ttname"><a href="../../d2/d79/a00051.html#ae3ce9bc29a4189542dda84e3b5839d02">IUH_OL::m_rs</a></div><div class="ttdeci">float * m_rs</div><div class="ttdoc">surface runoff from depression module </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00101">IUH_OL.h:101</a></div></div>
+<div class="ttc" id="a00021_html_a47ab56c3f869f6ad4ab764f6cc9bb106"><div class="ttname"><a href="../../de/d11/a00021.html#a47ab56c3f869f6ad4ab764f6cc9bb106">clsSubbasins::GetSubbasinIDs</a></div><div class="ttdeci">vector&lt; int &gt; &amp; GetSubbasinIDs(void)</div><div class="ttdoc">Get subbasin IDs. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d5b/a00294_source.html#l00259">clsSubbasin.h:259</a></div></div>
+<div class="ttc" id="a00051_html_aebfcc7009667c9828a6535211e86551b"><div class="ttname"><a href="../../d2/d79/a00051.html#aebfcc7009667c9828a6535211e86551b">IUH_OL::m_cellFlowCols</a></div><div class="ttdeci">int m_cellFlowCols</div><div class="ttdoc">the maximum of second column of OL_IUH plus 1. </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00112">IUH_OL.h:112</a></div></div>
+<div class="ttc" id="a00051_html_afc6c25e9810f94e5b317189decc50ccb"><div class="ttname"><a href="../../d2/d79/a00051.html#afc6c25e9810f94e5b317189decc50ccb">IUH_OL::m_CellWidth</a></div><div class="ttdeci">float m_CellWidth</div><div class="ttdoc">cell width of the grid (m) </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00077">IUH_OL.h:77</a></div></div>
+<div class="ttc" id="a00051_html_ac67a95ee0dc035ce4171f18f95afca46"><div class="ttname"><a href="../../d2/d79/a00051.html#ac67a95ee0dc035ce4171f18f95afca46">IUH_OL::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">validate cells number </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00075">IUH_OL.h:75</a></div></div>
+<div class="ttc" id="a00051_html_ad0a8d6cda853ead9e7514424bd9efc18"><div class="ttname"><a href="../../d2/d79/a00051.html#ad0a8d6cda853ead9e7514424bd9efc18">IUH_OL::m_iuhCols</a></div><div class="ttdeci">int m_iuhCols</div><div class="ttdoc">the number of columns of Ol_iuh </div><div class="ttdef"><b>Definition:</b> <a href="../../db/de0/a00465_source.html#l00099">IUH_OL.h:99</a></div></div>
+<div class="ttc" id="a00051_html_aaaa1e639165c65713a05b14f32c7c85b"><div class="ttname"><a href="../../d2/d79/a00051.html#aaaa1e639165c65713a05b14f32c7c85b">IUH_OL::Set1DData</a></div><div class="ttdeci">virtual void Set1DData(const char *key, int n, float *data)</div><div class="ttdoc">Set 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d9d/a00464_source.html#l00154">IUH_OL.cpp:154</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>sd_delineation.py</b></li>
-    <li class="footer">Generated on Sat Apr 1 2017 10:30:52 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e815a90a524b22b5b34e29517df36994.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_bdd54d61b14ff19ed17a6e6969484b3f.html">IUH_OL</a></li><li class="navelem"><b>IUH_OL.cpp</b></li>
+    <li class="footer">Generated on Thu Apr 20 2017 10:23:20 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: Introduction: Why Google C++ Testing Framework?</title>
+<title>SEIMS: KinWavSed_OL Class Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -52,10 +52,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Packages</span></a></li>
-      <li><a href="../../annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -73,6 +73,14 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
           </span>
         </div>
       </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="../../classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="../../inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="../../functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -105,258 +113,738 @@ $(document).ready(function(){initNavTree('d9/d2e/a00056.html','../../');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="../../d4/db8/a00732.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">Introduction: Why Google C++ Testing Framework? </div>  </div>
+<div class="title">KinWavSed_OL Class Reference<div class="ingroups"><a class="el" href="../../dc/db1/a00621.html">KinWavSed_OL</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><em>Google C++ Testing Framework</em> helps you write better C++ tests.</p>
-<p>No matter whether you work on Linux, Windows, or a Mac, if you write C++ code, Google Test can help you.</p>
-<p>So what makes a good test, and how does Google C++ Testing Framework fit in? We believe:</p>
-<ol type="1">
-<li>Tests should be <em>independent</em> and <em>repeatable</em>. It's a pain to debug a test that succeeds or fails as a result of other tests. Google C++ Testing Framework isolates the tests by running each of them on a different object. When a test fails, Google C++ Testing Framework allows you to run it in isolation for quick debugging.</li>
-</ol>
-<ol type="1">
-<li>Tests should be well <em>organized</em> and reflect the structure of the tested code. Google C++ Testing Framework groups related tests into test cases that can share data and subroutines. This common pattern is easy to recognize and makes tests easy to maintain. Such consistency is especially helpful when people switch projects and start to work on a new code base.</li>
-</ol>
-<ol type="1">
-<li>Tests should be <em>portable</em> and <em>reusable</em>. The open-source community has a lot of code that is platform-neutral, its tests should also be platform-neutral. Google C++ Testing Framework works on different OSes, with different compilers (gcc, MSVC, and others), with or without exceptions, so Google C++ Testing Framework tests can easily work with a variety of configurations. (Note that the current release only contains build scripts for Linux - we are actively working on scripts for other platforms.)</li>
-</ol>
-<ol type="1">
-<li>When tests fail, they should provide as much <em>information</em> about the problem as possible. Google C++ Testing Framework doesn't stop at the first test failure. Instead, it only stops the current test and continues with the next. You can also set up tests that report non-fatal failures after which the current test continues. Thus, you can detect and fix multiple bugs in a single run-edit-compile cycle.</li>
-</ol>
-<ol type="1">
-<li>The testing framework should liberate test writers from housekeeping chores and let them focus on the test <em>content</em>. Google C++ Testing Framework automatically keeps track of all tests defined, and doesn't require the user to enumerate them in order to run them.</li>
-</ol>
-<ol type="1">
-<li>Tests should be <em>fast</em>. With Google C++ Testing Framework, you can reuse shared resources across tests and pay for the set-up/tear-down only once, without making tests depend on each other.</li>
-</ol>
-<p>Since Google C++ Testing Framework is based on the popular xUnit architecture, you'll feel right at home if you've used JUnit or PyUnit before. If not, it will take you about 10 minutes to learn the basics and get started. So let's go!</p>
-<p><em>Note:</em> We sometimes refer to Google C++ Testing Framework informally as <em>Google Test</em>.</p>
-<h1>Setting up a New Test Project</h1>
-<p>To write a test program using Google Test, you need to compile Google Test into a library and link your test with it. We provide build files for some popular build systems: <code>msvc/</code> for Visual Studio, <code>xcode/</code> for Mac Xcode, <code>make/</code> for GNU make, <code>codegear/</code> for Borland C++ Builder, and the autotools script (deprecated) and <code>CMakeLists.txt</code> for CMake (recommended) in the Google Test root directory. If your build system is not on this list, you can take a look at <code>make/Makefile</code> to learn how Google Test should be compiled (basically you want to compile <code>src/gtest-all.cc</code> with <code>GTEST_ROOT</code> and <code>GTEST_ROOT/include</code> in the header search path, where <code>GTEST_ROOT</code> is the Google Test root directory).</p>
-<p>Once you are able to compile the Google Test library, you should create a project or build target for your test program. Make sure you have <code>GTEST_ROOT/include</code> in the header search path so that the compiler can find <code>"gtest/gtest.h"</code> when compiling your test. Set up your test project to link with the Google Test library (for example, in Visual Studio, this is done by adding a dependency on <code>gtest.vcproj</code>).</p>
-<p>If you still have questions, take a look at how Google Test's own tests are built and use them as examples.</p>
-<h1>Basic Concepts</h1>
-<p>When using Google Test, you start by writing <em>assertions</em>, which are statements that check whether a condition is true. An assertion's result can be <em>success</em>, <em>nonfatal failure</em>, or <em>fatal failure</em>. If a fatal failure occurs, it aborts the current function; otherwise the program continues normally.</p>
-<p><em>Tests</em> use assertions to verify the tested code's behavior. If a test crashes or has a failed assertion, then it <em>fails</em>; otherwise it <em>succeeds</em>.</p>
-<p>A <em>test case</em> contains one or many tests. You should group your tests into test cases that reflect the structure of the tested code. When multiple tests in a test case need to share common objects and subroutines, you can put them into a <em>test fixture</em> class.</p>
-<p>A <em>test program</em> can contain multiple test cases.</p>
-<p>We'll now explain how to write a test program, starting at the individual assertion level and building up to tests and test cases.</p>
-<h1>Assertions</h1>
-<p>Google Test assertions are macros that resemble function calls. You test a class or function by making assertions about its behavior. When an assertion fails, Google Test prints the assertion's source file and line number location, along with a failure message. You may also supply a custom failure message which will be appended to Google Test's message.</p>
-<p>The assertions come in pairs that test the same thing but have different effects on the current function. <code>ASSERT_*</code> versions generate fatal failures when they fail, and <b>abort the current function</b>. <code>EXPECT_*</code> versions generate nonfatal failures, which don't abort the current function. Usually <code>EXPECT_*</code> are preferred, as they allow more than one failures to be reported in a test. However, you should use <code>ASSERT_*</code> if it doesn't make sense to continue when the assertion in question fails.</p>
-<p>Since a failed <code>ASSERT_*</code> returns from the current function immediately, possibly skipping clean-up code that comes after it, it may cause a space leak. Depending on the nature of the leak, it may or may not be worth fixing - so keep this in mind if you get a heap checker error in addition to assertion errors.</p>
-<p>To provide a custom failure message, simply stream it into the macro using the <code>&lt;&lt;</code> operator, or a sequence of such operators. An example: ``` ASSERT_EQ(x.size(), y.size()) &lt;&lt; "Vectors x and y are of unequal length";</p>
-<p>for (int i = 0; i &lt; x.size(); ++i) { EXPECT_EQ(x[i], y[i]) &lt;&lt; "Vectors x and y differ at index " &lt;&lt; i; } ```</p>
-<p>Anything that can be streamed to an <code>ostream</code> can be streamed to an assertion macro&ndash;in particular, C strings and <code>string</code> objects. If a wide string (<code>wchar_t*</code>, <code>TCHAR*</code> in <code>UNICODE</code> mode on Windows, or <code>std::wstring</code>) is streamed to an assertion, it will be translated to UTF-8 when printed.</p>
-<h2>Basic Assertions</h2>
-<p>These assertions do basic true/false condition testing.</p>
-<table class="doxtable">
-<tr>
-<th align="left"><b>Fatal assertion</b> </th><th align="left"><b>Nonfatal assertion</b> </th><th align="left"><b>Verifies</b>  </th></tr>
-<tr>
-<td align="left"><code>ASSERT_TRUE(</code>_condition_<code>)</code>; </td><td align="left"><code>EXPECT_TRUE(</code>_condition_<code>)</code>; </td><td align="left"><em>condition</em> is true </td></tr>
-<tr>
-<td align="left"><code>ASSERT_FALSE(</code>_condition_<code>)</code>; </td><td align="left"><code>EXPECT_FALSE(</code>_condition_<code>)</code>; </td><td align="left"><em>condition</em> is false </td></tr>
+
+<p>Kinematic wave method for overland flow erosion and deposition.  
+ <a href="../../d9/d2e/a00056.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../de/df7/a00418_source.html">KinWavSed_OL.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for KinWavSed_OL:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d4/d91/a00733.png" border="0" usemap="#_kin_wav_sed___o_l_inherit__map" alt="Inheritance graph"/></div>
+<map name="_kin_wav_sed___o_l_inherit__map" id="_kin_wav_sed___o_l_inherit__map">
+<area shape="rect" id="node2" href="../../d7/d70/a00106.html" title="Base module for all simulation modules in SEIMS. " alt="" coords="28,6,223,317"/></map>
+</div>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a69da76f343277894ca8521f4130d1023"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a69da76f343277894ca8521f4130d1023"></a>
+virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a69da76f343277894ca8521f4130d1023">Execute</a> (void)</td></tr>
+<tr class="memdesc:a69da76f343277894ca8521f4130d1023"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute the simulation. <br/></td></tr>
+<tr class="separator:a69da76f343277894ca8521f4130d1023"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a216e138aa4d47187e5fe0f0b17547d90"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a216e138aa4d47187e5fe0f0b17547d90"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a216e138aa4d47187e5fe0f0b17547d90">SetValue</a> (const char *key, float value)</td></tr>
+<tr class="memdesc:a216e138aa4d47187e5fe0f0b17547d90"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set data, DT_Single. <br/></td></tr>
+<tr class="separator:a216e138aa4d47187e5fe0f0b17547d90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab162b5147a661f8f1d3970dabfc2ab8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab162b5147a661f8f1d3970dabfc2ab8"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#aab162b5147a661f8f1d3970dabfc2ab8">Set1DData</a> (const char *key, int n, float *data)</td></tr>
+<tr class="memdesc:aab162b5147a661f8f1d3970dabfc2ab8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 1D data, by default, DT_Raster1D. <br/></td></tr>
+<tr class="separator:aab162b5147a661f8f1d3970dabfc2ab8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4baeb4c2718e129f0af9a9d5ce12c5e4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4baeb4c2718e129f0af9a9d5ce12c5e4"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a4baeb4c2718e129f0af9a9d5ce12c5e4">Get1DData</a> (const char *key, int *n, float **data)</td></tr>
+<tr class="memdesc:a4baeb4c2718e129f0af9a9d5ce12c5e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 1D data, by default, DT_Raster1D. <br/></td></tr>
+<tr class="separator:a4baeb4c2718e129f0af9a9d5ce12c5e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aee80e61ed1e3f64a59dfdc01bd272540"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aee80e61ed1e3f64a59dfdc01bd272540"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#aee80e61ed1e3f64a59dfdc01bd272540">Set2DData</a> (const char *key, int nrows, int ncols, float **data)</td></tr>
+<tr class="memdesc:aee80e61ed1e3f64a59dfdc01bd272540"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 2D data, by default, DT_Raster2D. <br/></td></tr>
+<tr class="separator:aee80e61ed1e3f64a59dfdc01bd272540"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad9d56c557e494601db95938076c5a49e"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#ad9d56c557e494601db95938076c5a49e">CheckInputData</a> (void)</td></tr>
+<tr class="memdesc:ad9d56c557e494601db95938076c5a49e"><td class="mdescLeft">&#160;</td><td class="mdescRight">check the input data. Make sure all the input data is available.  <a href="#ad9d56c557e494601db95938076c5a49e">More...</a><br/></td></tr>
+<tr class="separator:ad9d56c557e494601db95938076c5a49e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f7ae4e94a9fcfb886729adee5c2534d"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a9f7ae4e94a9fcfb886729adee5c2534d">CheckInputSize</a> (const char *, int)</td></tr>
+<tr class="memdesc:a9f7ae4e94a9fcfb886729adee5c2534d"><td class="mdescLeft">&#160;</td><td class="mdescRight">check the input size. Make sure all the input data have same dimension.  <a href="#a9f7ae4e94a9fcfb886729adee5c2534d">More...</a><br/></td></tr>
+<tr class="separator:a9f7ae4e94a9fcfb886729adee5c2534d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a00106"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00106')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d7/d70/a00106.html">SimulationModule</a></td></tr>
+<tr class="memitem:aa9934866122995dc98611de6515f47c5 inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9934866122995dc98611de6515f47c5"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#aa9934866122995dc98611de6515f47c5">SimulationModule</a> (void)</td></tr>
+<tr class="memdesc:aa9934866122995dc98611de6515f47c5 inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br/></td></tr>
+<tr class="separator:aa9934866122995dc98611de6515f47c5 inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75fc67bcf8bc5a1dc0eb467af5a9861c inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a75fc67bcf8bc5a1dc0eb467af5a9861c"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#a75fc67bcf8bc5a1dc0eb467af5a9861c">~SimulationModule</a> (void)</td></tr>
+<tr class="memdesc:a75fc67bcf8bc5a1dc0eb467af5a9861c inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br/></td></tr>
+<tr class="separator:a75fc67bcf8bc5a1dc0eb467af5a9861c inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8526abbeed3f49071f39e0c17559e522 inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8526abbeed3f49071f39e0c17559e522"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#a8526abbeed3f49071f39e0c17559e522">SetDate</a> (time_t t, int yearIdx)</td></tr>
+<tr class="memdesc:a8526abbeed3f49071f39e0c17559e522 inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set date time, as well as the sequence number of the entire simulation. Added by LJ for statistics convenient. <br/></td></tr>
+<tr class="separator:a8526abbeed3f49071f39e0c17559e522 inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46191d743a839a5290fd42d318b500d0 inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a46191d743a839a5290fd42d318b500d0"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#a46191d743a839a5290fd42d318b500d0">SetTheadNumber</a> (int threadNum)</td></tr>
+<tr class="memdesc:a46191d743a839a5290fd42d318b500d0 inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set thread number for OpenMP. <br/></td></tr>
+<tr class="separator:a46191d743a839a5290fd42d318b500d0 inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7b9caed16e56bf880b171040981403e inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7b9caed16e56bf880b171040981403e"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#af7b9caed16e56bf880b171040981403e">SetClimateDataType</a> (float value)</td></tr>
+<tr class="memdesc:af7b9caed16e56bf880b171040981403e inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set climate data type, P, M, PET etc. <br/></td></tr>
+<tr class="separator:af7b9caed16e56bf880b171040981403e inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3c60349cd6720bb66e58fa4cd31a999 inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3c60349cd6720bb66e58fa4cd31a999"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#ac3c60349cd6720bb66e58fa4cd31a999">Set1DArrayData</a> (const char *key, int n, float *data)</td></tr>
+<tr class="memdesc:ac3c60349cd6720bb66e58fa4cd31a999 inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 1D array data, DT_Array1D. <br/></td></tr>
+<tr class="separator:ac3c60349cd6720bb66e58fa4cd31a999 inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f7470f5f4f831b9053e3ff2d92c1813 inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1f7470f5f4f831b9053e3ff2d92c1813"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#a1f7470f5f4f831b9053e3ff2d92c1813">Set2DArrayData</a> (const char *key, int nRows, int nCols, float **data)</td></tr>
+<tr class="memdesc:a1f7470f5f4f831b9053e3ff2d92c1813 inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 2D array data, by default, DT_Array2D. <br/></td></tr>
+<tr class="separator:a1f7470f5f4f831b9053e3ff2d92c1813 inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafd60bc9d4176a0cf64af01aed881980 inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aafd60bc9d4176a0cf64af01aed881980"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#aafd60bc9d4176a0cf64af01aed881980">GetValue</a> (const char *key, float *value)</td></tr>
+<tr class="memdesc:aafd60bc9d4176a0cf64af01aed881980 inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get value, DT_Single. <br/></td></tr>
+<tr class="separator:aafd60bc9d4176a0cf64af01aed881980 inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6dc960ad0a7bd7714e9644b64dc0acb inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6dc960ad0a7bd7714e9644b64dc0acb"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#ab6dc960ad0a7bd7714e9644b64dc0acb">Get2DData</a> (const char *key, int *nRows, int *nCols, float ***data)</td></tr>
+<tr class="memdesc:ab6dc960ad0a7bd7714e9644b64dc0acb inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 2D data, by default, DT_Raster2D. <br/></td></tr>
+<tr class="separator:ab6dc960ad0a7bd7714e9644b64dc0acb inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb23e43dd78e4fb8ce5d25a9855dd748 inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeb23e43dd78e4fb8ce5d25a9855dd748"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#aeb23e43dd78e4fb8ce5d25a9855dd748">Get1DArrayData</a> (const char *key, int *n, float **data)</td></tr>
+<tr class="memdesc:aeb23e43dd78e4fb8ce5d25a9855dd748 inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 1D Array data, by default, DT_Array1D. <br/></td></tr>
+<tr class="separator:aeb23e43dd78e4fb8ce5d25a9855dd748 inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3330ba74e63c5e2e6368d5d62d4048ea inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3330ba74e63c5e2e6368d5d62d4048ea"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#a3330ba74e63c5e2e6368d5d62d4048ea">Get2DArrayData</a> (const char *key, int *nRows, int *nCols, float ***data)</td></tr>
+<tr class="memdesc:a3330ba74e63c5e2e6368d5d62d4048ea inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 2D Array data, by default, DT_Array2D. <br/></td></tr>
+<tr class="separator:a3330ba74e63c5e2e6368d5d62d4048ea inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6dfd515de376498a12a22724e57650a inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae6dfd515de376498a12a22724e57650a"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#ae6dfd515de376498a12a22724e57650a">SetScenario</a> (<a class="el" href="../../d0/d61/a00100.html">Scenario</a> *)</td></tr>
+<tr class="memdesc:ae6dfd515de376498a12a22724e57650a inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pointer of Scenario class which contains all BMP information. Added by LJ, 2016-6-14. <br/></td></tr>
+<tr class="separator:ae6dfd515de376498a12a22724e57650a inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4115c5f61d71efde62d3b62c70b51ec inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa4115c5f61d71efde62d3b62c70b51ec"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#aa4115c5f61d71efde62d3b62c70b51ec">SetReaches</a> (<a class="el" href="../../dd/da2/a00019.html">clsReaches</a> *)</td></tr>
+<tr class="memdesc:aa4115c5f61d71efde62d3b62c70b51ec inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pointer of <a class="el" href="../../dd/da2/a00019.html" title="Read and store all reaches information as input parameters. ">clsReaches</a> class which contains all reaches information. Added by LJ, 2016-7-2. <br/></td></tr>
+<tr class="separator:aa4115c5f61d71efde62d3b62c70b51ec inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97da293bca13cf5934d9ef6da34d9290 inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a97da293bca13cf5934d9ef6da34d9290"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#a97da293bca13cf5934d9ef6da34d9290">SetSubbasins</a> (<a class="el" href="../../de/d11/a00021.html">clsSubbasins</a> *)</td></tr>
+<tr class="memdesc:a97da293bca13cf5934d9ef6da34d9290 inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pointer of <a class="el" href="../../de/d11/a00021.html" title="Manager all Subbasin related parameters and methods. ">clsSubbasins</a> class which contains all subbasins information. Added by LJ, 2016-7-28. <br/></td></tr>
+<tr class="separator:a97da293bca13cf5934d9ef6da34d9290 inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd96e67e4e6d1c6f50bc51e69aad4a96 inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd96e67e4e6d1c6f50bc51e69aad4a96"></a>
+virtual TimeStepType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#abd96e67e4e6d1c6f50bc51e69aad4a96">GetTimeStepType</a> (void)</td></tr>
+<tr class="memdesc:abd96e67e4e6d1c6f50bc51e69aad4a96 inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get time step type. <br/></td></tr>
+<tr class="separator:abd96e67e4e6d1c6f50bc51e69aad4a96 inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbcc7144125d11f1da27da05f4a94338 inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abbcc7144125d11f1da27da05f4a94338"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#abbcc7144125d11f1da27da05f4a94338">ResetSubTimeStep</a> (void)</td></tr>
+<tr class="memdesc:abbcc7144125d11f1da27da05f4a94338 inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset subtime step. <br/></td></tr>
+<tr class="separator:abbcc7144125d11f1da27da05f4a94338 inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b1e6030fa901ac2bfa4350a819b4ecb inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b1e6030fa901ac2bfa4350a819b4ecb"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#a4b1e6030fa901ac2bfa4350a819b4ecb">IsInputsSetDone</a> (void)</td></tr>
+<tr class="memdesc:a4b1e6030fa901ac2bfa4350a819b4ecb inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the inputs parameters (i.e., parameters derived from other modules) have been set. <br/></td></tr>
+<tr class="separator:a4b1e6030fa901ac2bfa4350a819b4ecb inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94457cc066581e7ecd1d3c88ebdf3163 inherit pub_methods_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a94457cc066581e7ecd1d3c88ebdf3163"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#a94457cc066581e7ecd1d3c88ebdf3163">SetInputsDone</a> (bool setDone)</td></tr>
+<tr class="memdesc:a94457cc066581e7ecd1d3c88ebdf3163 inherit pub_methods_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the status of setting inputs parameters. <br/></td></tr>
+<tr class="separator:a94457cc066581e7ecd1d3c88ebdf3163 inherit pub_methods_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a4c45b334fd0c911547ff6c89f24db021"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4c45b334fd0c911547ff6c89f24db021"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a4c45b334fd0c911547ff6c89f24db021">initial</a> (void)</td></tr>
+<tr class="memdesc:a4c45b334fd0c911547ff6c89f24db021"><td class="mdescLeft">&#160;</td><td class="mdescRight">static string toString(float value); replaced by ValueToString() defined in util module. by LJ <br/></td></tr>
+<tr class="separator:a4c45b334fd0c911547ff6c89f24db021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a858da53565641ab1c577116634b3aaf3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a858da53565641ab1c577116634b3aaf3">CalcuVelocityOverlandFlow</a> (void)</td></tr>
+<tr class="memdesc:a858da53565641ab1c577116634b3aaf3"><td class="mdescLeft">&#160;</td><td class="mdescRight">calculate the velocity of overland flow.  <a href="#a858da53565641ab1c577116634b3aaf3">More...</a><br/></td></tr>
+<tr class="separator:a858da53565641ab1c577116634b3aaf3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16d397cbe864c5331abeaf1e45683746"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a16d397cbe864c5331abeaf1e45683746"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a16d397cbe864c5331abeaf1e45683746">CalcuVelocityChannelFlow</a> (void)</td></tr>
+<tr class="memdesc:a16d397cbe864c5331abeaf1e45683746"><td class="mdescLeft">&#160;</td><td class="mdescRight">calculate the velocity of overland flow. <br/></td></tr>
+<tr class="separator:a16d397cbe864c5331abeaf1e45683746"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ada32f5d7ca7ec2661b100bab4ac6d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a2ada32f5d7ca7ec2661b100bab4ac6d7">CalcuFlowDetachment</a> (int ID)</td></tr>
+<tr class="memdesc:a2ada32f5d7ca7ec2661b100bab4ac6d7"><td class="mdescLeft">&#160;</td><td class="mdescRight">calculate the flow detachment.  <a href="#a2ada32f5d7ca7ec2661b100bab4ac6d7">More...</a><br/></td></tr>
+<tr class="separator:a2ada32f5d7ca7ec2661b100bab4ac6d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a31dfded9db4f467fcdeb76acbfee64ea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a31dfded9db4f467fcdeb76acbfee64ea">OverlandflowSedRouting</a> (int ID)</td></tr>
+<tr class="memdesc:a31dfded9db4f467fcdeb76acbfee64ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">calculate the sediment routing of overland flow.  <a href="#a31dfded9db4f467fcdeb76acbfee64ea">More...</a><br/></td></tr>
+<tr class="separator:a31dfded9db4f467fcdeb76acbfee64ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e68a12d4ab4a85c23185da379c278d8"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a2e68a12d4ab4a85c23185da379c278d8">SedToChannel</a> (int ID)</td></tr>
+<tr class="memdesc:a2e68a12d4ab4a85c23185da379c278d8"><td class="mdescLeft">&#160;</td><td class="mdescRight">calculate the sediment routing of overland flow.  <a href="#a2e68a12d4ab4a85c23185da379c278d8">More...</a><br/></td></tr>
+<tr class="separator:a2e68a12d4ab4a85c23185da379c278d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64d56c95dc8babbd90407118daea93ca"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a64d56c95dc8babbd90407118daea93ca">simpleSedCalc</a> (float Qj1i1, float Qj1i, float Sj1i, float dt, float vol, float sed)</td></tr>
+<tr class="memdesc:a64d56c95dc8babbd90407118daea93ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">Simple calculation of sediment outflux from a cell based on the sediment concentration multiplied by the new water flux, j = time and i = place: j1i1 is the new output, j1i is the new flux at the upstream 'entrance' flowing into the gridcell.  <a href="#a64d56c95dc8babbd90407118daea93ca">More...</a><br/></td></tr>
+<tr class="separator:a64d56c95dc8babbd90407118daea93ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a18415dd982bcf3e128881db00e19e7"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a2a18415dd982bcf3e128881db00e19e7">complexSedCalc</a> (float Qj1i1, float Qj1i, float Qji1, float Sj1i, float Sji1, float alpha, float dt, float dx)</td></tr>
+<tr class="separator:a2a18415dd982bcf3e128881db00e19e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a3a11a564de3ca618e9a1338bab4af973"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3a11a564de3ca618e9a1338bab4af973"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a3a11a564de3ca618e9a1338bab4af973">m_Ccoe</a></td></tr>
+<tr class="memdesc:a3a11a564de3ca618e9a1338bab4af973"><td class="mdescLeft">&#160;</td><td class="mdescRight">calibration coefficient of overland erosion (-) <br/></td></tr>
+<tr class="separator:a3a11a564de3ca618e9a1338bab4af973"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2296e51befff84d28e66ea5256ab59fe"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2296e51befff84d28e66ea5256ab59fe"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a2296e51befff84d28e66ea5256ab59fe">m_eco1</a></td></tr>
+<tr class="memdesc:a2296e51befff84d28e66ea5256ab59fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">calibration coefficient 1 <br/></td></tr>
+<tr class="separator:a2296e51befff84d28e66ea5256ab59fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a701982e63e03ac1341f3e510b6e06ce7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a701982e63e03ac1341f3e510b6e06ce7"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a701982e63e03ac1341f3e510b6e06ce7">m_eco2</a></td></tr>
+<tr class="memdesc:a701982e63e03ac1341f3e510b6e06ce7"><td class="mdescLeft">&#160;</td><td class="mdescRight">calibration coefficient 2 <br/></td></tr>
+<tr class="separator:a701982e63e03ac1341f3e510b6e06ce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae4fc4991535176e6d2f1625aaec76bf5"><td class="memItemLeft" align="right" valign="top">float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#ae4fc4991535176e6d2f1625aaec76bf5">m_routingLayers</a></td></tr>
+<tr class="memdesc:ae4fc4991535176e6d2f1625aaec76bf5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Routing layers according to the flow direction.  <a href="#ae4fc4991535176e6d2f1625aaec76bf5">More...</a><br/></td></tr>
+<tr class="separator:ae4fc4991535176e6d2f1625aaec76bf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3ebcd89111b855277118a861f7f708f8"><td class="memItemLeft" align="right" valign="top">float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a3ebcd89111b855277118a861f7f708f8">m_flowInIndex</a></td></tr>
+<tr class="memdesc:a3ebcd89111b855277118a861f7f708f8"><td class="mdescLeft">&#160;</td><td class="mdescRight">2d array of flow in cells  <a href="#a3ebcd89111b855277118a861f7f708f8">More...</a><br/></td></tr>
+<tr class="separator:a3ebcd89111b855277118a861f7f708f8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5229b79c34648f84cf7a45f2288eb0c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af5229b79c34648f84cf7a45f2288eb0c"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#af5229b79c34648f84cf7a45f2288eb0c">m_CellWidth</a></td></tr>
+<tr class="memdesc:af5229b79c34648f84cf7a45f2288eb0c"><td class="mdescLeft">&#160;</td><td class="mdescRight">cell width of grid map (m) <br/></td></tr>
+<tr class="separator:af5229b79c34648f84cf7a45f2288eb0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a928773a810bd88d9cab703a1d22c6f96"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a928773a810bd88d9cab703a1d22c6f96"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a928773a810bd88d9cab703a1d22c6f96">m_nCells</a></td></tr>
+<tr class="memdesc:a928773a810bd88d9cab703a1d22c6f96"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of cells <br/></td></tr>
+<tr class="separator:a928773a810bd88d9cab703a1d22c6f96"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5670761928d73d5e1bf849d0d3a715a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af5670761928d73d5e1bf849d0d3a715a"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#af5670761928d73d5e1bf849d0d3a715a">m_TimeStep</a></td></tr>
+<tr class="memdesc:af5670761928d73d5e1bf849d0d3a715a"><td class="mdescLeft">&#160;</td><td class="mdescRight">length of time step (s) <br/></td></tr>
+<tr class="separator:af5670761928d73d5e1bf849d0d3a715a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad57b8d6a65ec2ba8125a9569f06d1b4a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad57b8d6a65ec2ba8125a9569f06d1b4a"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#ad57b8d6a65ec2ba8125a9569f06d1b4a">m_Slope</a></td></tr>
+<tr class="memdesc:ad57b8d6a65ec2ba8125a9569f06d1b4a"><td class="mdescLeft">&#160;</td><td class="mdescRight">slope of map, to calculate slope gradient. <br/></td></tr>
+<tr class="separator:ad57b8d6a65ec2ba8125a9569f06d1b4a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3fbb18fb1002b9791421cd31c89ab0eb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3fbb18fb1002b9791421cd31c89ab0eb"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a3fbb18fb1002b9791421cd31c89ab0eb">m_USLE_C</a></td></tr>
+<tr class="memdesc:a3fbb18fb1002b9791421cd31c89ab0eb"><td class="mdescLeft">&#160;</td><td class="mdescRight">crop management factor <br/></td></tr>
+<tr class="separator:a3fbb18fb1002b9791421cd31c89ab0eb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a76183537763531d95066f655b2b54cc2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a76183537763531d95066f655b2b54cc2"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a76183537763531d95066f655b2b54cc2">m_USLE_K</a></td></tr>
+<tr class="memdesc:a76183537763531d95066f655b2b54cc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">soil erodibility factor <br/></td></tr>
+<tr class="separator:a76183537763531d95066f655b2b54cc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7d8a81ab61c1bb7c239881acf360dc2"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#ae7d8a81ab61c1bb7c239881acf360dc2">m_WH</a></td></tr>
+<tr class="memdesc:ae7d8a81ab61c1bb7c239881acf360dc2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Runoff mm.  <a href="#ae7d8a81ab61c1bb7c239881acf360dc2">More...</a><br/></td></tr>
+<tr class="separator:ae7d8a81ab61c1bb7c239881acf360dc2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0a628032ebec8e316a039b42b5422a6c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0a628032ebec8e316a039b42b5422a6c"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a0a628032ebec8e316a039b42b5422a6c">m_DETSplash</a></td></tr>
+<tr class="memdesc:a0a628032ebec8e316a039b42b5422a6c"><td class="mdescLeft">&#160;</td><td class="mdescRight">the distribution of splash detachment,(kg) <br/></td></tr>
+<tr class="separator:a0a628032ebec8e316a039b42b5422a6c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f1ed4f5c796190502f688a4dc71a74a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2f1ed4f5c796190502f688a4dc71a74a"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a2f1ed4f5c796190502f688a4dc71a74a">m_FlowWidth</a></td></tr>
+<tr class="memdesc:a2f1ed4f5c796190502f688a4dc71a74a"><td class="mdescLeft">&#160;</td><td class="mdescRight">flow width (m) of overland plane <br/></td></tr>
+<tr class="separator:a2f1ed4f5c796190502f688a4dc71a74a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4ded374cd3000aa16b0d6b625a70d475"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4ded374cd3000aa16b0d6b625a70d475"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a4ded374cd3000aa16b0d6b625a70d475">m_chWidth</a></td></tr>
+<tr class="memdesc:a4ded374cd3000aa16b0d6b625a70d475"><td class="mdescLeft">&#160;</td><td class="mdescRight">channel width (zero for non-channel cells) <br/></td></tr>
+<tr class="separator:a4ded374cd3000aa16b0d6b625a70d475"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a43d7a24fbdd029bc6925ca9d86f65f29"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a43d7a24fbdd029bc6925ca9d86f65f29"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a43d7a24fbdd029bc6925ca9d86f65f29">m_Qkin</a></td></tr>
+<tr class="memdesc:a43d7a24fbdd029bc6925ca9d86f65f29"><td class="mdescLeft">&#160;</td><td class="mdescRight">kinematic wave flow in the time step, m3/s <br/></td></tr>
+<tr class="separator:a43d7a24fbdd029bc6925ca9d86f65f29"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e2c688237a13f977eb40f001af3309c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2e2c688237a13f977eb40f001af3309c"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a2e2c688237a13f977eb40f001af3309c">m_whtoCh</a></td></tr>
+<tr class="memdesc:a2e2c688237a13f977eb40f001af3309c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Water depth added to channel water depth. <br/></td></tr>
+<tr class="separator:a2e2c688237a13f977eb40f001af3309c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8ef22ecc861957d834191fd5ecfe7ce"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa8ef22ecc861957d834191fd5ecfe7ce"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#aa8ef22ecc861957d834191fd5ecfe7ce">m_V</a></td></tr>
+<tr class="memdesc:aa8ef22ecc861957d834191fd5ecfe7ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">flow velocity <br/></td></tr>
+<tr class="separator:aa8ef22ecc861957d834191fd5ecfe7ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a016bc497cc6578ce6476e088bae20e42"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a016bc497cc6578ce6476e088bae20e42"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a016bc497cc6578ce6476e088bae20e42">m_Vol</a></td></tr>
+<tr class="memdesc:a016bc497cc6578ce6476e088bae20e42"><td class="mdescLeft">&#160;</td><td class="mdescRight">flow volum in cell <br/></td></tr>
+<tr class="separator:a016bc497cc6578ce6476e088bae20e42"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e4f1fd4c15734243f632e2e6933f3d6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5e4f1fd4c15734243f632e2e6933f3d6"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a5e4f1fd4c15734243f632e2e6933f3d6">m_ManningN</a></td></tr>
+<tr class="memdesc:a5e4f1fd4c15734243f632e2e6933f3d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Manning's roughness [-]. <br/></td></tr>
+<tr class="separator:a5e4f1fd4c15734243f632e2e6933f3d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aabce89ec2c183cc9d91ef1bc661b21e4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aabce89ec2c183cc9d91ef1bc661b21e4"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#aabce89ec2c183cc9d91ef1bc661b21e4">m_streamLink</a></td></tr>
+<tr class="memdesc:aabce89ec2c183cc9d91ef1bc661b21e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">streamlink <br/></td></tr>
+<tr class="separator:aabce89ec2c183cc9d91ef1bc661b21e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a444f03b99e1eef27fceffc0e6c75891c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a444f03b99e1eef27fceffc0e6c75891c"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a444f03b99e1eef27fceffc0e6c75891c">m_Ctrans</a></td></tr>
+<tr class="memdesc:a444f03b99e1eef27fceffc0e6c75891c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Soil transport capacity of overland flow (kg) at each time step. <br/></td></tr>
+<tr class="separator:a444f03b99e1eef27fceffc0e6c75891c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aceb5907fc3e6b328d0e9c3bf98fca577"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aceb5907fc3e6b328d0e9c3bf98fca577"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#aceb5907fc3e6b328d0e9c3bf98fca577">m_Sed_kg</a></td></tr>
+<tr class="memdesc:aceb5907fc3e6b328d0e9c3bf98fca577"><td class="mdescLeft">&#160;</td><td class="mdescRight">sediment content in flow [kg] <br/></td></tr>
+<tr class="separator:aceb5907fc3e6b328d0e9c3bf98fca577"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa9c2de9bb86991b12b168600c409ec27"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9c2de9bb86991b12b168600c409ec27"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#aa9c2de9bb86991b12b168600c409ec27">m_Qsn</a></td></tr>
+<tr class="memdesc:aa9c2de9bb86991b12b168600c409ec27"><td class="mdescLeft">&#160;</td><td class="mdescRight">outgoing sediment flux (kg/s) <br/></td></tr>
+<tr class="separator:aa9c2de9bb86991b12b168600c409ec27"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a61693fc2f5c8a577a38063640ea22b0f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a61693fc2f5c8a577a38063640ea22b0f"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a61693fc2f5c8a577a38063640ea22b0f">m_DETOverland</a></td></tr>
+<tr class="memdesc:a61693fc2f5c8a577a38063640ea22b0f"><td class="mdescLeft">&#160;</td><td class="mdescRight">the distribution of overland flow detachment, kg/cell <br/></td></tr>
+<tr class="separator:a61693fc2f5c8a577a38063640ea22b0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac4887c5c414539d8c75121744c55d827"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac4887c5c414539d8c75121744c55d827"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#ac4887c5c414539d8c75121744c55d827">m_SedDep</a></td></tr>
+<tr class="memdesc:ac4887c5c414539d8c75121744c55d827"><td class="mdescLeft">&#160;</td><td class="mdescRight">sediment deposition[kg] <br/></td></tr>
+<tr class="separator:ac4887c5c414539d8c75121744c55d827"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a614fba70f074621bde07c7f26056abea"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a614fba70f074621bde07c7f26056abea"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d9/d2e/a00056.html#a614fba70f074621bde07c7f26056abea">m_SedToChannel</a></td></tr>
+<tr class="memdesc:a614fba70f074621bde07c7f26056abea"><td class="mdescLeft">&#160;</td><td class="mdescRight">sediment flow into the channel [kg] <br/></td></tr>
+<tr class="separator:a614fba70f074621bde07c7f26056abea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_a00106"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_a00106')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d7/d70/a00106.html">SimulationModule</a></td></tr>
+<tr class="memitem:aabd631c05d3e74aa9970f7415f2f5de7 inherit pro_attribs_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aabd631c05d3e74aa9970f7415f2f5de7"></a>
+time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#aabd631c05d3e74aa9970f7415f2f5de7">m_date</a></td></tr>
+<tr class="memdesc:aabd631c05d3e74aa9970f7415f2f5de7 inherit pro_attribs_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">date time <br/></td></tr>
+<tr class="separator:aabd631c05d3e74aa9970f7415f2f5de7 inherit pro_attribs_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addfe4dd5800efd0bb827338daf65d64c inherit pro_attribs_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="addfe4dd5800efd0bb827338daf65d64c"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#addfe4dd5800efd0bb827338daf65d64c">m_yearIdx</a></td></tr>
+<tr class="memdesc:addfe4dd5800efd0bb827338daf65d64c inherit pro_attribs_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">index of current year of simulation, e.g., the simulation period from 2010 to 2015, m_yearIdx is 2 when simulate 2012. <br/></td></tr>
+<tr class="separator:addfe4dd5800efd0bb827338daf65d64c inherit pro_attribs_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adee1865c86a9761af76cec98cac30a44 inherit pro_attribs_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adee1865c86a9761af76cec98cac30a44"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#adee1865c86a9761af76cec98cac30a44">m_tsCounter</a></td></tr>
+<tr class="memdesc:adee1865c86a9761af76cec98cac30a44 inherit pro_attribs_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">sub-timestep counter <br/></td></tr>
+<tr class="separator:adee1865c86a9761af76cec98cac30a44 inherit pro_attribs_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68422923210ead26b1651bf0e0a339f6 inherit pro_attribs_a00106"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a68422923210ead26b1651bf0e0a339f6"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d7/d70/a00106.html#a68422923210ead26b1651bf0e0a339f6">m_inputsSetDone</a></td></tr>
+<tr class="memdesc:a68422923210ead26b1651bf0e0a339f6 inherit pro_attribs_a00106"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the inputs parameters (i.e., parameters derived from other modules) have been set. <br/></td></tr>
+<tr class="separator:a68422923210ead26b1651bf0e0a339f6 inherit pro_attribs_a00106"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
-<p>Remember, when they fail, <code>ASSERT_*</code> yields a fatal failure and returns from the current function, while <code>EXPECT_*</code> yields a nonfatal failure, allowing the function to continue running. In either case, an assertion failure means its containing test fails.</p>
-<p><em>Availability</em>: Linux, Windows, Mac.</p>
-<h2>Binary Comparison</h2>
-<p>This section describes assertions that compare two values.</p>
-<table class="doxtable">
-<tr>
-<th align="left"><b>Fatal assertion</b> </th><th align="left"><b>Nonfatal assertion</b> </th><th align="left"><b>Verifies</b>  </th></tr>
-<tr>
-<td align="left"><code>ASSERT_EQ(</code>_val1_<code>,</code>_val2_<code>);</code></td><td align="left"><code>EXPECT_EQ(</code>_val1_<code>,</code>_val2_<code>);</code></td><td align="left"><em>val1</em> <code>==</code> <em>val2</em> </td></tr>
-<tr>
-<td align="left"><code>ASSERT_NE(</code>_val1_<code>,</code>_val2_<code>);</code></td><td align="left"><code>EXPECT_NE(</code>_val1_<code>,</code>_val2_<code>);</code></td><td align="left"><em>val1</em> <code>!=</code> <em>val2</em> </td></tr>
-<tr>
-<td align="left"><code>ASSERT_LT(</code>_val1_<code>,</code>_val2_<code>);</code></td><td align="left"><code>EXPECT_LT(</code>_val1_<code>,</code>_val2_<code>);</code></td><td align="left"><em>val1</em> <code>&lt;</code> <em>val2</em> </td></tr>
-<tr>
-<td align="left"><code>ASSERT_LE(</code>_val1_<code>,</code>_val2_<code>);</code></td><td align="left"><code>EXPECT_LE(</code>_val1_<code>,</code>_val2_<code>);</code></td><td align="left"><em>val1</em> <code>&lt;=</code> <em>val2</em> </td></tr>
-<tr>
-<td align="left"><code>ASSERT_GT(</code>_val1_<code>,</code>_val2_<code>);</code></td><td align="left"><code>EXPECT_GT(</code>_val1_<code>,</code>_val2_<code>);</code></td><td align="left"><em>val1</em> <code>&gt;</code> <em>val2</em> </td></tr>
-<tr>
-<td align="left"><code>ASSERT_GE(</code>_val1_<code>,</code>_val2_<code>);</code></td><td align="left"><code>EXPECT_GE(</code>_val1_<code>,</code>_val2_<code>);</code></td><td align="left"><em>val1</em> <code>&gt;=</code> <em>val2</em> </td></tr>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Kinematic wave method for overland flow erosion and deposition. </p>
+
+<p>Definition at line <a class="el" href="../../de/df7/a00418_source.html#l00025">25</a> of file <a class="el" href="../../de/df7/a00418_source.html">KinWavSed_OL.h</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a2ada32f5d7ca7ec2661b100bab4ac6d7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KinWavSed_OL::CalcuFlowDetachment </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ID</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
 </table>
-<p>In the event of a failure, Google Test prints both <em>val1</em> and <em>val2</em>.</p>
-<p>Value arguments must be comparable by the assertion's comparison operator or you'll get a compiler error. We used to require the arguments to support the <code>&lt;&lt;</code> operator for streaming to an <code>ostream</code>, but it's no longer necessary since v1.6.0 (if <code>&lt;&lt;</code> is supported, it will be called to print the arguments when the assertion fails; otherwise Google Test will attempt to print them in the best way it can. For more details and how to customize the printing of the arguments, see this Google Mock <a href="../../../../googlemock/docs/CookBook.md#teaching-google-mock-how-to-print-your-values">recipe</a>.).</p>
-<p>These assertions can work with a user-defined type, but only if you define the corresponding comparison operator (e.g. <code>==</code>, <code>&lt;</code>, etc). If the corresponding operator is defined, prefer using the <code>ASSERT_*()</code> macros because they will print out not only the result of the comparison, but the two operands as well.</p>
-<p>Arguments are always evaluated exactly once. Therefore, it's OK for the arguments to have side effects. However, as with any ordinary C/C++ function, the arguments' evaluation order is undefined (i.e. the compiler is free to choose any order) and your code should not depend on any particular argument evaluation order.</p>
-<p><code>ASSERT_EQ()</code> does pointer equality on pointers. If used on two C strings, it tests if they are in the same memory location, not if they have the same value. Therefore, if you want to compare C strings (e.g. <code>const char*</code>) by value, use <code>ASSERT_STREQ()</code> , which will be described later on. In particular, to assert that a C string is <code>NULL</code>, use <code>ASSERT_STREQ(NULL, c_string)</code> . However, to compare two <code>string</code> objects, you should use <code>ASSERT_EQ</code>.</p>
-<p>Macros in this section work with both narrow and wide string objects (<code>string</code> and <code>wstring</code>).</p>
-<p><em>Availability</em>: Linux, Windows, Mac.</p>
-<p><em>Historical note</em>: Before February 2016 <code>*_EQ</code> had a convention of calling it as <code>ASSERT_EQ(expected, actual)</code>, so lots of existing code uses this order. Now <code>*_EQ</code> treats both parameters in the same way.</p>
-<h2>String Comparison</h2>
-<p>The assertions in this group compare two <b>C strings</b>. If you want to compare two <code>string</code> objects, use <code>EXPECT_EQ</code>, <code>EXPECT_NE</code>, and etc instead.</p>
-<table class="doxtable">
-<tr>
-<th align="left"><b>Fatal assertion</b> </th><th align="left"><b>Nonfatal assertion</b> </th><th align="left"><b>Verifies</b>  </th></tr>
-<tr>
-<td align="left"><code>ASSERT_STREQ(</code>_str1_<code>,</code>_str2_<code>);</code> </td><td align="left"><code>EXPECT_STREQ(</code>_str1_<code>,</code>_str_2<code>);</code> </td><td align="left">the two C strings have the same content </td></tr>
-<tr>
-<td align="left"><code>ASSERT_STRNE(</code>_str1_<code>,</code>_str2_<code>);</code> </td><td align="left"><code>EXPECT_STRNE(</code>_str1_<code>,</code>_str2_<code>);</code> </td><td align="left">the two C strings have different content </td></tr>
-<tr>
-<td align="left"><code>ASSERT_STRCASEEQ(</code>_str1_<code>,</code>_str2_<code>);</code></td><td align="left"><code>EXPECT_STRCASEEQ(</code>_str1_<code>,</code>_str2_<code>);</code> </td><td align="left">the two C strings have the same content, ignoring case </td></tr>
-<tr>
-<td align="left"><code>ASSERT_STRCASENE(</code>_str1_<code>,</code>_str2_<code>);</code></td><td align="left"><code>EXPECT_STRCASENE(</code>_str1_<code>,</code>_str2_<code>);</code> </td><td align="left">the two C strings have different content, ignoring case </td></tr>
+</div><div class="memdoc">
+
+<p>calculate the flow detachment. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ID</td><td>The id of cell in grid map </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="../../d8/de7/a00417_source.html#l00443">443</a> of file <a class="el" href="../../d8/de7/a00417_source.html">KinWavSed_OL.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a858da53565641ab1c577116634b3aaf3"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KinWavSed_OL::CalcuVelocityOverlandFlow </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
 </table>
-<p>Note that "CASE" in an assertion name means that case is ignored.</p>
-<p><code>*STREQ*</code> and <code>*STRNE*</code> also accept wide C strings (<code>wchar_t*</code>). If a comparison of two wide strings fails, their values will be printed as UTF-8 narrow strings.</p>
-<p>A <code>NULL</code> pointer and an empty string are considered <em>different</em>.</p>
-<p><em>Availability</em>: Linux, Windows, Mac.</p>
-<p>See also: For more string comparison tricks (substring, prefix, suffix, and regular expression matching, for example), see the <a class="el" href="../../db/ddc/a00353_source.html">Advanced Google Test Guide</a>.</p>
-<h1>Simple Tests</h1>
-<p>To create a test:</p>
-<ol type="1">
-<li>Use the <code>TEST()</code> macro to define and name a test function, These are ordinary C++ functions that don't return a value.</li>
-</ol>
-<ol type="1">
-<li>In this function, along with any valid C++ statements you want to include, use the various Google Test assertions to check values.</li>
-</ol>
-<ol type="1">
-<li>The test's result is determined by the assertions; if any assertion in the test fails (either fatally or non-fatally), or if the test crashes, the entire test fails. Otherwise, it succeeds.</li>
-</ol>
-<p>``` TEST(test_case_name, test_name) { ... test body ... } ```</p>
-<p><code>TEST()</code> arguments go from general to specific. The <em>first</em> argument is the name of the test case, and the <em>second</em> argument is the test's name within the test case. Both names must be valid C++ identifiers, and they should not contain underscore (<code>_</code>). A test's <em>full name</em> consists of its containing test case and its individual name. Tests from different test cases can have the same individual name.</p>
-<p>For example, let's take a simple integer function: ``` int Factorial(int n); // Returns the factorial of n ```</p>
-<p>A test case for this function might look like: ``` // Tests factorial of 0. TEST(FactorialTest, HandlesZeroInput) { EXPECT_EQ(1, Factorial(0)); }</p>
-<p>// Tests factorial of positive numbers. TEST(FactorialTest, HandlesPositiveInput) { EXPECT_EQ(1, Factorial(1)); EXPECT_EQ(2, Factorial(2)); EXPECT_EQ(6, Factorial(3)); EXPECT_EQ(40320, Factorial(8)); } ```</p>
-<p>Google Test groups the test results by test cases, so logically-related tests should be in the same test case; in other words, the first argument to their <code>TEST()</code> should be the same. In the above example, we have two tests, <code>HandlesZeroInput</code> and <code>HandlesPositiveInput</code>, that belong to the same test case <code>FactorialTest</code>.</p>
-<p><em>Availability</em>: Linux, Windows, Mac.</p>
-<h1>Test Fixtures: Using the Same Data Configuration for Multiple Tests</h1>
-<p>If you find yourself writing two or more tests that operate on similar data, you can use a <em>test fixture</em>. It allows you to reuse the same configuration of objects for several different tests.</p>
-<p>To create a fixture, just:</p>
-<ol type="1">
-<li>Derive a class from <code>::testing::Test</code> . Start its body with <code>protected:</code> or <code>public:</code> as we'll want to access fixture members from sub-classes.</li>
-</ol>
-<ol type="1">
-<li>Inside the class, declare any objects you plan to use.</li>
-</ol>
-<ol type="1">
-<li>If necessary, write a default constructor or <code>SetUp()</code> function to prepare the objects for each test. A common mistake is to spell <code>SetUp()</code> as <code>Setup()</code> with a small <code>u</code> - don't let that happen to you.</li>
-</ol>
-<ol type="1">
-<li>If necessary, write a destructor or <code>TearDown()</code> function to release any resources you allocated in <code>SetUp()</code> . To learn when you should use the constructor/destructor and when you should use <code>SetUp()/TearDown()</code>, read this <a href="../../FAQ.md#should-i-use-the-constructordestructor-of-the-test-fixture-or-the-set-uptear-down-function">FAQ entry</a>.</li>
-</ol>
-<ol type="1">
-<li>If needed, define subroutines for your tests to share.</li>
-</ol>
-<p>When using a fixture, use <code>TEST_F()</code> instead of <code>TEST()</code> as it allows you to access objects and subroutines in the test fixture: ``` TEST_F(test_case_name, test_name) { ... test body ... } ```</p>
-<p>Like <code>TEST()</code>, the first argument is the test case name, but for <code>TEST_F()</code> this must be the name of the test fixture class. You've probably guessed: <code>_F</code> is for fixture.</p>
-<p>Unfortunately, the C++ macro system does not allow us to create a single macro that can handle both types of tests. Using the wrong macro causes a compiler error.</p>
-<p>Also, you must first define a test fixture class before using it in a <code>TEST_F()</code>, or you'll get the compiler error "`virtual outside class
-declaration`".</p>
-<p>For each test defined with <code>TEST_F()</code>, Google Test will:</p>
-<ol type="1">
-<li>Create a <em>fresh</em> test fixture at runtime</li>
-</ol>
-<ol type="1">
-<li>Immediately initialize it via <code>SetUp()</code> ,</li>
-</ol>
-<ol type="1">
-<li>Run the test</li>
-</ol>
-<ol type="1">
-<li>Clean up by calling <code>TearDown()</code></li>
-</ol>
-<ol type="1">
-<li>Delete the test fixture. Note that different tests in the same test case have different test fixture objects, and Google Test always deletes a test fixture before it creates the next one. Google Test does not reuse the same test fixture for multiple tests. Any changes one test makes to the fixture do not affect other tests.</li>
-</ol>
-<p>As an example, let's write tests for a FIFO queue class named <code>Queue</code>, which has the following interface: ``` template &lt;typename e&gt;=""&gt; // E is the element type. class Queue { public: Queue(); void Enqueue(const E&amp; element); E* Dequeue(); // Returns NULL if the queue is empty. size_t size() const; ... }; ```</p>
-<p>First, define a fixture class. By convention, you should give it the name <code>FooTest</code> where <code>Foo</code> is the class being tested. ``` class QueueTest : public ::testing::Test { protected: virtual void SetUp() { q1_.Enqueue(1); q2_.Enqueue(2); q2_.Enqueue(3); }</p>
-<p>// virtual void TearDown() {}</p>
-<p>Queue&lt;int&gt; q0_; Queue&lt;int&gt; q1_; Queue&lt;int&gt; q2_; }; ```</p>
-<p>In this case, <code>TearDown()</code> is not needed since we don't have to clean up after each test, other than what's already done by the destructor.</p>
-<p>Now we'll write tests using <code>TEST_F()</code> and this fixture. ``` TEST_F(QueueTest, IsEmptyInitially) { EXPECT_EQ(0, q0_.size()); }</p>
-<p>TEST_F(QueueTest, DequeueWorks) { int* n = q0_.Dequeue(); EXPECT_EQ(NULL, n);</p>
-<p>n = q1_.Dequeue(); ASSERT_TRUE(n != NULL); EXPECT_EQ(1, *n); EXPECT_EQ(0, q1_.size()); delete n;</p>
-<p>n = q2_.Dequeue(); ASSERT_TRUE(n != NULL); EXPECT_EQ(2, &lt;em&gt;n); EXPECT_EQ(1, q2_.size()); delete n; } ```</p>
-<p>The above uses both <code>ASSERT_*</code> and `EXPECT_<code>assertions. The rule of thumb is to use</code>EXPECT_*<code>when you want the test to continue to reveal more errors after the assertion failure, and use</code>ASSERT_*<code>when continuing after failure doesn't make sense. For example, the second assertion in the</code>Dequeue<code>test is </code>ASSERT_TRUE(n != NULL)<code>, as we need to dereference the pointer</code>n<code>later, which would lead to a segfault when</code>n<code>is</code>NULL`.</p>
-<p>When these tests run, the following happens:</p>
-<ol type="1">
-<li>Google Test constructs a <code>QueueTest</code> object (let's call it <code>t1</code> ).</li>
-</ol>
-<ol type="1">
-<li><code>t1.SetUp()</code> initializes <code>t1</code> .</li>
-</ol>
-<ol type="1">
-<li>The first test ( <code>IsEmptyInitially</code> ) runs on <code>t1</code> .</li>
-</ol>
-<ol type="1">
-<li><code>t1.TearDown()</code> cleans up after the test finishes.</li>
-</ol>
-<ol type="1">
-<li><code>t1</code> is destructed.</li>
-</ol>
-<ol type="1">
-<li>The above steps are repeated on another <code>QueueTest</code> object, this time running the <code>DequeueWorks</code> test.</li>
-</ol>
-<p><em>Availability</em>: Linux, Windows, Mac.</p>
-<p><em>Note</em>: Google Test automatically saves all <em>Google Test</em> flags when a test object is constructed, and restores them when it is destructed.</p>
-<h1>Invoking the Tests</h1>
-<p><code>TEST()</code> and <code>TEST_F()</code> implicitly register their tests with Google Test. So, unlike with many other C++ testing frameworks, you don't have to re-list all your defined tests in order to run them.</p>
-<p>After defining your tests, you can run them with <code>RUN_ALL_TESTS()</code> , which returns <code>0</code> if all the tests are successful, or <code>1</code> otherwise. Note that <code>RUN_ALL_TESTS()</code> runs <em>all tests</em> in your link unit &ndash; they can be from different test cases, or even different source files.</p>
-<p>When invoked, the <code>RUN_ALL_TESTS()</code> macro:</p>
-<ol type="1">
-<li>Saves the state of all Google Test flags.</li>
-</ol>
-<ol type="1">
-<li>Creates a test fixture object for the first test.</li>
-</ol>
-<ol type="1">
-<li>Initializes it via <code>SetUp()</code>.</li>
-</ol>
-<ol type="1">
-<li>Runs the test on the fixture object.</li>
-</ol>
-<ol type="1">
-<li>Cleans up the fixture via <code>TearDown()</code>.</li>
-</ol>
-<ol type="1">
-<li>Deletes the fixture.</li>
-</ol>
-<ol type="1">
-<li>Restores the state of all Google Test flags.</li>
-</ol>
-<ol type="1">
-<li>Repeats the above steps for the next test, until all tests have run.</li>
-</ol>
-<p>In addition, if the text fixture's constructor generates a fatal failure in step 2, there is no point for step 3 - 5 and they are thus skipped. Similarly, if step 3 generates a fatal failure, step 4 will be skipped.</p>
-<p><em>Important</em>: You must not ignore the return value of <code>RUN_ALL_TESTS()</code>, or <code>gcc</code> will give you a compiler error. The rationale for this design is that the automated testing service determines whether a test has passed based on its exit code, not on its stdout/stderr output; thus your <code>main()</code> function must return the value of <code>RUN_ALL_TESTS()</code>.</p>
-<p>Also, you should call <code>RUN_ALL_TESTS()</code> only <b>once</b>. Calling it more than once conflicts with some advanced Google Test features (e.g. thread-safe death tests) and thus is not supported.</p>
-<p><em>Availability</em>: Linux, Windows, Mac.</p>
-<h1>Writing the main() Function</h1>
-<p>You can start from this boilerplate: ``` #include "this/package/foo.h" #include "gtest/gtest.h"</p>
-<p>namespace {</p>
-<p>// The fixture for testing class Foo. class FooTest : public ::testing::Test { protected: // You can remove any or all of the following functions if its body // is empty.</p>
-<p>FooTest() { // You can do set-up work for each test here. }</p>
-<p>virtual ~FooTest() { // You can do clean-up work that doesn't throw exceptions here. }</p>
-<p>// If the constructor and destructor are not enough for setting up // and cleaning up each test, you can define the following methods:</p>
-<p>virtual void SetUp() { // Code here will be called immediately after the constructor (right // before each test). }</p>
-<p>virtual void TearDown() { // Code here will be called immediately after each test (right // before the destructor). }</p>
-<p>// Objects declared here can be used by all tests in the test case for Foo. };</p>
-<p>// Tests that the Foo::Bar() method does Abc. TEST_F(FooTest, MethodBarDoesAbc) { const string input_filepath = "this/package/testdata/myinputfile.dat"; const string output_filepath = "this/package/testdata/myoutputfile.dat"; Foo f; EXPECT_EQ(0, f.Bar(input_filepath, output_filepath)); }</p>
-<p>// Tests that Foo does Xyz. TEST_F(FooTest, DoesXyz) { // Exercises the Xyz feature of Foo. }</p>
-<p>} // namespace</p>
-<p>int main(int argc, char **argv) { ::testing::InitGoogleTest(&amp;argc, argv); return RUN_ALL_TESTS(); } ```</p>
-<p>The <code>::testing::InitGoogleTest()</code> function parses the command line for Google Test flags, and removes all recognized flags. This allows the user to control a test program's behavior via various flags, which we'll cover in <a class="el" href="../../db/ddc/a00353_source.html">AdvancedGuide</a>. You must call this function before calling <code>RUN_ALL_TESTS()</code>, or the flags won't be properly initialized.</p>
-<p>On Windows, <code>InitGoogleTest()</code> also works with wide strings, so it can be used in programs compiled in <code>UNICODE</code> mode as well.</p>
-<p>But maybe you think that writing all those main() functions is too much work? We agree with you completely and that's why Google Test provides a basic implementation of main(). If it fits your needs, then just link your test with gtest_main library and you are good to go.</p>
-<h2>Important note for Visual C++ users</h2>
-<p>If you put your tests into a library and your <code>main()</code> function is in a different library or in your .exe file, those tests will not run. The reason is a <a href="https://connect.microsoft.com/feedback/viewfeedback.aspx?FeedbackID=244410&amp;siteid=210">bug</a> in Visual C++. When you define your tests, Google Test creates certain static objects to register them. These objects are not referenced from elsewhere but their constructors are still supposed to run. When Visual C++ linker sees that nothing in the library is referenced from other places it throws the library out. You have to reference your library with tests from your main program to keep the linker from discarding it. Here is how to do it. Somewhere in your library code declare a function: ``` __declspec(dllexport) int PullInMyLibrary() { return 0; } ``<code> If you put your tests in a static library (not DLL) then</code>__declspec(dllexport)<code>is not required. Now, in your main program, write a code that invokes that function: </code>`` int PullInMyLibrary(); static int dummy = PullInMyLibrary(); ``` This will keep your tests referenced and will make them register themselves at startup.</p>
-<p>In addition, if you define your tests in a static library, add <code>/OPT:NOREF</code> to your main program linker options. If you use MSVC++ IDE, go to your .exe project properties/Configuration Properties/Linker/Optimization and set References setting to <code>Keep Unreferenced Data (/OPT:NOREF)</code>. This will keep Visual C++ linker from discarding individual symbols generated by your tests from the final executable.</p>
-<p>There is one more pitfall, though. If you use Google Test as a static library (that's how it is defined in gtest.vcproj) your tests must also reside in a static library. If you have to have them in a DLL, you <em>must</em> change Google Test to build into a DLL as well. Otherwise your tests will not run correctly or will not run at all. The general conclusion here is: make your life easier - do not write your tests in libraries!</p>
-<h1>Where to Go from Here</h1>
-<p>Congratulations! You've learned the Google Test basics. You can start writing and running Google Test tests, read some <a class="el" href="../../df/df1/a00357_source.html">samples</a>, or continue with <a class="el" href="../../db/ddc/a00353_source.html">AdvancedGuide</a>, which describes many more useful Google Test features.</p>
-<h1>Known Limitations</h1>
-<p>Google Test is designed to be thread-safe. The implementation is thread-safe on systems where the <code>pthreads</code> library is available. It is currently <em>unsafe</em> to use Google Test assertions from two threads concurrently on other systems (e.g. Windows). In most tests this is not an issue as usually the assertions are done in the main thread. If you want to help, you can volunteer to implement the necessary synchronization primitives in <code>gtest-port.h</code> for your platform. </p>
-</div></div><!-- contents -->
+</div><div class="memdoc">
+
+<p>calculate the velocity of overland flow. </p>
+<p>temp modified by Junzhi </p>
+
+<p>Definition at line <a class="el" href="../../d8/de7/a00417_source.html#l00294">294</a> of file <a class="el" href="../../d8/de7/a00417_source.html">KinWavSed_OL.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ad9d56c557e494601db95938076c5a49e"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool KinWavSed_OL::CheckInputData </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>check the input data. Make sure all the input data is available. </p>
+<dl class="section return"><dt>Returns</dt><dd>bool The validity of the input data. </dd></dl>
+
+<p>Definition at line <a class="el" href="../../d8/de7/a00417_source.html#l00148">148</a> of file <a class="el" href="../../d8/de7/a00417_source.html">KinWavSed_OL.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9f7ae4e94a9fcfb886729adee5c2534d"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool KinWavSed_OL::CheckInputSize </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>check the input size. Make sure all the input data have same dimension. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>The key of the input data </td></tr>
+    <tr><td class="paramname">n</td><td>The input data dimension </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool The validity of the dimension </dd></dl>
+
+<p>Definition at line <a class="el" href="../../d8/de7/a00417_source.html#l00235">235</a> of file <a class="el" href="../../d8/de7/a00417_source.html">KinWavSed_OL.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a2a18415dd982bcf3e128881db00e19e7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float KinWavSed_OL::complexSedCalc </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>Qj1i1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>Qj1i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>Qji1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>Sj1i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>Sji1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>alpha</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>dt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>dx</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>calculation of sediment outflux from a cell based on a explicit solution of the time/space matrix, j = time and i = place: j1i1 is the new output, j1i is the new flux at the upstream 'entrance' flowing into the gridcell </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Qj1i1</td><td>Qj+1,i+1 : result kin wave for this cell ;j = time, i = place </td></tr>
+    <tr><td class="paramname">Qj1i</td><td>Qj+1,i : sum of all upstreamwater from kin wave </td></tr>
+    <tr><td class="paramname">Qji1</td><td>Qj,i+1 : incoming Q for kinematic wave (t=j) in this cell, map Qin in LISEM </td></tr>
+    <tr><td class="paramname">Sj1i</td><td>Sj+1,i : sum of all upstream sediment </td></tr>
+    <tr><td class="paramname">Sji1</td><td>Si,j+1 : incoming Sed for kinematic wave (t=j) in this cell, map Qsin in LISEM </td></tr>
+    <tr><td class="paramname">alpha</td><td>alpha calculated in LISEM from before kinematic wave </td></tr>
+    <tr><td class="paramname">dt</td><td>timestep </td></tr>
+    <tr><td class="paramname">dx</td><td>dx: length of the cell, corrected for slope (DX map in LISEM) </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="../../d8/de7/a00417_source.html#l00495">495</a> of file <a class="el" href="../../d8/de7/a00417_source.html">KinWavSed_OL.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a31dfded9db4f467fcdeb76acbfee64ea"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void KinWavSed_OL::OverlandflowSedRouting </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ID</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>calculate the sediment routing of overland flow. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ID</td><td>The id of cell in grid map </td></tr>
+  </table>
+  </dd>
+</dl>
+
+<p>Definition at line <a class="el" href="../../d8/de7/a00417_source.html#l00525">525</a> of file <a class="el" href="../../d8/de7/a00417_source.html">KinWavSed_OL.cpp</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d9/d2e/a00056_a31dfded9db4f467fcdeb76acbfee64ea_cgraph.png" border="0" usemap="#d9/d2e/a00056_a31dfded9db4f467fcdeb76acbfee64ea_cgraph" alt=""/></div>
+<map name="d9/d2e/a00056_a31dfded9db4f467fcdeb76acbfee64ea_cgraph" id="d9/d2e/a00056_a31dfded9db4f467fcdeb76acbfee64ea_cgraph">
+<area shape="rect" id="node2" href="../../d9/d2e/a00056.html#a64d56c95dc8babbd90407118daea93ca" title="Simple calculation of sediment outflux from a cell based on the sediment concentration multiplied by ..." alt="" coords="294,5,549,35"/><area shape="rect" id="node3" href="../../d9/d2e/a00056.html#a2e68a12d4ab4a85c23185da379c278d8" title="calculate the sediment routing of overland flow. " alt="" coords="294,59,549,88"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a2e68a12d4ab4a85c23185da379c278d8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float KinWavSed_OL::SedToChannel </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>ID</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>calculate the sediment routing of overland flow. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">ID</td><td>The id of cell in grid map </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the sediment of flowing to channel for each channel cell, kg </dd></dl>
+
+<p>Definition at line <a class="el" href="../../d8/de7/a00417_source.html#l00464">464</a> of file <a class="el" href="../../d8/de7/a00417_source.html">KinWavSed_OL.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a64d56c95dc8babbd90407118daea93ca"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float KinWavSed_OL::simpleSedCalc </td>
+          <td>(</td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>Qj1i1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>Qj1i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>Sj1i</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>dt</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>vol</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float&#160;</td>
+          <td class="paramname"><em>sed</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Simple calculation of sediment outflux from a cell based on the sediment concentration multiplied by the new water flux, j = time and i = place: j1i1 is the new output, j1i is the new flux at the upstream 'entrance' flowing into the gridcell. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">Qn</td><td>result kin wave for this cell </td></tr>
+    <tr><td class="paramname">Qin</td><td>sum of all upstreamwater from kin wave </td></tr>
+    <tr><td class="paramname">Sin</td><td>sum of all upstream sediment kg/s </td></tr>
+    <tr><td class="paramname">dt</td><td>the time step </td></tr>
+    <tr><td class="paramname">vol</td><td>current volume of water in cell </td></tr>
+    <tr><td class="paramname">sed</td><td>current mass of sediment in cell </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>the newer sediment outflux, kg/s </dd></dl>
+
+<p>Definition at line <a class="el" href="../../d8/de7/a00417_source.html#l00483">483</a> of file <a class="el" href="../../d8/de7/a00417_source.html">KinWavSed_OL.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a3ebcd89111b855277118a861f7f708f8"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float** KinWavSed_OL::m_flowInIndex</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>2d array of flow in cells </p>
+<p>The first element in each sub-array is the number of flow in cells in this sub-array </p>
+
+<p>Definition at line <a class="el" href="../../de/df7/a00418_source.html#l00155">155</a> of file <a class="el" href="../../de/df7/a00418_source.html">KinWavSed_OL.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae4fc4991535176e6d2f1625aaec76bf5"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float** KinWavSed_OL::m_routingLayers</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Routing layers according to the flow direction. </p>
+<p>There are not flow relationships within each layer. The first element in each layer is the number of cells in the layer </p>
+
+<p>Definition at line <a class="el" href="../../de/df7/a00418_source.html#l00149">149</a> of file <a class="el" href="../../de/df7/a00418_source.html">KinWavSed_OL.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="ae7d8a81ab61c1bb7c239881acf360dc2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float* KinWavSed_OL::m_WH</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Runoff mm. </p>
+<p>water depth available for surface water [mm], </p>
+
+<p>Definition at line <a class="el" href="../../de/df7/a00418_source.html#l00176">176</a> of file <a class="el" href="../../de/df7/a00418_source.html">KinWavSed_OL.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>seims/src/seims_main/modules/erosion/KinWavSed_OL/<a class="el" href="../../de/df7/a00418_source.html">KinWavSed_OL.h</a></li>
+<li>seims/src/seims_main/modules/erosion/KinWavSed_OL/<a class="el" href="../../d8/de7/a00417_source.html">KinWavSed_OL.cpp</a></li>
+</ul>
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Sat Apr 1 2017 10:30:54 for SEIMS by
+    <li class="navelem"><a class="el" href="../../d9/d2e/a00056.html">KinWavSed_OL</a></li>
+    <li class="footer">Generated on Thu Apr 20 2017 10:23:21 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

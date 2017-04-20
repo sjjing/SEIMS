@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/build/googletest-src/googlemock/scripts/generator/cpp/keywords.py Source File</title>
+<title>SEIMS: seims/src/seims_main/main/main_omp/invoke.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,75 +112,38 @@ $(document).ready(function(){initNavTree('df/df1/a00340_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">keywords.py</div>  </div>
+<div class="title">invoke.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#!/usr/bin/env python</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># Copyright 2007 Neal Norwitz</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># Portions Copyright 2007 Google Inc.</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"># Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"># you may not use this file except in compliance with the License.</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"># You may obtain a copy of the License at</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">#      http://www.apache.org/licenses/LICENSE-2.0</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"># Unless required by applicable law or agreed to in writing, software</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"># distributed under the License is distributed on an &quot;AS IS&quot; BASIS,</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"># WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"># See the License for the specific language governing permissions and</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"># limitations under the License.</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef SEIMS_INVOKE</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEIMS_INVOKE</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;ModelMain.h&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;tinyxml.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;ParamInfo.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;Settings.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="stringliteral">&quot;&quot;&quot;C++ keywords and helper utilities for determining keywords.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;__author__ = <span class="stringliteral">&#39;nnorwitz@google.com (Neal Norwitz)&#39;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="comment"># Python 3.x</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">import</span> builtins</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="comment"># Python 2.x</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">import</span> __builtin__ <span class="keyword">as</span> builtins</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordtype">void</span> checkDatabase(mongoc_client_t *conn, <span class="keywordtype">string</span> dbName);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">void</span> checkProject(<span class="keywordtype">string</span> projectPath);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keywordtype">void</span> checkTable(vector &lt;string&gt; &amp;tableNameList, <span class="keywordtype">string</span> dbName, <span class="keyword">const</span> <span class="keywordtype">char</span> *tableName);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">//bool isPathExists(const char *path);</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordflow">if</span> <span class="keywordflow">not</span> hasattr(builtins, <span class="stringliteral">&#39;set&#39;</span>):</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment"># Nominal support for Python 2.3.</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">from</span> sets <span class="keyword">import</span> Set <span class="keyword">as</span> set</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;TYPES = set(<span class="stringliteral">&#39;bool char int long short double float void wchar_t unsigned signed&#39;</span>.split())</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;TYPE_MODIFIERS = set(<span class="stringliteral">&#39;auto register const inline extern static virtual volatile mutable&#39;</span>.split())</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;ACCESS = set(<span class="stringliteral">&#39;public protected private friend&#39;</span>.split())</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;CASTS = set(<span class="stringliteral">&#39;static_cast const_cast dynamic_cast reinterpret_cast&#39;</span>.split())</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keywordtype">int</span> MainMongoDB(<span class="keywordtype">string</span>, <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>, <span class="keywordtype">int</span>, <span class="keywordtype">int</span>, LayeringMethod);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;OTHERS = set(<span class="stringliteral">&#39;true false asm class namespace using explicit this operator sizeof&#39;</span>.split())</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;OTHER_TYPES = set(<span class="stringliteral">&#39;new delete typedef struct union enum typeid typename template&#39;</span>.split())</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;CONTROL = set(<span class="stringliteral">&#39;case switch default if else return goto&#39;</span>.split())</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;EXCEPTION = set(<span class="stringliteral">&#39;try catch throw&#39;</span>.split())</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;LOOP = set(<span class="stringliteral">&#39;while do for break continue&#39;</span>.split())</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;ALL = TYPES | TYPE_MODIFIERS | ACCESS | CASTS | OTHERS | OTHER_TYPES | CONTROL | EXCEPTION | LOOP</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="keyword">def </span>IsKeyword(token):</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">return</span> token <span class="keywordflow">in</span> ALL</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">def </span>IsBuiltinType(token):</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span> token <span class="keywordflow">in</span> (<span class="stringliteral">&#39;virtual&#39;</span>, <span class="stringliteral">&#39;inline&#39;</span>):</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="comment"># These only apply to methods, they can&#39;t be types by themselves.</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">False</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">return</span> token <span class="keywordflow">in</span> TYPES <span class="keywordflow">or</span> token <span class="keywordflow">in</span> TYPE_MODIFIERS</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#endif</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_20ca50ce979cb770beecfd08e2dc6a9c.html">build</a></li><li class="navelem"><a class="el" href="../../dir_d291fa55d68d634c394ab2de11a0506d.html">googletest-src</a></li><li class="navelem"><a class="el" href="../../dir_5b3bf8c0844aee0ec32ccbde0615e666.html">googlemock</a></li><li class="navelem"><a class="el" href="../../dir_ad46b5e6a85e83488a047033d8e983ce.html">scripts</a></li><li class="navelem"><a class="el" href="../../dir_cd78df8a015053b3bb8024bf177b9353.html">generator</a></li><li class="navelem"><a class="el" href="../../dir_9da88904d39fac9d1bc744deef437070.html">cpp</a></li><li class="navelem"><b>keywords.py</b></li>
-    <li class="footer">Generated on Sat Apr 1 2017 10:30:51 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_2d4c15802ec1e53f431ac89bb57f7eef.html">main</a></li><li class="navelem"><a class="el" href="../../dir_f3eef23050756837902998d2d54c8c0f.html">main_omp</a></li><li class="navelem"><b>invoke.h</b></li>
+    <li class="footer">Generated on Thu Apr 20 2017 10:23:19 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

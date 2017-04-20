@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/preprocess/mpi_adjust_groups.py Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/IUH_IF/IUH_IF.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,60 +112,78 @@ $(document).ready(function(){initNavTree('d3/d5d/a00463_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">mpi_adjust_groups.py</div>  </div>
+<div class="title">IUH_IF.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># coding=utf-8</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># Used for adjusting partitioned tasks by Metis.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># This function is activated when forCluster is True.</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># Author: Junzhi Liu</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">def </span>GetMaxWeight(groupWeightDic, groupDic):</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    maxId = -1</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    maxWeight = -1</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">for</span> id <span class="keywordflow">in</span> groupWeightDic:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordflow">if</span> len(groupDic[id]) &gt; 1 <span class="keywordflow">and</span> maxWeight &lt; groupWeightDic[id]:</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            maxWeight = groupWeightDic[id]</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            maxId = id</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordflow">return</span> maxId, maxWeight</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">def </span>AdjustGroupResult(g, weightDic, groupList, nGroups):</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    groupDic = {}  <span class="comment"># group id from 0</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    groupWeightDic = {}  <span class="comment"># subbasin id form 1</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    n = len(weightDic.keys())</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordflow">for</span> subId <span class="keywordflow">in</span> range(1, n + 1):</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        groupId = groupList[subId - 1]</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        groupDic.setdefault(groupId, []).append(subId)</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        groupWeightDic[groupId] = groupWeightDic.setdefault(</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            groupId, 0) + weightDic[subId]</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="comment"># get average weight for each group, which is the ideal aim of task</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment"># scheduling</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    aveWeight = 0</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">for</span> id <span class="keywordflow">in</span> groupWeightDic:</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        aveWeight += groupWeightDic[id]</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    aveWeight /= nGroups</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">for</span> iGroup <span class="keywordflow">in</span> range(nGroups):</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> iGroup <span class="keywordflow">in</span> groupDic:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            maxId, maxWeight = GetMaxWeight(groupWeightDic, groupDic)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordflow">if</span> maxId &lt; 0:</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            subList = groupDic[maxId]</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            subId = subList[0]</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            groupDic[iGroup] = [subId, ]</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            groupList[subId - 1] = iGroup</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            groupDic[maxId].remove(subId)</div>
+<a href="../../d3/d5d/a00463.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../d5/de0/a00050.html">   45</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d5/de0/a00050.html">IUH_IF</a> : <span class="keyword">public</span> <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <a class="code" href="../../d5/de0/a00050.html">IUH_IF</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    ~<a class="code" href="../../d5/de0/a00050.html">IUH_IF</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nRows, <span class="keywordtype">int</span> nCols, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../d5/de0/a00050.html#afae148be24efecf23ba25c5729891954">   68</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d5/de0/a00050.html#afae148be24efecf23ba25c5729891954">m_TimeStep</a>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="../../d5/de0/a00050.html#a1a15a806c2f954ecf054512eda201e94">   70</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d5/de0/a00050.html#a1a15a806c2f954ecf054512eda201e94">m_nCells</a>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../d5/de0/a00050.html#a4bec3ee56afb50a1cd461d50126afcd1">   72</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d5/de0/a00050.html#a4bec3ee56afb50a1cd461d50126afcd1">m_CellWidth</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../d5/de0/a00050.html#a866d24a706dd4ee2e67800ca8a1e5c56">   74</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d5/de0/a00050.html#a866d24a706dd4ee2e67800ca8a1e5c56">m_nsub</a>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="../../d5/de0/a00050.html#aece6dc8113e25c82bc36f555065121b1">   76</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/de0/a00050.html#aece6dc8113e25c82bc36f555065121b1">m_subbasin</a>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">/*/// start time of IUH for each grid cell</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">    float* m_uhminCell;</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">    float* m_uhmaxCell;</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">    float **m_iuhCell;</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="../../d5/de0/a00050.html#a4adc23a16f2d8183bcd5939d44dec7fe">   84</a></span>&#160;<span class="comment">    int m_iuhCols;</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="../../d5/de0/a00050.html#aa347d138f8f6cbcc4743d7136ccabd9d">   86</a></span>&#160;<span class="comment">    float *m_ssru;</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">    /*/// length of rainfall series</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">    int m_nr;*/</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="comment">/*/// end time of simulation</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">    time_t m_EndDate;*/</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="comment">//temparory</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordtype">float</span> **m_cellFlow;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">int</span> m_cellFlowCols;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="comment">//output</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="../../d5/de0/a00050.html#a958b7bc07852d63f35292a78a53dbde1">   97</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> *<a class="code" href="../../d5/de0/a00050.html#a958b7bc07852d63f35292a78a53dbde1">m_Q_SBIF</a>;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">void</span> initialOutputs(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;};</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="ttc" id="a00050_html"><div class="ttname"><a href="../../d5/de0/a00050.html">IUH_IF</a></div><div class="ttdoc">IUH overland method to calculate interflow routing. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/a00463_source.html#l00045">IUH_IF.h:45</a></div></div>
+<div class="ttc" id="a00050_html_afae148be24efecf23ba25c5729891954"><div class="ttname"><a href="../../d5/de0/a00050.html#afae148be24efecf23ba25c5729891954">IUH_IF::m_TimeStep</a></div><div class="ttdeci">int m_TimeStep</div><div class="ttdoc">time step (hr) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/a00463_source.html#l00068">IUH_IF.h:68</a></div></div>
+<div class="ttc" id="a00050_html_a866d24a706dd4ee2e67800ca8a1e5c56"><div class="ttname"><a href="../../d5/de0/a00050.html#a866d24a706dd4ee2e67800ca8a1e5c56">IUH_IF::m_nsub</a></div><div class="ttdeci">int m_nsub</div><div class="ttdoc">the total number of subbasins </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/a00463_source.html#l00074">IUH_IF.h:74</a></div></div>
+<div class="ttc" id="a00106_html"><div class="ttname"><a href="../../d7/d70/a00106.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4e/a00329_source.html#l00045">SimulationModule.h:45</a></div></div>
+<div class="ttc" id="a00050_html_a4bec3ee56afb50a1cd461d50126afcd1"><div class="ttname"><a href="../../d5/de0/a00050.html#a4bec3ee56afb50a1cd461d50126afcd1">IUH_IF::m_CellWidth</a></div><div class="ttdeci">float m_CellWidth</div><div class="ttdoc">cell width of the grid (m) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/a00463_source.html#l00072">IUH_IF.h:72</a></div></div>
+<div class="ttc" id="a00050_html_aece6dc8113e25c82bc36f555065121b1"><div class="ttname"><a href="../../d5/de0/a00050.html#aece6dc8113e25c82bc36f555065121b1">IUH_IF::m_subbasin</a></div><div class="ttdeci">float * m_subbasin</div><div class="ttdoc">subbasin grid ( subwatersheds ID) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/a00463_source.html#l00076">IUH_IF.h:76</a></div></div>
+<div class="ttc" id="a00050_html_a958b7bc07852d63f35292a78a53dbde1"><div class="ttname"><a href="../../d5/de0/a00050.html#a958b7bc07852d63f35292a78a53dbde1">IUH_IF::m_Q_SBIF</a></div><div class="ttdeci">float * m_Q_SBIF</div><div class="ttdoc">interflow to streams for each subbasin (m3/s) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/a00463_source.html#l00097">IUH_IF.h:97</a></div></div>
+<div class="ttc" id="a00050_html_a1a15a806c2f954ecf054512eda201e94"><div class="ttname"><a href="../../d5/de0/a00050.html#a1a15a806c2f954ecf054512eda201e94">IUH_IF::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">cell size of the grid (the validate cells of the whole basin) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d5d/a00463_source.html#l00070">IUH_IF.h:70</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>mpi_adjust_groups.py</b></li>
-    <li class="footer">Generated on Sat Apr 1 2017 10:30:52 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e815a90a524b22b5b34e29517df36994.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_5be420ce3c88b5f35dd1a26ac734e77f.html">IUH_IF</a></li><li class="navelem"><a class="el" href="../../d3/d5d/a00463.html">IUH_IF.h</a></li>
+    <li class="footer">Generated on Thu Apr 20 2017 10:23:20 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
