@@ -1,5 +1,5 @@
 var a00037 =
 [
-    [ "HarvestKillOperation", "d1/dc6/a00037.html#a1682b0931a5ddc0388939934bf8ebfc8", null ],
-    [ "dump", "d1/dc6/a00037.html#a444c492c0a3521720d3ba70162e6cda4", null ]
+    [ "GrazingOperation", "d1/dc6/a00037.html#a4b53bfd13b799f079dfd835b0f068dac", null ],
+    [ "dump", "d1/dc6/a00037.html#af37d8e17a8eba8d4e9722dd017438ff4", null ]
 ];

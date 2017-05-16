@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/data/clsInterpolationWeightData.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/base/data/ClimateParams.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('d6/d7f/a00287_source.html','../../');}
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,95 +112,98 @@ $(document).ready(function(){initNavTree('d6/d7f/a00287_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">clsInterpolationWeightData.cpp</div>  </div>
+<div class="title">ClimateParams.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;clsInterpolationWeightData.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;ClimateParams.h&quot;</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//clsInterpolationWeightData::clsInterpolationWeightData(string weightFileName) {</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//    m_fileName = weightFileName;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//    m_weightData = NULL;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//}</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;clsInterpolationWeightData::clsInterpolationWeightData(mongoc_gridfs_t *gfs, <span class="keyword">const</span> <span class="keywordtype">char</span> *remoteFilename) {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    m_fileName = remoteFilename;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    m_weightData = NULL;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    ReadFromMongoDB(gfs, remoteFilename);</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keywordtype">float</span> MeanBarometricPressure(<span class="keywordtype">float</span> &amp;elev) {</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordflow">return</span> 101.3f - elev * (0.01152f - 0.544e-6f * elev);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;}</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keywordtype">float</span> LatentHeatVapor(<span class="keywordtype">float</span> &amp;tmean) {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">return</span> 2.501f - 0.002361f * tmean;</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;clsInterpolationWeightData::~clsInterpolationWeightData(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">if</span> (m_weightData != NULL) {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        Release1DArray(m_weightData);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    }</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">int</span> GetYear(time_t &amp;date) {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keyword">struct </span>tm dateInfo;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    LocalTime(date, &amp;dateInfo);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">return</span> dateInfo.tm_year;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">void</span> clsInterpolationWeightData::getWeightData(<span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data) {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    *n = m_nRows;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    *data = m_weightData;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> clsInterpolationWeightData::dump(ostream *fs) {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">if</span> (fs == NULL) <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">int</span> index = 0;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; m_nRows; ++i) {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="comment">//rasterFile &gt;&gt; tmp &gt;&gt; tmp;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; m_nCols; ++j) {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            index = i * m_nCols + j;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            *fs &lt;&lt; m_weightData[index] &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        }</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        *fs &lt;&lt; endl;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordtype">void</span> clsInterpolationWeightData::dump(<span class="keywordtype">string</span> fileName) {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    ofstream fs;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    fs.open(fileName.c_str(), ios::out);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">if</span> (fs.is_open()) {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        dump(&amp;fs);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        fs.close();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keywordtype">void</span> clsInterpolationWeightData::ReadFromMongoDB(mongoc_gridfs_t *gfs, <span class="keyword">const</span> <span class="keywordtype">char</span> *remoteFilename) {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">string</span> wfilename = string(remoteFilename);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="../../d9/db3/a00066.html">MongoGridFS</a> mongogfs = <a class="code" href="../../d9/db3/a00066.html">MongoGridFS</a>();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    vector &lt;string&gt; gfilenames;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    mongogfs.<a class="code" href="../../d9/db3/a00066.html#af1e8ad99d6bdb84805c4adb2fe4ca63a">getFileNames</a>(gfilenames, gfs);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">string</span> filename = remoteFilename;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span> (!ValueInVector(filename, gfilenames)) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">int</span> index = filename.find_last_of(<span class="charliteral">&#39;_&#39;</span>);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordtype">string</span> type = filename.substr(index + 1);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">if</span> (StringMatch(type, DataType_PotentialEvapotranspiration) || StringMatch(type, DataType_SolarRadiation)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            || StringMatch(type, DataType_RelativeAirMoisture) || StringMatch(type, DataType_MeanTemperature)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            || StringMatch(type, DataType_MaximumTemperature) || StringMatch(type, DataType_MinimumTemperature)) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            wfilename = filename.substr(0, index + 1) + DataType_Meteorology;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">char</span> *databuf;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">size_t</span> datalength;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    mongogfs.<a class="code" href="../../d9/db3/a00066.html#a59803caa23585bfff0b5e039da5a9512">getStreamData</a>(wfilename, databuf, datalength, gfs);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    mongoc_gridfs_file_t *gfile = NULL;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    bson_error_t *err = NULL;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    gfile = mongoc_gridfs_find_one_by_filename(gfs, remoteFilename, err);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    m_weightData = (<span class="keywordtype">float</span> *) databuf;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    bson_t *md = mongogfs.<a class="code" href="../../d9/db3/a00066.html#ad9e826d6e16e45c388fa23c327cdfca1">getFileMetadata</a>(wfilename, gfs);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    GetNumericFromBson(md, MONG_GRIDFS_WEIGHT_CELLS, m_nRows);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    GetNumericFromBson(md, MONG_GRIDFS_WEIGHT_SITES, m_nCols);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
-<div class="ttc" id="a00066_html_af1e8ad99d6bdb84805c4adb2fe4ca63a"><div class="ttname"><a href="../../d9/db3/a00066.html#af1e8ad99d6bdb84805c4adb2fe4ca63a">MongoGridFS::getFileNames</a></div><div class="ttdeci">void getFileNames(vector&lt; string &gt; &amp;fileExisted, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get GridFS file names. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d31/a00234_source.html#l00210">MongoUtil.cpp:210</a></div></div>
-<div class="ttc" id="a00066_html_a59803caa23585bfff0b5e039da5a9512"><div class="ttname"><a href="../../d9/db3/a00066.html#a59803caa23585bfff0b5e039da5a9512">MongoGridFS::getStreamData</a></div><div class="ttdeci">void getStreamData(string const &amp;gfilename, char *&amp;databuf, size_t &amp;datalength, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get stream data of a given GridFS file name. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d31/a00234_source.html#l00256">MongoUtil.cpp:256</a></div></div>
-<div class="ttc" id="a00066_html_ad9e826d6e16e45c388fa23c327cdfca1"><div class="ttname"><a href="../../d9/db3/a00066.html#ad9e826d6e16e45c388fa23c327cdfca1">MongoGridFS::getFileMetadata</a></div><div class="ttdeci">bson_t * getFileMetadata(string const &amp;gfilename, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get metadata of a given GridFS file name. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d31/a00234_source.html#l00236">MongoUtil.cpp:236</a></div></div>
-<div class="ttc" id="a00066_html"><div class="ttname"><a href="../../d9/db3/a00066.html">MongoGridFS</a></div><div class="ttdoc">Create a MongoDB GridFS instance. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d42/a00235_source.html#l00156">MongoUtil.h:156</a></div></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">int</span> GetMonth(time_t &amp;date) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">struct </span>tm dateInfo;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    LocalTime(date, &amp;dateInfo);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">return</span> dateInfo.tm_mon;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">int</span> GetDay(time_t &amp;date) {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">struct </span>tm dateInfo;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    LocalTime(date, &amp;dateInfo);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">return</span> dateInfo.tm_mday;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">int</span> JulianDay(time_t &amp;date) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">struct </span>tm dateInfo;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    LocalTime(date, &amp;dateInfo);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">return</span> dateInfo.tm_yday + 1;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keywordtype">void</span> MaxSolarRadiation(<span class="keywordtype">int</span> &amp;day, <span class="keywordtype">float</span> &amp;lat, <span class="keywordtype">float</span> &amp;dayL, <span class="keywordtype">float</span> &amp;maxSR) {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    lat = lat * PI / 180.f;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment">//Calculate Daylength</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">//calculate solar declination: equation 1:1.1.2 in SWAT Theory 2009, p31</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">float</span> sd = asin(0.4f * sin((day - 82.0f) / 58.09f));  </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">//calculate the relative distance of the earth from the sun</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">//also called the eccentricity correction factor of the orbit, Duffie and Beckman(1980)</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">//equation 1:1.1.1 in SWAT Theory 2009, p30</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">float</span> dd = 1.0f + 0.033f * cos(day / 58.09f);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">//daylength = 2 * Acos(-Tan(sd) * Tan(lat)) / omega</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">//where the angular velocity of the earth&#39;s rotation, omega, is equal</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">//to 15 deg/hr or 0.2618 rad/hr and 2/0.2618 = 7.6374</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">//equation 2.1.6 in SWAT manual</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">float</span> h = 0.0f;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">float</span> ch = -sin(lat) * tan(sd) / cos(lat);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">if</span> (ch &gt; 1.f) { <span class="comment">//ch will be &gt;= 1. if latitude exceeds +/- 66.5 deg in winter</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        h = 0.0f;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (ch &gt;= -1.0f) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        h = acos(ch);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        h = PI;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    } <span class="comment">//latitude exceeds +/- 66.5 deg in summer</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    dayL = 7.6394f * h;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">//Calculate Potential (maximum) Radiation !!</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> ys = sin(lat) * sin(sd);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">float</span> yc = cos(lat) * cos(sd);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    maxSR = 30.f * dd * (h * ys + yc * sin(h));</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keywordtype">float</span> PsychrometricConst(<span class="keywordtype">float</span> &amp;tmean, <span class="keywordtype">float</span> &amp;elev) {</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">float</span> pb = MeanBarometricPressure(elev);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">float</span> xl = LatentHeatVapor(tmean);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">return</span> 1.013e-3f * pb / (0.622f * xl);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keywordtype">float</span> SaturationVaporPressure(<span class="keywordtype">float</span> &amp;t) {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">if</span> (abs(t + 237.3f) &gt; UTIL_ZERO) {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordtype">float</span> ea = (16.78f * t - 116.9f) / (t + 237.3f);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordflow">return</span> exp(ea);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">return</span> UTIL_ZERO;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_c45fff51ca6bdea500732eefc9a455a0.html">base</a></li><li class="navelem"><a class="el" href="../../dir_95ea3284629f852ef8fc739a31cb2498.html">data</a></li><li class="navelem"><b>clsInterpolationWeightData.cpp</b></li>
-    <li class="footer">Generated on Fri Apr 21 2017 02:53:00 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_c45fff51ca6bdea500732eefc9a455a0.html">base</a></li><li class="navelem"><a class="el" href="../../dir_95ea3284629f852ef8fc739a31cb2498.html">data</a></li><li class="navelem"><b>ClimateParams.cpp</b></li>
+    <li class="footer">Generated on Tue May 16 2017 16:34:12 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

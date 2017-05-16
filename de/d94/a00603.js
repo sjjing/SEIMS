@@ -1,26 +1,35 @@
 var a00603 =
 [
-    [ "MainBMP", "d7/d41/a00532.html", null ],
-    [ "Scenario", "d0/d61/a00100.html", [
-      [ "Scenario", "d0/d61/a00100.html#a117dd88e648faa62fcaf2809720e1b74", null ],
-      [ "~Scenario", "d0/d61/a00100.html#adb9a4a2bdcec2748fa6e2b9205c92040", null ],
-      [ "Dump", "d0/d61/a00100.html#a7b3cdbe363856b28f4696752d1482074", null ],
-      [ "Dump", "d0/d61/a00100.html#a3a416d7f5d5dbd70eeaad2e208136b9b", null ],
-      [ "GetBMPFactories", "d0/d61/a00100.html#a819dbf77c49190daa223a4d85370339a", null ],
-      [ "getMaxReservoirId", "d0/d61/a00100.html#aeeb7af55f86f26f903ab594336de761a", null ],
-      [ "ID", "d0/d61/a00100.html#a75156b187eef4520adc0f3391e3bc0cf", null ],
-      [ "IsBaseScenario", "d0/d61/a00100.html#ace1fb274a4825cf9bcdc4177315bce57", null ],
-      [ "loadBMPDetail", "d0/d61/a00100.html#ae3d370258dd80761bb9e11a51c2fa381", null ],
-      [ "loadBMPs", "d0/d61/a00100.html#a1d48ef4c556eabfc2e8056578865aec5", null ],
-      [ "loadScenario", "d0/d61/a00100.html#a168e87971d083d7edd6b975688ab3616", null ],
-      [ "loadScenarioName", "d0/d61/a00100.html#a0e63bda0c6b918e0bd645cee7f7cf574", null ],
-      [ "loadTimeSeriesData", "d0/d61/a00100.html#a522f8bd650681d8ce1696f87c3c6c696", null ],
-      [ "Name", "d0/d61/a00100.html#aab9b78454b10795302610566a4a3af76", null ],
-      [ "m_bmpCollections", "d0/d61/a00100.html#a1863bcd331c9c851e211eba75ad9fe43", null ],
-      [ "m_bmpDBName", "d0/d61/a00100.html#a5ac0a30f215832a073f13bbea0345320", null ],
-      [ "m_bmpFactories", "d0/d61/a00100.html#a6f4e45f2fe6a5fdc43502ae066576264", null ],
-      [ "m_conn", "d0/d61/a00100.html#a8030d85bd5b8dc0bb478f1ad6d5a4fe4", null ],
-      [ "m_id", "d0/d61/a00100.html#ab7f03ead2edc68db60b0494966fee5ba", null ],
-      [ "m_name", "d0/d61/a00100.html#a7831481cb1d010542cb5289aeb4ab019", null ]
-    ] ]
+    [ "ModelException", "df/d5f/a00064.html", [
+      [ "ModelException", "df/d5f/a00064.html#a60fa24a31edef1abcda4930a18717057", null ],
+      [ "~ModelException", "df/d5f/a00064.html#a9b1352b304a1a4e082cd6c322607dafc", null ],
+      [ "toString", "df/d5f/a00064.html#af1e727d462200d9bfaf44ee15921b7b5", null ],
+      [ "what", "df/d5f/a00064.html#ad628c8e55ba32a0a106b66174ebdc725", null ]
+    ] ],
+    [ "ModelClass", "d1/d6f/a00063.html", null ],
+    [ "Parameter", "d4/d63/a00082.html", [
+      [ "Description", "d4/d63/a00082.html#a128967267b3d97fff9752c02ff2b4df5", null ],
+      [ "Dimension", "d4/d63/a00082.html#a42518156e29a2aaca7ef8af465672387", null ],
+      [ "Name", "d4/d63/a00082.html#af1600c2482a158d22b69f57b0a0e68d6", null ],
+      [ "Source", "d4/d63/a00082.html#a96b1cb9b1ecc5c1fea4bf390554748ea", null ],
+      [ "Units", "d4/d63/a00082.html#a609b143e4269a08f8c38cf03466e96c1", null ]
+    ] ],
+    [ "Information", "d3/dea/a00046.html", [
+      [ "Author", "d3/dea/a00046.html#a1b8fa5ae955f80cbd549cd3186788d3f", null ],
+      [ "Description", "d3/dea/a00046.html#a9f0b0e91a740ff0e1f3d0b48b069983a", null ],
+      [ "EMail", "d3/dea/a00046.html#a0ea3ec0a518e6f2a6afcfe5a47e6a092", null ],
+      [ "Helpfile", "d3/dea/a00046.html#a8e1e2fee4394c6306a3fd80387281d94", null ],
+      [ "Id", "d3/dea/a00046.html#a648bb8c9d3e9459afe4f131fa389352a", null ],
+      [ "Name", "d3/dea/a00046.html#aa411bbe0edd95d200b59c0b7606173d3", null ],
+      [ "Version", "d3/dea/a00046.html#a0fea44ad14e758340799fe8ce77b8330", null ],
+      [ "Website", "d3/dea/a00046.html#af713e5818c8dff3d1c81c2dbd711e4c4", null ]
+    ] ],
+    [ "InputVariable", "d4/dca/a00048.html", [
+      [ "Description", "d4/dca/a00048.html#a575ddb3a443f1af8b2bbda99b93f352d", null ],
+      [ "Dimension", "d4/dca/a00048.html#a5791bfd6dcb1157dd9b424b5b96ed9fa", null ],
+      [ "Name", "d4/dca/a00048.html#af99b3ec7f57773deec50ad5df619570e", null ],
+      [ "Source", "d4/dca/a00048.html#ab80ce26a8f8f8779e70a29a091cbe914", null ],
+      [ "Units", "d4/dca/a00048.html#aebb39a1a99108f15439249e0c108b384", null ]
+    ] ],
+    [ "dimensionTypes", "de/d94/a00603.html#gac6cf78ef837450cfb19495fe34976b8c", null ]
 ];

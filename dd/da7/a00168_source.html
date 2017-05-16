@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/postprocess/run_models.py Source File</title>
+<title>SEIMS: seims/postprocess/RelativeImportModules.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('dd/da7/a00168_source.html','../../');}
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,54 +112,53 @@ $(document).ready(function(){initNavTree('dd/da7/a00168_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">run_models.py</div>  </div>
+<div class="title">RelativeImportModules.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">def </span>SumByFile(filename, year):</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    f = open(filename)</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    lines = f.readlines()</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    f.close()</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    s = 0</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordflow">for</span> line <span class="keywordflow">in</span> lines:</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        items = line.split()</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keywordflow">if</span> len(items) &lt; 3:</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordflow">if</span> items[0][:4] == str(year):</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            s += float(items[-1])</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">return</span> s</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;dirlist = []</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"># parlist = [&#39;COD&#39;, &#39;TN&#39;, &#39;TP&#39;]</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"># solidReduction = [611.76, 118.98, 60.5]</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;parDict = {<span class="stringliteral">&#39;COD&#39;</span>: 687., <span class="stringliteral">&#39;TN&#39;</span>: 127., <span class="stringliteral">&#39;TP&#39;</span>: 62.}</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;baseFolder = <span class="stringliteral">r&quot;C:\z_code\Hydro\SEIMS\model_data\dianbu&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;watershedList = [<span class="stringliteral">&quot;&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;3&quot;</span>]</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;outputList = [<span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;3&quot;</span>]</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> importlib</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">import</span> sys</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">from</span> pathlib2 <span class="keyword">import</span> Path</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"># Supplement for http://stackoverflow.com/a/28154841/2301450</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"># Generic boilerplate code for setting __package__ attribute for relative imports</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"># Code from https://gist.github.com/vaultah/d63cb4c86be2774377aa674b009f759a</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"># Usage:</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">#     1_level_example</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">#         if __name__ == &#39;__main__&#39; and __package__ is None:</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">#             __package__ import_parents()</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">#         from . import module</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">#         from .module.submodule import thing</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">#     3_level_example</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">#         if __name__ == &#39;__main__&#39; and __package__ is None:</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">#             __package__ = import_parents(level=3)</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">#</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">#         from ... import module</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">#         from ...module.submodule import thing</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;year = 2014</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordflow">for</span> par <span class="keywordflow">in</span> parDict.keys():</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    varTotalPre = 0.</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    varTotalAfter = 0.</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">for</span> wsID <span class="keywordflow">in</span> watershedList:</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        filenamePre = <span class="stringliteral">r&#39;%s\model_dianbu%s_30m_longterm\OUTPUT%s\0_CH_%s.txt&#39;</span> % (baseFolder, wsID, 3, par)</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        filenameAfter = <span class="stringliteral">r&#39;%s\model_dianbu%s_30m_longterm\OUTPUT%s\0_CH_%s.txt&#39;</span> % (baseFolder, wsID, 2, par)</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        varTotalPre += SumByFile(filenamePre, year)</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        varTotalAfter += SumByFile(filenameAfter, year)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    liquid = (varTotalPre - varTotalAfter) / 1000.</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    total = parDict.get(par) + liquid</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&quot;%s: Base: %.2f, DemoExtended: %.2f, L: %.2f, Total: %.2f, ReduceRate: %.2f&quot;</span> % \</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;          (par, varTotalPre, varTotalAfter, liquid, total, liquid * 100. / varTotalPre * 1000.)</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">def </span>import_parents(level = 1):</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keyword">global</span> __package__</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    file = Path(__file__).resolve()</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    parent, top = file.parent, file.parents[level]</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    __package__ = <span class="stringliteral">&#39;.&#39;</span>.join(parent.parts[len(top.parts):])</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    sys.path.append(str(top))</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    importlib.import_module(__package__)  <span class="comment"># won&#39;t be needed after that</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">return</span> __package__</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span> <span class="keywordflow">and</span> __package__ <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    import_parents(level = 1)</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_236412b5be74f3bb1c56b1b13d93de41.html">postprocess</a></li><li class="navelem"><b>run_models.py</b></li>
-    <li class="footer">Generated on Fri Apr 21 2017 02:52:59 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_236412b5be74f3bb1c56b1b13d93de41.html">postprocess</a></li><li class="navelem"><b>RelativeImportModules.py</b></li>
+    <li class="footer">Generated on Tue May 16 2017 16:34:11 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/SOL_WB/SOL_WB.h Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/SNO_WB/subbasin.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('d6/d60/a00491_source.html','../../');}
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,120 +112,78 @@ $(document).ready(function(){initNavTree('d6/d60/a00491_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SOL_WB.h</div>  </div>
+<div class="title">subbasin.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;clsSubbasin.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">class </span>subbasin {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    subbasin(<span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    ~subbasin(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html">   29</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/d17/a00114.html">SOL_WB</a> : <span class="keyword">public</span> <a class="code" href="../../d7/d70/a00106.html">SimulationModule</a> {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a0499680666e4dd64a88c77440de1f290">   32</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d8/d17/a00114.html#a0499680666e4dd64a88c77440de1f290">m_nCells</a>;</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a80b8340627b1e7b82a22b04fa9703b46">   34</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d8/d17/a00114.html#a80b8340627b1e7b82a22b04fa9703b46">m_nSoilLayers</a>;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#af5831e07504181884458459d8396bffc">   36</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#af5831e07504181884458459d8396bffc">m_soilLayers</a>;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a1579ea4293570d5ffd97c1743723a44c">   38</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d8/d17/a00114.html#a1579ea4293570d5ffd97c1743723a44c">m_soilThick</a>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#abcc7dfba7e1adb6494ee73fc464644a1">   40</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#abcc7dfba7e1adb6494ee73fc464644a1">m_soilZMX</a>;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a3516ebc5971b78fcd495f45f19bdcd04">   43</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#a3516ebc5971b78fcd495f45f19bdcd04">m_pNet</a>;</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a908bed7bb8b4023d56521d70afe3caaf">   45</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#a908bed7bb8b4023d56521d70afe3caaf">m_Infil</a>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#ac823032beeed8c4d39b9b15df3594e41">   47</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#ac823032beeed8c4d39b9b15df3594e41">m_ES</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a5a0f16bfa9e756623312442b6ab16789">   49</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#a5a0f16bfa9e756623312442b6ab16789">m_Revap</a>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#ab6c968320213db0519ed11c0296201c2">   51</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d8/d17/a00114.html#ab6c968320213db0519ed11c0296201c2">m_RI</a>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a5315f18fb471d42984fcf198f52efc4c">   53</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d8/d17/a00114.html#a5315f18fb471d42984fcf198f52efc4c">m_Perco</a>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#ac35fd074a31bcb3c493a852c8f237c51">   55</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d8/d17/a00114.html#ac35fd074a31bcb3c493a852c8f237c51">m_soilStorage</a>;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="comment">// Outputs</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="comment">// used to output time series result for soil water balance</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="comment">//subbasin id</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordtype">int</span> m_id;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="comment">//all the cells</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    vector&lt;int&gt; m_cells;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">float</span> m_P;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">float</span> m_P_net;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">float</span> m_P_blow;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">float</span> m_T;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordtype">float</span> m_Wind;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordtype">float</span> m_SR;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">float</span> m_SE;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">float</span> m_SM;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">float</span> m_SA;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">void</span> addCell(<span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">float</span> getAverage(<span class="keywordtype">string</span> key);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    vector&lt;int&gt; *getCells(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">void</span> addP(<span class="keywordtype">float</span>);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">void</span> addPnet(<span class="keywordtype">float</span>);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">void</span> addPblow(<span class="keywordtype">float</span>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordtype">void</span> addWind(<span class="keywordtype">float</span>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">void</span> addT(<span class="keywordtype">float</span>);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">void</span> addSR(<span class="keywordtype">float</span>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> addSE(<span class="keywordtype">float</span>);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">void</span> addSM(<span class="keywordtype">float</span>);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">void</span> addSA(<span class="keywordtype">float</span>);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">void</span> clear(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">int</span> getId(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a9b43279a9934ec2a6b16cbe834104fdf">   60</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#a9b43279a9934ec2a6b16cbe834104fdf">m_PCP</a>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a94985afda95ead02052a04f84c5f4e9d">   62</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#a94985afda95ead02052a04f84c5f4e9d">m_Interc</a>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#ad14dc519af2e68c8f6c5f4010c1b53a5">   64</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#ad14dc519af2e68c8f6c5f4010c1b53a5">m_EI</a>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a0e39fc97c8a637f9dad733a04cf1b66b">   66</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#a0e39fc97c8a637f9dad733a04cf1b66b">m_Dep</a>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a340ed773f318e34563f445e26a645543">   68</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#a340ed773f318e34563f445e26a645543">m_ED</a>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a933a0dca65f231203988c574ac6a0829">   70</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#a933a0dca65f231203988c574ac6a0829">m_RS</a>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a8e43de62ec89493d455c39c15da5f8f7">   72</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#a8e43de62ec89493d455c39c15da5f8f7">m_RG</a>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a402f13c33194dba34b8863a536a1a3d2">   74</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#a402f13c33194dba34b8863a536a1a3d2">m_SE</a>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#aca2bcc87944c98a27997fe5b073b227f">   76</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#aca2bcc87944c98a27997fe5b073b227f">m_tMean</a>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#ad081fd7377bca288a998e56532812af5">   78</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/d17/a00114.html#ad081fd7377bca288a998e56532812af5">m_SoilT</a>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#ab5dafe3b7d8cb684c05aa99c6a13e002">   80</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d8/d17/a00114.html#ab5dafe3b7d8cb684c05aa99c6a13e002">m_nSubbasins</a>;</div>
-<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a07144c011d3feb0d68aa578695207a5a">   82</a></span>&#160;    vector&lt;int&gt; <a class="code" href="../../d8/d17/a00114.html#a07144c011d3feb0d68aa578695207a5a">m_subbasinIDs</a>;</div>
-<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="../../d8/d17/a00114.html#a3bf642c50b94688cccca99834eed7da6">   84</a></span>&#160;    <a class="code" href="../../de/d11/a00021.html">clsSubbasins</a> *<a class="code" href="../../d8/d17/a00114.html#a3bf642c50b94688cccca99834eed7da6">m_subbasinsInfo</a>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="comment">/* soil water balance, time series result</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">     * the row index is subbasinID</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">     */</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">float</span> **m_soilWaterBalance;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="../../d8/d17/a00114.html">SOL_WB</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    ~<a class="code" href="../../d8/d17/a00114.html">SOL_WB</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nRows, <span class="keywordtype">float</span> *data);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nrows, <span class="keywordtype">int</span> ncols, <span class="keywordtype">float</span> **data);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetSubbasins(<a class="code" href="../../de/d11/a00021.html">clsSubbasins</a> *subbasins);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *nRows, <span class="keywordtype">int</span> *nCols, <span class="keywordtype">float</span> ***data);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordtype">void</span> CheckInputData(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordtype">void</span> initialOutputs(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordtype">void</span> setValueToSubbasins(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;};</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="comment">// previously, RootDepth (of plant) is confused with the sol_zmx, now change m_RootDepth to m_soilZMX</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment">//float *m_RootDepth;</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment">//float m_upSoilDepth; /// not needed any more. By LJ.</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment">//time_t m_Date; there is no need to define date here. By LJ.</span></div>
-<div class="ttc" id="a00114_html_a94985afda95ead02052a04f84c5f4e9d"><div class="ttname"><a href="../../d8/d17/a00114.html#a94985afda95ead02052a04f84c5f4e9d">SOL_WB::m_Interc</a></div><div class="ttdeci">float * m_Interc</div><div class="ttdoc">interception loss (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00062">SOL_WB.h:62</a></div></div>
-<div class="ttc" id="a00114_html_a80b8340627b1e7b82a22b04fa9703b46"><div class="ttname"><a href="../../d8/d17/a00114.html#a80b8340627b1e7b82a22b04fa9703b46">SOL_WB::m_nSoilLayers</a></div><div class="ttdeci">int m_nSoilLayers</div><div class="ttdoc">maximum soil layers number </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00034">SOL_WB.h:34</a></div></div>
-<div class="ttc" id="a00114_html_a0499680666e4dd64a88c77440de1f290"><div class="ttname"><a href="../../d8/d17/a00114.html#a0499680666e4dd64a88c77440de1f290">SOL_WB::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">valid cells number </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00032">SOL_WB.h:32</a></div></div>
-<div class="ttc" id="a00114_html_a07144c011d3feb0d68aa578695207a5a"><div class="ttname"><a href="../../d8/d17/a00114.html#a07144c011d3feb0d68aa578695207a5a">SOL_WB::m_subbasinIDs</a></div><div class="ttdeci">vector&lt; int &gt; m_subbasinIDs</div><div class="ttdoc">subbasin IDs </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00082">SOL_WB.h:82</a></div></div>
-<div class="ttc" id="a00114_html_a8e43de62ec89493d455c39c15da5f8f7"><div class="ttname"><a href="../../d8/d17/a00114.html#a8e43de62ec89493d455c39c15da5f8f7">SOL_WB::m_RG</a></div><div class="ttdeci">float * m_RG</div><div class="ttdoc">groundwater runoff </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00072">SOL_WB.h:72</a></div></div>
-<div class="ttc" id="a00021_html"><div class="ttname"><a href="../../de/d11/a00021.html">clsSubbasins</a></div><div class="ttdoc">Manager all Subbasin related parameters and methods. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d5b/a00294_source.html#l00232">clsSubbasin.h:232</a></div></div>
-<div class="ttc" id="a00114_html_ac823032beeed8c4d39b9b15df3594e41"><div class="ttname"><a href="../../d8/d17/a00114.html#ac823032beeed8c4d39b9b15df3594e41">SOL_WB::m_ES</a></div><div class="ttdeci">float * m_ES</div><div class="ttdoc">evaporation from the soil water storage, es_day in SWAT (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00047">SOL_WB.h:47</a></div></div>
-<div class="ttc" id="a00106_html"><div class="ttname"><a href="../../d7/d70/a00106.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4e/a00329_source.html#l00045">SimulationModule.h:45</a></div></div>
-<div class="ttc" id="a00114_html_ad081fd7377bca288a998e56532812af5"><div class="ttname"><a href="../../d8/d17/a00114.html#ad081fd7377bca288a998e56532812af5">SOL_WB::m_SoilT</a></div><div class="ttdeci">float * m_SoilT</div><div class="ttdoc">soil temperature </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00078">SOL_WB.h:78</a></div></div>
-<div class="ttc" id="a00114_html_a340ed773f318e34563f445e26a645543"><div class="ttname"><a href="../../d8/d17/a00114.html#a340ed773f318e34563f445e26a645543">SOL_WB::m_ED</a></div><div class="ttdeci">float * m_ED</div><div class="ttdoc">evaporation from depression storage (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00068">SOL_WB.h:68</a></div></div>
-<div class="ttc" id="a00114_html_a5315f18fb471d42984fcf198f52efc4c"><div class="ttname"><a href="../../d8/d17/a00114.html#a5315f18fb471d42984fcf198f52efc4c">SOL_WB::m_Perco</a></div><div class="ttdeci">float ** m_Perco</div><div class="ttdoc">percolation (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00053">SOL_WB.h:53</a></div></div>
-<div class="ttc" id="a00114_html_ac35fd074a31bcb3c493a852c8f237c51"><div class="ttname"><a href="../../d8/d17/a00114.html#ac35fd074a31bcb3c493a852c8f237c51">SOL_WB::m_soilStorage</a></div><div class="ttdeci">float ** m_soilStorage</div><div class="ttdoc">soil storage (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00055">SOL_WB.h:55</a></div></div>
-<div class="ttc" id="a00114_html_abcc7dfba7e1adb6494ee73fc464644a1"><div class="ttname"><a href="../../d8/d17/a00114.html#abcc7dfba7e1adb6494ee73fc464644a1">SOL_WB::m_soilZMX</a></div><div class="ttdeci">float * m_soilZMX</div><div class="ttdoc">the maximum soil depth </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00040">SOL_WB.h:40</a></div></div>
-<div class="ttc" id="a00114_html_a5a0f16bfa9e756623312442b6ab16789"><div class="ttname"><a href="../../d8/d17/a00114.html#a5a0f16bfa9e756623312442b6ab16789">SOL_WB::m_Revap</a></div><div class="ttdeci">float * m_Revap</div><div class="ttdoc">revaporization from groundwater to the last soil layer (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00049">SOL_WB.h:49</a></div></div>
-<div class="ttc" id="a00114_html"><div class="ttname"><a href="../../d8/d17/a00114.html">SOL_WB</a></div><div class="ttdoc">Soil water balance calculation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00029">SOL_WB.h:29</a></div></div>
-<div class="ttc" id="a00114_html_a9b43279a9934ec2a6b16cbe834104fdf"><div class="ttname"><a href="../../d8/d17/a00114.html#a9b43279a9934ec2a6b16cbe834104fdf">SOL_WB::m_PCP</a></div><div class="ttdeci">float * m_PCP</div><div class="ttdoc">precipitation on the current day (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00060">SOL_WB.h:60</a></div></div>
-<div class="ttc" id="a00114_html_aca2bcc87944c98a27997fe5b073b227f"><div class="ttname"><a href="../../d8/d17/a00114.html#aca2bcc87944c98a27997fe5b073b227f">SOL_WB::m_tMean</a></div><div class="ttdeci">float * m_tMean</div><div class="ttdoc">mean temperature </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00076">SOL_WB.h:76</a></div></div>
-<div class="ttc" id="a00114_html_a3bf642c50b94688cccca99834eed7da6"><div class="ttname"><a href="../../d8/d17/a00114.html#a3bf642c50b94688cccca99834eed7da6">SOL_WB::m_subbasinsInfo</a></div><div class="ttdeci">clsSubbasins * m_subbasinsInfo</div><div class="ttdoc">All subbasins information,. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00084">SOL_WB.h:84</a></div></div>
-<div class="ttc" id="a00114_html_af5831e07504181884458459d8396bffc"><div class="ttname"><a href="../../d8/d17/a00114.html#af5831e07504181884458459d8396bffc">SOL_WB::m_soilLayers</a></div><div class="ttdeci">float * m_soilLayers</div><div class="ttdoc">soil layers number of each cell </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00036">SOL_WB.h:36</a></div></div>
-<div class="ttc" id="a00114_html_a1579ea4293570d5ffd97c1743723a44c"><div class="ttname"><a href="../../d8/d17/a00114.html#a1579ea4293570d5ffd97c1743723a44c">SOL_WB::m_soilThick</a></div><div class="ttdeci">float ** m_soilThick</div><div class="ttdoc">soil thickness of each layer </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00038">SOL_WB.h:38</a></div></div>
-<div class="ttc" id="a00114_html_ad14dc519af2e68c8f6c5f4010c1b53a5"><div class="ttname"><a href="../../d8/d17/a00114.html#ad14dc519af2e68c8f6c5f4010c1b53a5">SOL_WB::m_EI</a></div><div class="ttdeci">float * m_EI</div><div class="ttdoc">evaporation from the interception storage (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00064">SOL_WB.h:64</a></div></div>
-<div class="ttc" id="a00114_html_a933a0dca65f231203988c574ac6a0829"><div class="ttname"><a href="../../d8/d17/a00114.html#a933a0dca65f231203988c574ac6a0829">SOL_WB::m_RS</a></div><div class="ttdeci">float * m_RS</div><div class="ttdoc">surface runoff generated (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00070">SOL_WB.h:70</a></div></div>
-<div class="ttc" id="a00114_html_a402f13c33194dba34b8863a536a1a3d2"><div class="ttname"><a href="../../d8/d17/a00114.html#a402f13c33194dba34b8863a536a1a3d2">SOL_WB::m_SE</a></div><div class="ttdeci">float * m_SE</div><div class="ttdoc">snow sublimation </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00074">SOL_WB.h:74</a></div></div>
-<div class="ttc" id="a00114_html_ab5dafe3b7d8cb684c05aa99c6a13e002"><div class="ttname"><a href="../../d8/d17/a00114.html#ab5dafe3b7d8cb684c05aa99c6a13e002">SOL_WB::m_nSubbasins</a></div><div class="ttdeci">int m_nSubbasins</div><div class="ttdoc">subbasins number </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00080">SOL_WB.h:80</a></div></div>
-<div class="ttc" id="a00114_html_ab6c968320213db0519ed11c0296201c2"><div class="ttname"><a href="../../d8/d17/a00114.html#ab6c968320213db0519ed11c0296201c2">SOL_WB::m_RI</a></div><div class="ttdeci">float ** m_RI</div><div class="ttdoc">subsurface runoff </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00051">SOL_WB.h:51</a></div></div>
-<div class="ttc" id="a00114_html_a908bed7bb8b4023d56521d70afe3caaf"><div class="ttname"><a href="../../d8/d17/a00114.html#a908bed7bb8b4023d56521d70afe3caaf">SOL_WB::m_Infil</a></div><div class="ttdeci">float * m_Infil</div><div class="ttdoc">infiltration water (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00045">SOL_WB.h:45</a></div></div>
-<div class="ttc" id="a00114_html_a0e39fc97c8a637f9dad733a04cf1b66b"><div class="ttname"><a href="../../d8/d17/a00114.html#a0e39fc97c8a637f9dad733a04cf1b66b">SOL_WB::m_Dep</a></div><div class="ttdeci">float * m_Dep</div><div class="ttdoc">depression (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00066">SOL_WB.h:66</a></div></div>
-<div class="ttc" id="a00114_html_a3516ebc5971b78fcd495f45f19bdcd04"><div class="ttname"><a href="../../d8/d17/a00114.html#a3516ebc5971b78fcd495f45f19bdcd04">SOL_WB::m_pNet</a></div><div class="ttdeci">float * m_pNet</div><div class="ttdoc">Net precipitation (include snow melt if stated) (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d60/a00491_source.html#l00043">SOL_WB.h:43</a></div></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment">//static map&lt;int,subbasin*&gt;* getSubbasinList(int cellCount, float* subbasinGrid, int subbasinSelectedCount, float* subbasinSelected);</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e815a90a524b22b5b34e29517df36994.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_bfa241a1710877a369a5594025b0ea8a.html">SOL_WB</a></li><li class="navelem"><b>SOL_WB.h</b></li>
-    <li class="footer">Generated on Fri Apr 21 2017 02:53:00 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e815a90a524b22b5b34e29517df36994.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_ab61e5882fb85006e22352455c7b91d0.html">SNO_WB</a></li><li class="navelem"><b>subbasin.h</b></li>
+    <li class="footer">Generated on Tue May 16 2017 16:34:13 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

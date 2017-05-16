@@ -1,8 +1,8 @@
 var searchData=
 [
   ['climatestats',['climateStats',['../d2/de7/a00014.html',1,'seims::preprocess::db_import_daily_meteo']]],
-  ['clspi_5fmsm',['clsPI_MSM',['../dd/d1b/a00015.html',1,'']]],
-  ['clspi_5fstorm',['clsPI_STORM',['../d7/d7a/a00016.html',1,'']]],
+  ['clspi_5fmcs',['clsPI_MCS',['../dd/d1b/a00015.html',1,'']]],
+  ['clspi_5fsvsc',['clsPI_SVSC',['../d7/d7a/a00016.html',1,'']]],
   ['clsrasterdata',['clsRasterData',['../d4/d51/a00017.html',1,'']]],
   ['clsrasterdata_3c_20float_20_3e',['clsRasterData&lt; float &gt;',['../d4/d51/a00017.html',1,'']]],
   ['clsreach',['clsReach',['../d1/d2b/a00018.html',1,'']]],

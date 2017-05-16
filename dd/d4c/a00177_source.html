@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/preprocess/db_import_interpolation_weights.py Source File</title>
+<title>SEIMS: seims/preprocess/db_import_daily_meteo.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -101,7 +101,7 @@ $(document).ready(function(){initNavTree('dd/d4c/a00177_source.html','../../');}
      onmouseover="return searchBox.OnSearchSelectShow()"
      onmouseout="return searchBox.OnSearchSelectHide()"
      onkeydown="return searchBox.OnSearchSelectKey(event)">
-<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Enumerator</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(9)"><span class="SelectionMark">&#160;</span>Pages</a></div>
+<a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(0)"><span class="SelectionMark">&#160;</span>All</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(1)"><span class="SelectionMark">&#160;</span>Classes</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(2)"><span class="SelectionMark">&#160;</span>Namespaces</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(3)"><span class="SelectionMark">&#160;</span>Files</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(4)"><span class="SelectionMark">&#160;</span>Functions</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(5)"><span class="SelectionMark">&#160;</span>Variables</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(6)"><span class="SelectionMark">&#160;</span>Enumerations</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(7)"><span class="SelectionMark">&#160;</span>Groups</a><a class="SelectItem" href="javascript:void(0)" onclick="searchBox.OnSelectItem(8)"><span class="SelectionMark">&#160;</span>Pages</a></div>
 
 <!-- iframe showing the search results (closed by default) -->
 <div id="MSearchResultsWindow">
@@ -112,347 +112,264 @@ $(document).ready(function(){initNavTree('dd/d4c/a00177_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">db_import_interpolation_weights.py</div>  </div>
+<div class="title">db_import_daily_meteo.py</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># coding=utf-8</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># @Generate weight data for interpolate of hydroclimate data</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># @Meteorological daily data import, and calculate related statistical values</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># @Author: Junzhi Liu</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># @Revised: Liang-Jun Zhu</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># @Revised: Liang-Jun Zhu, Fang Shen</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> sys</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> math</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">from</span> struct <span class="keyword">import</span> pack, unpack</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> numpy</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> gridfs <span class="keyword">import</span> GridFS</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> pymongo.errors <span class="keyword">import</span> ConnectionFailure</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> config <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> utility <span class="keyword">import</span> LoadConfiguration</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">from</span> utility <span class="keyword">import</span> UTIL_ZERO</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment"># for test main</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> time</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> datetime</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> math</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> pymongo</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> <a class="code" href="../../dd/de6/a00548.html">pygeoc.utils.utils</a> <span class="keyword">import</span> DateClass</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> hydro_climate_utility <span class="keyword">import</span> HydroClimateUtilClass</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">from</span> config <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> utility <span class="keyword">import</span> LoadConfiguration, ReadDataItemsFromTxt</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> utility <span class="keyword">import</span> DEFAULT_NODATA</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment"># for test main</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">from</span> db_import_sites <span class="keyword">import</span> ImportHydroClimateSitesInfo</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">from</span> db_mongodb <span class="keyword">import</span> ConnectMongoDB</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">def </span>cal_dis(x1, y1, x2, y2):</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    dx = x2 - x1</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    dy = y2 - y1</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">return</span> math.sqrt(dx * dx + dy * dy)</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment"># there exist some problem in this function</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">def </span>idw(x, y, locList):</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    ex = 2</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    coef_list = []</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    sum = 0</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">for</span> pt <span class="keywordflow">in</span> locList:</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        dis = cal_dis(x, y, pt[0], pt[1])</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        coef = math.pow(dis, -ex)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        coef_list.append(coef)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        sum += coef</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    weightList = []</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">for</span> coef <span class="keywordflow">in</span> coef_list:</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        weightList.append(coef / sum)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="comment"># print weightList</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    fmt = <span class="stringliteral">&#39;%df&#39;</span> % (len(weightList))</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    s = pack(fmt, *weightList)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordflow">return</span> s</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">def </span>thiessen(x, y, locList):</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    iMin = 0</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    coef_list = []</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment"># print locList</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">if</span> len(locList) &lt;= 1:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        coef_list.append(1)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        fmt = <span class="stringliteral">&#39;%df&#39;</span> % (1)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">return</span> pack(fmt, *coef_list), iMin</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    disMin = cal_dis(x, y, locList[0][0], locList[0][1])</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    coef_list.append(0)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(1, len(locList)):</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        coef_list.append(0)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        dis = cal_dis(x, y, locList[i][0], locList[i][1])</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="comment"># print x, y, locList[i][0], locList[i][1], dis</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">if</span> dis &lt; disMin:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            iMin = i</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            disMin = dis</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    coef_list[iMin] = 1</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    fmt = <span class="stringliteral">&#39;%df&#39;</span> % (len(coef_list))</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    s = pack(fmt, *coef_list)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">return</span> s, iMin</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">def </span>GenerateWeightDependentParameters(conn, dbModel, subbasinID):</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="stringliteral">    Generate some parameters dependent on weight data and only should be calculated once.</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="stringliteral">    Such as PHU0 (annual average total potential heat units)</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="stringliteral">            TMEAN0 (annual average temperature)</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="stringliteral">    :return:</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    spatial = GridFS(dbModel, DB_TAB_SPATIAL.upper())</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="comment"># read mask file from mongodb</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    maskName = str(subbasinID) + <span class="stringliteral">&#39;_MASK&#39;</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="comment"># is MASK existed in Database?</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> spatial.exists(filename = maskName):</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">False</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="comment"># read WEIGHT_M file from mongodb</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    weightMName = str(subbasinID) + <span class="stringliteral">&#39;_WEIGHT_M&#39;</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    mask = dbModel[DB_TAB_SPATIAL.upper()].files.find({<span class="stringliteral">&quot;filename&quot;</span>: maskName})[0]</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    weightM = dbModel[DB_TAB_SPATIAL.upper()].files.find({<span class="stringliteral">&quot;filename&quot;</span>: weightMName})[0]</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    numCells = int(weightM[<span class="stringliteral">&quot;metadata&quot;</span>][<span class="stringliteral">&quot;NUM_CELLS&quot;</span>])</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    numSites = int(weightM[<span class="stringliteral">&quot;metadata&quot;</span>][<span class="stringliteral">&quot;NUM_SITES&quot;</span>])</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="comment"># read meteorlogy sites</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    siteLists = dbModel[DB_TAB_SITELIST.upper()].find({FLD_SUBBASINID.upper(): subbasinID})</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    siteList = siteLists.next()</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    dbName = siteList[FLD_DB.upper()]</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    mList = siteList.get(<span class="stringliteral">&#39;SITELISTM&#39;</span>)</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    dbHydro = conn[dbName]</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    siteList = mList.split(<span class="stringliteral">&#39;,&#39;</span>)</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    siteList = [int(item) <span class="keywordflow">for</span> item <span class="keywordflow">in</span> siteList]</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    qDic = {Tag_ST_StationID.upper(): {<span class="stringliteral">&#39;$in&#39;</span>: siteList},</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            Tag_DT_Type.upper()     : Datatype_PHU0}</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    cursor = dbHydro[Tag_ClimateDB_ANNUAL_STATS.upper()].find(</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        qDic).sort(Tag_ST_StationID.upper(), 1)</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    qDic2 = {Tag_ST_StationID.upper(): {<span class="stringliteral">&#39;$in&#39;</span>: siteList}, Tag_DT_Type.upper(): DataType_MeanTemperature0.upper()}</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    cursor2 = dbHydro[Tag_ClimateDB_ANNUAL_STATS.upper()].find(qDic2).sort(Tag_ST_StationID.upper(), 1)</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    idList = []</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    phuList = []</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keywordflow">for</span> site <span class="keywordflow">in</span> cursor:</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        idList.append(site[Tag_ST_StationID.upper()])</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        phuList.append(site[Tag_DT_Value.upper()])</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    idList2 = []</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    tmeanList = []</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordflow">for</span> site <span class="keywordflow">in</span> cursor2:</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        idList2.append(site[Tag_ST_StationID.upper()])</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        tmeanList.append(site[Tag_DT_Value.upper()])</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    weightMData = spatial.get(weightM[<span class="stringliteral">&quot;_id&quot;</span>])</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    totalLen = numCells * numSites</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    fmt = <span class="stringliteral">&#39;%df&#39;</span> % (totalLen,)</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    weightMData = unpack(fmt, weightMData.read())</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="../../d2/de7/a00014.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/de7/a00014.html">climateStats</a>(object):</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Common used annual climate statistics based on mean temperature, e.g. PHU.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">def </span>__init__(self):</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        self.<a class="code" href="../../d2/de7/a00014.html#a705daee9fa4e608ca0a7188e7bf77e81">Count</a> = {}</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        self.<a class="code" href="../../d2/de7/a00014.html#a4dbe557a3c195a205489878514d6a12a">MeanTmp</a> = {}</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        self.<a class="code" href="../../d2/de7/a00014.html#aea4383f52164ef043bc3f3ff16b15f30">PHUTOT</a> = {}</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        self.<a class="code" href="../../d2/de7/a00014.html#a84ee3615748451479aa21253836ba267">MeanTmp0</a> = 0.</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        self.<a class="code" href="../../d2/de7/a00014.html#a65f9850a277aca7b2ad191dc69e55111">PHU0</a> = 0.</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../d2/de7/a00014.html#a5895cf89ab618cf6a0a87fdfb309f52a">   33</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d2/de7/a00014.html#a5895cf89ab618cf6a0a87fdfb309f52a">addItem</a>(self, itemDict):</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Add mean temperature of each day. Dict MUST have {YEAR: 2017, TMEAN: 10.} at least.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">if</span> Tag_DT_Year.upper() <span class="keywordflow">not</span> <span class="keywordflow">in</span> itemDict.keys():</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;The hydroClimate dict must have year!&quot;</span>)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">if</span> DataType_MeanTemperature.upper() <span class="keywordflow">not</span> <span class="keywordflow">in</span> itemDict.keys():</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;The hydroClimate dict must have mean temperature!&quot;</span>)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        curY = itemDict[Tag_DT_Year.upper()]</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        curTmp = itemDict[DataType_MeanTemperature.upper()]</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">if</span> curY <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.Count.keys():</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            self.<a class="code" href="../../d2/de7/a00014.html#a705daee9fa4e608ca0a7188e7bf77e81">Count</a>[curY] = 1</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            self.<a class="code" href="../../d2/de7/a00014.html#a4dbe557a3c195a205489878514d6a12a">MeanTmp</a>[curY] = curTmp</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            <span class="keywordflow">if</span> curTmp &gt; T_base:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                self.<a class="code" href="../../d2/de7/a00014.html#aea4383f52164ef043bc3f3ff16b15f30">PHUTOT</a>[curY] = curTmp</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                self.<a class="code" href="../../d2/de7/a00014.html#aea4383f52164ef043bc3f3ff16b15f30">PHUTOT</a>[curY] = 0.</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            self.<a class="code" href="../../d2/de7/a00014.html#a705daee9fa4e608ca0a7188e7bf77e81">Count</a>[curY] += 1</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            self.<a class="code" href="../../d2/de7/a00014.html#a4dbe557a3c195a205489878514d6a12a">MeanTmp</a>[curY] += curTmp</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">if</span> curTmp &gt; T_base:</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                self.<a class="code" href="../../d2/de7/a00014.html#aea4383f52164ef043bc3f3ff16b15f30">PHUTOT</a>[curY] += curTmp</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../d2/de7/a00014.html#ae5ae92f20a80b0ba6c3d53d01b29f429">   54</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d2/de7/a00014.html#ae5ae92f20a80b0ba6c3d53d01b29f429">annualStats</a>(self):</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Calculate annual statistics.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">for</span> Y <span class="keywordflow">in</span> self.Count.keys():</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            self.<a class="code" href="../../d2/de7/a00014.html#a4dbe557a3c195a205489878514d6a12a">MeanTmp</a>[Y] = round(self.<a class="code" href="../../d2/de7/a00014.html#a4dbe557a3c195a205489878514d6a12a">MeanTmp</a>[Y] / self.<a class="code" href="../../d2/de7/a00014.html#a705daee9fa4e608ca0a7188e7bf77e81">Count</a>[Y], 1)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            self.<a class="code" href="../../d2/de7/a00014.html#a84ee3615748451479aa21253836ba267">MeanTmp0</a> += self.<a class="code" href="../../d2/de7/a00014.html#a4dbe557a3c195a205489878514d6a12a">MeanTmp</a>[Y]</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            self.<a class="code" href="../../d2/de7/a00014.html#aea4383f52164ef043bc3f3ff16b15f30">PHUTOT</a>[Y] = round(self.<a class="code" href="../../d2/de7/a00014.html#aea4383f52164ef043bc3f3ff16b15f30">PHUTOT</a>[Y], 1)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            self.<a class="code" href="../../d2/de7/a00014.html#a65f9850a277aca7b2ad191dc69e55111">PHU0</a> += self.<a class="code" href="../../d2/de7/a00014.html#aea4383f52164ef043bc3f3ff16b15f30">PHUTOT</a>[Y]</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        self.<a class="code" href="../../d2/de7/a00014.html#a65f9850a277aca7b2ad191dc69e55111">PHU0</a> = round(self.<a class="code" href="../../d2/de7/a00014.html#a65f9850a277aca7b2ad191dc69e55111">PHU0</a> / len(self.Count.keys()), 1)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        self.<a class="code" href="../../d2/de7/a00014.html#a84ee3615748451479aa21253836ba267">MeanTmp0</a> = round(self.<a class="code" href="../../d2/de7/a00014.html#a84ee3615748451479aa21253836ba267">MeanTmp0</a> / len(self.Count.keys()), 1)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment"># Import climate data table</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">def </span>ImportDayData(db, ClimateDateFile, sitesLoc, isFirst):</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    climDataItems = ReadDataItemsFromTxt(ClimateDateFile)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    climFlds = climDataItems[0]</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="comment"># PHUCalDic is used for Calculating potential heat units (PHU)</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment"># for each climate station and each year.</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="comment"># format is {StationID:{Year1:[values],Year2:[Values]...}, ...}</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="comment"># PHUCalDic = {}</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="comment"># format: {StationID1: climateStats1, ...}</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    HydroClimateStats = {}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    requiredFlds = [Tag_DT_Year.upper(), Tag_DT_Month.upper(), Tag_DT_Day.upper(),</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                    DataType_MaximumTemperature.upper(), DataType_MinimumTemperature.upper(),</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                    DataType_RelativeAirMoisture.upper(), DataType_WindSpeed.upper()]</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">for</span> fld <span class="keywordflow">in</span> requiredFlds:</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> StringClass.stringinlist(fld, climFlds):</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="keywordflow">raise</span> ValueError(</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                <span class="stringliteral">&quot;Meteorological Daily data is invalid, please Check!&quot;</span>)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(1, len(climDataItems)):</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        dic = {}</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        curSSD = DEFAULT_NODATA</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        curY = 0</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        curM = 0</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        curD = 0</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(len(climDataItems[i])):</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keywordflow">if</span> StringClass.stringmatch(climFlds[j], Tag_DT_StationID):</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                dic[Tag_DT_StationID.upper()] = int(climDataItems[i][j])</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(climFlds[j], Tag_DT_Year):</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                curY = int(climDataItems[i][j])</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                dic[Tag_DT_Year.upper()] = curY</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(climFlds[j], Tag_DT_Month):</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                curM = int(climDataItems[i][j])</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(climFlds[j], Tag_DT_Day):</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                curD = int(climDataItems[i][j])</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(climFlds[j], DataType_MeanTemperature):</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                dic[DataType_MeanTemperature.upper()] = float(</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                    climDataItems[i][j])</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(climFlds[j], DataType_MinimumTemperature):</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                dic[DataType_MinimumTemperature.upper()] = float(</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                    climDataItems[i][j])</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(climFlds[j], DataType_MaximumTemperature):</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                dic[DataType_MaximumTemperature.upper()] = float(</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                    climDataItems[i][j])</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(climFlds[j], DataType_PotentialEvapotranspiration):</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                dic[DataType_PotentialEvapotranspiration.upper()] = float(</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                    climDataItems[i][j])</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(climFlds[j], DataType_SolarRadiation):</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                dic[DataType_SolarRadiation.upper()] = float(</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                    climDataItems[i][j])</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(climFlds[j], DataType_WindSpeed):</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                dic[DataType_WindSpeed.upper()] = float(climDataItems[i][j])</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(climFlds[j], DataType_RelativeAirMoisture):</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                dic[DataType_RelativeAirMoisture.upper()] = float(</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                    climDataItems[i][j]) * 0.01</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            <span class="keywordflow">elif</span> StringClass.stringmatch(climFlds[j], DataType_SunDurationHour):</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                curSSD = float(climDataItems[i][j])</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="comment"># Date transformation</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        dt = datetime.datetime(curY, curM, curD, 0, 0)</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        sec = time.mktime(dt.timetuple())</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        utcTime = time.gmtime(sec)</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        dic[Tag_DT_LocalT.upper()] = dt</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        dic[Tag_DT_Zone.upper()] = time.timezone / 3600</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        dic[Tag_DT_UTC.upper()] = datetime.datetime(</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            utcTime[0], utcTime[1], utcTime[2], utcTime[3])</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="comment"># calculate PHU0</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    phu0Data = numpy.zeros((numCells))</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="comment"># calculate TMEAN0</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    tmean0Data = numpy.zeros((numCells))</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(numCells):</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(numSites):</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            phu0Data[i] += phuList[j] * weightMData[i * numSites + j]</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            tmean0Data[i] += tmeanList[j] * weightMData[i * numSites + j]</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    ysize = int(mask[<span class="stringliteral">&quot;metadata&quot;</span>][<span class="stringliteral">&quot;NROWS&quot;</span>])</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    xsize = int(mask[<span class="stringliteral">&quot;metadata&quot;</span>][<span class="stringliteral">&quot;NCOLS&quot;</span>])</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    noDataValue = mask[<span class="stringliteral">&quot;metadata&quot;</span>][<span class="stringliteral">&quot;NODATA_VALUE&quot;</span>]</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    maskData = spatial.get(mask[<span class="stringliteral">&quot;_id&quot;</span>])</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    totalLen = xsize * ysize</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    fmt = <span class="stringliteral">&#39;%df&#39;</span> % (totalLen,)</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    maskData = unpack(fmt, maskData.read())</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    fname = <span class="stringliteral">&quot;%s_%s&quot;</span> % (str(subbasinID), Datatype_PHU0.upper())</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    fname2 = <span class="stringliteral">&quot;%s_%s&quot;</span> % (str(subbasinID), DataType_MeanTemperature0.upper())</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordflow">if</span> spatial.exists(filename = fname):</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        x = spatial.get_version(filename = fname)</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        spatial.delete(x._id)</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordflow">if</span> spatial.exists(filename = fname2):</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        x = spatial.get_version(filename = fname2)</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        spatial.delete(x._id)</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    metaDic = mask[<span class="stringliteral">&quot;metadata&quot;</span>]</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    metaDic[<span class="stringliteral">&quot;TYPE&quot;</span>] = Datatype_PHU0</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    metaDic[<span class="stringliteral">&quot;ID&quot;</span>] = fname</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    metaDic[<span class="stringliteral">&quot;DESCRIPTION&quot;</span>] = Datatype_PHU0</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    metaDic2 = mask[<span class="stringliteral">&quot;metadata&quot;</span>]</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    metaDic2[<span class="stringliteral">&quot;TYPE&quot;</span>] = DataType_MeanTemperature0</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    metaDic2[<span class="stringliteral">&quot;ID&quot;</span>] = fname2</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    metaDic2[<span class="stringliteral">&quot;DESCRIPTION&quot;</span>] = DataType_MeanTemperature0</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    myfile = spatial.new_file(filename = fname, metadata = metaDic)</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    myfile2 = spatial.new_file(filename = fname2, metadata = metaDic2)</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    vaildCount = 0</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, ysize):</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        curRow = []</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        curRow2 = []</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(0, xsize):</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            index = i * xsize + j</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            <span class="comment"># print index</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <span class="keywordflow">if</span> abs(maskData[index] - noDataValue) &gt; UTIL_ZERO:</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                curRow.append(phu0Data[vaildCount])</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                curRow2.append(tmean0Data[vaildCount])</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                vaildCount += 1</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                curRow.append(noDataValue)</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                curRow2.append(noDataValue)</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        fmt = <span class="stringliteral">&#39;%df&#39;</span> % xsize</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        myfile.write(pack(fmt, *curRow))</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        myfile2.write(pack(fmt, *curRow2))</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    myfile.close()</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    myfile2.close()</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&quot;Valid Cell Number is: %d&quot;</span> % vaildCount</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">True</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="keyword">def </span>GenerateWeightInfo(conn, dbModel, subbasinID, stormMode = False, useRsData = False):</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="stringliteral">    Generate and import weight information using Thiessen polygon method.</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="stringliteral">    :param subbasinID:</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="stringliteral">    :param stormMode:</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="stringliteral">    :param useRsData:</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="stringliteral">    :return:</span></div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="stringliteral">    &#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="comment"># print &quot;\t Subbasin:&quot;, subbasinID</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    spatial = GridFS(dbModel, DB_TAB_SPATIAL.upper())</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="comment"># read mask file from mongodb</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    maskName = str(subbasinID) + <span class="stringliteral">&#39;_MASK&#39;</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    mask = dbModel[DB_TAB_SPATIAL.upper()].files.find({<span class="stringliteral">&quot;filename&quot;</span>: maskName})[0]</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    ysize = int(mask[<span class="stringliteral">&quot;metadata&quot;</span>][<span class="stringliteral">&quot;NROWS&quot;</span>])</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    xsize = int(mask[<span class="stringliteral">&quot;metadata&quot;</span>][<span class="stringliteral">&quot;NCOLS&quot;</span>])</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    noDataValue = mask[<span class="stringliteral">&quot;metadata&quot;</span>][<span class="stringliteral">&quot;NODATA_VALUE&quot;</span>]</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    dx = mask[<span class="stringliteral">&quot;metadata&quot;</span>][<span class="stringliteral">&quot;CELLSIZE&quot;</span>]</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    xll = mask[<span class="stringliteral">&quot;metadata&quot;</span>][<span class="stringliteral">&quot;XLLCENTER&quot;</span>]</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    yll = mask[<span class="stringliteral">&quot;metadata&quot;</span>][<span class="stringliteral">&quot;YLLCENTER&quot;</span>]</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    data = spatial.get(mask[<span class="stringliteral">&quot;_id&quot;</span>])</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    totalLen = xsize * ysize</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    fmt = <span class="stringliteral">&#39;%df&#39;</span> % (totalLen,)</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    data = unpack(fmt, data.read())</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="comment"># print data[0], len(data), type(data)</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="comment"># count number of valid cells</span></div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    num = 0</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, totalLen):</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        <span class="keywordflow">if</span> abs(data[i] - noDataValue) &gt; UTIL_ZERO:</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;            num += 1</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <span class="comment"># read stations information from database</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    metadic = {</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="stringliteral">&#39;SUBBASIN&#39;</span> : subbasinID,</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        <span class="stringliteral">&#39;NUM_CELLS&#39;</span>: num}</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    siteLists = dbModel[DB_TAB_SITELIST.upper()].find(</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        {FLD_SUBBASINID.upper(): subbasinID})</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    siteList = siteLists.next()</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    dbName = siteList[FLD_DB.upper()]</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    pList = siteList.get(<span class="stringliteral">&#39;SITELISTP&#39;</span>)</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    mList = siteList.get(<span class="stringliteral">&#39;SITELISTM&#39;</span>)</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    petList = siteList.get(<span class="stringliteral">&#39;SITELISTPET&#39;</span>)</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="comment"># print pList</span></div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <span class="comment"># print mList</span></div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    dbHydro = conn[dbName]</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    typeList = [DataType_Meteorology, DataType_Precipitation, DataType_PotentialEvapotranspiration]</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    siteLists = [mList, pList, petList]</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="keywordflow">if</span> petList <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        del typeList[2]</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        del siteLists[2]</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keywordflow">if</span> (stormMode):</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        typeList = [DataType_Precipitation]</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        siteLists = [pList]</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="comment"># print typeList</span></div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="comment"># print siteLists</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(typeList)):</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        fname = <span class="stringliteral">&#39;%d_WEIGHT_%s&#39;</span> % (subbasinID, typeList[i])</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <span class="keywordflow">print</span> fname</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <span class="keywordflow">if</span> spatial.exists(filename = fname):</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            x = spatial.get_version(filename = fname)</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            spatial.delete(x._id)</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        siteList = siteLists[i]</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        <span class="keywordflow">if</span> siteList <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            siteList = siteList.split(<span class="stringliteral">&#39;,&#39;</span>)</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            <span class="comment"># print siteList</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            siteList = [int(item) <span class="keywordflow">for</span> item <span class="keywordflow">in</span> siteList]</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;            metadic[<span class="stringliteral">&#39;NUM_SITES&#39;</span>] = len(siteList)</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;            <span class="comment"># print siteList</span></div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            qDic = {Tag_ST_StationID.upper(): {<span class="stringliteral">&#39;$in&#39;</span>: siteList},</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                    Tag_ST_Type.upper()     : typeList[i]}</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            cursor = dbHydro[Tag_ClimateDB_Sites.upper()].find(</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                qDic).sort(Tag_ST_StationID.upper(), 1)</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;            <span class="comment"># meteorology station can also be used as precipitation station</span></div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;            <span class="keywordflow">if</span> cursor.count() == 0 <span class="keywordflow">and</span> typeList[i] == DataType_Precipitation:</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                qDic = {Tag_ST_StationID.upper(): {<span class="stringliteral">&#39;$in&#39;</span>: siteList},</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                        Tag_ST_Type.upper()     : DataType_Meteorology}</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                cursor = dbHydro[Tag_ClimateDB_Sites.upper()].find(</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                    qDic).sort(Tag_ST_StationID.upper(), 1)</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            <span class="comment"># get site locations</span></div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            idList = []</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            LocList = []</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;            <span class="keywordflow">for</span> site <span class="keywordflow">in</span> cursor:</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;                <span class="keywordflow">if</span> site[Tag_ST_StationID.upper()] <span class="keywordflow">in</span> siteList:</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;                    idList.append(site[Tag_ST_StationID.upper()])</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                    LocList.append([site[Tag_ST_LocalX.upper()],</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                                    site[Tag_ST_LocalY.upper()]])</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;            <span class="comment"># print &#39;loclist&#39;, locList</span></div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;            <span class="comment"># interpolate using the locations</span></div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;            <span class="comment"># weightList = []</span></div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;            myfile = spatial.new_file(filename = fname, metadata = metadic)</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;            fTest = open(<span class="stringliteral">r&quot;%s/weight_%d_%s.txt&quot;</span> % (WORKING_DIR + os.sep + DIR_NAME_GEODATA2DB,</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;                                                   subbasinID, typeList[i]), <span class="stringliteral">&#39;w&#39;</span>)</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, ysize):</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;                <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(0, xsize):</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                    index = i * xsize + j</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                    <span class="comment"># print index</span></div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                    <span class="keywordflow">if</span> abs(data[index] - noDataValue) &gt; UTIL_ZERO:</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                        x = xll + j * dx</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                        y = yll + (ysize - i - 1) * dx</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                        nearIndex = 0</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                        <span class="comment"># print locList</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                        <span class="keywordflow">if</span> useRsData:</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                            line, nearIndex = thiessen(x, y, LocList)</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                            <span class="comment"># line = idw(x, y, locList)</span></div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;                            line, nearIndex = thiessen(x, y, LocList)</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                        myfile.write(line)</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                        fmt = <span class="stringliteral">&#39;%df&#39;</span> % (len(LocList))</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                        fTest.write(<span class="stringliteral">&quot;%f %f &quot;</span> % (x, y) + unpack(fmt, line).__str__() + <span class="stringliteral">&quot;\n&quot;</span>)</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;            myfile.close()</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            fTest.close()</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    LoadConfiguration(getconfigfile())</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        conn = <a class="code" href="../../df/d5f/a00064.html">MongoClient</a>(HOSTNAME, PORT)</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <span class="keywordflow">except</span> ConnectionFailure, e:</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        sys.stderr.write(<span class="stringliteral">&quot;Could not connect to MongoDB: %s&quot;</span> % e)</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        sys.exit(1)</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    subbasinStartID = 1</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> forCluster:</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        subbasinStartID = 0</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    nSubbasins = 0</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <span class="comment"># print subbasinStartID, nSubbasins + 1</span></div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    client = ConnectMongoDB(HOSTNAME, PORT)</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    conn = client.get_conn()</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    db = conn[SpatialDBName]</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(subbasinStartID, nSubbasins + 1):</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        GenerateWeightInfo(conn, db, i, stormMode)</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        <span class="comment"># 　added by Liangjun, 2016-6-17</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        GenerateWeightDependentParameters(conn, db, i)</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    client.close()</div>
-<div class="ttc" id="a00064_html"><div class="ttname"><a href="../../df/d5f/a00064.html">MongoClient</a></div><div class="ttdoc">Create a MongoDB Client. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d42/a00235_source.html#l00039">MongoUtil.h:39</a></div></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="comment"># Do if some of these data are not provided</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keywordflow">if</span> DataType_MeanTemperature.upper() <span class="keywordflow">not</span> <span class="keywordflow">in</span> dic.keys():</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            dic[DataType_MeanTemperature.upper()] = (dic[DataType_MaximumTemperature.upper()] +</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                                                     dic[DataType_MinimumTemperature.upper()]) / 2.</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keywordflow">if</span> DataType_SolarRadiation.upper() <span class="keywordflow">not</span> <span class="keywordflow">in</span> dic.keys():</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;            <span class="keywordflow">if</span> curSSD == DEFAULT_NODATA:</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                <span class="keywordflow">print</span> DataType_SolarRadiation + <span class="stringliteral">&quot; or &quot;</span> + DataType_SunDurationHour + <span class="stringliteral">&quot; must be provided!&quot;</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                exit(0)</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                <span class="keywordflow">if</span> dic[Tag_DT_StationID.upper()] <span class="keywordflow">in</span> sitesLoc.keys():</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                    curLon, curLat = sitesLoc[</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                        dic[Tag_DT_StationID.upper()]].LonLat()</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                    dic[DataType_SolarRadiation.upper()] = round(</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                        HydroClimateUtilClass.Rs(DateClass.dayofyear(dt), float(curSSD), curLat * math.pi / 180.), 1)</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        outputFlds = [DataType_MeanTemperature.upper(), DataType_MaximumTemperature.upper(),</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                      DataType_MinimumTemperature.upper(), DataType_RelativeAirMoisture.upper(),</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                      DataType_PotentialEvapotranspiration.upper(), DataType_WindSpeed.upper(),</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                      DataType_SolarRadiation.upper()]</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="keywordflow">for</span> fld <span class="keywordflow">in</span> outputFlds:</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            curDic = {}</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            <span class="keywordflow">if</span> fld <span class="keywordflow">in</span> dic.keys():</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                curDic[Tag_DT_Value.upper()] = dic[fld]</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                curDic[Tag_DT_StationID.upper()] = dic[</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                    Tag_DT_StationID.upper()]</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                curDic[Tag_DT_UTC.upper()] = dic[Tag_DT_UTC.upper()]</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                curDic[Tag_DT_Zone.upper()] = dic[Tag_DT_Zone.upper()]</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                curDic[Tag_DT_LocalT.upper()] = dic[Tag_DT_LocalT.upper()]</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                curDic[Tag_DT_Type.upper()] = fld</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                curfilter = {Tag_DT_StationID.upper(): dic[Tag_DT_StationID.upper()],</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                             Tag_DT_UTC.upper()      : dic[Tag_DT_UTC.upper()],</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                             Tag_DT_Type.upper()     : fld}</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                <span class="keywordflow">if</span> (isFirst):</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                    db[DB_TAB_DATAVALUES.upper()].insert_one(curDic)</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                    db[DB_TAB_DATAVALUES.upper()].find_one_and_replace(</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                        curfilter, curDic, upsert = <span class="keyword">True</span>)</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <span class="keywordflow">if</span> dic[Tag_DT_StationID.upper()] <span class="keywordflow">not</span> <span class="keywordflow">in</span> HydroClimateStats.keys():</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            HydroClimateStats[dic[Tag_DT_StationID.upper()]] = <a class="code" href="../../d2/de7/a00014.html">climateStats</a>()</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        HydroClimateStats[dic[Tag_DT_StationID.upper()]].<a class="code" href="../../d2/de7/a00014.html#a5895cf89ab618cf6a0a87fdfb309f52a">addItem</a>(dic)</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordflow">for</span> item <span class="keywordflow">in</span> HydroClimateStats.keys():</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        HydroClimateStats[item].<a class="code" href="../../d2/de7/a00014.html#ae5ae92f20a80b0ba6c3d53d01b29f429">annualStats</a>()</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="comment"># Create index</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    db[DB_TAB_DATAVALUES.upper()].create_index([(Tag_DT_StationID.upper(), pymongo.ASCENDING),</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                                                (Tag_DT_Type.upper(),</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                                                 pymongo.ASCENDING),</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                                                (Tag_DT_UTC.upper(), pymongo.ASCENDING)])</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="comment"># prepare dic for MongoDB</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordflow">for</span> sID <span class="keywordflow">in</span> HydroClimateStats.keys():</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <span class="keywordflow">for</span> YYYY <span class="keywordflow">in</span> HydroClimateStats[sID].Count.keys():</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            curDic = {}</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            curDic[Tag_DT_Value.upper()] = HydroClimateStats[sID].PHUTOT[YYYY]</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            curDic[Tag_DT_StationID.upper()] = sID</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            curDic[Tag_DT_Year.upper()] = YYYY</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            curDic[Tag_VAR_UNIT.upper()] = <span class="stringliteral">&quot;heat units&quot;</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            curDic[Tag_VAR_Type.upper()] = DataType_YearlyHeatUnit</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;            curfilter = {Tag_DT_StationID.upper(): sID,</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                         Tag_VAR_Type.upper()    : DataType_YearlyHeatUnit,</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                         Tag_DT_Year.upper()     : YYYY}</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            db[Tag_ClimateDB_ANNUAL_STATS.upper()].find_one_and_replace(</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                curfilter, curDic, upsert = <span class="keyword">True</span>)</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            <span class="comment"># import annual mean temperature</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            curDic[Tag_VAR_Type.upper()] = DataType_MeanTemperature</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            curDic[Tag_VAR_UNIT.upper()] = <span class="stringliteral">&quot;deg C&quot;</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            curDic[Tag_DT_Value.upper()] = HydroClimateStats[sID].MeanTmp[YYYY]</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            curfilter = {Tag_DT_StationID.upper(): sID,</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                         Tag_VAR_Type.upper()    : DataType_MeanTemperature,</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                         Tag_DT_Year.upper()     : YYYY}</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            db[Tag_ClimateDB_ANNUAL_STATS.upper()].find_one_and_replace(</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                curfilter, curDic, upsert = <span class="keyword">True</span>)</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        curDic[Tag_DT_Value.upper()] = HydroClimateStats[sID].PHU0</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        curDic[Tag_DT_StationID.upper()] = sID</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        curDic[Tag_DT_Year.upper()] = DEFAULT_NODATA</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        curDic[Tag_VAR_UNIT.upper()] = <span class="stringliteral">&quot;heat units&quot;</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        curDic[Tag_VAR_Type.upper()] = Datatype_PHU0</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        curfilter = {Tag_DT_StationID.upper(): sID,</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                     Tag_VAR_Type.upper()    : Datatype_PHU0,</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                     Tag_DT_Year.upper()     : DEFAULT_NODATA}</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        db[Tag_ClimateDB_ANNUAL_STATS.upper()].find_one_and_replace(</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            curfilter, curDic, upsert = <span class="keyword">True</span>)</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        <span class="comment"># import annual mean temperature</span></div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        curDic[Tag_VAR_Type.upper()] = DataType_MeanTemperature0</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        curDic[Tag_VAR_UNIT.upper()] = <span class="stringliteral">&quot;deg C&quot;</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        curDic[Tag_DT_Value.upper()] = HydroClimateStats[sID].MeanTmp0</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        curfilter = {Tag_DT_StationID.upper(): sID,</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                     Tag_VAR_Type.upper()    : DataType_MeanTemperature0,</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                     Tag_DT_Year.upper()     : DEFAULT_NODATA}</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        db[Tag_ClimateDB_ANNUAL_STATS.upper()].find_one_and_replace(</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            curfilter, curDic, upsert = <span class="keyword">True</span>)</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="keyword">def </span>ImportDailyMeteoData(db, siteMLoc):</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Import Daily Meteorological Data... &quot;</span>)</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    cList = db.collection_names()</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    tables = [DB_TAB_DATAVALUES.upper(), Tag_ClimateDB_ANNUAL_STATS.upper()]</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    firstImport = <span class="keyword">False</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keywordflow">for</span> tb <span class="keywordflow">in</span> tables:</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> StringClass.stringinlist(tb, cList):</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            db.create_collection(tb)</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            firstImport = <span class="keyword">True</span></div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    ImportDayData(db, MeteoDailyFile, siteMLoc, firstImport)</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    LoadConfiguration(getconfigfile())</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    client = ConnectMongoDB(HOSTNAME, PORT)</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    conn = client.get_conn()</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    db = conn[ClimateDBName]</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    SitesMList, SitesPList = ImportHydroClimateSitesInfo(db)</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    ImportDailyMeteoData(db, SitesPList)</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    client.close()</div>
+<div class="ttc" id="a00014_html_a84ee3615748451479aa21253836ba267"><div class="ttname"><a href="../../d2/de7/a00014.html#a84ee3615748451479aa21253836ba267">seims.preprocess.db_import_daily_meteo.climateStats.MeanTmp0</a></div><div class="ttdeci">MeanTmp0</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4c/a00177_source.html#l00030">db_import_daily_meteo.py:30</a></div></div>
+<div class="ttc" id="a00014_html_a4dbe557a3c195a205489878514d6a12a"><div class="ttname"><a href="../../d2/de7/a00014.html#a4dbe557a3c195a205489878514d6a12a">seims.preprocess.db_import_daily_meteo.climateStats.MeanTmp</a></div><div class="ttdeci">MeanTmp</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4c/a00177_source.html#l00028">db_import_daily_meteo.py:28</a></div></div>
+<div class="ttc" id="a00014_html_aea4383f52164ef043bc3f3ff16b15f30"><div class="ttname"><a href="../../d2/de7/a00014.html#aea4383f52164ef043bc3f3ff16b15f30">seims.preprocess.db_import_daily_meteo.climateStats.PHUTOT</a></div><div class="ttdeci">PHUTOT</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4c/a00177_source.html#l00029">db_import_daily_meteo.py:29</a></div></div>
+<div class="ttc" id="a00014_html_ae5ae92f20a80b0ba6c3d53d01b29f429"><div class="ttname"><a href="../../d2/de7/a00014.html#ae5ae92f20a80b0ba6c3d53d01b29f429">seims.preprocess.db_import_daily_meteo.climateStats.annualStats</a></div><div class="ttdeci">def annualStats</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4c/a00177_source.html#l00054">db_import_daily_meteo.py:54</a></div></div>
+<div class="ttc" id="a00014_html"><div class="ttname"><a href="../../d2/de7/a00014.html">seims.preprocess.db_import_daily_meteo.climateStats</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4c/a00177_source.html#l00023">db_import_daily_meteo.py:23</a></div></div>
+<div class="ttc" id="a00014_html_a705daee9fa4e608ca0a7188e7bf77e81"><div class="ttname"><a href="../../d2/de7/a00014.html#a705daee9fa4e608ca0a7188e7bf77e81">seims.preprocess.db_import_daily_meteo.climateStats.Count</a></div><div class="ttdeci">Count</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4c/a00177_source.html#l00027">db_import_daily_meteo.py:27</a></div></div>
+<div class="ttc" id="a00014_html_a65f9850a277aca7b2ad191dc69e55111"><div class="ttname"><a href="../../d2/de7/a00014.html#a65f9850a277aca7b2ad191dc69e55111">seims.preprocess.db_import_daily_meteo.climateStats.PHU0</a></div><div class="ttdeci">PHU0</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4c/a00177_source.html#l00031">db_import_daily_meteo.py:31</a></div></div>
+<div class="ttc" id="a00014_html_a5895cf89ab618cf6a0a87fdfb309f52a"><div class="ttname"><a href="../../d2/de7/a00014.html#a5895cf89ab618cf6a0a87fdfb309f52a">seims.preprocess.db_import_daily_meteo.climateStats.addItem</a></div><div class="ttdeci">def addItem</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d4c/a00177_source.html#l00033">db_import_daily_meteo.py:33</a></div></div>
+<div class="ttc" id="a00548_html"><div class="ttname"><a href="../../dd/de6/a00548.html">pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/de7/a00210_source.html#l00001">utils.py:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_28e21eaa60bbcf907d8ec8f42033d556.html">preprocess</a></li><li class="navelem"><b>db_import_interpolation_weights.py</b></li>
-    <li class="footer">Generated on Fri Apr 21 2017 02:52:59 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_28e21eaa60bbcf907d8ec8f42033d556.html">preprocess</a></li><li class="navelem"><b>db_import_daily_meteo.py</b></li>
+    <li class="footer">Generated on Tue May 16 2017 16:34:11 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
