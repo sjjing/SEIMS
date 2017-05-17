@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology/PI_MCS/api.cpp Source File</title>
+<title>SEIMS: README.md Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('df/dc2/a00367_source.html','../../');});
+$(document).ready(function(){initNavTree('df/dc2/a00367.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -112,77 +112,69 @@ $(document).ready(function(){initNavTree('df/dc2/a00367_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">api.cpp</div>  </div>
+<div class="title">README.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Interception_MCS.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># SEIMS</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span>-------</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;[![Build status](https:<span class="comment">//ci.appveyor.com/api/projects/status/i3mxjy0wjgphcyu1/branch/master?svg=true)](https://ci.appveyor.com/project/lreis-2415/seims/branch/master) [![Build Status](http://badges.herokuapp.com/travis/lreis2415/SEIMS?branch=master&amp;env=BUILD_NAME=linux_gcc48&amp;label=linux_gcc48)](https://travis-ci.org/lreis2415/SEIMS) [![Build Status](http://badges.herokuapp.com/travis/lreis2415/SEIMS?branch=master&amp;env=BUILD_NAME=osx_xcode&amp;label=osx_clang)](https://travis-ci.org/lreis2415/SEIMS)</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <a class="code" href="../../d1/dd6/a00108.html">SimulationModule</a> *</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;GetInstance() {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../dd/d1b/a00015.html">clsPI_MCS</a>();</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// function to return the XML Metadata document string</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../d3/d8e/a00647.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a>() {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="../../d4/de8/a00061.html">MetadataInfo</a> mdi;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="comment">// set the information properties</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    mdi.SetAuthor(<span class="stringliteral">&quot;Liangjun Zhu&quot;</span>);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    mdi.SetClass(MCLS_INTERC, MCLSDESC_INTERC);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    mdi.SetDescription(MDESC_PI_MCS);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    mdi.SetEmail(SEIMS_EMAIL);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    mdi.SetID(MID_PI_MSC);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    mdi.SetName(MID_PI_MSC);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    mdi.SetVersion(<span class="stringliteral">&quot;1.0&quot;</span>);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    mdi.SetWebsite(SEIMS_SITE);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    mdi.SetHelpfile(<span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="comment">// set the input variables (time series)</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    mdi.AddInput(VAR_PCP, UNIT_DEPTH_MM, DESC_PCP, Source_Module, DT_Raster1D); </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#ifndef STORM_MODE</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor"></span>    mdi.AddInput(VAR_PET, UNIT_DEPTH_MM, DESC_PET, Source_Module, DT_Raster1D); </div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span>    mdi.AddParameter(VAR_SLOPE, UNIT_PERCENT, DESC_SLOPE, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    mdi.AddParameter(Tag_HillSlopeTimeStep, UNIT_SECOND, DESC_TIMESTEP, File_Input, DT_Single);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">// set the parameters (non-time series)</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    mdi.AddParameter(VAR_INTERC_MAX, UNIT_DEPTH_MM, DESC_INTERC_MAX, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    mdi.AddParameter(VAR_INTERC_MIN, UNIT_DEPTH_MM, DESC_INTERC_MIN, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    mdi.AddParameter(VAR_PI_B, UNIT_NON_DIM, DESC_PI_B, Source_ParameterDB, DT_Single);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    mdi.AddParameter(VAR_INIT_IS, UNIT_NON_DIM, DESC_INIT_IS, Source_ParameterDB, DT_Single);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment">// set the output variables</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    mdi.AddOutput(VAR_INLO, UNIT_DEPTH_MM, DESC_INLO, DT_Raster1D);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#ifndef STORM_MODE</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span>    mdi.AddOutput(VAR_INET, UNIT_DEPTH_MM, DESC_INET, DT_Raster1D);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span>    mdi.AddOutput(VAR_CANSTOR, UNIT_DEPTH_MM, DESC_CANSTOR, DT_Raster1D);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    mdi.AddOutput(VAR_NEPR, UNIT_DEPTH_MM, DESC_NEPR, DT_Raster1D);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">// set the dependencies</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    mdi.AddDependency(MCLS_CLIMATE, MCLSDESC_CLIMATE);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">string</span> res = mdi.GetXMLDocument();</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">char</span> *tmp = <span class="keyword">new</span> <span class="keywordtype">char</span>[res.size() + 1];</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    strprintf(tmp, res.size() + 1, <span class="stringliteral">&quot;%s&quot;</span>, res.c_str());</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
-<div class="ttc" id="a00015_html"><div class="ttname"><a href="../../dd/d1b/a00015.html">clsPI_MCS</a></div><div class="ttdoc">Class for Precipitation Interception module based on Maximum Canopy Storage. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/dfe/a00448_source.html#l00024">Interception_MCS.h:24</a></div></div>
-<div class="ttc" id="a00647_html_ga0087c853569e2c94d58c3499365662e9"><div class="ttname"><a href="../../d3/d8e/a00647.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a></div><div class="ttdeci">SEIMS_MODULE_API const char * MetadataInformation()</div><div class="ttdoc">function to return the XML Metadata document string </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/ddd/a00380_source.html#l00015">api.cpp:15</a></div></div>
-<div class="ttc" id="a00061_html"><div class="ttname"><a href="../../d4/de8/a00061.html">MetadataInfo</a></div><div class="ttdoc">Metadata information of module. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/dfc/a00327_source.html#l00091">MetadataInfo.h:91</a></div></div>
-<div class="ttc" id="a00108_html"><div class="ttname"><a href="../../d1/dd6/a00108.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df7/a00331_source.html#l00047">SimulationModule.h:47</a></div></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">## 1.Brief introduction</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;The **Spatially Explicit Integrated Modeling System** (**SEIMS**), is an integrated, modular, parallized, fully-distributed, and continuous Watershed modeling and scenario analysis system.</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;SEIMS is mainly written by **C++** with support of [GDAL](https:<span class="comment">//github.com/OSGeo/gdal), [Mongo-C-Driver](https://github.com/mongodb/mongo-c-driver), [OpenMP](https://en.wikipedia.org/wiki/OpenMP) and/or [MPI](https://en.wikipedia.org/wiki/Message_Passing_Interface), while **Python** is used for organizing the preprocessing, postprocessing, scenario analysis, etc. workflows. SEIMS is intented to be an open-source, cross-platform, and high performaced integrated watershed modeling system. Theoretically, SEIMS could be compiled by common used compiler (e.g. MSVC, GCC, and Clang) as 32-bit or 64-bit programs and run on any mainstream OS (e.g. Windows, Linux, and macOS).</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;SEIMS contains several module catogories, include **Hydrology, Erosion, Nutrient, Plant Growth, BMP Management**, etc. Algorithms are integrated from SWAT, LISEM, WetSpa Extension, DHSVM, CASC2D, etc.</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;SEIMS is still being developing and any constructive feedback (issues or push requests) will be welcome and appreciated.</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;## 2.Wiki</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;Currently, only Chinese-version wiki is provided and hosted on Github, English-version will be available in the near future. More information on [SEIMS Wiki](https:<span class="comment">//github.com/lreis2415/SEIMS/wiki).</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">## 3.Get Started</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><span class="preprocessor">### 3.1.Get source code</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;+ Download or clone from [Github](https:<span class="comment">//github.com/lreis2415/SEIMS). A useful Github guidiance can be found [here](https://github.com/lreis2415/SEIMS/wiki/Git-guidance).</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;+ Read the [basic code structure](https:<span class="comment">//github.com/lreis2415/SEIMS/blob/master/seims/README.md).</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">### 3.2.Compile and Install</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;+ [Windows](https:<span class="comment">//github.com/lreis2415/SEIMS2017/wiki/Windows)</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;+ [Linux](https:<span class="comment">//github.com/lreis2415/SEIMS2017/wiki/Linux)</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;+ [macOS](https:<span class="comment">//github.com/lreis2415/SEIMS2017/wiki/macOS)</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">### 3.3.Config MongoDB database</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor"></span>+ [Install MongoDB client and start mongo service automatically.](https:<span class="comment">//github.com/lreis2415/SEIMS2017/wiki/MongoDB-install-and-config)</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;+ You may need a MongoDB IDE to view and edit data. MongoVUE, Robomongo, or Mongo Explorer <span class="keywordflow">for</span> JetBrains (e.g. PyCharm, CLion) are recommended.</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">### 3.4.Run the Demo data</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span>Demo data is provided in `~/data`. SEIMS workflow can be summerized as five part.</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;+ a) [Data preparation](https:<span class="comment">//github.com/lreis2415/SEIMS2017/wiki/Data-preparation) and [Preprocessing for SEIMS](https://github.com/lreis2415/SEIMS2017/wiki/Data-preprocess)</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;+ b) [Run SEIMS model](https:<span class="comment">//github.com/lreis2415/SEIMS2017/wiki/Executation-and-calibration)</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;+ c) [Postprocess, e.g. export hydrograph](https:<span class="comment">//github.com/lreis2415/SEIMS2017/wiki/result-postprocess)</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;+ d) Model calibration</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;+ e) Scenario analysis</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;### 3.5.Build your own model</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;Now, you can build you own SEIMS model!</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;Contact Us</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;----------</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;Dr.Junzhi Liu (liujunzhi@njnu.edu.cn)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;Liangjun Zhu (zlj@lreis.ac.cn)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;*Updated: 2017-3-21*</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_99bdb527073c7386edccfc4b4e89b92c.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_6247f2cbaf3375138cbbdf3d04eaf0b3.html">PI_MCS</a></li><li class="navelem"><b>api.cpp</b></li>
-    <li class="footer">Generated on Tue May 16 2017 23:08:23 for SEIMS by
+    <li class="navelem"><b>README.md</b></li>
+    <li class="footer">Generated on Wed May 17 2017 01:29:35 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

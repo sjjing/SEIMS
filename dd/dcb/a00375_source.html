@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/IUH_IF/api.cpp Source File</title>
+<title>SEIMS: seims/postprocess/README.md Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('dd/dcb/a00375_source.html','../../');});
+$(document).ready(function(){initNavTree('dd/dcb/a00375.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -112,71 +112,38 @@ $(document).ready(function(){initNavTree('dd/dcb/a00375_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">api.cpp</div>  </div>
+<div class="title">seims/postprocess/README.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d7/d5e/a00467.html">IUH_IF.h</a>&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <a class="code" href="../../d1/dd6/a00108.html">SimulationModule</a> *</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;GetInstance() {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d1/d84/a00052.html">IUH_IF</a>();</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># Postprecess</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span>----------------</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;后处理程序采用与预处理程序一致的调用方式，即通过配置文件（*.ini）指定程序运行参数，通过如下形式命令调用任意一个功能脚本：</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;```shell</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;python XXX.py -ini XXX.ini</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;```</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;以下分别介绍后处理程序功能及参数设置。</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// function to return the XML Metadata document string</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../d3/d8e/a00647.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a>() {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="../../d4/de8/a00061.html">MetadataInfo</a> mdi;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="comment">// set the information properties</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    mdi.SetAuthor(<span class="stringliteral">&quot;Wu Hui&quot;</span>);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    mdi.SetClass(MCLS_INTERFLOW, MCLSDESC_INTERFLOW);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    mdi.SetDescription(MDESC_IUH_IF);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    mdi.SetEmail(SEIMS_EMAIL);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    mdi.SetHelpfile(<span class="stringliteral">&quot;IUH_IF.chm&quot;</span>);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    mdi.SetID(MID_IUH_IF);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    mdi.SetName(MID_IUH_IF);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    mdi.SetVersion(<span class="stringliteral">&quot;0.1&quot;</span>);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    mdi.SetWebsite(SEIMS_SITE);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    mdi.AddParameter(Tag_TimeStep, UNIT_HOUR, DESC_TIMESTEP, File_Input, DT_Single);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    mdi.AddParameter(Tag_CellSize, UNIT_NON_DIM, DESC_CellSize, Source_ParameterDB, DT_Single);</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    mdi.AddParameter(Tag_CellWidth, UNIT_LEN_M, DESC_CellWidth, Source_ParameterDB, DT_Single);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    mdi.AddParameter(VAR_OL_IUH, UNIT_NON_DIM, DESC_OL_IUH, Source_ParameterDB, DT_Array2D);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    mdi.AddParameter(VAR_SUBBSN, UNIT_NON_DIM, DESC_SUBBSN, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment">//mdi.AddParameter(&quot;uhminCell&quot;,&quot;&quot;,&quot;start time of IUH for each grid cell&quot;,&quot;ParameterDB_Discharge&quot;,DT_Array1D);</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">//mdi.AddParameter(&quot;uhmaxCell&quot;,&quot;&quot;,&quot;end time of IUH for each grid cell&quot;,&quot;ParameterDB_Discharge&quot;,DT_Array1D);</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    mdi.AddInput(VAR_SSRU, UNIT_DEPTH_MM, DESC_SSRU, Source_Module, DT_Raster1D);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    mdi.AddOutput(VAR_SBIF, UNIT_FLOW_CMS, DESC_SBIF, DT_Array1D);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">// set the dependencies</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    mdi.AddDependency(<span class="stringliteral">&quot;SSR_DA&quot;</span>, <span class="stringliteral">&quot;Subsurface Runoff module&quot;</span>);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">// write out the XML file.</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">string</span> res = mdi.GetXMLDocument();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">char</span> *tmp = <span class="keyword">new</span> <span class="keywordtype">char</span>[res.size() + 1];</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    strprintf(tmp, res.size() + 1, <span class="stringliteral">&quot;%s&quot;</span>, res.c_str());</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;}</div>
-<div class="ttc" id="a00467_html"><div class="ttname"><a href="../../d7/d5e/a00467.html">IUH_IF.h</a></div><div class="ttdoc">IUH overland method to calculate interflow routing. </div></div>
-<div class="ttc" id="a00647_html_ga0087c853569e2c94d58c3499365662e9"><div class="ttname"><a href="../../d3/d8e/a00647.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a></div><div class="ttdeci">SEIMS_MODULE_API const char * MetadataInformation()</div><div class="ttdoc">function to return the XML Metadata document string </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/ddd/a00380_source.html#l00015">api.cpp:15</a></div></div>
-<div class="ttc" id="a00061_html"><div class="ttname"><a href="../../d4/de8/a00061.html">MetadataInfo</a></div><div class="ttdoc">Metadata information of module. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/dfc/a00327_source.html#l00091">MetadataInfo.h:91</a></div></div>
-<div class="ttc" id="a00052_html"><div class="ttname"><a href="../../d1/d84/a00052.html">IUH_IF</a></div><div class="ttdoc">IUH overland method to calculate interflow routing. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d5e/a00467_source.html#l00045">IUH_IF.h:45</a></div></div>
-<div class="ttc" id="a00108_html"><div class="ttname"><a href="../../d1/dd6/a00108.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/df7/a00331_source.html#l00047">SimulationModule.h:47</a></div></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">## 模拟结果出图</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span>+ hydroPlot_main.py</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;+ 相关参数设置：</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    + [PATH]下的MODEL_DIR，该目录中需有OUTPUT文件夹</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    + [MONGODB]所有参数</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    + [PARAMETERS]下的PLOT_VARIABLES，用于定于输出图标的变量，无需加引号，需与OUTPUT目录下TXT文件名一致，如Q, SED, CH_TN, 等，多个名称用空格分割</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    + [OPTIONAL_PARAMETERS]：Time_start 与Time_end 设定作图起止日期，格式为`yyyy-mm-dd`</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">## TODO</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;+ 模型运行结果检查，类似于SWAT_CHECK程序</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;+ </div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_c232897ea6d7f2869bb1de00ae94845a.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a7460ac7ec4f3491adb593dfa37e088d.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2f6d7caf687335874dfccec8d8357367.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b35d9e0a55f773c9ac6cb1a7363e258a.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e815a90a524b22b5b34e29517df36994.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_5be420ce3c88b5f35dd1a26ac734e77f.html">IUH_IF</a></li><li class="navelem"><b>api.cpp</b></li>
-    <li class="footer">Generated on Tue May 16 2017 23:08:23 for SEIMS by
+    <li class="navelem"><b>README.md</b></li>
+    <li class="footer">Generated on Wed May 17 2017 01:29:35 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
