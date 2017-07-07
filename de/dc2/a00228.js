@@ -1,9 +1,13 @@
 var a00228 =
 [
-    [ "clsSimpleTxtData", "de/dc2/a00228.html#a9890dc862e7f48c11d634165a9820553", null ],
-    [ "~clsSimpleTxtData", "de/dc2/a00228.html#a3cb5bdab12480096e0e5e09100316fbd", null ],
-    [ "dump", "de/dc2/a00228.html#a6b54efebcd02f985015177e44f3de4be", null ],
-    [ "getData", "de/dc2/a00228.html#a3631ad13cb1773ca283015c078ef7229", null ],
-    [ "m_data", "de/dc2/a00228.html#ac60fad8ef1dcc286a7b87e825714b3f9", null ],
-    [ "m_row", "de/dc2/a00228.html#a5d47df1c4be351606574455954384264", null ]
+    [ "clsReaches", "de/dc2/a00228.html#a2754aac3afd7db4cc6e836408f0ade8f", null ],
+    [ "~clsReaches", "de/dc2/a00228.html#afa5ce9087a754b495eab16f5fe50edcc", null ],
+    [ "GetReachByID", "de/dc2/a00228.html#a17293258a41c5dfb9c5c4439b12a35ab", null ],
+    [ "GetReachesSingleProperty", "de/dc2/a00228.html#a8ac42c032cfc32845207c11479367b68", null ],
+    [ "GetReachIDs", "de/dc2/a00228.html#a82d7589a871f0809fb0115e10a26760e", null ],
+    [ "GetReachNumber", "de/dc2/a00228.html#ab99b0f921db10091568a8593a57a852e", null ],
+    [ "m_reachesMap", "de/dc2/a00228.html#a4b4705b4deb3732264ae4219a05b7797", null ],
+    [ "m_reachesProperties", "de/dc2/a00228.html#afc60bf8d7d713af679058ab86dc973f9", null ],
+    [ "m_reachIDs", "de/dc2/a00228.html#aad1fd9b346df408f7fec90b74f2ab633", null ],
+    [ "m_reachNum", "de/dc2/a00228.html#a117f5587922d8fbd78e3a9ca81eef0bd", null ]
 ];

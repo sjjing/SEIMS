@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/main/main_mpi/parallel_empty_process.h Source File</title>
+<title>SEIMS: seims/src/seims_main/base/data/NutrientCommon.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,48 +112,34 @@ $(document).ready(function(){initNavTree('dd/dd5/a00861_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">parallel_empty_process.h</div>  </div>
+<div class="title">NutrientCommon.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;set&gt;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;ReadData.h&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;mpi.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#define WORK_TAG 0</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define MASTER_RANK 0</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SLAVE0_RANK 1</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define MAX_UPSTREAM 4</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define MSG_LEN 5</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#ifdef windows</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEP &quot;\\&quot;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEP &quot;/&quot;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">//#define DEBUG_OUTPUT</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordtype">int</span> MasterProcess(map &lt; int, Subbasin * &gt; &amp;subbasinMap, set &lt; int &gt; &amp;groupSet, <span class="keyword">const</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">char</span> *outputFile</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordtype">void</span> CalculateProcess(<span class="keywordtype">int</span> rank, <span class="keywordtype">int</span> nSlaves, MPI_Comm slaveComm,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                      <span class="keywordtype">string</span> &amp;projectPath, <span class="keywordtype">string</span> &amp;modulePath, <span class="keyword">const</span> <span class="keywordtype">char</span> *host, <span class="keywordtype">int</span> port, <span class="keyword">const</span> <span class="keywordtype">char</span> *dbName,</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                      <span class="keywordtype">int</span> nThreads, LayeringMethod layeringMethod);</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../db/d53/a00321.html">NutrCommon</a> {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <a class="code" href="../../db/d53/a00321.html#a85da2638da5e74825b3e093c4dd376bc">NutrCommon</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <a class="code" href="../../db/d53/a00321.html#a72018258681a4955354768caae5cc3a6">~NutrCommon</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">float</span> <a class="code" href="../../db/d53/a00321.html#a5bd3575c6ad1a946cb9ec440927ef95e">CalEnrichmentRatio</a>(<span class="keywordtype">float</span> sedyld, <span class="keywordtype">float</span> surfq, <span class="keywordtype">float</span> area);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;};</div>
+<div class="ttc" id="a00321_html_a85da2638da5e74825b3e093c4dd376bc"><div class="ttname"><a href="../../db/d53/a00321.html#a85da2638da5e74825b3e093c4dd376bc">NutrCommon::NutrCommon</a></div><div class="ttdeci">NutrCommon(void)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d5e/a00860_source.html#l00003">NutrientCommon.cpp:3</a></div></div>
+<div class="ttc" id="a00321_html_a5bd3575c6ad1a946cb9ec440927ef95e"><div class="ttname"><a href="../../db/d53/a00321.html#a5bd3575c6ad1a946cb9ec440927ef95e">NutrCommon::CalEnrichmentRatio</a></div><div class="ttdeci">static float CalEnrichmentRatio(float sedyld, float surfq, float area)</div><div class="ttdoc">Calculate enrichment ratio for nutrient transport with runoff and sediment enrsb.f of SWAT...</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d5e/a00860_source.html#l00009">NutrientCommon.cpp:9</a></div></div>
+<div class="ttc" id="a00321_html"><div class="ttname"><a href="../../db/d53/a00321.html">NutrCommon</a></div><div class="ttdoc">Define some common used function in Nutrient cycling modules, e.g., NUTRMV, NUTRSED. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dd5/a00861_source.html#l00017">NutrientCommon.h:17</a></div></div>
+<div class="ttc" id="a00321_html_a72018258681a4955354768caae5cc3a6"><div class="ttname"><a href="../../db/d53/a00321.html#a72018258681a4955354768caae5cc3a6">NutrCommon::~NutrCommon</a></div><div class="ttdeci">~NutrCommon(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d5e/a00860_source.html#l00006">NutrientCommon.cpp:6</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_c151e3c36c54954dcb4737f82d8a1963.html">main</a></li><li class="navelem"><a class="el" href="../../dir_c959c6c529103227cdb83d2a16e8fd6e.html">main_mpi</a></li><li class="navelem"><b>parallel_empty_process.h</b></li>
-    <li class="footer">Generated on Wed May 17 2017 01:29:41 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_24d0af58b2644ad205aa9a0d9adbb65a.html">data</a></li><li class="navelem"><b>NutrientCommon.h</b></li>
+    <li class="footer">Generated on Fri Jul 7 2017 13:18:38 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

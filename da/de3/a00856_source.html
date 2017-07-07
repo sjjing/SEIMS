@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/doxygen_def_modules.h Source File</title>
+<title>SEIMS: seims/src/seims_main/base/data/Measurement.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,17 +112,33 @@ $(document).ready(function(){initNavTree('da/de3/a00856_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">doxygen_def_modules.h</div>  </div>
+<div class="title">Measurement.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Measurement.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="../../d3/d4a/a00297.html#a8a30d0ab8eef54212fc9717795aa07ef">    3</a></span>&#160;<a class="code" href="../../d3/d4a/a00297.html#a8a30d0ab8eef54212fc9717795aa07ef">Measurement::Measurement</a>(MongoClient *conn, <span class="keywordtype">string</span> hydroDBName, <span class="keywordtype">string</span> sitesList, <span class="keywordtype">string</span> siteType, time_t startTime,</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;                         time_t endTime) : m_conn(conn), m_hydroDBName(hydroDBName), m_type(siteType),</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                           m_startTime(startTime), m_endTime(endTime), pData(NULL) {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <a class="code" href="../../d3/d4a/a00297.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a> = SplitStringForInt(sitesList, <span class="charliteral">&#39;,&#39;</span>);</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    sort(<a class="code" href="../../d3/d4a/a00297.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a>.begin(), <a class="code" href="../../d3/d4a/a00297.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a>.end());</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <a class="code" href="../../d3/d4a/a00297.html#a2114a606e03739f92b2ba8825fc1334c">pData</a> = <span class="keyword">new</span> <span class="keywordtype">float</span>[<a class="code" href="../../d3/d4a/a00297.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a>.size()];</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="../../d3/d4a/a00297.html#a6743c23fdd99a63831f93979bef779c8">   11</a></span>&#160;<a class="code" href="../../d3/d4a/a00297.html#a6743c23fdd99a63831f93979bef779c8">Measurement::~Measurement</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    Release1DArray(<a class="code" href="../../d3/d4a/a00297.html#a2114a606e03739f92b2ba8825fc1334c">pData</a>);</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}</div>
+<div class="ttc" id="a00297_html_a6743c23fdd99a63831f93979bef779c8"><div class="ttname"><a href="../../d3/d4a/a00297.html#a6743c23fdd99a63831f93979bef779c8">Measurement::~Measurement</a></div><div class="ttdeci">virtual ~Measurement(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de3/a00856_source.html#l00011">Measurement.cpp:11</a></div></div>
+<div class="ttc" id="a00297_html_a8a30d0ab8eef54212fc9717795aa07ef"><div class="ttname"><a href="../../d3/d4a/a00297.html#a8a30d0ab8eef54212fc9717795aa07ef">Measurement::Measurement</a></div><div class="ttdeci">Measurement(MongoClient *conn, string hydroDBName, string sitesList, string siteType, time_t startDate, time_t endDate)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de3/a00856_source.html#l00003">Measurement.cpp:3</a></div></div>
+<div class="ttc" id="a00297_html_acffdb39ed0357326cec16264231ae695"><div class="ttname"><a href="../../d3/d4a/a00297.html#acffdb39ed0357326cec16264231ae695">Measurement::m_siteIDList</a></div><div class="ttdeci">vector&lt; int &gt; m_siteIDList</div><div class="ttdoc">Site IDs list. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d82/a00857_source.html#l00061">Measurement.h:61</a></div></div>
+<div class="ttc" id="a00297_html_a2114a606e03739f92b2ba8825fc1334c"><div class="ttname"><a href="../../d3/d4a/a00297.html#a2114a606e03739f92b2ba8825fc1334c">Measurement::pData</a></div><div class="ttdeci">float * pData</div><div class="ttdoc">Measurement data of all sites in given date. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d82/a00857_source.html#l00069">Measurement.h:69</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><b>doxygen_def_modules.h</b></li>
-    <li class="footer">Generated on Wed May 17 2017 01:29:41 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_24d0af58b2644ad205aa9a0d9adbb65a.html">data</a></li><li class="navelem"><b>Measurement.cpp</b></li>
+    <li class="footer">Generated on Fri Jul 7 2017 13:18:38 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

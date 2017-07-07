@@ -1,5 +1,5 @@
 var a00321 =
 [
-    [ "ReleaseImpoundOperation", "db/d53/a00321.html#a307b2068adef362e6f2a5e703b1eccf6", null ],
-    [ "dump", "db/d53/a00321.html#a5f576fc437bce9c2b1045be098769f11", null ]
+    [ "NutrCommon", "db/d53/a00321.html#a85da2638da5e74825b3e093c4dd376bc", null ],
+    [ "~NutrCommon", "db/d53/a00321.html#a72018258681a4955354768caae5cc3a6", null ]
 ];

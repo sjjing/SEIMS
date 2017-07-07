@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/pygeoc/README_CN.md Source File</title>
+<title>SEIMS: seims/scenario_analysis/test.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('d0/dab/a00735.html','../../');});
+$(document).ready(function(){initNavTree('d0/dab/a00735_source.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -112,54 +112,38 @@ $(document).ready(function(){initNavTree('d0/dab/a00735.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">seims/pygeoc/README_CN.md</div>  </div>
+<div class="title">test.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># PyGeoC</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span>***Py***thon <span class="keywordflow">for</span> ***GeoC***omputation --- easy, convenient, and efficient.</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;[![Build Status](https:<span class="comment">//travis-ci.org/lreis2415/PyGeoC.svg?branch=master)](https://travis-ci.org/lreis2415/PyGeoC)</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">## 1.Introduction</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;本科快毕业的时候，接触并开始学习Python和arcpy（当时ArcGIS 9时代还是arcgisscripting）已有五六年时间了，当时写了一篇文章《[[初学入门]ArcGIS中Python脚本的使用](http:<span class="comment">//www.docin.com/p-164282884.html)》，在各个网站、空间被转载多次。</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;随着学习的深入，逐渐接触了Numpy, GDAL, Matplotlib等一系列优秀Python包。在日常学习工作中，Python早已成为我进行简单、复杂科学计算/地学计算的编程工具，也积累了一些常用的地学计算代码。</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;很久以来，我就有一个念头，就是构建一个适用于地学计算的基础Python库，这个库可以包含一些现有的开源代码，但一定要保证具有以下特点：</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># cmdStr = &quot;%s %s %d %d %s %d %d&quot; % (model_Exe, model_Workdir, threadsNum, layeringMethod, HOSTNAME, PORT, 1)</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># process = Popen(cmdStr, shell=True, stdout=PIPE)</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># while(process.stdout.readline() != &quot;&quot;):</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">#     # line = process.stdout.readline().split(&quot;\n&quot;)</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">#     # if(line[0] != &quot;&quot;):</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">#     #     print line[0]</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">#     continue</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"># process.wait()</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"># if process.returncode == 0:</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">#     print &quot;OK&quot;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;+ 配置方便</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;+ 简单易学</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;+ 高效易用</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">## 2.Download and Installation</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;PyGeoC采用纯Python开发（仅在Python2.x下测试），利用[Wheels](http:<span class="comment">//pythonwheels.com/)打包[发布](http://python-packaging-user-guide.readthedocs.org/en/latest/distributing/#working-in-development-mode)，可从PyPI项目主页下载。</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;也可从[PyGeoC](https:<span class="comment">//github.com/crazyzlj/PyGeoC)库的dist目录中下载。</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    ```python</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    1.source distribution:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    python setup.py sdist</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    2.wheel</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    python setup.py bdist_wheel</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    3.wheel(py27, I just test in py27 currently)</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    python setup.py bdist_wheel --python-tag py2</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    ```</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;安装：</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;+ 确认本机已经安装python2.6+</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;+ 安装pip: please refer to the [installation page</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;](https:<span class="comment">//pip.pypa.io/en/latest/installing/)</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;+ `pip install &lt;path to PyGeoC .whl&gt;/PyGeoC&lt;version&gt;.whl`</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">## 3.Structure</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;client = <a class="code" href="../../d1/d67/a00310.html">MongoClient</a>(<span class="stringliteral">&#39;192.168.6.55&#39;</span>, 27017)</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;db = client[<span class="stringliteral">&#39;BMP_Scenario_dianbu2_30m_longterm&#39;</span>]</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;collection = db.BMP_SCENARIOS</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"># for i in range(10, 500):</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">#     collection.remove({&#39;ID&#39;: i})</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordflow">for</span> i <span class="keywordflow">in</span> collection.find({<span class="stringliteral">&quot;ID&quot;</span>: {<span class="stringliteral">&quot;$gt&quot;</span>: 100}}):</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="comment"># print i[&quot;ID&quot;]</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    collection.remove({<span class="stringliteral">&quot;ID&quot;</span>: i[<span class="stringliteral">&quot;ID&quot;</span>]})</div>
+<div class="ttc" id="a00310_html"><div class="ttname"><a href="../../d1/d67/a00310.html">MongoClient</a></div><div class="ttdoc">Create a MongoDB Client. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d5a/a00792_source.html#l00039">MongoUtil.h:39</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>README_CN.md</b></li>
-    <li class="footer">Generated on Wed May 17 2017 01:29:41 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e9804dfb28c80687c0b1771681283077.html">scenario_analysis</a></li><li class="navelem"><b>test.py</b></li>
+    <li class="footer">Generated on Fri Jul 7 2017 13:18:37 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

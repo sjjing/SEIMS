@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/SRD_MB/SRD_MB.h Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/IKW_REACH/IKW_REACH.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,91 +112,167 @@ $(document).ready(function(){initNavTree('d3/d08/a01018_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SRD_MB.h</div>  </div>
+<div class="title">IKW_REACH.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="../../d0/d01/a00339.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d0/d01/a00339.html">SRD_MB</a> : <span class="keyword">public</span> <a class="code" href="../../dd/d4e/a00329.html">SimulationModule</a> {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <a class="code" href="../../d0/d01/a00339.html">SRD_MB</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    ~<a class="code" href="../../d0/d01/a00339.html">SRD_MB</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">struct </span>MuskWeights {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">float</span> c1;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordtype">float</span> c2;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">float</span> c3;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">float</span> c4;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">float</span> dt;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">int</span> n;  <span class="comment">// number of division of the origin time step</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;};</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html">   34</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d5/d42/a00269.html">IKW_REACH</a> : <span class="keyword">public</span> <a class="code" href="../../d6/de1/a00356.html">SimulationModule</a> {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <a class="code" href="../../d5/d42/a00269.html">IKW_REACH</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    ~<a class="code" href="../../d5/d42/a00269.html">IKW_REACH</a>(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> GetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> *value);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    time_t m_Date;</div>
-<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="../../d0/d01/a00339.html#a70ea482503388c2648af82962161b36f">   50</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d0/d01/a00339.html#a70ea482503388c2648af82962161b36f">m_nCells</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">//    virtual void Set2DData(const char *key, int nrows, int ncols, float **data);</span></div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">//single values from parameter database</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">float</span> m_ut0;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">float</span> m_u0;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">float</span> m_t_wind;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">float</span> m_shc_crop;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">float</span> m_k_slope;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">float</span> m_k_curvature;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">float</span> m_swe;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">float</span> m_swe0;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">float</span> m_lastSWE;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">float</span> m_kblow;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">float</span> m_t0;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">float</span> m_tsnow;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *nRows, <span class="keywordtype">int</span> *nCols, <span class="keywordtype">float</span> ***data);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetReaches(<a class="code" href="../../de/dc2/a00228.html">clsReaches</a> *reaches);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">bool</span> CheckInputSizeChannel(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a1bcd7cb4c9fbb119d81c57e6fe927bf0">   62</a></span>&#160;    <span class="keyword">virtual</span> TimeStepType <a class="code" href="../../d5/d42/a00269.html#a1bcd7cb4c9fbb119d81c57e6fe927bf0">GetTimeStepType</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">return</span> TIMESTEP_CHANNEL;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    };</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">bool</span> m_isInitial;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">//time series from module</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">float</span> *m_ws;    <span class="comment">//wind speed</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">int</span> m_wsSize;    <span class="comment">//number of wind speed sites</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="comment">//grid from parameter database</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">float</span> *m_curva_wind;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">float</span> *m_slope_wind;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">float</span> *m_shc;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">//grid from other modules</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">float</span> *m_tMin;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">float</span> *m_tMax;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">float</span> *m_tMean;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">float</span> *m_SA;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">float</span> *m_Pnet;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">//result</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">float</span> *m_SR;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="comment">//temp array</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">float</span> *m_w;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordtype">float</span> *m_wt;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordtype">void</span> initialOutputs(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;};</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="ttc" id="a00339_html"><div class="ttname"><a href="../../d0/d01/a00339.html">SRD_MB</a></div><div class="ttdoc">Soil redistribution calculation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00026">SRD_MB.h:26</a></div></div>
-<div class="ttc" id="a00339_html_a70ea482503388c2648af82962161b36f"><div class="ttname"><a href="../../d0/d01/a00339.html#a70ea482503388c2648af82962161b36f">SRD_MB::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">valid cells number </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00050">SRD_MB.h:50</a></div></div>
-<div class="ttc" id="a00329_html"><div class="ttname"><a href="../../dd/d4e/a00329.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2f/a00854_source.html#l00047">SimulationModule.h:47</a></div></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="keywordtype">float</span> m_manningScalingFactor;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#ab015321b3287d9bc2ae32ad9aac2d521">   70</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d5/d42/a00269.html#ab015321b3287d9bc2ae32ad9aac2d521">m_dt</a>;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#adf1a4c134df31e61de27ae6d7b7bc0aa">   72</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d5/d42/a00269.html#adf1a4c134df31e61de27ae6d7b7bc0aa">m_nreach</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a9387e120944bbd8031490db9a73ce88d">   74</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d5/d42/a00269.html#a9387e120944bbd8031490db9a73ce88d">m_layeringMethod</a>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">//float *m_Vdiv;</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"></span>    <span class="comment">//float *m_Vpoint;</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a7dae83f30f32e015b10a20547ca45ae1">   81</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d5/d42/a00269.html#a7dae83f30f32e015b10a20547ca45ae1">m_Kchb</a>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a8e42ee1ed743c62cc00875ca128200ee">   83</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d5/d42/a00269.html#a8e42ee1ed743c62cc00875ca128200ee">m_Kbank</a>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a50f58e035c368d5295bc1e798029b3ee">   85</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d5/d42/a00269.html#a50f58e035c368d5295bc1e798029b3ee">m_Epch</a>;</div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a8d9720e9f35bc203492446754572d1a4">   87</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d5/d42/a00269.html#a8d9720e9f35bc203492446754572d1a4">m_Bnk0</a>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a45d47ac49f503b4dcc86be216732e65e">   89</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d5/d42/a00269.html#a45d47ac49f503b4dcc86be216732e65e">m_Chs0</a>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#ab034d2afc97c1e2e428bf36a3fc69ee3">   91</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d5/d42/a00269.html#ab034d2afc97c1e2e428bf36a3fc69ee3">m_Vseep0</a>;   <span class="comment">//added</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#aeddc7fd980a0314695b42e355bb298fd">   93</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> <a class="code" href="../../d5/d42/a00269.html#aeddc7fd980a0314695b42e355bb298fd">m_aBank</a>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a83c4f573171a963f42cce16f99978e5f">   95</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d5/d42/a00269.html#a83c4f573171a963f42cce16f99978e5f">m_bBank</a>;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">float</span> *m_subbasin;                <span class="comment">//subbasin grid</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a38abbd86c6cba3f7d93539ea6de2031e">   99</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d42/a00269.html#a38abbd86c6cba3f7d93539ea6de2031e">m_area</a>;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#accc3ef01eead532dc5e801b18629128a">  102</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d42/a00269.html#accc3ef01eead532dc5e801b18629128a">m_petCh</a>;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#aee6ddb60d254648a4da6de690bbfdc1e">  105</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d42/a00269.html#aee6ddb60d254648a4da6de690bbfdc1e">m_qsSub</a>;</div>
+<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a2e1a727c9643a5d4b8a44992c1bd6357">  107</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d42/a00269.html#a2e1a727c9643a5d4b8a44992c1bd6357">m_qiSub</a>;</div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a0136c57c9e544387c617ed716d660ea1">  109</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d42/a00269.html#a0136c57c9e544387c617ed716d660ea1">m_qgSub</a>;</div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#ab95db75d725dc0f69e2ad795688102af">  111</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d42/a00269.html#ab95db75d725dc0f69e2ad795688102af">m_gwStorage</a>;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#ac93e7f858dd768c01af15cbaf2e008b0">  114</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d42/a00269.html#ac93e7f858dd768c01af15cbaf2e008b0">m_qsCh</a>;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordtype">float</span> *m_qiCh;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordtype">float</span> *m_qgCh;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordtype">float</span> *m_chOrder;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordtype">float</span> *m_chWidth;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordtype">float</span> *m_chDepth;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordtype">float</span> *m_chLen;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordtype">float</span> *m_chVel;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordtype">float</span> *m_chManning;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordtype">float</span> *m_chSlope;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keywordtype">float</span> *m_bankStorage;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordtype">float</span> m_deepGroudwater;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a3cb96098c60ccaa5c37b0354087cca96">  131</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d42/a00269.html#a3cb96098c60ccaa5c37b0354087cca96">m_seepage</a>;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a5e58d847bce1d89ee4ad1a9169224e0b">  134</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d42/a00269.html#a5e58d847bce1d89ee4ad1a9169224e0b">m_reachDownStream</a>;</div>
+<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#ab3a490094ad02a00c5c204c793d467a7">  136</a></span>&#160;    vector &lt;vector&lt;int&gt;&gt; <a class="code" href="../../d5/d42/a00269.html#ab3a490094ad02a00c5c204c793d467a7">m_reachUpStream</a>;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="comment">// id the reaches</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordtype">float</span> *m_reachId;</div>
+<div class="line"><a name="l00141"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a892cabcd5f527d7b6235d45ca235071a">  141</a></span>&#160;    map&lt;int, int&gt; <a class="code" href="../../d5/d42/a00269.html#a892cabcd5f527d7b6235d45ca235071a">m_idToIndex</a>;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="comment">// for muskingum</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordtype">float</span> m_x;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordtype">float</span> m_co1;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordtype">float</span> m_qUpReach;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="comment">//temporary at routing time</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a894c928be6090095e14ba17222ca44f4">  151</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d42/a00269.html#a894c928be6090095e14ba17222ca44f4">m_chStorage</a>;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a410b6570c676e3f0027e95cd26aa4ce1">  154</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d42/a00269.html#a410b6570c676e3f0027e95cd26aa4ce1">m_qOut</a>;</div>
+<div class="line"><a name="l00156"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#ad4ca00c48cfa5f56611766c287c69a89">  156</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d42/a00269.html#ad4ca00c48cfa5f56611766c287c69a89">m_qIn</a>;</div>
+<div class="line"><a name="l00158"></a><span class="lineno"><a class="line" href="../../d5/d42/a00269.html#a1d611bf4eba7affb87083a670519a191">  158</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d5/d42/a00269.html#a1d611bf4eba7affb87083a670519a191">m_chWTdepth</a>;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    map&lt;int, vector&lt;int&gt; &gt; m_reachLayers;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keywordtype">void</span> initialOutputs(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordtype">void</span> ChannelFlow(<span class="keywordtype">int</span> i);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordtype">float</span> GetNewQ(<span class="keywordtype">float</span> qIn, <span class="keywordtype">float</span> qLast, <span class="keywordtype">float</span> surplus, <span class="keywordtype">float</span> alpha, <span class="keywordtype">float</span> dt, <span class="keywordtype">float</span> dx);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;};</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
+<div class="ttc" id="a00269_html_a410b6570c676e3f0027e95cd26aa4ce1"><div class="ttname"><a href="../../d5/d42/a00269.html#a410b6570c676e3f0027e95cd26aa4ce1">IKW_REACH::m_qOut</a></div><div class="ttdeci">float * m_qOut</div><div class="ttdoc">reach outflow (m3/s) at time t </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00154">IKW_REACH.h:154</a></div></div>
+<div class="ttc" id="a00269_html_a50f58e035c368d5295bc1e798029b3ee"><div class="ttname"><a href="../../d5/d42/a00269.html#a50f58e035c368d5295bc1e798029b3ee">IKW_REACH::m_Epch</a></div><div class="ttdeci">float m_Epch</div><div class="ttdoc">reach evaporation adjustment factor; </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00085">IKW_REACH.h:85</a></div></div>
+<div class="ttc" id="a00269_html_a894c928be6090095e14ba17222ca44f4"><div class="ttname"><a href="../../d5/d42/a00269.html#a894c928be6090095e14ba17222ca44f4">IKW_REACH::m_chStorage</a></div><div class="ttdeci">float * m_chStorage</div><div class="ttdoc">reach storage (m3) at time t </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00151">IKW_REACH.h:151</a></div></div>
+<div class="ttc" id="a00269_html_ad4ca00c48cfa5f56611766c287c69a89"><div class="ttname"><a href="../../d5/d42/a00269.html#ad4ca00c48cfa5f56611766c287c69a89">IKW_REACH::m_qIn</a></div><div class="ttdeci">float * m_qIn</div><div class="ttdoc">flowin discharge at the last time step </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00156">IKW_REACH.h:156</a></div></div>
+<div class="ttc" id="a00356_html"><div class="ttname"><a href="../../d6/de1/a00356.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dab/a00886_source.html#l00047">SimulationModule.h:47</a></div></div>
+<div class="ttc" id="a00269_html_a1bcd7cb4c9fbb119d81c57e6fe927bf0"><div class="ttname"><a href="../../d5/d42/a00269.html#a1bcd7cb4c9fbb119d81c57e6fe927bf0">IKW_REACH::GetTimeStepType</a></div><div class="ttdeci">virtual TimeStepType GetTimeStepType(void)</div><div class="ttdoc">Get time step type. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00062">IKW_REACH.h:62</a></div></div>
+<div class="ttc" id="a00269_html_aee6ddb60d254648a4da6de690bbfdc1e"><div class="ttname"><a href="../../d5/d42/a00269.html#aee6ddb60d254648a4da6de690bbfdc1e">IKW_REACH::m_qsSub</a></div><div class="ttdeci">float * m_qsSub</div><div class="ttdoc">overland flow to streams from each subbasin (m3/s) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00105">IKW_REACH.h:105</a></div></div>
+<div class="ttc" id="a00269_html_a45d47ac49f503b4dcc86be216732e65e"><div class="ttname"><a href="../../d5/d42/a00269.html#a45d47ac49f503b4dcc86be216732e65e">IKW_REACH::m_Chs0</a></div><div class="ttdeci">float m_Chs0</div><div class="ttdoc">initial channel storage per meter of reach length (m3/m) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00089">IKW_REACH.h:89</a></div></div>
+<div class="ttc" id="a00269_html_ab95db75d725dc0f69e2ad795688102af"><div class="ttname"><a href="../../d5/d42/a00269.html#ab95db75d725dc0f69e2ad795688102af">IKW_REACH::m_gwStorage</a></div><div class="ttdeci">float * m_gwStorage</div><div class="ttdoc">Groundwater storage (mm) of the subbasin. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00111">IKW_REACH.h:111</a></div></div>
+<div class="ttc" id="a00269_html_ab034d2afc97c1e2e428bf36a3fc69ee3"><div class="ttname"><a href="../../d5/d42/a00269.html#ab034d2afc97c1e2e428bf36a3fc69ee3">IKW_REACH::m_Vseep0</a></div><div class="ttdeci">float m_Vseep0</div><div class="ttdoc">the initial volume of transmission loss to the deep aquifer over the time interval (m3/s) ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00091">IKW_REACH.h:91</a></div></div>
+<div class="ttc" id="a00269_html_a8e42ee1ed743c62cc00875ca128200ee"><div class="ttname"><a href="../../d5/d42/a00269.html#a8e42ee1ed743c62cc00875ca128200ee">IKW_REACH::m_Kbank</a></div><div class="ttdeci">float m_Kbank</div><div class="ttdoc">hydraulic conductivity of the channel bank (mm/h) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00083">IKW_REACH.h:83</a></div></div>
+<div class="ttc" id="a00269_html_adf1a4c134df31e61de27ae6d7b7bc0aa"><div class="ttname"><a href="../../d5/d42/a00269.html#adf1a4c134df31e61de27ae6d7b7bc0aa">IKW_REACH::m_nreach</a></div><div class="ttdeci">int m_nreach</div><div class="ttdoc">reach number (= subbasin number) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00072">IKW_REACH.h:72</a></div></div>
+<div class="ttc" id="a00269_html_a1d611bf4eba7affb87083a670519a191"><div class="ttname"><a href="../../d5/d42/a00269.html#a1d611bf4eba7affb87083a670519a191">IKW_REACH::m_chWTdepth</a></div><div class="ttdeci">float * m_chWTdepth</div><div class="ttdoc">channel water depth m </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00158">IKW_REACH.h:158</a></div></div>
+<div class="ttc" id="a00269_html_a8d9720e9f35bc203492446754572d1a4"><div class="ttname"><a href="../../d5/d42/a00269.html#a8d9720e9f35bc203492446754572d1a4">IKW_REACH::m_Bnk0</a></div><div class="ttdeci">float m_Bnk0</div><div class="ttdoc">initial bank storage per meter of reach length (m3/m) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00087">IKW_REACH.h:87</a></div></div>
+<div class="ttc" id="a00269_html_a7dae83f30f32e015b10a20547ca45ae1"><div class="ttname"><a href="../../d5/d42/a00269.html#a7dae83f30f32e015b10a20547ca45ae1">IKW_REACH::m_Kchb</a></div><div class="ttdeci">float m_Kchb</div><div class="ttdoc">hydraulic conductivity of the channel bed (mm/h) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00081">IKW_REACH.h:81</a></div></div>
+<div class="ttc" id="a00269_html_a3cb96098c60ccaa5c37b0354087cca96"><div class="ttname"><a href="../../d5/d42/a00269.html#a3cb96098c60ccaa5c37b0354087cca96">IKW_REACH::m_seepage</a></div><div class="ttdeci">float * m_seepage</div><div class="ttdoc">seepage to deep aquifer </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00131">IKW_REACH.h:131</a></div></div>
+<div class="ttc" id="a00269_html_a892cabcd5f527d7b6235d45ca235071a"><div class="ttname"><a href="../../d5/d42/a00269.html#a892cabcd5f527d7b6235d45ca235071a">IKW_REACH::m_idToIndex</a></div><div class="ttdeci">map&lt; int, int &gt; m_idToIndex</div><div class="ttdoc">map from subbasin id to index of the array </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00141">IKW_REACH.h:141</a></div></div>
+<div class="ttc" id="a00269_html_accc3ef01eead532dc5e801b18629128a"><div class="ttname"><a href="../../d5/d42/a00269.html#accc3ef01eead532dc5e801b18629128a">IKW_REACH::m_petCh</a></div><div class="ttdeci">float * m_petCh</div><div class="ttdoc">Average PET for each subbasin. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00102">IKW_REACH.h:102</a></div></div>
+<div class="ttc" id="a00269_html_ab015321b3287d9bc2ae32ad9aac2d521"><div class="ttname"><a href="../../d5/d42/a00269.html#ab015321b3287d9bc2ae32ad9aac2d521">IKW_REACH::m_dt</a></div><div class="ttdeci">int m_dt</div><div class="ttdoc">time step (hr) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00070">IKW_REACH.h:70</a></div></div>
+<div class="ttc" id="a00269_html"><div class="ttname"><a href="../../d5/d42/a00269.html">IKW_REACH</a></div><div class="ttdoc">Overland routing using 4-point implicit finite difference method. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00034">IKW_REACH.h:34</a></div></div>
+<div class="ttc" id="a00269_html_aeddc7fd980a0314695b42e355bb298fd"><div class="ttname"><a href="../../d5/d42/a00269.html#aeddc7fd980a0314695b42e355bb298fd">IKW_REACH::m_aBank</a></div><div class="ttdeci">float m_aBank</div><div class="ttdoc">bank flow recession constant </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00093">IKW_REACH.h:93</a></div></div>
+<div class="ttc" id="a00269_html_a9387e120944bbd8031490db9a73ce88d"><div class="ttname"><a href="../../d5/d42/a00269.html#a9387e120944bbd8031490db9a73ce88d">IKW_REACH::m_layeringMethod</a></div><div class="ttdeci">float m_layeringMethod</div><div class="ttdoc">layering method </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00074">IKW_REACH.h:74</a></div></div>
+<div class="ttc" id="a00269_html_a2e1a727c9643a5d4b8a44992c1bd6357"><div class="ttname"><a href="../../d5/d42/a00269.html#a2e1a727c9643a5d4b8a44992c1bd6357">IKW_REACH::m_qiSub</a></div><div class="ttdeci">float * m_qiSub</div><div class="ttdoc">interflow to streams from each subbasin (m3/s) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00107">IKW_REACH.h:107</a></div></div>
+<div class="ttc" id="a00269_html_a83c4f573171a963f42cce16f99978e5f"><div class="ttname"><a href="../../d5/d42/a00269.html#a83c4f573171a963f42cce16f99978e5f">IKW_REACH::m_bBank</a></div><div class="ttdeci">float m_bBank</div><div class="ttdoc">bank storage loss coefficient </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00095">IKW_REACH.h:95</a></div></div>
+<div class="ttc" id="a00269_html_a38abbd86c6cba3f7d93539ea6de2031e"><div class="ttname"><a href="../../d5/d42/a00269.html#a38abbd86c6cba3f7d93539ea6de2031e">IKW_REACH::m_area</a></div><div class="ttdeci">float * m_area</div><div class="ttdoc">the subbasin area (m2) //add to the reach parameters file </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00099">IKW_REACH.h:99</a></div></div>
+<div class="ttc" id="a00228_html"><div class="ttname"><a href="../../de/dc2/a00228.html">clsReaches</a></div><div class="ttdoc">Read and store all reaches information as input parameters. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d60/a00847_source.html#l00221">clsReach.h:221</a></div></div>
+<div class="ttc" id="a00269_html_ab3a490094ad02a00c5c204c793d467a7"><div class="ttname"><a href="../../d5/d42/a00269.html#ab3a490094ad02a00c5c204c793d467a7">IKW_REACH::m_reachUpStream</a></div><div class="ttdeci">vector&lt; vector&lt; int &gt; &gt; m_reachUpStream</div><div class="ttdoc">upstream id (The value is -1 if there if no upstream reach) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00136">IKW_REACH.h:136</a></div></div>
+<div class="ttc" id="a00269_html_a0136c57c9e544387c617ed716d660ea1"><div class="ttname"><a href="../../d5/d42/a00269.html#a0136c57c9e544387c617ed716d660ea1">IKW_REACH::m_qgSub</a></div><div class="ttdeci">float * m_qgSub</div><div class="ttdoc">groundwater flow out of the subbasin (m3/s) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00109">IKW_REACH.h:109</a></div></div>
+<div class="ttc" id="a00269_html_a5e58d847bce1d89ee4ad1a9169224e0b"><div class="ttname"><a href="../../d5/d42/a00269.html#a5e58d847bce1d89ee4ad1a9169224e0b">IKW_REACH::m_reachDownStream</a></div><div class="ttdeci">float * m_reachDownStream</div><div class="ttdoc">downstream id (The value is 0 if there if no downstream reach) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00134">IKW_REACH.h:134</a></div></div>
+<div class="ttc" id="a00269_html_ac93e7f858dd768c01af15cbaf2e008b0"><div class="ttname"><a href="../../d5/d42/a00269.html#ac93e7f858dd768c01af15cbaf2e008b0">IKW_REACH::m_qsCh</a></div><div class="ttdeci">float * m_qsCh</div><div class="ttdoc">channel outflow </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d08/a01018_source.html#l00114">IKW_REACH.h:114</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5bf5a4201e7cd7ac6c5f03aeeeae8b2c.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_59a7091c3b3d70c4a75aad0168678ec6.html">SRD_MB</a></li><li class="navelem"><b>SRD_MB.h</b></li>
-    <li class="footer">Generated on Wed May 17 2017 01:29:42 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5bf5a4201e7cd7ac6c5f03aeeeae8b2c.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_590e3e2886bc9b23baedbd0c523c2d6f.html">IKW_REACH</a></li><li class="navelem"><b>IKW_REACH.h</b></li>
+    <li class="footer">Generated on Fri Jul 7 2017 13:18:39 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

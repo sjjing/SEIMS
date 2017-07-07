@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/buildlongterm/googletest-src/googletest/samples/sample4.h Source File</title>
+<title>SEIMS: seims/buildstorm/googletest-src/googletest/include/gtest/internal/custom/gtest.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,10 +112,10 @@ $(document).ready(function(){initNavTree('dc/d66/a00630_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">sample4.h</div>  </div>
+<div class="title">gtest.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright 2005, Google Inc.</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright 2015, Google Inc.</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// All rights reserved.</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Redistribution and use in source and binary forms, with or without</span></div>
@@ -143,38 +143,30 @@ $(document).ready(function(){initNavTree('dc/d66/a00630_source.html','../../');}
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">// A sample program demonstrating using Google C++ testing framework.</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">// Author: wan@google.com (Zhanyong Wan)</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#ifndef GTEST_SAMPLES_SAMPLE4_H_</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define GTEST_SAMPLES_SAMPLE4_H_</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">// A simple monotonic counter.</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">class </span>Counter {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <span class="keywordtype">int</span> counter_;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">// Injection point for custom user configurations.</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">// The following macros can be defined:</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">// GTEST_OS_STACK_TRACE_GETTER_  - The name of an implementation of</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">//                                 OsStackTraceGetterInterface.</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="comment">// GTEST_CUSTOM_TEMPDIR_FUNCTION_ - An override for testing::TempDir().</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">//                                  See testing::TempDir for semantics and</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">//                                  signature.</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">// </span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">// ** Custom implementation starts here **</span></div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="comment">// Creates a counter that starts at 0.</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  Counter() : counter_(0) {}</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="comment">// Returns the current counter value, and increments it.</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordtype">int</span> Increment();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="comment">// Prints the current counter value to STDOUT.</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordtype">void</span> Print() <span class="keyword">const</span>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;};</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#endif  // GTEST_SAMPLES_SAMPLE4_H_</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#ifndef GTEST_INCLUDE_GTEST_INTERNAL_CUSTOM_GTEST_H_</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define GTEST_INCLUDE_GTEST_INTERNAL_CUSTOM_GTEST_H_</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor">#endif  // GTEST_INCLUDE_GTEST_INTERNAL_CUSTOM_GTEST_H_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_a436e8cac9bce216ce8eadaf43524cb7.html">buildlongterm</a></li><li class="navelem"><a class="el" href="../../dir_65dfa616a94a32fef54cedeb2b8059d7.html">googletest-src</a></li><li class="navelem"><a class="el" href="../../dir_cb0ac772ae7de8e7c8c031839d790ce9.html">googletest</a></li><li class="navelem"><a class="el" href="../../dir_cb65f8073eb3b1e7d2e9b13bd0a97017.html">samples</a></li><li class="navelem"><b>sample4.h</b></li>
-    <li class="footer">Generated on Wed May 17 2017 01:29:41 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_71161a84fac53c45ff475e8f9da573b7.html">buildstorm</a></li><li class="navelem"><a class="el" href="../../dir_d38417b9f02cb30ea2a9507663b20a15.html">googletest-src</a></li><li class="navelem"><a class="el" href="../../dir_2c340965943630b6fb6e2041c65cc7cb.html">googletest</a></li><li class="navelem"><a class="el" href="../../dir_d6b2a714a6f399906962ff9cffcbcdf0.html">include</a></li><li class="navelem"><a class="el" href="../../dir_db7a5234b02980a4634d60a54e6cd495.html">gtest</a></li><li class="navelem"><a class="el" href="../../dir_3ceeed6fb6a49cda3cac1fc19b55e266.html">internal</a></li><li class="navelem"><a class="el" href="../../dir_14d01380fc7c11bac5f1a6ae5d6d84d3.html">custom</a></li><li class="navelem"><b>gtest.h</b></li>
+    <li class="footer">Generated on Fri Jul 7 2017 13:18:35 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

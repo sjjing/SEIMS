@@ -1,5 +1,4 @@
 var a00308 =
 [
-    [ "PesticideOperation", "d5/d0f/a00308.html#adb1bf53bfd14e9f28a620838b166cf7e", null ],
-    [ "dump", "d5/d0f/a00308.html#aa73d5067b0249011b0990078b563a992", null ]
+    [ "__init__", "d5/d0f/a00308.html#a4a37286aed14c98b4ef631d61c29c540", null ]
 ];

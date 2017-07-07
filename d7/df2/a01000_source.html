@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/PET_H/PETHargreaves.h Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology/PERCO_DARCY/Percolation.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,80 +112,198 @@ $(document).ready(function(){initNavTree('d7/df2/a01000_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">PETHargreaves.h</div>  </div>
+<div class="title">Percolation.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html">   28</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d71/a00309.html">PETHargreaves</a> : <span class="keyword">public</span> <a class="code" href="../../dd/d4e/a00329.html">SimulationModule</a> {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <a class="code" href="../../d2/d71/a00309.html">PETHargreaves</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    ~<a class="code" href="../../d2/d71/a00309.html">PETHargreaves</a>(<span class="keywordtype">void</span>);</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;seims.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;Percolation.h&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="../../dc/d50/a00332.html#a84f0b196ef639dbea5ce342c529b2034">    4</a></span>&#160;<a class="code" href="../../dc/d50/a00332.html#a84f0b196ef639dbea5ce342c529b2034">Percolation_DARCY::Percolation_DARCY</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    <span class="comment">// set default values for member variables</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    this-&gt;m_timestep = -1;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <a class="code" href="../../dc/d50/a00332.html#a4739225f554d4e88e458d3c5d4144704">m_nCells</a> = -1;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    m_Conductivity = NULL;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    m_Porosity = NULL;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="comment">//m_Residual= NULL;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    m_Poreindex = NULL;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    m_Moisture = NULL;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="comment">//m_ES = NULL;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    m_FieldCapacity = NULL;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment">//m_SoilT = NULL;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="comment">//m_ForzenT = -99.0f;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    m_recharge = NULL;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    m_rootDepth = NULL;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <a class="code" href="../../dc/d50/a00332.html#a643470992487d07f02262402488f8a7d">m_CellWidth</a> = -1.f;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;}</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="../../dc/d50/a00332.html#a60667d5bb9b95854bdb040db602676ef">   24</a></span>&#160;<a class="code" href="../../dc/d50/a00332.html#a60667d5bb9b95854bdb040db602676ef">Percolation_DARCY::~Percolation_DARCY</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">if</span> (m_recharge == NULL) Release1DArray(m_recharge);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;}</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">//Execute module</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../dc/d50/a00332.html#a7077d8ca7383647ba502ae4642cef522">   29</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../dc/d50/a00332.html#a7077d8ca7383647ba502ae4642cef522">Percolation_DARCY::Execute</a>() {</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">if</span> (m_recharge == NULL) {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <a class="code" href="../../dc/d50/a00332.html#abb6090f6b3d55346fca32d2d3a898f87">CheckInputData</a>();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        m_recharge = <span class="keyword">new</span> <span class="keywordtype">float</span>[<a class="code" href="../../dc/d50/a00332.html#a4739225f554d4e88e458d3c5d4144704">m_nCells</a>];</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> value);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *value);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../dc/d50/a00332.html#a4739225f554d4e88e458d3c5d4144704">m_nCells</a>; i++) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="comment">//if(this-&gt;m_SoilT[i] &lt;= this-&gt;m_ForzenT)   //if the soil temperature is lower than tFrozen, then PERC = 0.</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="comment">//{</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="comment">//  m_recharge[i] = 0.0f;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="comment">//  continue;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="comment">//}</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#ac314113751262beca529b1180a166763">   47</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d71/a00309.html#ac314113751262beca529b1180a166763">m_tMean</a>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#adf77f62f87e78a9f1a76091fdeb21705">   49</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d71/a00309.html#adf77f62f87e78a9f1a76091fdeb21705">m_tMax</a>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#a5df9ae68bd6846c98a389fa4126f9227">   51</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d71/a00309.html#a5df9ae68bd6846c98a389fa4126f9227">m_tMin</a>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#a211f4f93e1ea49d51b65a560bca84090">   53</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d71/a00309.html#a211f4f93e1ea49d51b65a560bca84090">m_rhd</a>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#a43f65cf89a3ffaeb6bc62e207dbaa34a">   55</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d71/a00309.html#a43f65cf89a3ffaeb6bc62e207dbaa34a">m_cellLat</a>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#a98c4aebb8652f000809cac15c732a3a7">   57</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d71/a00309.html#a98c4aebb8652f000809cac15c732a3a7">m_phutot</a>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#a2f3849549d587e5dde7f7cfcbc74cdca">   59</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d2/d71/a00309.html#a2f3849549d587e5dde7f7cfcbc74cdca">m_nCells</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#acaf6d54c4471fe0a6d6e4b5af8918e36">   61</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/d71/a00309.html#acaf6d54c4471fe0a6d6e4b5af8918e36">m_HCoef_pet</a>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#a8727d0b39c3f9db1c3c4db8f9809616d">   63</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/d71/a00309.html#a8727d0b39c3f9db1c3c4db8f9809616d">m_petFactor</a>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#afaf194cefac4110a11600c8e6504c655">   68</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/d71/a00309.html#afaf194cefac4110a11600c8e6504c655">m_srMax</a>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#a2d0197e1fb2c7dc9a9b392ea0d0a2de6">   70</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d2/d71/a00309.html#a2d0197e1fb2c7dc9a9b392ea0d0a2de6">m_jday</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordtype">float</span> moisture = m_Moisture[i];</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="comment">//float temp = m_Porosity[i] - m_Residual[i];</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="comment">//if(temp &lt;= 0.0f)</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="comment">//  temp = 0.001f;</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        m_recharge[i] = 0.f;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">if</span> (moisture &gt; m_FieldCapacity[i]) {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="comment">// the water exceeds the porosity is added to percolation directly</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <span class="keywordflow">if</span> (moisture &gt; m_Porosity[i]) {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                m_recharge[i] += (moisture - m_Porosity[i]) * m_rootDepth[i];</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                m_Moisture[i] = m_Porosity[i];</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="comment">// recharge capacity (mm)</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordtype">float</span> dcIndex = 3.f + 2.f / m_Poreindex[i]; <span class="comment">// pore disconnectedness index</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="comment">//float rechargeCap = m_Conductivity[i] / 3600.f * m_timestep * pow((moisture - m_Residual[i])/temp, dcIndex);</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordtype">float</span> rechargeCap =</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                m_Conductivity[i] / 3600.f * m_timestep * pow(moisture / m_Porosity[i], dcIndex); <span class="comment">//Campbell, 1974</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordtype">float</span> availableWater = (m_Moisture[i] - m_FieldCapacity[i]) * m_rootDepth[i];</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">if</span> (rechargeCap &gt;= availableWater) {</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                rechargeCap = availableWater;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            }</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            m_recharge[i] += rechargeCap;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            m_Moisture[i] -= m_recharge[i] / m_rootDepth[i];</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#a6b1fa049eaa0f37dd9f319291d4f380e">   74</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d71/a00309.html#a6b1fa049eaa0f37dd9f319291d4f380e">m_dayLen</a>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#a86b6751e6f43537dbcc15f7a170fa49b">   76</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d71/a00309.html#a86b6751e6f43537dbcc15f7a170fa49b">m_phuBase</a>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#a7bb48f6000aaef40a221a51a5e267816">   78</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d71/a00309.html#a7bb48f6000aaef40a221a51a5e267816">m_pet</a>;</div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="../../d2/d71/a00309.html#a7812217542d0be2fba0c7802548c40ad">   80</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d71/a00309.html#a7812217542d0be2fba0c7802548c40ad">m_vpd</a>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">void</span> initialOutputs(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;};</div>
-<div class="ttc" id="a00309_html_a8727d0b39c3f9db1c3c4db8f9809616d"><div class="ttname"><a href="../../d2/d71/a00309.html#a8727d0b39c3f9db1c3c4db8f9809616d">PETHargreaves::m_petFactor</a></div><div class="ttdeci">float m_petFactor</div><div class="ttdoc">Correction Factor for PET. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00063">PETHargreaves.h:63</a></div></div>
-<div class="ttc" id="a00309_html_adf77f62f87e78a9f1a76091fdeb21705"><div class="ttname"><a href="../../d2/d71/a00309.html#adf77f62f87e78a9f1a76091fdeb21705">PETHargreaves::m_tMax</a></div><div class="ttdeci">float * m_tMax</div><div class="ttdoc">maximum air temperature for a given day(degree) </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00049">PETHargreaves.h:49</a></div></div>
-<div class="ttc" id="a00309_html_a7812217542d0be2fba0c7802548c40ad"><div class="ttname"><a href="../../d2/d71/a00309.html#a7812217542d0be2fba0c7802548c40ad">PETHargreaves::m_vpd</a></div><div class="ttdeci">float * m_vpd</div><div class="ttdoc">vapor pressure deficit </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00080">PETHargreaves.h:80</a></div></div>
-<div class="ttc" id="a00309_html_a98c4aebb8652f000809cac15c732a3a7"><div class="ttname"><a href="../../d2/d71/a00309.html#a98c4aebb8652f000809cac15c732a3a7">PETHargreaves::m_phutot</a></div><div class="ttdeci">float * m_phutot</div><div class="ttdoc">annual PHU </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00057">PETHargreaves.h:57</a></div></div>
-<div class="ttc" id="a00309_html_a6b1fa049eaa0f37dd9f319291d4f380e"><div class="ttname"><a href="../../d2/d71/a00309.html#a6b1fa049eaa0f37dd9f319291d4f380e">PETHargreaves::m_dayLen</a></div><div class="ttdeci">float * m_dayLen</div><div class="ttdoc">output </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00074">PETHargreaves.h:74</a></div></div>
-<div class="ttc" id="a00309_html_a7bb48f6000aaef40a221a51a5e267816"><div class="ttname"><a href="../../d2/d71/a00309.html#a7bb48f6000aaef40a221a51a5e267816">PETHargreaves::m_pet</a></div><div class="ttdeci">float * m_pet</div><div class="ttdoc">pet </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00078">PETHargreaves.h:78</a></div></div>
-<div class="ttc" id="a00309_html"><div class="ttname"><a href="../../d2/d71/a00309.html">PETHargreaves</a></div><div class="ttdoc">Hargreaves method to Compute PET. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00028">PETHargreaves.h:28</a></div></div>
-<div class="ttc" id="a00309_html_a2f3849549d587e5dde7f7cfcbc74cdca"><div class="ttname"><a href="../../d2/d71/a00309.html#a2f3849549d587e5dde7f7cfcbc74cdca">PETHargreaves::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">valid cell number </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00059">PETHargreaves.h:59</a></div></div>
-<div class="ttc" id="a00329_html"><div class="ttname"><a href="../../dd/d4e/a00329.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2f/a00854_source.html#l00047">SimulationModule.h:47</a></div></div>
-<div class="ttc" id="a00309_html_a2d0197e1fb2c7dc9a9b392ea0d0a2de6"><div class="ttname"><a href="../../d2/d71/a00309.html#a2d0197e1fb2c7dc9a9b392ea0d0a2de6">PETHargreaves::m_jday</a></div><div class="ttdeci">int m_jday</div><div class="ttdoc">Julian day. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00070">PETHargreaves.h:70</a></div></div>
-<div class="ttc" id="a00309_html_a211f4f93e1ea49d51b65a560bca84090"><div class="ttname"><a href="../../d2/d71/a00309.html#a211f4f93e1ea49d51b65a560bca84090">PETHargreaves::m_rhd</a></div><div class="ttdeci">float * m_rhd</div><div class="ttdoc">relative humidity(%) </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00053">PETHargreaves.h:53</a></div></div>
-<div class="ttc" id="a00309_html_ac314113751262beca529b1180a166763"><div class="ttname"><a href="../../d2/d71/a00309.html#ac314113751262beca529b1180a166763">PETHargreaves::m_tMean</a></div><div class="ttdeci">float * m_tMean</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00047">PETHargreaves.h:47</a></div></div>
-<div class="ttc" id="a00309_html_a86b6751e6f43537dbcc15f7a170fa49b"><div class="ttname"><a href="../../d2/d71/a00309.html#a86b6751e6f43537dbcc15f7a170fa49b">PETHargreaves::m_phuBase</a></div><div class="ttdeci">float * m_phuBase</div><div class="ttdoc">base zero total heat units (used when no land cover is growing) </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00076">PETHargreaves.h:76</a></div></div>
-<div class="ttc" id="a00309_html_acaf6d54c4471fe0a6d6e4b5af8918e36"><div class="ttname"><a href="../../d2/d71/a00309.html#acaf6d54c4471fe0a6d6e4b5af8918e36">PETHargreaves::m_HCoef_pet</a></div><div class="ttdeci">float m_HCoef_pet</div><div class="ttdoc">coefficient related to radiation used in Hargreaves method </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00061">PETHargreaves.h:61</a></div></div>
-<div class="ttc" id="a00309_html_afaf194cefac4110a11600c8e6504c655"><div class="ttname"><a href="../../d2/d71/a00309.html#afaf194cefac4110a11600c8e6504c655">PETHargreaves::m_srMax</a></div><div class="ttdeci">float m_srMax</div><div class="ttdoc">temporary variables and output </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00068">PETHargreaves.h:68</a></div></div>
-<div class="ttc" id="a00309_html_a5df9ae68bd6846c98a389fa4126f9227"><div class="ttname"><a href="../../d2/d71/a00309.html#a5df9ae68bd6846c98a389fa4126f9227">PETHargreaves::m_tMin</a></div><div class="ttdeci">float * m_tMin</div><div class="ttdoc">minimum air temperature for a given day(degree) </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00051">PETHargreaves.h:51</a></div></div>
-<div class="ttc" id="a00309_html_a43f65cf89a3ffaeb6bc62e207dbaa34a"><div class="ttname"><a href="../../d2/d71/a00309.html#a43f65cf89a3ffaeb6bc62e207dbaa34a">PETHargreaves::m_cellLat</a></div><div class="ttdeci">float * m_cellLat</div><div class="ttdoc">latitude of each valid cells </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00055">PETHargreaves.h:55</a></div></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;}</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../dc/d50/a00332.html#adf099bc54de41d7170d0c8c220eaaa79">   77</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dc/d50/a00332.html#adf099bc54de41d7170d0c8c220eaaa79">Percolation_DARCY::Get1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *nRows, <span class="keywordtype">float</span> **data) {</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, VAR_PERCO)) {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        *data = m_recharge;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d07/a00305.html">ModelException</a>(MID_PERCO_DARCY, <span class="stringliteral">&quot;Get1DData&quot;</span>, <span class="stringliteral">&quot;Result &quot;</span> + s + <span class="stringliteral">&quot; does not exist.&quot;</span>);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    }</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    *nRows = <a class="code" href="../../dc/d50/a00332.html#a4739225f554d4e88e458d3c5d4144704">m_nCells</a>;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;}</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="../../dc/d50/a00332.html#ab03be89de87565cab283227e101b4b4d">   87</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dc/d50/a00332.html#ab03be89de87565cab283227e101b4b4d">Percolation_DARCY::Set1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nRows, <span class="keywordtype">float</span> *data) {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    this-&gt;<a class="code" href="../../dc/d50/a00332.html#a143d4b94fb76af864497e1967b03c766">CheckInputSize</a>(key, nRows);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, VAR_CONDUCT)) { this-&gt;m_Conductivity = data; }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_POROST)) { this-&gt;m_Porosity = data; }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_POREIDX)) { this-&gt;m_Poreindex = data; }</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_SOL_ST)) { this-&gt;m_Moisture = data; }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_FIELDCAP)) { this-&gt;m_FieldCapacity = data; }</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_SOILDEPTH)) {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        this-&gt;m_rootDepth = data;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="comment">//else if(StringMatch(s,&quot;D_ES&quot;))            this-&gt;m_ES = data;</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="comment">//else if(StringMatch(s,&quot;D_SOTE&quot;))      this-&gt;m_SoilT = data;</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d07/a00305.html">ModelException</a>(MID_PERCO_DARCY, <span class="stringliteral">&quot;SetValue&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + s +</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <span class="stringliteral">&quot; does not exist in current module. Please contact the module developer.&quot;</span>);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;}</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="../../dc/d50/a00332.html#a71b3bfe33c9cdd7d43af1bea3315306c">  108</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../dc/d50/a00332.html#a71b3bfe33c9cdd7d43af1bea3315306c">Percolation_DARCY::SetValue</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data) {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, Tag_HillSlopeTimeStep)) {</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        this-&gt;m_timestep = int(data);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, Tag_CellWidth)) {</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <a class="code" href="../../dc/d50/a00332.html#a643470992487d07f02262402488f8a7d">m_CellWidth</a> = data;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="comment">//else if(StringMatch(s,&quot;t_soil&quot;))      this-&gt;m_ForzenT = data;</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d07/a00305.html">ModelException</a>(MID_PERCO_DARCY, <span class="stringliteral">&quot;SetValue&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + s +</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <span class="stringliteral">&quot; does not exist in current module. Please contact the module developer.&quot;</span>);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    }</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
+<div class="line"><a name="l00121"></a><span class="lineno"><a class="line" href="../../dc/d50/a00332.html#abb6090f6b3d55346fca32d2d3a898f87">  121</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../dc/d50/a00332.html#abb6090f6b3d55346fca32d2d3a898f87">Percolation_DARCY::CheckInputData</a>() {</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d6/de1/a00356.html#aabd631c05d3e74aa9970f7415f2f5de7">m_date</a> &lt;= 0) {</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d07/a00305.html">ModelException</a>(MID_PERCO_DARCY, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;You have not set the time.&quot;</span>);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    }</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../dc/d50/a00332.html#a4739225f554d4e88e458d3c5d4144704">m_nCells</a> &lt;= 0) {</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d07/a00305.html">ModelException</a>(MID_PERCO_DARCY, <span class="stringliteral">&quot;CheckInputData&quot;</span>,</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                             <span class="stringliteral">&quot;The dimension of the input data can not be less than zero.&quot;</span>);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    }</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_timestep &lt;= 0) {</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d07/a00305.html">ModelException</a>(MID_PERCO_DARCY, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The time step can not be less than zero.&quot;</span>);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    }</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../dc/d50/a00332.html#a643470992487d07f02262402488f8a7d">m_CellWidth</a> &lt; 0) {</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d07/a00305.html">ModelException</a>(MID_PERCO_DARCY, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter CellWidth is not set.&quot;</span>);</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    }</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_Conductivity == NULL) {</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d07/a00305.html">ModelException</a>(MID_PERCO_DARCY, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The Conductivity can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    }</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_Porosity == NULL) {</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d07/a00305.html">ModelException</a>(MID_PERCO_DARCY, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The Porosity can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    }</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_Poreindex == NULL) {</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d07/a00305.html">ModelException</a>(MID_PERCO_DARCY, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The Poreindex can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    }</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_Moisture == NULL) {</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d07/a00305.html">ModelException</a>(MID_PERCO_DARCY, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The Moisture can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    }</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="comment">//if(this-&gt;m_SoilT == NULL)         throw ModelException(MID_PERCO_DARCY,&quot;CheckInputData&quot;,&quot;The soil temerature can not be NULL.&quot;);</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="comment">//if(this-&gt;m_ForzenT == -99.0f)     throw ModelException(MID_PERCO_DARCY,&quot;CheckInputData&quot;,&quot;The threshold soil freezing temerature can not be NULL.&quot;);</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;}</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno"><a class="line" href="../../dc/d50/a00332.html#a143d4b94fb76af864497e1967b03c766">  154</a></span>&#160;<span class="keywordtype">bool</span> <a class="code" href="../../dc/d50/a00332.html#a143d4b94fb76af864497e1967b03c766">Percolation_DARCY::CheckInputSize</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n) {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordflow">if</span> (n &lt;= 0) {</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d07/a00305.html">ModelException</a>(MID_PERCO_DARCY, <span class="stringliteral">&quot;CheckInputSize&quot;</span>,</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                             <span class="stringliteral">&quot;Input data for &quot;</span> + <span class="keywordtype">string</span>(key) + <span class="stringliteral">&quot; is invalid. The size could not be less than zero.&quot;</span>);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    }</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dc/d50/a00332.html#a4739225f554d4e88e458d3c5d4144704">m_nCells</a> != n) {</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dc/d50/a00332.html#a4739225f554d4e88e458d3c5d4144704">m_nCells</a> &lt;= 0) { this-&gt;<a class="code" href="../../dc/d50/a00332.html#a4739225f554d4e88e458d3c5d4144704">m_nCells</a> = n; }</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d3/d07/a00305.html">ModelException</a>(MID_PERCO_DARCY, <span class="stringliteral">&quot;CheckInputSize&quot;</span>, <span class="stringliteral">&quot;Input data for &quot;</span> + <span class="keywordtype">string</span>(key) +</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                <span class="stringliteral">&quot; is invalid. All the input data should have same size.&quot;</span>);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        }</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;}</div>
+<div class="ttc" id="a00356_html_aabd631c05d3e74aa9970f7415f2f5de7"><div class="ttname"><a href="../../d6/de1/a00356.html#aabd631c05d3e74aa9970f7415f2f5de7">SimulationModule::m_date</a></div><div class="ttdeci">time_t m_date</div><div class="ttdoc">date time </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dab/a00886_source.html#l00168">SimulationModule.h:168</a></div></div>
+<div class="ttc" id="a00332_html_a71b3bfe33c9cdd7d43af1bea3315306c"><div class="ttname"><a href="../../dc/d50/a00332.html#a71b3bfe33c9cdd7d43af1bea3315306c">Percolation_DARCY::SetValue</a></div><div class="ttdeci">virtual void SetValue(const char *key, float value)</div><div class="ttdoc">Set data, DT_Single. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00108">Percolation.cpp:108</a></div></div>
+<div class="ttc" id="a00332_html_a643470992487d07f02262402488f8a7d"><div class="ttname"><a href="../../dc/d50/a00332.html#a643470992487d07f02262402488f8a7d">Percolation_DARCY::m_CellWidth</a></div><div class="ttdeci">float m_CellWidth</div><div class="ttdoc">Width of cell (m) </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d59/a01001_source.html#l00027">Percolation.h:27</a></div></div>
+<div class="ttc" id="a00332_html_a7077d8ca7383647ba502ae4642cef522"><div class="ttname"><a href="../../dc/d50/a00332.html#a7077d8ca7383647ba502ae4642cef522">Percolation_DARCY::Execute</a></div><div class="ttdeci">virtual int Execute(void)</div><div class="ttdoc">Execute the simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00029">Percolation.cpp:29</a></div></div>
+<div class="ttc" id="a00332_html_ab03be89de87565cab283227e101b4b4d"><div class="ttname"><a href="../../dc/d50/a00332.html#ab03be89de87565cab283227e101b4b4d">Percolation_DARCY::Set1DData</a></div><div class="ttdeci">virtual void Set1DData(const char *key, int n, float *data)</div><div class="ttdoc">Set 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00087">Percolation.cpp:87</a></div></div>
+<div class="ttc" id="a00332_html_adf099bc54de41d7170d0c8c220eaaa79"><div class="ttname"><a href="../../dc/d50/a00332.html#adf099bc54de41d7170d0c8c220eaaa79">Percolation_DARCY::Get1DData</a></div><div class="ttdeci">virtual void Get1DData(const char *key, int *n, float **data)</div><div class="ttdoc">Get 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00077">Percolation.cpp:77</a></div></div>
+<div class="ttc" id="a00332_html_abb6090f6b3d55346fca32d2d3a898f87"><div class="ttname"><a href="../../dc/d50/a00332.html#abb6090f6b3d55346fca32d2d3a898f87">Percolation_DARCY::CheckInputData</a></div><div class="ttdeci">bool CheckInputData(void)</div><div class="ttdoc">check the input data. Make sure all the input data is available. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00121">Percolation.cpp:121</a></div></div>
+<div class="ttc" id="a00332_html_a4739225f554d4e88e458d3c5d4144704"><div class="ttname"><a href="../../dc/d50/a00332.html#a4739225f554d4e88e458d3c5d4144704">Percolation_DARCY::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">Valid cells number. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d59/a01001_source.html#l00025">Percolation.h:25</a></div></div>
+<div class="ttc" id="a00305_html"><div class="ttname"><a href="../../d3/d07/a00305.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/da2/a00796_source.html#l00020">ModelException.h:20</a></div></div>
+<div class="ttc" id="a00332_html_a143d4b94fb76af864497e1967b03c766"><div class="ttname"><a href="../../dc/d50/a00332.html#a143d4b94fb76af864497e1967b03c766">Percolation_DARCY::CheckInputSize</a></div><div class="ttdeci">bool CheckInputSize(const char *, int)</div><div class="ttdoc">check the input size. Make sure all the input data have same dimension. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00154">Percolation.cpp:154</a></div></div>
+<div class="ttc" id="a00332_html_a84f0b196ef639dbea5ce342c529b2034"><div class="ttname"><a href="../../dc/d50/a00332.html#a84f0b196ef639dbea5ce342c529b2034">Percolation_DARCY::Percolation_DARCY</a></div><div class="ttdeci">Percolation_DARCY(void)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00004">Percolation.cpp:4</a></div></div>
+<div class="ttc" id="a00332_html_a60667d5bb9b95854bdb040db602676ef"><div class="ttname"><a href="../../dc/d50/a00332.html#a60667d5bb9b95854bdb040db602676ef">Percolation_DARCY::~Percolation_DARCY</a></div><div class="ttdeci">~Percolation_DARCY(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00024">Percolation.cpp:24</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5bf5a4201e7cd7ac6c5f03aeeeae8b2c.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_606491b927a71da67b1147536dbc90b1.html">PET_H</a></li><li class="navelem"><b>PETHargreaves.h</b></li>
-    <li class="footer">Generated on Wed May 17 2017 01:29:42 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_849e41db369126c0c34bd1c491f3dbc9.html">PERCO_DARCY</a></li><li class="navelem"><b>Percolation.cpp</b></li>
+    <li class="footer">Generated on Fri Jul 7 2017 13:18:39 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

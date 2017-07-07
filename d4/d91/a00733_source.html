@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/pygeoc/pygeoc/utils/parseConfig.py Source File</title>
+<title>SEIMS: seims/postprocess/test.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,34 +112,81 @@ $(document).ready(function(){initNavTree('d4/d91/a00733_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">parseConfig.py</div>  </div>
+<div class="title">test.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> argparse</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">from</span> utils <span class="keyword">import</span> FileClass</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">class </span>C(object):</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keywordflow">pass</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">def </span>getconfigfile():</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="comment"># Get model configuration file name</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    c = C()</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    parser = argparse.ArgumentParser(</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        description = <span class="stringliteral">&quot;Read configuration file.&quot;</span>)</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    parser.add_argument(<span class="stringliteral">&#39;-ini&#39;</span>, help = <span class="stringliteral">&quot;Full path of configuration file&quot;</span>)</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    args = parser.parse_args(namespace = c)</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    ini_file = args.ini</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    FileClass.checkfileexists(ini_file)</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">return</span> ini_file</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> datetime</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> os</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> sys</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> matplotlib.cbook <span class="keyword">as</span> cbook</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> matplotlib.dates <span class="keyword">as</span> mdates</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> pymongo.errors <span class="keyword">import</span> ConnectionFailure</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;a = <span class="stringliteral">&quot;2013-10-10 23:40:00&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"># 方法:先转换为时间数组,然后转换为其他格式</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;timeArray = datetime.datetime.strptime(a, <span class="stringliteral">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;otherStyleTime = datetime.date.strftime(timeArray, <span class="stringliteral">&quot;%Y/%m/%d&quot;</span>)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordflow">print</span> otherStyleTime</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;years = mdates.YearLocator()  <span class="comment"># every year</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;months = mdates.MonthLocator()  <span class="comment"># every month</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;yearsFmt = mdates.DateFormatter(<span class="stringliteral">&#39;%Y-%M&#39;</span>)</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"># load a numpy record array from yahoo csv data with fields date,</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment"># open, close, volume, adj_close from the mpl-data/example directory.</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment"># The record array stores python datetime.date as an object array in</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment"># the date column</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;datafile = cbook.get_sample_data(<span class="stringliteral">&#39;goog.npy&#39;</span>)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment"># Python3 cannot load python2 .npy files with datetime(object) arrays</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment"># unless the encoding is set to bytes. Hovever this option was</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment"># not added until numpy 1.10 so this example will only work with</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment"># python 2 or with numpy 1.10 and later.</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    r = np.load(datafile, encoding = <span class="stringliteral">&#39;bytes&#39;</span>).view(np.recarray)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordflow">except</span> TypeError:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    r = np.load(datafile).view(np.recarray)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;fig, ax = plt.subplots()</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;ax.plot(r.date, r.adj_close)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"># format the ticks</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;ax.xaxis.set_major_locator(years)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;ax.xaxis.set_major_formatter(yearsFmt)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;ax.xaxis.set_minor_locator(months)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;datemin = datetime.date(r.date.min().year, 1, 1)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;datemax = datetime.date(r.date.max().year + 1, 1, 1)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;ax.set_xlim(datemin, datemax)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"># format the coords message box</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">def </span>price(x):</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">return</span> <span class="stringliteral">&#39;$%1.2f&#39;</span> % x</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;ax.format_xdata = mdates.DateFormatter(<span class="stringliteral">&#39;%Y-%m-%d&#39;</span>)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;ax.format_ydata = price</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;ax.grid(<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"># rotates and right aligns the x labels, and moves the bottom of the</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"># axes up to make room for them</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;fig.autofmt_xdate()</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;plt.show()</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_d8b73b43b5bed3f628cfe27c845cae28.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_40ac51da4d01f07ce353fa50d7389af2.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_5c5dabb6bbb885889c010b426b775fae.html">utils</a></li><li class="navelem"><b>parseConfig.py</b></li>
-    <li class="footer">Generated on Wed May 17 2017 01:29:41 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_61da0db7be14312bde940296c0e3c020.html">postprocess</a></li><li class="navelem"><b>test.py</b></li>
+    <li class="footer">Generated on Fri Jul 7 2017 13:18:37 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
