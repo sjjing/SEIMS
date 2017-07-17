@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/preprocess/sd_merge_subbasin.py Source File</title>
+<title>SEIMS: seims/preprocess/main.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,47 +112,50 @@ $(document).ready(function(){initNavTree('da/df2/a00751_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">sd_merge_subbasin.py</div>  </div>
+<div class="title">main.py</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Merge small subbasins to its downstream subbasin.</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Main function entrance for preprocessing</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Liangjun Zhu</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 17-06-30  lj - initial version modified from QSWAT 1.4</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../df/d95/a00299.html">    9</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../df/d95/a00299.html">MergeSubbasins</a>(object):</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="stringliteral">    Merged selected subbasin to other subbasin.</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../df/d95/a00299.html#a8de711a0d983e03108252e5545677f8e">   15</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/d95/a00299.html#a8de711a0d983e03108252e5545677f8e">merge_to_downstream_qswat</a>(cfg):</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Algorithm modified from QSWAT-&gt;delineation.py&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&quot;TODO&quot;</span>)</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">def </span>main():</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;TEST CODE&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../db/d51/a01144.html">seims.preprocess.config</a> <span class="keyword">import</span> parse_ini_configuration</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    seims_cfg = parse_ini_configuration()</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    MergeSubbasins.merge_to_downstream_qswat(seims_cfg)</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 16-12-07  lj - rewrite for version 2.0</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">                17-06-29  lj - reformat according to pylint and google style</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> time</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"># Load configuration file</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d2/d7b/a01150.html">seims.preprocess.config</a> <span class="keyword">import</span> parse_ini_configuration</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"># MongoDB modules</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> <a class="code" href="../../de/df1/a01151.html">seims.preprocess.db_build_mongodb</a> <span class="keyword">import</span> ImportMongodbClass</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"># Spatial delineation</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d6/d27/a01163.html">seims.preprocess.sd_delineation</a> <span class="keyword">import</span> SpatialDelineation</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">def </span>workflow():</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Main entrance for the whole preprocessing workflow&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    start_time = time.time()</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="comment"># Parse Configuration file</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    seims_cfg = parse_ini_configuration()</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="comment"># Spatial delineation by TauDEM</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    SpatialDelineation.workflow(seims_cfg)</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="comment"># Import to MongoDB database</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    ImportMongodbClass.workflow(seims_cfg)</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    main()</div>
-<div class="ttc" id="a01144_html"><div class="ttname"><a href="../../db/d51/a01144.html">seims.preprocess.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d72/a00724_source.html#l00001">config.py:1</a></div></div>
-<div class="ttc" id="a00299_html_a8de711a0d983e03108252e5545677f8e"><div class="ttname"><a href="../../df/d95/a00299.html#a8de711a0d983e03108252e5545677f8e">seims.preprocess.sd_merge_subbasin.MergeSubbasins.merge_to_downstream_qswat</a></div><div class="ttdeci">def merge_to_downstream_qswat</div><div class="ttdef"><b>Definition:</b> <a href="../../da/df2/a00751_source.html#l00015">sd_merge_subbasin.py:15</a></div></div>
-<div class="ttc" id="a00299_html"><div class="ttname"><a href="../../df/d95/a00299.html">seims.preprocess.sd_merge_subbasin.MergeSubbasins</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/df2/a00751_source.html#l00009">sd_merge_subbasin.py:9</a></div></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    end_time = time.time()</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;SEIMS preprocess done, time-consuming: %.2f seconds.&quot;</span> % (end_time - start_time))</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    workflow()</div>
+<div class="ttc" id="a01151_html"><div class="ttname"><a href="../../de/df1/a01151.html">seims.preprocess.db_build_mongodb</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/da3/a00741_source.html#l00001">db_build_mongodb.py:1</a></div></div>
+<div class="ttc" id="a01150_html"><div class="ttname"><a href="../../d2/d7b/a01150.html">seims.preprocess.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/d3b/a00728_source.html#l00001">config.py:1</a></div></div>
+<div class="ttc" id="a01163_html"><div class="ttname"><a href="../../d6/d27/a01163.html">seims.preprocess.sd_delineation</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/dd0/a00753_source.html#l00001">sd_delineation.py:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>sd_merge_subbasin.py</b></li>
-    <li class="footer">Generated on Fri Jul 7 2017 14:05:35 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>main.py</b></li>
+    <li class="footer">Generated on Mon Jul 17 2017 03:28:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

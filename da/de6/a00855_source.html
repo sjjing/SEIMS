@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/data/InputStation.h Source File</title>
+<title>SEIMS: seims/src/seims_main/base/data/clsSimpleTxtData.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,70 +112,39 @@ $(document).ready(function(){initNavTree('da/de6/a00855_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">InputStation.h</div>  </div>
+<div class="title">clsSimpleTxtData.h</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef SEIMS_CLIMATE_STATION_H</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEIMS_CLIMATE_STATION_H</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;MongoUtil.h&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;Measurement.h&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;RegularMeasurement.h&quot;</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;NotRegularMeasurement.h&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="../../dc/dc9/a00282.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dc/dc9/a00282.html">InputStation</a> {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="../../dc/dc9/a00282.html">InputStation</a>(MongoClient *conn, time_t dtHillslope, time_t dtChannel);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    ~<a class="code" href="../../dc/dc9/a00282.html">InputStation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../dc/dc9/a00282.html#af3787bb24a7dfea8a1b7b4fd90ba6f12">   32</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../dc/dc9/a00282.html#af3787bb24a7dfea8a1b7b4fd90ba6f12">NumberOfSites</a>(<span class="keywordtype">string</span> siteType)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_numSites.at(siteType); }</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../dc/dc9/a00282.html#a479b8c8b99ed58d1a41811ab573f2b63">   35</a></span>&#160;    <span class="keywordtype">float</span>* <a class="code" href="../../dc/dc9/a00282.html#a479b8c8b99ed58d1a41811ab573f2b63">GetElevation</a>(<span class="keywordtype">string</span> type)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_elevation.at(type); }</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../dc/dc9/a00282.html#a79f7599173a3564dc2bef9d20ec9f2ff">   38</a></span>&#160;    <span class="keywordtype">float</span>* <a class="code" href="../../dc/dc9/a00282.html#a79f7599173a3564dc2bef9d20ec9f2ff">GetLatitude</a>(<span class="keywordtype">string</span> type)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_latitude.at(type); }</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">void</span> GetTimeSeriesData(time_t time, <span class="keywordtype">string</span> type, <span class="keywordtype">int</span>* nRow, <span class="keywordtype">float</span>** data);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">void</span> ReadSitesData(<span class="keywordtype">string</span> hydroDBName, <span class="keywordtype">string</span> sitesList, <span class="keywordtype">string</span> siteType, time_t startDate, time_t endDate,</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                       <span class="keywordtype">bool</span> stormMode = <span class="keyword">false</span>);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../dc/dc9/a00282.html#ac0ca0170344118e11078200e09aab46e">   65</a></span>&#160;    MongoClient* <a class="code" href="../../dc/dc9/a00282.html#ac0ca0170344118e11078200e09aab46e">m_conn</a>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="../../dc/dc9/a00282.html#a82eabec80eebcf85db57e6c62e758ec0">   67</a></span>&#160;    time_t <a class="code" href="../../dc/dc9/a00282.html#a82eabec80eebcf85db57e6c62e758ec0">m_dtCh</a>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../dc/dc9/a00282.html#ae03badcf7f98f869eba397215294415d">   69</a></span>&#160;    time_t <a class="code" href="../../dc/dc9/a00282.html#ae03badcf7f98f869eba397215294415d">m_dtHs</a>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="../../dc/dc9/a00282.html#aaac83716639a14e8b428de4fcf38ec7d">   71</a></span>&#160;    map&lt;string, Measurement *&gt; <a class="code" href="../../dc/dc9/a00282.html#aaac83716639a14e8b428de4fcf38ec7d">m_measurement</a>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../dc/dc9/a00282.html#aad64bf6fa89cfe2ff9747b6264b8c3e0">   73</a></span>&#160;    map&lt;string, float *&gt; <a class="code" href="../../dc/dc9/a00282.html#aad64bf6fa89cfe2ff9747b6264b8c3e0">m_elevation</a>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../dc/dc9/a00282.html#ae54de024217809572c1aaec2c587f1ea">   75</a></span>&#160;    map&lt;string, float *&gt; <a class="code" href="../../dc/dc9/a00282.html#ae54de024217809572c1aaec2c587f1ea">m_latitude</a>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../dc/dc9/a00282.html#afafeff6b8bff06dfb0f06c60fe1476bb">   77</a></span>&#160;    map&lt;string, int&gt; <a class="code" href="../../dc/dc9/a00282.html#afafeff6b8bff06dfb0f06c60fe1476bb">m_numSites</a>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">void</span> build_query_bson(<span class="keywordtype">int</span> nSites, vector&lt;int&gt; &amp;siteIDList, <span class="keywordtype">string</span> &amp;siteType, bson_t *query);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">void</span> ReadSitesInfo(<span class="keywordtype">string</span> siteType, <span class="keywordtype">string</span> hydroDBName, <span class="keywordtype">string</span> sitesList);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;};</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* SEIMS_CLIMATE_STATION_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="a00282_html_afafeff6b8bff06dfb0f06c60fe1476bb"><div class="ttname"><a href="../../dc/dc9/a00282.html#afafeff6b8bff06dfb0f06c60fe1476bb">InputStation::m_numSites</a></div><div class="ttdeci">map&lt; string, int &gt; m_numSites</div><div class="ttdoc">site numbers of each site type </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de6/a00855_source.html#l00077">InputStation.h:77</a></div></div>
-<div class="ttc" id="a00282_html_aaac83716639a14e8b428de4fcf38ec7d"><div class="ttname"><a href="../../dc/dc9/a00282.html#aaac83716639a14e8b428de4fcf38ec7d">InputStation::m_measurement</a></div><div class="ttdeci">map&lt; string, Measurement * &gt; m_measurement</div><div class="ttdoc">Measurement object of each data type. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de6/a00855_source.html#l00071">InputStation.h:71</a></div></div>
-<div class="ttc" id="a00282_html"><div class="ttname"><a href="../../dc/dc9/a00282.html">InputStation</a></div><div class="ttdoc">HydroClimate sites information. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de6/a00855_source.html#l00023">InputStation.h:23</a></div></div>
-<div class="ttc" id="a00282_html_ac0ca0170344118e11078200e09aab46e"><div class="ttname"><a href="../../dc/dc9/a00282.html#ac0ca0170344118e11078200e09aab46e">InputStation::m_conn</a></div><div class="ttdeci">MongoClient * m_conn</div><div class="ttdoc">MongoDB client object. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de6/a00855_source.html#l00065">InputStation.h:65</a></div></div>
-<div class="ttc" id="a00282_html_a479b8c8b99ed58d1a41811ab573f2b63"><div class="ttname"><a href="../../dc/dc9/a00282.html#a479b8c8b99ed58d1a41811ab573f2b63">InputStation::GetElevation</a></div><div class="ttdeci">float * GetElevation(string type) const </div><div class="ttdoc">Get elevations of given site type. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de6/a00855_source.html#l00035">InputStation.h:35</a></div></div>
-<div class="ttc" id="a00282_html_ae54de024217809572c1aaec2c587f1ea"><div class="ttname"><a href="../../dc/dc9/a00282.html#ae54de024217809572c1aaec2c587f1ea">InputStation::m_latitude</a></div><div class="ttdeci">map&lt; string, float * &gt; m_latitude</div><div class="ttdoc">Site ID: latitude. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de6/a00855_source.html#l00075">InputStation.h:75</a></div></div>
-<div class="ttc" id="a00282_html_af3787bb24a7dfea8a1b7b4fd90ba6f12"><div class="ttname"><a href="../../dc/dc9/a00282.html#af3787bb24a7dfea8a1b7b4fd90ba6f12">InputStation::NumberOfSites</a></div><div class="ttdeci">int NumberOfSites(string siteType) const </div><div class="ttdoc">Get site number of given site type. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de6/a00855_source.html#l00032">InputStation.h:32</a></div></div>
-<div class="ttc" id="a00282_html_a79f7599173a3564dc2bef9d20ec9f2ff"><div class="ttname"><a href="../../dc/dc9/a00282.html#a79f7599173a3564dc2bef9d20ec9f2ff">InputStation::GetLatitude</a></div><div class="ttdeci">float * GetLatitude(string type) const </div><div class="ttdoc">Get latitudes of given site type. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de6/a00855_source.html#l00038">InputStation.h:38</a></div></div>
-<div class="ttc" id="a00282_html_aad64bf6fa89cfe2ff9747b6264b8c3e0"><div class="ttname"><a href="../../dc/dc9/a00282.html#aad64bf6fa89cfe2ff9747b6264b8c3e0">InputStation::m_elevation</a></div><div class="ttdeci">map&lt; string, float * &gt; m_elevation</div><div class="ttdoc">Site ID: elevation. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de6/a00855_source.html#l00073">InputStation.h:73</a></div></div>
-<div class="ttc" id="a00282_html_ae03badcf7f98f869eba397215294415d"><div class="ttname"><a href="../../dc/dc9/a00282.html#ae03badcf7f98f869eba397215294415d">InputStation::m_dtHs</a></div><div class="ttdeci">time_t m_dtHs</div><div class="ttdoc">Hillslope scale time interval. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de6/a00855_source.html#l00069">InputStation.h:69</a></div></div>
-<div class="ttc" id="a00282_html_a82eabec80eebcf85db57e6c62e758ec0"><div class="ttname"><a href="../../dc/dc9/a00282.html#a82eabec80eebcf85db57e6c62e758ec0">InputStation::m_dtCh</a></div><div class="ttdeci">time_t m_dtCh</div><div class="ttdoc">Channel scale time interval. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de6/a00855_source.html#l00067">InputStation.h:67</a></div></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="../../df/d17/a00231.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../df/d17/a00231.html">clsSimpleTxtData</a> {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="../../df/d17/a00231.html">clsSimpleTxtData</a>(<span class="keywordtype">string</span> fileName);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    ~<a class="code" href="../../df/d17/a00231.html">clsSimpleTxtData</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">void</span> getData(<span class="keywordtype">int</span> *nRow, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../df/d17/a00231.html#a5d47df1c4be351606574455954384264">   37</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../df/d17/a00231.html#a5d47df1c4be351606574455954384264">m_row</a>;</div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../df/d17/a00231.html#ac60fad8ef1dcc286a7b87e825714b3f9">   39</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../df/d17/a00231.html#ac60fad8ef1dcc286a7b87e825714b3f9">m_data</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;};</div>
+<div class="ttc" id="a00231_html_ac60fad8ef1dcc286a7b87e825714b3f9"><div class="ttname"><a href="../../df/d17/a00231.html#ac60fad8ef1dcc286a7b87e825714b3f9">clsSimpleTxtData::m_data</a></div><div class="ttdeci">float * m_data</div><div class="ttdoc">lines data </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de6/a00855_source.html#l00039">clsSimpleTxtData.h:39</a></div></div>
+<div class="ttc" id="a00231_html_a5d47df1c4be351606574455954384264"><div class="ttname"><a href="../../df/d17/a00231.html#a5d47df1c4be351606574455954384264">clsSimpleTxtData::m_row</a></div><div class="ttdeci">int m_row</div><div class="ttdoc">line number </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de6/a00855_source.html#l00037">clsSimpleTxtData.h:37</a></div></div>
+<div class="ttc" id="a00231_html"><div class="ttname"><a href="../../df/d17/a00231.html">clsSimpleTxtData</a></div><div class="ttdoc">read string line from text file </div><div class="ttdef"><b>Definition:</b> <a href="../../da/de6/a00855_source.html#l00021">clsSimpleTxtData.h:21</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_24d0af58b2644ad205aa9a0d9adbb65a.html">data</a></li><li class="navelem"><b>InputStation.h</b></li>
-    <li class="footer">Generated on Fri Jul 7 2017 14:05:36 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_24d0af58b2644ad205aa9a0d9adbb65a.html">data</a></li><li class="navelem"><b>clsSimpleTxtData.h</b></li>
+    <li class="footer">Generated on Mon Jul 17 2017 03:28:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

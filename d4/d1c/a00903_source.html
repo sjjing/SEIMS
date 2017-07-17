@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/climate/TSD_RD/api.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/main/main_omp/invoke.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,55 +112,32 @@ $(document).ready(function(){initNavTree('d4/d1c/a00903_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">api.cpp</div>  </div>
+<div class="title">invoke.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;clsTSD_RD.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <a class="code" href="../../d6/de1/a00356.html">SimulationModule</a> *</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;GetInstance() {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../df/d17/a00231.html">clsTSD_RD</a>();</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../dc/dc2/a01251.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a>() {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="../../db/da2/a00300.html">MetadataInfo</a> mdi;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordtype">string</span> res;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    mdi.SetAuthor(<span class="stringliteral">&quot;Zhiqiang Yu&quot;</span>);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    mdi.SetClass(MCLS_CLIMATE, MCLSDESC_CLIMATE);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    mdi.SetDescription(MDESC_TSD_RD);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    mdi.SetID(MID_TSD_RD);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    mdi.SetName(MID_TSD_RD);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    mdi.SetVersion(<span class="stringliteral">&quot;1.0&quot;</span>);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    mdi.SetEmail(SEIMS_EMAIL);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    mdi.SetWebsite(SEIMS_SITE);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    mdi.SetHelpfile(<span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    mdi.AddParameter(VAR_TSD_DT, UNIT_NON_DIM, DESC_TSD_DT, File_Config, DT_Single);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    mdi.AddInput(DataType_Prefix_TS, UNIT_NON_DIM, DESC_TSD_CLIMATE, Source_HydroClimateDB, DT_Array1D);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    mdi.AddOutput(DataType_Prefix_TS, UNIT_NON_DIM, DESC_TSD_CLIMATE, DT_Array1D);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    res = mdi.GetXMLDocument();</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">char</span> *tmp = <span class="keyword">new</span> <span class="keywordtype">char</span>[res.size() + 1];</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    strprintf(tmp, res.size() + 1, <span class="stringliteral">&quot;%s&quot;</span>, res.c_str());</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
-<div class="ttc" id="a00356_html"><div class="ttname"><a href="../../d6/de1/a00356.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dab/a00886_source.html#l00047">SimulationModule.h:47</a></div></div>
-<div class="ttc" id="a00300_html"><div class="ttname"><a href="../../db/da2/a00300.html">MetadataInfo</a></div><div class="ttdoc">Metadata information of module. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d50/a00882_source.html#l00091">MetadataInfo.h:91</a></div></div>
-<div class="ttc" id="a00231_html"><div class="ttname"><a href="../../df/d17/a00231.html">clsTSD_RD</a></div><div class="ttdoc">Read Time Series Data, e.g., Maximum temperature. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dcd/a00965_source.html#l00019">clsTSD_RD.h:19</a></div></div>
-<div class="ttc" id="a01251_html_ga0087c853569e2c94d58c3499365662e9"><div class="ttname"><a href="../../dc/dc2/a01251.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a></div><div class="ttdeci">SEIMS_MODULE_API const char * MetadataInformation()</div><div class="ttdoc">function to return the XML Metadata document string </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d19/a00935_source.html#l00015">api.cpp:15</a></div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#ifndef SEIMS_INVOKE_H</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEIMS_INVOKE_H</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;DataCenter.h&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;ModelMain.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;tinyxml.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;ParamInfo.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;Settings.h&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordtype">int</span> MainMongoDB(<span class="keywordtype">string</span> modelPath, <span class="keywordtype">char</span>* host, uint16_t port, <span class="keywordtype">int</span> scenarioID,</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                <span class="keywordtype">int</span> numThread, LayeringMethod lyrMethod);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* SEIMS_INVOKE_H */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_1f6eda6caf98ea53d8153999464f137e.html">climate</a></li><li class="navelem"><a class="el" href="../../dir_70fff461dcf604ed58461016f5c39188.html">TSD_RD</a></li><li class="navelem"><b>api.cpp</b></li>
-    <li class="footer">Generated on Fri Jul 7 2017 14:05:36 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_c151e3c36c54954dcb4737f82d8a1963.html">main</a></li><li class="navelem"><a class="el" href="../../dir_37d1583536611718be90d0be15bfcf38.html">main_omp</a></li><li class="navelem"><b>invoke.h</b></li>
+    <li class="footer">Generated on Mon Jul 17 2017 03:28:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

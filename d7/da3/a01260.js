@@ -1,12 +1,12 @@
 var a01260 =
 [
-    [ "SSM_PE", "df/dee/a00369.html", [
-      [ "SSM_PE", "df/dee/a00369.html#a64d679e52fd4eabf1f81e7026f74c643", null ],
-      [ "~SSM_PE", "df/dee/a00369.html#aa64f1979edc8c8ddbbe06ea8aa5039fd", null ],
-      [ "Execute", "df/dee/a00369.html#a1758ef7f17c885d698cf9f86df7e0d7e", null ],
-      [ "Get1DData", "df/dee/a00369.html#a6192da955f6cb63161086e81c04aa7a2", null ],
-      [ "Set1DData", "df/dee/a00369.html#acf17f10e85bffee8fa9aa5f60f3ae602", null ],
-      [ "SetValue", "df/dee/a00369.html#ad555a811d3599008622ce5fa99b7b97f", null ],
-      [ "m_nCells", "df/dee/a00369.html#a319e8468c2f39bac6d1d6c1fb42c0275", null ]
+    [ "SET_LM", "d3/dc9/a00355.html", [
+      [ "CheckInputData", "d3/dc9/a00355.html#ad8e0115e3ded51047067d9d84b5fe8f4", null ],
+      [ "CheckInputSize", "d3/dc9/a00355.html#a67ae96879b74013b221fa81275086f42", null ],
+      [ "Execute", "d3/dc9/a00355.html#ad8b499aef76839b9fd03332b25f1bf40", null ],
+      [ "Get1DData", "d3/dc9/a00355.html#a6965c172477d51b3f6cc80f4603a9d4c", null ],
+      [ "Set1DData", "d3/dc9/a00355.html#ac38f0919363f9f5efa50b0038fb28f7a", null ],
+      [ "Set2DData", "d3/dc9/a00355.html#a578808702086688a2ad7cd861f0fe547", null ],
+      [ "SetValue", "d3/dc9/a00355.html#a3835542ebbb1a1846a9ead1e9c8b5726", null ]
     ] ]
 ];

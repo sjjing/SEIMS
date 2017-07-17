@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/module_setting/Settings.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/base/module_setting/ParamInfo.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,131 +112,123 @@ $(document).ready(function(){initNavTree('d1/d93/a00875_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Settings.cpp</div>  </div>
+<div class="title">ParamInfo.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Settings.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;ParamInfo.h&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="../../d0/dc3/a00354.html#a3714d5ef1ba032f74183aacb77fd711a">    3</a></span>&#160;<a class="code" href="../../d0/dc3/a00354.html#a3714d5ef1ba032f74183aacb77fd711a">Settings::Settings</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;}</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../d0/dc3/a00354.html#ad8c1aba938f51d3f013a78d93906a49c">    6</a></span>&#160;<a class="code" href="../../d0/dc3/a00354.html#a3714d5ef1ba032f74183aacb77fd711a">Settings::Settings</a>(vector&lt;vector&lt;string&gt; &gt;&amp; str2dvec) : m_Settings(str2dvec) {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;}</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno"><a class="line" href="../../d0/dc3/a00354.html#a94ca1ec029d96f54599498985581ee96">   10</a></span>&#160;<a class="code" href="../../d0/dc3/a00354.html#a3714d5ef1ba032f74183aacb77fd711a">Settings::Settings</a>(vector&lt;string&gt;&amp; str1dvec) {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <a class="code" href="../../d0/dc3/a00354.html#a4878fbbea86636d751c4b59957cf219b">SetSettingTagStrings</a>(str1dvec);</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;}</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno"><a class="line" href="../../d0/dc3/a00354.html#ae79d9331e3fa87d009ef089b8dade21c">   14</a></span>&#160;<a class="code" href="../../d0/dc3/a00354.html#ae79d9331e3fa87d009ef089b8dade21c">Settings::~Settings</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="comment">// There is no need to explicit release vector, by LJ</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment">//if (m_Settings.size() &gt; 0) {</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="comment">//    m_Settings.clear();</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="comment">//    string2DArray(m_Settings).swap(m_Settings); /// added by LJ</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="comment">//}</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="../../d0/dc3/a00354.html#a1a0a13a9b384da8843429a84065da370">   22</a></span>&#160;<span class="keywordtype">string</span> <a class="code" href="../../d0/dc3/a00354.html#a1a0a13a9b384da8843429a84065da370">Settings::GetValue</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; tag) {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">string</span> res = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d0/dc3/a00354.html#ab995632c847e6e0122b6ff58c9075409">m_Settings</a>.size() &gt; 0) {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> idx = 0; idx &lt; <a class="code" href="../../d0/dc3/a00354.html#ab995632c847e6e0122b6ff58c9075409">m_Settings</a>.size(); idx++) {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            assert(<a class="code" href="../../d0/dc3/a00354.html#ab995632c847e6e0122b6ff58c9075409">m_Settings</a>[idx].size() == 2);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            <span class="keywordflow">if</span> (StringMatch(<a class="code" href="../../d0/dc3/a00354.html#ab995632c847e6e0122b6ff58c9075409">m_Settings</a>[idx][0], tag)) {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                res = <a class="code" href="../../d0/dc3/a00354.html#ab995632c847e6e0122b6ff58c9075409">m_Settings</a>[idx][1];</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            }</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        }</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;m_Settings is empty, please check and confirm!&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">return</span> res;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../d0/dc3/a00354.html#a71cf2b1d87f7dc7951b67216df565dff">   38</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d0/dc3/a00354.html#a4878fbbea86636d751c4b59957cf219b">Settings::SetSettingTagStrings</a>(vector&lt;string&gt;&amp; stringvector) {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    assert(stringvector.size() &gt; 0);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">for</span> (vector&lt;string&gt;::iterator iter = stringvector.begin(); iter != stringvector.end(); ++iter) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="comment">// parse the line into separate items</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        vector&lt;string&gt; tokens = SplitString(*iter, <span class="charliteral">&#39;|&#39;</span>);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="comment">// is there anything in the token list?</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">if</span> (tokens.size() &gt; 0) {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">size_t</span> i = 0; i &lt; tokens.size(); i++) {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                tokens[i] = trim(tokens[i]);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="comment">// is there anything in the first item?</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            <span class="keywordflow">if</span> (tokens[0].size() &gt; 0) {</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                <span class="comment">// there is something to add so resize the header list to append it</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <span class="keywordtype">int</span> sz = <a class="code" href="../../d0/dc3/a00354.html#ab995632c847e6e0122b6ff58c9075409">m_Settings</a>.size(); <span class="comment">// get the current number of rows</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                <a class="code" href="../../d0/dc3/a00354.html#ab995632c847e6e0122b6ff58c9075409">m_Settings</a>.resize(sz + 1);  <span class="comment">// resize with one more row</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <a class="code" href="../../d0/dc3/a00354.html#ab995632c847e6e0122b6ff58c9075409">m_Settings</a>[sz] = tokens;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            } <span class="comment">// if there is nothing in the first item of the token list there is nothing to add to the header list</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="comment">//bool Settings::LoadSettingsFromFile(string filename) {</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">//    m_settingFileName = filename;</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">//    bool bStatus = false;</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">//    ifstream myfile;</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">//    string line;</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">//    try {</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="comment">//        // open the file</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="comment">//        myfile.open(filename.c_str(), ios::in);</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="comment">//        if (myfile.is_open()) {</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="comment">//            while (!myfile.eof()) {</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="comment">//                if (myfile.good()) {</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment">//                    getline(myfile, line);</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="comment">//                    line = trim(line);</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="comment">//                    if ((line.size() &gt; 0) &amp;&amp; (line[0] != &#39;#&#39;)) // ignore comments and empty lines</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="comment">//                    {</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="comment">//                        // parse the line into separate items</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">//                        vector &lt;string&gt; tokens = SplitString(line, &#39;|&#39;);</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">//                        // is there anything in the token list?</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment">//                        if (tokens.size() &gt; 0) {</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">//                            for (size_t i = 0; i &lt; tokens.size(); i++) {</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">//                                tokens[i] = trim(tokens[i]);</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">//                            }</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">//                            // is there anything in the first item?</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">//                            if (tokens[0].size() &gt; 0) {</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">//                                // there is something to add so resize the header list to append it</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">//                                int sz = m_Settings.size(); // get the current number of rows</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">//                                m_Settings.resize(sz + 1);        // resize with one more row</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">//                                m_Settings[sz] = tokens;</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">//                                bStatus = true; // consider this a success</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">//                            } // if there is nothing in the first item of the token list there is nothing to add to the header list</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">//                        }</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">//                    }</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment">//                }</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="comment">//            }</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment">//            bStatus = true;</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment">//            myfile.close();</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment">//        }</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment">//    }</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="comment">//    catch (...) {</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="comment">//        myfile.close();</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="comment">//        cout &lt;&lt; &quot;LoadSettingsFromFileOutFile, Load output setting file: &quot; &lt;&lt; string(filename) &lt;&lt; &quot; failed!&quot; &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment">//        throw;</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment">//    }</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="comment">//    return bStatus;</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="comment">//}</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="../../d0/dc3/a00354.html#a0d48eeaef80dd9018b887961cba776b2">  108</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d0/dc3/a00354.html#a0d48eeaef80dd9018b887961cba776b2">Settings::Dump</a>(<span class="keywordtype">string</span> fileName) {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
-<div class="ttc" id="a00354_html_ab995632c847e6e0122b6ff58c9075409"><div class="ttname"><a href="../../d0/dc3/a00354.html#ab995632c847e6e0122b6ff58c9075409">Settings::m_Settings</a></div><div class="ttdeci">vector&lt; vector&lt; string &gt; &gt; m_Settings</div><div class="ttdoc">Store setting key and values. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dac/a00876_source.html#l00054">Settings.h:54</a></div></div>
-<div class="ttc" id="a00354_html_a1a0a13a9b384da8843429a84065da370"><div class="ttname"><a href="../../d0/dc3/a00354.html#a1a0a13a9b384da8843429a84065da370">Settings::GetValue</a></div><div class="ttdeci">string GetValue(const string &amp;tag)</div><div class="ttdoc">Return the value for the entry with the given tag, &quot;&quot; if not found. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d93/a00875_source.html#l00022">Settings.cpp:22</a></div></div>
-<div class="ttc" id="a00354_html_a4878fbbea86636d751c4b59957cf219b"><div class="ttname"><a href="../../d0/dc3/a00354.html#a4878fbbea86636d751c4b59957cf219b">Settings::SetSettingTagStrings</a></div><div class="ttdeci">virtual void SetSettingTagStrings(vector&lt; vector&lt; string &gt; &gt; &amp;string2dvector)</div><div class="ttdoc">Set Settings vector directly. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dac/a00876_source.html#l00040">Settings.h:40</a></div></div>
-<div class="ttc" id="a00354_html_a3714d5ef1ba032f74183aacb77fd711a"><div class="ttname"><a href="../../d0/dc3/a00354.html#a3714d5ef1ba032f74183aacb77fd711a">Settings::Settings</a></div><div class="ttdeci">Settings(void)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d93/a00875_source.html#l00003">Settings.cpp:3</a></div></div>
-<div class="ttc" id="a00354_html_a0d48eeaef80dd9018b887961cba776b2"><div class="ttname"><a href="../../d0/dc3/a00354.html#a0d48eeaef80dd9018b887961cba776b2">Settings::Dump</a></div><div class="ttdeci">virtual void Dump(string)</div><div class="ttdoc">Output information to plain text file. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d93/a00875_source.html#l00108">Settings.cpp:108</a></div></div>
-<div class="ttc" id="a00354_html_ae79d9331e3fa87d009ef089b8dade21c"><div class="ttname"><a href="../../d0/dc3/a00354.html#ae79d9331e3fa87d009ef089b8dade21c">Settings::~Settings</a></div><div class="ttdeci">virtual ~Settings(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d93/a00875_source.html#l00014">Settings.cpp:14</a></div></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a15ad9d14f6328ecf026b5e4e04dbba88">    5</a></span>&#160;<a class="code" href="../../d8/df7/a00331.html#a15ad9d14f6328ecf026b5e4e04dbba88">ParamInfo::ParamInfo</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    Reset();</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;}</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a5acc8010c5db8b46f36c34bfd4be0209">    9</a></span>&#160;<a class="code" href="../../d8/df7/a00331.html#a5acc8010c5db8b46f36c34bfd4be0209">ParamInfo::~ParamInfo</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;}</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a6a66a29538097694a8427613b19a942a">   12</a></span>&#160;<span class="keywordtype">float</span> <a class="code" href="../../d8/df7/a00331.html#a6a66a29538097694a8427613b19a942a">ParamInfo::GetAdjustedValue</a>(<span class="keywordtype">float</span> pre_value <span class="comment">/* = NODATA_VALUE */</span>) {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">if</span> (FloatEqual(pre_value, NODATA_VALUE)) {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;        pre_value = Value;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    }</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">float</span> res = pre_value;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">if</span> (FloatEqual(res, NODATA_VALUE)) {  </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordflow">return</span> res;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    }</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">if</span> (StringMatch(Use, PARAM_USE_Y)) {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordflow">if</span> (StringMatch(Change, PARAM_CHANGE_RC) &amp;&amp; !FloatEqual(Impact, 1.f)) {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            res = pre_value * Impact;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(Change, PARAM_CHANGE_AC) &amp;&amp; !FloatEqual(Impact, 0.f)) {</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;            res = pre_value + Impact;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(Change, PARAM_CHANGE_VC) &amp;&amp; !FloatEqual(Impact, NODATA_VALUE)) {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            res = Impact;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(Change, PARAM_CHANGE_NC)) {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <span class="comment">//don&#39;t change</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        }</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">return</span> res;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;}</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#aaee91ca6510c999cd689171a704575e8">   34</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/df7/a00331.html#aaee91ca6510c999cd689171a704575e8">ParamInfo::Adjust1DArray</a>(<span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data) {</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">if</span> (StringMatch(Use, <span class="keywordtype">string</span>(PARAM_USE_Y))) {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordflow">if</span> (!FloatEqual(data[i], NODATA_VALUE)) {  </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                data[i] = GetAdjustedValue(data[i]);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            }</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">// Deprecated by lj, 2017-7-12</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">//        if (StringMatch(Change, PARAM_CHANGE_RC) &amp;&amp; !FloatEqual(Impact, 1.f)) {</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">//#pragma omp parallel for</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">//            for (int i = 0; i &lt; n; i++) {</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">//                if (!FloatEqual(data[i], NODATA_VALUE)) {  /// Do not change NoData value</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">//                    data[i] *= Impact;</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="comment">//                }</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">//            }</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">//        } else if (StringMatch(Change, PARAM_CHANGE_AC) &amp;&amp; !FloatEqual(Impact, 0.f)) {</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">//#pragma omp parallel for</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment">//            for (int i = 0; i &lt; n; i++) {</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">//                if (!FloatEqual(data[i], NODATA_VALUE)) {  /// Do not change NoData value</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">//                    data[i] += Impact;</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">//                }</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">//            }</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment">//        }</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a80511ea5a368997e89066aee66788e2e">   61</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/df7/a00331.html#a80511ea5a368997e89066aee66788e2e">ParamInfo::Adjust1DRaster</a>(<span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data) {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    Adjust1DArray(n, data);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;}</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a25d08aee0e83774468aaebfeb7f6e3e5">   65</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/df7/a00331.html#a25d08aee0e83774468aaebfeb7f6e3e5">ParamInfo::Adjust2DArray</a>(<span class="keywordtype">int</span> n, <span class="keywordtype">float</span> **data) {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordtype">int</span> curCols = (int) data[i][0];</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        Adjust1DArray(curCols, data[i] + 1);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;}</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a32f9eead1547f38be571ae13d164d627">   73</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/df7/a00331.html#a32f9eead1547f38be571ae13d164d627">ParamInfo::Adjust2DRaster</a>(<span class="keywordtype">int</span> n, <span class="keywordtype">int</span> lyrs, <span class="keywordtype">float</span> **data) {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; i++) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        Adjust1DArray(lyrs, data[i]);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;}</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a86b59d5285b7826b2b98b8afac9732e3">   80</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d8/df7/a00331.html#a86b59d5285b7826b2b98b8afac9732e3">ParamInfo::Reset</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    Change = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    Description = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    Dimension = DT_Unknown;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    Impact = 0.f;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    Maximum = 0.f;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    Minimun = 0.f;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    ModuleID = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    Name = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    Source = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    Units = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    Use = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    Value = 0.f;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    DependPara = NULL;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    IsConstant = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    ClimateType = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    IsOutput = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    OutputToOthers = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    initialized = <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div>
+<div class="ttc" id="a00331_html_a80511ea5a368997e89066aee66788e2e"><div class="ttname"><a href="../../d8/df7/a00331.html#a80511ea5a368997e89066aee66788e2e">ParamInfo::Adjust1DRaster</a></div><div class="ttdeci">void Adjust1DRaster(int n, float *data)</div><div class="ttdoc">Adjust 1D Raster,. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d93/a00875_source.html#l00061">ParamInfo.cpp:61</a></div></div>
+<div class="ttc" id="a00331_html_a5acc8010c5db8b46f36c34bfd4be0209"><div class="ttname"><a href="../../d8/df7/a00331.html#a5acc8010c5db8b46f36c34bfd4be0209">ParamInfo::~ParamInfo</a></div><div class="ttdeci">~ParamInfo(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d93/a00875_source.html#l00009">ParamInfo.cpp:9</a></div></div>
+<div class="ttc" id="a00331_html_aaee91ca6510c999cd689171a704575e8"><div class="ttname"><a href="../../d8/df7/a00331.html#aaee91ca6510c999cd689171a704575e8">ParamInfo::Adjust1DArray</a></div><div class="ttdeci">void Adjust1DArray(int n, float *data)</div><div class="ttdoc">Adjust 1D array. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d93/a00875_source.html#l00034">ParamInfo.cpp:34</a></div></div>
+<div class="ttc" id="a00331_html_a6a66a29538097694a8427613b19a942a"><div class="ttname"><a href="../../d8/df7/a00331.html#a6a66a29538097694a8427613b19a942a">ParamInfo::GetAdjustedValue</a></div><div class="ttdeci">float GetAdjustedValue(float pre_value=NODATA_VALUE)</div><div class="ttdoc">Return the adjusted value for this parameter. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d93/a00875_source.html#l00012">ParamInfo.cpp:12</a></div></div>
+<div class="ttc" id="a00331_html_a86b59d5285b7826b2b98b8afac9732e3"><div class="ttname"><a href="../../d8/df7/a00331.html#a86b59d5285b7826b2b98b8afac9732e3">ParamInfo::Reset</a></div><div class="ttdeci">void Reset(void)</div><div class="ttdoc">Reset the contents of the object to default values. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d93/a00875_source.html#l00080">ParamInfo.cpp:80</a></div></div>
+<div class="ttc" id="a00331_html_a25d08aee0e83774468aaebfeb7f6e3e5"><div class="ttname"><a href="../../d8/df7/a00331.html#a25d08aee0e83774468aaebfeb7f6e3e5">ParamInfo::Adjust2DArray</a></div><div class="ttdeci">void Adjust2DArray(int n, float **data)</div><div class="ttdoc">Adjust 2D array. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d93/a00875_source.html#l00065">ParamInfo.cpp:65</a></div></div>
+<div class="ttc" id="a00331_html_a15ad9d14f6328ecf026b5e4e04dbba88"><div class="ttname"><a href="../../d8/df7/a00331.html#a15ad9d14f6328ecf026b5e4e04dbba88">ParamInfo::ParamInfo</a></div><div class="ttdeci">ParamInfo(void)</div><div class="ttdoc">Construct an empty instance. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d93/a00875_source.html#l00005">ParamInfo.cpp:5</a></div></div>
+<div class="ttc" id="a00331_html_a32f9eead1547f38be571ae13d164d627"><div class="ttname"><a href="../../d8/df7/a00331.html#a32f9eead1547f38be571ae13d164d627">ParamInfo::Adjust2DRaster</a></div><div class="ttdeci">void Adjust2DRaster(int n, int lyr, float **data)</div><div class="ttdoc">Adjust 2D Raster. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d93/a00875_source.html#l00073">ParamInfo.cpp:73</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_cce2c0ac50386f26b5b526fa8626cc77.html">module_setting</a></li><li class="navelem"><b>Settings.cpp</b></li>
-    <li class="footer">Generated on Fri Jul 7 2017 14:05:36 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_cce2c0ac50386f26b5b526fa8626cc77.html">module_setting</a></li><li class="navelem"><b>ParamInfo.cpp</b></li>
+    <li class="footer">Generated on Mon Jul 17 2017 03:28:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

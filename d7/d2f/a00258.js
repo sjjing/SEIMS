@@ -1,11 +1,17 @@
 var a00258 =
 [
-    [ "TestHelpFlag", "d7/d2f/a00258.html#a913bc1e0c66584e436623688ba4d6b50", null ],
-    [ "TestHelpFlag", "d7/d2f/a00258.html#a913bc1e0c66584e436623688ba4d6b50", null ],
-    [ "TestNonHelpFlag", "d7/d2f/a00258.html#a0eb2fe97ba1d7e143d96c53f291b1483", null ],
-    [ "TestNonHelpFlag", "d7/d2f/a00258.html#a0eb2fe97ba1d7e143d96c53f291b1483", null ],
-    [ "testRunsTestsWithGtestInternalFlag", "d7/d2f/a00258.html#aabce3d2be94ad4e413b9452e3dc8c3a8", null ],
-    [ "testRunsTestsWithGtestInternalFlag", "d7/d2f/a00258.html#aabce3d2be94ad4e413b9452e3dc8c3a8", null ],
-    [ "testRunsTestsWithoutHelpFlag", "d7/d2f/a00258.html#a5a5285dac93bcc5933da13ed5209fbda", null ],
-    [ "testRunsTestsWithoutHelpFlag", "d7/d2f/a00258.html#a5a5285dac93bcc5933da13ed5209fbda", null ]
+    [ "RunAndVerify", "d7/d2f/a00258.html#a755640c8f1304e7c59c367b019900b56", null ],
+    [ "RunAndVerify", "d7/d2f/a00258.html#a755640c8f1304e7c59c367b019900b56", null ],
+    [ "testBreakOnFailureOverridesThrowOnFailure", "d7/d2f/a00258.html#a172b21a0764125d322b52fa210ec4a8c", null ],
+    [ "testBreakOnFailureOverridesThrowOnFailure", "d7/d2f/a00258.html#a172b21a0764125d322b52fa210ec4a8c", null ],
+    [ "testCatchExceptionsDoesNotInterfere", "d7/d2f/a00258.html#a3ab04c033dca973ed2c35255a730aa65", null ],
+    [ "testCatchExceptionsDoesNotInterfere", "d7/d2f/a00258.html#a3ab04c033dca973ed2c35255a730aa65", null ],
+    [ "testDefaultBehavior", "d7/d2f/a00258.html#a75a3a3a048d333d71c6fbc61bea5dc6d", null ],
+    [ "testDefaultBehavior", "d7/d2f/a00258.html#a75a3a3a048d333d71c6fbc61bea5dc6d", null ],
+    [ "testEnvVar", "d7/d2f/a00258.html#ad941026c6cc28c4adf89f9daeeec9787", null ],
+    [ "testEnvVar", "d7/d2f/a00258.html#ad941026c6cc28c4adf89f9daeeec9787", null ],
+    [ "testFlag", "d7/d2f/a00258.html#a7f7cedd991c6efe50678d5afe46271d7", null ],
+    [ "testFlag", "d7/d2f/a00258.html#a7f7cedd991c6efe50678d5afe46271d7", null ],
+    [ "testFlagOverridesEnvVar", "d7/d2f/a00258.html#a6fa7456806eae78661a3ae8279418884", null ],
+    [ "testFlagOverridesEnvVar", "d7/d2f/a00258.html#a6fa7456806eae78661a3ae8279418884", null ]
 ];

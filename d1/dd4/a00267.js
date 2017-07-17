@@ -1,11 +1,5 @@
 var a00267 =
 [
-    [ "_Authenticate", "d1/dd4/a00267.html#ad1e8f63109907dd7703e68d287a3a983", null ],
-    [ "_Authenticate", "d1/dd4/a00267.html#ad1e8f63109907dd7703e68d287a3a983", null ],
-    [ "_Authenticate", "d1/dd4/a00267.html#ad1e8f63109907dd7703e68d287a3a983", null ],
-    [ "_Authenticate", "d1/dd4/a00267.html#ad1e8f63109907dd7703e68d287a3a983", null ],
-    [ "_GetOpener", "d1/dd4/a00267.html#a933ade73d3e09ce1d3ee96ac41f6df56", null ],
-    [ "_GetOpener", "d1/dd4/a00267.html#a933ade73d3e09ce1d3ee96ac41f6df56", null ],
-    [ "_GetOpener", "d1/dd4/a00267.html#a933ade73d3e09ce1d3ee96ac41f6df56", null ],
-    [ "_GetOpener", "d1/dd4/a00267.html#a933ade73d3e09ce1d3ee96ac41f6df56", null ]
+    [ "HarvestKillOperation", "d1/dd4/a00267.html#a1682b0931a5ddc0388939934bf8ebfc8", null ],
+    [ "dump", "d1/dd4/a00267.html#a444c492c0a3521720d3ba70162e6cda4", null ]
 ];

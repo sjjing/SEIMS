@@ -1,11 +1,12 @@
 var a00312 =
 [
-    [ "MongoGridFS", "d7/df2/a00312.html#ae46c12793f6a70a2d7982c28d124a582", null ],
-    [ "~MongoGridFS", "d7/df2/a00312.html#a60949372eb1994bfff5aeabd0b51b251", null ],
-    [ "getFile", "d7/df2/a00312.html#a6e67d5be92f06a303fe07a75761038aa", null ],
-    [ "getFileMetadata", "d7/df2/a00312.html#ad9e826d6e16e45c388fa23c327cdfca1", null ],
-    [ "getFileNames", "d7/df2/a00312.html#af1e8ad99d6bdb84805c4adb2fe4ca63a", null ],
-    [ "getStreamData", "d7/df2/a00312.html#a59803caa23585bfff0b5e039da5a9512", null ],
-    [ "removeFile", "d7/df2/a00312.html#aa8a82047ec815f9e83c3d06177c3f7e3", null ],
-    [ "writeStreamData", "d7/df2/a00312.html#af69c8de18c04e4b3f41ffe3dd99d957b", null ]
+    [ "MongoClient", "d7/df2/a00312.html#a103f61d194bb4652ddbf141a66ff7e85", null ],
+    [ "~MongoClient", "d7/df2/a00312.html#ab0ee0aa8eae19ec07ffd09c5c1c6d08c", null ],
+    [ "getCollection", "d7/df2/a00312.html#a9dbd71ac7598b9d3a24369004485315c", null ],
+    [ "getCollectionNames", "d7/df2/a00312.html#a715a0bc9019d8a3e972f9ed43a37aa34", null ],
+    [ "getConn", "d7/df2/a00312.html#a59abe6355d4affc3502367a9982087e4", null ],
+    [ "getDatabase", "d7/df2/a00312.html#a0406f6c05f05545b9f6b9dc0c28333cc", null ],
+    [ "getDatabaseNames", "d7/df2/a00312.html#ad7ed3ef088adf2781b78d9547ae8a0eb", null ],
+    [ "getGridFS", "d7/df2/a00312.html#a240cc92449bdf68d3dbe45bd617268ff", null ],
+    [ "getGridFSFileNames", "d7/df2/a00312.html#a54dbe4c45c29fa2c938bc5acecbf2af3", null ]
 ];

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/ecology/BIO_EPIC/api.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/main/main_omp/ModelMain.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,147 +112,130 @@ $(document).ready(function(){initNavTree('da/d5b/a00905_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">api.cpp</div>  </div>
+<div class="title">ModelMain.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Biomass_EPIC.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <a class="code" href="../../d6/de1/a00356.html">SimulationModule</a> *</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;GetInstance() {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d1/de1/a00213.html">Biomass_EPIC</a>();</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// function to return the XML Metadata document string</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../dc/dc2/a01251.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a>() {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="../../db/da2/a00300.html">MetadataInfo</a> mdi;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="comment">// set the information properties</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    mdi.SetAuthor(<span class="stringliteral">&quot;Liang-Jun Zhu&quot;</span>);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    mdi.SetClass(MCLS_PG, MCLSDESC_PG);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    mdi.SetDescription(MCLSDESC_PG);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    mdi.SetEmail(SEIMS_EMAIL);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    mdi.SetID(MID_BIO_EPIC);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    mdi.SetName(MID_BIO_EPIC);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    mdi.SetVersion(<span class="stringliteral">&quot;1.1&quot;</span>);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    mdi.SetWebsite(SEIMS_SITE);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    mdi.SetHelpfile(<span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    mdi.AddParameter(VAR_DAYLEN_MIN, UNIT_HOUR, DESC_DAYLEN_MIN, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    mdi.AddParameter(VAR_DORMHR, UNIT_HOUR, DESC_DORMHR, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    mdi.AddParameter(VAR_CO2, UNIT_GAS_PPMV, DESC_CO2, Source_ParameterDB, DT_Single);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    mdi.AddParameter(VAR_NUPDIS, UNIT_NON_DIM, DESC_NUPDIS, Source_ParameterDB, DT_Single);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    mdi.AddParameter(VAR_PUPDIS, UNIT_NON_DIM, DESC_PUPDIS, Source_ParameterDB, DT_Single);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    mdi.AddParameter(VAR_NFIXCO, UNIT_NON_DIM, DESC_NFIXCO, Source_ParameterDB, DT_Single);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    mdi.AddParameter(VAR_NFIXMX, UNIT_NON_DIM, DESC_NFIXMX, Source_ParameterDB, DT_Single);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    mdi.AddParameter(VAR_TMEAN_ANN, UNIT_TEMP_DEG, DESC_TMEAN_ANN, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    mdi.AddParameter(VAR_SOILLAYERS, UNIT_NON_DIM, DESC_SOILLAYERS, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    mdi.AddParameter(VAR_SOL_ZMX, UNIT_DEPTH_MM, DESC_SOL_ZMX, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    mdi.AddParameter(VAR_SOL_ALB, UNIT_NON_DIM, DESC_SOL_ALB, Source_ParameterDB, DT_Raster1D); </div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    mdi.AddParameter(VAR_SOILDEPTH, UNIT_DEPTH_MM, DESC_SOILDEPTH, Source_ParameterDB, DT_Raster2D);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    mdi.AddParameter(VAR_SOILTHICK, UNIT_DEPTH_MM, DESC_SOILTHICK, Source_ParameterDB, DT_Raster2D);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    mdi.AddParameter(VAR_SOL_AWC, UNIT_DEPTH_MM, DESC_SOL_AWC, Source_ParameterDB, DT_Raster2D);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    mdi.AddParameter(VAR_SOL_SUMAWC, UNIT_DEPTH_MM, DESC_SOL_SUMAWC, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    mdi.AddParameter(VAR_SOL_SUMSAT, UNIT_DEPTH_MM, DESC_SOL_SUMSAT, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    mdi.AddParameter(VAR_IDC, UNIT_NON_DIM, DESC_IDC, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    mdi.AddParameter(VAR_ALAIMIN, UNIT_AREA_RATIO, DESC_ALAIMIN, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    mdi.AddParameter(VAR_BIO_E, UNIT_RAD_USE_EFFI, DESC_BIO_E, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    mdi.AddParameter(VAR_BIOEHI, UNIT_RAD_USE_EFFI, DESC_BIOEHI, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    mdi.AddParameter(VAR_BIOLEAF, UNIT_NON_DIM, DESC_BIOLEAF, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    mdi.AddParameter(VAR_BLAI, UNIT_AREA_RATIO, DESC_BLAI, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    mdi.AddParameter(VAR_BMX_TREES, UNIT_CONT_TONHA, DESC_BMX_TREES, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    mdi.AddParameter(VAR_BN1, UNIT_NON_DIM, DESC_BN1, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    mdi.AddParameter(VAR_BN2, UNIT_NON_DIM, DESC_BN2, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    mdi.AddParameter(VAR_BN3, UNIT_NON_DIM, DESC_BN3, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    mdi.AddParameter(VAR_BP1, UNIT_NON_DIM, DESC_BP1, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    mdi.AddParameter(VAR_BP2, UNIT_NON_DIM, DESC_BP2, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    mdi.AddParameter(VAR_BP3, UNIT_NON_DIM, DESC_BP3, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    mdi.AddParameter(VAR_CHTMX, UNIT_LEN_M, DESC_CHTMX, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    mdi.AddParameter(VAR_CO2HI, UNIT_GAS_PPMV, DESC_CO2HI, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    mdi.AddParameter(VAR_DLAI, UNIT_NON_DIM, DESC_DLAI, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    mdi.AddParameter(VAR_EXT_COEF, UNIT_NON_DIM, DESC_EXT_COEF, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    mdi.AddParameter(VAR_FRGRW1, UNIT_NON_DIM, DESC_FRGRW1, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    mdi.AddParameter(VAR_FRGRW2, UNIT_NON_DIM, DESC_FRGRW2, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    mdi.AddParameter(VAR_HVSTI, UNIT_CONT_RATIO, DESC_HVSTI, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    mdi.AddParameter(VAR_LAIMX1, UNIT_NON_DIM, DESC_LAIMX1, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    mdi.AddParameter(VAR_LAIMX2, UNIT_NON_DIM, DESC_LAIMX2, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    mdi.AddParameter(VAR_MAT_YRS, UNIT_YEAR, DESC_MAT_YRS, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    mdi.AddParameter(VAR_T_BASE, UNIT_TEMP_DEG, DESC_T_BASE, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    mdi.AddParameter(VAR_T_OPT, UNIT_TEMP_DEG, DESC_T_OPT, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    mdi.AddParameter(VAR_WAVP, UNIT_RAD_USE_EFFI, DESC_WAVP, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    mdi.AddParameter(VAR_SOL_RSDIN, UNIT_CONT_KGHA, DESC_SOL_RSDIN, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    mdi.AddParameter(VAR_IGRO, UNIT_NON_DIM, DESC_IGRO, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    mdi.AddParameter(VAR_EPCO, UNIT_NON_DIM, DESC_EPCO, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    mdi.AddParameter(VAR_TREEYRS, UNIT_YEAR, DESC_TREEYRS, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    mdi.AddParameter(VAR_LAIINIT, UNIT_CONT_RATIO, DESC_LAIINIT, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    mdi.AddParameter(VAR_BIOINIT, UNIT_CONT_KGHA, DESC_BIOINIT, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    mdi.AddParameter(VAR_PHUPLT, UNIT_HEAT_UNIT, DESC_PHUPLT, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    mdi.AddParameter(VAR_CHT, UNIT_LEN_M, DESC_CHT, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    mdi.AddParameter(VAR_DORMI, UNIT_NON_DIM, DESC_DORMI, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    mdi.AddParameter(VAR_SOL_NO3, UNIT_CONT_KGHA, DESC_SOL_NO3, Source_ParameterDB, DT_Raster2D);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    mdi.AddParameter(VAR_SOL_SOLP, UNIT_CONT_KGHA, DESC_SOL_SOLP, Source_ParameterDB, DT_Raster2D);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    mdi.AddInput(DataType_MeanTemperature, UNIT_TEMP_DEG, DESC_MEANTEMP, Source_Module, DT_Raster1D);</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    mdi.AddInput(DataType_MinimumTemperature, UNIT_TEMP_DEG, DESC_MINTEMP, Source_Module, DT_Raster1D);</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    mdi.AddInput(DataType_SolarRadiation, UNIT_SR, DESC_SR, Source_Module, DT_Raster1D);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    mdi.AddInput(VAR_DAYLEN, UNIT_HOUR, DESC_DAYLEN, Source_Module, DT_Raster1D);  </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    mdi.AddInput(VAR_SOL_ST, UNIT_DEPTH_MM, DESC_SOL_ST, Source_Module, DT_Raster2D);</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    mdi.AddInput(VAR_SOL_SW, UNIT_DEPTH_MM, DESC_SOL_SW, Source_Module, DT_Raster1D);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    mdi.AddInput(VAR_PET, UNIT_DEPTH_MM, DESC_PET, Source_Module, DT_Raster1D);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    mdi.AddInput(VAR_VPD, UNIT_PRESSURE, DESC_VPD, Source_Module, DT_Raster1D);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    mdi.AddInput(VAR_PPT, UNIT_DEPTH_MM, DESC_PPT, Source_Module, DT_Raster1D);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    mdi.AddInput(VAR_SOET, UNIT_DEPTH_MM, DESC_SOET, Source_Module, DT_Raster1D);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    mdi.AddInput(VAR_SNAC, UNIT_DEPTH_MM, DESC_SNAC, Source_Module, DT_Raster1D);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    mdi.AddInput(VAR_SOL_COV, UNIT_CONT_KGHA, DESC_SOL_COV, Source_Module_Optional, DT_Raster1D);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    mdi.AddInput(VAR_SOL_RSD, UNIT_CONT_KGHA, DESC_SOL_RSD, Source_Module_Optional, DT_Raster2D);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    mdi.AddOutput(VAR_SOL_COV, UNIT_CONT_KGHA, DESC_SOL_COV, DT_Raster1D);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    mdi.AddOutput(VAR_SOL_RSD, UNIT_CONT_KGHA, DESC_SOL_RSD, DT_Raster2D);</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="comment">// set the output variables</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    mdi.AddOutput(VAR_IGRO, UNIT_NON_DIM, DESC_IGRO, DT_Raster1D);</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    mdi.AddOutput(VAR_HVSTI_ADJ, UNIT_CONT_RATIO, DESC_HVSTI_ADJ, DT_Raster1D);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    mdi.AddOutput(VAR_CHT, UNIT_LEN_M, DESC_CHT, DT_Raster1D);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    mdi.AddOutput(VAR_ALBDAY, UNIT_NON_DIM, DESC_ALBDAY, DT_Raster1D);</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    mdi.AddOutput(VAR_DORMI, UNIT_NON_DIM, DESC_DORMI, DT_Raster1D);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    mdi.AddOutput(VAR_LAST_SOILRD, UNIT_DEPTH_MM, DESC_LAST_SOILRD, DT_Raster1D);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    mdi.AddOutput(VAR_LAIYRMAX, UNIT_AREA_RATIO, DESC_LAIYRMAX, DT_Raster1D);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    mdi.AddOutput(VAR_LAIDAY, UNIT_AREA_RATIO, DESC_LAIDAY, DT_Raster1D);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    mdi.AddOutput(VAR_LAIMAXFR, UNIT_NON_DIM, DESC_LAIMAXFR, DT_Raster1D);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    mdi.AddOutput(VAR_OLAI, UNIT_AREA_RATIO, DESC_OLAI, DT_Raster1D);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    mdi.AddOutput(VAR_FR_PHU_ACC, UNIT_HEAT_UNIT, DESC_FR_PHU_ACC, DT_Raster1D);</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    mdi.AddOutput(VAR_PLTET_TOT, UNIT_DEPTH_MM, DESC_PLTET_TOT, DT_Raster1D);</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    mdi.AddOutput(VAR_PLTPET_TOT, UNIT_DEPTH_MM, DESC_PLTPET_TOT, DT_Raster1D);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    mdi.AddOutput(VAR_AET_PLT, UNIT_DEPTH_MM, DESC_AET_PLT, DT_Raster1D);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    mdi.AddOutput(VAR_PLANT_N, UNIT_CONT_KGHA, DESC_PLANT_N, DT_Raster1D);</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    mdi.AddOutput(VAR_PLANT_P, UNIT_CONT_KGHA, DESC_PLANT_P, DT_Raster1D);</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    mdi.AddOutput(VAR_FR_PLANT_N, UNIT_NON_DIM, DESC_FR_PLANT_N, DT_Raster1D);</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    mdi.AddOutput(VAR_FR_PLANT_P, UNIT_NON_DIM, DESC_FR_PLANT_P, DT_Raster1D);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    mdi.AddOutput(VAR_FR_ROOT, UNIT_NON_DIM, DESC_FR_ROOT, DT_Raster1D);</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    mdi.AddOutput(VAR_FR_STRSWTR, UNIT_NON_DIM, DESC_FR_STRSWTR, DT_Raster1D);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    mdi.AddOutput(VAR_BIOMASS, UNIT_CONT_KGHA, DESC_BIOMASS, DT_Raster1D);</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="comment">// write out the XML file.</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordtype">string</span> res = mdi.GetXMLDocument();</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordtype">char</span> *tmp = <span class="keyword">new</span> <span class="keywordtype">char</span>[res.size() + 1];</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    strprintf(tmp, res.size() + 1, <span class="stringliteral">&quot;%s&quot;</span>, res.c_str());</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;}</div>
-<div class="ttc" id="a00356_html"><div class="ttname"><a href="../../d6/de1/a00356.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dab/a00886_source.html#l00047">SimulationModule.h:47</a></div></div>
-<div class="ttc" id="a00300_html"><div class="ttname"><a href="../../db/da2/a00300.html">MetadataInfo</a></div><div class="ttdoc">Metadata information of module. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d50/a00882_source.html#l00091">MetadataInfo.h:91</a></div></div>
-<div class="ttc" id="a00213_html"><div class="ttname"><a href="../../d1/de1/a00213.html">Biomass_EPIC</a></div><div class="ttdoc">Predicts daily potential growth of total plant biomass and roots and calculates leaf area index incor...</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfd/a00969_source.html#l00029">Biomass_EPIC.h:29</a></div></div>
-<div class="ttc" id="a01251_html_ga0087c853569e2c94d58c3499365662e9"><div class="ttname"><a href="../../dc/dc2/a01251.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a></div><div class="ttdeci">SEIMS_MODULE_API const char * MetadataInformation()</div><div class="ttdoc">function to return the XML Metadata document string </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d19/a00935_source.html#l00015">api.cpp:15</a></div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#ifndef SEIMS_MODEL_MAIN_H</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEIMS_MODEL_MAIN_H</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;seims.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;SettingsInput.h&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &quot;SettingsOutput.h&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;PrintInfo.h&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &quot;ModuleFactory.h&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &quot;DataCenter.h&quot;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &quot;MongoUtil.h&quot;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &quot;clsRasterData.cpp&quot;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &quot;ClimateParams.h&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;set&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;ctime&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html">   43</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d5/d0f/a00308.html">ModelMain</a> {</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <a class="code" href="../../d5/d0f/a00308.html">ModelMain</a>(<a class="code" href="../../d9/d21/a00240.html">DataCenterMongoDB</a>* dcenter, ModuleFactory* mfactory);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ~<a class="code" href="../../d5/d0f/a00308.html">ModelMain</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> Execute(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> Output(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">void</span> CheckAvailableOutput(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordtype">void</span> AppendOutputData(<span class="keyword">const</span> time_t time);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordtype">void</span> OutputExecuteTime(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">void</span> StepHillSlope(time_t t, <span class="keywordtype">int</span> yearIdx, <span class="keywordtype">int</span> subIndex);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">void</span> StepChannel(time_t t, <span class="keywordtype">int</span> yearIdx);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">void</span> StepOverall(time_t startT, time_t endT);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="comment">/*            Get functions for MPI version                             */</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a11036a1f9587f70a15f4b30efb0f337e">  100</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d5/d0f/a00308.html#a11036a1f9587f70a15f4b30efb0f337e">GetModuleCount</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> (<span class="keywordtype">int</span>) m_simulationModules.size(); }</div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#ad3c0830e7d258d4a172c50f92c6f5533">  102</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="../../d5/d0f/a00308.html#ad3c0830e7d258d4a172c50f92c6f5533">GetModuleID</a>(<span class="keywordtype">int</span> i)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_factory-&gt;GetModuleID(i); }</div>
+<div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#aa8314a9c9b12e3460f9b085f1dcdf18d">  104</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d5/d0f/a00308.html#aa8314a9c9b12e3460f9b085f1dcdf18d">GetModuleExecuteTime</a>(<span class="keywordtype">int</span> i)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> (<span class="keywordtype">float</span>) m_executeTime[i]; }</div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a4f4b6bb3726ce8abf26e6f98875be907">  106</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d5/d0f/a00308.html#a4f4b6bb3726ce8abf26e6f98875be907">GetReadDataTime</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_readFileTime; }</div>
+<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#aeec5ef1affb9a307980a931dd73c3a50">  108</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d5/d0f/a00308.html#aeec5ef1affb9a307980a931dd73c3a50">IncludeChannelProcesses</a>(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> m_channelModules.size() != 0; }</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">/*             Input parameters                                         */</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a58ce7f8504b25523d99b6152aebc5b41">  115</a></span>&#160;    <a class="code" href="../../d9/d21/a00240.html">DataCenterMongoDB</a>*          <a class="code" href="../../d5/d0f/a00308.html#a58ce7f8504b25523d99b6152aebc5b41">m_dataCenter</a>;         </div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a2e06165b5bc3ccaa4e5efa1044c9c330">  116</a></span>&#160;    ModuleFactory*              <a class="code" href="../../d5/d0f/a00308.html#a2e06165b5bc3ccaa4e5efa1044c9c330">m_factory</a>;            </div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="comment">/*   Pointer or reference of object and data derived from input params  */</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
+<div class="line"><a name="l00122"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a520793503b0d58f1badacdd89934633c">  122</a></span>&#160;    <a class="code" href="../../df/df1/a00357.html">SettingsInput</a>*              <a class="code" href="../../d5/d0f/a00308.html#a520793503b0d58f1badacdd89934633c">m_input</a>;              </div>
+<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#ae63c8ce50dc6560d6e7d33031ff9eee8">  123</a></span>&#160;    SettingsOutput*             <a class="code" href="../../d5/d0f/a00308.html#ae63c8ce50dc6560d6e7d33031ff9eee8">m_output</a>;             </div>
+<div class="line"><a name="l00124"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a9ed0fbeed70bc8c1c3a47ee2d1414b4e">  124</a></span>&#160;    <a class="code" href="../../de/dc2/a00228.html">clsRasterData&lt;float&gt;</a>*       <a class="code" href="../../d5/d0f/a00308.html#a9ed0fbeed70bc8c1c3a47ee2d1414b4e">m_maskRaster</a>;         </div>
+<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a2d26d739a70ed11ffc6197df840fb127">  125</a></span>&#160;    <span class="keywordtype">string</span>                      <a class="code" href="../../d5/d0f/a00308.html#a2d26d739a70ed11ffc6197df840fb127">m_outputPath</a>;         </div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a50399b9d5c1ab95c36a72d6e0bd49fc7">  126</a></span>&#160;    time_t                      <a class="code" href="../../d5/d0f/a00308.html#a50399b9d5c1ab95c36a72d6e0bd49fc7">m_dtDaily</a>;            </div>
+<div class="line"><a name="l00127"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a75ff229a26546a1925f3d2302ee5037c">  127</a></span>&#160;    time_t                      <a class="code" href="../../d5/d0f/a00308.html#a75ff229a26546a1925f3d2302ee5037c">m_dtHs</a>;               </div>
+<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a43992993e2ab5f34350a353440e8abd6">  128</a></span>&#160;    time_t                      <a class="code" href="../../d5/d0f/a00308.html#a43992993e2ab5f34350a353440e8abd6">m_dtCh</a>;               </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="comment">/*   Variables newly allocated in this class                            */</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="comment">/************************************************************************/</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#ab128f988469ee7670c60d7ad6e1a226d">  134</a></span>&#160;    <span class="keywordtype">float</span>                       <a class="code" href="../../d5/d0f/a00308.html#ab128f988469ee7670c60d7ad6e1a226d">m_readFileTime</a>;       </div>
+<div class="line"><a name="l00135"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a3d95a955d68e31885334312d7983753f">  135</a></span>&#160;    vector&lt;SimulationModule *&gt;  <a class="code" href="../../d5/d0f/a00308.html#a3d95a955d68e31885334312d7983753f">m_simulationModules</a>;  </div>
+<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a54fe02dcc9070c05a240d88844f11dc3">  136</a></span>&#160;    vector&lt;int&gt;                 <a class="code" href="../../d5/d0f/a00308.html#a54fe02dcc9070c05a240d88844f11dc3">m_hillslopeModules</a>;   </div>
+<div class="line"><a name="l00137"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a20a5df479351d1e282da19d967949597">  137</a></span>&#160;    vector&lt;int&gt;                 <a class="code" href="../../d5/d0f/a00308.html#a20a5df479351d1e282da19d967949597">m_channelModules</a>;     </div>
+<div class="line"><a name="l00138"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a64184072584a15637fe43d85083ac991">  138</a></span>&#160;    vector&lt;int&gt;                 <a class="code" href="../../d5/d0f/a00308.html#a64184072584a15637fe43d85083ac991">m_ecoModules</a>;         </div>
+<div class="line"><a name="l00139"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a34f44bc74b03ab4dc0f14530af2b8eef">  139</a></span>&#160;    vector&lt;int&gt;                 <a class="code" href="../../d5/d0f/a00308.html#a34f44bc74b03ab4dc0f14530af2b8eef">m_overallModules</a>;     </div>
+<div class="line"><a name="l00140"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#aa6bf777d16df8e260af73544440b9b87">  140</a></span>&#160;    vector&lt;double&gt;              <a class="code" href="../../d5/d0f/a00308.html#aa6bf777d16df8e260af73544440b9b87">m_executeTime</a>;        </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;   </div>
+<div class="line"><a name="l00142"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a93fdbeccd5de43cd45245b3556841e18">  142</a></span>&#160;    <span class="keywordtype">bool</span>                        <a class="code" href="../../d5/d0f/a00308.html#a93fdbeccd5de43cd45245b3556841e18">m_firstRunOverland</a>;   </div>
+<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="../../d5/d0f/a00308.html#a00eb7f2eb883212243c0853773cb089a">  143</a></span>&#160;    <span class="keywordtype">bool</span>                        <a class="code" href="../../d5/d0f/a00308.html#a00eb7f2eb883212243c0853773cb089a">m_firstRunChannel</a>;    </div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;};</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* SEIMS_MODEL_MAIN_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="a00308_html_a43992993e2ab5f34350a353440e8abd6"><div class="ttname"><a href="../../d5/d0f/a00308.html#a43992993e2ab5f34350a353440e8abd6">ModelMain::m_dtCh</a></div><div class="ttdeci">time_t m_dtCh</div><div class="ttdoc">Channel time interval, seconds. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00128">ModelMain.h:128</a></div></div>
+<div class="ttc" id="a00308_html_a50399b9d5c1ab95c36a72d6e0bd49fc7"><div class="ttname"><a href="../../d5/d0f/a00308.html#a50399b9d5c1ab95c36a72d6e0bd49fc7">ModelMain::m_dtDaily</a></div><div class="ttdeci">time_t m_dtDaily</div><div class="ttdoc">Daily time interval, seconds. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00126">ModelMain.h:126</a></div></div>
+<div class="ttc" id="a00308_html_a2e06165b5bc3ccaa4e5efa1044c9c330"><div class="ttname"><a href="../../d5/d0f/a00308.html#a2e06165b5bc3ccaa4e5efa1044c9c330">ModelMain::m_factory</a></div><div class="ttdeci">ModuleFactory * m_factory</div><div class="ttdoc">Modules factory. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00116">ModelMain.h:116</a></div></div>
+<div class="ttc" id="a00308_html_a11036a1f9587f70a15f4b30efb0f337e"><div class="ttname"><a href="../../d5/d0f/a00308.html#a11036a1f9587f70a15f4b30efb0f337e">ModelMain::GetModuleCount</a></div><div class="ttdeci">int GetModuleCount(void) const </div><div class="ttdoc">Get module counts of current SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00100">ModelMain.h:100</a></div></div>
+<div class="ttc" id="a00308_html_ab128f988469ee7670c60d7ad6e1a226d"><div class="ttname"><a href="../../d5/d0f/a00308.html#ab128f988469ee7670c60d7ad6e1a226d">ModelMain::m_readFileTime</a></div><div class="ttdeci">float m_readFileTime</div><div class="ttdoc">Time consuming for read data. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00134">ModelMain.h:134</a></div></div>
+<div class="ttc" id="a00308_html_aa8314a9c9b12e3460f9b085f1dcdf18d"><div class="ttname"><a href="../../d5/d0f/a00308.html#aa8314a9c9b12e3460f9b085f1dcdf18d">ModelMain::GetModuleExecuteTime</a></div><div class="ttdeci">float GetModuleExecuteTime(int i) const </div><div class="ttdoc">Get module execute time by index in ModuleFactory. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00104">ModelMain.h:104</a></div></div>
+<div class="ttc" id="a00308_html_aeec5ef1affb9a307980a931dd73c3a50"><div class="ttname"><a href="../../d5/d0f/a00308.html#aeec5ef1affb9a307980a931dd73c3a50">ModelMain::IncludeChannelProcesses</a></div><div class="ttdeci">bool IncludeChannelProcesses(void)</div><div class="ttdoc">Include channel processes or not? </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00108">ModelMain.h:108</a></div></div>
+<div class="ttc" id="a00308_html_a9ed0fbeed70bc8c1c3a47ee2d1414b4e"><div class="ttname"><a href="../../d5/d0f/a00308.html#a9ed0fbeed70bc8c1c3a47ee2d1414b4e">ModelMain::m_maskRaster</a></div><div class="ttdeci">clsRasterData&lt; float &gt; * m_maskRaster</div><div class="ttdoc">Mask raster data. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00124">ModelMain.h:124</a></div></div>
+<div class="ttc" id="a00308_html_a520793503b0d58f1badacdd89934633c"><div class="ttname"><a href="../../d5/d0f/a00308.html#a520793503b0d58f1badacdd89934633c">ModelMain::m_input</a></div><div class="ttdeci">SettingsInput * m_input</div><div class="ttdoc">The basic input settings. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00122">ModelMain.h:122</a></div></div>
+<div class="ttc" id="a00308_html_ad3c0830e7d258d4a172c50f92c6f5533"><div class="ttname"><a href="../../d5/d0f/a00308.html#ad3c0830e7d258d4a172c50f92c6f5533">ModelMain::GetModuleID</a></div><div class="ttdeci">string GetModuleID(int i) const </div><div class="ttdoc">Get module ID by index in ModuleFactory. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00102">ModelMain.h:102</a></div></div>
+<div class="ttc" id="a00308_html_a58ce7f8504b25523d99b6152aebc5b41"><div class="ttname"><a href="../../d5/d0f/a00308.html#a58ce7f8504b25523d99b6152aebc5b41">ModelMain::m_dataCenter</a></div><div class="ttdeci">DataCenterMongoDB * m_dataCenter</div><div class="ttdoc">inherited DataCenter </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00115">ModelMain.h:115</a></div></div>
+<div class="ttc" id="a00308_html_a34f44bc74b03ab4dc0f14530af2b8eef"><div class="ttname"><a href="../../d5/d0f/a00308.html#a34f44bc74b03ab4dc0f14530af2b8eef">ModelMain::m_overallModules</a></div><div class="ttdeci">vector&lt; int &gt; m_overallModules</div><div class="ttdoc">Whole simulation scale modules index list. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00139">ModelMain.h:139</a></div></div>
+<div class="ttc" id="a00308_html_a20a5df479351d1e282da19d967949597"><div class="ttname"><a href="../../d5/d0f/a00308.html#a20a5df479351d1e282da19d967949597">ModelMain::m_channelModules</a></div><div class="ttdeci">vector&lt; int &gt; m_channelModules</div><div class="ttdoc">Channel modules index list. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00137">ModelMain.h:137</a></div></div>
+<div class="ttc" id="a00308_html_a54fe02dcc9070c05a240d88844f11dc3"><div class="ttname"><a href="../../d5/d0f/a00308.html#a54fe02dcc9070c05a240d88844f11dc3">ModelMain::m_hillslopeModules</a></div><div class="ttdeci">vector&lt; int &gt; m_hillslopeModules</div><div class="ttdoc">Hillslope modules index list. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00136">ModelMain.h:136</a></div></div>
+<div class="ttc" id="a00308_html_a64184072584a15637fe43d85083ac991"><div class="ttname"><a href="../../d5/d0f/a00308.html#a64184072584a15637fe43d85083ac991">ModelMain::m_ecoModules</a></div><div class="ttdeci">vector&lt; int &gt; m_ecoModules</div><div class="ttdoc">Ecology modules index list. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00138">ModelMain.h:138</a></div></div>
+<div class="ttc" id="a00308_html_ae63c8ce50dc6560d6e7d33031ff9eee8"><div class="ttname"><a href="../../d5/d0f/a00308.html#ae63c8ce50dc6560d6e7d33031ff9eee8">ModelMain::m_output</a></div><div class="ttdeci">SettingsOutput * m_output</div><div class="ttdoc">The user-defined outputs, Q, SED, etc. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00123">ModelMain.h:123</a></div></div>
+<div class="ttc" id="a00240_html"><div class="ttname"><a href="../../d9/d21/a00240.html">DataCenterMongoDB</a></div><div class="ttdoc">Class of Data center inherited from DataCenter based on MongoDB. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d8c/a00859_source.html#l00238">DataCenter.h:238</a></div></div>
+<div class="ttc" id="a00357_html"><div class="ttname"><a href="../../df/df1/a00357.html">SettingsInput</a></div><div class="ttdoc">Input settings for SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d08/a00884_source.html#l00025">SettingsInput.h:25</a></div></div>
+<div class="ttc" id="a00308_html_a75ff229a26546a1925f3d2302ee5037c"><div class="ttname"><a href="../../d5/d0f/a00308.html#a75ff229a26546a1925f3d2302ee5037c">ModelMain::m_dtHs</a></div><div class="ttdeci">time_t m_dtHs</div><div class="ttdoc">Hillslope time interval, seconds. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00127">ModelMain.h:127</a></div></div>
+<div class="ttc" id="a00308_html"><div class="ttname"><a href="../../d5/d0f/a00308.html">ModelMain</a></div><div class="ttdoc">SEIMS OpenMP version, Class to control the whole model. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00043">ModelMain.h:43</a></div></div>
+<div class="ttc" id="a00308_html_a93fdbeccd5de43cd45245b3556841e18"><div class="ttname"><a href="../../d5/d0f/a00308.html#a93fdbeccd5de43cd45245b3556841e18">ModelMain::m_firstRunOverland</a></div><div class="ttdeci">bool m_firstRunOverland</div><div class="ttdoc">Is the first run of overland. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00142">ModelMain.h:142</a></div></div>
+<div class="ttc" id="a00308_html_a00eb7f2eb883212243c0853773cb089a"><div class="ttname"><a href="../../d5/d0f/a00308.html#a00eb7f2eb883212243c0853773cb089a">ModelMain::m_firstRunChannel</a></div><div class="ttdeci">bool m_firstRunChannel</div><div class="ttdoc">Is the first run of channel. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00143">ModelMain.h:143</a></div></div>
+<div class="ttc" id="a00308_html_a3d95a955d68e31885334312d7983753f"><div class="ttname"><a href="../../d5/d0f/a00308.html#a3d95a955d68e31885334312d7983753f">ModelMain::m_simulationModules</a></div><div class="ttdeci">vector&lt; SimulationModule * &gt; m_simulationModules</div><div class="ttdoc">Modules list in the model run. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00135">ModelMain.h:135</a></div></div>
+<div class="ttc" id="a00308_html_a2d26d739a70ed11ffc6197df840fb127"><div class="ttname"><a href="../../d5/d0f/a00308.html#a2d26d739a70ed11ffc6197df840fb127">ModelMain::m_outputPath</a></div><div class="ttdeci">string m_outputPath</div><div class="ttdoc">Path of output scenario. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00125">ModelMain.h:125</a></div></div>
+<div class="ttc" id="a00228_html"><div class="ttname"><a href="../../de/dc2/a00228.html">clsRasterData&lt; float &gt;</a></div></div>
+<div class="ttc" id="a00308_html_aa6bf777d16df8e260af73544440b9b87"><div class="ttname"><a href="../../d5/d0f/a00308.html#aa6bf777d16df8e260af73544440b9b87">ModelMain::m_executeTime</a></div><div class="ttdeci">vector&lt; double &gt; m_executeTime</div><div class="ttdoc">Execute time list of each module. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00140">ModelMain.h:140</a></div></div>
+<div class="ttc" id="a00308_html_a4f4b6bb3726ce8abf26e6f98875be907"><div class="ttname"><a href="../../d5/d0f/a00308.html#a4f4b6bb3726ce8abf26e6f98875be907">ModelMain::GetReadDataTime</a></div><div class="ttdeci">float GetReadDataTime(void) const </div><div class="ttdoc">Get time consuming of read data. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00106">ModelMain.h:106</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_d92e79a397b9b4190fe70a27a4aa6166.html">ecology</a></li><li class="navelem"><a class="el" href="../../dir_028a07215f1b519285471010efd0894b.html">BIO_EPIC</a></li><li class="navelem"><b>api.cpp</b></li>
-    <li class="footer">Generated on Fri Jul 7 2017 14:05:36 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_c151e3c36c54954dcb4737f82d8a1963.html">main</a></li><li class="navelem"><a class="el" href="../../dir_37d1583536611718be90d0be15bfcf38.html">main_omp</a></li><li class="navelem"><b>ModelMain.h</b></li>
+    <li class="footer">Generated on Mon Jul 17 2017 03:28:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

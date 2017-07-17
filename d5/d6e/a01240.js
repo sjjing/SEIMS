@@ -1,25 +1,26 @@
 var a01240 =
 [
-    [ "clsPI_MCS", "d5/ddf/a00224.html", [
-      [ "clsPI_MCS", "d5/ddf/a00224.html#afb907d8fbda02ee483685d421bb59b7b", null ],
-      [ "~clsPI_MCS", "d5/ddf/a00224.html#a77fc2e7053a7b3eaf5dde18e3d1b9fd8", null ],
-      [ "CheckInputData", "d5/ddf/a00224.html#a077faa8888ad560a9cdf9ee95227df15", null ],
-      [ "CheckInputSize", "d5/ddf/a00224.html#a626ca838b65791c053b67bac989c48c1", null ],
-      [ "Execute", "d5/ddf/a00224.html#a60fd150936adc4815e0bb1eddb6ab8ca", null ],
-      [ "Get1DData", "d5/ddf/a00224.html#aa4b119faea814031df5155d2c1f9cf8f", null ],
-      [ "initialOutputs", "d5/ddf/a00224.html#a633262e551759346105b1860bd952db9", null ],
-      [ "Set1DData", "d5/ddf/a00224.html#a3449184b51bef152815be3eb2f4f3aeb", null ],
-      [ "SetValue", "d5/ddf/a00224.html#af3ad13234d95f14e679994268db21e7e", null ],
-      [ "m_evaporationLoss", "d5/ddf/a00224.html#aa3fc8956990eda108e5097c4dd813e15", null ],
-      [ "m_Init_IS", "d5/ddf/a00224.html#a18df904ddec4d82396c05f3dd8248a04", null ],
-      [ "m_interceptionLoss", "d5/ddf/a00224.html#af1600d9743b2fb8b877a8631751c7002", null ],
-      [ "m_maxSt", "d5/ddf/a00224.html#a9a785c4711a881a38c503f421b6d6420", null ],
-      [ "m_minSt", "d5/ddf/a00224.html#ac3fa8d7553aa4e616c66e71289c62758", null ],
-      [ "m_nCells", "d5/ddf/a00224.html#aea8564277bb1b4082b18916145146968", null ],
-      [ "m_netPrecipitation", "d5/ddf/a00224.html#a278ad2b6d31b163328706826c39ebddf", null ],
-      [ "m_P", "d5/ddf/a00224.html#a733d1d750ec3bc11cf7cae2c6c1d6431", null ],
-      [ "m_PET", "d5/ddf/a00224.html#a5f1744baec4a2ad84233a7a701baf7ec", null ],
-      [ "m_Pi_b", "d5/ddf/a00224.html#a140575f280d581ee7ef6ab3b54bb429e", null ],
-      [ "m_st", "d5/ddf/a00224.html#ab3241b6d3b1bead9d7b60ad9b1a59c2b", null ]
+    [ "GWaterReservoir", "d5/d35/a00266.html", [
+      [ "GWaterReservoir", "d5/d35/a00266.html#a6e436b7df240ca9b2f2335624e37cfc0", null ],
+      [ "~GWaterReservoir", "d5/d35/a00266.html#a0d4c540561dc29309b3d17e53d359df2", null ],
+      [ "CheckInputData", "d5/d35/a00266.html#aa03bbd6498ce5964b4b191dd862a3c91", null ],
+      [ "CheckInputSize", "d5/d35/a00266.html#a71690671c028ced9d6ada7c9af63125f", null ],
+      [ "Execute", "d5/d35/a00266.html#a2f906ddc60092e8bbdef3f88ebcfa013", null ],
+      [ "Get1DData", "d5/d35/a00266.html#a16ceb0e1fed6530de13381fef445bb63", null ],
+      [ "Set1DData", "d5/d35/a00266.html#a5faf0daee5a7ae4cf81ca4fe6509581c", null ],
+      [ "SetReaches", "d5/d35/a00266.html#af97470d80aee1fc2757bf9b0fbb3c4d3", null ],
+      [ "SetValue", "d5/d35/a00266.html#aacaa93c862dc05e27333814e76924753", null ],
+      [ "m_CellWidth", "d5/d35/a00266.html#aad28ec2ebf3265e6e51d9e2ba1c4301d", null ],
+      [ "m_deepCoefficient", "d5/d35/a00266.html#aff24179ab16dd64e9919b804f9241b20", null ],
+      [ "m_dt", "d5/d35/a00266.html#a9c3534db78ddf66602b5a00f2ffc5ea6", null ],
+      [ "m_nCells", "d5/d35/a00266.html#a8f8449bd153c68f56178eeacdf0c6a83", null ],
+      [ "m_nReaches", "d5/d35/a00266.html#a8d28dee63d9f131a49b94beb1cd558ca", null ],
+      [ "m_percSubbasin", "d5/d35/a00266.html#a83040cc852b4d0f38c448d5a4d3223d2", null ],
+      [ "m_qOutlet", "d5/d35/a00266.html#a3b0c70fd939185042d48a6989ada9261", null ],
+      [ "m_recessionCoefficient", "d5/d35/a00266.html#a20c9627e09bb6c208fec4e97544039c2", null ],
+      [ "m_recessionExponent", "d5/d35/a00266.html#a913510dc008500a17e416eeb41d49fd2", null ],
+      [ "m_recharge", "d5/d35/a00266.html#aa8a01b4cc45a6fefe0364f6d664e27bf", null ],
+      [ "m_storage", "d5/d35/a00266.html#ae20eb0f3426407ce266afd32e51115b4", null ],
+      [ "m_storageMax", "d5/d35/a00266.html#af588128fbcdca589809328bd837592a1", null ]
     ] ]
 ];
