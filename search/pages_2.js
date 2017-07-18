@@ -1,27 +1,5 @@
 var searchData=
 [
-  ['defining_20a_20mock_20class',['Defining a Mock Class',['../d7/d46/a00002.html',1,'']]],
-  ['designdoc',['DesignDoc',['../de/d21/a00006.html',1,'']]],
-  ['devguide',['DevGuide',['../d4/dee/a00008.html',1,'']]],
-  ['documentation',['Documentation',['../d7/dec/a00010.html',1,'']]],
-  ['defining_20a_20mock_20class',['Defining a Mock Class',['../d1/d2b/a00018.html',1,'']]],
-  ['documentation',['Documentation',['../d7/de0/a00022.html',1,'']]],
-  ['defining_20a_20mock_20class',['Defining a Mock Class',['../dc/d3c/a00028.html',1,'']]],
-  ['documentation',['Documentation',['../dc/d87/a00032.html',1,'']]],
-  ['defining_20a_20mock_20class',['Defining a Mock Class',['../d8/d41/a00038.html',1,'']]],
-  ['documentation',['Documentation',['../d5/db6/a00042.html',1,'']]],
-  ['devguide',['DevGuide',['../d5/de0/a00050.html',1,'']]],
-  ['documentation',['Documentation',['../d1/d84/a00052.html',1,'']]],
-  ['defining_20a_20mock_20class',['Defining a Mock Class',['../d0/dc2/a00104.html',1,'']]],
-  ['designdoc',['DesignDoc',['../d1/dd6/a00108.html',1,'']]],
-  ['devguide',['DevGuide',['../d4/d81/a00110.html',1,'']]],
-  ['documentation',['Documentation',['../db/d57/a00112.html',1,'']]],
-  ['defining_20a_20mock_20class',['Defining a Mock Class',['../d4/d98/a00120.html',1,'']]],
-  ['documentation',['Documentation',['../da/d72/a00124.html',1,'']]],
-  ['defining_20a_20mock_20class',['Defining a Mock Class',['../d6/db3/a00130.html',1,'']]],
-  ['documentation',['Documentation',['../de/d76/a00134.html',1,'']]],
-  ['defining_20a_20mock_20class',['Defining a Mock Class',['../d5/db1/a00140.html',1,'']]],
-  ['documentation',['Documentation',['../d5/da7/a00144.html',1,'']]],
-  ['devguide',['DevGuide',['../d7/d9a/a00152.html',1,'']]],
-  ['documentation',['Documentation',['../d3/d65/a00154.html',1,'']]]
+  ['advancedguide',['AdvancedGuide',['../d4/dca/a00048.html',1,'']]],
+  ['advancedguide',['AdvancedGuide',['../d9/d7d/a00150.html',1,'']]]
 ];

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims.preprocess.text.ModelParamDataUtils Class Reference</title>
+<title>SEIMS: SEIMS 数据预处理</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -52,10 +52,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
-      <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
+      <li class="current"><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Packages</span></a></li>
-      <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
+      <li><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -73,14 +73,6 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
           </span>
         </div>
       </li>
-    </ul>
-  </div>
-  <div id="navrow2" class="tabs2">
-    <ul class="tablist">
-      <li><a href="../../annotated.html"><span>Class&#160;List</span></a></li>
-      <li><a href="../../classes.html"><span>Class&#160;Index</span></a></li>
-      <li><a href="../../inherits.html"><span>Class&#160;Hierarchy</span></a></li>
-      <li><a href="../../functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -113,64 +105,141 @@ $(document).ready(function(){initNavTree('d1/d67/a00310.html','../../');});
 </div>
 
 <div class="header">
-  <div class="summary">
-<a href="#pub-methods">Public Member Functions</a> &#124;
-<a href="../../da/dc7/a01548.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">seims.preprocess.text.ModelParamDataUtils Class Reference</div>  </div>
+<div class="title">SEIMS 数据预处理 </div>  </div>
 </div><!--header-->
 <div class="contents">
-
-<p>Inherits object.</p>
-<table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
-Public Member Functions</h2></td></tr>
-<tr class="memitem:a4a37286aed14c98b4ef631d61c29c540"><td class="memItemLeft" align="right" valign="top">def&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d1/d67/a00310.html#a4a37286aed14c98b4ef631d61c29c540">__init__</a></td></tr>
-<tr class="separator:a4a37286aed14c98b4ef631d61c29c540"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table>
-<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
-<div class="textblock"><pre class="fragment">Model parameters data file related.
-</pre> 
-<p>Definition at line <a class="el" href="../../d8/db4/a00760_source.html#l00080">80</a> of file <a class="el" href="../../d8/db4/a00760_source.html">text.py</a>.</p>
-</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a class="anchor" id="a4a37286aed14c98b4ef631d61c29c540"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">def seims.preprocess.text.ModelParamDataUtils.__init__ </td>
-          <td>(</td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>self</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">&#160;</td>
-          <td class="paramname"><em>in_dir</em>&#160;</td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>)</td>
-          <td></td><td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<pre class="fragment">assign text file path</pre> 
-<p>Definition at line <a class="el" href="../../d8/db4/a00760_source.html#l00115">115</a> of file <a class="el" href="../../d8/db4/a00760_source.html">text.py</a>.</p>
-
-</div>
-</div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>seims/preprocess/<a class="el" href="../../d8/db4/a00760_source.html">text.py</a></li>
+<div class="textblock"><p>prepared by Liang-Jun Zhu</p>
+<p>First Release: 2015-6-20</p>
+<p>Revised date : 2016-5-31 </p>
+<hr/>
+<p>文档至此，相信你已经[配置好了SEIMS预处理程序](Construct-python-env)（Python及C++），也已经详细了解了[SEIMS模型所需数据](Data-preparation)的准备情况，如果没有，还请前往以上两个链接继续学习！</p>
+<p>SEIMS数据预处理，即将原始输入数据、参数等进行初步加工并导入MongoDB数据库，以供SEIMS运行时调用。</p>
+<p>下面，介绍如何配置预处理程序完成SEIMS数据预处理任务。</p>
+<h2>1. config.py</h2>
+<p>SEIMS预处理程序的所有输入均在<code>SEIMS/preprocess/config.py</code>中进行设置。</p>
+<h3>1.1 模型相关路径设置</h3>
+<p>程序的第10~15行或17~22行：</p>
+<ul>
+<li>BASE_DATA_DIR: 准备数据所在目录，里面应该包含<code>climate</code>和<code>spatial</code>文件夹及相关数据</li>
+<li>TXT_DB_DIR: SEIMS文本类数据库目录，如各类查找表</li>
+<li>PREPROC_SCRIPT_DIR: SEIMS预处理Python脚本目录</li>
+<li>CPP_PROGRAM_DIR: SEIMS预处理相关C++程序编译目录</li>
+<li>MPIEXEC_DIR: MPI程序目录，如环境变量里有设置，则此项可为<code>None</code></li>
 </ul>
-</div><!-- contents -->
+<p>以下为一个示例：</p>
+<p>```python BASE_DATA_DIR = r'E:' TXT_DB_DIR = r'E:</p>
+<div class="fragment"><div class="line">\Hydro\SEIMS\database<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">PREPROC_SCRIPT_DIR = r&#39;</span>E:\code\Hydro\SEIMS\preprocess<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">CPP_PROGRAM_DIR = r&#39;</span>D:\Compile\SEIMS_Preprocess\Release<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">MPIEXEC_DIR = None</span></div>
+<div class="line"><span class="stringliteral">```</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">### 1.2 MongoDB相关设置</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">+ HOSTNAME: MongoDB的IP地址，默认为本机&lt;tt&gt;127.0.0.1&lt;/tt&gt;</span></div>
+<div class="line"><span class="stringliteral">+ PORT: MongoDB端口号，默认为27017</span></div>
+<div class="line"><span class="stringliteral">+ ClimateDBName: 气象数据库名</span></div>
+<div class="line"><span class="stringliteral">+ SpatialDBName: 主数据库名，即模型名</span></div>
+<div class="line"><span class="stringliteral">+ forCluster: &lt;tt&gt;True&lt;/tt&gt; 或 &lt;tt&gt;False&lt;/tt&gt;，用于标识是否用于SEIMS_MPI版本，默认为&lt;tt&gt;False&lt;/tt&gt;</span></div>
+<div class="line"><span class="stringliteral">+ stormMode: 是否用于次暴雨建模，默认为&lt;tt&gt;False&lt;/tt&gt;</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">&gt; &lt;tt&gt;forCluster&lt;/tt&gt; 如为&lt;tt&gt;True&lt;/tt&gt;，则说明所建数据库是为&lt;tt&gt;SEIMS_MPI&lt;/tt&gt;并行版本准备，此时，所有栅格数据均按照子流域编号进行分割后分别存储，如坡度数据在&lt;tt&gt;forCluster&lt;/tt&gt;为&lt;tt&gt;False&lt;/tt&gt;时，数据库中存储为&lt;tt&gt;1_SLOPE&lt;/tt&gt;,而&lt;tt&gt;forCluster&lt;/tt&gt;为True时，则存储为&lt;tt&gt;1_SLOPE&lt;/tt&gt;, &lt;tt&gt;2_SLOPE&lt;/tt&gt;...&lt;tt&gt;N_SLOPE&lt;/tt&gt;</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">以下为一个示例：</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">```python</span></div>
+<div class="line"><span class="stringliteral">HOSTNAME = &#39;</span>127.0.0.1<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">PORT = 27017</span></div>
+<div class="line"><span class="stringliteral">ClimateDBName = &#39;</span>climate_dianbu<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">SpatialDBName = &#39;</span>model_dianbu_30m_longterm<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">forCluster = False </span></div>
+<div class="line"><span class="stringliteral">stormMode = False</span></div>
+<div class="line"><span class="stringliteral">```</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">### 1.3 气象数据输入</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">+ HydroClimateVarFile: 气象数据单位定义</span></div>
+<div class="line"><span class="stringliteral">+ MetroSiteFile: 气象站点信息</span></div>
+<div class="line"><span class="stringliteral">+ PrecSiteFile: 降水站点信息</span></div>
+<div class="line"><span class="stringliteral">+ MeteoDailyFile: 气象数据</span></div>
+<div class="line"><span class="stringliteral">+ PrecExcelPrefix: 降水数据前缀</span></div>
+<div class="line"><span class="stringliteral">+ PrecDataYear: 降水数据年份，为数组，多个年份应该对应多个降水EXCEL文件</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">以下为一个示例:</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">```python</span></div>
+<div class="line"><span class="stringliteral">HydroClimateVarFile = CLIMATE_DATA_DIR + os.sep + &#39;</span>Variables.txt<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">MetroSiteFile = CLIMATE_DATA_DIR + os.sep + &#39;</span>Sites_M.txt<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">PrecSiteFile = CLIMATE_DATA_DIR + os.sep + &#39;</span>Sites_P.txt<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">MeteoDailyFile = CLIMATE_DATA_DIR + os.sep+ &#39;</span>meteorology_dianbu_daily.txt<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">PrecExcelPrefix = CLIMATE_DATA_DIR + os.sep + &#39;</span>precipitation_by_day_<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">PrecDataYear = [2014]</span></div>
+<div class="line"><span class="stringliteral">```</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">&gt; TODO: 降水数据的输入应改为以站点编号（或站名）命名的文本文件，而非以年份组织的EXCEL</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">### 1.4 空间数据输入</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">+ PrecSitesThiessen: 降水站点泰森多边形分布</span></div>
+<div class="line"><span class="stringliteral">+ MeteorSitesThiessen: 气象站点泰森多边形分布</span></div>
+<div class="line"><span class="stringliteral">+ dem: DEM数据</span></div>
+<div class="line"><span class="stringliteral">+ outlet_file:流域出口，可设置为&lt;tt&gt;None&lt;/tt&gt; </span></div>
+<div class="line"><span class="stringliteral">+ threshold: 河网提取汇流累积量阈值，默认为0，则采用TauDEM算法&lt;a href=&quot;http://hydrology.usu.edu/taudem/taudem5/help53/StreamDropAnalysis.html&quot;&gt;DropAnalysis&lt;/a&gt;自动确定</span></div>
+<div class="line"><span class="stringliteral">+ np: TauDEM运行时并行计算进程数，默认为4</span></div>
+<div class="line"><span class="stringliteral">+ landuseFile: 土地利用数据</span></div>
+<div class="line"><span class="stringliteral">+ soilSEQNFile: 土壤类别序列数据</span></div>
+<div class="line"><span class="stringliteral">+ soilSEQNText: 土壤类别序列属性查找表</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">以下为一个示例:</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">```python</span></div>
+<div class="line"><span class="stringliteral">PrecSitesThiessen = SPATIAL_DATA_DIR + os.sep + &#39;</span>Preci_dianbu_Vor.shp<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">MeteorSitesThiessen = SPATIAL_DATA_DIR + os.sep + &#39;</span>Metero_hefei_Vor.shp<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">dem = SPATIAL_DATA_DIR + os.sep + &#39;</span>dem_30m.tif<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">outlet_file = SPATIAL_DATA_DIR + os.sep + &#39;</span>outlet_30m.shp<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">threshold = 0</span></div>
+<div class="line"><span class="stringliteral">np = 4  # number of parallel processors for TauDEM</span></div>
+<div class="line"><span class="stringliteral">landuseFile = SPATIAL_DATA_DIR + os.sep + &#39;</span>landuse_30m.tif<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">soilSEQNFile = SPATIAL_DATA_DIR + os.sep + &#39;</span>soil_SEQN.tif<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">soilSEQNText = SPATIAL_DATA_DIR + os.sep + &#39;</span>soil_properties_lookup.txt<span class="stringliteral">&#39;</span></div>
+<div class="line"><span class="stringliteral">```</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">## 2. main.py</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">设置完成&lt;tt&gt;config.py&lt;/tt&gt;，便可以运行SEIMS预处理的主函数&lt;tt&gt;main.py&lt;/tt&gt;了。</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">&gt; 建议运行时，逐行运行，以便程序出错时，错误检查。</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">## 3. MongoDB数据检查</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">成功运行主函数之后，SEIMS程序所需的所有准备数据均已成功导入MongoDB，如下图所示：</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">&lt;img src=&quot;http://zhulj-blog.oss-cn-beijing.aliyuncs.com/seims-img%2Fdatabases.png&quot; alt=&quot;&quot;/&gt;</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">## 4. 预处理子程序调用</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">多数情况下，模型的预处理不可能一次成功，往往需要多次修改，而并非每次修改都需要运行整个预处理流程，因此，SEIMS提供了预处理过程中的子程序的调用。</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">基本调用命令与之前一致，均为：</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">```python</span></div>
+<div class="line"><span class="stringliteral">&gt; python XXX.py -ini &lt;configurationFile&gt;.ini</span></div>
+<div class="line"><span class="stringliteral">```</span></div>
+<div class="line"><span class="stringliteral"></span></div>
+<div class="line"><span class="stringliteral">### 4.1 MeteorologicalDaily.py</span></div>
+<div class="line"><span class="stringliteral">### 4.2 PrecipitationDaily.py</span></div>
+<div class="line"><span class="stringliteral">### 4.3 import_measurement.py</span></div>
+<div class="line"><span class="stringliteral">### 4.4 import_parameters.py</span></div>
+<div class="line"><span class="stringliteral">### 4.5 import_bmp_scenario.py</span></div>
+</div><!-- fragment --></div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>seims</b></li><li class="navelem"><b>preprocess</b></li><li class="navelem"><b>text</b></li><li class="navelem"><a class="el" href="../../d1/d67/a00310.html">ModelParamDataUtils</a></li>
-    <li class="footer">Generated on Mon Jul 17 2017 04:55:21 for SEIMS by
+    <li class="footer">Generated on Tue Jul 18 2017 15:34:33 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

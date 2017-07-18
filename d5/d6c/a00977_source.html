@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/erosion/IUH_SED_OL/IUH_SED_OL.h Source File</title>
+<title>SEIMS: seims_storm_linux_gcc48/seims/postprocess/hydroPlot_main.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,93 +112,69 @@ $(document).ready(function(){initNavTree('d5/d6c/a00977_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">IUH_SED_OL.h</div>  </div>
+<div class="title">hydroPlot_main.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">from</span> pymongo.errors <span class="keyword">import</span> ConnectionFailure</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">from</span> config <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">from</span> hydroPlot <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    LoadConfiguration(GetINIfile())</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../da/dd4/a00291.html">IUH_SED_OL</a> : <span class="keyword">public</span> <a class="code" href="../../df/d73/a00358.html">SimulationModule</a> {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="../../da/dd4/a00291.html">IUH_SED_OL</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    ~<a class="code" href="../../da/dd4/a00291.html">IUH_SED_OL</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nRows, <span class="keywordtype">int</span> nCols, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        conn = <a class="code" href="../../d7/db9/a00426.html">MongoClient</a>(host = HOSTNAME, port = PORT)</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordflow">except</span> ConnectionFailure:</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        sys.stderr.write(<span class="stringliteral">&quot;Could not connect to MongoDB: %s&quot;</span> % ConnectionFailure.message)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        sys.exit(1)</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    ClimateDB = conn[ClimateDBName]</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    SpatialDB = conn[SpatialDBName]</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="comment"># Date Array</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="stringliteral">    TODO:</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="stringliteral">    This way is not expansible, since the time interval is not considered.</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="stringliteral">    The recommendation is:</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="stringliteral">        1. read the date of each item from simulated file.</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral">        2. match the observed values if stated with the date.</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="stringliteral">    Plz review and update. By LJ.</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral">    &#39;&#39;&#39;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    dateArr = GetDateArr(TIME_Start, TIME_End)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="comment"># Precipatation</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="stringliteral">&#39;&#39;&#39;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">    TODO:</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">    The precipitation should be read according to the subbasin ID.</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="stringliteral">        Especially when plot a specific subbasin (such as ID 3).</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">        For the whole basin, the subbasin ID is 0.</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="stringliteral">    Plz review and update. By LJ.</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">    &#39;&#39;&#39;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    preci = GetPreciObs(TIME_Start, TIME_End, ClimateDB, SpatialDB)</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetSubbasins(<a class="code" href="../../d0/d53/a00232.html">clsSubbasins</a> *);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment"># simulation</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    dataSimList = []</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(PLOT_VARS)):</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        txtData = ReadSimfromTxt(TIME_Start, TIME_End, MODEL_DIR, PLOT_VARS[i], PLOT_SUBBASINID)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        dataSimList.append(txtData)</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#a003460d0a8af09766524f71f56462e75">   51</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../da/dd4/a00291.html#a003460d0a8af09766524f71f56462e75">m_TimeStep</a>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#a22af7db574a746bd721febaa9e193d03">   53</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../da/dd4/a00291.html#a22af7db574a746bd721febaa9e193d03">m_nCells</a>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#a8e58b4259fd178effde20fae5b4c29ce">   55</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../da/dd4/a00291.html#a8e58b4259fd178effde20fae5b4c29ce">m_CellWidth</a>;</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#aa683f278ed268d40b39359547808e649">   57</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../da/dd4/a00291.html#aa683f278ed268d40b39359547808e649">m_cellArea</a>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#a8194c9f0a9b9dce163418a42b7723e3e">   59</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../da/dd4/a00291.html#a8194c9f0a9b9dce163418a42b7723e3e">m_nSubbasins</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#acd3481dd04622d776f57c1995a8d259d">   61</a></span>&#160;    vector&lt;int&gt; <a class="code" href="../../da/dd4/a00291.html#acd3481dd04622d776f57c1995a8d259d">m_subbasinIDs</a>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#ae8cae71d5ac8b9242c09675c4c987ba6">   63</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../da/dd4/a00291.html#ae8cae71d5ac8b9242c09675c4c987ba6">m_subbasin</a>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#ab977e15442d371e5866dc4169e2bd03e">   66</a></span>&#160;    <a class="code" href="../../d0/d53/a00232.html">clsSubbasins</a> *<a class="code" href="../../da/dd4/a00291.html#ab977e15442d371e5866dc4169e2bd03e">m_subbasinsInfo</a>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#acb0a2268f01e060d7aef13bf9d27d799">   73</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../da/dd4/a00291.html#acb0a2268f01e060d7aef13bf9d27d799">m_iuhCell</a>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#af24883a72015b1017b48868dfd335052">   75</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../da/dd4/a00291.html#af24883a72015b1017b48868dfd335052">m_iuhCols</a>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#a3c4bcf0e0e5be4be4f3e1ca98f9b6f30">   77</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../da/dd4/a00291.html#a3c4bcf0e0e5be4be4f3e1ca98f9b6f30">m_sedYield</a>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="comment">/*/// length of rainfall series</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">    int m_nr;*/</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">//temporary</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#ad85b3bfcc3dc39bada80373d1b74dde6">   87</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../da/dd4/a00291.html#ad85b3bfcc3dc39bada80373d1b74dde6">m_cellFlowCols</a>;</div>
-<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#aba13e8923effe2998ddf2f8275ecbd70">   89</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../da/dd4/a00291.html#aba13e8923effe2998ddf2f8275ecbd70">m_cellSed</a>;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="comment">//output</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#a8de4de6d5923265f1569551f194b2817">   94</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> *<a class="code" href="../../da/dd4/a00291.html#a8de4de6d5923265f1569551f194b2817">m_sedtoCh</a>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="../../da/dd4/a00291.html#a5931d27be34c15c25d6d0f38e082b6f5">   96</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../da/dd4/a00291.html#a5931d27be34c15c25d6d0f38e082b6f5">m_sedOL</a>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">void</span> initialOutputs(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;};</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="ttc" id="a00291_html_ad85b3bfcc3dc39bada80373d1b74dde6"><div class="ttname"><a href="../../da/dd4/a00291.html#ad85b3bfcc3dc39bada80373d1b74dde6">IUH_SED_OL::m_cellFlowCols</a></div><div class="ttdeci">int m_cellFlowCols</div><div class="ttdoc">the maximum of second column of OL_IUH plus 1. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00087">IUH_SED_OL.h:87</a></div></div>
-<div class="ttc" id="a00291_html_aa683f278ed268d40b39359547808e649"><div class="ttname"><a href="../../da/dd4/a00291.html#aa683f278ed268d40b39359547808e649">IUH_SED_OL::m_cellArea</a></div><div class="ttdeci">float m_cellArea</div><div class="ttdoc">cell area </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00057">IUH_SED_OL.h:57</a></div></div>
-<div class="ttc" id="a00291_html_aba13e8923effe2998ddf2f8275ecbd70"><div class="ttname"><a href="../../da/dd4/a00291.html#aba13e8923effe2998ddf2f8275ecbd70">IUH_SED_OL::m_cellSed</a></div><div class="ttdeci">float ** m_cellSed</div><div class="ttdoc">store the sediment of each cell in each day between min time and max time </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00089">IUH_SED_OL.h:89</a></div></div>
-<div class="ttc" id="a00291_html"><div class="ttname"><a href="../../da/dd4/a00291.html">IUH_SED_OL</a></div><div class="ttdoc">IUH overland method to calculate overland flow routing. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00026">IUH_SED_OL.h:26</a></div></div>
-<div class="ttc" id="a00291_html_af24883a72015b1017b48868dfd335052"><div class="ttname"><a href="../../da/dd4/a00291.html#af24883a72015b1017b48868dfd335052">IUH_SED_OL::m_iuhCols</a></div><div class="ttdeci">int m_iuhCols</div><div class="ttdoc">the number of columns of Ol_iuh </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00075">IUH_SED_OL.h:75</a></div></div>
-<div class="ttc" id="a00291_html_a3c4bcf0e0e5be4be4f3e1ca98f9b6f30"><div class="ttname"><a href="../../da/dd4/a00291.html#a3c4bcf0e0e5be4be4f3e1ca98f9b6f30">IUH_SED_OL::m_sedYield</a></div><div class="ttdeci">float * m_sedYield</div><div class="ttdoc">sediment yield in each cell </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00077">IUH_SED_OL.h:77</a></div></div>
-<div class="ttc" id="a00291_html_a8194c9f0a9b9dce163418a42b7723e3e"><div class="ttname"><a href="../../da/dd4/a00291.html#a8194c9f0a9b9dce163418a42b7723e3e">IUH_SED_OL::m_nSubbasins</a></div><div class="ttdeci">int m_nSubbasins</div><div class="ttdoc">the total number of subbasins </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00059">IUH_SED_OL.h:59</a></div></div>
-<div class="ttc" id="a00291_html_acd3481dd04622d776f57c1995a8d259d"><div class="ttname"><a href="../../da/dd4/a00291.html#acd3481dd04622d776f57c1995a8d259d">IUH_SED_OL::m_subbasinIDs</a></div><div class="ttdeci">vector&lt; int &gt; m_subbasinIDs</div><div class="ttdoc">subbasin IDs </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00061">IUH_SED_OL.h:61</a></div></div>
-<div class="ttc" id="a00358_html"><div class="ttname"><a href="../../df/d73/a00358.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/de2/a00892_source.html#l00047">SimulationModule.h:47</a></div></div>
-<div class="ttc" id="a00291_html_acb0a2268f01e060d7aef13bf9d27d799"><div class="ttname"><a href="../../da/dd4/a00291.html#acb0a2268f01e060d7aef13bf9d27d799">IUH_SED_OL::m_iuhCell</a></div><div class="ttdeci">float ** m_iuhCell</div><div class="ttdoc">IUH of each grid cell (1/s) </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00073">IUH_SED_OL.h:73</a></div></div>
-<div class="ttc" id="a00232_html"><div class="ttname"><a href="../../d0/d53/a00232.html">clsSubbasins</a></div><div class="ttdoc">Manager all Subbasin related parameters and methods. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d82/a00857_source.html#l00236">clsSubbasin.h:236</a></div></div>
-<div class="ttc" id="a00291_html_a8de4de6d5923265f1569551f194b2817"><div class="ttname"><a href="../../da/dd4/a00291.html#a8de4de6d5923265f1569551f194b2817">IUH_SED_OL::m_sedtoCh</a></div><div class="ttdeci">float * m_sedtoCh</div><div class="ttdoc">sediment to streams </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00094">IUH_SED_OL.h:94</a></div></div>
-<div class="ttc" id="a00291_html_ab977e15442d371e5866dc4169e2bd03e"><div class="ttname"><a href="../../da/dd4/a00291.html#ab977e15442d371e5866dc4169e2bd03e">IUH_SED_OL::m_subbasinsInfo</a></div><div class="ttdeci">clsSubbasins * m_subbasinsInfo</div><div class="ttdoc">subbasins information </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00066">IUH_SED_OL.h:66</a></div></div>
-<div class="ttc" id="a00291_html_a5931d27be34c15c25d6d0f38e082b6f5"><div class="ttname"><a href="../../da/dd4/a00291.html#a5931d27be34c15c25d6d0f38e082b6f5">IUH_SED_OL::m_sedOL</a></div><div class="ttdeci">float * m_sedOL</div><div class="ttdoc">sediment to channel at each cell at current time step </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00096">IUH_SED_OL.h:96</a></div></div>
-<div class="ttc" id="a00291_html_a22af7db574a746bd721febaa9e193d03"><div class="ttname"><a href="../../da/dd4/a00291.html#a22af7db574a746bd721febaa9e193d03">IUH_SED_OL::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">validate cells number </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00053">IUH_SED_OL.h:53</a></div></div>
-<div class="ttc" id="a00291_html_a8e58b4259fd178effde20fae5b4c29ce"><div class="ttname"><a href="../../da/dd4/a00291.html#a8e58b4259fd178effde20fae5b4c29ce">IUH_SED_OL::m_CellWidth</a></div><div class="ttdeci">float m_CellWidth</div><div class="ttdoc">cell width of the grid (m) </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00055">IUH_SED_OL.h:55</a></div></div>
-<div class="ttc" id="a00291_html_a003460d0a8af09766524f71f56462e75"><div class="ttname"><a href="../../da/dd4/a00291.html#a003460d0a8af09766524f71f56462e75">IUH_SED_OL::m_TimeStep</a></div><div class="ttdeci">int m_TimeStep</div><div class="ttdoc">time step (sec) </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00051">IUH_SED_OL.h:51</a></div></div>
-<div class="ttc" id="a00291_html_ae8cae71d5ac8b9242c09675c4c987ba6"><div class="ttname"><a href="../../da/dd4/a00291.html#ae8cae71d5ac8b9242c09675c4c987ba6">IUH_SED_OL::m_subbasin</a></div><div class="ttdeci">float * m_subbasin</div><div class="ttdoc">subbasin grid (subbasins ID) </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/d6c/a00977_source.html#l00063">IUH_SED_OL.h:63</a></div></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment"># # Create multiple plot</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment"># sim_flow = ReadSimfromTxt(TIME_Start, TIME_End, MODEL_DIR, &quot;Q&quot;)</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment"># SearchObs(TIME_Start, TIME_End, &#39;Q&#39;, ClimateDB)</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment"># CreatePlot(dateArr, sim_flow, preci, dataSimList, PLOT_VARS, MODEL_DIR, ClimateDB)</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment"># Create multi hydrographs, updated by LJ</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    CreatePlot2(dateArr, preci, dataSimList, PLOT_VARS, MODEL_DIR, ClimateDB)</div>
+<div class="ttc" id="a00426_html"><div class="ttname"><a href="../../d7/db9/a00426.html">MongoClient</a></div><div class="ttdoc">Create a MongoDB Client. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de2/a01134_source.html#l00039">MongoUtil.h:39</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_0416dddcf4ae60131836efd2402708ae.html">erosion</a></li><li class="navelem"><a class="el" href="../../dir_d17211415ff8bdc124e693ec37e870e0.html">IUH_SED_OL</a></li><li class="navelem"><b>IUH_SED_OL.h</b></li>
-    <li class="footer">Generated on Mon Jul 17 2017 04:55:11 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_9acb163bfc580721a7f3d6aabfda8dbb.html">seims_storm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_fd8dd4f548e8390633a5614720372e6e.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_b22886e5139bea51dc605b65ea2cfbc9.html">postprocess</a></li><li class="navelem"><b>hydroPlot_main.py</b></li>
+    <li class="footer">Generated on Tue Jul 18 2017 15:34:21 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

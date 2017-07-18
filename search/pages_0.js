@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['advancedguide',['AdvancedGuide',['../d4/dca/a00048.html',1,'']]],
-  ['advancedguide',['AdvancedGuide',['../d9/d7d/a00150.html',1,'']]]
+  ['1_2e基本信息',['1.基本信息',['../de/dc2/a00228.html',1,'']]],
+  ['1_2e基本信息',['1.基本信息',['../db/dc3/a00284.html',1,'']]]
 ];

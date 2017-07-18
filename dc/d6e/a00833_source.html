@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/bmps/BMPArealStructFactory.cpp Source File</title>
+<title>SEIMS: seims_longterm_linux_gcc48/seims/bin/include/gtest/gtest-typed-test.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,381 +112,280 @@ $(document).ready(function(){initNavTree('dc/d6e/a00833_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">BMPArealStructFactory.cpp</div>  </div>
+<div class="title">gtest-typed-test.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;BMPArealStructFactory.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using namespace </span>MainBMP;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="../../d3/dd5/a00215.html#a9851daf547a5d5fc6f707d2df92ede9a">    5</a></span>&#160;<a class="code" href="../../d3/dd5/a00215.html#a9851daf547a5d5fc6f707d2df92ede9a">BMPArealStruct::BMPArealStruct</a>(<span class="keyword">const</span> bson_t *&amp;bsonTable, bson_iter_t &amp;iter):</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;m_name(<span class="stringliteral">&quot;&quot;</span>), m_desc(<span class="stringliteral">&quot;&quot;</span>), m_refer(<span class="stringliteral">&quot;&quot;</span>), m_id(-1)</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;{</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_FLD_SUB)) {</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        GetNumericFromBsonIterator(&amp;iter, <a class="code" href="../../d3/dd5/a00215.html#a2bed795366f246b9e2d4ef6712ef7044">m_id</a>);</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    }</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_FLD_NAME)) {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <a class="code" href="../../d3/dd5/a00215.html#ada12ae7a403d9ed0139bce3c434cbeb6">m_name</a> = GetStringFromBsonIterator(&amp;iter);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    }</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSTRUCT_FLD_DESC)) {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        <a class="code" href="../../d3/dd5/a00215.html#a77c10df51a08e37ef4a343bd3fe013e2">m_desc</a> = GetStringFromBsonIterator(&amp;iter);</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    }</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSTRUCT_FLD_REF)) {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <a class="code" href="../../d3/dd5/a00215.html#ae50cba9f5825b248f9d78c4a46cf7c39">m_refer</a> = GetStringFromBsonIterator(&amp;iter);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    }</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSTRUCT_FLD_LANDUSE)) {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordtype">string</span> landuse_str = GetStringFromBsonIterator(&amp;iter);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <a class="code" href="../../d3/dd5/a00215.html#ad6e956125dfeae807bf655a9a9477409">m_landuse</a> = SplitStringForInt(landuse_str, <span class="charliteral">&#39;-&#39;</span>);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    }</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, BMP_ARSTRUCT_FLD_PARAMS)) {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordtype">string</span> params_str = GetStringFromBsonIterator(&amp;iter);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        vector&lt;string&gt; params_strs = SplitString(params_str, <span class="charliteral">&#39;-&#39;</span>);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">for</span> (vector&lt;string&gt;::iterator it = params_strs.begin(); it != params_strs.end(); it++) {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            vector&lt;string&gt; tmp_param_items = SplitString(*it, <span class="charliteral">&#39;:&#39;</span>);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            assert(tmp_param_items.size() == 4);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            ParamEffect tmp_pe;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            tmp_pe.paramID = tmp_param_items[0];  </div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;            tmp_pe.paramDesc = tmp_param_items[1];</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            tmp_pe.change = tmp_param_items[2];</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            tmp_pe.impact = (float)atof(tmp_param_items[3].c_str());</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keywordflow">if</span> (!<a class="code" href="../../d3/dd5/a00215.html#a29f1d51de3f566214a3bb0387a0e0c69">m_parameters</a>.insert(make_pair(tmp_pe.paramID, tmp_pe)).second) {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;WARNING: Read BMPArealStruct failed: BMPID: &quot;</span> &lt;&lt; <a class="code" href="../../d3/dd5/a00215.html#a2bed795366f246b9e2d4ef6712ef7044">m_id</a> &lt;&lt; <span class="stringliteral">&quot;, param_name: &quot;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                    &lt;&lt; tmp_pe.paramID &lt;&lt; endl;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            }</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        }</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;}</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="../../d3/dd5/a00215.html#aea12564bacedb270cf0a7cc57a131f28">   43</a></span>&#160;<a class="code" href="../../d3/dd5/a00215.html#aea12564bacedb270cf0a7cc57a131f28">BMPArealStruct::~BMPArealStruct</a>() {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;}</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../d6/d43/a00216.html#a4f18520756c2d4936bf207e34d34e22a">   47</a></span>&#160;<a class="code" href="../../d6/d43/a00216.html#a4f18520756c2d4936bf207e34d34e22a">BMPArealStructFactory::BMPArealStructFactory</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> scenarioId, <span class="keyword">const</span> <span class="keywordtype">int</span> bmpId, <span class="keyword">const</span> <span class="keywordtype">int</span> subScenario,</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                                             <span class="keyword">const</span> <span class="keywordtype">int</span> bmpType, <span class="keyword">const</span> <span class="keywordtype">int</span> bmpPriority,</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                                             vector&lt;string&gt; &amp;distribution, <span class="keyword">const</span> <span class="keywordtype">string</span> collection,</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                                             <span class="keyword">const</span> <span class="keywordtype">string</span> location): </div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <a class="code" href="../../df/d24/a00217.html">BMPFactory</a>(scenarioId, bmpId, subScenario, bmpType, bmpPriority, distribution, collection, location), </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    m_mgtFieldsRs(NULL)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;{</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    m_mgtFieldsName = distribution[1];</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;}</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../d6/d43/a00216.html#a2d5588b9eb90fbbf7bf0a19f4293110e">   57</a></span>&#160;<a class="code" href="../../d6/d43/a00216.html#a2d5588b9eb90fbbf7bf0a19f4293110e">BMPArealStructFactory::~BMPArealStructFactory</a>()</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="comment">//if(m_mgtFieldsRs != NULL) delete m_mgtFieldsRs;  // will be released in DataCenter</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">for</span> (map&lt;int, BMPArealStruct*&gt;::iterator it = m_bmpStructMap.begin(); it != m_bmpStructMap.end(); ) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">if</span> (NULL != it-&gt;second) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="keyword">delete</span> it-&gt;second;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            it-&gt;second = NULL;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        m_bmpStructMap.erase(it++);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    m_bmpStructMap.clear();</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;}</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
-<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="../../d6/d43/a00216.html#a770958df0bcb31b97d914fcbaf1d48fc">   70</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d43/a00216.html#a770958df0bcb31b97d914fcbaf1d48fc">BMPArealStructFactory::loadBMP</a>(MongoClient* conn, <span class="keyword">const</span> <span class="keywordtype">string</span> &amp;bmpDBName)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    bson_t *b = bson_new();</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    bson_t *child1 = bson_new();</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    BSON_APPEND_DOCUMENT_BEGIN(b, <span class="stringliteral">&quot;$query&quot;</span>, child1);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    BSON_APPEND_INT32(child1, BMP_FLD_SUB, <a class="code" href="../../df/d24/a00217.html#a779426b1e43efb2835af551d0ba98285">m_subScenarioId</a>);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    bson_append_document_end(b, child1);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    bson_destroy(child1);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    unique_ptr&lt;MongoCollection&gt; collection(<span class="keyword">new</span> MongoCollection(conn-&gt;getCollection(bmpDBName, <a class="code" href="../../df/d24/a00217.html#a43cb16434d2caa7245ebca352a950f62">m_bmpCollection</a>)));</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    mongoc_cursor_t* cursor = collection-&gt;ExecuteQuery(b);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    bson_iter_t iter;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keyword">const</span> bson_t *bsonTable;</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright 2008 Google Inc.</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// All Rights Reserved.</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Redistribution and use in source and binary forms, with or without</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// modification, are permitted provided that the following conditions are</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// met:</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//     * Redistributions of source code must retain the above copyright</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">// notice, this list of conditions and the following disclaimer.</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">//     * Redistributions in binary form must reproduce the above</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// copyright notice, this list of conditions and the following disclaimer</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// in the documentation and/or other materials provided with the</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// distribution.</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">//     * Neither the name of Google Inc. nor the names of its</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// contributors may be used to endorse or promote products derived from</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// this software without specific prior written permission.</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">// Author: wan@google.com (Zhanyong Wan)</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#ifndef GTEST_INCLUDE_GTEST_GTEST_TYPED_TEST_H_</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define GTEST_INCLUDE_GTEST_GTEST_TYPED_TEST_H_</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment">// This header implements typed tests and type-parameterized tests.</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment">// Typed (aka type-driven) tests repeat the same test for types in a</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">// list.  You must know which types you want to test with when writing</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">// typed tests. Here&#39;s how you do it:</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#if 0</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">// First, define a fixture class template.  It should be parameterized</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="comment">// by a type.  Remember to derive it from testing::Test.</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">class </span>FooTest : <span class="keyword">public</span> testing::Test {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  ...</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keyword">typedef</span> std::list&lt;T&gt; List;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keyword">static</span> T shared_;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  T value_;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;};</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">// Next, associate a list of types with the test case, which will be</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">// repeated for each type in the list.  The typedef is necessary for</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="comment">// the macro to parse correctly.</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">typedef</span> testing::Types&lt;char, int, unsigned int&gt; MyTypes;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;TYPED_TEST_CASE(FooTest, MyTypes);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="comment">// If the type list contains only one type, you can write that type</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment">// directly without Types&lt;...&gt;:</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment">//   TYPED_TEST_CASE(FooTest, int);</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment">// Then, use TYPED_TEST() instead of TEST_F() to define as many typed</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="comment">// tests for this test case as you want.</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;TYPED_TEST(FooTest, DoesBlah) {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  <span class="comment">// Inside a test, refer to TypeParam to get the type parameter.</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="comment">// Since we are inside a derived class template, C++ requires use to</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="comment">// visit the members of FooTest via &#39;this&#39;.</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  TypeParam n = this-&gt;value_;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <span class="comment">// To visit static members of the fixture, add the TestFixture::</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="comment">// prefix.</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  n += TestFixture::shared_;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="comment">// To refer to typedefs in the fixture, add the &quot;typename</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="comment">// TestFixture::&quot; prefix.</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keyword">typename</span> TestFixture::List values;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  values.push_back(n);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  ...</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;TYPED_TEST(FooTest, HasPropertyA) { ... }</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">while</span> (mongoc_cursor_next(cursor, &amp;bsonTable)) {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">if</span> (!m_bmpStructMap.insert(make_pair(<a class="code" href="../../df/d24/a00217.html#a779426b1e43efb2835af551d0ba98285">m_subScenarioId</a>, <span class="keyword">new</span> <a class="code" href="../../d3/dd5/a00215.html">BMPArealStruct</a>(bsonTable, iter))).second) {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            cout &lt;&lt; <span class="stringliteral">&quot;WARNING: Read Areal Structural BMP failed: subScenarioID: &quot;</span> &lt;&lt; <a class="code" href="../../df/d24/a00217.html#a779426b1e43efb2835af551d0ba98285">m_subScenarioId</a> &lt;&lt; endl;</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        }</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    bson_destroy(b);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    mongoc_cursor_destroy(cursor);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="comment">//m_bmpDBName = bmpDBName;</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment"></span>    <span class="comment">//if (m_bmpArealStrOps.find(m_subScenarioId) == m_bmpArealStrOps.end())</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="comment">//{</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="comment">//  m_bmpArealStrOps.insert(map&lt;int, vector&lt;int&gt;&gt; :: value_type(m_subScenarioId, m_location));</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment">//}</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="comment">//*/</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="comment">//string fileName = &quot;D:\\SEIMS_model\\Model_data\\youwuzhen\\model_youwuzhen_10m_longterm\\bmpParam.xml&quot;;</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="comment">//ReadXmlFile(fileName,m_bmpDBName);</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="comment">//m_BMPparam.push_back(Params.begin()-&gt;ParamName);</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="comment">//for (vector&lt;struct Param&gt;::iterator iter=Params.begin();iter!=Params.end();++iter)</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="comment">//{</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="comment">//  vector&lt;string&gt;::iterator paramIter=m_BMPparam.begin();</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="comment">//  for(paramIter;paramIter!=m_BMPparam.end();++paramIter)</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="comment">//  {</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">//      if(*paramIter==iter-&gt;ParamName)</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="comment">//          break;</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="comment">//  }</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="comment">//  if(paramIter==m_BMPparam.end ())</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="comment">//      m_BMPparam.push_back(iter-&gt;ParamName);</span></div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="comment">//}</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;}</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
-<div class="line"><a name="l00120"></a><span class="lineno"><a class="line" href="../../d6/d43/a00216.html#a308b2d6c24a5c1ecdfcb0a3637f4b874">  120</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d43/a00216.html#a308b2d6c24a5c1ecdfcb0a3637f4b874">BMPArealStructFactory::setRasterData</a>(map&lt;string, FloatRaster*&gt; &amp;sceneRsMap) {</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">if</span> (sceneRsMap.find(m_mgtFieldsName) != sceneRsMap.end()) {</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        m_mgtFieldsRs = sceneRsMap.at(m_mgtFieldsName);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    }</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">else</span>{</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="comment">// raise Exception?</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    }</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;}</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
-<div class="line"><a name="l00129"></a><span class="lineno"><a class="line" href="../../d6/d43/a00216.html#ab27c438320a403476309b1337a524ca1">  129</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d43/a00216.html#ab27c438320a403476309b1337a524ca1">BMPArealStructFactory::BMPParametersPreUpdate</a>(map&lt;<span class="keywordtype">string</span>, <a class="code" href="../../de/dc2/a00228.html">clsRasterData&lt;float&gt;</a>*&gt; rsMap, <span class="keywordtype">int</span> nSubbasin,  mongoc_gridfs_t *spatialData)</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;{</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="comment">//int subScenarioid = this-&gt;m_subScenarioId;</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="comment">//vector&lt;int&gt; locationArr = SplitStringForInt(this-&gt;m_location, &#39;-&#39;);</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="comment">//ostringstream oss;</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160; <span class="comment">//   oss &lt;&lt; nSubbasin &lt;&lt; &quot;_&quot; &lt;&lt; GetUpper(VAR_MGT_FIELD);</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="comment">//m_mgtFieldsRs = new clsRasterData&lt;float&gt;(spatialData,oss.str().c_str());</span></div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="comment">//readFieldRasterfile(nSubbasin, spatialData, m_mgtFieldsRs);</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="comment"></span>    <span class="comment">//</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="comment">//vector&lt;string&gt;::iterator it;</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="comment">//for (it = m_BMPparam.begin(); it!=m_BMPparam.end(); it++)</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="comment">//{</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="comment">//  int n;</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="comment">//  clsRasterData&lt;float&gt; *raster = NULL;</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="comment">//  string name = *it;</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="comment">//  ostringstream oss;</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="comment">//  oss &lt;&lt; nSubbasin &lt;&lt; &quot;_&quot; &lt;&lt; GetUpper(name);</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="comment">//  string remoteFileName = oss.str();</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="comment">//  // cout &lt;&lt; &quot;remoteFileName:&quot; &lt;&lt; remoteFileName &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="comment">//  if (rsMap.find(remoteFileName) != rsMap.end())</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="comment">//  {</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="comment">//      raster = rsMap[remoteFileName];</span></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="comment">//      if(raster-&gt;is2DRaster())</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="comment">//      {</span></div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="comment">//          int lyr;</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="comment">//          float** data2D = NULL;</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="comment">//          raster-&gt;get2DRasterData(&amp;n, &amp;lyr, &amp;data2D);</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="comment">//          Update2D(name, n, lyr, data2D, subScenarioid, locationArr);</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="comment">//      }</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="comment">//      else</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="comment">//      {</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="comment">//          float* data = NULL;</span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="comment">//          raster-&gt;getRasterData(&amp;n, &amp;data);</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="comment">//          Update(name, n, data, subScenarioid, locationArr);</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="comment">//      }</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="comment">//      //cout &lt;&lt; &quot;Parameter name: &quot; &lt;&lt; name &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="comment">//  }</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="comment">//}</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;}</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="comment">//void BMPArealStructFactory::Update(string paraName, int n, float* data, int subScenarioid, vector&lt;int&gt; location)</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="comment">//{</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="comment">//  for(vector&lt;int&gt;::iterator iter_loc = location.begin(); iter_loc != location.end(); iter_loc++)</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="comment">//      for(int i = 0; i &lt; n; i++)</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="comment">//      {</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="comment">//          if(*iter_loc == i)</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="comment">//          {</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="comment">//              for (vector&lt;struct Param&gt;::iterator iter=Params.begin();iter!=Params.end();++iter)</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="comment">//              {</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="comment">//                  if(subScenarioid==iter-&gt;BMPID &amp;&amp; StringMatch(paraName,iter-&gt;ParamName))</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="comment">//                  {</span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="comment">//                      switch (iter-&gt;Method)</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="comment">//                      {</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="comment">//                      case &#39;*&#39;:</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="comment">//                          data[i] *= iter-&gt;Value;</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="comment">//                          break;</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="comment">//                      case &#39;+&#39;:</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="comment">//                          data[i] += iter-&gt;Value;</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="comment">//                          break;</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="comment">//                      case &#39;=&#39;:</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="comment">//                          data[i] = iter-&gt;Value;</span></div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="comment">//                          break;</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="comment">//                      }</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="comment">//                      break;</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="comment">//                  }</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="comment">//              }</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="comment">//          }</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="comment">//  </span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="comment">//}</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#endif  // 0</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">// Type-parameterized tests are abstract test patterns parameterized</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">// by a type.  Compared with typed tests, type-parameterized tests</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">// allow you to define the test pattern without knowing what the type</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">// parameters are.  The defined pattern can be instantiated with</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">// different types any number of times, in any number of translation</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="comment">// units.</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="comment">// If you are designing an interface or concept, you can define a</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="comment">// suite of type-parameterized tests to verify properties that any</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="comment">// valid implementation of the interface/concept should have.  Then,</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="comment">// each implementation can easily instantiate the test suite to verify</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="comment">// that it conforms to the requirements, without having to write</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="comment">// similar tests repeatedly.  Here&#39;s an example:</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="preprocessor">#if 0</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="comment">// First, define a fixture class template.  It should be parameterized</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="comment">// by a type.  Remember to derive it from testing::Test.</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> T&gt;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="keyword">class </span>FooTest : <span class="keyword">public</span> testing::Test {</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  ...</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;};</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="comment">// Next, declare that you will define a type-parameterized test case</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="comment">// (the _P suffix is for &quot;parameterized&quot; or &quot;pattern&quot;, whichever you</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="comment">// prefer):</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;TYPED_TEST_CASE_P(FooTest);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="comment">// Then, use TYPED_TEST_P() to define as many type-parameterized tests</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;<span class="comment">// for this type-parameterized test case as you want.</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;TYPED_TEST_P(FooTest, DoesBlah) {</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <span class="comment">// Inside a test, refer to TypeParam to get the type parameter.</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  TypeParam n = 0;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  ...</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;}</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;TYPED_TEST_P(FooTest, HasPropertyA) { ... }</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;<span class="comment">// Now the tricky part: you need to register all test patterns before</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="comment">// you can instantiate them.  The first argument of the macro is the</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="comment">// test case name; the rest are the names of the tests in this test</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="comment">// case.</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;REGISTER_TYPED_TEST_CASE_P(FooTest,</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                           DoesBlah, HasPropertyA);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment">// Finally, you are free to instantiate the pattern with the types you</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="comment">// want.  If you put the above code in a header file, you can #include</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;<span class="comment">// it in multiple C++ source files and instantiate it multiple times.</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;<span class="comment">// To distinguish different instances of the pattern, the first</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;<span class="comment">// argument to the INSTANTIATE_* macro is a prefix that will be added</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="comment">// to the actual test case name.  Remember to pick unique prefixes for</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="comment">// different instances.</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="keyword">typedef</span> testing::Types&lt;char, int, unsigned int&gt; MyTypes;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;INSTANTIATE_TYPED_TEST_CASE_P(My, FooTest, MyTypes);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="comment">// If the type list contains only one type, you can write that type</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment">// directly without Types&lt;...&gt;:</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="comment">//   INSTANTIATE_TYPED_TEST_CASE_P(My, FooTest, int);</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="preprocessor">#endif  // 0</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="preprocessor">#include &quot;gtest/internal/gtest-port.h&quot;</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="preprocessor">#include &quot;gtest/internal/gtest-type-util.h&quot;</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="comment">// Implements typed tests.</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="preprocessor">#if GTEST_HAS_TYPED_TEST</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="comment">// INTERNAL IMPLEMENTATION - DO NOT USE IN USER CODE.</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment">// Expands to the name of the typedef for the type parameters of the</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="comment">// given test case.</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="preprocessor"># define GTEST_TYPE_PARAMS_(TestCaseName) gtest_type_params_##TestCaseName##_</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment">// The &#39;Types&#39; template argument below must have spaces around it</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="comment">// since some compilers may choke on &#39;&gt;&gt;&#39; when passing a template</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="comment">// instance (e.g. Types&lt;int&gt;)</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="preprocessor"># define TYPED_TEST_CASE(CaseName, Types) \</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="preprocessor">  typedef ::testing::internal::TypeList&lt; Types &gt;::type \</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="preprocessor">      GTEST_TYPE_PARAMS_(CaseName)</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="preprocessor"># define TYPED_TEST(CaseName, TestName) \</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="preprocessor">  template &lt;typename gtest_TypeParam_&gt; \</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="preprocessor">  class GTEST_TEST_CLASS_NAME_(CaseName, TestName) \</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor">      : public CaseName&lt;gtest_TypeParam_&gt; { \</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="preprocessor">   private: \</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor">    typedef CaseName&lt;gtest_TypeParam_&gt; TestFixture; \</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="preprocessor">    typedef gtest_TypeParam_ TypeParam; \</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="preprocessor">    virtual void TestBody(); \</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="preprocessor">  }; \</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor">  bool gtest_##CaseName##_##TestName##_registered_ GTEST_ATTRIBUTE_UNUSED_ = \</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="preprocessor">      ::testing::internal::TypeParameterizedTest&lt; \</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="preprocessor">          CaseName, \</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="preprocessor">          ::testing::internal::TemplateSel&lt; \</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="preprocessor">              GTEST_TEST_CLASS_NAME_(CaseName, TestName)&gt;, \</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="preprocessor">          GTEST_TYPE_PARAMS_(CaseName)&gt;::Register(\</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="preprocessor">              &quot;&quot;, ::testing::internal::CodeLocation(__FILE__, __LINE__), \</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="preprocessor">              #CaseName, #TestName, 0); \</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="preprocessor">  template &lt;typename gtest_TypeParam_&gt; \</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="preprocessor">  void GTEST_TEST_CLASS_NAME_(CaseName, TestName)&lt;gtest_TypeParam_&gt;::TestBody()</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="preprocessor">#endif  // GTEST_HAS_TYPED_TEST</span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="comment">// Implements type-parameterized tests.</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="preprocessor">#if GTEST_HAS_TYPED_TEST_P</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="comment">// INTERNAL IMPLEMENTATION - DO NOT USE IN USER CODE.</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="comment">// Expands to the namespace name that the type-parameterized tests for</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="comment">// the given type-parameterized test case are defined in.  The exact</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="comment">// name of the namespace is subject to change without notice.</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="preprocessor"># define GTEST_CASE_NAMESPACE_(TestCaseName) \</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="preprocessor">  gtest_case_##TestCaseName##_</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="comment">// INTERNAL IMPLEMENTATION - DO NOT USE IN USER CODE.</span></div>
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="comment">//void BMPArealStructFactory::Update2D(string paraName, int n, int lyr, float** data2D, int subScenarioid, vector&lt;int&gt; location)</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="comment">//{</span></div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="comment">//  for(vector&lt;int&gt;::iterator iter_loc = location.begin(); iter_loc != location.end(); iter_loc++)</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="comment">//      for(int i = 0; i &lt; n; i++)</span></div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="comment">//      {</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment">//          if(*iter_loc == i)</span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment">//          {</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="comment">//              for (vector&lt;struct Param&gt;::iterator iter=Params.begin();iter!=Params.end();++iter)</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="comment">//              {</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="comment">//                  if(subScenarioid==iter-&gt;BMPID &amp;&amp; StringMatch(paraName,iter-&gt;ParamName))</span></div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="comment">//                  {</span></div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="comment">//                      for(int k = 0; k &lt; lyr; k++)</span></div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;<span class="comment">//                      {</span></div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="comment">//                          switch (iter-&gt;Method)</span></div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="comment">//                          {</span></div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="comment">//                          case &#39;*&#39;:</span></div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="comment">//                              data2D[i][k] *= iter-&gt;Value;</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="comment">//                              break;</span></div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;<span class="comment">//                          case &#39;+&#39;:</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="comment">//                              data2D[i][k] += iter-&gt;Value;</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="comment">//                              break;</span></div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="comment">//                          case &#39;=&#39;:</span></div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;<span class="comment">//                              data2D[i][k] = iter-&gt;Value;</span></div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;<span class="comment">//                              break;</span></div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;<span class="comment">//                          }</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="comment">//                      }</span></div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="comment">//                      break;</span></div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="comment">//                  }</span></div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="comment">//              }</span></div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="comment">//          }</span></div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment">//}</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="comment">//void BMPArealStructFactory::readFieldRasterfile(int nSubbasin, mongoc_gridfs_t* spatialData,</span></div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;<span class="comment">//                                                clsRasterData&lt;float&gt;* templateRaster)</span></div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="comment">//{</span></div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="comment">//  // read spatial data from MongoDB</span></div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="comment">//  int n = 0;</span></div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="comment">//  clsRasterData&lt;float&gt;*raster = NULL;</span></div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="comment">//  ostringstream oss;</span></div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="comment">//  try</span></div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="comment">//        oss &lt;&lt; nSubbasin &lt;&lt; &quot;_&quot; &lt;&lt; GetUpper(VAR_MGT_FIELD);</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="comment">//        raster = new clsRasterData&lt;float&gt;(m_spatialGridFS, oss.str().c_str(), true, templateRaster, true);</span></div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="comment">//  catch (ModelException e)</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="comment">//      cout &lt;&lt; e.toString() &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="comment">//      return;</span></div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="comment">//  raster-&gt;getRasterData(&amp;n, &amp;m_fieldmap);</span></div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="comment">//  m_nCell = n;</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="comment">//  // get field number</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="comment">//  m_nField = m_fieldmap[0];</span></div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="comment">//  float nField_start = m_fieldmap[0];</span></div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="comment">//  for(int i = 1; i &lt; m_nCell; i++)</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="comment">//      if(m_nField &lt; m_fieldmap[i]) m_nField = m_fieldmap[i];</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="comment">//      if(nField_start &gt; m_fieldmap[i]) nField_start = m_fieldmap[i];</span></div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="comment">//  if(nField_start == 0.) m_nField += 1.;</span></div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="comment">//}</span></div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="comment">//bool BMPArealStructFactory::ReadXmlFile(string&amp; xmlFilePath,string moduleName)</span></div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="comment">//{</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="comment">//  try</span></div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;<span class="comment">//      //create a XML object</span></div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="comment">//      TiXmlDocument *myDocument = new TiXmlDocument(xmlFilePath.c_str());</span></div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="comment">//      myDocument-&gt;LoadFile();</span></div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="comment">//      //get BMPs</span></div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="comment">//      TiXmlElement *RootElement = myDocument-&gt;RootElement();</span></div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="comment">//      //get BMP nodes</span></div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="comment">//      TiXmlElement *BMP = RootElement-&gt;FirstChildElement();</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="comment">//      //get BMP attributes</span></div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="comment">//      while(BMP)</span></div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="comment">//      {</span></div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="comment">//          TiXmlAttribute *IDAttribute = BMP-&gt;FirstAttribute();</span></div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="comment">//          TiXmlElement *PorpertyElement = BMP-&gt;FirstChildElement();</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="comment">//          TiXmlElement *BMPName = PorpertyElement-&gt;FirstChildElement();</span></div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="comment">//          TiXmlElement *Description = BMPName-&gt;NextSiblingElement();</span></div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="comment">//          TiXmlElement *Reference = Description-&gt;NextSiblingElement();</span></div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<span class="comment">//          //cout&lt;&lt;&quot;   &quot;&lt;&lt;BMPName-&gt;FirstChild()-&gt;Value()&lt;&lt; endl;</span></div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="comment">//          TiXmlElement *Parameter = PorpertyElement-&gt;NextSiblingElement();</span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="comment">//          ////storage of BMPs</span></div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="comment">//          while(Parameter)</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="comment">//          {</span></div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="comment">//              TiXmlElement *Name = Parameter-&gt;FirstChildElement();</span></div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="comment">//              TiXmlElement *Description = Name-&gt;NextSiblingElement();</span></div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="comment">//              TiXmlElement *Method = Description-&gt;NextSiblingElement();</span></div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="comment">//              TiXmlElement *Value = Method-&gt;NextSiblingElement();</span></div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="comment">//              Param param;</span></div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="comment">//              strcpy_s(param.BMPName,BMPName-&gt;FirstChild()-&gt;Value());</span></div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="comment">//              param.BMPID=atoi(IDAttribute-&gt;Value());</span></div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="comment">//              strcpy_s(param.ParamName,Name-&gt;FirstChild()-&gt;Value());</span></div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="comment">//              param.Method=*(Method-&gt;FirstChild()-&gt;Value());</span></div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="comment">//              param.Value =atof(Value-&gt;FirstChild()-&gt;Value());</span></div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="comment">//              Params.push_back(param);</span></div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;<span class="comment">//              Parameter = Parameter-&gt;NextSiblingElement();</span></div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="comment">//          }</span></div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="comment">//          BMP =BMP-&gt;NextSiblingElement();</span></div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="comment">//  catch (string&amp; e)</span></div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="comment">//      return false;</span></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="comment">//  return true;</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="comment">//}</span></div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="comment">//void BMPArealStructFactory::getFieldBMPid(map&lt;int, vector&lt;int&gt;&gt;  m_bmpArealStrOps)</span></div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="comment">//{</span></div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;<span class="comment">//  if(m_nField &lt;= 0)</span></div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="comment">//      throw ModelException(&quot;BMPArealStructFactory&quot;, &quot;getFieldBMPid&quot;, &quot;Field number should not be less than 0&quot;);</span></div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="comment">//  m_fieldBMPid = new int(m_nField);</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="comment">//  for(int i = 0; i &lt; m_nField; i++)</span></div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;<span class="comment">//      m_fieldBMPid[i] = 0;</span></div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="comment">//      //cout &lt;&lt; &quot;id:&quot; &lt;&lt; i &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="comment">//  //update m_fieldBMPid</span></div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;<span class="comment">//  for (map&lt;int, vector&lt;int&gt;&gt;::iterator it = m_bmpArealStrOps.begin(); it != m_bmpArealStrOps.end(); it++)</span></div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="comment">//      cout &lt;&lt; &quot;BMP:&quot; &lt;&lt; it-&gt;first &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="comment">//      for(vector&lt;int&gt;::iterator it_loc = it-&gt;second.begin(); it_loc != it-&gt;second.end(); it_loc++)</span></div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="comment">//      {</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;<span class="comment">//          m_fieldBMPid[*it_loc] = it-&gt;first;</span></div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="comment">//          cout &lt;&lt; m_fieldBMPid[*it_loc] &lt;&lt; &quot;: &quot; &lt;&lt; it-&gt;first &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment">//}</span></div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;</div>
-<div class="line"><a name="l00346"></a><span class="lineno"><a class="line" href="../../d6/d43/a00216.html#a506982fea04c09cc9713b5cc7d67d84a">  346</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d6/d43/a00216.html#a506982fea04c09cc9713b5cc7d67d84a">BMPArealStructFactory::Dump</a>(ostream *fs)</div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;{</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    <span class="keywordflow">if</span> (fs == NULL) <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    *fs &lt;&lt; <span class="stringliteral">&quot;Areal Structural BMP Management Factory: &quot;</span> &lt;&lt; endl &lt;&lt;</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        <span class="stringliteral">&quot;    SubScenario ID: &quot;</span> &lt;&lt; <a class="code" href="../../df/d24/a00217.html#a779426b1e43efb2835af551d0ba98285">m_subScenarioId</a> &lt;&lt; endl;</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;}</div>
-<div class="ttc" id="a00215_html_ad6e956125dfeae807bf655a9a9477409"><div class="ttname"><a href="../../d3/dd5/a00215.html#ad6e956125dfeae807bf655a9a9477409">MainBMP::BMPArealStruct::m_landuse</a></div><div class="ttdeci">vector&lt; int &gt; m_landuse</div><div class="ttdoc">suitable placement landuse </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d02/a00834_source.html#l00048">BMPArealStructFactory.h:48</a></div></div>
-<div class="ttc" id="a00215_html_a77c10df51a08e37ef4a343bd3fe013e2"><div class="ttname"><a href="../../d3/dd5/a00215.html#a77c10df51a08e37ef4a343bd3fe013e2">MainBMP::BMPArealStruct::m_desc</a></div><div class="ttdeci">string m_desc</div><div class="ttdoc">description </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d02/a00834_source.html#l00046">BMPArealStructFactory.h:46</a></div></div>
-<div class="ttc" id="a00215_html"><div class="ttname"><a href="../../d3/dd5/a00215.html">MainBMP::BMPArealStruct</a></div><div class="ttdoc">Manage areal Structural BMP data. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d02/a00834_source.html#l00036">BMPArealStructFactory.h:36</a></div></div>
-<div class="ttc" id="a00217_html_a43cb16434d2caa7245ebca352a950f62"><div class="ttname"><a href="../../df/d24/a00217.html#a43cb16434d2caa7245ebca352a950f62">MainBMP::BMPFactory::m_bmpCollection</a></div><div class="ttdeci">const string m_bmpCollection</div><div class="ttdoc">Collection name. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d13/a00836_source.html#l00085">BMPFactory.h:85</a></div></div>
-<div class="ttc" id="a00216_html_a770958df0bcb31b97d914fcbaf1d48fc"><div class="ttname"><a href="../../d6/d43/a00216.html#a770958df0bcb31b97d914fcbaf1d48fc">MainBMP::BMPArealStructFactory::loadBMP</a></div><div class="ttdeci">void loadBMP(MongoClient *conn, const string &amp;bmpDBName)</div><div class="ttdoc">Load BMP parameters from MongoDB. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d6e/a00833_source.html#l00070">BMPArealStructFactory.cpp:70</a></div></div>
-<div class="ttc" id="a00215_html_aea12564bacedb270cf0a7cc57a131f28"><div class="ttname"><a href="../../d3/dd5/a00215.html#aea12564bacedb270cf0a7cc57a131f28">MainBMP::BMPArealStruct::~BMPArealStruct</a></div><div class="ttdeci">~BMPArealStruct()</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d6e/a00833_source.html#l00043">BMPArealStructFactory.cpp:43</a></div></div>
-<div class="ttc" id="a00216_html_a2d5588b9eb90fbbf7bf0a19f4293110e"><div class="ttname"><a href="../../d6/d43/a00216.html#a2d5588b9eb90fbbf7bf0a19f4293110e">MainBMP::BMPArealStructFactory::~BMPArealStructFactory</a></div><div class="ttdeci">~BMPArealStructFactory(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d6e/a00833_source.html#l00057">BMPArealStructFactory.cpp:57</a></div></div>
-<div class="ttc" id="a00215_html_a9851daf547a5d5fc6f707d2df92ede9a"><div class="ttname"><a href="../../d3/dd5/a00215.html#a9851daf547a5d5fc6f707d2df92ede9a">MainBMP::BMPArealStruct::BMPArealStruct</a></div><div class="ttdeci">BMPArealStruct(const bson_t *&amp;bsonTab, bson_iter_t &amp;iter)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d6e/a00833_source.html#l00005">BMPArealStructFactory.cpp:5</a></div></div>
-<div class="ttc" id="a00217_html"><div class="ttname"><a href="../../df/d24/a00217.html">MainBMP::BMPFactory</a></div><div class="ttdoc">Base class to initiate a BMP data. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d13/a00836_source.html#l00028">BMPFactory.h:28</a></div></div>
-<div class="ttc" id="a00215_html_a29f1d51de3f566214a3bb0387a0e0c69"><div class="ttname"><a href="../../d3/dd5/a00215.html#a29f1d51de3f566214a3bb0387a0e0c69">MainBMP::BMPArealStruct::m_parameters</a></div><div class="ttdeci">map&lt; string, ParamEffect &gt; m_parameters</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d02/a00834_source.html#l00053">BMPArealStructFactory.h:53</a></div></div>
-<div class="ttc" id="a00215_html_ada12ae7a403d9ed0139bce3c434cbeb6"><div class="ttname"><a href="../../d3/dd5/a00215.html#ada12ae7a403d9ed0139bce3c434cbeb6">MainBMP::BMPArealStruct::m_name</a></div><div class="ttdeci">string m_name</div><div class="ttdoc">name </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d02/a00834_source.html#l00045">BMPArealStructFactory.h:45</a></div></div>
-<div class="ttc" id="a00215_html_ae50cba9f5825b248f9d78c4a46cf7c39"><div class="ttname"><a href="../../d3/dd5/a00215.html#ae50cba9f5825b248f9d78c4a46cf7c39">MainBMP::BMPArealStruct::m_refer</a></div><div class="ttdeci">string m_refer</div><div class="ttdoc">references </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d02/a00834_source.html#l00047">BMPArealStructFactory.h:47</a></div></div>
-<div class="ttc" id="a00216_html_a308b2d6c24a5c1ecdfcb0a3637f4b874"><div class="ttname"><a href="../../d6/d43/a00216.html#a308b2d6c24a5c1ecdfcb0a3637f4b874">MainBMP::BMPArealStructFactory::setRasterData</a></div><div class="ttdeci">void setRasterData(map&lt; string, FloatRaster * &gt; &amp;sceneRsMap)</div><div class="ttdoc">Set raster data if needed. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d6e/a00833_source.html#l00120">BMPArealStructFactory.cpp:120</a></div></div>
-<div class="ttc" id="a00228_html"><div class="ttname"><a href="../../de/dc2/a00228.html">clsRasterData&lt; float &gt;</a></div></div>
-<div class="ttc" id="a00216_html_a4f18520756c2d4936bf207e34d34e22a"><div class="ttname"><a href="../../d6/d43/a00216.html#a4f18520756c2d4936bf207e34d34e22a">MainBMP::BMPArealStructFactory::BMPArealStructFactory</a></div><div class="ttdeci">BMPArealStructFactory(const int scenarioId, const int bmpId, const int subScenario, const int bmpType, const int bmpPriority, vector&lt; string &gt; &amp;distribution, const string collection, const string location)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d6e/a00833_source.html#l00047">BMPArealStructFactory.cpp:47</a></div></div>
-<div class="ttc" id="a00215_html_a2bed795366f246b9e2d4ef6712ef7044"><div class="ttname"><a href="../../d3/dd5/a00215.html#a2bed795366f246b9e2d4ef6712ef7044">MainBMP::BMPArealStruct::m_id</a></div><div class="ttdeci">int m_id</div><div class="ttdoc">unique BMP ID </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d02/a00834_source.html#l00044">BMPArealStructFactory.h:44</a></div></div>
-<div class="ttc" id="a00216_html_a506982fea04c09cc9713b5cc7d67d84a"><div class="ttname"><a href="../../d6/d43/a00216.html#a506982fea04c09cc9713b5cc7d67d84a">MainBMP::BMPArealStructFactory::Dump</a></div><div class="ttdeci">void Dump(ostream *fs)</div><div class="ttdoc">Output. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d6e/a00833_source.html#l00346">BMPArealStructFactory.cpp:346</a></div></div>
-<div class="ttc" id="a00216_html_ab27c438320a403476309b1337a524ca1"><div class="ttname"><a href="../../d6/d43/a00216.html#ab27c438320a403476309b1337a524ca1">MainBMP::BMPArealStructFactory::BMPParametersPreUpdate</a></div><div class="ttdeci">void BMPParametersPreUpdate(map&lt; string, clsRasterData&lt; float &gt; * &gt; rsMap, int nSubbasin, mongoc_gridfs_t *spatialData)</div><div class="ttdoc">preUpdate parameters. In my view, this operation should be executed in DataCenter. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d6e/a00833_source.html#l00129">BMPArealStructFactory.cpp:129</a></div></div>
-<div class="ttc" id="a00217_html_a779426b1e43efb2835af551d0ba98285"><div class="ttname"><a href="../../df/d24/a00217.html#a779426b1e43efb2835af551d0ba98285">MainBMP::BMPFactory::m_subScenarioId</a></div><div class="ttdeci">const int m_subScenarioId</div><div class="ttdoc">SubScenario ID within one BMP iD. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d13/a00836_source.html#l00078">BMPFactory.h:78</a></div></div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="comment">// Expands to the name of the variable used to remember the names of</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="comment">// the defined tests in the given test case.</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="preprocessor"># define GTEST_TYPED_TEST_CASE_P_STATE_(TestCaseName) \</span></div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="preprocessor">  gtest_typed_test_case_p_state_##TestCaseName##_</span></div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="comment">// INTERNAL IMPLEMENTATION - DO NOT USE IN USER CODE DIRECTLY.</span></div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment">// Expands to the name of the variable used to remember the names of</span></div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="comment">// the registered tests in the given test case.</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="preprocessor"># define GTEST_REGISTERED_TEST_NAMES_(TestCaseName) \</span></div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="preprocessor">  gtest_registered_test_names_##TestCaseName##_</span></div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="comment">// The variables defined in the type-parameterized test macros are</span></div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;<span class="comment">// static as typically these macros are used in a .h file that can be</span></div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="comment">// #included in multiple translation units linked together.</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="preprocessor"># define TYPED_TEST_CASE_P(CaseName) \</span></div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="preprocessor">  static ::testing::internal::TypedTestCasePState \</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="preprocessor">      GTEST_TYPED_TEST_CASE_P_STATE_(CaseName)</span></div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;<span class="preprocessor"># define TYPED_TEST_P(CaseName, TestName) \</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="preprocessor">  namespace GTEST_CASE_NAMESPACE_(CaseName) { \</span></div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="preprocessor">  template &lt;typename gtest_TypeParam_&gt; \</span></div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="preprocessor">  class TestName : public CaseName&lt;gtest_TypeParam_&gt; { \</span></div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;<span class="preprocessor">   private: \</span></div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;<span class="preprocessor">    typedef CaseName&lt;gtest_TypeParam_&gt; TestFixture; \</span></div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;<span class="preprocessor">    typedef gtest_TypeParam_ TypeParam; \</span></div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;<span class="preprocessor">    virtual void TestBody(); \</span></div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;<span class="preprocessor">  }; \</span></div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="preprocessor">  static bool gtest_##TestName##_defined_ GTEST_ATTRIBUTE_UNUSED_ = \</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="preprocessor">      GTEST_TYPED_TEST_CASE_P_STATE_(CaseName).AddTestName(\</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="preprocessor">          __FILE__, __LINE__, #CaseName, #TestName); \</span></div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="preprocessor">  template &lt;typename gtest_TypeParam_&gt; \</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="preprocessor">  void GTEST_CASE_NAMESPACE_(CaseName)::TestName&lt;gtest_TypeParam_&gt;::TestBody()</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="preprocessor"># define REGISTER_TYPED_TEST_CASE_P(CaseName, ...) \</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;<span class="preprocessor">  namespace GTEST_CASE_NAMESPACE_(CaseName) { \</span></div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="preprocessor">  typedef ::testing::internal::Templates&lt;__VA_ARGS__&gt;::type gtest_AllTests_; \</span></div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="preprocessor">  } \</span></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="preprocessor">  static const char* const GTEST_REGISTERED_TEST_NAMES_(CaseName) \</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="preprocessor">      GTEST_ATTRIBUTE_UNUSED_ = \</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;<span class="preprocessor">          GTEST_TYPED_TEST_CASE_P_STATE_(CaseName).VerifyRegisteredTestNames(\</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;<span class="preprocessor">              __FILE__, __LINE__, #__VA_ARGS__)</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="comment">// The &#39;Types&#39; template argument below must have spaces around it</span></div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;<span class="comment">// since some compilers may choke on &#39;&gt;&gt;&#39; when passing a template</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="comment">// instance (e.g. Types&lt;int&gt;)</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;<span class="preprocessor"># define INSTANTIATE_TYPED_TEST_CASE_P(Prefix, CaseName, Types) \</span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;<span class="preprocessor">  bool gtest_##Prefix##_##CaseName GTEST_ATTRIBUTE_UNUSED_ = \</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;<span class="preprocessor">      ::testing::internal::TypeParameterizedTestCase&lt;CaseName, \</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;<span class="preprocessor">          GTEST_CASE_NAMESPACE_(CaseName)::gtest_AllTests_, \</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="preprocessor">          ::testing::internal::TypeList&lt; Types &gt;::type&gt;::Register(\</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="preprocessor">              #Prefix, \</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="preprocessor">              ::testing::internal::CodeLocation(__FILE__, __LINE__), \</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="preprocessor">              &amp;GTEST_TYPED_TEST_CASE_P_STATE_(CaseName), \</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="preprocessor">              #CaseName, GTEST_REGISTERED_TEST_NAMES_(CaseName))</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="preprocessor">#endif  // GTEST_HAS_TYPED_TEST_P</span></div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="preprocessor">#endif  // GTEST_INCLUDE_GTEST_GTEST_TYPED_TEST_H_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_c4eaa6a6e6c4ee7b087e3de60cab1bbc.html">bmps</a></li><li class="navelem"><b>BMPArealStructFactory.cpp</b></li>
-    <li class="footer">Generated on Mon Jul 17 2017 04:55:10 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_ed16674693235890c7cb51a5b1a1dba7.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_2b9061aab15e833eb4855efc90c3e222.html">bin</a></li><li class="navelem"><a class="el" href="../../dir_237470728da0ee4609413923c5aaa365.html">include</a></li><li class="navelem"><a class="el" href="../../dir_0269cdc427c89aa809209e3028f27f22.html">gtest</a></li><li class="navelem"><b>gtest-typed-test.h</b></li>
+    <li class="footer">Generated on Tue Jul 18 2017 15:34:16 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

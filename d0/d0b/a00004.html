@@ -785,7 +785,7 @@ from Mock Methods"). However, Google Mock doesn't let you use <code>ReturnRef()<
 <p>if <code>Foo(1)</code> is called in thread 1 and <code>Foo(2)</code> is called in thread 2, Google Mock will execute <code>action1</code> in thread 1 and <code>action2</code> in thread 2.</p>
 <p>Google Mock does <em>not</em> impose a sequence on actions performed in different threads (doing so may create deadlocks as the actions may need to cooperate). This means that the execution of <code>action1</code> and <code>action2</code> in the above example <em>may</em> interleave. If this is a problem, you should add proper synchronization logic to <code>action1</code> and <code>action2</code> to make the test thread-safe.</p>
 <p>Also, remember that <code>DefaultValue&lt;T&gt;</code> is a global resource that potentially affects <em>all</em> living mock objects in your program. Naturally, you won't want to mess with it from multiple threads or when there still are mocks in action.</p>
-<h2>Controlling How Much <a class="el" href="../../dd/dfe/a00283.html" title="Module development information class. ">Information</a> Google Mock Prints</h2>
+<h2>Controlling How Much <a class="el" href="../../d7/d93/a00397.html" title="Module development information class. ">Information</a> Google Mock Prints</h2>
 <p>When Google Mock sees something that has the potential of being an error (e.g. a mock function with no expectation is called, a.k.a. an uninteresting call, which is allowed but perhaps you forgot to explicitly ban the call), it prints some warning messages, including the arguments of the function and the return value. Hopefully this will remind you to take a look and see if there is indeed a problem.</p>
 <p>Sometimes you are confident that your tests are correct and may not appreciate such friendly messages. Some other times, you are debugging your tests or learning about the behavior of the code you are testing, and wish you could observe every mock call that happens (including argument values and the return value). Clearly, one size doesn't fit all.</p>
 <p>You can control how much Google Mock tells you using the <code>--gmock_verbose=LEVEL</code> command-line flag, where <code>LEVEL</code> is a string with three possible values:</p>
@@ -941,7 +941,7 @@ by 7)"<code>are automatically calculated from the matcher name </code>IsDivisibl
 <p><em>You can view <code>ACTION</code> as a degenerated parameterized action where the number of parameters is 0.</em></p>
 <p><em>You can also easily define actions overloaded on the number of parameters: ``` ACTION_P(Plus, a) { ... } ACTION_P2(Plus, a, b) { ... } ```</em></p>
 <p><em></p>
-<h2>Restricting the Type of an Argument or <a class="el" href="../../dd/dbb/a00330.html" title="Model parameter information class. ">Parameter</a> in an ACTION</h2>
+<h2>Restricting the Type of an Argument or <a class="el" href="../../d3/dea/a00444.html" title="Model parameter information class. ">Parameter</a> in an ACTION</h2>
 <p></em></p>
 <p><em></em></p>
 <p><em>For maximum brevity and reusability, the <code>ACTION*</code> macros don't ask you to provide the types of the mock function arguments and the action parameters. Instead, we let the compiler infer the types for us.</em></p>
@@ -1029,7 +1029,7 @@ by 7)"<code>are automatically calculated from the matcher name </code>IsDivisibl
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Mon Jul 17 2017 04:55:12 for SEIMS by
+    <li class="footer">Generated on Tue Jul 18 2017 15:34:24 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
