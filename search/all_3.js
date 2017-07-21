@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['base',['Base',['../db/dfd/a01608.html',1,'']]],
+  ['base',['Base',['../dc/dd2/a01604.html',1,'']]],
   ['base_5fvariabledata',['base_VariableData',['../de/dc8/a00325.html',1,'base_VariableData'],['../de/dc8/a00325.html#a40eb0905d7a4c4aafb523e14b6d412ae',1,'base_VariableData::base_VariableData(void)'],['../de/dc8/a00325.html#ae5e2c42f75af4f7eb86b2ec17dfcf188',1,'base_VariableData::base_VariableData(const base_VariableData &amp;obj)']]],
   ['basicname',['BasicName',['../dd/d47/a00445.html#a5d2574f1f2a900afdb13187151711459',1,'ParamInfo']]],
   ['basicstatistics',['basicStatistics',['../d6/d52/a00510.html#a1adfb040fbad85453cdf37d5b470def8',1,'utilsMath::basicStatistics(const T *values, int num, double **derivedvalues, T exclude=(T) NODATA_VALUE)'],['../d6/d52/a00510.html#af4da89b09885e8eef01fb10d64345aa5',1,'utilsMath::basicStatistics(const T *const *values, int num, int lyrs, double ***derivedvalues, T exclude=(T) NODATA_VALUE)']]],
@@ -10,7 +10,7 @@ var searchData=
   ['bc2',['bc2',['../d0/dc5/a00343.html#a1bcdfb2a90d6dc8a42a979a53196a9c1',1,'clsReach']]],
   ['bc3',['bc3',['../d0/dc5/a00343.html#a3de1b00d0c46c162320e3ffecfece7eb',1,'clsReach']]],
   ['bc4',['bc4',['../d0/dc5/a00343.html#aa303cfb68955721061de6d6f0f17dc02',1,'clsReach']]],
-  ['bio_5fepic',['BIO_EPIC',['../de/db6/a01627.html',1,'']]],
+  ['bio_5fepic',['BIO_EPIC',['../d2/dcc/a01623.html',1,'']]],
   ['biomass_5fepic',['Biomass_EPIC',['../d8/d23/a00326.html',1,'Biomass_EPIC'],['../d8/d23/a00326.html#a1e9ddb27730463b84e08447779b2bd38',1,'Biomass_EPIC::Biomass_EPIC()']]],
   ['bmparealsrcfactory',['BMPArealSrcFactory',['../d8/dfc/a00327.html#af036ebfc45b7cbef319bb78427cc3184',1,'MainBMP::BMPArealSrcFactory']]],
   ['bmparealsrcfactory',['BMPArealSrcFactory',['../d8/dfc/a00327.html',1,'MainBMP']]],
@@ -26,7 +26,7 @@ var searchData=
   ['bmppointsrcfactory',['BMPPointSrcFactory',['../dc/d50/a00332.html',1,'MainBMP']]],
   ['bmppointsrcfactory',['BMPPointSrcFactory',['../dc/d50/a00332.html#a8ccd4c60371c3fedec45e4c0f5b541c8',1,'MainBMP::BMPPointSrcFactory']]],
   ['bmppriority',['bmpPriority',['../dd/dbb/a00330.html#a6daaf63e7f03960049f61c3a75e19878',1,'MainBMP::BMPFactory']]],
-  ['bmps',['Bmps',['../d5/d84/a01612.html',1,'']]],
+  ['bmps',['Bmps',['../db/dfd/a01608.html',1,'']]],
   ['bmptype',['bmpType',['../dd/dbb/a00330.html#a8513b02f8c9e77da5b48ce2dbd2af0db',1,'MainBMP::BMPFactory']]],
   ['branchfiles',['BranchFiles',['../d8/dc7/a00517.html#ade7758492a8ff054359c9dac675a307b',1,'release_docs.WikiBrancher.BranchFiles'],['../d8/dc7/a00517.html#ade7758492a8ff054359c9dac675a307b',1,'release_docs.WikiBrancher.BranchFiles']]],
   ['build_5fquery_5fbson',['build_query_bson',['../d9/dd1/a00398.html#aaef33c01b2bb328720173a063312a48c',1,'InputStation']]],

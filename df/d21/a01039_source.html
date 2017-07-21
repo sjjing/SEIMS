@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_longterm_linux_gcc48/seims/preprocess/mpi_adjust_groups.py Source File</title>
+<title>SEIMS: seims_longterm_linux_gcc48/seims/preprocess/sd_delineation.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,63 +112,352 @@ $(document).ready(function(){initNavTree('df/d21/a01039_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">mpi_adjust_groups.py</div>  </div>
+<div class="title">sd_delineation.py</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Used for adjusting partitioned tasks by Metis.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">   This function is activated when forCluster is True.</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @author   : Junzhi Liu</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">    @changelog: 13-01-10  jz - initial implementation</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">                17-06-23  lj - reformat according to pylint and google style</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Subbasin delineation based on TauDEM, as well as calculation of latitude dependent parameters</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Liangjun Zhu, Junzhi Liu</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 13-01-10  jz - initial implementation</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">                16-12-07  lj - rewrite for version 2.0, improve calculation efficiency by numpy</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">                17-06-23  lj - reorganize as basic class</span></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">def </span>get_max_weight(group_weight_dic, group_dic):</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Get max. weight&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    max_id = -1</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    max_weight = -1</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">for</span> cur_id <span class="keywordflow">in</span> group_weight_dic:</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">if</span> len(group_dic[cur_id]) &gt; 1 <span class="keywordflow">and</span> max_weight &lt; group_weight_dic[cur_id]:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            max_weight = group_weight_dic[cur_id]</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            max_id = cur_id</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">return</span> max_id, max_weight</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">def </span>adjust_group_result(g, weight_dic, group_list, n_groups):</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Adjust group result&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    group_dic = {}  <span class="comment"># group tmpid from 0</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    group_weight_dic = {}  <span class="comment"># subbasin tmpid form 1</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    n = len(weight_dic.keys())</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">for</span> sub_id <span class="keywordflow">in</span> range(1, n + 1):</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        group_id = group_list[sub_id - 1]</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        group_dic.setdefault(group_id, []).append(sub_id)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        group_weight_dic[group_id] = group_weight_dic.setdefault(group_id, 0) + weight_dic[sub_id]</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment"># get average weight for each group, which is the ideal aim of task</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment"># scheduling</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    ave_eight = 0</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">for</span> tmpid <span class="keywordflow">in</span> group_weight_dic:</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        ave_eight += group_weight_dic[tmpid]</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ave_eight /= n_groups</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">for</span> iGroup <span class="keywordflow">in</span> range(n_groups):</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">if</span> iGroup <span class="keywordflow">not</span> <span class="keywordflow">in</span> group_dic:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            max_id, max_weight = get_max_weight(group_weight_dic, group_dic)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keywordflow">if</span> max_id &lt; 0:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            sub_list = group_dic[max_id]</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            sub_id = sub_list[0]</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            group_dic[iGroup] = [sub_id, ]</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            group_list[sub_id - 1] = iGroup</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            group_dic[max_id].remove(sub_id)</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">from</span> os <span class="keyword">import</span> remove</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> shutil <span class="keyword">import</span> copy <span class="keyword">as</span> shutil_copy</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> numpy <span class="keyword">import</span> where, fromfunction</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> osgeo.gdal <span class="keyword">import</span> GDT_Int32, GDT_Float32</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> osgeo.ogr <span class="keyword">import</span> CreateGeometryFromWkt <span class="keyword">as</span> ogr_CreateGeometryFromWkt</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">from</span> osgeo.osr <span class="keyword">import</span> CoordinateTransformation <span class="keyword">as</span> osr_CoordinateTransformation</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> osgeo.osr <span class="keyword">import</span> SpatialReference <span class="keyword">as</span> osr_SpatialReference</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">from</span> <a class="code" href="../../da/dcf/a01558.html">seims.preprocess.sd_hillslope</a> <span class="keyword">import</span> DelineateHillslope</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">from</span> <a class="code" href="../../de/dd5/a01564.html">seims.preprocess.text</a> <span class="keyword">import</span> FieldNames</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d6/d82/a01565.html">seims.preprocess.utility</a> <span class="keyword">import</span> status_output, DEFAULT_NODATA</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d5/d10/a01571.html">seims.pygeoc.pygeoc.hydro.TauDEM</a> <span class="keyword">import</span> TauDEM, TauDEMWorkflow</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d5/d75/a01570.html">seims.pygeoc.pygeoc.hydro.postTauDEM</a> <span class="keyword">import</span> D8Util, DinfUtil, StreamnetUtil</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d6/db5/a01573.html">seims.pygeoc.pygeoc.raster.raster</a> <span class="keyword">import</span> RasterUtilClass</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d4/d2c/a01575.html">seims.pygeoc.pygeoc.utils.utils</a> <span class="keyword">import</span> FileClass, UtilClass</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d3/daa/a01577.html">seims.pygeoc.pygeoc.vector.vector</a> <span class="keyword">import</span> VectorUtilClass</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">class </span>SpatialDelineation(object):</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Subbasin delineation based on TauDEM,</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="stringliteral">    as well as calculation of latitude dependent parameters&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment"># Field in SiteList table or other tables, such as subbasin.shp</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment"># _FLD_SUBBASINID = &#39;SUBBASINID&#39;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment"># _FLD_BASINID = &#39;BASIN&#39;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="../../d3/d58/a00481.html#a67be82c1392d7b821ca316e7ae33fa7b">   37</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d3/d58/a00481.html#a67be82c1392d7b821ca316e7ae33fa7b">output_wgs84_geojson</a>(cfg):</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Convert ESRI shapefile to GeoJson based on WGS84 coordinate.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        src_srs = RasterUtilClass.read_raster(cfg.dem).srs</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        proj_srs = src_srs.ExportToProj4()</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> proj_srs:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;The source raster %s has not &quot;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                             <span class="stringliteral">&quot;coordinate, which is required!&quot;</span> % cfg.dem)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="comment"># print proj_srs</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        wgs84_srs = <span class="stringliteral">&quot;EPSG:4326&quot;</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        geo_json_dict = {<span class="stringliteral">&quot;reach&quot;</span>: [cfg.vecs.reach, cfg.vecs.json_reach],</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                         <span class="stringliteral">&quot;subbasin&quot;</span>: [cfg.vecs.subbsn, cfg.vecs.json_subbsn],</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                         <span class="stringliteral">&quot;basin&quot;</span>: [cfg.vecs.bsn, cfg.vecs.json_bsn],</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                         <span class="stringliteral">&quot;outlet&quot;</span>: [cfg.vecs.outlet, cfg.vecs.json_outlet]}</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">for</span> jsonName, shp_json_list <span class="keywordflow">in</span> geo_json_dict.items():</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="comment"># delete if geojson file already existed</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">if</span> FileClass.is_file_exists(shp_json_list[1]):</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                remove(shp_json_list[1])</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            VectorUtilClass.convert2geojson(shp_json_list[1], proj_srs, wgs84_srs,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                            shp_json_list[0])</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="../../d3/d58/a00481.html#a691773c31248179355ae864b0ae18a30">   58</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d3/d58/a00481.html#a691773c31248179355ae864b0ae18a30">original_delineation</a>(cfg):</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Original Delineation by calling TauDEM functions&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="comment"># Check directories</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        UtilClass.mkdir(cfg.workspace)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        UtilClass.mkdir(cfg.dirs.log)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        bin_dir = cfg.seims_bin</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        mpi_bin = cfg.mpi_bin</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        np = cfg.np</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        TauDEMWorkflow.watershed_delineation(bin_dir, mpi_bin, np, cfg.dem, cfg.outlet_file,</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                                             cfg.d8acc_threshold, cfg.d8down_method,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                                             cfg.taudems, cfg.logs.delineation)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="comment">#</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="comment"># dem = cfg.dem</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="comment"># filled_dem = cfg.taudems.filldem</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="comment"># flow_dir = cfg.taudems.d8flow</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment"># slope = cfg.taudems.slp</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="comment"># flow_dir_dinf = cfg.taudems.dinf</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="comment"># slope_dinf = cfg.taudems.dinf_slp</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="comment"># dir_code_dinf = cfg.taudems.dinf_d8dir</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="comment"># weight_dinf = cfg.taudems.dinf_weight</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="comment"># acc = cfg.taudems.d8acc</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="comment"># stream_raster = cfg.taudems.stream_raster</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="comment"># outlet_file =</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="comment"># modified_outlet = cfg.taudems.outlet_m</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="comment"># stream_skeleton = cfg.taudems.stream_pd</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="comment"># acc_with_weight = cfg.taudems.d8acc_weight</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="comment"># stream_order = cfg.taudems.stream_order</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="comment"># ch_network = cfg.taudems.channel_net</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="comment"># ch_coord = cfg.taudems.channel_coord</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="comment"># stream_net = cfg.taudems.streamnet_shp</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="comment"># subbasin = cfg.taudems.subbsn</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="comment"># dist2_stream_d8 = cfg.taudems.dist2stream_d8</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="comment"># d8_down_method = cfg.d8down_method</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="comment">#</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="comment"># status_output(&quot;fill DEM...&quot;, 10, f_status)</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="comment"># TauDEM.fill(np, tau_dir, dem, filled_dem, mpi_bin, bin_dir)</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="comment"># status_output(&quot;Calculating D8 and Dinf flow direction...&quot;, 20, f_status)</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="comment"># TauDEM.d8flowdir(np, tau_dir, filled_dem, flow_dir, slope, mpi_bin, bin_dir)</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="comment"># TauDEM.dinfflowdir(np, tau_dir, filled_dem, flow_dir_dinf, slope_dinf, mpi_bin, bin_dir)</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="comment"># DinfUtil.output_compressed_dinf(flow_dir_dinf, dir_code_dinf, weight_dinf)</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="comment"># status_output(&quot;D8 flow accumulation...&quot;, 40, f_status)</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="comment"># TauDEM.aread8(np, tau_dir, flow_dir, acc, None, None, mpi_bin, bin_dir)</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="comment"># status_output(&quot;Generating stream raster initially...&quot;, 50, f_status)</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="comment"># min_accum, max_accum, mean_accum, std_accum = RasterUtilClass.raster_statistics(acc)</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="comment"># TauDEM.threshold(np, tau_dir, acc, stream_raster, mean_accum, mpi_bin, bin_dir)</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="comment"># status_output(&quot;Moving outlet to stream...&quot;, 60, f_status)</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="comment"># TauDEM.moveoutletstostrm(np, tau_dir, flow_dir, stream_raster, outlet_file,</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="comment">#                          modified_outlet, mpi_bin, bin_dir)</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="comment"># status_output(&quot;Generating stream skeleton...&quot;, 65, f_status)</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="comment"># TauDEM.peukerdouglas(np, tau_dir, filled_dem, stream_skeleton, mpi_bin, bin_dir)</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="comment"># status_output(&quot;Flow accumulation with outlet...&quot;, 70, f_status)</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="comment"># TauDEM.aread8(np, tau_dir, flow_dir, acc_with_weight, modified_outlet, stream_skeleton,</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="comment">#               mpi_bin, bin_dir)</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="comment">#</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="comment"># threshold = cfg.d8acc_threshold</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="comment"># if cfg.d8acc_threshold &lt;= 0:  # find the optimal threshold using dropanalysis function</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="comment">#     status_output(&quot;Drop analysis to select optimal threshold...&quot;, 75, f_status)</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="comment">#     min_accum, max_accum, mean_accum, std_accum = \</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="comment">#         RasterUtilClass.raster_statistics(acc_with_weight)</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="comment">#     if mean_accum - std_accum &lt; 0:</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="comment">#         minthresh = mean_accum</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="comment">#     else:</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="comment">#         minthresh = mean_accum - std_accum</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="comment">#     maxthresh = mean_accum + std_accum</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="comment">#     numthresh = 20</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="comment">#     logspace = &#39;true&#39;</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="comment">#     drp_file = cfg.taudems.drptxt</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="comment">#     TauDEM.dropanalysis(np, tau_dir, filled_dem, flow_dir, acc_with_weight,</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="comment">#                         acc_with_weight, modified_outlet, minthresh, maxthresh,</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="comment">#                         numthresh, logspace, drp_file, mpi_bin, bin_dir)</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="comment">#     if not FileClass.is_file_exists(drp_file):</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="comment">#         raise RuntimeError(&quot;Dropanalysis failed and drp.txt was not created!&quot;)</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="comment">#     drpf = open(drp_file, &quot;r&quot;)</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <span class="comment">#     temp_contents = drpf.read()</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="comment">#     (beg, threshold) = temp_contents.rsplit(&#39; &#39;, 1)</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="comment">#     print (threshold)</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="comment">#     drpf.close()</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="comment"># status_output(&quot;Generating stream raster...&quot;, 80, f_status)</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="comment"># TauDEM.threshold(np, tau_dir, acc_with_weight, stream_raster, float(threshold),</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="comment">#                  mpi_bin, bin_dir)</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        <span class="comment"># status_output(&quot;Generating stream net...&quot;, 90, f_status)</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <span class="comment"># TauDEM.streamnet(np, tau_dir, filled_dem, flow_dir, acc_with_weight, stream_raster,</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        <span class="comment">#                  modified_outlet, stream_order, ch_network,</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="comment">#                  ch_coord, stream_net, subbasin, mpi_bin, bin_dir)</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        <span class="comment"># status_output(&quot;Calculating distance to stream (D8)...&quot;, 95, f_status)</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="comment"># TauDEM.d8distdowntostream(np, tau_dir, flow_dir, filled_dem, stream_raster, dist2_stream_d8,</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="comment">#                           d8_down_method, 1, mpi_bin, bin_dir)</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        <span class="comment"># status_output(&quot;Original subbasin delineation is finished!&quot;, 100, f_status)</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="comment"># f_status.close()</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="../../d3/d58/a00481.html#a8021ee8331581632fd89d6916a2ae9de">  150</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d3/d58/a00481.html#a8021ee8331581632fd89d6916a2ae9de">mask_raster_cpp</a>(bin_dir, maskfile, originalfiles, outputfiles, default_values, configfile):</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Call mask_raster program (cpp version) to mask raster&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="comment"># write mask configuration file</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        n = len(originalfiles)</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="comment"># write mask config file</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        f = open(configfile, <span class="stringliteral">&#39;w&#39;</span>)</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        f.write(maskfile + <span class="stringliteral">&quot;\n&quot;</span>)</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        f.write(<span class="stringliteral">&quot;%d\n&quot;</span> % (n,))</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(n):</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            s = <span class="stringliteral">&quot;%s\t%d\t%s\n&quot;</span> % (originalfiles[i], default_values[i], outputfiles[i])</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            f.write(s)</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        f.close()</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="comment"># run command</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        UtilClass.run_command(<span class="stringliteral">&#39;&quot;%s/mask_raster&quot; %s&#39;</span> % (bin_dir, configfile))</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00166"></a><span class="lineno"><a class="line" href="../../d3/d58/a00481.html#a4560c6f3b28dca2285eb6b3be69b6be5">  166</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d3/d58/a00481.html#a4560c6f3b28dca2285eb6b3be69b6be5">mask_origin_delineated_data</a>(cfg):</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Mask the original delineated data by Subbasin raster.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        subbasin_tau_file = cfg.taudems.subbsn</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        geodata2dbdir = cfg.dirs.geodata2db</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        UtilClass.mkdir(geodata2dbdir)</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        mask_file = cfg.spatials.mask</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        RasterUtilClass.get_mask_from_raster(subbasin_tau_file, mask_file)</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <span class="comment"># Total 12 raster files</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        original_files = [cfg.taudems.subbsn, cfg.taudems.d8flow, cfg.taudems.stream_raster,</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                          cfg.taudems.slp, cfg.taudems.filldem, cfg.taudems.d8acc,</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                          cfg.taudems.stream_order, cfg.taudems.dinf, cfg.taudems.dinf_d8dir,</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                          cfg.taudems.dinf_slp, cfg.taudems.dinf_weight,</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                          cfg.taudems.dist2stream_d8]</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        <span class="comment"># output masked files</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        output_files = [cfg.taudems.subbsn_m, cfg.taudems.d8flow_m, cfg.taudems.stream_m,</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                        cfg.spatials.slope, cfg.spatials.filldem, cfg.spatials.d8acc,</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                        cfg.spatials.stream_order, cfg.spatials.dinf, cfg.spatials.dinf_d8dir,</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                        cfg.spatials.dinf_slp, cfg.spatials.dinf_weight,</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                        cfg.spatials.dist2stream_d8]</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        default_values = []</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(original_files)):</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;            default_values.append(DEFAULT_NODATA)</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <span class="comment"># other input rasters need to be masked</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <span class="comment"># soil and landuse</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        FileClass.check_file_exists(cfg.soil)</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        FileClass.check_file_exists(cfg.landuse)</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        original_files.append(cfg.soil)</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        output_files.append(cfg.spatials.soil_type)</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        default_values.append(cfg.default_soil)</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        original_files.append(cfg.landuse)</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        output_files.append(cfg.spatials.landuse)</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        default_values.append(cfg.default_landuse)</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="comment"># management fields</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        <span class="keywordflow">if</span> cfg.mgt_field <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span> <span class="keywordflow">and</span> FileClass.is_file_exists(cfg.mgt_field):</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;            original_files.append(cfg.mgt_field)</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            output_files.append(cfg.spatials.mgt_field)</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            default_values.append(DEFAULT_NODATA)</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        config_file = cfg.logs.mask_cfg</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        <span class="comment"># run mask operation</span></div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Mask original delineated data by Subbasin raster...&quot;</span>)</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        SpatialDelineation.mask_raster_cpp(cfg.seims_bin, mask_file, original_files,</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;                                           output_files, default_values, config_file)</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00213"></a><span class="lineno"><a class="line" href="../../d3/d58/a00481.html#ac6fb901799f23b059d0114c2473c693a">  213</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d3/d58/a00481.html#ac6fb901799f23b059d0114c2473c693a">post_process_of_delineated_data</a>(cfg):</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Do some necessary transfer for subbasin, stream, and flow direction raster.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        <span class="comment"># inputs</span></div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        stream_net_file = cfg.taudems.streamnet_shp</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        subbasin_file = cfg.taudems.subbsn_m</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        flow_dir_file_tau = cfg.taudems.d8flow_m</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        stream_raster_file = cfg.taudems.stream_m</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <span class="comment"># outputs</span></div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="comment"># -- shapefile</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        shp_dir = cfg.dirs.geoshp</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        UtilClass.mkdir(shp_dir)</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="comment"># ---- outlet, copy from DirNameUtils.TauDEM</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        FileClass.copy_files(cfg.taudems.outlet_m, cfg.vecs.outlet)</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <span class="comment"># ---- reaches</span></div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        output_reach_file = cfg.vecs.reach</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <span class="comment"># ---- subbasins</span></div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        subbasin_vector_file = cfg.vecs.subbsn</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="comment"># -- raster file</span></div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        output_subbasin_file = cfg.spatials.subbsn</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        output_flow_dir_file = cfg.spatials.d8flow</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        output_stream_link_file = cfg.spatials.stream_link</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        output_hillslope_file = cfg.spatials.hillslope</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        id_map = StreamnetUtil.serialize_streamnet(stream_net_file, output_reach_file)</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        RasterUtilClass.raster_reclassify(subbasin_file, id_map, output_subbasin_file, GDT_Int32)</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        StreamnetUtil.assign_stream_id_raster(stream_raster_file, output_subbasin_file,</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                                              output_stream_link_file)</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        <span class="comment"># Convert D8 encoding rule to ArcGIS</span></div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        <span class="keywordflow">if</span> cfg.is_TauDEM:</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            shutil_copy(flow_dir_file_tau, output_flow_dir_file)</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            D8Util.convert_code(flow_dir_file_tau, output_flow_dir_file)</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="comment"># convert raster to shapefile (for subbasin and basin)</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        <span class="keywordflow">print</span> <span class="stringliteral">&quot;Generating subbasin vector...&quot;</span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        VectorUtilClass.raster2shp(output_subbasin_file, subbasin_vector_file, <span class="stringliteral">&quot;subbasin&quot;</span>,</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                                   FieldNames.subbasin_id)</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        mask_file = cfg.spatials.mask</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        basin_vector = cfg.vecs.bsn</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <span class="keywordflow">print</span> <span class="stringliteral">&quot;Generating basin vector...&quot;</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        VectorUtilClass.raster2shp(mask_file, basin_vector, <span class="stringliteral">&quot;basin&quot;</span>,</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                                   FieldNames.basin)</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="comment"># delineate hillslope</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        DelineateHillslope.downstream_method_whitebox(output_stream_link_file, flow_dir_file_tau,</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                                                      output_hillslope_file)</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00261"></a><span class="lineno"><a class="line" href="../../d3/d58/a00481.html#a7a003ff983a42a9a80b8eec3ada5ef37">  261</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d3/d58/a00481.html#a7a003ff983a42a9a80b8eec3ada5ef37">generate_lat_raster</a>(cfg):</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Generate latitude raster&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        dem_file = cfg.spatials.filldem</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        ds = RasterUtilClass.read_raster(dem_file)</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        src_srs = ds.srs</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> src_srs.ExportToProj4():</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;The source raster %s has not coordinate, &quot;</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                             <span class="stringliteral">&quot;which is required!&quot;</span> % dem_file)</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        dst_srs = osr_SpatialReference()</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        dst_srs.ImportFromEPSG(4326)  <span class="comment"># WGS84</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        <span class="comment"># dst_wkt = dst_srs.ExportToWkt()</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        transform = osr_CoordinateTransformation(src_srs, dst_srs)</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        point_ll = ogr_CreateGeometryFromWkt(<span class="stringliteral">&quot;POINT (%f %f)&quot;</span> % (ds.xMin, ds.yMin))</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        point_ur = ogr_CreateGeometryFromWkt(<span class="stringliteral">&quot;POINT (%f %f)&quot;</span> % (ds.xMax, ds.yMax))</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        point_ll.Transform(transform)</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        point_ur.Transform(transform)</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        lower_lat = point_ll.GetY()</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        up_lat = point_ur.GetY()</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        rows = ds.nRows</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        cols = ds.nCols</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        delta_lat = (up_lat - lower_lat) / float(rows)</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        <span class="keyword">def </span>cal_cell_lat(row, col):</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;            <span class="stringliteral">&quot;&quot;&quot;calculate latitude of cell by row number&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            <span class="keywordflow">return</span> up_lat - (row + 0.5) * delta_lat</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        data_lat = fromfunction(cal_cell_lat, (rows, cols))</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        data_lat = where(ds.validZone, data_lat, ds.data)</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        RasterUtilClass.write_gtiff_file(cfg.spatials.cell_lat, rows, cols, data_lat,</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                                         ds.geotrans, ds.srs,</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                                         ds.noDataValue, GDT_Float32)</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00298"></a><span class="lineno"><a class="line" href="../../d3/d58/a00481.html#a168c174abf2a446f9df82a9f8803c198">  298</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d3/d58/a00481.html#a168c174abf2a446f9df82a9f8803c198">workflow</a>(cfg):</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Subbasin delineation workflow&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        <span class="comment"># 1. Originally delineated by TauDEM</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        SpatialDelineation.original_delineation(cfg)</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        <span class="comment"># 2. Mask delineated raster by subbasin</span></div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        SpatialDelineation.mask_origin_delineated_data(cfg)</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        <span class="comment"># 3. Post processing, such as serialize stream ID, mask dataset etc.</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;        SpatialDelineation.post_process_of_delineated_data(cfg)</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <span class="comment"># 4. Convert current coordinate to WGS84 and convert shapefile to GeoJson.</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        SpatialDelineation.output_wgs84_geojson(cfg)</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        <span class="comment"># 5. Convert to WGS84 coordinate and output latitude raster.</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        SpatialDelineation.generate_lat_raster(cfg)</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;<span class="keyword">def </span>main():</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;TEST CODE&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d6/d83/a01544.html">seims.preprocess.config</a> <span class="keyword">import</span> parse_ini_configuration</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    seims_cfg = parse_ini_configuration()</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    SpatialDelineation.workflow(seims_cfg)</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    main()</div>
+<div class="ttc" id="a00481_html_a67be82c1392d7b821ca316e7ae33fa7b"><div class="ttname"><a href="../../d3/d58/a00481.html#a67be82c1392d7b821ca316e7ae33fa7b">seims.preprocess.sd_delineation.SpatialDelineation.output_wgs84_geojson</a></div><div class="ttdeci">def output_wgs84_geojson</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbc/a01038_source.html#l00037">sd_delineation.py:37</a></div></div>
+<div class="ttc" id="a01573_html"><div class="ttname"><a href="../../d6/db5/a01573.html">seims.pygeoc.pygeoc.raster.raster</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/df5/a01086_source.html#l00001">raster.py:1</a></div></div>
+<div class="ttc" id="a01571_html"><div class="ttname"><a href="../../d5/d10/a01571.html">seims.pygeoc.pygeoc.hydro.TauDEM</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d9a/a01083_source.html#l00001">TauDEM.py:1</a></div></div>
+<div class="ttc" id="a00481_html_a691773c31248179355ae864b0ae18a30"><div class="ttname"><a href="../../d3/d58/a00481.html#a691773c31248179355ae864b0ae18a30">seims.preprocess.sd_delineation.SpatialDelineation.original_delineation</a></div><div class="ttdeci">def original_delineation</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbc/a01038_source.html#l00058">sd_delineation.py:58</a></div></div>
+<div class="ttc" id="a01544_html"><div class="ttname"><a href="../../d6/d83/a01544.html">seims.preprocess.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d17/a00964_source.html#l00001">config.py:1</a></div></div>
+<div class="ttc" id="a01564_html"><div class="ttname"><a href="../../de/dd5/a01564.html">seims.preprocess.text</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d90/a01059_source.html#l00001">text.py:1</a></div></div>
+<div class="ttc" id="a00481_html_a7a003ff983a42a9a80b8eec3ada5ef37"><div class="ttname"><a href="../../d3/d58/a00481.html#a7a003ff983a42a9a80b8eec3ada5ef37">seims.preprocess.sd_delineation.SpatialDelineation.generate_lat_raster</a></div><div class="ttdeci">def generate_lat_raster</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbc/a01038_source.html#l00261">sd_delineation.py:261</a></div></div>
+<div class="ttc" id="a01570_html"><div class="ttname"><a href="../../d5/d75/a01570.html">seims.pygeoc.pygeoc.hydro.postTauDEM</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d67/a01080_source.html#l00001">postTauDEM.py:1</a></div></div>
+<div class="ttc" id="a01575_html"><div class="ttname"><a href="../../d4/d2c/a01575.html">seims.pygeoc.pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00001">utils.py:1</a></div></div>
+<div class="ttc" id="a00481_html_a4560c6f3b28dca2285eb6b3be69b6be5"><div class="ttname"><a href="../../d3/d58/a00481.html#a4560c6f3b28dca2285eb6b3be69b6be5">seims.preprocess.sd_delineation.SpatialDelineation.mask_origin_delineated_data</a></div><div class="ttdeci">def mask_origin_delineated_data</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbc/a01038_source.html#l00166">sd_delineation.py:166</a></div></div>
+<div class="ttc" id="a01558_html"><div class="ttname"><a href="../../da/dcf/a01558.html">seims.preprocess.sd_hillslope</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d83/a01041_source.html#l00001">sd_hillslope.py:1</a></div></div>
+<div class="ttc" id="a00481_html_a168c174abf2a446f9df82a9f8803c198"><div class="ttname"><a href="../../d3/d58/a00481.html#a168c174abf2a446f9df82a9f8803c198">seims.preprocess.sd_delineation.SpatialDelineation.workflow</a></div><div class="ttdeci">def workflow</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbc/a01038_source.html#l00298">sd_delineation.py:298</a></div></div>
+<div class="ttc" id="a01577_html"><div class="ttname"><a href="../../d3/daa/a01577.html">seims.pygeoc.pygeoc.vector.vector</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc4/a01089_source.html#l00001">vector.py:1</a></div></div>
+<div class="ttc" id="a00481_html_a8021ee8331581632fd89d6916a2ae9de"><div class="ttname"><a href="../../d3/d58/a00481.html#a8021ee8331581632fd89d6916a2ae9de">seims.preprocess.sd_delineation.SpatialDelineation.mask_raster_cpp</a></div><div class="ttdeci">def mask_raster_cpp</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbc/a01038_source.html#l00150">sd_delineation.py:150</a></div></div>
+<div class="ttc" id="a01565_html"><div class="ttname"><a href="../../d6/d82/a01565.html">seims.preprocess.utility</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d8a/a01062_source.html#l00001">utility.py:1</a></div></div>
+<div class="ttc" id="a00481_html_ac6fb901799f23b059d0114c2473c693a"><div class="ttname"><a href="../../d3/d58/a00481.html#ac6fb901799f23b059d0114c2473c693a">seims.preprocess.sd_delineation.SpatialDelineation.post_process_of_delineated_data</a></div><div class="ttdeci">def post_process_of_delineated_data</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dbc/a01038_source.html#l00213">sd_delineation.py:213</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_ed16674693235890c7cb51a5b1a1dba7.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_3d2c2d91a53bef5945323df2c718b9e1.html">preprocess</a></li><li class="navelem"><b>mpi_adjust_groups.py</b></li>
-    <li class="footer">Generated on Tue Jul 18 2017 16:37:03 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_ed16674693235890c7cb51a5b1a1dba7.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_3d2c2d91a53bef5945323df2c718b9e1.html">preprocess</a></li><li class="navelem"><b>sd_delineation.py</b></li>
+    <li class="footer">Generated on Fri Jul 21 2017 07:37:34 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

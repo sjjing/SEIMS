@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/bmps/Scenario.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/base/data/base_VariableData.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,233 +112,41 @@ $(document).ready(function(){initNavTree('dd/de9/a01182_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Scenario.cpp</div>  </div>
+<div class="title">base_VariableData.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Scenario.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">namespace </span>MainBMP {</div>
-<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="../../db/d2c/a00466.html#a42108aac6e3444d8d1f5523be206b3c8">    4</a></span>&#160;<a class="code" href="../../db/d2c/a00466.html#a42108aac6e3444d8d1f5523be206b3c8">Scenario::Scenario</a>(MongoClient *conn, <span class="keyword">const</span> <span class="keywordtype">string</span> dbName, <span class="keyword">const</span> <span class="keywordtype">int</span> subbsnID <span class="comment">/* = 0 */</span>,</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                   <span class="keyword">const</span> <span class="keywordtype">int</span> scenarioID <span class="comment">/* = 0 */</span>) :</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    m_conn(conn), m_bmpDBName(dbName), m_subbsnID(subbsnID), m_sceneID(scenarioID) {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    assert(<a class="code" href="../../db/d2c/a00466.html#a844222de7c7540282ee058af41e44e82">m_sceneID</a> &gt;= 0);</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    assert(<a class="code" href="../../db/d2c/a00466.html#af300a40bcd418b9d52dede10140b4631">m_subbsnID</a> &gt;= 0);</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <a class="code" href="../../db/d2c/a00466.html#a168e87971d083d7edd6b975688ab3616">loadScenario</a>();</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;}</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="../../db/d2c/a00466.html#adb9a4a2bdcec2748fa6e2b9205c92040">   12</a></span>&#160;<a class="code" href="../../db/d2c/a00466.html#adb9a4a2bdcec2748fa6e2b9205c92040">Scenario::~Scenario</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    StatusMessage(<span class="stringliteral">&quot;Releasing Scenario...&quot;</span>);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    map&lt;int, BMPFactory *&gt;::iterator it;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">for</span> (it = this-&gt;<a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>.begin(); it != this-&gt;<a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>.end(); ) {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">if</span> (it-&gt;second != NULL) {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            <span class="keyword">delete</span> (it-&gt;second);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            it-&gt;second = NULL;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        }</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>.erase(it++);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>.clear();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;}</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="../../db/d2c/a00466.html#a168e87971d083d7edd6b975688ab3616">   25</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d2c/a00466.html#a168e87971d083d7edd6b975688ab3616">Scenario::loadScenario</a>() {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="../../db/d2c/a00466.html#a0f2a7872bd14c54c3c8c9b3d1551ecf4">m_conn</a>-&gt;getCollectionNames(<a class="code" href="../../db/d2c/a00466.html#a39c84673e2bc4851eae2472e80fb1a91">m_bmpDBName</a>, <a class="code" href="../../db/d2c/a00466.html#a1863bcd331c9c851e211eba75ad9fe43">m_bmpCollections</a>);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="../../db/d2c/a00466.html#a0e63bda0c6b918e0bd645cee7f7cf574">loadScenarioName</a>();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="../../db/d2c/a00466.html#a1d48ef4c556eabfc2e8056578865aec5">loadBMPs</a>();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <a class="code" href="../../db/d2c/a00466.html#ae3d370258dd80761bb9e11a51c2fa381">loadBMPDetail</a>();</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;}</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="../../db/d2c/a00466.html#a0e63bda0c6b918e0bd645cee7f7cf574">   32</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d2c/a00466.html#a0e63bda0c6b918e0bd645cee7f7cf574">Scenario::loadScenarioName</a>() {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    vector&lt;string&gt;::iterator it = find(<a class="code" href="../../db/d2c/a00466.html#a1863bcd331c9c851e211eba75ad9fe43">m_bmpCollections</a>.begin(), <a class="code" href="../../db/d2c/a00466.html#a1863bcd331c9c851e211eba75ad9fe43">m_bmpCollections</a>.end(),</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                                       string(TAB_BMP_SCENARIO));</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">if</span> (it == <a class="code" href="../../db/d2c/a00466.html#a1863bcd331c9c851e211eba75ad9fe43">m_bmpCollections</a>.end()) {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d2/de1/a00421.html">ModelException</a>(<span class="stringliteral">&quot;BMP Scenario&quot;</span>, <span class="stringliteral">&quot;loadScenarioName&quot;</span>, <span class="stringliteral">&quot;The BMP database &#39;&quot;</span> + <a class="code" href="../../db/d2c/a00466.html#a39c84673e2bc4851eae2472e80fb1a91">m_bmpDBName</a> +</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            <span class="stringliteral">&quot;&#39; does not exist or there is not a table named &#39;&quot;</span> +</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            TAB_BMP_SCENARIO + <span class="stringliteral">&quot;&#39; in BMP database.&quot;</span>);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    }</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    mongoc_collection_t *sceCollection = <a class="code" href="../../db/d2c/a00466.html#a0f2a7872bd14c54c3c8c9b3d1551ecf4">m_conn</a>-&gt;getCollection(<a class="code" href="../../db/d2c/a00466.html#a39c84673e2bc4851eae2472e80fb1a91">m_bmpDBName</a>, TAB_BMP_SCENARIO);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    bson_t *query = bson_new(), *reply = bson_new();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    query = BCON_NEW(<span class="stringliteral">&quot;distinct&quot;</span>, BCON_UTF8(TAB_BMP_SCENARIO), <span class="stringliteral">&quot;key&quot;</span>, FLD_SCENARIO_NAME,</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                     <span class="stringliteral">&quot;query&quot;</span>, <span class="stringliteral">&quot;{&quot;</span>, FLD_SCENARIO_ID, BCON_INT32(<a class="code" href="../../db/d2c/a00466.html#a844222de7c7540282ee058af41e44e82">m_sceneID</a>), <span class="stringliteral">&quot;}&quot;</span>);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    bson_iter_t iter, sub_iter;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    bson_error_t *err = NULL;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">if</span> (mongoc_collection_command_simple(sceCollection, query, NULL, reply, err)) {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="comment">//cout&lt;&lt;bson_as_json(reply,NULL)&lt;&lt;endl;</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, reply, <span class="stringliteral">&quot;values&quot;</span>) &amp;&amp;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            (BSON_ITER_HOLDS_DOCUMENT(&amp;iter) || BSON_ITER_HOLDS_ARRAY(&amp;iter)) &amp;&amp;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            bson_iter_recurse(&amp;iter, &amp;sub_iter)) {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">while</span> (bson_iter_next(&amp;sub_iter)) {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                <a class="code" href="../../db/d2c/a00466.html#a7831481cb1d010542cb5289aeb4ab019">m_name</a> = GetStringFromBsonIterator(&amp;sub_iter);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d2/de1/a00421.html">ModelException</a>(<span class="stringliteral">&quot;BMP Scenario&quot;</span>, <span class="stringliteral">&quot;loadScenarioName&quot;</span>,</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                                 <span class="stringliteral">&quot;There is not scenario existed with the ID: &quot;</span> +</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                                 ValueToString(<a class="code" href="../../db/d2c/a00466.html#a844222de7c7540282ee058af41e44e82">m_sceneID</a>) + <span class="stringliteral">&quot; in &quot;</span> + TAB_BMP_SCENARIO +</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                                 <span class="stringliteral">&quot; table in BMP database.&quot;</span>);</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        }</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    bson_destroy(query);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    bson_destroy(reply);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    mongoc_collection_destroy(sceCollection);</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../db/d2c/a00466.html#a1d48ef4c556eabfc2e8056578865aec5">   68</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d2c/a00466.html#a1d48ef4c556eabfc2e8056578865aec5">Scenario::loadBMPs</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    vector&lt;string&gt;::iterator it = find(<a class="code" href="../../db/d2c/a00466.html#a1863bcd331c9c851e211eba75ad9fe43">m_bmpCollections</a>.begin(), <a class="code" href="../../db/d2c/a00466.html#a1863bcd331c9c851e211eba75ad9fe43">m_bmpCollections</a>.end(), string(TAB_BMP_INDEX));</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">if</span> (it == <a class="code" href="../../db/d2c/a00466.html#a1863bcd331c9c851e211eba75ad9fe43">m_bmpCollections</a>.end()) {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d2/de1/a00421.html">ModelException</a>(<span class="stringliteral">&quot;BMP Scenario&quot;</span>, <span class="stringliteral">&quot;loadScenarioName&quot;</span>, <span class="stringliteral">&quot;The BMP database &#39;&quot;</span> + <a class="code" href="../../db/d2c/a00466.html#a39c84673e2bc4851eae2472e80fb1a91">m_bmpDBName</a> +</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="stringliteral">&quot;&#39; does not exist or there is not a table named &#39;&quot;</span> +</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            TAB_BMP_INDEX + <span class="stringliteral">&quot;&#39; in BMP database.&quot;</span>);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    bson_t *query = bson_new();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    BSON_APPEND_INT32(query, FLD_SCENARIO_ID, <a class="code" href="../../db/d2c/a00466.html#a844222de7c7540282ee058af41e44e82">m_sceneID</a>);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="comment">//cout&lt;&lt;bson_as_json(query, NULL)&lt;&lt;endl;</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    unique_ptr&lt;MongoCollection&gt; collection(<span class="keyword">new</span> MongoCollection(<a class="code" href="../../db/d2c/a00466.html#a0f2a7872bd14c54c3c8c9b3d1551ecf4">m_conn</a>-&gt;getCollection(<a class="code" href="../../db/d2c/a00466.html#a39c84673e2bc4851eae2472e80fb1a91">m_bmpDBName</a>, TAB_BMP_SCENARIO)));</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    unique_ptr&lt;MongoCollection&gt; collbmpidx(<span class="keyword">new</span> MongoCollection(<a class="code" href="../../db/d2c/a00466.html#a0f2a7872bd14c54c3c8c9b3d1551ecf4">m_conn</a>-&gt;getCollection(<a class="code" href="../../db/d2c/a00466.html#a39c84673e2bc4851eae2472e80fb1a91">m_bmpDBName</a>, TAB_BMP_INDEX)));</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    mongoc_cursor_t* cursor = collection-&gt;ExecuteQuery(query);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    bson_error_t *err = NULL;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">if</span> (mongoc_cursor_error(cursor, err)) {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d2/de1/a00421.html">ModelException</a>(<span class="stringliteral">&quot;BMP Scenario&quot;</span>, <span class="stringliteral">&quot;loadBMPs&quot;</span>,</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                             <span class="stringliteral">&quot;There are no record with scenario ID: &quot;</span> + ValueToString(<a class="code" href="../../db/d2c/a00466.html#a844222de7c7540282ee058af41e44e82">m_sceneID</a>));</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keyword">const</span> bson_t *info;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">while</span> (mongoc_cursor_more(cursor) &amp;&amp; mongoc_cursor_next(cursor, &amp;info)) {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="comment">//cout&lt;&lt;bson_as_json(info,0)&lt;&lt;endl;</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        bson_iter_t iter;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordtype">int</span> BMPID = -1;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordtype">int</span> subScenario = -1;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordtype">string</span> distribution = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordtype">string</span> collectionName = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordtype">string</span> location = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, info, FLD_SCENARIO_BMPID)) GetNumericFromBsonIterator(&amp;iter, BMPID);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, info, FLD_SCENARIO_SUB)) GetNumericFromBsonIterator(&amp;iter, subScenario);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, info, FLD_SCENARIO_DIST)) distribution = GetStringFromBsonIterator(&amp;iter);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, info, FLD_SCENARIO_TABLE)) collectionName = GetStringFromBsonIterator(&amp;iter);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, info, FLD_SCENARIO_LOCATION)) location = GetStringFromBsonIterator(&amp;iter);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        vector&lt;string&gt; dist = SplitString(distribution, <span class="charliteral">&#39;|&#39;</span>);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">if</span> (dist.size() &gt;= 2 &amp;&amp; StringMatch(dist[0], FLD_SCENARIO_DIST_RASTER)) {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            <span class="keywordtype">string</span> gridfs_name = ValueToString(<a class="code" href="../../db/d2c/a00466.html#af300a40bcd418b9d52dede10140b4631">m_subbsnID</a>) + <span class="stringliteral">&quot;_&quot;</span> + GetUpper(dist[1]);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">if</span> (<a class="code" href="../../db/d2c/a00466.html#a8ca99794f7903ccb180314d82953c969">m_sceneRsMap</a>.find(gridfs_name) == <a class="code" href="../../db/d2c/a00466.html#a8ca99794f7903ccb180314d82953c969">m_sceneRsMap</a>.end()) {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <a class="code" href="../../db/d2c/a00466.html#a8ca99794f7903ccb180314d82953c969">m_sceneRsMap</a>.insert(make_pair(gridfs_name, <span class="keyword">nullptr</span>));</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            dist[1] = gridfs_name;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        }</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keywordtype">int</span> BMPType = -1;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keywordtype">int</span> BMPPriority = -1;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        bson_t *queryBMP = bson_new();</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        BSON_APPEND_INT32(queryBMP, FLD_BMP_ID, BMPID);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        mongoc_cursor_t* cursor2 = collbmpidx-&gt;ExecuteQuery(queryBMP);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordflow">if</span> (mongoc_cursor_error(cursor2, err)) {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d2/de1/a00421.html">ModelException</a>(<span class="stringliteral">&quot;BMP Scenario&quot;</span>, <span class="stringliteral">&quot;loadBMPs&quot;</span>,</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                                 <span class="stringliteral">&quot;There are no record with BMP ID: &quot;</span> + ValueToString(BMPID));</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        }</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keyword">const</span> bson_t *info2;</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keywordflow">while</span> (mongoc_cursor_more(cursor2) &amp;&amp; mongoc_cursor_next(cursor2, &amp;info2)) {</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            bson_iter_t sub_iter;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <span class="keywordflow">if</span> (bson_iter_init_find(&amp;sub_iter, info2, FLD_BMP_TYPE)) {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                GetNumericFromBsonIterator(&amp;sub_iter, BMPType);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            }</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="keywordflow">if</span> (bson_iter_init_find(&amp;sub_iter, info2, FLD_BMP_PRIORITY)) {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                GetNumericFromBsonIterator(&amp;sub_iter, BMPPriority);</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            }</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        }</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="comment">//cout&lt;&lt;BMPID&lt;&lt;&quot;,&quot;&lt;&lt;BMPType&lt;&lt;&quot;,&quot;&lt;&lt;distribution&lt;&lt;&quot;,&quot;&lt;&lt;parameter&lt;&lt;endl;</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        bson_destroy(queryBMP);</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        mongoc_cursor_destroy(cursor2);</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keywordtype">int</span> uniqueBMPID = BMPID * 100000 + subScenario;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>.find(uniqueBMPID) == this-&gt;<a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>.end()) {</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            <span class="keywordflow">if</span> (BMPID == BMP_TYPE_POINTSOURCE) {</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                this-&gt;<a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>[uniqueBMPID] = <span class="keyword">new</span> <a class="code" href="../../dc/d50/a00332.html">BMPPointSrcFactory</a>(<a class="code" href="../../db/d2c/a00466.html#a844222de7c7540282ee058af41e44e82">m_sceneID</a>, BMPID, subScenario, BMPType,</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                                                                           BMPPriority, dist,</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                                                                           collectionName, location);</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            }</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keywordflow">if</span> (BMPID == BMP_TYPE_PLANT_MGT) {</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                this-&gt;<a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>[uniqueBMPID] = <span class="keyword">new</span> <a class="code" href="../../d8/df7/a00331.html">BMPPlantMgtFactory</a>(<a class="code" href="../../db/d2c/a00466.html#a844222de7c7540282ee058af41e44e82">m_sceneID</a>, BMPID, subScenario, BMPType,</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                                                                           BMPPriority, dist,</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                                                                           collectionName, location);</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            }</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            <span class="keywordflow">if</span> (BMPID == BMP_TYPE_AREALSOURCE) {</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                this-&gt;<a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>[uniqueBMPID] = <span class="keyword">new</span> <a class="code" href="../../d8/dfc/a00327.html">BMPArealSrcFactory</a>(<a class="code" href="../../db/d2c/a00466.html#a844222de7c7540282ee058af41e44e82">m_sceneID</a>, BMPID, subScenario, BMPType,</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                                                                           BMPPriority, dist,</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                                                                           collectionName, location);</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            }</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <span class="keywordflow">if</span> (BMPID == BMP_TYPE_AREALSTRUCT) {</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                this-&gt;<a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>[uniqueBMPID] = <span class="keyword">new</span> <a class="code" href="../../dd/d4e/a00329.html">BMPArealStructFactory</a>(<a class="code" href="../../db/d2c/a00466.html#a844222de7c7540282ee058af41e44e82">m_sceneID</a>, BMPID, subScenario, BMPType,</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                                                                              BMPPriority, dist,</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                                                                              collectionName, location);</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            }    </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        }</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    }</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    bson_destroy(query);</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    mongoc_cursor_destroy(cursor);</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;}</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
-<div class="line"><a name="l00165"></a><span class="lineno"><a class="line" href="../../db/d2c/a00466.html#ae3d370258dd80761bb9e11a51c2fa381">  165</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d2c/a00466.html#ae3d370258dd80761bb9e11a51c2fa381">Scenario::loadBMPDetail</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    map&lt;int, BMPFactory *&gt;::iterator it;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keywordflow">for</span> (it = this-&gt;<a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>.begin(); it != this-&gt;<a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>.end(); it++) {</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        it-&gt;second-&gt;loadBMP(<a class="code" href="../../db/d2c/a00466.html#a0f2a7872bd14c54c3c8c9b3d1551ecf4">m_conn</a>, <a class="code" href="../../db/d2c/a00466.html#a39c84673e2bc4851eae2472e80fb1a91">m_bmpDBName</a>);</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    }</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;}</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
-<div class="line"><a name="l00172"></a><span class="lineno"><a class="line" href="../../db/d2c/a00466.html#a372a27602c02b9368586b5023d1a1b2c">  172</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d2c/a00466.html#a372a27602c02b9368586b5023d1a1b2c">Scenario::Dump</a>(<span class="keyword">const</span> <span class="keywordtype">string</span> fileName) {</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    ofstream fs;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    fs.open(fileName.c_str(), ios::ate);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="keywordflow">if</span> (fs.is_open()) {</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        <a class="code" href="../../db/d2c/a00466.html#a372a27602c02b9368586b5023d1a1b2c">Dump</a>(&amp;fs);</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        fs.close();</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    }</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;}</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
-<div class="line"><a name="l00181"></a><span class="lineno"><a class="line" href="../../db/d2c/a00466.html#a3a416d7f5d5dbd70eeaad2e208136b9b">  181</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d2c/a00466.html#a372a27602c02b9368586b5023d1a1b2c">Scenario::Dump</a>(ostream *fs) {</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keywordflow">if</span> (fs == NULL) <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    *fs &lt;&lt; <span class="stringliteral">&quot;Scenario ID:&quot;</span> &lt;&lt; this-&gt;<a class="code" href="../../db/d2c/a00466.html#a844222de7c7540282ee058af41e44e82">m_sceneID</a> &lt;&lt; endl;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    *fs &lt;&lt; <span class="stringliteral">&quot;Name:&quot;</span> &lt;&lt; this-&gt;<a class="code" href="../../db/d2c/a00466.html#a7831481cb1d010542cb5289aeb4ab019">m_name</a> &lt;&lt; endl;</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    *fs &lt;&lt; <span class="stringliteral">&quot;*** All the BMPs ***&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    map&lt;int, BMPFactory *&gt;::iterator it;</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="keywordflow">for</span> (it = this-&gt;<a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>.begin(); it != this-&gt;<a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>.end(); it++) {</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <span class="keywordflow">if</span> (it-&gt;second != NULL) it-&gt;second-&gt;Dump(fs);</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    }</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;}</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;</div>
-<div class="line"><a name="l00193"></a><span class="lineno"><a class="line" href="../../db/d2c/a00466.html#ab2e5749c8ca8a1787c82b364fbf7fdb1">  193</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../db/d2c/a00466.html#ab2e5749c8ca8a1787c82b364fbf7fdb1">Scenario::setRasterForEachBMP</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../db/d2c/a00466.html#a8ca99794f7903ccb180314d82953c969">m_sceneRsMap</a>.size() == 0) <span class="keywordflow">return</span>;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keywordflow">for</span> (map&lt;int, BMPFactory*&gt;::iterator it = <a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>.begin(); it != <a class="code" href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">m_bmpFactories</a>.end(); it++) {</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        it-&gt;second-&gt;setRasterData(<a class="code" href="../../db/d2c/a00466.html#a8ca99794f7903ccb180314d82953c969">m_sceneRsMap</a>);</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    }</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;}</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;}</div>
-<div class="ttc" id="a00466_html_af300a40bcd418b9d52dede10140b4631"><div class="ttname"><a href="../../db/d2c/a00466.html#af300a40bcd418b9d52dede10140b4631">MainBMP::Scenario::m_subbsnID</a></div><div class="ttdeci">const int m_subbsnID</div><div class="ttdoc">Subbasin ID, 0 for the entire basin. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d2d/a01183_source.html#l00088">Scenario.h:88</a></div></div>
-<div class="ttc" id="a00466_html_ae3d370258dd80761bb9e11a51c2fa381"><div class="ttname"><a href="../../db/d2c/a00466.html#ae3d370258dd80761bb9e11a51c2fa381">MainBMP::Scenario::loadBMPDetail</a></div><div class="ttdeci">void loadBMPDetail(void)</div><div class="ttdoc">Load a single BMP information via. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de9/a01182_source.html#l00165">Scenario.cpp:165</a></div></div>
-<div class="ttc" id="a00327_html"><div class="ttname"><a href="../../d8/dfc/a00327.html">MainBMP::BMPArealSrcFactory</a></div><div class="ttdoc">Base class of areal source BMPs. Such as chicken farm. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc7/a01170_source.html#l00209">BMPArealSourceFactory.h:209</a></div></div>
-<div class="ttc" id="a00466_html_a0f2a7872bd14c54c3c8c9b3d1551ecf4"><div class="ttname"><a href="../../db/d2c/a00466.html#a0f2a7872bd14c54c3c8c9b3d1551ecf4">MainBMP::Scenario::m_conn</a></div><div class="ttdeci">MongoClient * m_conn</div><div class="ttdoc">MongoDB client object, added by Liangjun. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d2d/a01183_source.html#l00078">Scenario.h:78</a></div></div>
-<div class="ttc" id="a00466_html_a844222de7c7540282ee058af41e44e82"><div class="ttname"><a href="../../db/d2c/a00466.html#a844222de7c7540282ee058af41e44e82">MainBMP::Scenario::m_sceneID</a></div><div class="ttdeci">const int m_sceneID</div><div class="ttdoc">Scenario ID, e.g., 0. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d2d/a01183_source.html#l00084">Scenario.h:84</a></div></div>
-<div class="ttc" id="a00421_html"><div class="ttname"><a href="../../d2/de1/a00421.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d39/a01138_source.html#l00020">ModelException.h:20</a></div></div>
-<div class="ttc" id="a00466_html_a7831481cb1d010542cb5289aeb4ab019"><div class="ttname"><a href="../../db/d2c/a00466.html#a7831481cb1d010542cb5289aeb4ab019">MainBMP::Scenario::m_name</a></div><div class="ttdeci">string m_name</div><div class="ttdoc">Scenario Name, e.g., base scenario. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d2d/a01183_source.html#l00086">Scenario.h:86</a></div></div>
-<div class="ttc" id="a00466_html_a8ca99794f7903ccb180314d82953c969"><div class="ttname"><a href="../../db/d2c/a00466.html#a8ca99794f7903ccb180314d82953c969">MainBMP::Scenario::m_sceneRsMap</a></div><div class="ttdeci">map&lt; string, FloatRaster * &gt; m_sceneRsMap</div><div class="ttdoc">Map of spatial data of scenario data, both 1D and 2D. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d2d/a01183_source.html#l00099">Scenario.h:99</a></div></div>
-<div class="ttc" id="a00466_html_a1d48ef4c556eabfc2e8056578865aec5"><div class="ttname"><a href="../../db/d2c/a00466.html#a1d48ef4c556eabfc2e8056578865aec5">MainBMP::Scenario::loadBMPs</a></div><div class="ttdeci">void loadBMPs(void)</div><div class="ttdoc">Load each BMP in current scenario. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de9/a01182_source.html#l00068">Scenario.cpp:68</a></div></div>
-<div class="ttc" id="a00329_html"><div class="ttname"><a href="../../dd/d4e/a00329.html">MainBMP::BMPArealStructFactory</a></div><div class="ttdoc">Initiate Areal Structural BMPs. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/db6/a01172_source.html#l00062">BMPArealStructFactory.h:62</a></div></div>
-<div class="ttc" id="a00466_html_a1863bcd331c9c851e211eba75ad9fe43"><div class="ttname"><a href="../../db/d2c/a00466.html#a1863bcd331c9c851e211eba75ad9fe43">MainBMP::Scenario::m_bmpCollections</a></div><div class="ttdeci">vector&lt; string &gt; m_bmpCollections</div><div class="ttdoc">Collections in BMP database used for data checking. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d2d/a01183_source.html#l00082">Scenario.h:82</a></div></div>
-<div class="ttc" id="a00466_html_a42108aac6e3444d8d1f5523be206b3c8"><div class="ttname"><a href="../../db/d2c/a00466.html#a42108aac6e3444d8d1f5523be206b3c8">MainBMP::Scenario::Scenario</a></div><div class="ttdeci">Scenario(MongoClient *conn, const string dbName, const int subbsnID=0, const int scenarioID=0)</div><div class="ttdoc">Constructor according to BMP database name and scenario ID. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de9/a01182_source.html#l00004">Scenario.cpp:4</a></div></div>
-<div class="ttc" id="a00332_html"><div class="ttname"><a href="../../dc/d50/a00332.html">MainBMP::BMPPointSrcFactory</a></div><div class="ttdoc">Base class of point source BMPs. Actually, include point pollution sources, such as sewage outlet of ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d11/a01178_source.html#l00235">BMPPointSourceFactory.h:235</a></div></div>
-<div class="ttc" id="a00466_html_a39c84673e2bc4851eae2472e80fb1a91"><div class="ttname"><a href="../../db/d2c/a00466.html#a39c84673e2bc4851eae2472e80fb1a91">MainBMP::Scenario::m_bmpDBName</a></div><div class="ttdeci">const string m_bmpDBName</div><div class="ttdoc">MongoDB name of BMP. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d2d/a01183_source.html#l00080">Scenario.h:80</a></div></div>
-<div class="ttc" id="a00466_html_a168e87971d083d7edd6b975688ab3616"><div class="ttname"><a href="../../db/d2c/a00466.html#a168e87971d083d7edd6b975688ab3616">MainBMP::Scenario::loadScenario</a></div><div class="ttdeci">void loadScenario(void)</div><div class="ttdoc">Load scenario information. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de9/a01182_source.html#l00025">Scenario.cpp:25</a></div></div>
-<div class="ttc" id="a00466_html_adb9a4a2bdcec2748fa6e2b9205c92040"><div class="ttname"><a href="../../db/d2c/a00466.html#adb9a4a2bdcec2748fa6e2b9205c92040">MainBMP::Scenario::~Scenario</a></div><div class="ttdeci">~Scenario(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de9/a01182_source.html#l00012">Scenario.cpp:12</a></div></div>
-<div class="ttc" id="a00331_html"><div class="ttname"><a href="../../d8/df7/a00331.html">MainBMP::BMPPlantMgtFactory</a></div><div class="ttdoc">Initiate a plant management BMP Actually, it contains a series BMPs, such as plant, fertilize, harvest, etc. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d32/a01176_source.html#l00025">BMPPlantMgtFactory.h:25</a></div></div>
-<div class="ttc" id="a00466_html_a0e63bda0c6b918e0bd645cee7f7cf574"><div class="ttname"><a href="../../db/d2c/a00466.html#a0e63bda0c6b918e0bd645cee7f7cf574">MainBMP::Scenario::loadScenarioName</a></div><div class="ttdeci">void loadScenarioName(void)</div><div class="ttdoc">Get scenario name. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de9/a01182_source.html#l00032">Scenario.cpp:32</a></div></div>
-<div class="ttc" id="a00466_html_ad075c516360fdb386cd4086164ff1154"><div class="ttname"><a href="../../db/d2c/a00466.html#ad075c516360fdb386cd4086164ff1154">MainBMP::Scenario::m_bmpFactories</a></div><div class="ttdeci">map&lt; int, BMPFactory * &gt; m_bmpFactories</div><div class="ttdoc">Map of BMPs Factory the Key is unique BMP ID, and the value is. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d2d/a01183_source.html#l00095">Scenario.h:95</a></div></div>
-<div class="ttc" id="a00466_html_ab2e5749c8ca8a1787c82b364fbf7fdb1"><div class="ttname"><a href="../../db/d2c/a00466.html#ab2e5749c8ca8a1787c82b364fbf7fdb1">MainBMP::Scenario::setRasterForEachBMP</a></div><div class="ttdeci">void setRasterForEachBMP(void)</div><div class="ttdoc">set raster data for BMPs </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de9/a01182_source.html#l00193">Scenario.cpp:193</a></div></div>
-<div class="ttc" id="a00466_html_a372a27602c02b9368586b5023d1a1b2c"><div class="ttname"><a href="../../db/d2c/a00466.html#a372a27602c02b9368586b5023d1a1b2c">MainBMP::Scenario::Dump</a></div><div class="ttdeci">void Dump(const string fileName)</div><div class="ttdoc">Write all BMPs information of this scenario to a text file. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de9/a01182_source.html#l00172">Scenario.cpp:172</a></div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;MetadataInfoConst.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="../../de/dc8/a00325.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/dc8/a00325.html">base_VariableData</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="../../de/dc8/a00325.html#ab96cf2d176ba9e157121492f85e7bf05">   22</a></span>&#160;    <a class="code" href="../../d3/d2d/a01606.html#gac6cf78ef837450cfb19495fe34976b8c">dimensionTypes</a> <a class="code" href="../../de/dc8/a00325.html#ab96cf2d176ba9e157121492f85e7bf05">m_Dimension</a>;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="../../de/dc8/a00325.html">base_VariableData</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <a class="code" href="../../de/dc8/a00325.html">base_VariableData</a>(<span class="keyword">const</span> <a class="code" href="../../de/dc8/a00325.html">base_VariableData</a> &amp;obj);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="../../de/dc8/a00325.html">base_VariableData</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="../../de/dc8/a00325.html">base_VariableData</a> &amp;operator=(<span class="keyword">const</span> <a class="code" href="../../de/dc8/a00325.html">base_VariableData</a> &amp;obj);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="../../d3/d2d/a01606.html#gac6cf78ef837450cfb19495fe34976b8c">dimensionTypes</a> Dimension(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;};</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="ttc" id="a01606_html_gac6cf78ef837450cfb19495fe34976b8c"><div class="ttname"><a href="../../d3/d2d/a01606.html#gac6cf78ef837450cfb19495fe34976b8c">dimensionTypes</a></div><div class="ttdeci">dimensionTypes</div><div class="ttdoc">enum of dimension data types </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d8e/a01224_source.html#l00070">MetadataInfoConst.h:70</a></div></div>
+<div class="ttc" id="a00325_html"><div class="ttname"><a href="../../de/dc8/a00325.html">base_VariableData</a></div><div class="ttdoc">Base class for variable data. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de9/a01182_source.html#l00019">base_VariableData.h:19</a></div></div>
+<div class="ttc" id="a00325_html_ab96cf2d176ba9e157121492f85e7bf05"><div class="ttname"><a href="../../de/dc8/a00325.html#ab96cf2d176ba9e157121492f85e7bf05">base_VariableData::m_Dimension</a></div><div class="ttdeci">dimensionTypes m_Dimension</div><div class="ttdoc">&lt; dimension type for the dataset, </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de9/a01182_source.html#l00022">base_VariableData.h:22</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_c4eaa6a6e6c4ee7b087e3de60cab1bbc.html">bmps</a></li><li class="navelem"><b>Scenario.cpp</b></li>
-    <li class="footer">Generated on Tue Jul 18 2017 16:37:04 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_24d0af58b2644ad205aa9a0d9adbb65a.html">data</a></li><li class="navelem"><b>base_VariableData.h</b></li>
+    <li class="footer">Generated on Fri Jul 21 2017 07:37:35 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

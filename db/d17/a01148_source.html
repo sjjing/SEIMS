@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/field_partition/FieldPartition.h Source File</title>
+<title>SEIMS: seims/src/grid_layering/CompressIndex.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,23 +112,30 @@ $(document).ready(function(){initNavTree('db/d17/a01148_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">FieldPartition.h</div>  </div>
+<div class="title">CompressIndex.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#ifndef FIELD_PARTITION_HEADER</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define FIELD_PARTITION_HEADER</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor"></span><span class="keyword">enum</span> FlowDirectionMethod {</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    TauDEM = 0,</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    ArcGIS = 1</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;};</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Author: Junzhi Liu</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// Date: 2013-04-19</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keywordtype">int</span> CalCompressedIndex(<span class="keywordtype">int</span> n, <span class="keywordtype">int</span> *mask, <span class="keywordtype">int</span> noDataValue, <span class="keywordtype">int</span> *compressedIndex) {</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    <span class="keywordtype">int</span> counter = 0;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i) {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        <span class="keywordflow">if</span> (mask[i] == noDataValue) {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;            compressedIndex[i] = -1;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;            compressedIndex[i] = counter++;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        }</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    }</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">return</span> counter;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_5dad1625e7f9729766baa8f13d29b59c.html">field_partition</a></li><li class="navelem"><b>FieldPartition.h</b></li>
-    <li class="footer">Generated on Tue Jul 18 2017 16:37:03 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_e18f81762effd1d09ce50d10289caf24.html">grid_layering</a></li><li class="navelem"><b>CompressIndex.cpp</b></li>
+    <li class="footer">Generated on Fri Jul 21 2017 07:37:35 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

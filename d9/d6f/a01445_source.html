@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_storm_linux_gcc48/doc/wiki/Compile and Install/Linux.md Source File</title>
+<title>SEIMS: seims_longterm_linux_gcc48/doc/wiki/Compile and Install/Windows.md Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,78 +112,217 @@ $(document).ready(function(){initNavTree('d9/d6f/a01445.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">seims_storm_linux_gcc48/doc/wiki/Compile and Install/Linux.md</div>  </div>
+<div class="title">seims_longterm_linux_gcc48/doc/wiki/Compile and Install/Windows.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;Linux下SEIMS模型的编译与运行</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;----------------</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;&gt; Latest update: 2017-3-23</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">## 1. 准备工作</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;以192.168.6.55服务器上zhulj账号下的配置为例：</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;+ CMake 版本更新为3.7.2，路径`~/CMake/bin/cmake`;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;+ GCC编译器版本至4.8.4，路径`~/gcc4.8.4/bin`，在CMake命令中加入`-DCMAKE_C_COMPILER=~/gcc4.8.4/bin/gcc -DCMAKE_CXX_COMPILER=~/gcc4.8.4/bin/g++`以显示定义GCC编译器路径；</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;+ MPICH版本至3.1.4，路径`~/mpich/bin`,同理，如果编译MPI版本，则需显示定义编译器路径：`-DCMAKE_CXX_COMPILER=~/mpich/bin/mpic++`;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;+ mongo-c-driver版本至1.6.0，路径`~/code/mongo-c-driver`，并在`~/.bash_profile`中更新了环境变量`MONGOC_ROOT_DIR`、`PKG_CONFIG_PATH`和`LD_LIBRARY_PATH`，以确保基于mongo-c-driver的程序能够顺利编译、链接、安装、运行。</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;+ GDAL采用服务器现有版本1.9.0，并新建环境变量`export GDAL_ROOT=/soft/share`</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;+ Python版本至2.7.9，路径`/usr/bin`（软链接至2.7.9，旧版本为`/usr/bin/python2.6`）</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;Install SEIMS on Windows</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;----------------------------</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;First release: Huiran Gao</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;Reviewed and updated: Liang-Jun Zhu</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;Latest Updated： Mar.23, 2017</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;--------------------------</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"># 目录</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;+ [**1. Prerequisites**](#1-prerequisites)</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">## 2. SEIMS编译和安装</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;使用CMake编译SEIMS时有3个可选参数：</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;1. `-DPARALLEL`，不添加则默认为编译`OpenMP`版本程序，添加`-DPARALLEL=MPI`则编译MPI/OpenMP混合版本；</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;2. `-DARCH`，~~用于指定编译32位还是64程序(目前仅适用于Windows)，需要与`GDAL`和`mongo-c-driver`版本匹配，不添加则默认为32位程序，添加`-DARCH=64`则为64位；~~</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;3. `-DSTROM`，用于指定是否编译次降水模型，不添加默认为0，即长时段模型，添加`-DSTROM=1`则编译次降水模型。</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;4. `-DUNITTEST`，用于指定是否编译基于Googletest的单元测试模块</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;5. `-DINSTALL_PREFIX`，用于指定安装路径，如不指定，默认为源码目录下的`bin`文件夹。</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;```shell</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;cd &lt;SEIMS root path&gt;/seims</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;mkdir build</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;cd build</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;/home/zhulj/CMake/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/home/zhulj/gcc4.8.4/bin/gcc -DCMAKE_CXX_COMPILER=/home/zhulj/gcc4.8.4/bin/g++</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;make (or make 2&gt;&amp;1 | tee build.log 用于保存编译日志)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;make install</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;```</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;  + 1.1. [Microsoft Visual Studio](#11-microsoft-visual-studio)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  + 1.2. [CMake](#12-cmake)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  + 1.3. [GDAL and Python](#13-gdal-and-python)</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  + 1.4. [mongo-c-driver](#14-mongo-c-driver)</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  + 1.5. [MS-MPI](#15-ms-mpi)</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;+ [**2. Compilation and Installation**](#2-compilation-and-installation)</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  + 2.1. [Installation <span class="keywordflow">for</span> users](#21-installation-<span class="keywordflow">for</span>-users)</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  + 2.2. [Installation <span class="keywordflow">for</span> developers](#22-installation-<span class="keywordflow">for</span>-developers)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;+ [**3. Python <span class="keywordflow">for</span> SEIMS 依赖库的安装**](#3-python-<span class="keywordflow">for</span>-seims-依赖库的安装)</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;+ 在执行`make`命令时，可追加 `-j 4`命令利用CPU多核性能并行编译程序，提高编译速度，并行进程数最好设置为物理核数的2倍。</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;+ 编译完成之后，SEIMS模型所有可执行文件和模块库均安装于`&lt;SEIMS root path&gt;/seims/bin`目录下。</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">## 3. Python for SEIMS 依赖包的安装</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span> </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;SEIMS预处理、后处理、率定、情景分析等所需的Python依赖库及版本要求如下：</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;```py</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;pygeoc</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"># Preprocess</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span>GDAL&gt;=1.9.0,&lt;2.0</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;numpy&gt;=1.9.0</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;pymongo&gt;=3.0</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;networkx&gt;=1.10</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;Shapely&gt;=1.5.0</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"># Postprocess</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span>matplotlib&gt;=1.5.0</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;pathlib2&gt;=2.0.0</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"># Scenario analysis</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span>deap&gt;=1.0.2</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;scoop&gt;=0.7.1.1</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;```</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;+ SEIMS提供了自动安装脚本，脚本依赖于pip，因此请确保pip已正确安装，[参考教程](https:<span class="comment">//pip.pypa.io/en/stable/installing/)：</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  + 下载[<span class="keyword">get</span>-pip.py](https:<span class="comment">//bootstrap.pypa.io/get-pip.py)</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  + `python <span class="keyword">get</span>-pip.py`</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;+ 执行`sudo sh pyseims_install_linux.sh`即可自动安装完成所有依赖库，包括SEIMS自带的`PyGeoC`。</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;+ 安装完成后，运行`python pyseims_check.py`检查所需python库是否已经安装成功，如果有未成功的请单独安装。</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"># 1. Prerequisites</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;SEIMS模型采用C++和Python编写，支持子流域-栅格双层并行计算，在Windows下推荐采用Microsoft Visual Studio进行编译安装，安装前的准备包括：</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;+ Microsoft Visual Studio 2010 或更高 -- C++源码编译器及IDE</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;+ CMake 3.1+ -- 管理代码编译</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;+ GDAL 1.x with Python -- 矢栅数据读写库</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;+ mongo-c-driver 1.5+ -- 读写MongoDB</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;+ MS-MPI v6 （或更高）-- 编译MPI并行程序，如TauDEM、SEIMS-MPI版本等</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">## 1.1 Microsoft Visual Studio</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;+ **For User**： 如果只是希望源码编译SEIMS模型，而不想安装臃肿庞大的VS，可以选择使用Microsoft Visual C++ Build Tools，比如[2015 Update 3](https:<span class="comment">//www.visualstudio.com/downloads/#microsoft-visual-c-build-tools-2015-update-3 &quot;microsoft-visual-c-build-tools-2015-update-3&quot;).</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;+ **For Developer**： 如果希望对SEIMS模型进行改进，建议采用[Microsoft Visual Studio 2010 或更高版本](https:<span class="comment">//www.visualstudio.com/downloads/ &quot;visual-studio-downloads&quot;)进行开发。</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;&gt; Note: 虽然SEIMS编译理论上支持更高版本的VS，但是为了接下来的GDAL库安装方便，建议使用与[Tamas Szekeres<span class="stringliteral">&#39;s Windows GDAL binaries](http://www.gisinternals.com/release.php)发布版本对应的VS，比如目前其发布的GDAL安装版本对应的最高VS版本为2013。当然，如果你希望自己源码编译接下来用到的GDAL、mongo-c-driver库，那VS版本选择则不受限制。</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="stringliteral">## 1.2. CMake</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="stringliteral">CMake是一个跨平台的安装或编译工具，可以用简单的语句来描述安装或编译过程。CMake通过`CmakeLists.txt`文件能够输出各种各样的makefile或者IDE工程。</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="stringliteral">CMake可以从其[官网免费下载](http://www.cmake.org/files)，最低安装版本要求为3.1，安装后添加CMake路径如`C:\Program Files (x86)\CMake`到系统环境变量`PATH`里。</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="stringliteral">## 1.3. GDAL and Python</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="stringliteral">SEIMS的矢栅数据读写基于`GDAL 1.x`编写，Windows下GDAL最方便的安装方式应该就是采用[Tamas Szekeres&#39;</span>s Windows GDAL binaries](http:<span class="comment">//www.gisinternals.com/release.php)编译发布的版本，下载时请注意区分32位或64位版本。</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;+ 具体安装请参考博客[Installing-gdal-with-python-<span class="keywordflow">for</span>-windows](https:<span class="comment">//sandbox.idre.ucla.edu/sandbox/tutorials/installing-gdal-for-windows &quot;installing-gdal-with-python-for-windows&quot;)。</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;+ **注意**：安装完成之后，除了`GDAL_DATA`外，还需要在环境变量里添加一个`GDAL_DIR`，赋值为你的GDAL安装目录，如`C:\GDAL`，以便CMake在编译时能够找得到GDAL依赖库。</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;+ **注意**：为了方便将来程序能够找到GDAL的诸多动态链接库，建议新建`GDAL_PATHS`环境变量`C:\GDAL;C:\GDAL\bin;C:\GDAL\bin\proj\apps;C:\GDAL\bin\gdal\apps;C:\GDAL\bin\ms\apps;C:\GDAL\bin\curl;`，并将`%GDAL_PATHS%`添加至环境变量`PATH`中。</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor">## 1.4. mongo-c-driver</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;SEIMS数据管理采用NoSQL型数据库——MongoDB，依赖于mongo-c-driver。</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;Windows下的配置步骤为：</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;+ 从[官网](http:<span class="comment">//mongoc.org/ &quot;mongo-c-driver-download&quot;)或[Github项目](https://github.com/mongodb/mongo-c-driver/releases)下载源码压缩包，如[1.5.0](https://github.com/mongodb/mongo-c-driver/releases/download/1.5.0/mongo-c-driver-1.5.0.tar.gz &quot;mongo-c-driver-1.5.0&quot;)，解压缩至当前文件夹，如`C:\z_code\Repos\mongo-c-driver-1.5.0`</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;+ 打开cmd，依次输入如下命令，默认的安装目录为`C:\mongo-c-driver`</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    ```bat</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    cd C:\</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    mkdir mongo-c-driver</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    cd C:\z_code\Repos\mongo-c-driver-1.5.0</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    cd src\libbson</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    cmake -DCMAKE_INSTALL_PREFIX=C:\mongo-c-driver -G <span class="stringliteral">&quot;Visual Studio 10 2010&quot;</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    msbuild.exe ALL_BUILD.vcxproj</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    msbuild.exe INSTALL.vcxproj</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    cd ..\..</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    cmake -DCMAKE_INSTALL_PREFIX=C:\mongo-c-driver -DBSON_ROOT_DIR=C:\mongo-c-driver -G <span class="stringliteral">&quot;Visual Studio 10 2010&quot;</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    msbuild.exe ALL_BUILD.vcxproj</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    msbuild.exe INSTALL.vcxproj</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    ```</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;+ 至此，`mongo-c-driver`即编译安装完成了，在`C:\mongo-c-driver`目录下能看到`bin`, `include`, `lib`文件夹。</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;+ 将`C:\mongo-c-driver`添加至环境变量，命名为`MONGOC_ROOT_DIR`。</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;+ 将`C:\mongo-c-driver\bin`添加至环境变量，命名为`MONGOC_LIB_DIR`，并将`%MONGOC_LIB_DIR%`添加至环境变量`PATH`中。</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;&gt; Note1: 如果cmd提示找不到msbuild.exe，可以在msbuild.exe前加上绝对路径，这个文件是.NetFramework里的，比如`C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe`</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;&gt; Note2: 如果想编译64位的mongo-c-driver，则需将上述代码中的`-G <span class="stringliteral">&quot;Visual Studio 10 2010&quot;</span>`替换为`-G <span class="stringliteral">&quot;Visual Studio 10 2010 Win64&quot;</span>`</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="preprocessor">## 1.5. MS-MPI</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;Microsoft MPI (MS-MPI) 是微软基于MPICH实现的用于Windows平台开发和运行并行应用程序的消息传递接口标准，预处理程序中用于提取子流域和地形信息的TauDEM、SEIMS_MPI并行版本等都需要MPI的支持。</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;+ 从[MS-MPI v6](https:<span class="comment">//www.microsoft.com/en-us/download/details.aspx?id=47259)下载并分别安装msmpisdk.msi, MSMpiSetup.exe，并检查系统环境变量是否配置正确，如Windows-64bit版：</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    ```</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    MSMPI_BIN=C:\Program Files\Microsoft MPI\Bin\</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    MSMPI_INC=C:\Program Files (x86)\Microsoft SDKs\MPI\Include\</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    MSMPI_LIB32=C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x86\</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    MSMPI_LIB64=C:\Program Files (x86)\Microsoft SDKs\MPI\Lib\x64\</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    ```</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;&gt; Note: 建议采用默认安装路径安装MPI</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor"># 2. Compilation and Installation</span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;使用CMake编译SEIMS时有3个可选参数：</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;1. `-DPARALLEL`，不添加则默认为编译`OpenMP`版本程序，添加`-DPARALLEL=MPI`则编译MPI/OpenMP混合版本；</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;2. `-DARCH`，用于指定编译32位还是64程序，需要与`GDAL`和`mongo-c-driver`版本匹配，不添加则默认为32位程序，添加`-DARCH=64`则为64位；</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;3. `-DSTROM`，用于指定是否编译次降水模型，不添加默认为0，即长时段模型，添加`-DSTROM=1`则编译次降水模型。</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;4. `-DUNITTEST`，用于指定是否编译基于Googletest的单元测试模块</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;5. `-DINSTALL_PREFIX`，用于指定安装路径，如不指定，默认为源码目录下的`bin`文件夹。</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="preprocessor">## 2.1 Installation for users</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;&gt; Note: Windows x64下，不要打开的是`Visual Studio x64 Win64 命令提示(2010)`，而是需要打开`Visual Studio 命令提示(2010)`</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;+ 打开 “开始” -&gt; Microsoft Visual Studio 2010 -&gt; Visual Studio Tools -&gt; Visual Studio 命令提示(2010)，以**管理员方式**运行，依次输入以下命令：</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    ```shell</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    cd ~\SEIMS\seims</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    mkdir build</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    cd build</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    cmake -G &quot;NMake Makefiles&quot; .. -DCMAKE_BUILD_TYPE=Release</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    nmake</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    nmake install</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    ```</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;+ 或者采用指定VS版本及位数的方式：</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    ```shell</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    cd ~\SEIMS\seims</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    mkdir build</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    cd build</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="preprocessor"># 编译32位版本，-DARCH=32 为默认，添加与否均可</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="preprocessor"></span>    cmake -G <span class="stringliteral">&quot;Visual Studio 10 2010&quot;</span> ..</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="preprocessor">    # 编译64位版本，此时一定确保GDAL和mongo-c-driver已配置好64位版本</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="preprocessor"></span>    cmake -G <span class="stringliteral">&quot;Visual Studio 10 2010 Win64&quot;</span> .. -DARCH=64</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    msbuild.exe ALL_BUILD.vcxproj</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="preprocessor">    # p.s.1 如果编译release版本：</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="preprocessor"></span><span class="preprocessor">    # msbuild.exe ALL_BUILD.vcxproj /p:Configuration=Release</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="preprocessor"></span><span class="preprocessor">    # p.s.2 可通过添加/maxcpucount:4 来并行编译，提高速度</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="preprocessor"></span>    msbuild.exe INSTALL.vcxproj</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="preprocessor">    # 如果编译release版本：</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="preprocessor"></span><span class="preprocessor">    # msbuild.exe INSTALL.vcxproj /p:Configuration=Release</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="preprocessor"></span>    ```</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;+ 完成后，不需要打开VS2010生成解决方案，可执行文件已经编译完成，程序目录为`~\SEIMS\seims\bin`或通过`-DINSTALL_PREFIX`指定的文件夹。</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;+ 右键以管理员方式运行`~\seims\bin\Firewall_for_Windows.bat`，配置防火墙规则，以防在运行Python脚本调用SEIMS程序时被防火墙阻止。</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="preprocessor">## 2.2 Installation for developers</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;+ 打开 “开始” -&gt; Microsoft Visual Studio 2010 -&gt; Visual Studio Tools -&gt; Visual Studio 命令提示(2010)，以**管理员方式**运行，依次输入以下命令：</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    ```shell</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    cd ~\SEIMS----------7\seims</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    mkdir build</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    cd build</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    cmake ..</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    ```</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;+ 然后用VS2010打开&lt; build &gt;文件夹下的`SEIMS_OMP_ALL.sln`，即为整个SEIMS模型的VS工程，打开`build\bin`目录可以分别找到子工程，比如SEIMS模块库工程等。</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;+ VS工程编译完成之后，右键单击`INSTALL`模块，选择“生成”，即可完成SEIMS模型的安装，安装路径为`~\SEIMS\seims\bin`</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;+ 安装完成SEIMS后，需要右键以管理员方式运行`~\SEIMS\seims\Firewall_for_Windows.bat`配置防火墙规则，以防在运行Python脚本调用SEIMS程序时被防火墙阻止。</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;[返回目录](<span class="preprocessor">#目录)</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="preprocessor">## 3. Python for SEIMS 依赖库的安装</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor"></span> </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;SEIMS预处理、后处理、率定、情景分析等所需的Python依赖库及版本要求如下：</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;```python</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;pygeoc</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="preprocessor"># Preprocess</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="preprocessor"></span>GDAL&gt;=1.9.0,&lt;2.0</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;numpy&gt;=1.9.0</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;pymongo&gt;=3.0</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;networkx&gt;=1.10</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;Shapely&gt;=1.5.0</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="preprocessor"># Postprocess</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="preprocessor"></span>matplotlib&gt;=1.5.0</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;pathlib2&gt;=2.0.0</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="preprocessor"># Scenario analysis</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="preprocessor"></span>deap&gt;=1.0.2</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;scoop&gt;=0.7.1.1</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;```</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;+ SEIMS提供了自动安装脚本，脚本依赖于pip，因此请确保pip已正确安装，[参考教程](https:<span class="comment">//pip.pypa.io/en/stable/installing/)：</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  + 下载[<span class="keyword">get</span>-pip.py](https:<span class="comment">//bootstrap.pypa.io/get-pip.py)</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  + `python <span class="keyword">get</span>-pip.py`</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;+ 以管理员方式运行`pyseims_install_windows.bat`即可自动安装完成所有依赖库，包括SEIMS自带的`PyGeoC`。</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;+ 安装完成后，运行`python pyseims_check.py`检查所需python库是否已经安装成功，如果有未成功的请单独安装。</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;[返回目录](#目录)</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>Linux.md</b></li>
-    <li class="footer">Generated on Tue Jul 18 2017 16:37:05 for SEIMS by
+    <li class="navelem"><b>Windows.md</b></li>
+    <li class="footer">Generated on Fri Jul 21 2017 07:37:37 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

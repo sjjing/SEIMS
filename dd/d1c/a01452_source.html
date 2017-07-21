@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_longterm_linux_gcc48/doc/wiki/mk_sidebar.py Source File</title>
+<title>SEIMS: seims_storm_linux_gcc48/doc/wiki/Module development/ChangeLOG.md Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('dd/d1c/a01452_source.html','../../');});
+$(document).ready(function(){initNavTree('dd/d1c/a01452.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -112,34 +112,61 @@ $(document).ready(function(){initNavTree('dd/d1c/a01452_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">mk_sidebar.py</div>  </div>
+<div class="title">seims_storm_linux_gcc48/doc/wiki/Module development/ChangeLOG.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> os</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">def </span>createIndexFile(startpath, indexFile):</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    <span class="keywordflow">for</span> root, dirs, files <span class="keywordflow">in</span> os.walk(startpath):</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;        files = [f <span class="keywordflow">for</span> f <span class="keywordflow">in</span> files <span class="keywordflow">if</span> <span class="keywordflow">not</span> f[0] == <span class="stringliteral">&#39;.&#39;</span>]</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;        dirs[:] = [d <span class="keywordflow">for</span> d <span class="keywordflow">in</span> dirs <span class="keywordflow">if</span> <span class="keywordflow">not</span> d[0] == <span class="stringliteral">&#39;.&#39;</span>]</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        level = root.replace(startpath, <span class="stringliteral">&#39;&#39;</span>).count(os.sep) - 1</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        indent = <span class="stringliteral">&#39; &#39;</span> * 2 * (level)</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        directory = os.path.basename(root)</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keywordflow">if</span> directory != <span class="stringliteral">&#39;.&#39;</span>:</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;            indexFile.write(<span class="stringliteral">&#39;{}- {}\n&#39;</span>.format(indent, os.path.basename(root)))</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            subindent = <span class="stringliteral">&#39; &#39;</span> * 2 * (level + 1)</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;            <span class="keywordflow">for</span> f <span class="keywordflow">in</span> files:</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                indexFile.write(<span class="stringliteral">&#39;{}- [{}]({})\n&#39;</span>.format(subindent, f[:-3], f[:-3]))</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;indexFile = open(<span class="stringliteral">&#39;_Sidebar.md&#39;</span>, <span class="stringliteral">&#39;w&#39;</span>)</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;createIndexFile(<span class="stringliteral">&quot;.&quot;</span>, indexFile)</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;indexFile.close();</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;SEIMS CHANGE LOG</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;--------------</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">### 2017-2-13</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span>+ 将通用类抽离出来，可单独调试</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;+ 代码实现跨平台，Windows、Linux及macOS</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;+ 重新组织代码，实现一键编译所有模型所需程序及动态链接库</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">### 2016-6-29</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span>+ 增加了养分循环模块组，包括大气沉降ATMDEP、矿化作用MINRL、养分迁移NUTRMV、泥沙吸附NUTRSED、坡面汇流NUTROL、河道汇流NUTRCH等</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;+ 增加了生态模块组，目前包括实际蒸散发AET_PTH、作物管理措施MGT_SWAT、植物生长BIO_EPIC等</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;+ 预处理模块的多处更新，比如新增多年平均气温、积温计算、数据库导入前进行查重等</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;+ 梳理Base-&gt;BMPs模块，</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">### 2016-5-29</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span>+ 对所有模块的元数据中变量定义整理完毕，统一在text.h中以宏定义的形式进行管理</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">### 2016-5-22</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span>+ 更新了clsRasterData类，增加了对2D栅格数据的支持</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;+ 更新了数据预处理中土壤数据的输入（以soil_properties_lookup.txt替代多个TIF数据输入）和土壤理化性质计算，提高计算效率</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">### 2016-5-12</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor"></span>+ 更新预处理程序中对水文气象数据的输入（站点信息），修改了部分写死的代码</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">### 2016-5-10</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span>+ 完成mongo-c-driver更新（v0.6 -&gt; v1.3.5）</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;+ 完善Base模块组注释</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;+ 代码清理，去除冗余代码，如SQLite相关</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">### 2016-4-27</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"></span>+ 更新气象数据输入类型，增加了平均气温（观测值），如缺测则采用最大气温最小气温均值</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;+ 并修改部分采用平均气温的模块</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">### 2016-4-20</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span>+ 将单个SQLite数据库文件（Parameters.db3）替换为多个文本文件存储模型初始化数据库（https:<span class="comment">//github.com/seims/SEIMS/pull/33）</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">### 2016-4-14</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span>+ 基于Github pages, Doxygen, Travis CI自动更新代码文档（http:<span class="comment">//seims.github.io/SEIMS）</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">### 2015-6-10</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span>+ 完成开发者文档初稿</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">### 2015-6-8</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span>+ 采用CMAKE管理源码，工程与源码分离，便于版本控制</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;+ 采用Doxygen代码注释规范，便于生成代码文档</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;+ 首次托管在Github上</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_5a031d166d2f126974e8da32334021c7.html">doc</a></li><li class="navelem"><a class="el" href="../../dir_37b9ddcfd25e33150a10cedf5cee1f19.html">wiki</a></li><li class="navelem"><b>mk_sidebar.py</b></li>
-    <li class="footer">Generated on Tue Jul 18 2017 16:37:05 for SEIMS by
+    <li class="navelem"><b>ChangeLOG.md</b></li>
+    <li class="footer">Generated on Fri Jul 21 2017 07:37:37 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/preprocess/db_build_mongodb.py Source File</title>
+<title>SEIMS: seims/preprocess/db_import_interpolation_weights.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,200 +112,362 @@ $(document).ready(function(){initNavTree('d7/d06/a01005_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">db_build_mongodb.py</div>  </div>
+<div class="title">db_import_interpolation_weights.py</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Import all model parameters and spatial datasets to MongoDB</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Generate weight data for interpolate of hydroclimate data</span></div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Liangjun Zhu, Junzhi Liu</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 16-12-07  lj - rewrite for version 2.0</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">                17-06-26  lj - reformat according to pylint and google style</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">                17-07-07  lj - remove sqlite3 database file as intermediate data</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">from</span> os <span class="keyword">import</span> sep <span class="keyword">as</span> SEP</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">                17-06-26  lj - reorganize according to pylint and google style</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">from</span> math <span class="keyword">import</span> sqrt, pow</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">from</span> struct <span class="keyword">import</span> pack, unpack</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d9/da1/a01546.html">seims.preprocess.bmp_import_scenario</a> <span class="keyword">import</span> ImportScenario2Mongo</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d3/d1b/a01549.html">seims.preprocess.db_import_interpolation_weights</a> <span class="keyword">import</span> ImportWeightData</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d8/daf/a01550.html">seims.preprocess.db_import_meteorology</a> <span class="keyword">import</span> ImportMeteoData</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d5/df4/a01551.html">seims.preprocess.db_import_model_parameters</a> <span class="keyword">import</span> ImportParam2Mongo</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d0/db9/a01552.html">seims.preprocess.db_import_observed</a> <span class="keyword">import</span> ImportObservedData</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> <a class="code" href="../../de/d2c/a01553.html">seims.preprocess.db_import_precipitation</a> <span class="keyword">import</span> ImportPrecipitation</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d7/d1d/a01554.html">seims.preprocess.db_import_sites</a> <span class="keyword">import</span> ImportHydroClimateSites</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d6/dd7/a01555.html">seims.preprocess.db_import_stream_parameters</a> <span class="keyword">import</span> ImportReaches2Mongo</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d7/db6/a01556.html">seims.preprocess.db_mongodb</a> <span class="keyword">import</span> ConnectMongoDB, MongoQuery</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d8/d6c/a01563.html">seims.preprocess.sp_extraction</a> <span class="keyword">import</span> extract_spatial_parameters</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d7/d57/a01567.html">seims.preprocess.text</a> <span class="keyword">import</span> DBTableNames</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">from</span> <a class="code" href="../../da/daf/a01568.html">seims.preprocess.utility</a> <span class="keyword">import</span> status_output</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d1/d88/a01578.html">seims.pygeoc.pygeoc.utils.utils</a> <span class="keyword">import</span> UtilClass</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="../../d9/d0a/a00390.html">   26</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/d0a/a00390.html">ImportMongodbClass</a>(object):</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Separated function to import data into MongoDB.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../d9/d0a/a00390.html#ad5fc6f1afc8c22ce13dbf3e2928e7eb2">   29</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/d0a/a00390.html#ad5fc6f1afc8c22ce13dbf3e2928e7eb2">__init__</a>(self):</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Empty&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="keywordflow">pass</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../d9/d0a/a00390.html#adfbe97062368e43c6becdd2583fda016">   34</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/d0a/a00390.html#adfbe97062368e43c6becdd2583fda016">climate_data</a>(cfg, main_db, clim_db):</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Climate data.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        ImportHydroClimateSites.workflow(cfg, main_db, clim_db)</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        ImportMeteoData.workflow(cfg, clim_db)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        ImportPrecipitation.workflow(cfg, clim_db)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="../../d9/d0a/a00390.html#a9faea1b7a46ce844f158d9c4844da8c4">   41</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/d0a/a00390.html#a9faea1b7a46ce844f158d9c4844da8c4">spatial_rasters</a>(cfg, subbasin_num):</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Import spatial raster data.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        UtilClass.mkdir(cfg.dirs.import2db)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> cfg.cluster:  <span class="comment"># changed by LJ, SubbasinID is 0 means the whole basin!</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            subbasin_num = 0</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            start_id = 0</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            subbasin_file = cfg.spatials.mask</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            start_id = 1</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            subbasin_file = cfg.spatials.subbsn</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(start_id, subbasin_num + 1):</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            subdir = cfg.dirs.import2db + SEP + str(i)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            UtilClass.rmmkdir(subdir)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        str_cmd = <span class="stringliteral">&#39;&quot;%s/import_raster&quot; %s %s %s %s %s %d %s&#39;</span> % (cfg.seims_bin, subbasin_file,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                                               cfg.dirs.geodata2db,</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                                               cfg.spatial_db,</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                                                               DBTableNames.gridfs_spatial,</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                                                               cfg.hostname, cfg.port,</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                                                               cfg.dirs.import2db)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="comment"># print (str_cmd)</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        UtilClass.run_command(str_cmd)</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> numpy <span class="keyword">import</span> zeros <span class="keyword">as</span> np_zeros</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> gridfs <span class="keyword">import</span> GridFS</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> <a class="code" href="../../de/d2c/a01553.html">seims.preprocess.db_mongodb</a> <span class="keyword">import</span> MongoQuery</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">from</span> <a class="code" href="../../de/dd5/a01564.html">seims.preprocess.text</a> <span class="keyword">import</span> DBTableNames, RasterMetadata, FieldNames, \</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    DataType, StationFields, DataValueFields</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d6/d82/a01565.html">seims.preprocess.utility</a> <span class="keyword">import</span> UTIL_ZERO</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="../../d9/da1/a00396.html">   20</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/da1/a00396.html">ImportWeightData</a>(object):</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Spatial weight and its related data&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="../../d9/da1/a00396.html#a3c4559a194d0e542c01fc0e0d10de00b">   24</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/da1/a00396.html#a3c4559a194d0e542c01fc0e0d10de00b">cal_dis</a>(x1, y1, x2, y2):</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;calculate distance between two points&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        dx = x2 - x1</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        dy = y2 - y1</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordflow">return</span> sqrt(dx * dx + dy * dy)</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="../../d9/da1/a00396.html#addc2af01e8b5ada4a0c80595c7bd7cef">   31</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/da1/a00396.html#addc2af01e8b5ada4a0c80595c7bd7cef">idw</a>(x, y, loc_list):</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;IDW method for weight</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">        This function is not used currently&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        ex = 2</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        coef_list = []</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        sum_dist = 0</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">for</span> pt <span class="keywordflow">in</span> loc_list:</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            dis = ImportWeightData.cal_dis(x, y, pt[0], pt[1])</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            coef = pow(dis, -ex)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            coef_list.append(coef)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            sum_dist += coef</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        weight_list = []</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">for</span> coef <span class="keywordflow">in</span> coef_list:</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            weight_list.append(coef / sum_dist)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="comment"># print weight_list</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        fmt = <span class="stringliteral">&#39;%df&#39;</span> % (len(weight_list))</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        s = pack(fmt, *weight_list)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">return</span> s</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../d9/da1/a00396.html#a9b0f453e69e0fc47650271e0c5eeae8c">   51</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/da1/a00396.html#a9b0f453e69e0fc47650271e0c5eeae8c">thiessen</a>(x, y, loc_list):</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Thiessen polygon method for weights&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        i_min = 0</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        coef_list = []</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="comment"># print loc_list</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordflow">if</span> len(loc_list) &lt;= 1:</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            coef_list.append(1)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            fmt = <span class="stringliteral">&#39;%df&#39;</span> % 1</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            <span class="keywordflow">return</span> pack(fmt, *coef_list), i_min</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        dis_min = ImportWeightData.cal_dis(x, y, loc_list[0][0], loc_list[0][1])</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="../../d9/d0a/a00390.html#ab5f368e0fdf47a191a91d99dfa127c32">   64</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/d0a/a00390.html#ab5f368e0fdf47a191a91d99dfa127c32">iuh</a>(cfg, n_subbasins):</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Invoke IUH program&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> cfg.cluster:</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            n_subbasins = 0</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordflow">if</span> cfg.gen_iuh:</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            dt = 24</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            str_cmd = <span class="stringliteral">&#39;&quot;%s/iuh&quot; %s %d %s %s %s %d&#39;</span> % (cfg.seims_bin, cfg.hostname, cfg.port,</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                                                      cfg.spatial_db,</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                                                      DBTableNames.gridfs_spatial,</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                                                      dt, n_subbasins)</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="comment"># print (str_cmd)</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            UtilClass.run_command(str_cmd)</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../d9/d0a/a00390.html#afed639509abc2da6b890208e25b52d1f">   78</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/d0a/a00390.html#afed639509abc2da6b890208e25b52d1f">grid_layering</a>(cfg, n_subbasins):</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Invoke grid layering program.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        layering_dir = cfg.dirs.layerinfo</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        UtilClass.rmmkdir(layering_dir)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> cfg.cluster:</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            n_subbasins = 0</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        str_cmd = <span class="stringliteral">&#39;&quot;%s/grid_layering&quot; %s %d %s %s %s %d&#39;</span> % (</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            cfg.seims_bin, cfg.hostname, cfg.port, layering_dir,</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            cfg.spatial_db, DBTableNames.gridfs_spatial, n_subbasins)</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="comment"># print (str_cmd)</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        UtilClass.run_command(str_cmd)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="../../d9/d0a/a00390.html#ad1ff36e535a0989c84ae12598c0cd675">   91</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/d0a/a00390.html#ad1ff36e535a0989c84ae12598c0cd675">workflow</a>(cfg):</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Building MongoDB workflow&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        f = open(cfg.logs.build_mongo, <span class="stringliteral">&#39;w&#39;</span>)</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="comment"># build a connection to mongodb database</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        client = <a class="code" href="../../df/d03/a00348.html">ConnectMongoDB</a>(cfg.hostname, cfg.port)</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        conn = client.get_conn()</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        maindb = conn[cfg.spatial_db]</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        climatedb = conn[cfg.climate_db]</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        scenariodb = <span class="keywordtype">None</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">if</span> cfg.use_scernario:</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            scenariodb = conn[cfg.bmp_scenario_db]</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="comment"># import model parameters information to MongoDB</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        status_output(<span class="stringliteral">&#39;Import model parameters&#39;</span>, 10, f)</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        ImportParam2Mongo.workflow(cfg, maindb)</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        n_subbasins = MongoQuery.get_subbasin_num(maindb)</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Number of subbasins:%d&quot;</span> % n_subbasins)</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="comment"># Extract spatial parameters for reaches, landuse, soil, etc.</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        status_output(<span class="stringliteral">&#39;Extract spatial parameters for reaches, landuse, soil, etc...&#39;</span>, 20, f)</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        extract_spatial_parameters(cfg, maindb)</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="comment"># import stream parameters</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        status_output(<span class="stringliteral">&quot;Generating reach table with initialized parameters...&quot;</span>, 40, f)</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        ImportReaches2Mongo.generate_reach_table(cfg, maindb)</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="comment"># import raster data to MongoDB</span></div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        status_output(<span class="stringliteral">&quot;Importing raster to MongoDB....&quot;</span>, 50, f)</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        ImportMongodbClass.spatial_rasters(cfg, n_subbasins)</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        coef_list.append(0)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(1, len(loc_list)):</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            coef_list.append(0)</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            dis = ImportWeightData.cal_dis(x, y, loc_list[i][0], loc_list[i][1])</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="comment"># print x, y, loc_list[i][0], loc_list[i][1], dis</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordflow">if</span> dis &lt; dis_min:</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                i_min = i</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                dis_min = dis</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        coef_list[i_min] = 1</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        fmt = <span class="stringliteral">&#39;%df&#39;</span> % (len(coef_list))</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        s = pack(fmt, *coef_list)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">return</span> s, i_min</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="../../d9/da1/a00396.html#a156d8f82d4abbf80e44ee09506ed1306">   79</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/da1/a00396.html#a156d8f82d4abbf80e44ee09506ed1306">generate_weight_dependent_parameters</a>(conn, maindb, subbsn_id):</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Generate some parameters dependent on weight data and only should be calculated once.</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="stringliteral">            Such as PHU0 (annual average total potential heat units)</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="stringliteral">                TMEAN0 (annual average temperature)</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="stringliteral">            added by Liangjun, 2016-6-17</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        spatial_gfs = GridFS(maindb, DBTableNames.gridfs_spatial)</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="comment"># read mask file from mongodb</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        mask_name = str(subbsn_id) + <span class="stringliteral">&#39;_MASK&#39;</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="comment"># is MASK existed in Database?</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> spatial_gfs.exists(filename=mask_name):</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordflow">raise</span> RuntimeError(<span class="stringliteral">&#39;%s is not existed in MongoDB!&#39;</span> % mask_name)</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="comment"># read WEIGHT_M file from mongodb</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        weight_m_name = str(subbsn_id) + <span class="stringliteral">&#39;_WEIGHT_M&#39;</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        mask = maindb[DBTableNames.gridfs_spatial].files.find({<span class="stringliteral">&quot;filename&quot;</span>: mask_name})[0]</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        weight_m = maindb[DBTableNames.gridfs_spatial].files.find({<span class="stringliteral">&quot;filename&quot;</span>: weight_m_name})[0]</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        num_cells = int(weight_m[<span class="stringliteral">&quot;metadata&quot;</span>][RasterMetadata.cellnum])</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        num_sites = int(weight_m[<span class="stringliteral">&quot;metadata&quot;</span>][RasterMetadata.site_num])</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="comment"># read meteorology sites</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        site_lists = maindb[DBTableNames.main_sitelist].find({FieldNames.subbasin_id: subbsn_id})</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        site_list = site_lists.next()</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        db_name = site_list[FieldNames.db]</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        m_list = site_list.get(FieldNames.site_m)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        hydro_clim_db = conn[db_name]</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        site_list = m_list.split(<span class="stringliteral">&#39;,&#39;</span>)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        site_list = [int(item) <span class="keywordflow">for</span> item <span class="keywordflow">in</span> site_list]</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        q_dic = {StationFields.id: {<span class="stringliteral">&#39;$in&#39;</span>: site_list},</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;                 StationFields.type: DataType.phu0}</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        cursor = hydro_clim_db[DBTableNames.annual_stats].find(q_dic).sort(StationFields.id, 1)</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        q_dic2 = {StationFields.id: {<span class="stringliteral">&#39;$in&#39;</span>: site_list},</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                  StationFields.type: DataType.mean_tmp0}</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        cursor2 = hydro_clim_db[DBTableNames.annual_stats].find(q_dic2).sort(StationFields.id, 1)</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        id_list = []</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        phu_list = []</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">for</span> site <span class="keywordflow">in</span> cursor:</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            id_list.append(site[StationFields.id])</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            phu_list.append(site[DataValueFields.value])</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="comment"># Import IUH</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        status_output(<span class="stringliteral">&quot;Generating and importing IUH (Instantaneous Unit Hydrograph)....&quot;</span>, 60, f)</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        ImportMongodbClass.iuh(cfg, n_subbasins)</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="comment"># Import grid layering data</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        status_output(<span class="stringliteral">&quot;Generating and importing grid layering....&quot;</span>, 70, f)</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        ImportMongodbClass.grid_layering(cfg, n_subbasins)</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="comment"># Import hydro-climate data</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        status_output(<span class="stringliteral">&quot;Import climate data....&quot;</span>, 80, f)</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        ImportMongodbClass.climate_data(cfg, maindb, climatedb)</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        id_list2 = []</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        tmean_list = []</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordflow">for</span> site <span class="keywordflow">in</span> cursor2:</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            id_list2.append(site[StationFields.id])</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            tmean_list.append(site[DataValueFields.value])</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        weight_m_data = spatial_gfs.get(weight_m[<span class="stringliteral">&quot;_id&quot;</span>])</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        total_len = num_cells * num_sites</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="comment"># print (total_len)</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        fmt = <span class="stringliteral">&#39;%df&#39;</span> % (total_len,)</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        weight_m_data = unpack(fmt, weight_m_data.read())</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="comment"># Import weight and related data, this should after ImportMongodbClass.climate_data()</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        status_output(<span class="stringliteral">&quot;Generating weight data for interpolation of meteorology data &quot;</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                      <span class="stringliteral">&quot;and weight dependent parameters....&quot;</span>, 85, f)</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        ImportWeightData.workflow(cfg, conn)</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="comment"># Measurement Data, such as discharge, sediment yield.</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        status_output(<span class="stringliteral">&quot;Import observed data, such as discharge, sediment yield....&quot;</span>, 90, f)</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        ImportObservedData.workflow(cfg, climatedb)</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="comment"># Import BMP scenario database to MongoDB</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        status_output(<span class="stringliteral">&quot;Importing bmp scenario....&quot;</span>, 95, f)</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        ImportScenario2Mongo.scenario_from_texts(cfg, maindb, scenariodb)</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        status_output(<span class="stringliteral">&quot;Build DB: %s finished!&quot;</span> % cfg.spatial_db, 100, f)</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        f.close()</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="comment"># close connection to MongoDB</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        client.close()</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="keyword">def </span>main():</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;TEST CODE&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../da/ded/a01547.html">seims.preprocess.config</a> <span class="keyword">import</span> parse_ini_configuration</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    seims_cfg = parse_ini_configuration()</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    ImportMongodbClass.workflow(seims_cfg)</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="comment"># calculate PHU0</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        phu0_data = np_zeros(num_cells)</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="comment"># calculate TMEAN0</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        tmean0_data = np_zeros(num_cells)</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(num_cells):</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(num_sites):</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                phu0_data[i] += phu_list[j] * weight_m_data[i * num_sites + j]</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                tmean0_data[i] += tmean_list[j] * weight_m_data[i * num_sites + j]</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        ysize = int(mask[<span class="stringliteral">&quot;metadata&quot;</span>][RasterMetadata.nrows])</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        xsize = int(mask[<span class="stringliteral">&quot;metadata&quot;</span>][RasterMetadata.ncols])</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        nodata_value = mask[<span class="stringliteral">&quot;metadata&quot;</span>][RasterMetadata.nodata]</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        mask_data = spatial_gfs.get(mask[<span class="stringliteral">&quot;_id&quot;</span>])</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        total_len = xsize * ysize</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        fmt = <span class="stringliteral">&#39;%df&#39;</span> % (total_len,)</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        mask_data = unpack(fmt, mask_data.read())</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        fname = <span class="stringliteral">&quot;%s_%s&quot;</span> % (str(subbsn_id), DataType.phu0)</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        fname2 = <span class="stringliteral">&quot;%s_%s&quot;</span> % (str(subbsn_id), DataType.mean_tmp0)</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordflow">if</span> spatial_gfs.exists(filename=fname):</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            x = spatial_gfs.get_version(filename=fname)</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            spatial_gfs.delete(x._id)</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="keywordflow">if</span> spatial_gfs.exists(filename=fname2):</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            x = spatial_gfs.get_version(filename=fname2)</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;            spatial_gfs.delete(x._id)</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        meta_dic = mask[<span class="stringliteral">&quot;metadata&quot;</span>]</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        meta_dic[<span class="stringliteral">&quot;TYPE&quot;</span>] = DataType.phu0</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        meta_dic[<span class="stringliteral">&quot;ID&quot;</span>] = fname</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        meta_dic[<span class="stringliteral">&quot;DESCRIPTION&quot;</span>] = DataType.phu0</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    main()</div>
-<div class="ttc" id="a01553_html"><div class="ttname"><a href="../../de/d2c/a01553.html">seims.preprocess.db_import_precipitation</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00001">db_import_precipitation.py:1</a></div></div>
-<div class="ttc" id="a01551_html"><div class="ttname"><a href="../../d5/df4/a01551.html">seims.preprocess.db_import_model_parameters</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d56/a01014_source.html#l00001">db_import_model_parameters.py:1</a></div></div>
-<div class="ttc" id="a00390_html_ad1ff36e535a0989c84ae12598c0cd675"><div class="ttname"><a href="../../d9/d0a/a00390.html#ad1ff36e535a0989c84ae12598c0cd675">seims.preprocess.db_build_mongodb.ImportMongodbClass.workflow</a></div><div class="ttdeci">def workflow</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d06/a01005_source.html#l00091">db_build_mongodb.py:91</a></div></div>
-<div class="ttc" id="a01568_html"><div class="ttname"><a href="../../da/daf/a01568.html">seims.preprocess.utility</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dc9/a01065_source.html#l00001">utility.py:1</a></div></div>
-<div class="ttc" id="a01556_html"><div class="ttname"><a href="../../d7/db6/a01556.html">seims.preprocess.db_mongodb</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/daa/a01029_source.html#l00001">db_mongodb.py:1</a></div></div>
-<div class="ttc" id="a00390_html_adfbe97062368e43c6becdd2583fda016"><div class="ttname"><a href="../../d9/d0a/a00390.html#adfbe97062368e43c6becdd2583fda016">seims.preprocess.db_build_mongodb.ImportMongodbClass.climate_data</a></div><div class="ttdeci">def climate_data</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d06/a01005_source.html#l00034">db_build_mongodb.py:34</a></div></div>
-<div class="ttc" id="a01547_html"><div class="ttname"><a href="../../da/ded/a01547.html">seims.preprocess.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d17/a00964_source.html#l00001">config.py:1</a></div></div>
-<div class="ttc" id="a01550_html"><div class="ttname"><a href="../../d8/daf/a01550.html">seims.preprocess.db_import_meteorology</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d36/a01011_source.html#l00001">db_import_meteorology.py:1</a></div></div>
-<div class="ttc" id="a01567_html"><div class="ttname"><a href="../../d7/d57/a01567.html">seims.preprocess.text</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d8a/a01062_source.html#l00001">text.py:1</a></div></div>
-<div class="ttc" id="a00390_html"><div class="ttname"><a href="../../d9/d0a/a00390.html">seims.preprocess.db_build_mongodb.ImportMongodbClass</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d06/a01005_source.html#l00026">db_build_mongodb.py:26</a></div></div>
-<div class="ttc" id="a01555_html"><div class="ttname"><a href="../../d6/dd7/a01555.html">seims.preprocess.db_import_stream_parameters</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d02/a01026_source.html#l00001">db_import_stream_parameters.py:1</a></div></div>
-<div class="ttc" id="a01563_html"><div class="ttname"><a href="../../d8/d6c/a01563.html">seims.preprocess.sp_extraction</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d8e/a01050_source.html#l00001">sp_extraction.py:1</a></div></div>
-<div class="ttc" id="a01546_html"><div class="ttname"><a href="../../d9/da1/a01546.html">seims.preprocess.bmp_import_scenario</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dd5/a01002_source.html#l00001">bmp_import_scenario.py:1</a></div></div>
-<div class="ttc" id="a01578_html"><div class="ttname"><a href="../../d1/d88/a01578.html">seims.pygeoc.pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00001">utils.py:1</a></div></div>
-<div class="ttc" id="a01549_html"><div class="ttname"><a href="../../d3/d1b/a01549.html">seims.preprocess.db_import_interpolation_weights</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dac/a01008_source.html#l00001">db_import_interpolation_weights.py:1</a></div></div>
-<div class="ttc" id="a01554_html"><div class="ttname"><a href="../../d7/d1d/a01554.html">seims.preprocess.db_import_sites</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/dcd/a01023_source.html#l00001">db_import_sites.py:1</a></div></div>
-<div class="ttc" id="a00390_html_ab5f368e0fdf47a191a91d99dfa127c32"><div class="ttname"><a href="../../d9/d0a/a00390.html#ab5f368e0fdf47a191a91d99dfa127c32">seims.preprocess.db_build_mongodb.ImportMongodbClass.iuh</a></div><div class="ttdeci">def iuh</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d06/a01005_source.html#l00064">db_build_mongodb.py:64</a></div></div>
-<div class="ttc" id="a01552_html"><div class="ttname"><a href="../../d0/db9/a01552.html">seims.preprocess.db_import_observed</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/ded/a01017_source.html#l00001">db_import_observed.py:1</a></div></div>
-<div class="ttc" id="a00390_html_a9faea1b7a46ce844f158d9c4844da8c4"><div class="ttname"><a href="../../d9/d0a/a00390.html#a9faea1b7a46ce844f158d9c4844da8c4">seims.preprocess.db_build_mongodb.ImportMongodbClass.spatial_rasters</a></div><div class="ttdeci">def spatial_rasters</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d06/a01005_source.html#l00041">db_build_mongodb.py:41</a></div></div>
-<div class="ttc" id="a00390_html_afed639509abc2da6b890208e25b52d1f"><div class="ttname"><a href="../../d9/d0a/a00390.html#afed639509abc2da6b890208e25b52d1f">seims.preprocess.db_build_mongodb.ImportMongodbClass.grid_layering</a></div><div class="ttdeci">def grid_layering</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d06/a01005_source.html#l00078">db_build_mongodb.py:78</a></div></div>
-<div class="ttc" id="a00390_html_ad5fc6f1afc8c22ce13dbf3e2928e7eb2"><div class="ttname"><a href="../../d9/d0a/a00390.html#ad5fc6f1afc8c22ce13dbf3e2928e7eb2">seims.preprocess.db_build_mongodb.ImportMongodbClass.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d06/a01005_source.html#l00029">db_build_mongodb.py:29</a></div></div>
-<div class="ttc" id="a00348_html"><div class="ttname"><a href="../../df/d03/a00348.html">seims.preprocess.db_mongodb.ConnectMongoDB</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/daa/a01029_source.html#l00016">db_mongodb.py:16</a></div></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        meta_dic2 = mask[<span class="stringliteral">&quot;metadata&quot;</span>]</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        meta_dic2[<span class="stringliteral">&quot;TYPE&quot;</span>] = DataType.mean_tmp0</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        meta_dic2[<span class="stringliteral">&quot;ID&quot;</span>] = fname2</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        meta_dic2[<span class="stringliteral">&quot;DESCRIPTION&quot;</span>] = DataType.mean_tmp0</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        myfile = spatial_gfs.new_file(filename=fname, metadata=meta_dic)</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        myfile2 = spatial_gfs.new_file(filename=fname2, metadata=meta_dic2)</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        vaild_count = 0</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, ysize):</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;            cur_row = []</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            cur_row2 = []</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;            <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(0, xsize):</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                index = i * xsize + j</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;                <span class="comment"># print index</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                <span class="keywordflow">if</span> abs(mask_data[index] - nodata_value) &gt; UTIL_ZERO:</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                    cur_row.append(phu0_data[vaild_count])</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                    cur_row2.append(tmean0_data[vaild_count])</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                    vaild_count += 1</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;                    cur_row.append(nodata_value)</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                    cur_row2.append(nodata_value)</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            fmt = <span class="stringliteral">&#39;%df&#39;</span> % xsize</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            myfile.write(pack(fmt, *cur_row))</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;            myfile2.write(pack(fmt, *cur_row2))</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        myfile.close()</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        myfile2.close()</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Valid Cell Number is: %d&quot;</span> % vaild_count)</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">True</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00191"></a><span class="lineno"><a class="line" href="../../d9/da1/a00396.html#ae1a800d1666f1d0c9ad0183c7e25a309">  191</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/da1/a00396.html#ae1a800d1666f1d0c9ad0183c7e25a309">climate_itp_weight_thiessen</a>(conn, db_model, subbsn_id, storm_mode, geodata2dbdir):</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Generate and import weight information using Thiessen polygon method.</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="stringliteral">            conn:</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="stringliteral">            db_model: workflow database object</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="stringliteral">            subbsn_id: subbasin id</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="stringliteral">            storm_mode: is storm mode or not</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="stringliteral">            geodata2dbdir: directory to store weight data as txt file</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        spatial_gfs = GridFS(db_model, DBTableNames.gridfs_spatial)</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <span class="comment"># read mask file from mongodb</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        mask_name = str(subbsn_id) + <span class="stringliteral">&#39;_MASK&#39;</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> spatial_gfs.exists(filename=mask_name):</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            <span class="keywordflow">raise</span> RuntimeError(<span class="stringliteral">&#39;%s is not existed in MongoDB!&#39;</span> % mask_name)</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        mask = db_model[DBTableNames.gridfs_spatial].files.find({<span class="stringliteral">&quot;filename&quot;</span>: mask_name})[0]</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        ysize = int(mask[<span class="stringliteral">&quot;metadata&quot;</span>][RasterMetadata.nrows])</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        xsize = int(mask[<span class="stringliteral">&quot;metadata&quot;</span>][RasterMetadata.ncols])</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        nodata_value = mask[<span class="stringliteral">&quot;metadata&quot;</span>][RasterMetadata.nodata]</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        dx = mask[<span class="stringliteral">&quot;metadata&quot;</span>][RasterMetadata.cellsize]</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        xll = mask[<span class="stringliteral">&quot;metadata&quot;</span>][RasterMetadata.xll]</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        yll = mask[<span class="stringliteral">&quot;metadata&quot;</span>][RasterMetadata.yll]</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        data = spatial_gfs.get(mask[<span class="stringliteral">&quot;_id&quot;</span>])</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        total_len = xsize * ysize</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        fmt = <span class="stringliteral">&#39;%df&#39;</span> % (total_len,)</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        data = unpack(fmt, data.read())</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        <span class="comment"># print data[0], len(data), type(data)</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="comment"># count number of valid cells</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        num = 0</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        <span class="keywordflow">for</span> type_i <span class="keywordflow">in</span> range(0, total_len):</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            <span class="keywordflow">if</span> abs(data[type_i] - nodata_value) &gt; UTIL_ZERO:</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                num += 1</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="comment"># read stations information from database</span></div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        metadic = {RasterMetadata.subbasin: subbsn_id,</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                   RasterMetadata.cellnum: num}</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        site_lists = db_model[DBTableNames.main_sitelist].find({FieldNames.subbasin_id: subbsn_id})</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        site_list = site_lists.next()</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        clim_db_name = site_list[FieldNames.db]</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        p_list = site_list.get(FieldNames.site_p)</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        m_list = site_list.get(FieldNames.site_m)</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        pet_list = site_list.get(FieldNames.site_pet)</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        <span class="comment"># print p_list</span></div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        <span class="comment"># print m_list</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        hydro_clim_db = conn[clim_db_name]</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        type_list = [DataType.m, DataType.p, DataType.pet]</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        site_lists = [m_list, p_list, pet_list]</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        <span class="keywordflow">if</span> pet_list <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            del type_list[2]</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            del site_lists[2]</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="keywordflow">if</span> storm_mode:</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;            type_list = [DataType.p]</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            site_lists = [p_list]</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            <span class="comment"># print type_list</span></div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        <span class="comment"># print site_lists</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <span class="keywordflow">for</span> type_i, type_name <span class="keywordflow">in</span> enumerate(type_list):</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;            fname = <span class="stringliteral">&#39;%d_WEIGHT_%s&#39;</span> % (subbsn_id, type_name)</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            <span class="keywordflow">print</span> fname</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            <span class="keywordflow">if</span> spatial_gfs.exists(filename=fname):</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                x = spatial_gfs.get_version(filename=fname)</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                spatial_gfs.delete(x._id)</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            site_list = site_lists[type_i]</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;            <span class="keywordflow">if</span> site_list <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                site_list = site_list.split(<span class="stringliteral">&#39;,&#39;</span>)</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                <span class="comment"># print site_list</span></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                site_list = [int(item) <span class="keywordflow">for</span> item <span class="keywordflow">in</span> site_list]</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                metadic[RasterMetadata.site_num] = len(site_list)</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                <span class="comment"># print site_list</span></div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                q_dic = {StationFields.id: {<span class="stringliteral">&#39;$in&#39;</span>: site_list},</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                         StationFields.type: type_list[type_i]}</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;                cursor = hydro_clim_db[DBTableNames.sites].find(q_dic).sort(StationFields.id, 1)</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                <span class="comment"># meteorology station can also be used as precipitation station</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                <span class="keywordflow">if</span> cursor.count() == 0 <span class="keywordflow">and</span> type_list[type_i] == DataType.p:</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                    q_dic = {StationFields.id.upper(): {<span class="stringliteral">&#39;$in&#39;</span>: site_list},</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                             StationFields.type.upper(): DataType.m}</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                    cursor = hydro_clim_db[DBTableNames.sites].find(q_dic). \</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                        sort(StationFields.id, 1)</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                <span class="comment"># get site locations</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;                id_list = []</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                loc_list = []</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;                <span class="keywordflow">for</span> site <span class="keywordflow">in</span> cursor:</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;                    <span class="keywordflow">if</span> site[StationFields.id] <span class="keywordflow">in</span> site_list:</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                        id_list.append(site[StationFields.id])</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                        loc_list.append([site[StationFields.x], site[StationFields.y]])</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                <span class="comment"># print &#39;loclist&#39;, locList</span></div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;                <span class="comment"># interpolate using the locations</span></div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;                <span class="comment"># weightList = []</span></div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                myfile = spatial_gfs.new_file(filename=fname, metadata=metadic)</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;                f_test = open(<span class="stringliteral">r&quot;%s/weight_%d_%s.txt&quot;</span> % (geodata2dbdir,</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;                                                        subbsn_id, type_list[type_i]), <span class="stringliteral">&#39;w&#39;</span>)</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;                <span class="keywordflow">for</span> y <span class="keywordflow">in</span> range(0, ysize):</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;                    <span class="keywordflow">for</span> x <span class="keywordflow">in</span> range(0, xsize):</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                        index = int(y * xsize + x)</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                        <span class="comment"># print index</span></div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;                        <span class="keywordflow">if</span> abs(data[index] - nodata_value) &gt; UTIL_ZERO:</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                            x_coor = xll + x * dx</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                            y_coor = yll + (ysize - y - 1) * dx</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                            near_index = 0</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                            <span class="comment"># print locList</span></div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                            line, near_index = ImportWeightData.thiessen(x_coor, y_coor, loc_list)</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                            myfile.write(line)</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                            fmt = <span class="stringliteral">&#39;%df&#39;</span> % (len(loc_list))</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                            f_test.write(<span class="stringliteral">&quot;%f %f &quot;</span> % (x, y) + unpack(fmt, line).__str__() + <span class="stringliteral">&quot;\n&quot;</span>)</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;                myfile.close()</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                f_test.close()</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00306"></a><span class="lineno"><a class="line" href="../../d9/da1/a00396.html#a4a5232d28bd33f03dbc27965545e6274">  306</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/da1/a00396.html#a4a5232d28bd33f03dbc27965545e6274">workflow</a>(cfg, conn):</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Workflow&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        db_model = conn[cfg.spatial_db]</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        subbasin_start_id = 0</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        n_subbasins = 0  <span class="comment"># default is for OpenMP version</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        <span class="keywordflow">if</span> cfg.cluster:</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            subbasin_start_id = 1</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;            n_subbasins = MongoQuery.get_subbasin_num(db_model)</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        <span class="keywordflow">for</span> subbsn_id <span class="keywordflow">in</span> range(subbasin_start_id, n_subbasins + 1):</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            ImportWeightData.climate_itp_weight_thiessen(conn, db_model, subbsn_id,</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                                                         cfg.storm_mode, cfg.dirs.geodata2db)</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            ImportWeightData.generate_weight_dependent_parameters(conn, db_model, subbsn_id)</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="keyword">def </span>main():</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;TEST CODE&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d6/d83/a01544.html">seims.preprocess.config</a> <span class="keyword">import</span> parse_ini_configuration</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../de/d2c/a01553.html">seims.preprocess.db_mongodb</a> <span class="keyword">import</span> ConnectMongoDB</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    seims_cfg = parse_ini_configuration()</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    client = ConnectMongoDB(seims_cfg.hostname, seims_cfg.port)</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    conn = client.get_conn()</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    ImportWeightData.workflow(seims_cfg, conn)</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    client.close()</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    main()</div>
+<div class="ttc" id="a01553_html"><div class="ttname"><a href="../../de/d2c/a01553.html">seims.preprocess.db_mongodb</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d02/a01026_source.html#l00001">db_mongodb.py:1</a></div></div>
+<div class="ttc" id="a01544_html"><div class="ttname"><a href="../../d6/d83/a01544.html">seims.preprocess.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d17/a00964_source.html#l00001">config.py:1</a></div></div>
+<div class="ttc" id="a00396_html"><div class="ttname"><a href="../../d9/da1/a00396.html">seims.preprocess.db_import_interpolation_weights.ImportWeightData</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d06/a01005_source.html#l00020">db_import_interpolation_weights.py:20</a></div></div>
+<div class="ttc" id="a01564_html"><div class="ttname"><a href="../../de/dd5/a01564.html">seims.preprocess.text</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d90/a01059_source.html#l00001">text.py:1</a></div></div>
+<div class="ttc" id="a00396_html_ae1a800d1666f1d0c9ad0183c7e25a309"><div class="ttname"><a href="../../d9/da1/a00396.html#ae1a800d1666f1d0c9ad0183c7e25a309">seims.preprocess.db_import_interpolation_weights.ImportWeightData.climate_itp_weight_thiessen</a></div><div class="ttdeci">def climate_itp_weight_thiessen</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d06/a01005_source.html#l00191">db_import_interpolation_weights.py:191</a></div></div>
+<div class="ttc" id="a00396_html_addc2af01e8b5ada4a0c80595c7bd7cef"><div class="ttname"><a href="../../d9/da1/a00396.html#addc2af01e8b5ada4a0c80595c7bd7cef">seims.preprocess.db_import_interpolation_weights.ImportWeightData.idw</a></div><div class="ttdeci">def idw</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d06/a01005_source.html#l00031">db_import_interpolation_weights.py:31</a></div></div>
+<div class="ttc" id="a00396_html_a4a5232d28bd33f03dbc27965545e6274"><div class="ttname"><a href="../../d9/da1/a00396.html#a4a5232d28bd33f03dbc27965545e6274">seims.preprocess.db_import_interpolation_weights.ImportWeightData.workflow</a></div><div class="ttdeci">def workflow</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d06/a01005_source.html#l00306">db_import_interpolation_weights.py:306</a></div></div>
+<div class="ttc" id="a00396_html_a3c4559a194d0e542c01fc0e0d10de00b"><div class="ttname"><a href="../../d9/da1/a00396.html#a3c4559a194d0e542c01fc0e0d10de00b">seims.preprocess.db_import_interpolation_weights.ImportWeightData.cal_dis</a></div><div class="ttdeci">def cal_dis</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d06/a01005_source.html#l00024">db_import_interpolation_weights.py:24</a></div></div>
+<div class="ttc" id="a00396_html_a156d8f82d4abbf80e44ee09506ed1306"><div class="ttname"><a href="../../d9/da1/a00396.html#a156d8f82d4abbf80e44ee09506ed1306">seims.preprocess.db_import_interpolation_weights.ImportWeightData.generate_weight_dependent_parameters</a></div><div class="ttdeci">def generate_weight_dependent_parameters</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d06/a01005_source.html#l00079">db_import_interpolation_weights.py:79</a></div></div>
+<div class="ttc" id="a00396_html_a9b0f453e69e0fc47650271e0c5eeae8c"><div class="ttname"><a href="../../d9/da1/a00396.html#a9b0f453e69e0fc47650271e0c5eeae8c">seims.preprocess.db_import_interpolation_weights.ImportWeightData.thiessen</a></div><div class="ttdeci">def thiessen</div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d06/a01005_source.html#l00051">db_import_interpolation_weights.py:51</a></div></div>
+<div class="ttc" id="a01565_html"><div class="ttname"><a href="../../d6/d82/a01565.html">seims.preprocess.utility</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d8a/a01062_source.html#l00001">utility.py:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>db_build_mongodb.py</b></li>
-    <li class="footer">Generated on Tue Jul 18 2017 16:37:03 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>db_import_interpolation_weights.py</b></li>
+    <li class="footer">Generated on Fri Jul 21 2017 07:37:34 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

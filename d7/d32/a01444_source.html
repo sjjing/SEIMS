@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_longterm_linux_gcc48/doc/wiki/Compile and Install/Linux.md Source File</title>
+<title>SEIMS: seims_storm_linux_gcc48/doc/wiki/Compile and Install/macOS.md Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,78 +112,203 @@ $(document).ready(function(){initNavTree('d7/d32/a01444.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">seims_longterm_linux_gcc48/doc/wiki/Compile and Install/Linux.md</div>  </div>
+<div class="title">seims_storm_linux_gcc48/doc/wiki/Compile and Install/macOS.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;Linux下SEIMS模型的编译与运行</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;----------------</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;&gt; Latest update: 2017-3-23</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">## 1. 准备工作</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;以192.168.6.55服务器上zhulj账号下的配置为例：</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;+ CMake 版本更新为3.7.2，路径`~/CMake/bin/cmake`;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;+ GCC编译器版本至4.8.4，路径`~/gcc4.8.4/bin`，在CMake命令中加入`-DCMAKE_C_COMPILER=~/gcc4.8.4/bin/gcc -DCMAKE_CXX_COMPILER=~/gcc4.8.4/bin/g++`以显示定义GCC编译器路径；</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;+ MPICH版本至3.1.4，路径`~/mpich/bin`,同理，如果编译MPI版本，则需显示定义编译器路径：`-DCMAKE_CXX_COMPILER=~/mpich/bin/mpic++`;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;+ mongo-c-driver版本至1.6.0，路径`~/code/mongo-c-driver`，并在`~/.bash_profile`中更新了环境变量`MONGOC_ROOT_DIR`、`PKG_CONFIG_PATH`和`LD_LIBRARY_PATH`，以确保基于mongo-c-driver的程序能够顺利编译、链接、安装、运行。</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;+ GDAL采用服务器现有版本1.9.0，并新建环境变量`export GDAL_ROOT=/soft/share`</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;+ Python版本至2.7.9，路径`/usr/bin`（软链接至2.7.9，旧版本为`/usr/bin/python2.6`）</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">## 2. SEIMS编译和安装</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;使用CMake编译SEIMS时有3个可选参数：</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;1. `-DPARALLEL`，不添加则默认为编译`OpenMP`版本程序，添加`-DPARALLEL=MPI`则编译MPI/OpenMP混合版本；</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;2. `-DARCH`，~~用于指定编译32位还是64程序(目前仅适用于Windows)，需要与`GDAL`和`mongo-c-driver`版本匹配，不添加则默认为32位程序，添加`-DARCH=64`则为64位；~~</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;3. `-DSTROM`，用于指定是否编译次降水模型，不添加默认为0，即长时段模型，添加`-DSTROM=1`则编译次降水模型。</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;4. `-DUNITTEST`，用于指定是否编译基于Googletest的单元测试模块</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;5. `-DINSTALL_PREFIX`，用于指定安装路径，如不指定，默认为源码目录下的`bin`文件夹。</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;```shell</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;cd &lt;SEIMS root path&gt;/seims</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;mkdir build</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;cd build</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;/home/zhulj/CMake/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/home/zhulj/gcc4.8.4/bin/gcc -DCMAKE_CXX_COMPILER=/home/zhulj/gcc4.8.4/bin/g++</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;make (or make 2&gt;&amp;1 | tee build.log 用于保存编译日志)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;make install</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;```</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;+ 在执行`make`命令时，可追加 `-j 4`命令利用CPU多核性能并行编译程序，提高编译速度，并行进程数最好设置为物理核数的2倍。</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;+ 编译完成之后，SEIMS模型所有可执行文件和模块库均安装于`&lt;SEIMS root path&gt;/seims/bin`目录下。</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">## 3. Python for SEIMS 依赖包的安装</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span> </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;SEIMS预处理、后处理、率定、情景分析等所需的Python依赖库及版本要求如下：</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;```py</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;pygeoc</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"># Preprocess</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span>GDAL&gt;=1.9.0,&lt;2.0</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;numpy&gt;=1.9.0</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;pymongo&gt;=3.0</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;networkx&gt;=1.10</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;Shapely&gt;=1.5.0</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"># Postprocess</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span>matplotlib&gt;=1.5.0</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;pathlib2&gt;=2.0.0</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"># Scenario analysis</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span>deap&gt;=1.0.2</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;scoop&gt;=0.7.1.1</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;```</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;Install SEIMS on macOS</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;----------------------------</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;First release: Liang-Jun Zhu</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;Latest Updated：Mar.23, 2017</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;&gt; Note: 测试环境为Macbook Pro 13 （Late 2016） with macOS Sierra 10.12.3</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"># 1. Prerequisites</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;SEIMS模型采用C++和Python编写，支持子流域-栅格双层并行计算，在macOS下推荐采用GCC进行编译安装，安装前的准备包括：</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;+ GCC49 -- C++源码编译器</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;+ OpenMPI -- 编译MPI并行程序，如TauDEM、SEIMS-MPI版本等</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;+ CMake -- 管理代码编译</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;+ GDAL 1.x with Python -- 矢栅数据读写库</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;+ mongo-c-driver 1.3.5 或更高 -- NoSQL数据库MongoDB的驱动库</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">## 1.1. GCC49</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span>macOS中最便捷配置GCC版本的方式是通过[Homebrew](http:<span class="comment">//brew.sh/)自动安装。</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;+ 在终端输入代码`/usr/bin/ruby -e <span class="stringliteral">&quot;$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)&quot;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;` 进行安装`brew`工具</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;+ 输入`brew tap homebrew/versions`更新`brew`中软件版本</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;+ 输入`brew install gcc49`安装</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;+ 安装大约需要60分钟，耐心等待安装完成，可通过`gcc-4.9 --version`查看版本信息：</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;```</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;gcc-4.9 --version</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;gcc-4.9 (Homebrew gcc49 4.9.3) 4.9.3</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;Copyright (C) 2015 Free Software Foundation, Inc.</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;```</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">## 1.2. OpenMPI</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor"></span>+ 从[官网下载OpenMPI源码](https:<span class="comment">//www.open-mpi.org/software/ompi/v1.10/)，推荐安装1.x系列的最新版，目前最新的是1.10.4，解压至文件夹，如`/Users/zhulj/apps/openmpi-1.10.4</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;`</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;+ 配置config，指定使用GCC-4.9编译，如下：`./configure CC=gcc-4.9 CXX=g++-4.9 --prefix=/usr/local`</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;+ `make all`</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;+ `sudo make install`</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;安装完成之后，在终端中输入`mpic++ --showme`，会提示`g++-4.9 -I/usr/local/include -L/usr/local/lib -lmpi_cxx -lmpi`，则表明OpenMPI是由GCC49编译的。</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">## 1.3. CMake</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;CMake是一个跨平台的安装或编译工具，可以用简单的语句来描述安装或编译过程。CMake通过`CmakeLists.txt`文件能够输出各种各样的makefile或者IDE工程。</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;CMake可以从其[官网免费下载](http:<span class="comment">//www.cmake.org/files)安装GUI版本，推荐安装3.0以上版本，也可通过`brew install cmake`安装。</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor">## 1.4. GDAL with Python</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;SEIMS的矢栅数据读写基于`GDAL 1.x`编写，macOS下推荐使用[William Kyngesburye](http:<span class="comment">//www.kyngchaos.com/software:frameworks)维护的Framework安装包，最新的为`GDAL_Complete-1.11.dmg`。</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;+ GDAL将安装在`/Library/Frameworks/GDAL.framework`。</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;+ 同时，测试python的GDAL包是否安装成功：</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;+ SEIMS提供了自动安装脚本，脚本依赖于pip，因此请确保pip已正确安装，[参考教程](https:<span class="comment">//pip.pypa.io/en/stable/installing/)：</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  + 下载[<span class="keyword">get</span>-pip.py](https:<span class="comment">//bootstrap.pypa.io/get-pip.py)</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  + `python <span class="keyword">get</span>-pip.py`</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;+ 执行`sudo sh pyseims_install_linux.sh`即可自动安装完成所有依赖库，包括SEIMS自带的`PyGeoC`。</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;+ 安装完成后，运行`python pyseims_check.py`检查所需python库是否已经安装成功，如果有未成功的请单独安装。</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    ```python</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    &gt;&gt;&gt; <span class="keyword">import</span> osgeo</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    &gt;&gt;&gt; osgeo.__version__</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="stringliteral">&#39;1.11.4&#39;</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    &gt;&gt;&gt; from osgeo <span class="keyword">import</span> ogr</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    &gt;&gt;&gt; from osgeo <span class="keyword">import</span> osr</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    &gt;&gt;&gt; from osgeo <span class="keyword">import</span> gdalconst</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    &gt;&gt;&gt; from osgeo <span class="keyword">import</span> gdal_array</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    &gt;&gt;&gt; from osgeo <span class="keyword">import</span> gdal</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    ```</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;+ 此外，还应将GDAL自带可执行程序的安装目录添加至环境变量PATH中，以便可以直接在Terminal中调用GDAL程序：</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;参考[这篇博客](http:<span class="comment">//architectryan.com/2012/10/02/add-to-the-path-on-mac-os-x-mountain-lion/#.WV47mtOGOu5)</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    ```bash</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    ~ sudo nano /etc/paths</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor">    # Enter your password, when prompted.</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor"></span><span class="preprocessor">    # Go to the bottom of the file, and enter the path you wish to add.</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor"></span>    /Library/Frameworks/GDAL.framework/Programs</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">    # Hit control-x to quit.</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor"></span><span class="preprocessor">    # Enter “Y” to save the modified buffer.</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor"></span><span class="preprocessor">    # To test it, in new terminal window, type:</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor"></span>    ~ echo $PATH</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/GDAL.framework/Programs</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor">    # 测试</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor"></span>    ~ gdalinfo --version</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    GDAL 1.11.4, released 2016/01/25</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    ```</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">## 1.5. mongo-c-driver</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;SEIMS数据管理采用NoSQL型数据库——MongoDB，依赖于mongo-c-driver。</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;macOS下的配置步骤为：</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;+ 从[官网](http:<span class="comment">//mongoc.org/ &quot;mongo-c-driver-download&quot;)下载源码压缩包，目前最新稳定版本为[1.5.0](https://github.com/mongodb/mongo-c-driver/releases/download/1.5.0/mongo-c-driver-1.5.0.tar.gz &quot;mongo-c-driver-1.5.0&quot;)，解压缩至当前文件夹，如`/Users/zhulj/apps/mongo-c-driver-1.5.0</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;+ 使用brew安装依赖包`brew install automake autoconf libtool pkgconfig openssl`</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;+ 打开终端，依次输入如下命令</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    ```shell</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    cd /Users/zhulj/apps/mongo-c-driver-1.5.0</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    export LDFLAGS=<span class="stringliteral">&quot;-L/usr/local/opt/openssl/lib&quot;</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    export CPPFLAGS=<span class="stringliteral">&quot;-I/usr/local/opt/openssl/include&quot;</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    ./configure CC=gcc-4.9 CXX=g++-4.9 --prefix=/usr/local</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    make</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    sudo make install</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    ```</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;+ 至此，`mongo-c-driver`即编译安装完成了，在`/usr/local/include`目录下能看到`libbson-1.0`, `libmongoc-1.0`文件夹，链接库则在`/usr/local/lib`。</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor"># 2. Compilation and Installation</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;使用CMake编译SEIMS时有3个可选参数：</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;1. `-DPARALLEL`，不添加则默认为编译`OpenMP`版本程序，添加`-DPARALLEL=MPI`则编译MPI/OpenMP混合版本；</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;2. `-DARCH`，~~用于指定编译32位还是64程序(目前仅适用于Windows)，需要与`GDAL`和`mongo-c-driver`版本匹配，不添加则默认为32位程序，添加`-DARCH=64`则为64位；~~</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;3. `-DSTROM`，用于指定是否编译次降水模型，不添加默认为0，即长时段模型，添加`-DSTROM=1`则编译次降水模型。</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;4. `-DUNITTEST`，用于指定是否编译基于Googletest的单元测试模块</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;5. `-DINSTALL_PREFIX`，用于指定安装路径，如不指定，默认为源码目录下的`bin`文件夹。</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor">## 2.1 Installation for users</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;```shell</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;cd /Users/zhulj/Documents/code/SEIMS/seims</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;mkdir build</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;cd build</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;1. clang: cmake .. -DCMAKE_BUILD_TYPE=Release</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;2. GCC: cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/local/bin/gcc-4.9 -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-4.9</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;make</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;make install</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;```</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;+ 在执行`make`命令时，可追加 `-j 4`命令利用CPU多核性能并行编译程序，提高编译速度，并行进程数最好设置为物理核数的2倍。</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;+ 编译、安装无误后，SEIMS所有可执行程序及模块动态链接库均在`./SEIMS/seims/bin`。</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;+ 注意1：使用clang编译时，由于其不支持openmp，因此基于共享内存的并行计算将无法实现，因此推荐使用GCC进行编译安装。</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="preprocessor">## 2.2 Installation for developers</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="preprocessor">### 2.2.1 Xcode (test on Xcode 8.2)</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;```shell</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;cd /Users/zhulj/Documents/code/SEIMS/seims</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;mkdir build</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;cd build</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;cmake -G <span class="stringliteral">&quot;Xcode&quot;</span> .. -DCMAKE_BUILD_TYPE=Release</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;```</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;+ 完成之后，即可得到SEIMS项目总工程，`SEIMS_OMP_ALL.xcodeproj`，各子工程则在`build/bin`下，如SEIMS模块库工程为`build/bin/seims_omp_project/SEIMS_OMP_prj.xcodeproj`。</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;<span class="preprocessor">### 2.2.2 CLion (test on CLion 2016.3.2）</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;CLion继承了JetBrains家族的特点，工程采用CMake管理，方便、高效。在CLion中直接打开`SEIMS/seims`文件夹即可导入整个工程。</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;CLion默认使用clang编译器，因此需要简单设置一下，[官网提供了三种方法](https:<span class="comment">//cmake.org/Wiki/CMake_FAQ#How_do_I_use_a_different_compiler.3F)，推荐采用第二种，即：</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;+ 打开CLion-&gt;Preferences-&gt;Build，Execution，Deployment-&gt;CMake</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;+ 在Generation选项卡下的CMake options中输入以下命令，以覆盖CMake的默认设置，同理为Debug和Release分别设置。</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;```</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;-D CMAKE_C_COMPILER=&lt;your_path_to_c_compiler&gt;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;-D CMAKE_CXX_COMPILER=&lt;your_path_to_cxx_compiler&gt;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;e.g.</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;-DCMAKE_C_COMPILER=/usr/local/bin/gcc-4.9 -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-4.9</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;```</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;接下来，你可以选择Build All，也可以选择某一个程序进行Build等。</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="preprocessor">## 3. Python for SEIMS 依赖包的安装</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="preprocessor"></span> </div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;SEIMS预处理、后处理、率定、情景分析等所需的Python依赖库及版本要求如下：</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;```py</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;pygeoc</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="preprocessor"># Preprocess</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="preprocessor"></span>GDAL&gt;=1.9.0,&lt;2.0 (在1.4中已经安装完成)</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;numpy&gt;=1.9.0</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;pymongo&gt;=3.0</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;networkx&gt;=1.10</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;Shapely&gt;=1.5.0</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;# Postprocess</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;matplotlib&gt;=1.5.0</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;pathlib2&gt;=2.0.0</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;# Scenario analysis</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;deap&gt;=1.0.2</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;scoop&gt;=0.7.1.1</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;```</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;+ SEIMS提供了自动安装脚本，脚本依赖于pip，因此请确保pip已正确安装，[参考教程](https:<span class="comment">//pip.pypa.io/en/stable/installing/)：</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  + 下载[<span class="keyword">get</span>-pip.py](https:<span class="comment">//bootstrap.pypa.io/get-pip.py)</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;  + `python <span class="keyword">get</span>-pip.py`</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;+ 执行`sudo sh pyseims_install_linux.sh`即可自动安装完成所有依赖库，包括SEIMS自带的`PyGeoC`。</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;+ 安装完成后，运行`python pyseims_check.py`检查所需python库是否已经安装成功，如果有未成功的请单独安装。</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>Linux.md</b></li>
-    <li class="footer">Generated on Tue Jul 18 2017 16:37:05 for SEIMS by
+    <li class="navelem"><b>macOS.md</b></li>
+    <li class="footer">Generated on Fri Jul 21 2017 07:37:37 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -1,24 +1,26 @@
 var a01633 =
 [
-    [ "SplashEro_Park", "dc/da0/a00483.html", [
-      [ "SplashEro_Park", "dc/da0/a00483.html#a00ae477f0d21454e2af629ce1868e765", null ],
-      [ "~SplashEro_Park", "dc/da0/a00483.html#a312a37eb79a2ee2e9eaa60b57b7f7d81", null ],
-      [ "CheckInputData", "dc/da0/a00483.html#ab462cb5df0ab76cc9f2c1b5db9c58f71", null ],
-      [ "CheckInputSize", "dc/da0/a00483.html#a9705ac1240a63f26afd56d6302da5349", null ],
-      [ "Execute", "dc/da0/a00483.html#a585bb28a6218d04f79160fa11551cfac", null ],
-      [ "Get1DData", "dc/da0/a00483.html#aa3a3045c77277a20a0e5e22ce29d92d9", null ],
-      [ "Set1DData", "dc/da0/a00483.html#adeec7e0f843b21c14531c79bedbd0d43", null ],
-      [ "SetValue", "dc/da0/a00483.html#a221d957f52e9eea5586f1c8a02841afc", null ],
-      [ "m_CellWith", "dc/da0/a00483.html#ab1e70d8e44078447a422a76793557f5c", null ],
-      [ "m_DETSplash", "dc/da0/a00483.html#ad5aa4d31faba63c30c212f63d631e95b", null ],
-      [ "m_nCells", "dc/da0/a00483.html#ac589f4a8677fbc93ba6e3b6c89591c2e", null ],
-      [ "m_Omega", "dc/da0/a00483.html#a2d273b56ebc6f60256caa041e7ccb4d3", null ],
-      [ "m_Q", "dc/da0/a00483.html#abd1a3cf3a1d0f95597236cf18e3ce8a7", null ],
-      [ "m_Rain", "dc/da0/a00483.html#a455fd2539cdf496aaaccb73b52fafb41", null ],
-      [ "m_Slope", "dc/da0/a00483.html#aecb5464d81ffd924d481938a87e605f8", null ],
-      [ "m_sr", "dc/da0/a00483.html#af1626f6aa723fcf09d497ff69fa558cb", null ],
-      [ "m_TimeStep", "dc/da0/a00483.html#a2130dcee3dac02f573e1d1004361757d", null ],
-      [ "m_USLE_C", "dc/da0/a00483.html#a3638a2eaca43b24b4aae390dccad466f", null ],
-      [ "m_USLE_K", "dc/da0/a00483.html#ab12f65d6d7bf3aa3954e12f29828bc51", null ]
+    [ "GWaterReservoir", "d8/ddd/a00380.html", [
+      [ "GWaterReservoir", "d8/ddd/a00380.html#a6e436b7df240ca9b2f2335624e37cfc0", null ],
+      [ "~GWaterReservoir", "d8/ddd/a00380.html#a0d4c540561dc29309b3d17e53d359df2", null ],
+      [ "CheckInputData", "d8/ddd/a00380.html#aa03bbd6498ce5964b4b191dd862a3c91", null ],
+      [ "CheckInputSize", "d8/ddd/a00380.html#a71690671c028ced9d6ada7c9af63125f", null ],
+      [ "Execute", "d8/ddd/a00380.html#a2f906ddc60092e8bbdef3f88ebcfa013", null ],
+      [ "Get1DData", "d8/ddd/a00380.html#a16ceb0e1fed6530de13381fef445bb63", null ],
+      [ "Set1DData", "d8/ddd/a00380.html#a5faf0daee5a7ae4cf81ca4fe6509581c", null ],
+      [ "SetReaches", "d8/ddd/a00380.html#af97470d80aee1fc2757bf9b0fbb3c4d3", null ],
+      [ "SetValue", "d8/ddd/a00380.html#aacaa93c862dc05e27333814e76924753", null ],
+      [ "m_CellWidth", "d8/ddd/a00380.html#aad28ec2ebf3265e6e51d9e2ba1c4301d", null ],
+      [ "m_deepCoefficient", "d8/ddd/a00380.html#aff24179ab16dd64e9919b804f9241b20", null ],
+      [ "m_dt", "d8/ddd/a00380.html#a9c3534db78ddf66602b5a00f2ffc5ea6", null ],
+      [ "m_nCells", "d8/ddd/a00380.html#a8f8449bd153c68f56178eeacdf0c6a83", null ],
+      [ "m_nReaches", "d8/ddd/a00380.html#a8d28dee63d9f131a49b94beb1cd558ca", null ],
+      [ "m_percSubbasin", "d8/ddd/a00380.html#a83040cc852b4d0f38c448d5a4d3223d2", null ],
+      [ "m_qOutlet", "d8/ddd/a00380.html#a3b0c70fd939185042d48a6989ada9261", null ],
+      [ "m_recessionCoefficient", "d8/ddd/a00380.html#a20c9627e09bb6c208fec4e97544039c2", null ],
+      [ "m_recessionExponent", "d8/ddd/a00380.html#a913510dc008500a17e416eeb41d49fd2", null ],
+      [ "m_recharge", "d8/ddd/a00380.html#aa8a01b4cc45a6fefe0364f6d664e27bf", null ],
+      [ "m_storage", "d8/ddd/a00380.html#ae20eb0f3426407ce266afd32e51115b4", null ],
+      [ "m_storageMax", "d8/ddd/a00380.html#af588128fbcdca589809328bd837592a1", null ]
     ] ]
 ];

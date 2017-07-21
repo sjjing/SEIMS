@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_storm_linux_gcc48/seims/pygeoc/pygeoc/vector/vector.py Source File</title>
+<title>SEIMS: seims_storm_linux_gcc48/seims/pygeoc/README_CN.md Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('d6/dea/a01094_source.html','../../');});
+$(document).ready(function(){initNavTree('d6/dea/a01094.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -112,102 +112,54 @@ $(document).ready(function(){initNavTree('d6/dea/a01094_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">vector.py</div>  </div>
+<div class="title">seims_storm_linux_gcc48/seims/pygeoc/README_CN.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Vector related Classes and Functions</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    author: Liangjun Zhu</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">    changlog: 12-04-12 jz - origin version</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">              16-07-01 lj - reorganized for pygeoc</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">              17-06-25 lj - check by pylint and reformat by Google style</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> os</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> sys</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># PyGeoC</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span>***Py***thon <span class="keywordflow">for</span> ***GeoC***omputation --- easy, convenient, and efficient.</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;[![Build Status](https:<span class="comment">//travis-ci.org/lreis2415/PyGeoC.svg?branch=master)](https://travis-ci.org/lreis2415/PyGeoC)</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">## 1.Introduction</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;本科快毕业的时候，接触并开始学习Python和arcpy（当时ArcGIS 9时代还是arcgisscripting）已有五六年时间了，当时写了一篇文章《[[初学入门]ArcGIS中Python脚本的使用](http:<span class="comment">//www.docin.com/p-164282884.html)》，在各个网站、空间被转载多次。</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;随着学习的深入，逐渐接触了Numpy, GDAL, Matplotlib等一系列优秀Python包。在日常学习工作中，Python早已成为我进行简单、复杂科学计算/地学计算的编程工具，也积累了一些常用的地学计算代码。</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;很久以来，我就有一个念头，就是构建一个适用于地学计算的基础Python库，这个库可以包含一些现有的开源代码，但一定要保证具有以下特点：</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> osgeo.ogr <span class="keyword">import</span> wkbLineString</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">from</span> osgeo.ogr <span class="keyword">import</span> GetDriverByName <span class="keyword">as</span> ogr_GetDriverByName</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> osgeo.ogr <span class="keyword">import</span> CreateGeometryFromJson <span class="keyword">as</span> ogr_CreateGeometryFromJson</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> osgeo.ogr <span class="keyword">import</span> Geometry <span class="keyword">as</span> ogr_Geometry</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">from</span> osgeo.ogr <span class="keyword">import</span> Feature <span class="keyword">as</span> ogr_Feature</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">from</span> ..utils.utils <span class="keyword">import</span> FileClass, UtilClass, sysstr</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;+ 配置方便</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;+ 简单易学</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;+ 高效易用</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">## 2.Download and Installation</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;PyGeoC采用纯Python开发（仅在Python2.x下测试），利用[Wheels](http:<span class="comment">//pythonwheels.com/)打包[发布](http://python-packaging-user-guide.readthedocs.org/en/latest/distributing/#working-in-development-mode)，可从PyPI项目主页下载。</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;也可从[PyGeoC](https:<span class="comment">//github.com/crazyzlj/PyGeoC)库的dist目录中下载。</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">class </span>VectorUtilClass(object):</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Utility function to handle vector data.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">def </span>__init__(self):</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">pass</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../dc/d19/a00515.html#a0be3376dbd83587fc4cba2cdfead7a03">   30</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../dc/d19/a00515.html#a0be3376dbd83587fc4cba2cdfead7a03">raster2shp</a>(rasterfile, vectorshp, layername, fieldname):</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Convert raster to ESRI shapefile&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        FileClass.remove_files(vectorshp)</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        FileClass.check_file_exists(rasterfile)</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="comment"># raster to polygon vector</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        exepath = FileClass.get_executable_fullpath(<span class="stringliteral">&quot;gdal_polygonize.py&quot;</span>)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="comment"># if sysstr == &#39;Windows&#39;:</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="comment">#     exepath = &#39;&quot;%s/Scripts/gdal_polygonize.py&quot;&#39; % sys.exec_prefix</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="comment"># else:</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="comment">#     exepath = FileClass.get_executable_fullpath(&quot;gdal_polygonize.py&quot;)</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        str_cmd = <span class="stringliteral">&#39;python %s -f &quot;ESRI Shapefile&quot; %s %s %s %s&#39;</span> % (</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            exepath, rasterfile, vectorshp, layername, fieldname)</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">print</span> (str_cmd)</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">print</span> (UtilClass.run_command(str_cmd))</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="../../dc/d19/a00515.html#ab07b209628dce2e355d48f9a3fdb5bd5">   46</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../dc/d19/a00515.html#ab07b209628dce2e355d48f9a3fdb5bd5">convert2geojson</a>(jsonfile, src_srs, dst_srs, src_file):</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;convert shapefile to geojson file&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">if</span> os.path.exists(jsonfile):</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            os.remove(jsonfile)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">if</span> sysstr == <span class="stringliteral">&#39;Windows&#39;</span>:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            exepath = <span class="stringliteral">&#39;&quot;%s/Lib/site-packages/osgeo/ogr2ogr&quot;&#39;</span> % sys.exec_prefix</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            exepath = FileClass.get_executable_fullpath(<span class="stringliteral">&quot;ogr2ogr&quot;</span>)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment"># os.system(s)</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        s = <span class="stringliteral">&#39;%s -f GeoJSON -s_srs &quot;%s&quot; -t_srs %s %s %s&#39;</span> % (</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            exepath, src_srs, dst_srs, jsonfile, src_file)</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        UtilClass.run_command(s)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="../../dc/d19/a00515.html#a27510264f2c7b34eccc10dc992c879ed">   60</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../dc/d19/a00515.html#a27510264f2c7b34eccc10dc992c879ed">write_line_shp</a>(line_list, out_shp):</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Export ESRI Shapefile -- Line feature&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Write line shapefile: %s&quot;</span> % out_shp)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        driver = ogr_GetDriverByName(<span class="stringliteral">&quot;ESRI Shapefile&quot;</span>)</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">if</span> driver <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ESRI Shapefile driver not available.&quot;</span>)</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            sys.exit(1)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">if</span> os.path.exists(out_shp):</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            driver.DeleteDataSource(out_shp)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        ds = driver.CreateDataSource(out_shp.rpartition(os.sep)[0])</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordflow">if</span> ds <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR Output: Creation of output file failed.&quot;</span>)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            sys.exit(1)</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        lyr = ds.CreateLayer(out_shp.rpartition(os.sep)[2].split(<span class="stringliteral">&#39;.&#39;</span>)[0], <span class="keywordtype">None</span>, wkbLineString)</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">for</span> l <span class="keywordflow">in</span> line_list:</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            line = ogr_Geometry(wkbLineString)</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="keywordflow">for</span> i <span class="keywordflow">in</span> l:</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                line.AddPoint(i[0], i[1])</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            templine = ogr_CreateGeometryFromJson(line.ExportToJson())</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            feature = ogr_Feature(lyr.GetLayerDefn())</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            feature.SetGeometry(templine)</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            lyr.CreateFeature(feature)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            feature.Destroy()</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        ds.Destroy()</div>
-<div class="ttc" id="a00515_html_ab07b209628dce2e355d48f9a3fdb5bd5"><div class="ttname"><a href="../../dc/d19/a00515.html#ab07b209628dce2e355d48f9a3fdb5bd5">seims.pygeoc.pygeoc.vector.vector.VectorUtilClass.convert2geojson</a></div><div class="ttdeci">def convert2geojson</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d9c/a01092_source.html#l00046">vector.py:46</a></div></div>
-<div class="ttc" id="a00515_html_a27510264f2c7b34eccc10dc992c879ed"><div class="ttname"><a href="../../dc/d19/a00515.html#a27510264f2c7b34eccc10dc992c879ed">seims.pygeoc.pygeoc.vector.vector.VectorUtilClass.write_line_shp</a></div><div class="ttdeci">def write_line_shp</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d9c/a01092_source.html#l00060">vector.py:60</a></div></div>
-<div class="ttc" id="a00515_html_a0be3376dbd83587fc4cba2cdfead7a03"><div class="ttname"><a href="../../dc/d19/a00515.html#a0be3376dbd83587fc4cba2cdfead7a03">seims.pygeoc.pygeoc.vector.vector.VectorUtilClass.raster2shp</a></div><div class="ttdeci">def raster2shp</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d9c/a01092_source.html#l00030">vector.py:30</a></div></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    ```python</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    1.source distribution:</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    python setup.py sdist</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    2.wheel</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    python setup.py bdist_wheel</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    3.wheel(py27, I just test in py27 currently)</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    python setup.py bdist_wheel --python-tag py2</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    ```</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;安装：</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;+ 确认本机已经安装python2.6+</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;+ 安装pip: please refer to the [installation page</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;](https:<span class="comment">//pip.pypa.io/en/latest/installing/)</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;+ `pip install &lt;path to PyGeoC .whl&gt;/PyGeoC&lt;version&gt;.whl`</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">## 3.Structure</span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_9acb163bfc580721a7f3d6aabfda8dbb.html">seims_storm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_fd8dd4f548e8390633a5614720372e6e.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_d95fc9a5057a58a6f4ca66c55376776e.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_95e0d76376968c36e308b21c415a19af.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_8bf06b5d3ad72cdd2ae0c115695a2f01.html">vector</a></li><li class="navelem"><b>vector.py</b></li>
-    <li class="footer">Generated on Tue Jul 18 2017 16:37:03 for SEIMS by
+    <li class="navelem"><b>README_CN.md</b></li>
+    <li class="footer">Generated on Fri Jul 21 2017 07:37:35 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

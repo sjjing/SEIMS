@@ -1,9 +1,9 @@
 var a01621 =
 [
-    [ "ATMDEP", "d2/d7b/a01672.html", null ],
-    [ "NUTR_TF", "d9/df5/a01673.html", "d9/df5/a01673" ],
-    [ "NutrCH_QUAL2E", "dc/d42/a01674.html", "dc/d42/a01674" ],
-    [ "NutrGW", "db/d98/a01675.html", "db/d98/a01675" ],
-    [ "NutrMV", "de/d3e/a01676.html", "de/d3e/a01676" ],
-    [ "NUTRSED", "d2/d44/a01677.html", "d2/d44/a01677" ]
+    [ "clsTSD_RD", "d1/dc6/a00347.html", [
+      [ "Get1DData", "d1/dc6/a00347.html#a1b2832f37325e31503995626135bdb67", null ],
+      [ "Set1DData", "d1/dc6/a00347.html#a06bb50257ea4080511c1d6448684f9f3", null ],
+      [ "m_Data", "d1/dc6/a00347.html#ab896e92ea639d8981eb1a16d89264f16", null ],
+      [ "m_Rows", "d1/dc6/a00347.html#ac5ce2b186049bee1f70280c20a8fee6f", null ]
+    ] ]
 ];

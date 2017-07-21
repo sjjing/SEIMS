@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_longterm_linux_gcc48/doc/wiki/Module development/Module-in-development.md Source File</title>
+<title>SEIMS: seims_storm_linux_gcc48/doc/wiki/Module development/Tech-Introduction.md Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,96 +112,16 @@ $(document).ready(function(){initNavTree('db/d8b/a01464.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">seims_longterm_linux_gcc48/doc/wiki/Module development/Module-in-development.md</div>  </div>
+<div class="title">seims_storm_linux_gcc48/doc/wiki/Module development/Tech-Introduction.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;Modules status in SEIMS</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;-----------</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;Initial created     : Liang-Jun Zhu</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;Corporate editors   : </div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;Last Updated: 2016-5-30</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;----------------------</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">## 表格填写说明</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;+ 1.过程名：对应于C++代码中`text.h`中宏定义前缀为`MCLS_`的分类，细分到每一种流域过程。</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;+ 2.模块ID：对应于源码中的模块ID</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;+ 3.方法：简要描述改模块所用算法，有参考的增加参考</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;+ 4.开发状态：清晰描述开发状态，如Bug修复、原理确认、代码编写等</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;+ 5.测试状态：清晰描述测试状态，如OMP版本测试、MPI版本测试等</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;+ 6.TODO：将来做出哪些改进，或现有的处理不足之处等</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;----------------------</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;|过程名|模块ID|方法|开发状态|测试状态|TODO|</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;|-----|-----|-----|-----|------|-----|</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;|气象数据|TSD_RD|逐时间步长读取站点气象观测数据|完成|完成||</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;||ITP|泰森多边形插值|完成|完成||</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;|蒸散发|PET_H|Hargreaves|完成|完成||</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;||PET_PT|PriestleyTaylor|完成|完成||</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;||PET_PM|Penman-Monteith|完成|待测试|待生态模块完成之后测试|</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;|土壤温度|STP_FP|Finn Plauborg|完成|完成||</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;|截留|PI_MSM|Maximum Storage|完成|完成||</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;||PI_STORM|Maximum Storage|未更新|尚未检查||</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;|融雪|<a class="code" href="../../d8/d89/a00484.html">SRD_MB</a>|Snow redistribution|完成|未测试|缺少输入数据|</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;||<a class="code" href="../../d6/d1a/a00485.html">SSM_PE</a>|Snow Sublimation(WetSpa)|完成|完成||</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;||<a class="code" href="../../d5/d26/a00474.html">SNO_DD</a>|Degree-Day|完成|完成||</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;||<a class="code" href="../../d9/d34/a00476.html">SNO_WB</a>|Water balance|完成|完成|需确认输入输出是否必须依赖SNO_DD|</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;||<a class="code" href="../../d1/d92/a00475.html">SNO_SP</a>|Snowpeak Daily(SWAT)|完成|完成|需确认输入输出是否必须依赖SNO_DD|</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;|入渗、产流|<a class="code" href="../../db/dc4/a00495.html">SUR_MR</a>|Modified rational（WetSpa）|完成|完成||</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;||<a class="code" href="../../d9/da5/a00493.html">SUR_CN</a>|SCS-CN|完成|完成||</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;||SUR_SGA|Green-Ampt|未更新|未测试||</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;|填洼|DEP_LINSLEY|Linsley method|完成|完成||</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;||DEP_FS|Fill and Spill|未更新|未测试||</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;|渗漏|<a class="code" href="../../d3/def/a00446.html">PER_PI</a>|Darcy<span class="stringliteral">&#39;s Law and Brooks-Corey|未完成|测试出问题|模拟时段内某天土壤水分为负，需检查算法的正确性|</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral">||PER_STR|Storage routing|未完成|测试出问题|同PER_PI|</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral">||PER_DARCY|Darcy&#39;</span>s Law|未更新|未测试||</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;|地下径流|SSR_DA|Darcy<span class="stringliteral">&#39;s Law and Kinematic|未更新|未测试||</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="stringliteral">|土壤蒸发|SET_LM|Linear method|未更新|未测试||</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="stringliteral">|地下水|GWA_RE|Linear reservoir|未更新|未测试||</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="stringliteral">||GW_RSVR|Linear reservoir|未更新|未测试|与GWA_RE有何区别，命名待统一|</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="stringliteral">|坡面侵蚀|MUSLE_AS|MUSLE model|未更新|未测试||</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="stringliteral">|溅蚀|SplashEro_Park|Park Equation|未更新|未测试|模块ID需简写|</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="stringliteral">|坡面泥沙汇流|KinWavSed_OL|Energy function(Govers) method|未更新|未测试|确定原理、简写模块ID|</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="stringliteral">|河道泥沙汇流|KinWavSed_CH|Srinivasan &amp; Galvao function|未更新|未测试|确定原理、简写模块ID|</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="stringliteral">||SEDR_VCD|Variable channel dimension|未更新|未测试||</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="stringliteral">|坡面汇流|IUH_OL|Instantaneous unit hydrograph(WetSpa)|未更新|未测试|应更名OL_IUH|</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="stringliteral">||IKW_OL|Kinematic wave|未更新|未测试|应更名OL_IKW|</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="stringliteral">|河道汇流|MUSK_CH|Muskingum|未更新|未测试|应更名为CH_MUSK|</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="stringliteral">||IKW_CH|Kinematic wave|未更新|未测试|应更名为CH_IKW|</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="stringliteral">||CH_DW|Diffusive wave|未更新|未测试||</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="stringliteral">|||||||</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="stringliteral">## 重要的问题</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="stringliteral">### Hydrology和Hydrology_longterm</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="stringliteral">这两个模块分组原意为前者为次暴雨模块组，后者为长时段模块组，目前看二者用的算法高度重叠，比如河道汇流方法马斯京根法、运动波法、四点隐式差分法等，模块命名仅前后顺序相反，如CH_MSK和MUSK_CH。</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="stringliteral">这样很容易造成使用混淆，能否将二者合二为一？或在模块命名时加以区分？</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="stringliteral"></span></div>
-<div class="ttc" id="a00493_html"><div class="ttname"><a href="../../d9/da5/a00493.html">SUR_CN</a></div><div class="ttdoc">SCS Curve Number Method to calculate infiltration and excess precipitation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dc7/a01402_source.html#l00047">SUR_CN.h:47</a></div></div>
-<div class="ttc" id="a00476_html"><div class="ttname"><a href="../../d9/d34/a00476.html">SNO_WB</a></div><div class="ttdoc">Calculate snow water balance. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d36/a01388_source.html#l00028">SNO_WB.h:28</a></div></div>
-<div class="ttc" id="a00484_html"><div class="ttname"><a href="../../d8/d89/a00484.html">SRD_MB</a></div><div class="ttdoc">Soil redistribution calculation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d2f/a01394_source.html#l00026">SRD_MB.h:26</a></div></div>
-<div class="ttc" id="a00475_html"><div class="ttname"><a href="../../d1/d92/a00475.html">SNO_SP</a></div><div class="ttdoc">Calculate snow melt by snowpack daily method from SWAT. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/deb/a01386_source.html#l00031">SNO_SP.h:31</a></div></div>
-<div class="ttc" id="a00495_html"><div class="ttname"><a href="../../db/dc4/a00495.html">SUR_MR</a></div><div class="ttdoc">Modified Rational Method to calculate infiltration and excess precipitation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d25/a01406_source.html#l00057">SUR_MR.h:57</a></div></div>
-<div class="ttc" id="a00446_html"><div class="ttname"><a href="../../d3/def/a00446.html">PER_PI</a></div><div class="ttdoc">Calculate water percolated from the soil water reservoir. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d0b/a01372_source.html#l00024">PER_PI.h:24</a></div></div>
-<div class="ttc" id="a00474_html"><div class="ttname"><a href="../../d5/d26/a00474.html">SNO_DD</a></div><div class="ttdoc">Calculate snow melt by Degree-Day method. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dde/a01384_source.html#l00031">SNO_DD.h:31</a></div></div>
-<div class="ttc" id="a00485_html"><div class="ttname"><a href="../../d6/d1a/a00485.html">SSM_PE</a></div><div class="ttdoc">Calculate distribution of snow sublimation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d45/a01396_source.html#l00025">SSM_PE.h:25</a></div></div>
-</div><!-- fragment --></div><!-- contents -->
+<div class="fragment"></div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>Module-in-development.md</b></li>
-    <li class="footer">Generated on Tue Jul 18 2017 16:37:05 for SEIMS by
+    <li class="navelem"><b>Tech-Introduction.md</b></li>
+    <li class="footer">Generated on Fri Jul 21 2017 07:37:37 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

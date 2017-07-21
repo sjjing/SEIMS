@@ -30,7 +30,7 @@ var hierarchy =
     [ "clsSubbasins", "d2/daf/a00346.html", null ],
     [ "seims.preprocess.db_mongodb.ConnectMongoDB", "df/d03/a00348.html", null ],
     [ "pump.Cursor", "d0/d48/a00351.html", null ],
-    [ "seims.pygeoc.pygeoc.hydro.postTauDEM.D8Util", "d6/d9c/a00352.html", null ],
+    [ "seims.pygeoc.pygeoc.hydro.hydro.D8Util", "d6/d9c/a00352.html", null ],
     [ "DataCenter", "db/ddc/a00353.html", [
       [ "DataCenterMongoDB", "d0/dc3/a00354.html", null ]
     ] ],

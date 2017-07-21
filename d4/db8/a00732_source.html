@@ -415,207 +415,215 @@ $(document).ready(function(){initNavTree('d4/db8/a00732_source.html','../../');}
 <div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;</div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    @staticmethod</div>
 <div class="line"><a name="l00300"></a><span class="lineno"><a class="line" href="../../d8/d21/a00368.html#a5480246de470ca0f739734282a71c879">  300</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d21/a00368.html#a5480246de470ca0f739734282a71c879">get_core_name_without_suffix</a>(file_path):</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Return core file name without suffix.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        file_name = os.path.basename(file_path)</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        core_name = file_name.split(<span class="stringliteral">&#39;.&#39;</span>)[0]</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        <span class="keywordflow">return</span> core_name</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="keyword">class </span><a class="code" href="../../df/df1/a00357.html">DateClass</a>(object):</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Utility function to handle datetime.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;</div>
-<div class="line"><a name="l00310"></a><span class="lineno"><a class="line" href="../../df/df1/a00357.html#a188a608810171389f08ad824f2e756aa">  310</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/df1/a00357.html#a188a608810171389f08ad824f2e756aa">__init__</a>(self):</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Empty&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Return core file name without suffix.</span></div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="stringliteral">        Examples:</span></div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="stringliteral">            /home/zhulj/1990.01.30/test.01.tif ==&gt; test.01</span></div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="stringliteral">            C:\zhulj\igsnrr\lreis.txt ==&gt; lreis</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="stringliteral">            /home/zhulj/dta/taudem/area8 ==&gt; area8</span></div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        file_name = os.path.basename(file_path)</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        core_names = file_name.split(<span class="stringliteral">&#39;.&#39;</span>)[:-1]</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        <span class="keywordflow">if</span> isinstance(core_names, list):</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;            <span class="keywordflow">return</span> <span class="stringliteral">&#39;.&#39;</span>.join(core_names)</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            <span class="keywordflow">return</span> core_names</div>
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00315"></a><span class="lineno"><a class="line" href="../../df/df1/a00357.html#a5c694d12fec81c78b9c227f22e5b7acb">  315</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/df1/a00357.html#a5c694d12fec81c78b9c227f22e5b7acb">is_leapyear</a>(year):</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Is leap year?&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        <span class="keywordflow">return</span> (year % 4 == 0 <span class="keywordflow">and</span> year % 100 != 0) <span class="keywordflow">or</span> (year % 400 == 0)</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00320"></a><span class="lineno"><a class="line" href="../../df/df1/a00357.html#ad7ffacf858f932fc8cfc5d2f0c590d43">  320</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/df1/a00357.html#ad7ffacf858f932fc8cfc5d2f0c590d43">day_of_month</a>(year, month):</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Day number of month&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <span class="keywordflow">if</span> month <span class="keywordflow">in</span> [1, 3, 5, 7, 8, 10, 12]:</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;            <span class="keywordflow">return</span> 31</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        <span class="keywordflow">elif</span> month <span class="keywordflow">in</span> [4, 6, 9, 11]:</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;            <span class="keywordflow">return</span> 30</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        <span class="keywordflow">elif</span> DateClass.is_leapyear(year):</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;            <span class="keywordflow">return</span> 29</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;            <span class="keywordflow">return</span> 28</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00332"></a><span class="lineno"><a class="line" href="../../df/df1/a00357.html#a40c75241676c8588e5102a9ee175f782">  332</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/df1/a00357.html#a40c75241676c8588e5102a9ee175f782">day_of_year</a>(dt):</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Day index of year from 1 to 365 or 366&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        sec = time.mktime(dt.timetuple())</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;        t = time.localtime(sec)</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        <span class="keywordflow">return</span> t.tm_yday</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="keyword">class </span><a class="code" href="../../df/df1/a00357.html">DateClass</a>(object):</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Utility function to handle datetime.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;</div>
+<div class="line"><a name="l00318"></a><span class="lineno"><a class="line" href="../../df/df1/a00357.html#a188a608810171389f08ad824f2e756aa">  318</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/df1/a00357.html#a188a608810171389f08ad824f2e756aa">__init__</a>(self):</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Empty&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00323"></a><span class="lineno"><a class="line" href="../../df/df1/a00357.html#a5c694d12fec81c78b9c227f22e5b7acb">  323</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/df1/a00357.html#a5c694d12fec81c78b9c227f22e5b7acb">is_leapyear</a>(year):</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Is leap year?&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        <span class="keywordflow">return</span> (year % 4 == 0 <span class="keywordflow">and</span> year % 100 != 0) <span class="keywordflow">or</span> (year % 400 == 0)</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00328"></a><span class="lineno"><a class="line" href="../../df/df1/a00357.html#ad7ffacf858f932fc8cfc5d2f0c590d43">  328</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/df1/a00357.html#ad7ffacf858f932fc8cfc5d2f0c590d43">day_of_month</a>(year, month):</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Day number of month&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        <span class="keywordflow">if</span> month <span class="keywordflow">in</span> [1, 3, 5, 7, 8, 10, 12]:</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;            <span class="keywordflow">return</span> 31</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        <span class="keywordflow">elif</span> month <span class="keywordflow">in</span> [4, 6, 9, 11]:</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;            <span class="keywordflow">return</span> 30</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        <span class="keywordflow">elif</span> DateClass.is_leapyear(year):</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;            <span class="keywordflow">return</span> 29</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;            <span class="keywordflow">return</span> 28</div>
 <div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="keyword">class </span><a class="code" href="../../d4/d1f/a00506.html">UtilClass</a>(object):</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Other common used utility functions&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;</div>
-<div class="line"><a name="l00342"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#ad061c203e1bb946caa6d75e40237ff56">  342</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#ad061c203e1bb946caa6d75e40237ff56">__init__</a>(self):</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Empty&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00340"></a><span class="lineno"><a class="line" href="../../df/df1/a00357.html#a40c75241676c8588e5102a9ee175f782">  340</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/df1/a00357.html#a40c75241676c8588e5102a9ee175f782">day_of_year</a>(dt):</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Day index of year from 1 to 365 or 366&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        sec = time.mktime(dt.timetuple())</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        t = time.localtime(sec)</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        <span class="keywordflow">return</span> t.tm_yday</div>
 <div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00347"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#ad9c16a6ba1ce5db1934f5e353084e007">  347</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#ad9c16a6ba1ce5db1934f5e353084e007">run_command</a>(commands):</div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Execute external command, and return the output lines list</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="stringliteral">        17-07-04 lj - Handling subprocess crash in Windows, refers to</span></div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="stringliteral">            https://stackoverflow.com/questions/5069224/handling-subprocess-crash-in-windows</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="stringliteral">        Args:</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="stringliteral">            commands: string or list</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="stringliteral">        Returns:</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="stringliteral">            output lines</span></div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        <span class="keywordflow">print</span> (commands)</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;        use_shell = <span class="keyword">False</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        <span class="keywordflow">if</span> isinstance(commands, list) <span class="keywordflow">or</span> isinstance(commands, tuple):</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;            use_shell = <span class="keyword">False</span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;            commands = <span class="stringliteral">&#39; &#39;</span>.join(c <span class="keywordflow">for</span> c <span class="keywordflow">in</span> commands)</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        <span class="keywordflow">if</span> sysstr == <span class="stringliteral">&#39;Windows&#39;</span>:</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;            <span class="keyword">import</span> ctypes</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;            SEM_NOGPFAULTERRORBOX = 0x0002  <span class="comment"># From MSDN</span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;            ctypes.windll.kernel32.SetErrorMode(SEM_NOGPFAULTERRORBOX)</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;            subprocess_flags = 0x8000000  <span class="comment"># win32con.CREATE_NO_WINDOW?</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;            subprocess_flags = 0</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;        process = subprocess.Popen(commands, shell=use_shell, stdout=subprocess.PIPE,</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;                                   stdin=open(os.devnull),</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;                                   stderr=subprocess.STDOUT, universal_newlines=<span class="keyword">True</span>,</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;                                   creationflags=subprocess_flags)</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        <span class="keywordflow">if</span> process.stdout <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;            <span class="keywordflow">return</span> [<span class="stringliteral">&#39;&#39;</span>]</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        out_lines = process.stdout.readlines()</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        err = <span class="keyword">False</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        <span class="keywordflow">for</span> line <span class="keywordflow">in</span> out_lines:</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;            <span class="keywordflow">if</span> <span class="stringliteral">&#39;ERROR&#39;</span> <span class="keywordflow">in</span> line.upper():</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                err = <span class="keyword">True</span></div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                <span class="keywordflow">break</span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <span class="keywordflow">if</span> err <span class="keywordflow">or</span> (process.returncode <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span> <span class="keywordflow">and</span> process.returncode != 0):</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;            <span class="keywordflow">raise</span> subprocess.CalledProcessError(-1, commands,</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;                                                <span class="stringliteral">&quot;ERROR occurred when running subprocess!&quot;</span>)</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        <span class="keywordflow">return</span> out_lines</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00388"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#a8316d92c46e71cf169441ccc9fcf1a2a">  388</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#a8316d92c46e71cf169441ccc9fcf1a2a">current_path</a>():</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get current path&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        path = sys.path[0]</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        <span class="keywordflow">if</span> os.path.isdir(path):</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;            <span class="keywordflow">return</span> path</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        <span class="keywordflow">elif</span> os.path.isfile(path):</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;            <span class="keywordflow">return</span> os.path.dirname(path)</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00397"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#a793d9725d3c451f98693dfbea1366a6e">  397</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#a793d9725d3c451f98693dfbea1366a6e">mkdir</a>(dir_path):</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Make directory if not existed&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.isdir(dir_path) <span class="keywordflow">or</span> <span class="keywordflow">not</span> os.path.exists(dir_path):</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;            os.mkdir(dir_path)</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00403"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#a043a85ac66f005d56e1907383deb783b">  403</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#a043a85ac66f005d56e1907383deb783b">rmmkdir</a>(dir_path):</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;If directory existed, then remove and make; else make it.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.isdir(dir_path):</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;            os.mkdir(dir_path)</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;            rmtree(dir_path, <span class="keyword">True</span>)</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;            os.mkdir(dir_path)</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00412"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#a2bf04315b392a902e578055b843622ed">  412</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#a2bf04315b392a902e578055b843622ed">print_msg</a>(contentlist):</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;concatenate message list as single string&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;        <span class="keywordflow">if</span> isinstance(contentlist, list) <span class="keywordflow">or</span> isinstance(contentlist, tuple):</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;            contentstr = <span class="stringliteral">&#39;&#39;</span></div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            <span class="keywordflow">for</span> content <span class="keywordflow">in</span> contentlist:</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;                contentstr += <span class="stringliteral">&#39;%s\n&#39;</span> % content</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;            <span class="keywordflow">return</span> contentstr</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;            <span class="keywordflow">if</span> contentlist[-1] != <span class="stringliteral">&#39;\n&#39;</span>:</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                contentlist += <span class="stringliteral">&#39;\n&#39;</span></div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;            <span class="keywordflow">return</span> contentlist</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00425"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#a8b3cadb3b7bd1ad062dfa4ec1aabe5c9">  425</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#a8b3cadb3b7bd1ad062dfa4ec1aabe5c9">error</a>(msg):</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;throw RuntimeError exception&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;        <span class="keywordflow">raise</span> RuntimeError(msg)</div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00430"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#a7b2704b912b7b6b0f8b121e4eac4ed20">  430</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#a7b2704b912b7b6b0f8b121e4eac4ed20">writelog</a>(logfile, contentlist, mode=&#39;replace&#39;):</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;write log&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;        <span class="keywordflow">if</span> logfile <span class="keywordflow">is</span> <span class="keywordtype">None</span>:  <span class="comment"># If logfile is not assigned, just print msg.</span></div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;            <span class="keywordflow">print</span> (UtilClass.print_msg(contentlist))</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;            <span class="keywordflow">if</span> os.path.exists(logfile):</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;                <span class="keywordflow">if</span> mode == <span class="stringliteral">&#39;replace&#39;</span>:</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;                    os.remove(logfile)</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;                    log_status = open(logfile, <span class="stringliteral">&#39;w&#39;</span>)</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;                <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;                    log_status = open(logfile, <span class="stringliteral">&#39;a&#39;</span>)</div>
-<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;            <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;                log_status = open(logfile, <span class="stringliteral">&#39;w&#39;</span>)</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;            log_status.write(UtilClass.print_msg(contentlist))</div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;            log_status.flush()</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;            log_status.close()</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;<span class="keyword">class </span><a class="code" href="../../da/d75/a00334.html">C</a>(object):</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Empty&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    <span class="keywordflow">pass</span></div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;</div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;<span class="keyword">def </span>get_config_file():</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Get model configuration file name from argv&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;    c = C()</div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;    parser = argparse.ArgumentParser(description=<span class="stringliteral">&quot;Read configuration file.&quot;</span>)</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;    parser.add_argument(<span class="stringliteral">&#39;-ini&#39;</span>, help=<span class="stringliteral">&quot;Full path of configuration file&quot;</span>)</div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;    args = parser.parse_args(namespace=c)</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;    ini_file = args.ini</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> FileClass.is_file_exists(ini_file):</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Usage: -ini &lt;full path to the configuration file.&gt;&quot;</span>)</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;        exit(0)</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;    <span class="keywordflow">return</span> ini_file</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="keyword">class </span><a class="code" href="../../d4/d1f/a00506.html">UtilClass</a>(object):</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Other common used utility functions&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;</div>
+<div class="line"><a name="l00350"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#ad061c203e1bb946caa6d75e40237ff56">  350</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#ad061c203e1bb946caa6d75e40237ff56">__init__</a>(self):</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Empty&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00355"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#ad9c16a6ba1ce5db1934f5e353084e007">  355</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#ad9c16a6ba1ce5db1934f5e353084e007">run_command</a>(commands):</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Execute external command, and return the output lines list</span></div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="stringliteral">        17-07-04 lj - Handling subprocess crash in Windows, refers to</span></div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="stringliteral">            https://stackoverflow.com/questions/5069224/handling-subprocess-crash-in-windows</span></div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="stringliteral">            commands: string or list</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="stringliteral">        Returns:</span></div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="stringliteral">            output lines</span></div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;        <span class="keywordflow">print</span> (commands)</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;        use_shell = <span class="keyword">False</span></div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;        <span class="keywordflow">if</span> isinstance(commands, list) <span class="keywordflow">or</span> isinstance(commands, tuple):</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;            use_shell = <span class="keyword">False</span></div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;            commands = <span class="stringliteral">&#39; &#39;</span>.join(c <span class="keywordflow">for</span> c <span class="keywordflow">in</span> commands)</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        <span class="keywordflow">if</span> sysstr == <span class="stringliteral">&#39;Windows&#39;</span>:</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;            <span class="keyword">import</span> ctypes</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;            SEM_NOGPFAULTERRORBOX = 0x0002  <span class="comment"># From MSDN</span></div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;            ctypes.windll.kernel32.SetErrorMode(SEM_NOGPFAULTERRORBOX)</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;            subprocess_flags = 0x8000000  <span class="comment"># win32con.CREATE_NO_WINDOW?</span></div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;            subprocess_flags = 0</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        process = subprocess.Popen(commands, shell=use_shell, stdout=subprocess.PIPE,</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;                                   stdin=open(os.devnull),</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;                                   stderr=subprocess.STDOUT, universal_newlines=<span class="keyword">True</span>,</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                                   creationflags=subprocess_flags)</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <span class="keywordflow">if</span> process.stdout <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;            <span class="keywordflow">return</span> [<span class="stringliteral">&#39;&#39;</span>]</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        out_lines = process.stdout.readlines()</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        err = <span class="keyword">False</span></div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        <span class="keywordflow">for</span> line <span class="keywordflow">in</span> out_lines:</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;            <span class="keywordflow">if</span> <span class="stringliteral">&#39;ERROR&#39;</span> <span class="keywordflow">in</span> line.upper():</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;                err = <span class="keyword">True</span></div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;                <span class="keywordflow">break</span></div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        <span class="keywordflow">if</span> err <span class="keywordflow">or</span> (process.returncode <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="keywordtype">None</span> <span class="keywordflow">and</span> process.returncode != 0):</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;            <span class="keywordflow">raise</span> subprocess.CalledProcessError(-1, commands,</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;                                                <span class="stringliteral">&quot;ERROR occurred when running subprocess!&quot;</span>)</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        <span class="keywordflow">return</span> out_lines</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00396"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#a8316d92c46e71cf169441ccc9fcf1a2a">  396</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#a8316d92c46e71cf169441ccc9fcf1a2a">current_path</a>():</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get current path&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;        path = sys.path[0]</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;        <span class="keywordflow">if</span> os.path.isdir(path):</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;            <span class="keywordflow">return</span> path</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;        <span class="keywordflow">elif</span> os.path.isfile(path):</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;            <span class="keywordflow">return</span> os.path.dirname(path)</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00405"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#a793d9725d3c451f98693dfbea1366a6e">  405</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#a793d9725d3c451f98693dfbea1366a6e">mkdir</a>(dir_path):</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Make directory if not existed&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.isdir(dir_path) <span class="keywordflow">or</span> <span class="keywordflow">not</span> os.path.exists(dir_path):</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;            os.mkdir(dir_path)</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00411"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#a043a85ac66f005d56e1907383deb783b">  411</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#a043a85ac66f005d56e1907383deb783b">rmmkdir</a>(dir_path):</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;If directory existed, then remove and make; else make it.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.isdir(dir_path):</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;            os.mkdir(dir_path)</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;            rmtree(dir_path, <span class="keyword">True</span>)</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;            os.mkdir(dir_path)</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00420"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#a2bf04315b392a902e578055b843622ed">  420</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#a2bf04315b392a902e578055b843622ed">print_msg</a>(contentlist):</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;concatenate message list as single string&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;        <span class="keywordflow">if</span> isinstance(contentlist, list) <span class="keywordflow">or</span> isinstance(contentlist, tuple):</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;            contentstr = <span class="stringliteral">&#39;&#39;</span></div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;            <span class="keywordflow">for</span> content <span class="keywordflow">in</span> contentlist:</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;                contentstr += <span class="stringliteral">&#39;%s\n&#39;</span> % content</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;            <span class="keywordflow">return</span> contentstr</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;            <span class="keywordflow">if</span> contentlist[-1] != <span class="stringliteral">&#39;\n&#39;</span>:</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;                contentlist += <span class="stringliteral">&#39;\n&#39;</span></div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;            <span class="keywordflow">return</span> contentlist</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00433"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#a8b3cadb3b7bd1ad062dfa4ec1aabe5c9">  433</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#a8b3cadb3b7bd1ad062dfa4ec1aabe5c9">error</a>(msg):</div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;throw RuntimeError exception&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;        <span class="keywordflow">raise</span> RuntimeError(msg)</div>
+<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00438"></a><span class="lineno"><a class="line" href="../../d4/d1f/a00506.html#a7b2704b912b7b6b0f8b121e4eac4ed20">  438</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/d1f/a00506.html#a7b2704b912b7b6b0f8b121e4eac4ed20">writelog</a>(logfile, contentlist, mode=&#39;replace&#39;):</div>
+<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;write log&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        <span class="keywordflow">if</span> logfile <span class="keywordflow">is</span> <span class="keywordtype">None</span>:  <span class="comment"># If logfile is not assigned, just print msg.</span></div>
+<div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;            <span class="keywordflow">print</span> (UtilClass.print_msg(contentlist))</div>
+<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;            <span class="keywordflow">if</span> os.path.exists(logfile):</div>
+<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;                <span class="keywordflow">if</span> mode == <span class="stringliteral">&#39;replace&#39;</span>:</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;                    os.remove(logfile)</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;                    log_status = open(logfile, <span class="stringliteral">&#39;w&#39;</span>)</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;                <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;                    log_status = open(logfile, <span class="stringliteral">&#39;a&#39;</span>)</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;                log_status = open(logfile, <span class="stringliteral">&#39;w&#39;</span>)</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;            log_status.write(UtilClass.print_msg(contentlist))</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;            log_status.flush()</div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;            log_status.close()</div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;</div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;<span class="keyword">class </span><a class="code" href="../../da/d75/a00334.html">C</a>(object):</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Empty&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;    <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;<span class="keyword">def </span>get_config_file():</div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Get model configuration file name from argv&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;    c = C()</div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;    parser = argparse.ArgumentParser(description=<span class="stringliteral">&quot;Read configuration file.&quot;</span>)</div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;    parser.add_argument(<span class="stringliteral">&#39;-ini&#39;</span>, help=<span class="stringliteral">&quot;Full path of configuration file&quot;</span>)</div>
+<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;    args = parser.parse_args(namespace=c)</div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;    ini_file = args.ini</div>
+<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> FileClass.is_file_exists(ini_file):</div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Usage: -ini &lt;full path to the configuration file.&gt;&quot;</span>)</div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;        exit(0)</div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;    <span class="keywordflow">return</span> ini_file</div>
 <div class="ttc" id="a00368_html_a986f07a0f9501657c95efc97afdb7724"><div class="ttname"><a href="../../d8/d21/a00368.html#a986f07a0f9501657c95efc97afdb7724">seims.pygeoc.pygeoc.utils.utils.FileClass.check_file_exists</a></div><div class="ttdeci">def check_file_exists</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00220">utils.py:220</a></div></div>
-<div class="ttc" id="a00506_html_a043a85ac66f005d56e1907383deb783b"><div class="ttname"><a href="../../d4/d1f/a00506.html#a043a85ac66f005d56e1907383deb783b">seims.pygeoc.pygeoc.utils.utils.UtilClass.rmmkdir</a></div><div class="ttdeci">def rmmkdir</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00403">utils.py:403</a></div></div>
+<div class="ttc" id="a00506_html_a043a85ac66f005d56e1907383deb783b"><div class="ttname"><a href="../../d4/d1f/a00506.html#a043a85ac66f005d56e1907383deb783b">seims.pygeoc.pygeoc.utils.utils.UtilClass.rmmkdir</a></div><div class="ttdeci">def rmmkdir</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00411">utils.py:411</a></div></div>
 <div class="ttc" id="a00368_html"><div class="ttname"><a href="../../d8/d21/a00368.html">seims.pygeoc.pygeoc.utils.utils.FileClass</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00204">utils.py:204</a></div></div>
-<div class="ttc" id="a00506_html_a8316d92c46e71cf169441ccc9fcf1a2a"><div class="ttname"><a href="../../d4/d1f/a00506.html#a8316d92c46e71cf169441ccc9fcf1a2a">seims.pygeoc.pygeoc.utils.utils.UtilClass.current_path</a></div><div class="ttdeci">def current_path</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00388">utils.py:388</a></div></div>
-<div class="ttc" id="a00357_html_a5c694d12fec81c78b9c227f22e5b7acb"><div class="ttname"><a href="../../df/df1/a00357.html#a5c694d12fec81c78b9c227f22e5b7acb">seims.pygeoc.pygeoc.utils.utils.DateClass.is_leapyear</a></div><div class="ttdeci">def is_leapyear</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00315">utils.py:315</a></div></div>
+<div class="ttc" id="a00506_html_a8316d92c46e71cf169441ccc9fcf1a2a"><div class="ttname"><a href="../../d4/d1f/a00506.html#a8316d92c46e71cf169441ccc9fcf1a2a">seims.pygeoc.pygeoc.utils.utils.UtilClass.current_path</a></div><div class="ttdeci">def current_path</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00396">utils.py:396</a></div></div>
+<div class="ttc" id="a00357_html_a5c694d12fec81c78b9c227f22e5b7acb"><div class="ttname"><a href="../../df/df1/a00357.html#a5c694d12fec81c78b9c227f22e5b7acb">seims.pygeoc.pygeoc.utils.utils.DateClass.is_leapyear</a></div><div class="ttdeci">def is_leapyear</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00323">utils.py:323</a></div></div>
 <div class="ttc" id="a00368_html_a180f366884572089b252280667b0dc7f"><div class="ttname"><a href="../../d8/d21/a00368.html#a180f366884572089b252280667b0dc7f">seims.pygeoc.pygeoc.utils.utils.FileClass.remove_files</a></div><div class="ttdeci">def remove_files</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00237">utils.py:237</a></div></div>
 <div class="ttc" id="a00412_html_aca7fafd628fc051cd93854eea2226447"><div class="ttname"><a href="../../d9/d72/a00412.html#aca7fafd628fc051cd93854eea2226447">seims.pygeoc.pygeoc.utils.utils.MathClass.isnumerical</a></div><div class="ttdeci">def isnumerical</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00039">utils.py:39</a></div></div>
-<div class="ttc" id="a00506_html_ad9c16a6ba1ce5db1934f5e353084e007"><div class="ttname"><a href="../../d4/d1f/a00506.html#ad9c16a6ba1ce5db1934f5e353084e007">seims.pygeoc.pygeoc.utils.utils.UtilClass.run_command</a></div><div class="ttdeci">def run_command</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00347">utils.py:347</a></div></div>
+<div class="ttc" id="a00506_html_ad9c16a6ba1ce5db1934f5e353084e007"><div class="ttname"><a href="../../d4/d1f/a00506.html#ad9c16a6ba1ce5db1934f5e353084e007">seims.pygeoc.pygeoc.utils.utils.UtilClass.run_command</a></div><div class="ttdeci">def run_command</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00355">utils.py:355</a></div></div>
 <div class="ttc" id="a00412_html_a6b29f34db456e97adb57e183855d10d5"><div class="ttname"><a href="../../d9/d72/a00412.html#a6b29f34db456e97adb57e183855d10d5">seims.pygeoc.pygeoc.utils.utils.MathClass.rsquare</a></div><div class="ttdeci">def rsquare</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00082">utils.py:82</a></div></div>
 <div class="ttc" id="a00489_html_a3a8c68c5d51961f033af98460d798c7f"><div class="ttname"><a href="../../da/d05/a00489.html#a3a8c68c5d51961f033af98460d798c7f">seims.pygeoc.pygeoc.utils.utils.StringClass.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00131">utils.py:131</a></div></div>
-<div class="ttc" id="a00357_html_ad7ffacf858f932fc8cfc5d2f0c590d43"><div class="ttname"><a href="../../df/df1/a00357.html#ad7ffacf858f932fc8cfc5d2f0c590d43">seims.pygeoc.pygeoc.utils.utils.DateClass.day_of_month</a></div><div class="ttdeci">def day_of_month</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00320">utils.py:320</a></div></div>
+<div class="ttc" id="a00357_html_ad7ffacf858f932fc8cfc5d2f0c590d43"><div class="ttname"><a href="../../df/df1/a00357.html#ad7ffacf858f932fc8cfc5d2f0c590d43">seims.pygeoc.pygeoc.utils.utils.DateClass.day_of_month</a></div><div class="ttdeci">def day_of_month</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00328">utils.py:328</a></div></div>
 <div class="ttc" id="a00412_html_ac09b69f6d70b991a2d4bf42d6e1ada43"><div class="ttname"><a href="../../d9/d72/a00412.html#ac09b69f6d70b991a2d4bf42d6e1ada43">seims.pygeoc.pygeoc.utils.utils.MathClass.floatequal</a></div><div class="ttdeci">def floatequal</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00053">utils.py:53</a></div></div>
-<div class="ttc" id="a00506_html_ad061c203e1bb946caa6d75e40237ff56"><div class="ttname"><a href="../../d4/d1f/a00506.html#ad061c203e1bb946caa6d75e40237ff56">seims.pygeoc.pygeoc.utils.utils.UtilClass.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00342">utils.py:342</a></div></div>
+<div class="ttc" id="a00506_html_ad061c203e1bb946caa6d75e40237ff56"><div class="ttname"><a href="../../d4/d1f/a00506.html#ad061c203e1bb946caa6d75e40237ff56">seims.pygeoc.pygeoc.utils.utils.UtilClass.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00350">utils.py:350</a></div></div>
 <div class="ttc" id="a00368_html_a5480246de470ca0f739734282a71c879"><div class="ttname"><a href="../../d8/d21/a00368.html#a5480246de470ca0f739734282a71c879">seims.pygeoc.pygeoc.utils.utils.FileClass.get_core_name_without_suffix</a></div><div class="ttdeci">def get_core_name_without_suffix</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00300">utils.py:300</a></div></div>
 <div class="ttc" id="a00412_html_a9ad438995b3668902576eabeb739b49d"><div class="ttname"><a href="../../d9/d72/a00412.html#a9ad438995b3668902576eabeb739b49d">seims.pygeoc.pygeoc.utils.utils.MathClass.nashcoef</a></div><div class="ttdeci">def nashcoef</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00058">utils.py:58</a></div></div>
 <div class="ttc" id="a00489_html_a3cbdff47f42bcd849a1761ce64671fdc"><div class="ttname"><a href="../../da/d05/a00489.html#a3cbdff47f42bcd849a1761ce64671fdc">seims.pygeoc.pygeoc.utils.utils.StringClass.is_valid_ip_addr</a></div><div class="ttdeci">def is_valid_ip_addr</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00195">utils.py:195</a></div></div>
-<div class="ttc" id="a00506_html"><div class="ttname"><a href="../../d4/d1f/a00506.html">seims.pygeoc.pygeoc.utils.utils.UtilClass</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00339">utils.py:339</a></div></div>
+<div class="ttc" id="a00506_html"><div class="ttname"><a href="../../d4/d1f/a00506.html">seims.pygeoc.pygeoc.utils.utils.UtilClass</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00347">utils.py:347</a></div></div>
 <div class="ttc" id="a00412_html_ab63ffef4eb9dde2d4f69d24a6c0168e5"><div class="ttname"><a href="../../d9/d72/a00412.html#ab63ffef4eb9dde2d4f69d24a6c0168e5">seims.pygeoc.pygeoc.utils.utils.MathClass.rmse</a></div><div class="ttdeci">def rmse</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00111">utils.py:111</a></div></div>
 <div class="ttc" id="a00368_html_acec11b54919df27e8f8aed3d463e8d18"><div class="ttname"><a href="../../d8/d21/a00368.html#acec11b54919df27e8f8aed3d463e8d18">seims.pygeoc.pygeoc.utils.utils.FileClass.is_file_exists</a></div><div class="ttdeci">def is_file_exists</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00212">utils.py:212</a></div></div>
 <div class="ttc" id="a00368_html_a6bcb23f8f0e21edd01f145365bf302ce"><div class="ttname"><a href="../../d8/d21/a00368.html#a6bcb23f8f0e21edd01f145365bf302ce">seims.pygeoc.pygeoc.utils.utils.FileClass.is_up_to_date</a></div><div class="ttdeci">def is_up_to_date</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00247">utils.py:247</a></div></div>
 <div class="ttc" id="a00489_html_a4b81acb8fdc1e58f0361d83e722d7bee"><div class="ttname"><a href="../../da/d05/a00489.html#a4b81acb8fdc1e58f0361d83e722d7bee">seims.pygeoc.pygeoc.utils.utils.StringClass.is_substring</a></div><div class="ttdeci">def is_substring</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00182">utils.py:182</a></div></div>
 <div class="ttc" id="a00368_html_acb61e7ebc04b062a6817fae5a8f7ef22"><div class="ttname"><a href="../../d8/d21/a00368.html#acb61e7ebc04b062a6817fae5a8f7ef22">seims.pygeoc.pygeoc.utils.utils.FileClass.get_filename_by_suffixes</a></div><div class="ttdeci">def get_filename_by_suffixes</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00267">utils.py:267</a></div></div>
 <div class="ttc" id="a00489_html_ac3e231fce8163ecb1180217ddeeb7e3e"><div class="ttname"><a href="../../da/d05/a00489.html#ac3e231fce8163ecb1180217ddeeb7e3e">seims.pygeoc.pygeoc.utils.utils.StringClass.strip_string</a></div><div class="ttdeci">def strip_string</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00141">utils.py:141</a></div></div>
-<div class="ttc" id="a00334_html"><div class="ttname"><a href="../../da/d75/a00334.html">seims.pygeoc.pygeoc.utils.utils.C</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00448">utils.py:448</a></div></div>
+<div class="ttc" id="a00334_html"><div class="ttname"><a href="../../da/d75/a00334.html">seims.pygeoc.pygeoc.utils.utils.C</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00456">utils.py:456</a></div></div>
 <div class="ttc" id="a00489_html_a033fb025680e502321655021040430df"><div class="ttname"><a href="../../da/d05/a00489.html#a033fb025680e502321655021040430df">seims.pygeoc.pygeoc.utils.utils.StringClass.split_string</a></div><div class="ttdeci">def split_string</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00152">utils.py:152</a></div></div>
 <div class="ttc" id="a00368_html_a12520347cd4b39e868e759271949bbde"><div class="ttname"><a href="../../d8/d21/a00368.html#a12520347cd4b39e868e759271949bbde">seims.pygeoc.pygeoc.utils.utils.FileClass.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00207">utils.py:207</a></div></div>
-<div class="ttc" id="a00506_html_a7b2704b912b7b6b0f8b121e4eac4ed20"><div class="ttname"><a href="../../d4/d1f/a00506.html#a7b2704b912b7b6b0f8b121e4eac4ed20">seims.pygeoc.pygeoc.utils.utils.UtilClass.writelog</a></div><div class="ttdeci">def writelog</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00430">utils.py:430</a></div></div>
-<div class="ttc" id="a00506_html_a793d9725d3c451f98693dfbea1366a6e"><div class="ttname"><a href="../../d4/d1f/a00506.html#a793d9725d3c451f98693dfbea1366a6e">seims.pygeoc.pygeoc.utils.utils.UtilClass.mkdir</a></div><div class="ttdeci">def mkdir</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00397">utils.py:397</a></div></div>
+<div class="ttc" id="a00506_html_a7b2704b912b7b6b0f8b121e4eac4ed20"><div class="ttname"><a href="../../d4/d1f/a00506.html#a7b2704b912b7b6b0f8b121e4eac4ed20">seims.pygeoc.pygeoc.utils.utils.UtilClass.writelog</a></div><div class="ttdeci">def writelog</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00438">utils.py:438</a></div></div>
+<div class="ttc" id="a00506_html_a793d9725d3c451f98693dfbea1366a6e"><div class="ttname"><a href="../../d4/d1f/a00506.html#a793d9725d3c451f98693dfbea1366a6e">seims.pygeoc.pygeoc.utils.utils.UtilClass.mkdir</a></div><div class="ttdeci">def mkdir</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00405">utils.py:405</a></div></div>
 <div class="ttc" id="a00489_html_a790b7ae3ac495fa94ab053e3a87fe3d2"><div class="ttname"><a href="../../da/d05/a00489.html#a790b7ae3ac495fa94ab053e3a87fe3d2">seims.pygeoc.pygeoc.utils.utils.StringClass.string_in_list</a></div><div class="ttdeci">def string_in_list</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00187">utils.py:187</a></div></div>
-<div class="ttc" id="a00357_html_a188a608810171389f08ad824f2e756aa"><div class="ttname"><a href="../../df/df1/a00357.html#a188a608810171389f08ad824f2e756aa">seims.pygeoc.pygeoc.utils.utils.DateClass.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00310">utils.py:310</a></div></div>
-<div class="ttc" id="a00506_html_a2bf04315b392a902e578055b843622ed"><div class="ttname"><a href="../../d4/d1f/a00506.html#a2bf04315b392a902e578055b843622ed">seims.pygeoc.pygeoc.utils.utils.UtilClass.print_msg</a></div><div class="ttdeci">def print_msg</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00412">utils.py:412</a></div></div>
-<div class="ttc" id="a00357_html"><div class="ttname"><a href="../../df/df1/a00357.html">seims.pygeoc.pygeoc.utils.utils.DateClass</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00307">utils.py:307</a></div></div>
+<div class="ttc" id="a00357_html_a188a608810171389f08ad824f2e756aa"><div class="ttname"><a href="../../df/df1/a00357.html#a188a608810171389f08ad824f2e756aa">seims.pygeoc.pygeoc.utils.utils.DateClass.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00318">utils.py:318</a></div></div>
+<div class="ttc" id="a00506_html_a2bf04315b392a902e578055b843622ed"><div class="ttname"><a href="../../d4/d1f/a00506.html#a2bf04315b392a902e578055b843622ed">seims.pygeoc.pygeoc.utils.utils.UtilClass.print_msg</a></div><div class="ttdeci">def print_msg</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00420">utils.py:420</a></div></div>
+<div class="ttc" id="a00357_html"><div class="ttname"><a href="../../df/df1/a00357.html">seims.pygeoc.pygeoc.utils.utils.DateClass</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00315">utils.py:315</a></div></div>
 <div class="ttc" id="a00489_html"><div class="ttname"><a href="../../da/d05/a00489.html">seims.pygeoc.pygeoc.utils.utils.StringClass</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00127">utils.py:127</a></div></div>
 <div class="ttc" id="a00489_html_a2a19c84577684ac00f1a5ddd60f10cf3"><div class="ttname"><a href="../../da/d05/a00489.html#a2a19c84577684ac00f1a5ddd60f10cf3">seims.pygeoc.pygeoc.utils.utils.StringClass.string_match</a></div><div class="ttdeci">def string_match</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00136">utils.py:136</a></div></div>
 <div class="ttc" id="a00368_html_a4e725f49fccda26c17775d63f6e6093a"><div class="ttname"><a href="../../d8/d21/a00368.html#a4e725f49fccda26c17775d63f6e6093a">seims.pygeoc.pygeoc.utils.utils.FileClass.get_executable_fullpath</a></div><div class="ttdeci">def get_executable_fullpath</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00255">utils.py:255</a></div></div>
-<div class="ttc" id="a00357_html_a40c75241676c8588e5102a9ee175f782"><div class="ttname"><a href="../../df/df1/a00357.html#a40c75241676c8588e5102a9ee175f782">seims.pygeoc.pygeoc.utils.utils.DateClass.day_of_year</a></div><div class="ttdeci">def day_of_year</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00332">utils.py:332</a></div></div>
+<div class="ttc" id="a00357_html_a40c75241676c8588e5102a9ee175f782"><div class="ttname"><a href="../../df/df1/a00357.html#a40c75241676c8588e5102a9ee175f782">seims.pygeoc.pygeoc.utils.utils.DateClass.day_of_year</a></div><div class="ttdeci">def day_of_year</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00340">utils.py:340</a></div></div>
 <div class="ttc" id="a00368_html_ac9a8bed924e3498599d7a97254bc46b2"><div class="ttname"><a href="../../d8/d21/a00368.html#ac9a8bed924e3498599d7a97254bc46b2">seims.pygeoc.pygeoc.utils.utils.FileClass.copy_files</a></div><div class="ttdeci">def copy_files</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00226">utils.py:226</a></div></div>
-<div class="ttc" id="a00506_html_a8b3cadb3b7bd1ad062dfa4ec1aabe5c9"><div class="ttname"><a href="../../d4/d1f/a00506.html#a8b3cadb3b7bd1ad062dfa4ec1aabe5c9">seims.pygeoc.pygeoc.utils.utils.UtilClass.error</a></div><div class="ttdeci">def error</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00425">utils.py:425</a></div></div>
+<div class="ttc" id="a00506_html_a8b3cadb3b7bd1ad062dfa4ec1aabe5c9"><div class="ttname"><a href="../../d4/d1f/a00506.html#a8b3cadb3b7bd1ad062dfa4ec1aabe5c9">seims.pygeoc.pygeoc.utils.utils.UtilClass.error</a></div><div class="ttdeci">def error</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00433">utils.py:433</a></div></div>
 <div class="ttc" id="a00368_html_a87b84f3cc967200f2cb62bdf15320c79"><div class="ttname"><a href="../../d8/d21/a00368.html#a87b84f3cc967200f2cb62bdf15320c79">seims.pygeoc.pygeoc.utils.utils.FileClass.get_full_filename_by_suffixes</a></div><div class="ttdeci">def get_full_filename_by_suffixes</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00285">utils.py:285</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
@@ -623,7 +631,7 @@ $(document).ready(function(){initNavTree('d4/db8/a00732_source.html','../../');}
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="../../dir_9acb163bfc580721a7f3d6aabfda8dbb.html">seims_storm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_fd8dd4f548e8390633a5614720372e6e.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_d95fc9a5057a58a6f4ca66c55376776e.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_95e0d76376968c36e308b21c415a19af.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_1724643b931a4b82d3eb2cfdb24cda96.html">utils</a></li><li class="navelem"><b>utils.py</b></li>
-    <li class="footer">Generated on Tue Jul 18 2017 16:36:57 for SEIMS by
+    <li class="footer">Generated on Fri Jul 21 2017 07:37:29 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
