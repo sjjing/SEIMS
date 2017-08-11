@@ -1,10 +1,10 @@
 var namespaces =
 [
-    [ "MainBMP", "d4/d51/a01520.html", "d4/d51/a01520" ],
+    [ "MainBMP", "d2/d68/a01295.html", "d2/d68/a01295" ],
     [ "seims", null, [
       [ "pygeoc", null, [
-        [ "setup", "d1/d88/a01578.html", null ]
+        [ "setup", "d7/dc4/a01354.html", null ]
       ] ],
-      [ "pyseims_check", "d5/d81/a01579.html", null ]
+      [ "pyseims_check", "d8/d4e/a01355.html", null ]
     ] ]
 ];

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: V1_7_XcodeGuide</title>
+<title>SEIMS: Modules status in SEIMS</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,72 +106,109 @@ $(document).ready(function(){initNavTree('d0/d61/a00100.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">V1_7_XcodeGuide </div>  </div>
+<div class="title">Modules status in SEIMS </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This guide will explain how to use the Google Testing Framework in your Xcode projects on Mac OS X. This tutorial begins by quickly explaining what to do for experienced users. After the quick start, the guide goes provides additional explanation about each step.</p>
-<h1>Quick Start</h1>
-<p>Here is the quick guide for using Google Test in your Xcode project.</p>
-<ol type="1">
-<li>Download the source from the <a href="http://code.google.com/p/googletest">website</a> using this command: <code>svn checkout <a href="http://googletest.googlecode.com/svn/trunk/">http://googletest.googlecode.com/svn/trunk/</a> googletest-read-only</code></li>
-</ol>
-<ol type="1">
-<li>Open up the <code>gtest.xcodeproj</code> in the <code>googletest-read-only/xcode/</code> directory and build the gtest.framework.</li>
-</ol>
-<ol type="1">
-<li>Create a new "Shell Tool" target in your Xcode project called something like "UnitTests"</li>
-</ol>
-<ol type="1">
-<li>Add the gtest.framework to your project and add it to the "Link Binary with Libraries" build phase of "UnitTests"</li>
-</ol>
-<ol type="1">
-<li>Add your unit test source code to the "Compile Sources" build phase of "UnitTests"</li>
-</ol>
-<ol type="1">
-<li>Edit the "UnitTests" executable and add an environment variable named "DYLD\_FRAMEWORK\_PATH" with a value equal to the path to the framework containing the gtest.framework relative to the compiled executable.</li>
-</ol>
-<ol type="1">
-<li>Build and Go</li>
-</ol>
-<p>The following sections further explain each of the steps listed above in depth, describing in more detail how to complete it including some variations.</p>
-<h1>Get the Source</h1>
-<p>Currently, the gtest.framework discussed here isn't available in a tagged release of Google Test, it is only available in the trunk. As explained at the Google Test [site](<a href="http://code.google.com/p/googletest/source/checkout">http://code.google.com/p/googletest/source/checkout</a>"&gt;svn), you can get the code from anonymous SVN with this command:</p>
-<p>``` svn checkout <a href="http://googletest.googlecode.com/svn/trunk/">http://googletest.googlecode.com/svn/trunk/</a> googletest-read-only ```</p>
-<p>Alternatively, if you are working with Subversion in your own code base, you can add Google Test as an external dependency to your own Subversion repository. By following this approach, everyone that checks out your svn repository will also receive a copy of Google Test (a specific version, if you wish) without having to check it out explicitly. This makes the set up of your project simpler and reduces the copied code in the repository.</p>
-<p>To use <code>svn:externals</code>, decide where you would like to have the external source reside. You might choose to put the external source inside the trunk, because you want it to be part of the branch when you make a release. However, keeping it outside the trunk in a version-tagged directory called something like <code>third-party/googletest/1.0.1</code>, is another option. Once the location is established, use <code>svn propedit svn:externals _directory_</code> to set the svn:externals property on a directory in your repository. This directory won't contain the code, but be its versioned parent directory.</p>
-<p>The command <code>svn propedit</code> will bring up your Subversion editor, making editing the long, (potentially multi-line) property simpler. This same method can be used to check out a tagged branch, by using the appropriate URL (e.g. <code><a href="http://googletest.googlecode.com/svn/tags/release-1.0.1">http://googletest.googlecode.com/svn/tags/release-1.0.1</a></code>). Additionally, the svn:externals property allows the specification of a particular revision of the trunk with the <code>-r_##_</code> option (e.g. <code>externals/src/googletest -r60 <a href="http://googletest.googlecode.com/svn/trunk">http://googletest.googlecode.com/svn/trunk</a></code>).</p>
-<p>Here is an example of using the svn:externals properties on a trunk (read via <code>svn propget</code>) of a project. This value checks out a copy of Google Test into the <code>trunk/externals/src/googletest/</code> directory.</p>
-<p>``` [Computer:svn] user$ svn propget svn:externals trunk externals/src/googletest <a href="http://googletest.googlecode.com/svn/trunk">http://googletest.googlecode.com/svn/trunk</a> ```</p>
-<h1>Add the Framework to Your Project</h1>
-<p>The next step is to build and add the gtest.framework to your own project. This guide describes two common ways below.</p>
+<div class="textblock"><p>Initial created : Liang-Jun Zhu</p>
+<p>Corporate editors :</p>
+<p>Last Updated: 2016-5-30 </p>
+<hr/>
+<h2>表格填写说明</h2>
 <ul>
-<li><b>Option 1</b> &mdash; The simplest way to add Google Test to your own project, is to open gtest.xcodeproj (found in the xcode/ directory of the Google Test trunk) and build the framework manually. Then, add the built framework into your project using the "Add-&gt;Existing Framework..." from the context menu or "Project-&gt;Add..." from the main menu. The gtest.framework is relocatable and contains the headers and object code that you'll need to make tests. This method requires rebuilding every time you upgrade Google Test in your project.</li>
-<li><b>Option 2</b> &mdash; If you are going to be living off the trunk of Google Test, incorporating its latest features into your unit tests (or are a Google Test developer yourself). You'll want to rebuild the framework every time the source updates. to do this, you'll need to add the gtest.xcodeproj file, not the framework itself, to your own Xcode project. Then, from the build products that are revealed by the project's disclosure triangle, you can find the gtest.framework, which can be added to your targets (discussed below).</li>
+<li>1.过程名：对应于C++代码中<code><a class="el" href="../../df/d59/a01001_source.html">text.h</a></code>中宏定义前缀为<code>MCLS_</code>的分类，细分到每一种流域过程。</li>
+<li>2.模块ID：对应于源码中的模块ID</li>
+<li>3.方法：简要描述改模块所用算法，有参考的增加参考</li>
+<li>4.开发状态：清晰描述开发状态，如Bug修复、原理确认、代码编写等</li>
+<li>5.测试状态：清晰描述测试状态，如OMP版本测试、MPI版本测试等</li>
+<li>6.TODO：将来做出哪些改进，或现有的处理不足之处等 <hr/>
+</li>
 </ul>
-<h1>Make a Test Target</h1>
-<p>To start writing tests, make a new "Shell Tool" target. This target template is available under BSD, Cocoa, or Carbon. Add your unit test source code to the "Compile Sources" build phase of the target.</p>
-<p>Next, you'll want to add gtest.framework in two different ways, depending upon which option you chose above.</p>
-<ul>
-<li><b>Option 1</b> &mdash; During compilation, Xcode will need to know that you are linking against the gtest.framework. Add the gtest.framework to the "Link Binary with Libraries" build phase of your test target. This will include the Google Test headers in your header search path, and will tell the linker where to find the library.</li>
-<li><b>Option 2</b> &mdash; If your working out of the trunk, you'll also want to add gtest.framework to your "Link Binary with Libraries" build phase of your test target. In addition, you'll want to add the gtest.framework as a dependency to your unit test target. This way, Xcode will make sure that gtest.framework is up to date, every time your build your target. Finally, if you don't share build directories with Google Test, you'll have to copy the gtest.framework into your own build products directory using a "Run Script" build phase.</li>
-</ul>
-<h1>Set Up the Executable Run Environment</h1>
-<p>Since the unit test executable is a shell tool, it doesn't have a bundle with a <code>Contents/Frameworks</code> directory, in which to place gtest.framework. Instead, the dynamic linker must be told at runtime to search for the framework in another location. This can be accomplished by setting the "DYLD\_FRAMEWORK\_PATH" environment variable in the "Edit Active Executable ..." Arguments tab, under "Variables to be set in the environment:". The path for this value is the path (relative or absolute) of the directory containing the gtest.framework.</p>
-<p>If you haven't set up the DYLD_FRAMEWORK_PATH, correctly, you might get a message like this:</p>
-<p>``` [Session started at 2008-08-15 06:23:57 -0600.] dyld: Library not loaded: /../Frameworks/gtest.framework/Versions/A/gtest Referenced from: /Users/username/Documents/Sandbox/gtestSample/build/Debug/WidgetFrameworkTest Reason: image not found ```</p>
-<p>To correct this problem, got to the directory containing the executable named in "Referenced from:" value in the error message above. Then, with the terminal in this location, find the relative path to the directory containing the gtest.framework. That is the value you'll need to set as the DYLD_FRAMEWORK_PATH.</p>
-<h1>Build and Go</h1>
-<p>Now, when you click "Build and Go", the test will be executed. Dumping out something like this:</p>
-<p>``` [Session started at 2008-08-06 06:36:13 -0600.] [==========] Running 2 tests from 1 test case. [-------&mdash;] Global test environment set-up. [-------&mdash;] 2 tests from WidgetInitializerTest [ RUN ] WidgetInitializerTest.TestConstructor [ OK ] WidgetInitializerTest.TestConstructor [ RUN ] WidgetInitializerTest.TestConversion [ OK ] WidgetInitializerTest.TestConversion [-------&mdash;] Global test environment tear-down [==========] 2 tests from 1 test case ran. [ PASSED ] 2 tests.</p>
-<p>The Debugger has exited with status 0. ```</p>
-<h1>Summary</h1>
-<p>Unit testing is a valuable way to ensure your data model stays valid even during rapid development or refactoring. The Google Testing Framework is a great unit testing framework for C and C++ which integrates well with an Xcode development environment. </p>
+<table class="doxtable">
+<tr>
+<th>过程名</th><th>模块ID</th><th>方法</th><th>开发状态</th><th>测试状态</th><th>TODO  </th></tr>
+<tr>
+<td>气象数据</td><td>TSD_RD</td><td>逐时间步长读取站点气象观测数据</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td>ITP</td><td>泰森多边形插值</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td>蒸散发</td><td>PET_H</td><td>Hargreaves</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td>PET_PT</td><td>PriestleyTaylor</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td>PET_PM</td><td>Penman-Monteith</td><td>完成</td><td>待测试</td><td>待生态模块完成之后测试 </td></tr>
+<tr>
+<td>土壤温度</td><td>STP_FP</td><td>Finn Plauborg</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td>截留</td><td>PI_MSM</td><td>Maximum Storage</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td>PI_STORM</td><td>Maximum Storage</td><td>未更新</td><td>尚未检查 </td></tr>
+<tr>
+<td>融雪</td><td><a class="el" href="../../df/d03/a00348.html" title="Soil redistribution calculation. ">SRD_MB</a></td><td>Snow redistribution</td><td>完成</td><td>未测试</td><td>缺少输入数据 </td></tr>
+<tr>
+<td></td><td><a class="el" href="../../d7/dfc/a00349.html" title="Calculate distribution of snow sublimation. ">SSM_PE</a></td><td>Snow Sublimation(WetSpa)</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td><a class="el" href="../../dc/d84/a00338.html" title="Calculate snow melt by Degree-Day method. ">SNO_DD</a></td><td>Degree-Day</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td><a class="el" href="../../df/df1/a00340.html" title="Calculate snow water balance. ">SNO_WB</a></td><td>Water balance</td><td>完成</td><td>完成</td><td>需确认输入输出是否必须依赖SNO_DD </td></tr>
+<tr>
+<td></td><td><a class="el" href="../../d0/d01/a00339.html" title="Calculate snow melt by snowpack daily method from SWAT. ">SNO_SP</a></td><td>Snowpeak Daily(SWAT)</td><td>完成</td><td>完成</td><td>需确认输入输出是否必须依赖SNO_DD </td></tr>
+<tr>
+<td>入渗、产流</td><td><a class="el" href="../../d4/def/a00359.html" title="Modified Rational Method to calculate infiltration and excess precipitation. ">SUR_MR</a></td><td>Modified rational（WetSpa）</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td><a class="el" href="../../df/df1/a00357.html" title="SCS Curve Number Method to calculate infiltration and excess precipitation. ">SUR_CN</a></td><td>SCS-CN</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td>SUR_SGA</td><td>Green-Ampt</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td>填洼</td><td>DEP_LINSLEY</td><td>Linsley method</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td>DEP_FS</td><td>Fill and Spill</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td>渗漏</td><td><a class="el" href="../../d1/d67/a00310.html" title="Calculate water percolated from the soil water reservoir. ">PER_PI</a></td><td>Darcy's Law and Brooks-Corey</td><td>未完成</td><td>测试出问题</td><td>模拟时段内某天土壤水分为负，需检查算法的正确性 </td></tr>
+<tr>
+<td></td><td><a class="el" href="../../d1/d5d/a00311.html" title="Percolation calculated by storage routing method. ">PER_STR</a></td><td>Storage routing</td><td>未完成</td><td>测试出问题</td><td>同PER_PI </td></tr>
+<tr>
+<td></td><td>PER_DARCY</td><td>Darcy's Law</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td>地下径流</td><td>SSR_DA</td><td>Darcy's Law and Kinematic</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td>土壤蒸发</td><td><a class="el" href="../../d2/d0a/a00333.html" title="Calculate soil Temperature. ">SET_LM</a></td><td>Linear method</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td>地下水</td><td>GWA_RE</td><td>Linear reservoir</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td></td><td>GW_RSVR</td><td>Linear reservoir</td><td>未更新</td><td>未测试</td><td>与GWA_RE有何区别，命名待统一 </td></tr>
+<tr>
+<td>坡面侵蚀</td><td><a class="el" href="../../db/d7b/a00296.html" title="use MUSLE method to calculate sediment yield of each cell ">MUSLE_AS</a></td><td>MUSLE model</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td>溅蚀</td><td><a class="el" href="../../d1/dc6/a00347.html" title="Park Equation for splash erosion, and Foster Equation for overland flow soil detachment use the USLE_...">SplashEro_Park</a></td><td>Park Equation</td><td>未更新</td><td>未测试</td><td>模块ID需简写 </td></tr>
+<tr>
+<td>坡面泥沙汇流</td><td><a class="el" href="../../d0/d19/a00273.html" title="Kinematic wave method for overland flow erosion and deposition. ">KinWavSed_OL</a></td><td>Energy function(Govers) method</td><td>未更新</td><td>未测试</td><td>确定原理、简写模块ID </td></tr>
+<tr>
+<td>河道泥沙汇流</td><td><a class="el" href="../../d9/dd6/a00272.html" title="Kinematic wave method for channel flow erosion and deposition. ">KinWavSed_CH</a></td><td>Srinivasan &amp; Galvao function</td><td>未更新</td><td>未测试</td><td>确定原理、简写模块ID </td></tr>
+<tr>
+<td></td><td>SEDR_VCD</td><td>Variable channel dimension</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td>坡面汇流</td><td><a class="el" href="../../db/d12/a00268.html" title="IUH overland method to calculate overland flow routing. ">IUH_OL</a></td><td>Instantaneous unit hydrograph(WetSpa)</td><td>未更新</td><td>未测试</td><td>应更名OL_IUH </td></tr>
+<tr>
+<td></td><td>IKW_OL</td><td>Kinematic wave</td><td>未更新</td><td>未测试</td><td>应更名OL_IKW </td></tr>
+<tr>
+<td>河道汇流</td><td><a class="el" href="../../d4/d5b/a00294.html" title="channel flow routing using Muskingum method ">MUSK_CH</a></td><td><a class="el" href="../../d9/d5e/a00295.html" title="Channel routing using Muskingum-Cunge method. ">Muskingum</a></td><td>未更新</td><td>未测试</td><td>应更名为CH_MUSK </td></tr>
+<tr>
+<td></td><td>IKW_CH</td><td>Kinematic wave</td><td>未更新</td><td>未测试</td><td>应更名为CH_IKW </td></tr>
+<tr>
+<td></td><td>CH_DW</td><td>Diffusive wave</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td></td><td></td><td></td><td></td><td></td></tr>
+</table>
+<h2>重要的问题</h2>
+<h3>Hydrology和Hydrology_longterm</h3>
+<p>这两个模块分组原意为前者为次暴雨模块组，后者为长时段模块组，目前看二者用的算法高度重叠，比如河道汇流方法马斯京根法、运动波法、四点隐式差分法等，模块命名仅前后顺序相反，如CH_MSK和MUSK_CH。</p>
+<p>这样很容易造成使用混淆，能否将二者合二为一？或在模块命名时加以区分？ </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:41 for SEIMS by
+    <li class="footer">Generated on Fri Aug 11 2017 13:26:03 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

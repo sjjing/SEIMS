@@ -2,20 +2,8 @@ var searchData=
 [
   ['fordummies',['ForDummies',['../df/d86/a00012.html',1,'']]],
   ['frequentlyaskedquestions',['FrequentlyAskedQuestions',['../d2/de7/a00014.html',1,'']]],
-  ['fordummies',['ForDummies',['../dc/de2/a00024.html',1,'']]],
-  ['frequentlyaskedquestions',['FrequentlyAskedQuestions',['../d6/d5b/a00026.html',1,'']]],
-  ['fordummies',['ForDummies',['../db/df3/a00034.html',1,'']]],
-  ['frequentlyaskedquestions',['FrequentlyAskedQuestions',['../de/d8c/a00036.html',1,'']]],
+  ['faq',['FAQ',['../dc/de2/a00024.html',1,'']]],
   ['fordummies',['ForDummies',['../d5/df9/a00044.html',1,'']]],
   ['frequentlyaskedquestions',['FrequentlyAskedQuestions',['../d3/dea/a00046.html',1,'']]],
-  ['faq',['FAQ',['../d1/dea/a00054.html',1,'']]],
-  ['fordummies',['ForDummies',['../d8/d17/a00114.html',1,'']]],
-  ['frequentlyaskedquestions',['FrequentlyAskedQuestions',['../d4/d3e/a00116.html',1,'']]],
-  ['fordummies',['ForDummies',['../d7/d12/a00126.html',1,'']]],
-  ['frequentlyaskedquestions',['FrequentlyAskedQuestions',['../d1/d88/a00128.html',1,'']]],
-  ['fordummies',['ForDummies',['../d0/d5e/a00136.html',1,'']]],
-  ['frequentlyaskedquestions',['FrequentlyAskedQuestions',['../d4/ddd/a00138.html',1,'']]],
-  ['fordummies',['ForDummies',['../d9/db6/a00146.html',1,'']]],
-  ['frequentlyaskedquestions',['FrequentlyAskedQuestions',['../db/d48/a00148.html',1,'']]],
-  ['faq',['FAQ',['../d2/d34/a00156.html',1,'']]]
+  ['faq',['FAQ',['../d9/d2e/a00056.html',1,'']]]
 ];

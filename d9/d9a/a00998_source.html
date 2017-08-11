@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_storm_linux_gcc48/seims/scenario_analysis/test.py Source File</title>
+<title>SEIMS: seims/src/seims_main/base/util/seims.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,38 +112,41 @@ $(document).ready(function(){initNavTree('d9/d9a/a00998_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">test.py</div>  </div>
+<div class="title">seims.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># cmdStr = &quot;%s %s %d %d %s %d %d&quot; % (model_Exe, model_Workdir, threadsNum, layeringMethod, HOSTNAME, PORT, 1)</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># process = Popen(cmdStr, shell=True, stdout=PIPE)</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># while(process.stdout.readline() != &quot;&quot;):</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">#     # line = process.stdout.readline().split(&quot;\n&quot;)</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">#     # if(line[0] != &quot;&quot;):</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">#     #     print line[0]</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">#     continue</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment"># process.wait()</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"># if process.returncode == 0:</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">#     print &quot;OK&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;client = <a class="code" href="../../d7/db9/a00426.html">MongoClient</a>(<span class="stringliteral">&#39;192.168.6.55&#39;</span>, 27017)</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;db = client[<span class="stringliteral">&#39;BMP_Scenario_dianbu2_30m_longterm&#39;</span>]</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;collection = db.BMP_SCENARIOS</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment"># for i in range(10, 500):</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">#     collection.remove({&#39;ID&#39;: i})</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordflow">for</span> i <span class="keywordflow">in</span> collection.find({<span class="stringliteral">&quot;ID&quot;</span>: {<span class="stringliteral">&quot;$gt&quot;</span>: 100}}):</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="comment"># print i[&quot;ID&quot;]</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    collection.remove({<span class="stringliteral">&quot;ID&quot;</span>: i[<span class="stringliteral">&quot;ID&quot;</span>]})</div>
-<div class="ttc" id="a00426_html"><div class="ttname"><a href="../../d7/db9/a00426.html">MongoClient</a></div><div class="ttdoc">Create a MongoDB Client. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d84/a01131_source.html#l00039">MongoUtil.h:39</a></div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#ifndef SEIMS_HEADER</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEIMS_HEADER</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;text.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">enum</span> LayeringMethod {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    UP_DOWN,   </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    DOWN_UP    </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;};</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">enum</span> FlowDirectionMethod {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    TauDEM = 0,</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    ArcGIS = 1</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;};</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">const</span> <span class="keywordtype">int</span> DiagonalCCW[9] = {0, 0, 1, 0, 1, 0, 1, 0, 1};</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">const</span> <span class="keywordtype">float</span> _23 = 0.6666666666666666f;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">const</span> <span class="keywordtype">float</span> SQ2 = 1.4142135623730951f;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#define MIN_FLUX        1e-12f </span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#define MAX_ITERS_KW    10     </span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#define MIN_SLOPE       1e-6f  </span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define IntRaster       clsRasterData&lt;int&gt;</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define FloatRaster     clsRasterData&lt;float&gt;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif </span><span class="comment">/* SEIMS_HEADER */</span><span class="preprocessor"></span></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_9acb163bfc580721a7f3d6aabfda8dbb.html">seims_storm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_fd8dd4f548e8390633a5614720372e6e.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_aed3a95b1f6b1366ade43c32ed1af862.html">scenario_analysis</a></li><li class="navelem"><b>test.py</b></li>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:34 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_16f99eef7c51cef769cb6e51b0647be9.html">util</a></li><li class="navelem"><b>seims.h</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:25:59 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

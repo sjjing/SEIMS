@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/postprocess/read_subbasins_output.py Source File</title>
+<title>SEIMS: seims/src/seims_main/base/data/RegularMeasurement.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,79 +112,152 @@ $(document).ready(function(){initNavTree('d2/ddd/a00978_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">read_subbasins_output.py</div>  </div>
+<div class="title">RegularMeasurement.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="keyword">import</span> os</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">def </span>read_subbasins_output(files, years):</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    outputs = {}</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keywordflow">for</span> vname, fnames <span class="keywordflow">in</span> files.items():</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        <span class="keywordflow">if</span> vname <span class="keywordflow">not</span> <span class="keywordflow">in</span> outputs.keys():</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;            outputs[vname] = {}</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keywordflow">for</span> fname <span class="keywordflow">in</span> fnames:</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;            f = open(fname)</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            lines = f.readlines()</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;            f.close()</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            cursubbasinID = -1</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;            <span class="keywordflow">for</span> line <span class="keywordflow">in</span> lines:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;                items = line.split()</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;                <span class="comment"># print (items)</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;                <span class="keywordflow">if</span> len(items) == 2 <span class="keywordflow">and</span> items[0] == <span class="stringliteral">&#39;Subbasin:&#39;</span>:  <span class="comment"># indicate a new subbasin</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                    cursubbasinID = int(items[1])</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                    <span class="comment"># print (cursubbasinID)</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;                    <span class="keywordflow">if</span> cursubbasinID <span class="keywordflow">not</span> <span class="keywordflow">in</span> outputs[vname].keys():</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;                        outputs.get(vname)[cursubbasinID] = {}</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                    <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;                <span class="keywordflow">if</span> len(items) &lt; 3:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                    <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                <span class="keywordflow">if</span> cursubbasinID &lt; 0:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                    <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <span class="keywordflow">for</span> year <span class="keywordflow">in</span> years:</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                    <span class="keywordflow">if</span> items[0][:4] == str(year):</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                        <span class="keywordflow">if</span> year <span class="keywordflow">not</span> <span class="keywordflow">in</span> outputs.get(vname)[cursubbasinID].keys():</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                            outputs.get(vname)[cursubbasinID][year] = 0.</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                        outputs.get(vname)[cursubbasinID][year] += float(items[-1])</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">return</span> outputs</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    modeloutputdir = <span class="stringliteral">r&#39;C:\z_code\Hydro\SEIMS\model_data\dingguang\model_dingguang_30m_longterm\OUTPUT0&#39;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    inputfiles = {<span class="stringliteral">&#39;TNout&#39;</span>: [<span class="stringliteral">&#39;0_CH_TN&#39;</span>], <span class="stringliteral">&#39;TPout&#39;</span>: [<span class="stringliteral">&#39;0_CH_TP&#39;</span>], <span class="stringliteral">&#39;CODout&#39;</span>: [<span class="stringliteral">&#39;0_CH_COD&#39;</span>],</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                  <span class="stringliteral">&#39;TNin&#39;</span> : [<span class="stringliteral">&#39;0_SUR_NH4_TOCH&#39;</span>, <span class="stringliteral">&#39;0_SUR_NO3_TOCH&#39;</span>, <span class="stringliteral">&#39;0_SEDORGNTOCH&#39;</span>, <span class="stringliteral">&#39;0_NO3GWTOCH&#39;</span>,</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                            <span class="stringliteral">&#39;0_LATNO3TOCH&#39;</span>, <span class="stringliteral">&#39;0_ptTNToCh&#39;</span>],</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                  <span class="stringliteral">&#39;TPin&#39;</span> : [<span class="stringliteral">&#39;0_SUR_SOLP_TOCH&#39;</span>, <span class="stringliteral">&#39;0_SEDMINPATOCH&#39;</span>, <span class="stringliteral">&#39;0_SEDMINPSTOCH&#39;</span>, <span class="stringliteral">&#39;0_SEDORGPTOCH&#39;</span>,</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                            <span class="stringliteral">&#39;0_MINPGWTOCH&#39;</span>, <span class="stringliteral">&#39;0_ptTPToCh&#39;</span>],</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                  <span class="stringliteral">&#39;CODin&#39;</span>: [<span class="stringliteral">&#39;0_SUR_COD_TOCH&#39;</span>, <span class="stringliteral">&#39;0_ptCODTOCH&#39;</span>]}</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    years = [2014]</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    strs = <span class="stringliteral">&quot;subbasin\\variable-year &quot;</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">for</span> vname <span class="keywordflow">in</span> inputfiles.keys():</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">for</span> year <span class="keywordflow">in</span> years:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            strs += <span class="stringliteral">&quot; %s-%d&quot;</span> % (vname, year)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">for</span> i, fname <span class="keywordflow">in</span> enumerate(inputfiles.get(vname)):</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            inputfiles.get(vname)[i] = modeloutputdir + os.sep + fname + <span class="stringliteral">&quot;.txt&quot;</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    outputs = read_subbasins_output(inputfiles, years)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">print</span> (strs)  <span class="comment"># header line</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    printdict = {}</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">for</span> vname, vdict <span class="keywordflow">in</span> outputs.items():</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">for</span> subid, subdict <span class="keywordflow">in</span> vdict.items():</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            <span class="keywordflow">if</span> subid <span class="keywordflow">not</span> <span class="keywordflow">in</span> printdict.keys():</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                printdict[subid] = <span class="stringliteral">&quot;%d&quot;</span> % subid</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">for</span> year <span class="keywordflow">in</span> years:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                printdict[subid] += <span class="stringliteral">&quot; %f&quot;</span> % subdict.get(year)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">for</span> subid, subvalues <span class="keywordflow">in</span> printdict.items():</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&quot;%s&quot;</span> % (subvalues))</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;RegularMeasurement.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="../../d8/d23/a00326.html#a836cdbfe4cf57938deeaf4b6640a3410">    4</a></span>&#160;<a class="code" href="../../d8/d23/a00326.html#a836cdbfe4cf57938deeaf4b6640a3410">RegularMeasurement::RegularMeasurement</a>(MongoClient* conn, <span class="keywordtype">string</span> hydroDBName, <span class="keywordtype">string</span> sitesList, <span class="keywordtype">string</span> siteType,</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                       time_t startTime, time_t endTime, time_t interval)</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    : <a class="code" href="../../d6/d4b/a00277.html">Measurement</a>(conn, hydroDBName, sitesList, siteType, startTime, endTime), m_interval(interval) {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keywordtype">int</span> nSites = (int) <a class="code" href="../../d6/d4b/a00277.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a>.size();</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    bson_t *query = bson_new();</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    bson_t *child = bson_new();</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    bson_t *child2 = bson_new();</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    bson_t *child3 = bson_new();</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    BSON_APPEND_DOCUMENT_BEGIN(query, <span class="stringliteral">&quot;$query&quot;</span>, child);</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    BSON_APPEND_DOCUMENT_BEGIN(child, MONG_HYDRO_DATA_SITEID, child2);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    BSON_APPEND_ARRAY_BEGIN(child2, <span class="stringliteral">&quot;$in&quot;</span>, child3);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    ostringstream ossIndex;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> iSite = 0; iSite &lt; nSites; iSite++) {</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        ossIndex.str(<span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        ossIndex &lt;&lt; iSite;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        BSON_APPEND_INT32(child3, ossIndex.str().c_str(), <a class="code" href="../../d6/d4b/a00277.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a>[iSite]);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    }</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    bson_append_array_end(child2, child3);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    bson_append_document_end(child, child2);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    bson_destroy(child2);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    bson_destroy(child3);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    BSON_APPEND_UTF8(child, MONG_HYDRO_SITE_TYPE, siteType.c_str());</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    child2 = bson_new();</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    BSON_APPEND_DOCUMENT_BEGIN(child, MONG_HYDRO_DATA_UTC, child2);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    BSON_APPEND_TIME_T(child2, <span class="stringliteral">&quot;$gte&quot;</span>, startTime);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    BSON_APPEND_TIME_T(child2, <span class="stringliteral">&quot;$lte&quot;</span>, endTime);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    bson_append_document_end(child, child2);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    bson_append_document_end(query, child);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    bson_destroy(child2);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    bson_destroy(child);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    child = bson_new();</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    BSON_APPEND_DOCUMENT_BEGIN(query, <span class="stringliteral">&quot;$orderby&quot;</span>, child);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    BSON_APPEND_INT32(child, MONG_HYDRO_DATA_SITEID, 1);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    BSON_APPEND_INT32(child, MONG_HYDRO_DATA_UTC, 1);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    bson_append_document_end(query, child);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    bson_destroy(child);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="comment">//printf(&quot;%s\n&quot;, bson_as_json(query,NULL));</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">// perform query and read measurement data</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    unique_ptr&lt;MongoCollection&gt; collection(<span class="keyword">new</span> MongoCollection(<a class="code" href="../../d6/d4b/a00277.html#a853f5ae6c771cfbbf93e7c22fe6fbbf4">m_conn</a>-&gt;getCollection(hydroDBName, DB_TAB_DATAVALUES)));</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    mongoc_cursor_t* cursor = collection-&gt;ExecuteQuery(query);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">float</span> value;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">int</span> stationIDLast = -1;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">int</span> stationID = -1;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">int</span> iSite = -1;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    vector&lt;int&gt;::size_type index = 0;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">const</span> bson_t *doc;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">while</span> (mongoc_cursor_more(cursor) &amp;&amp; mongoc_cursor_next(cursor, &amp;doc)) {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        bson_iter_t iter;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init(&amp;iter, doc) &amp;&amp; bson_iter_find(&amp;iter, MONG_HYDRO_DATA_SITEID)) {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            GetNumericFromBsonIterator(&amp;iter, stationID);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(<span class="stringliteral">&quot;RegularMeasurement&quot;</span>, <span class="stringliteral">&quot;Constructor&quot;</span>, </div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                <span class="stringliteral">&quot;The Value field: &quot;</span> + <span class="keywordtype">string</span>(MONG_HYDRO_DATA_SITEID) + </div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="stringliteral">&quot; does not exist in DataValues table.&quot;</span>);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">if</span> (stationID != stationIDLast) {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            iSite++;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            index = 0;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            stationIDLast = stationID;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="../../d8/d23/a00326.html#a2fb71444556a70bf7aac4b5af38dd04b">m_siteData</a>.size() &lt; (index + 1)) {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordtype">float</span>* <a class="code" href="../../d6/d4b/a00277.html#a2114a606e03739f92b2ba8825fc1334c">pData</a> = <span class="keyword">new</span> <span class="keywordtype">float</span>[nSites];</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nSites; i++) {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                pData[i] = 0.f;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <a class="code" href="../../d8/d23/a00326.html#a2fb71444556a70bf7aac4b5af38dd04b">m_siteData</a>.push_back(pData);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init(&amp;iter, doc) &amp;&amp; bson_iter_find(&amp;iter, MONG_HYDRO_DATA_VALUE)) {</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            GetNumericFromBsonIterator(&amp;iter, value);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(<span class="stringliteral">&quot;RegularMeasurement&quot;</span>, <span class="stringliteral">&quot;Constructor&quot;</span>,</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                <span class="stringliteral">&quot;The Value field: &quot;</span> + <span class="keywordtype">string</span>(MONG_HYDRO_DATA_VALUE) +</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                <span class="stringliteral">&quot; does not exist in DataValues table.&quot;</span>);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        }</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <a class="code" href="../../d8/d23/a00326.html#a2fb71444556a70bf7aac4b5af38dd04b">m_siteData</a>[index][iSite] = value;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        index++;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">if</span> (index &lt;= 0) {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        ostringstream oss;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        oss &lt;&lt; <span class="stringliteral">&quot;There are no &quot;</span> &lt;&lt; siteType &lt;&lt; <span class="stringliteral">&quot; data available for sites:[&quot;</span> &lt;&lt; sitesList &lt;&lt; <span class="stringliteral">&quot;] in database:&quot;</span> &lt;&lt;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            hydroDBName</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            &lt;&lt; <span class="stringliteral">&quot; during &quot;</span> &lt;&lt; ConvertToString2(&amp;<a class="code" href="../../d6/d4b/a00277.html#a1d95627d0865cc35b930939076aa7da6">m_startTime</a>) &lt;&lt; <span class="stringliteral">&quot; to &quot;</span> &lt;&lt; ConvertToString2(&amp;<a class="code" href="../../d6/d4b/a00277.html#a1c62f2abba7a613bc6edeca6152751f9">m_endTime</a>);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(<span class="stringliteral">&quot;RegularMeasurement&quot;</span>, <span class="stringliteral">&quot;Constructor&quot;</span>, oss.str());</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (iSite + 1 != nSites) {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        ostringstream oss;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        oss &lt;&lt; <span class="stringliteral">&quot;The number of sites should be &quot;</span> &lt;&lt; nSites &lt;&lt; <span class="stringliteral">&quot; while the query result is &quot;</span> &lt;&lt; iSite + 1 &lt;&lt;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="stringliteral">&quot; for sites:[&quot;</span> &lt;&lt; sitesList &lt;&lt; <span class="stringliteral">&quot;] in database:&quot;</span> &lt;&lt; hydroDBName</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            &lt;&lt; <span class="stringliteral">&quot; during &quot;</span> &lt;&lt; ConvertToString2(&amp;<a class="code" href="../../d6/d4b/a00277.html#a1d95627d0865cc35b930939076aa7da6">m_startTime</a>) &lt;&lt; <span class="stringliteral">&quot; to &quot;</span> &lt;&lt; ConvertToString2(&amp;<a class="code" href="../../d6/d4b/a00277.html#a1c62f2abba7a613bc6edeca6152751f9">m_endTime</a>);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(<span class="stringliteral">&quot;RegularMeasurement&quot;</span>, <span class="stringliteral">&quot;Constructor&quot;</span>, oss.str());</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    bson_destroy(query);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    mongoc_cursor_destroy(cursor);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno"><a class="line" href="../../d8/d23/a00326.html#a1f44d19ffde71e64385f25b24732ff83">  105</a></span>&#160;<a class="code" href="../../d8/d23/a00326.html#a1f44d19ffde71e64385f25b24732ff83">RegularMeasurement::~RegularMeasurement</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">for</span> (vector&lt;float *&gt;::iterator it = <a class="code" href="../../d8/d23/a00326.html#a2fb71444556a70bf7aac4b5af38dd04b">m_siteData</a>.begin(); it != <a class="code" href="../../d8/d23/a00326.html#a2fb71444556a70bf7aac4b5af38dd04b">m_siteData</a>.end();) {</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordflow">if</span> (*it != NULL) {</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="keyword">delete</span>[] *it;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;            *it = NULL;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        }</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        it = <a class="code" href="../../d8/d23/a00326.html#a2fb71444556a70bf7aac4b5af38dd04b">m_siteData</a>.erase(it);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    }</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <a class="code" href="../../d8/d23/a00326.html#a2fb71444556a70bf7aac4b5af38dd04b">m_siteData</a>.clear();</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="../../d8/d23/a00326.html#a6528f99c36c06961b7eeafbccc2a5f52">  116</a></span>&#160;<span class="keywordtype">float</span> *<a class="code" href="../../d8/d23/a00326.html#a6528f99c36c06961b7eeafbccc2a5f52">RegularMeasurement::GetSiteDataByTime</a>(time_t t) {</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordtype">int</span> index = int((t - <a class="code" href="../../d6/d4b/a00277.html#a1d95627d0865cc35b930939076aa7da6">m_startTime</a>) / <a class="code" href="../../d8/d23/a00326.html#a6fffb32a797276d7cc6b2bd8b2f369c8">m_interval</a>);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordflow">if</span> (index &lt; 0) {</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        index = 0;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordtype">int</span> nSites = <a class="code" href="../../d6/d4b/a00277.html#acffdb39ed0357326cec16264231ae695">m_siteIDList</a>.size();</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nSites; i++) {</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <a class="code" href="../../d6/d4b/a00277.html#a2114a606e03739f92b2ba8825fc1334c">pData</a>[i] = <a class="code" href="../../d8/d23/a00326.html#a2fb71444556a70bf7aac4b5af38dd04b">m_siteData</a>[index][i];</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d6/d4b/a00277.html#a2114a606e03739f92b2ba8825fc1334c">pData</a>;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;}</div>
+<div class="ttc" id="a00326_html_a1f44d19ffde71e64385f25b24732ff83"><div class="ttname"><a href="../../d8/d23/a00326.html#a1f44d19ffde71e64385f25b24732ff83">RegularMeasurement::~RegularMeasurement</a></div><div class="ttdeci">~RegularMeasurement(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddd/a00978_source.html#l00105">RegularMeasurement.cpp:105</a></div></div>
+<div class="ttc" id="a00277_html_a1c62f2abba7a613bc6edeca6152751f9"><div class="ttname"><a href="../../d6/d4b/a00277.html#a1c62f2abba7a613bc6edeca6152751f9">Measurement::m_endTime</a></div><div class="ttdeci">time_t m_endTime</div><div class="ttdoc">End time. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d3c/a00971_source.html#l00067">Measurement.h:67</a></div></div>
+<div class="ttc" id="a00277_html_a1d95627d0865cc35b930939076aa7da6"><div class="ttname"><a href="../../d6/d4b/a00277.html#a1d95627d0865cc35b930939076aa7da6">Measurement::m_startTime</a></div><div class="ttdeci">time_t m_startTime</div><div class="ttdoc">Start time. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d3c/a00971_source.html#l00065">Measurement.h:65</a></div></div>
+<div class="ttc" id="a00326_html_a6528f99c36c06961b7eeafbccc2a5f52"><div class="ttname"><a href="../../d8/d23/a00326.html#a6528f99c36c06961b7eeafbccc2a5f52">RegularMeasurement::GetSiteDataByTime</a></div><div class="ttdeci">virtual float * GetSiteDataByTime(time_t t)</div><div class="ttdoc">Get site date by time pData. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddd/a00978_source.html#l00116">RegularMeasurement.cpp:116</a></div></div>
+<div class="ttc" id="a00326_html_a836cdbfe4cf57938deeaf4b6640a3410"><div class="ttname"><a href="../../d8/d23/a00326.html#a836cdbfe4cf57938deeaf4b6640a3410">RegularMeasurement::RegularMeasurement</a></div><div class="ttdeci">RegularMeasurement(MongoClient *conn, string hydroDBName, string sitesList, string siteType, time_t startTime, time_t endTime, time_t interval)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/ddd/a00978_source.html#l00004">RegularMeasurement.cpp:4</a></div></div>
+<div class="ttc" id="a00277_html_a853f5ae6c771cfbbf93e7c22fe6fbbf4"><div class="ttname"><a href="../../d6/d4b/a00277.html#a853f5ae6c771cfbbf93e7c22fe6fbbf4">Measurement::m_conn</a></div><div class="ttdeci">MongoClient * m_conn</div><div class="ttdoc">MongoDB client object. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d3c/a00971_source.html#l00057">Measurement.h:57</a></div></div>
+<div class="ttc" id="a00277_html"><div class="ttname"><a href="../../d6/d4b/a00277.html">Measurement</a></div><div class="ttdoc">Get HydroClimate measurement data from MongoDB. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d3c/a00971_source.html#l00021">Measurement.h:21</a></div></div>
+<div class="ttc" id="a00326_html_a2fb71444556a70bf7aac4b5af38dd04b"><div class="ttname"><a href="../../d8/d23/a00326.html#a2fb71444556a70bf7aac4b5af38dd04b">RegularMeasurement::m_siteData</a></div><div class="ttdeci">vector&lt; float * &gt; m_siteData</div><div class="ttdoc">site data : the first dimension is time, and the second dimension is data by sites ...</div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d49/a00979_source.html#l00047">RegularMeasurement.h:47</a></div></div>
+<div class="ttc" id="a00277_html_acffdb39ed0357326cec16264231ae695"><div class="ttname"><a href="../../d6/d4b/a00277.html#acffdb39ed0357326cec16264231ae695">Measurement::m_siteIDList</a></div><div class="ttdeci">vector&lt; int &gt; m_siteIDList</div><div class="ttdoc">Site IDs list. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d3c/a00971_source.html#l00061">Measurement.h:61</a></div></div>
+<div class="ttc" id="a00277_html_a2114a606e03739f92b2ba8825fc1334c"><div class="ttname"><a href="../../d6/d4b/a00277.html#a2114a606e03739f92b2ba8825fc1334c">Measurement::pData</a></div><div class="ttdeci">float * pData</div><div class="ttdoc">Measurement data of all sites in given date. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d3c/a00971_source.html#l00069">Measurement.h:69</a></div></div>
+<div class="ttc" id="a00326_html_a6fffb32a797276d7cc6b2bd8b2f369c8"><div class="ttname"><a href="../../d8/d23/a00326.html#a6fffb32a797276d7cc6b2bd8b2f369c8">RegularMeasurement::m_interval</a></div><div class="ttdeci">time_t m_interval</div><div class="ttdoc">data record interval </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d49/a00979_source.html#l00049">RegularMeasurement.h:49</a></div></div>
+<div class="ttc" id="a00285_html"><div class="ttname"><a href="../../d3/d58/a00285.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d85/a00908_source.html#l00020">ModelException.h:20</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_61da0db7be14312bde940296c0e3c020.html">postprocess</a></li><li class="navelem"><b>read_subbasins_output.py</b></li>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:34 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_24d0af58b2644ad205aa9a0d9adbb65a.html">data</a></li><li class="navelem"><b>RegularMeasurement.cpp</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:25:59 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

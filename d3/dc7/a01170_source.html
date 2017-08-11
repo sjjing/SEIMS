@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/bmps/BMPFactory.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/STP_FP/SoilTemperatureFINPL.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,32 +112,72 @@ $(document).ready(function(){initNavTree('d3/dc7/a01170_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">BMPFactory.cpp</div>  </div>
+<div class="title">SoilTemperatureFINPL.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;BMPFactory.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using namespace </span>MainBMP;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="../../dd/dbb/a00330.html#ac8dfe5287c813519da202a479633767b">    5</a></span>&#160;<a class="code" href="../../dd/dbb/a00330.html#ac8dfe5287c813519da202a479633767b">BMPFactory::BMPFactory</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> scenarioId, <span class="keyword">const</span> <span class="keywordtype">int</span> bmpId, <span class="keyword">const</span> <span class="keywordtype">int</span> subScenario,</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                       <span class="keyword">const</span> <span class="keywordtype">int</span> bmpType, <span class="keyword">const</span> <span class="keywordtype">int</span> bmpPriority, vector&lt;string&gt; distribution,</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                       <span class="keyword">const</span> <span class="keywordtype">string</span> collection, <span class="keyword">const</span> <span class="keywordtype">string</span> location) :</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    m_scenarioId(scenarioId), m_bmpId(bmpId), m_subScenarioId(subScenario), m_bmpType(bmpType),</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    m_bmpPriority(bmpPriority),</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    m_distribution(distribution), m_bmpCollection(collection), m_location(location) {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="../../dd/dbb/a00330.html#a6ede2a305a872f11257bdc7a2afc7799">   13</a></span>&#160;<a class="code" href="../../dd/dbb/a00330.html#a6ede2a305a872f11257bdc7a2afc7799">BMPFactory::~BMPFactory</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}</div>
-<div class="ttc" id="a00330_html_ac8dfe5287c813519da202a479633767b"><div class="ttname"><a href="../../dd/dbb/a00330.html#ac8dfe5287c813519da202a479633767b">MainBMP::BMPFactory::BMPFactory</a></div><div class="ttdeci">BMPFactory(const int scenarioId, const int bmpId, const int subScenario, const int bmpType, const int bmpPriority, vector&lt; string &gt; distribution, const string collection, const string location)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc7/a01170_source.html#l00005">BMPFactory.cpp:5</a></div></div>
-<div class="ttc" id="a00330_html_a6ede2a305a872f11257bdc7a2afc7799"><div class="ttname"><a href="../../dd/dbb/a00330.html#a6ede2a305a872f11257bdc7a2afc7799">MainBMP::BMPFactory::~BMPFactory</a></div><div class="ttdeci">virtual ~BMPFactory(void)</div><div class="ttdoc">virtual Destructor </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc7/a01170_source.html#l00013">BMPFactory.cpp:13</a></div></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../d2/d45/a00342.html">   27</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d45/a00342.html">SoilTemperatureFINPL</a> : <span class="keyword">public</span> <a class="code" href="../../dd/d1d/a00336.html">SimulationModule</a> {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <a class="code" href="../../d2/d45/a00342.html">SoilTemperatureFINPL</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    ~<a class="code" href="../../d2/d45/a00342.html">SoilTemperatureFINPL</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> value);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">//virtual void SetDate(time_t t);</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">//time_t m_date;</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="../../d2/d45/a00342.html#aaa2115614c983996db13755beec72633">   52</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/d45/a00342.html#aaa2115614c983996db13755beec72633">m_a0</a>, m_a1, m_a2, m_a3, m_b1, m_b2, m_d1, m_d2;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../d2/d45/a00342.html#a47c261fa4a590ec350f21dd20a4c0738">   54</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/d45/a00342.html#a47c261fa4a590ec350f21dd20a4c0738">m_kSoil10</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../d2/d45/a00342.html#ac1841e6ec4ed6c2ffba068eb3722132f">   57</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d2/d45/a00342.html#ac1841e6ec4ed6c2ffba068eb3722132f">m_julianDay</a>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../d2/d45/a00342.html#acc4670d9a1276d9e00cc2abcd01aa460">   59</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d2/d45/a00342.html#acc4670d9a1276d9e00cc2abcd01aa460">m_nCells</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../d2/d45/a00342.html#a644e35e73ac24b1f7de3102a368004b5">   61</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d45/a00342.html#a644e35e73ac24b1f7de3102a368004b5">m_relativeFactor</a>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../d2/d45/a00342.html#a26758fa0d2e16eb93297d5da5db97a09">   63</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d45/a00342.html#a26758fa0d2e16eb93297d5da5db97a09">m_landuse</a>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="../../d2/d45/a00342.html#aadcf4c514d598d8a145ed757071331f3">   66</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d45/a00342.html#aadcf4c514d598d8a145ed757071331f3">m_tMean</a>;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordtype">float</span> *m_t1;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">float</span> *m_t2;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../d2/d45/a00342.html#a2cd218fcb8d0aebe4ffd881e2721c868">   72</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/d45/a00342.html#a2cd218fcb8d0aebe4ffd881e2721c868">w</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../d2/d45/a00342.html#a323c1de5dda6c8e041620dc6905c930f">   74</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d45/a00342.html#a323c1de5dda6c8e041620dc6905c930f">m_soilTemp</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">void</span> initialOutputs(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;};</div>
+<div class="ttc" id="a00342_html"><div class="ttname"><a href="../../d2/d45/a00342.html">SoilTemperatureFINPL</a></div><div class="ttdoc">Soil temperature. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc7/a01170_source.html#l00027">SoilTemperatureFINPL.h:27</a></div></div>
+<div class="ttc" id="a00342_html_a26758fa0d2e16eb93297d5da5db97a09"><div class="ttname"><a href="../../d2/d45/a00342.html#a26758fa0d2e16eb93297d5da5db97a09">SoilTemperatureFINPL::m_landuse</a></div><div class="ttdeci">float * m_landuse</div><div class="ttdoc">landuse type, for distinguish calculation, such as water body. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc7/a01170_source.html#l00063">SoilTemperatureFINPL.h:63</a></div></div>
+<div class="ttc" id="a00342_html_aadcf4c514d598d8a145ed757071331f3"><div class="ttname"><a href="../../d2/d45/a00342.html#aadcf4c514d598d8a145ed757071331f3">SoilTemperatureFINPL::m_tMean</a></div><div class="ttdeci">float * m_tMean</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc7/a01170_source.html#l00066">SoilTemperatureFINPL.h:66</a></div></div>
+<div class="ttc" id="a00342_html_acc4670d9a1276d9e00cc2abcd01aa460"><div class="ttname"><a href="../../d2/d45/a00342.html#acc4670d9a1276d9e00cc2abcd01aa460">SoilTemperatureFINPL::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">count of cells </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc7/a01170_source.html#l00059">SoilTemperatureFINPL.h:59</a></div></div>
+<div class="ttc" id="a00342_html_a47c261fa4a590ec350f21dd20a4c0738"><div class="ttname"><a href="../../d2/d45/a00342.html#a47c261fa4a590ec350f21dd20a4c0738">SoilTemperatureFINPL::m_kSoil10</a></div><div class="ttdeci">float m_kSoil10</div><div class="ttdoc">ratio between soil temperature at 10 cm and the mean </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc7/a01170_source.html#l00054">SoilTemperatureFINPL.h:54</a></div></div>
+<div class="ttc" id="a00342_html_a323c1de5dda6c8e041620dc6905c930f"><div class="ttname"><a href="../../d2/d45/a00342.html#a323c1de5dda6c8e041620dc6905c930f">SoilTemperatureFINPL::m_soilTemp</a></div><div class="ttdeci">float * m_soilTemp</div><div class="ttdoc">output soil temperature </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc7/a01170_source.html#l00074">SoilTemperatureFINPL.h:74</a></div></div>
+<div class="ttc" id="a00342_html_aaa2115614c983996db13755beec72633"><div class="ttname"><a href="../../d2/d45/a00342.html#aaa2115614c983996db13755beec72633">SoilTemperatureFINPL::m_a0</a></div><div class="ttdeci">float m_a0</div><div class="ttdoc">time </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc7/a01170_source.html#l00052">SoilTemperatureFINPL.h:52</a></div></div>
+<div class="ttc" id="a00342_html_a644e35e73ac24b1f7de3102a368004b5"><div class="ttname"><a href="../../d2/d45/a00342.html#a644e35e73ac24b1f7de3102a368004b5">SoilTemperatureFINPL::m_relativeFactor</a></div><div class="ttdeci">float * m_relativeFactor</div><div class="ttdoc">factor of soil temperature relative to short grass (degree) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc7/a01170_source.html#l00061">SoilTemperatureFINPL.h:61</a></div></div>
+<div class="ttc" id="a00342_html_ac1841e6ec4ed6c2ffba068eb3722132f"><div class="ttname"><a href="../../d2/d45/a00342.html#ac1841e6ec4ed6c2ffba068eb3722132f">SoilTemperatureFINPL::m_julianDay</a></div><div class="ttdeci">int m_julianDay</div><div class="ttdoc">Julian day. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc7/a01170_source.html#l00057">SoilTemperatureFINPL.h:57</a></div></div>
+<div class="ttc" id="a00342_html_a2cd218fcb8d0aebe4ffd881e2721c868"><div class="ttname"><a href="../../d2/d45/a00342.html#a2cd218fcb8d0aebe4ffd881e2721c868">SoilTemperatureFINPL::w</a></div><div class="ttdeci">float w</div><div class="ttdoc">temporary variable </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dc7/a01170_source.html#l00072">SoilTemperatureFINPL.h:72</a></div></div>
+<div class="ttc" id="a00336_html"><div class="ttname"><a href="../../dd/d1d/a00336.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00047">SimulationModule.h:47</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_c4eaa6a6e6c4ee7b087e3de60cab1bbc.html">bmps</a></li><li class="navelem"><b>BMPFactory.cpp</b></li>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:35 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5bf5a4201e7cd7ac6c5f03aeeeae8b2c.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_0230f6dd061eaa376dec00257395e693.html">STP_FP</a></li><li class="navelem"><b>SoilTemperatureFINPL.h</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:26:00 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

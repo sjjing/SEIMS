@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_longterm_linux_gcc48/seims/postprocess/hydroPlot_main.py Source File</title>
+<title>SEIMS: seims/src/seims_main/base/data/PlantGrowthCommon.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,69 +112,93 @@ $(document).ready(function(){initNavTree('d0/d85/a00976_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">hydroPlot_main.py</div>  </div>
+<div class="title">PlantGrowthCommon.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;PlantGrowthCommon.h&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">from</span> pymongo.errors <span class="keyword">import</span> ConnectionFailure</div>
+<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="../../da/de0/a00317.html#a32026de12572f33d136c61278f3b25b2">    3</a></span>&#160;<a class="code" href="../../da/de0/a00317.html#a32026de12572f33d136c61278f3b25b2">PGCommon::PGCommon</a>() {</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;}</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">from</span> config <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">from</span> hydroPlot <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="../../da/de0/a00317.html#ae0b7a9dc27bdb4bc9632e50d5e65c8dd">    6</a></span>&#160;<a class="code" href="../../da/de0/a00317.html#ae0b7a9dc27bdb4bc9632e50d5e65c8dd">PGCommon::~PGCommon</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;}</div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    LoadConfiguration(GetINIfile())</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        conn = <a class="code" href="../../d7/db9/a00426.html">MongoClient</a>(host = HOSTNAME, port = PORT)</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordflow">except</span> ConnectionFailure:</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        sys.stderr.write(<span class="stringliteral">&quot;Could not connect to MongoDB: %s&quot;</span> % ConnectionFailure.message)</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        sys.exit(1)</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    ClimateDB = conn[ClimateDBName]</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    SpatialDB = conn[SpatialDBName]</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="comment"># Date Array</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="stringliteral">    TODO:</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="stringliteral">    This way is not expansible, since the time interval is not considered.</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="stringliteral">    The recommendation is:</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="stringliteral">        1. read the date of each item from simulated file.</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral">        2. match the observed values if stated with the date.</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="stringliteral">    Plz review and update. By LJ.</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral">    &#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    dateArr = GetDateArr(TIME_Start, TIME_End)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="comment"># Precipatation</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">    TODO:</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">    The precipitation should be read according to the subbasin ID.</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="stringliteral">        Especially when plot a specific subbasin (such as ID 3).</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">        For the whole basin, the subbasin ID is 0.</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="stringliteral">    Plz review and update. By LJ.</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">    &#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    preci = GetPreciObs(TIME_Start, TIME_End, ClimateDB, SpatialDB)</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordtype">void</span> PGCommon::getNPShapeParameter(<span class="keywordtype">float</span> fr1, <span class="keywordtype">float</span> fr2, <span class="keywordtype">float</span> fr3, <span class="keywordtype">float</span> *shape1, <span class="keywordtype">float</span> *shape2) {</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordflow">if</span> (fr1 - fr2 &lt; 0.0001f) fr2 = fr1 - 0.0001f;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">if</span> (fr2 - fr3 &lt; 0.0001f) fr3 *= 0.75f;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">float</span> t = fr1 - fr3;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordtype">float</span> xMid = 1.0f - (fr2 - fr3) / t;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordtype">float</span> xEnd = 1.0f - 0.00001f / t;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    getScurveShapeParameter(xMid, xEnd, 0.5f, 1.0f, shape1, shape2);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;}</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keywordtype">void</span> PGCommon::getScurveShapeParameter(<span class="keywordtype">float</span> xMid, <span class="keywordtype">float</span> xEnd, <span class="keywordtype">float</span> yMid, <span class="keywordtype">float</span> yEnd, <span class="keywordtype">float</span> *shape1, <span class="keywordtype">float</span> *shape2) {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">float</span> xx = log(yMid / xMid - yMid);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    *shape2 = (xx - log(yEnd / xEnd - yEnd)) / (yEnd - yMid);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    *shape1 = xx + (yMid * (*shape2));</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;}</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordtype">float</span> PGCommon::getNPFraction(<span class="keywordtype">float</span> fr1, <span class="keywordtype">float</span> fr3, <span class="keywordtype">float</span> shape1, <span class="keywordtype">float</span> shape2, <span class="keywordtype">float</span> frPHU) {</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">return</span> (fr1 - fr3) * (1.0f - frPHU / (frPHU + exp(shape1 - shape2 * frPHU))) + fr3;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordtype">float</span> PGCommon::RadiationUseEfficiencyAdjustByVPD(<span class="keywordtype">float</span> vpd, <span class="keywordtype">float</span> radiationUseEfficiencyDeclineRateWithVPD)<span class="keyword"> const </span>{</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">float</span> thresholdVPD = 1.0f;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">if</span> (vpd &lt;= thresholdVPD) <span class="keywordflow">return</span> 0.0f;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordflow">return</span> radiationUseEfficiencyDeclineRateWithVPD * (vpd - thresholdVPD);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordtype">float</span> PGCommon::getNormalization(<span class="keywordtype">float</span> distribution) {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">return</span> 1.f - exp(-distribution);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;}</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment"># simulation</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    dataSimList = []</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(PLOT_VARS)):</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        txtData = ReadSimfromTxt(TIME_Start, TIME_End, MODEL_DIR, PLOT_VARS[i], PLOT_SUBBASINID)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        dataSimList.append(txtData)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment"># # Create multiple plot</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment"># sim_flow = ReadSimfromTxt(TIME_Start, TIME_End, MODEL_DIR, &quot;Q&quot;)</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment"># SearchObs(TIME_Start, TIME_End, &#39;Q&#39;, ClimateDB)</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment"># CreatePlot(dateArr, sim_flow, preci, dataSimList, PLOT_VARS, MODEL_DIR, ClimateDB)</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment"># Create multi hydrographs, updated by LJ</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    CreatePlot2(dateArr, preci, dataSimList, PLOT_VARS, MODEL_DIR, ClimateDB)</div>
-<div class="ttc" id="a00426_html"><div class="ttname"><a href="../../d7/db9/a00426.html">MongoClient</a></div><div class="ttdoc">Create a MongoDB Client. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d84/a01131_source.html#l00039">MongoUtil.h:39</a></div></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keywordtype">float</span> PGCommon::doHeatUnitAccumulation(<span class="keywordtype">float</span> potentialHeatUnit, <span class="keywordtype">float</span> tMin, <span class="keywordtype">float</span> tMax, <span class="keywordtype">float</span> tBase) {</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">if</span> (potentialHeatUnit &lt;= 0.1) {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="keywordflow">return</span> 0.f;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">float</span> frAccumulatedHeatUnit = 0.f;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">float</span> tMean = (tMin + tMax) / 2.f;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">//tbase = m_param-&gt;MinTemperature();</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">if</span> (tMean &lt;= tBase) {</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">return</span> 0.f;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    frAccumulatedHeatUnit += (tMean - tBase) / potentialHeatUnit;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordflow">return</span> frAccumulatedHeatUnit;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;}</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="keywordtype">float</span> PGCommon::NPBiomassFraction(<span class="keywordtype">float</span> x1, <span class="keywordtype">float</span> x2, <span class="keywordtype">float</span> x3, <span class="keywordtype">float</span> frPHU) {</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordtype">float</span> ShapeCoefficient1 = 0.f;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">float</span> ShapeCoefficient2 = 0.f;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    getNPShapeParameter(x1, x2, x3, &amp;(ShapeCoefficient1), &amp;(ShapeCoefficient2));</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">return</span> getNPFraction(x1, x3, ShapeCoefficient1, ShapeCoefficient2, frPHU);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../da/de0/a00317.html#a7e75f09a7df9bba3726b4635fec20e51">   61</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../da/de0/a00317.html#a7e75f09a7df9bba3726b4635fec20e51">PGCommon::calPlantStressByLimitedNP</a>(<span class="keywordtype">float</span> u1, <span class="keywordtype">float</span> u2, <span class="keywordtype">float</span> *uu) {</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">float</span> strsf = 200.f * (u1 / (u2 + 0.0001f) - 0.5f);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">if</span> (strsf &lt;= 0.f) {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        strsf = 0.f;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">if</span> (strsf &lt; 99.f) {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            strsf = strsf / (strsf + exp(3.535f - 0.02597f * strsf));</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            strsf = 1.f;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        }</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">if</span> (u2 &lt; UTIL_ZERO) strsf = 1.f;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    *uu = strsf;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="ttc" id="a00317_html_a32026de12572f33d136c61278f3b25b2"><div class="ttname"><a href="../../da/de0/a00317.html#a32026de12572f33d136c61278f3b25b2">PGCommon::PGCommon</a></div><div class="ttdeci">PGCommon(void)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d85/a00976_source.html#l00003">PlantGrowthCommon.cpp:3</a></div></div>
+<div class="ttc" id="a00317_html_ae0b7a9dc27bdb4bc9632e50d5e65c8dd"><div class="ttname"><a href="../../da/de0/a00317.html#ae0b7a9dc27bdb4bc9632e50d5e65c8dd">PGCommon::~PGCommon</a></div><div class="ttdeci">~PGCommon(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d85/a00976_source.html#l00006">PlantGrowthCommon.cpp:6</a></div></div>
+<div class="ttc" id="a00317_html_a7e75f09a7df9bba3726b4635fec20e51"><div class="ttname"><a href="../../da/de0/a00317.html#a7e75f09a7df9bba3726b4635fec20e51">PGCommon::calPlantStressByLimitedNP</a></div><div class="ttdeci">static void calPlantStressByLimitedNP(float u1, float u2, float *uu)</div><div class="ttdoc">added by Liang-Jun Zhu, 2016-6-8 </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d85/a00976_source.html#l00061">PlantGrowthCommon.cpp:61</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_ed16674693235890c7cb51a5b1a1dba7.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_7d90664375d4fa713ce6e636f6d5eab5.html">postprocess</a></li><li class="navelem"><b>hydroPlot_main.py</b></li>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:34 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_24d0af58b2644ad205aa9a0d9adbb65a.html">data</a></li><li class="navelem"><b>PlantGrowthCommon.cpp</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:25:59 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_longterm_linux_gcc48/seims/pygeoc/doc/conf.py Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/management/NPSMGT/api.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,23 +112,58 @@ $(document).ready(function(){initNavTree('d0/dfb/a01066_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">conf.py</div>  </div>
+<div class="title">api.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">from</span> recommonmark.parser <span class="keyword">import</span> CommonMarkParser</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;NonPointSource_Management.h&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;source_parsers = {</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    <span class="stringliteral">&#39;.md&#39;</span>: CommonMarkParser,</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;}</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <a class="code" href="../../dd/d1d/a00336.html">SimulationModule</a> *</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;source_suffix = [<span class="stringliteral">&#39;.rst&#39;</span>, <span class="stringliteral">&#39;.md&#39;</span>]</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;GetInstance() {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../df/d95/a00299.html">NPS_Management</a>();</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno"><a class="line" href="../../dc/de6/a01426.html#ga0087c853569e2c94d58c3499365662e9">   12</a></span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../dc/de6/a01426.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a>() {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <a class="code" href="../../d0/dcd/a00280.html">MetadataInfo</a> mdi;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordtype">string</span> res;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    mdi.SetAuthor(<span class="stringliteral">&quot;Liang-Jun Zhu&quot;</span>);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    mdi.SetClass(MCLS_MGT, MCLSDESC_MGT);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    mdi.SetDescription(MDESC_NPSMGT);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    mdi.SetID(MID_NPSMGT);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    mdi.SetName(MID_NPSMGT);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    mdi.SetVersion(<span class="stringliteral">&quot;0.1&quot;</span>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    mdi.SetEmail(SEIMS_EMAIL);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    mdi.SetWebsite(SEIMS_SITE);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    mdi.SetHelpfile(<span class="stringliteral">&quot;NPSMGT.html&quot;</span>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    mdi.AddParameter(Tag_TimeStep, UNIT_SECOND, DESC_TIMESTEP, Source_ParameterDB, DT_Single);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    mdi.AddParameter(Tag_CellWidth, UNIT_LEN_M, DESC_CellWidth, Source_ParameterDB, DT_Single);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    mdi.AddParameter(VAR_SCENARIO, UNIT_NON_DIM, DESC_SCENARIO, Source_ParameterDB, DT_Scenario);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    mdi.AddParameter(VAR_MGT_FIELD, UNIT_NON_DIM, DESC_MGT_FIELD, Source_ParameterDB, DT_Raster1D);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    mdi.AddInput(VAR_SOL_ST, UNIT_DEPTH_MM, DESC_SOL_ST, Source_Module_Optional, DT_Raster2D);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    mdi.AddInput(VAR_SOL_NH4, UNIT_CONT_KGHA, DESC_SOL_NH4, Source_Module_Optional, DT_Raster2D);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    mdi.AddInput(VAR_SOL_NO3, UNIT_CONT_KGHA, DESC_SOL_NO3, Source_Module_Optional, DT_Raster2D);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    mdi.AddInput(VAR_SOL_SOLP, UNIT_CONT_KGHA, DESC_SOL_SOLP, Source_Module_Optional, DT_Raster2D);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    res = mdi.GetXMLDocument();</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">char</span> *tmp = <span class="keyword">new</span> <span class="keywordtype">char</span>[res.size() + 1];</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    strprintf(tmp, res.size() + 1, <span class="stringliteral">&quot;%s&quot;</span>, res.c_str());</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;}</div>
+<div class="ttc" id="a01426_html_ga0087c853569e2c94d58c3499365662e9"><div class="ttname"><a href="../../dc/de6/a01426.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a></div><div class="ttdeci">SEIMS_MODULE_API const char * MetadataInformation()</div><div class="ttdoc">function to return the XML Metadata document string </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d22/a01049_source.html#l00015">api.cpp:15</a></div></div>
+<div class="ttc" id="a00299_html"><div class="ttname"><a href="../../df/d95/a00299.html">NPS_Management</a></div><div class="ttdoc">All management operation in SWAT, e.g., plantop, killop, harvestop, etc. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d75/a01180_source.html#l00019">NonPointSource_Management.h:19</a></div></div>
+<div class="ttc" id="a00280_html"><div class="ttname"><a href="../../d0/dcd/a00280.html">MetadataInfo</a></div><div class="ttdoc">Metadata information of module. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/daa/a00996_source.html#l00091">MetadataInfo.h:91</a></div></div>
+<div class="ttc" id="a00336_html"><div class="ttname"><a href="../../dd/d1d/a00336.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00047">SimulationModule.h:47</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_ed16674693235890c7cb51a5b1a1dba7.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_9598fad7d324ddcf8fd8f6381636de51.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_0918d8aa47364a0310fa7ffbb3200e35.html">doc</a></li><li class="navelem"><b>conf.py</b></li>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:34 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_c45a69ff562c5683ce5320a99c4bd799.html">management</a></li><li class="navelem"><a class="el" href="../../dir_50a71d2a3869972c287d4538ef398de4.html">NPSMGT</a></li><li class="navelem"><b>api.cpp</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:26:00 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

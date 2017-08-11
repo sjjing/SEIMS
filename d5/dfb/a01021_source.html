@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_longterm_linux_gcc48/seims/preprocess/db_import_sites.py Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/erosion/KinWavSed_CH/api.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,254 +112,106 @@ $(document).ready(function(){initNavTree('d5/dfb/a01021_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">db_import_sites.py</div>  </div>
+<div class="title">api.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Import hydroClimate sites information and variables</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Liangjun Zhu</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 16-12-07  lj - rewrite for version 2.0</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">                17-07-04  lj - reorganize according to pylint and google style</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">                17-07-05  lj - integrate hydro_find_sites.py, i.e. SITELIST in workflow database</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">from</span> osgeo.ogr <span class="keyword">import</span> Open <span class="keyword">as</span> ogr_Open</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> pymongo <span class="keyword">import</span> ASCENDING</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> <a class="code" href="../../de/dd5/a01564.html">seims.preprocess.text</a> <span class="keyword">import</span> StationFields, DBTableNames, VariableDesc, DataType, FieldNames</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d6/d82/a01565.html">seims.preprocess.utility</a> <span class="keyword">import</span> read_data_items_from_txt, DEFAULT_NODATA</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d4/d2c/a01575.html">seims.pygeoc.pygeoc.utils.utils</a> <span class="keyword">import</span> StringClass</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;KinWavSed_CH.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <a class="code" href="../../dd/d1d/a00336.html">SimulationModule</a> *</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;GetInstance() {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d9/dd6/a00272.html">KinWavSed_CH</a>();</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// function to return the XML Metadata document string</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">//Set up metadata information</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../dc/de6/a01426.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a>() {</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keywordtype">string</span> res;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">class </span>SiteInfo(object):</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;base class of HydroClimate site information.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">def </span>__init__(self, sid=0, name=&#39;&#39;, lat=DEFAULT_NODATA, lon=DEFAULT_NODATA,</div>
-<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="../../dc/d8e/a00473.html#aa829b460a4c8f2aaa2e7ae5486188053">   21</a></span>&#160;                 local_x=DEFAULT_NODATA, local_y=DEFAULT_NODATA, alti=DEFAULT_NODATA):</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Initialize a SiteInfo object.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        self.<a class="code" href="../../dc/d8e/a00473.html#a7a8ff1118102403b7aa7c72e61ffd8a8">StationID</a> = sid  <span class="comment"># integer</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        self.<a class="code" href="../../dc/d8e/a00473.html#abcfad95924df7ddf6e1a6ab278d5fd35">Name</a> = name  <span class="comment"># station name, string</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        self.<a class="code" href="../../dc/d8e/a00473.html#aab108cf092a6fd013e919e92d598e254">lat</a> = lat  <span class="comment"># latitude, float degree</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        self.<a class="code" href="../../dc/d8e/a00473.html#a56a2bfeb2b15af9d7c11e014493d0024">lon</a> = lon  <span class="comment"># longitude, float degree</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        self.<a class="code" href="../../dc/d8e/a00473.html#a05c48f57be3c34c50cdd4e64cb27c8e2">LocalX</a> = local_x  <span class="comment"># X coordinate in projection, float</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        self.<a class="code" href="../../dc/d8e/a00473.html#afa9df43cbc3886d1bff7d672ba0e395f">LocalY</a> = local_y  <span class="comment"># Y coordinate in projection, float</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        self.<a class="code" href="../../dc/d8e/a00473.html#a90472ca13de024de8092fd05e3dd8291">alti</a> = alti  <span class="comment"># altitude, as ORIGIN: unit 0.1 meter</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="../../dc/d8e/a00473.html#a6aee4407c776b69c9361aabfb9023704">   31</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../dc/d8e/a00473.html#a6aee4407c776b69c9361aabfb9023704">lon_lat</a>(self):</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Return geographic coordinates.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">return</span> self.<a class="code" href="../../dc/d8e/a00473.html#a56a2bfeb2b15af9d7c11e014493d0024">lon</a>, self.<a class="code" href="../../dc/d8e/a00473.html#aab108cf092a6fd013e919e92d598e254">lat</a></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../dc/d8e/a00473.html#a632934bc5f22191e31692e6b403f9f45">   35</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../dc/d8e/a00473.html#a632934bc5f22191e31692e6b403f9f45">local_xy</a>(self):</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Return projected coordinates.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">return</span> self.<a class="code" href="../../dc/d8e/a00473.html#a05c48f57be3c34c50cdd4e64cb27c8e2">LocalX</a>, self.<a class="code" href="../../dc/d8e/a00473.html#afa9df43cbc3886d1bff7d672ba0e395f">LocalY</a></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/dc1/a00388.html">ImportHydroClimateSites</a>(object):</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Import hydro-climate sites information.</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral">       1. Find meteorology and precipitation sites in study area, and save at SITELIST</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">          of the workflow database</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral">       2. Import geographic information of each sites to Hydro-Climate database.</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <a class="code" href="../../d0/dcd/a00280.html">MetadataInfo</a> mdi;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="comment">// set the information properties</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    mdi.SetAuthor(<span class="stringliteral">&quot;Hui Wu&quot;</span>);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    mdi.SetClass(MCLS_CH_EROSION, MCLSDESC_CH_EROSION);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    mdi.SetDescription(MDESC_KINWAVSED_CH);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    mdi.SetEmail(SEIMS_EMAIL);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    mdi.SetID(MID_KINWAVSED_CH);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    mdi.SetName(MID_KINWAVSED_CH);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    mdi.SetVersion(<span class="stringliteral">&quot;0.5&quot;</span>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    mdi.SetWebsite(SEIMS_SITE);</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    mdi.SetHelpfile(<span class="stringliteral">&quot;KinWavSed_CH.chm&quot;</span>);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    mdi.AddParameter(Tag_CellSize, UNIT_NON_DIM, DESC_CellSize, Source_ParameterDB, DT_Single);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    mdi.AddParameter(Tag_CellWidth, UNIT_LEN_M, DESC_CellWidth, Source_ParameterDB, DT_Single);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    mdi.AddParameter(Tag_HillSlopeTimeStep, UNIT_SECOND, DESC_DT_HS, File_Input, DT_Single);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    mdi.AddParameter(Tag_LayeringMethod, UNIT_NON_DIM, DESC_LayeringMethod, File_Input, DT_Single);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    mdi.AddParameter(VAR_CH_TCCO, UNIT_NON_DIM, DESC_CH_TCCO, Source_ParameterDB, DT_Single);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    mdi.AddParameter(VAR_CH_DETCO, UNIT_NON_DIM, DESC_CH_DETCO, Source_ParameterDB, DT_Single);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    mdi.AddParameter(VAR_CHWIDTH, UNIT_LEN_M, DESC_CHWIDTH, Source_ParameterDB, DT_Raster1D);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    mdi.AddParameter(VAR_SLOPE, UNIT_PERCENT, DESC_SLOPE, Source_ParameterDB, DT_Raster1D);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    mdi.AddParameter(VAR_STREAM_LINK, UNIT_NON_DIM, DESC_STREAM_LINK, Source_ParameterDB, DT_Raster1D);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    mdi.AddParameter(VAR_USLE_K, UNIT_NON_DIM, DESC_USLE_K, Source_ParameterDB, DT_Raster1D);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    mdi.AddParameter(Tag_FLOWOUT_INDEX_D8, UNIT_NON_DIM, DESC_FLOWOUT_INDEX_D8, Source_ParameterDB, DT_Array1D);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    mdi.AddParameter(Tag_FLOWIN_INDEX_D8, UNIT_NON_DIM, DESC_FLOWIN_INDEX_D8, Source_ParameterDB, DT_Array2D);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">//mdi.AddParameter(Tag_ReachParameter, UNIT_NON_DIM, DESC_REACH_PARAM, Source_ParameterDB, DT_Array2D);</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="comment">// add reach information</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    mdi.AddParameter(VAR_REACH_PARAM, UNIT_NON_DIM, DESC_REACH_PARAM, Source_ParameterDB, DT_Reach);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../d9/dc1/a00388.html#ac04b0961c786a1edb5a0551b65dd291d">   48</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/dc1/a00388.html#ac04b0961c786a1edb5a0551b65dd291d">sites_table</a>(hydro_clim_db, site_file, site_type):</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Import HydroClimate sites table&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        sites_loc = dict()</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        site_data_items = read_data_items_from_txt(site_file)</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        site_flds = site_data_items[0]</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(1, len(site_data_items)):</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;            dic = dict()</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;            <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(len(site_data_items[i])):</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                <span class="keywordflow">if</span> StringClass.string_match(site_flds[j], StationFields.id):</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                    dic[StationFields.id] = int(site_data_items[i][j])</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                <span class="keywordflow">elif</span> StringClass.string_match(site_flds[j], StationFields.name):</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;                    <span class="comment"># unicode(site_data_items[i][j], &#39;gb2312&#39;)</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;                    dic[StationFields.name] = site_data_items[i][j]</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                <span class="keywordflow">elif</span> StringClass.string_match(site_flds[j], StationFields.x):</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                    dic[StationFields.x] = float(site_data_items[i][j])</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                <span class="keywordflow">elif</span> StringClass.string_match(site_flds[j], StationFields.y):</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                    dic[StationFields.y] = float(site_data_items[i][j])</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <span class="keywordflow">elif</span> StringClass.string_match(site_flds[j], StationFields.lon):</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                    dic[StationFields.lon] = float(site_data_items[i][j])</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                <span class="keywordflow">elif</span> StringClass.string_match(site_flds[j], StationFields.lat):</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                    dic[StationFields.lat] = float(site_data_items[i][j])</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                <span class="keywordflow">elif</span> StringClass.string_match(site_flds[j], StationFields.elev):</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                    dic[StationFields.elev] = float(site_data_items[i][j])</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                <span class="keywordflow">elif</span> StringClass.string_match(site_flds[j], StationFields.outlet):</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                    dic[StationFields.outlet] = float(site_data_items[i][j])</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            dic[StationFields.type] = site_type</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            curfilter = {StationFields.id: dic[StationFields.id],</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                         StationFields.type: dic[StationFields.type]}</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            hydro_clim_db[DBTableNames.sites].find_one_and_replace(curfilter, dic, upsert=<span class="keyword">True</span>)</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="keywordflow">if</span> dic[StationFields.id] <span class="keywordflow">not</span> <span class="keywordflow">in</span> sites_loc.keys():</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                sites_loc[dic[StationFields.id]] = <a class="code" href="../../dc/d8e/a00473.html">SiteInfo</a>(dic[StationFields.id],</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                                                            dic[StationFields.name],</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                                                            dic[StationFields.lat],</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                                                            dic[StationFields.lon],</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                                                            dic[StationFields.x],</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                                                            dic[StationFields.y],</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                                                            dic[StationFields.elev])</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        hydro_clim_db[DBTableNames.sites].create_index([(StationFields.id, ASCENDING),</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                                                        (StationFields.type, ASCENDING)])</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">return</span> sites_loc</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="../../d9/dc1/a00388.html#a4c148528cb82a9084b74cd97d17083f4">   91</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/dc1/a00388.html#a4c148528cb82a9084b74cd97d17083f4">variable_table</a>(db, var_file):</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Import variables table&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        var_data_items = read_data_items_from_txt(var_file)</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        var_flds = var_data_items[0]</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(1, len(var_data_items)):</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            dic = {}</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(len(var_data_items[i])):</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                <span class="keywordflow">if</span> StringClass.string_match(var_flds[j], VariableDesc.type):</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                    dic[VariableDesc.type] = var_data_items[i][j]</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;                <span class="keywordflow">elif</span> StringClass.string_match(var_flds[j], VariableDesc.unit):</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                    dic[VariableDesc.unit] = var_data_items[i][j]</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            <span class="comment"># If this item existed already, then update it, otherwise insert one.</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            curfilter = {VariableDesc.type: dic[VariableDesc.type]}</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            db[DBTableNames.var_desc].find_one_and_replace(curfilter, dic, upsert=<span class="keyword">True</span>)</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00107"></a><span class="lineno"><a class="line" href="../../d9/dc1/a00388.html#a5d0bf4e545d2dabcc85ef934c4aa0991">  107</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/dc1/a00388.html#a5d0bf4e545d2dabcc85ef934c4aa0991">ogrwkt2shapely</a>(input_shape, id_field):</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Return shape objects list and ids list&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keyword">from</span> shapely.wkt <span class="keyword">import</span> loads <span class="keyword">as</span> shapely_loads</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        shapely_objects = []</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        id_list = []</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="comment"># print input_shape</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        shp = ogr_Open(input_shape)</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        lyr = shp.GetLayer()</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordflow">for</span> n <span class="keywordflow">in</span> range(0, lyr.GetFeatureCount()):</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            feat = lyr.GetFeature(n)</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            wkt_feat = shapely_loads(feat.geometry().ExportToWkt())</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            shapely_objects.append(wkt_feat)</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            <span class="keywordflow">if</span> isinstance(id_field, unicode):</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                id_field = id_field.encode()</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            id_index = feat.GetFieldIndex(id_field)</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            id_list.append(feat.GetField(id_index))</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordflow">return</span> shapely_objects, id_list</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/dc1/a00388.html#a32d7d7c27523b0624359773d9a78948b">find_sites</a>(maindb, clim_dbname, subbsn_file, subbsn_field_id,</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                   thissen_file_list, thissen_field_id, site_type_list,</div>
-<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="../../d9/dc1/a00388.html#a32d7d7c27523b0624359773d9a78948b">  128</a></span>&#160;                   is_storm=<span class="keyword">False</span>, is_cluster=<span class="keyword">False</span>):</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Find meteorology and precipitation sites in study area&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        mode = <span class="stringliteral">&#39;DAILY&#39;</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordflow">if</span> is_storm:</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            mode = <span class="stringliteral">&#39;STORM&#39;</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        subbasin_list, subbasin_id_list = ImportHydroClimateSites.ogrwkt2shapely(subbsn_file,</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                                                                                 subbsn_field_id)</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        n_subbasins = len(subbasin_list)</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="comment"># site_dic = dict()</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">for</span> i, subbasin <span class="keywordflow">in</span> enumerate(subbasin_list):</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            cur_id = subbasin_id_list[i]</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="comment"># if not for cluster and basin.shp is used, force the SUBBASINID to 0. by LJ.</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            <span class="keywordflow">if</span> <span class="keywordflow">not</span> is_cluster <span class="keywordflow">and</span> n_subbasins == 1:</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                cur_id = 0</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            dic = dict()</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            dic[FieldNames.subbasin_id] = cur_id</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;            dic[FieldNames.db] = clim_dbname</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            dic[FieldNames.mode] = mode</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            cur_fileter = {FieldNames.subbasin_id: cur_id,</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                           FieldNames.db: clim_dbname,</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                           FieldNames.mode: mode}</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            <span class="keywordflow">for</span> meteo_id, thiessen_file <span class="keywordflow">in</span> enumerate(thissen_file_list):</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                <span class="comment"># print thiessen_file</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                site_type = site_type_list[meteo_id]</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                thiessen_list, thiessen_id_list = ImportHydroClimateSites.ogrwkt2shapely(</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                        thiessen_file, thissen_field_id)</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                site_list = []</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                <span class="keywordflow">for</span> poly_id, thiessen <span class="keywordflow">in</span> enumerate(thiessen_list):</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                    <span class="keywordflow">if</span> subbasin.intersects(thiessen):</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                        site_list.append(thiessen_id_list[poly_id])</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                site_list.sort()</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                slist = [str(item) <span class="keywordflow">for</span> item <span class="keywordflow">in</span> site_list]</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                site_list_str = <span class="stringliteral">&#39;,&#39;</span>.join(slist)</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                site_field = <span class="stringliteral">&#39;%s%s&#39;</span> % (DBTableNames.main_sitelist, site_type)</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                dic[site_field] = site_list_str</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            maindb[DBTableNames.main_sitelist].find_one_and_replace(cur_fileter, dic, upsert=<span class="keyword">True</span>)</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        maindb[DBTableNames.main_sitelist].create_index([(FieldNames.subbasin_id, ASCENDING),</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                                                         (FieldNames.mode, ASCENDING)])</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="comment"># print &#39;Meteorology sites table was generated.&#39;</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00173"></a><span class="lineno"><a class="line" href="../../d9/dc1/a00388.html#a871392a9f9a8659a5bc17e022c20fa4f">  173</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/dc1/a00388.html#a871392a9f9a8659a5bc17e022c20fa4f">workflow</a>(cfg, main_db, clim_db):</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Workflow&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="comment"># 1. Find meteorology and precipitation sites in study area</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        thiessen_file_list = [cfg.meteo_sites_thiessen, cfg.prec_sites_thiessen]</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        type_list = [DataType.m, DataType.p]</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> cfg.cluster:  <span class="comment"># the entire basin</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            ImportHydroClimateSites.find_sites(main_db, cfg.climate_db, cfg.vecs.bsn,</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                                               FieldNames.basin, thiessen_file_list,</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                                               cfg.thiessen_field, type_list, cfg.storm_mode)</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        ImportHydroClimateSites.find_sites(main_db, cfg.climate_db, cfg.vecs.subbsn,</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                                           FieldNames.subbasin_id, thiessen_file_list,</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                                           cfg.thiessen_field, type_list,</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;                                           cfg.storm_mode, cfg.cluster)</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="comment"># 2. Import geographic information of each sites to Hydro-Climate database</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        c_list = clim_db.collection_names()</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        tables = [DBTableNames.sites, DBTableNames.var_desc]</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <span class="keywordflow">for</span> tb <span class="keywordflow">in</span> tables:</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            <span class="keywordflow">if</span> <span class="keywordflow">not</span> StringClass.string_in_list(tb, c_list):</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                clim_db.create_collection(tb)</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        ImportHydroClimateSites.variable_table(clim_db, cfg.hydro_climate_vars)</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        site_m_loc = ImportHydroClimateSites.sites_table(clim_db, cfg.Meteo_sites, DataType.m)</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        site_p_loc = ImportHydroClimateSites.sites_table(clim_db, cfg.prec_sites, DataType.p)</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <span class="comment"># print (site_m_loc, site_p_loc)</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        <span class="keywordflow">return</span> site_m_loc, site_p_loc</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="keyword">def </span>main():</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;TEST CODE&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d6/d83/a01544.html">seims.preprocess.config</a> <span class="keyword">import</span> parse_ini_configuration</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../de/d2c/a01553.html">seims.preprocess.db_mongodb</a> <span class="keyword">import</span> ConnectMongoDB</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    seims_cfg = parse_ini_configuration()</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    client = ConnectMongoDB(seims_cfg.hostname, seims_cfg.port)</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    conn = client.get_conn()</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    main_db = conn[seims_cfg.spatial_db]</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    hydroclim_db = conn[seims_cfg.climate_db]</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    ImportHydroClimateSites.workflow(seims_cfg, main_db, hydroclim_db)</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    client.close()</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    main()</div>
-<div class="ttc" id="a00473_html_afa9df43cbc3886d1bff7d672ba0e395f"><div class="ttname"><a href="../../dc/d8e/a00473.html#afa9df43cbc3886d1bff7d672ba0e395f">seims.preprocess.db_import_sites.SiteInfo.LocalY</a></div><div class="ttdeci">LocalY</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00028">db_import_sites.py:28</a></div></div>
-<div class="ttc" id="a01553_html"><div class="ttname"><a href="../../de/d2c/a01553.html">seims.preprocess.db_mongodb</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d02/a01026_source.html#l00001">db_mongodb.py:1</a></div></div>
-<div class="ttc" id="a00388_html_ac04b0961c786a1edb5a0551b65dd291d"><div class="ttname"><a href="../../d9/dc1/a00388.html#ac04b0961c786a1edb5a0551b65dd291d">seims.preprocess.db_import_sites.ImportHydroClimateSites.sites_table</a></div><div class="ttdeci">def sites_table</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00048">db_import_sites.py:48</a></div></div>
-<div class="ttc" id="a00473_html_a56a2bfeb2b15af9d7c11e014493d0024"><div class="ttname"><a href="../../dc/d8e/a00473.html#a56a2bfeb2b15af9d7c11e014493d0024">seims.preprocess.db_import_sites.SiteInfo.lon</a></div><div class="ttdeci">lon</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00026">db_import_sites.py:26</a></div></div>
-<div class="ttc" id="a00473_html_a632934bc5f22191e31692e6b403f9f45"><div class="ttname"><a href="../../dc/d8e/a00473.html#a632934bc5f22191e31692e6b403f9f45">seims.preprocess.db_import_sites.SiteInfo.local_xy</a></div><div class="ttdeci">def local_xy</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00035">db_import_sites.py:35</a></div></div>
-<div class="ttc" id="a00388_html"><div class="ttname"><a href="../../d9/dc1/a00388.html">seims.preprocess.db_import_sites.ImportHydroClimateSites</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00040">db_import_sites.py:40</a></div></div>
-<div class="ttc" id="a01544_html"><div class="ttname"><a href="../../d6/d83/a01544.html">seims.preprocess.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d17/a00964_source.html#l00001">config.py:1</a></div></div>
-<div class="ttc" id="a00388_html_a5d0bf4e545d2dabcc85ef934c4aa0991"><div class="ttname"><a href="../../d9/dc1/a00388.html#a5d0bf4e545d2dabcc85ef934c4aa0991">seims.preprocess.db_import_sites.ImportHydroClimateSites.ogrwkt2shapely</a></div><div class="ttdeci">def ogrwkt2shapely</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00107">db_import_sites.py:107</a></div></div>
-<div class="ttc" id="a00473_html_aab108cf092a6fd013e919e92d598e254"><div class="ttname"><a href="../../dc/d8e/a00473.html#aab108cf092a6fd013e919e92d598e254">seims.preprocess.db_import_sites.SiteInfo.lat</a></div><div class="ttdeci">lat</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00025">db_import_sites.py:25</a></div></div>
-<div class="ttc" id="a00473_html_a05c48f57be3c34c50cdd4e64cb27c8e2"><div class="ttname"><a href="../../dc/d8e/a00473.html#a05c48f57be3c34c50cdd4e64cb27c8e2">seims.preprocess.db_import_sites.SiteInfo.LocalX</a></div><div class="ttdeci">LocalX</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00027">db_import_sites.py:27</a></div></div>
-<div class="ttc" id="a01564_html"><div class="ttname"><a href="../../de/dd5/a01564.html">seims.preprocess.text</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d90/a01059_source.html#l00001">text.py:1</a></div></div>
-<div class="ttc" id="a00473_html_a6aee4407c776b69c9361aabfb9023704"><div class="ttname"><a href="../../dc/d8e/a00473.html#a6aee4407c776b69c9361aabfb9023704">seims.preprocess.db_import_sites.SiteInfo.lon_lat</a></div><div class="ttdeci">def lon_lat</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00031">db_import_sites.py:31</a></div></div>
-<div class="ttc" id="a00388_html_a32d7d7c27523b0624359773d9a78948b"><div class="ttname"><a href="../../d9/dc1/a00388.html#a32d7d7c27523b0624359773d9a78948b">seims.preprocess.db_import_sites.ImportHydroClimateSites.find_sites</a></div><div class="ttdeci">def find_sites</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00128">db_import_sites.py:128</a></div></div>
-<div class="ttc" id="a01575_html"><div class="ttname"><a href="../../d4/d2c/a01575.html">seims.pygeoc.pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/db1/a00730_source.html#l00001">utils.py:1</a></div></div>
-<div class="ttc" id="a00388_html_a4c148528cb82a9084b74cd97d17083f4"><div class="ttname"><a href="../../d9/dc1/a00388.html#a4c148528cb82a9084b74cd97d17083f4">seims.preprocess.db_import_sites.ImportHydroClimateSites.variable_table</a></div><div class="ttdeci">def variable_table</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00091">db_import_sites.py:91</a></div></div>
-<div class="ttc" id="a00473_html_abcfad95924df7ddf6e1a6ab278d5fd35"><div class="ttname"><a href="../../dc/d8e/a00473.html#abcfad95924df7ddf6e1a6ab278d5fd35">seims.preprocess.db_import_sites.SiteInfo.Name</a></div><div class="ttdeci">Name</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00024">db_import_sites.py:24</a></div></div>
-<div class="ttc" id="a00473_html_a90472ca13de024de8092fd05e3dd8291"><div class="ttname"><a href="../../dc/d8e/a00473.html#a90472ca13de024de8092fd05e3dd8291">seims.preprocess.db_import_sites.SiteInfo.alti</a></div><div class="ttdeci">alti</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00029">db_import_sites.py:29</a></div></div>
-<div class="ttc" id="a00473_html_a7a8ff1118102403b7aa7c72e61ffd8a8"><div class="ttname"><a href="../../dc/d8e/a00473.html#a7a8ff1118102403b7aa7c72e61ffd8a8">seims.preprocess.db_import_sites.SiteInfo.StationID</a></div><div class="ttdeci">StationID</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00023">db_import_sites.py:23</a></div></div>
-<div class="ttc" id="a00473_html"><div class="ttname"><a href="../../dc/d8e/a00473.html">seims.preprocess.db_import_sites.SiteInfo</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00017">db_import_sites.py:17</a></div></div>
-<div class="ttc" id="a01565_html"><div class="ttname"><a href="../../d6/d82/a01565.html">seims.preprocess.utility</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d8a/a01062_source.html#l00001">utility.py:1</a></div></div>
-<div class="ttc" id="a00388_html_a871392a9f9a8659a5bc17e022c20fa4f"><div class="ttname"><a href="../../d9/dc1/a00388.html#a871392a9f9a8659a5bc17e022c20fa4f">seims.preprocess.db_import_sites.ImportHydroClimateSites.workflow</a></div><div class="ttdeci">def workflow</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d43/a01020_source.html#l00173">db_import_sites.py:173</a></div></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">// input from other module</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    mdi.AddInput(VAR_SED_TO_CH, UNIT_KG, DESC_SED_TO_CH, Source_Module, DT_Raster1D);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    mdi.AddInput(VAR_HCH, UNIT_DEPTH_MM, DESC_HCH, Source_Module, DT_Array2D);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">//mdi.AddInput(VAR_QRECH, UNIT_FLOW_CMS, DESC_QRECH, Source_Module,DT_Array2D);</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    mdi.AddInput(<span class="stringliteral">&quot;QRECH&quot;</span>, <span class="stringliteral">&quot;m3/s&quot;</span>, <span class="stringliteral">&quot;Flux in the downslope boundary of cells&quot;</span>, <span class="stringliteral">&quot;Module&quot;</span>,</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                 DT_Array2D);<span class="comment">// from which module? By LJ</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment"></span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    mdi.AddOutput(VAR_SED_OUTLET, UNIT_KGM3, DESC_SED_OUTLET, DT_Single);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    mdi.AddOutput(VAR_CH_DEP, UNIT_KG, DESC_CH_DEP, DT_Raster1D);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    mdi.AddOutput(VAR_CH_DET, UNIT_KG, DESC_CH_DET, DT_Raster1D);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    mdi.AddOutput(VAR_CH_SEDRATE, UNIT_KG_S, DESC_CH_SEDRATE, DT_Raster1D);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    mdi.AddOutput(VAR_CH_FLOWCAP, UNIT_KG, DESC_CH_FLOWCAP, DT_Raster1D);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    mdi.AddOutput(VAR_CH_VOL, UNIT_VOL_M3, DESC_CH_VOL, DT_Raster1D);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    mdi.AddOutput(VAR_CH_V, UNIT_SPEED_MS, DESC_CH_V, DT_Raster1D);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    mdi.AddDependency(MCLS_OL_EROSION, MCLSDESC_OL_EROSION);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    mdi.AddDependency(MCLS_CH_ROUTING, MCLSDESC_CH_ROUTING);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">// write out the XML file.</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    res = mdi.GetXMLDocument();</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="comment">//return res;</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordtype">char</span> *tmp = <span class="keyword">new</span> <span class="keywordtype">char</span>[res.size() + 1];</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    strprintf(tmp, res.size() + 1, <span class="stringliteral">&quot;%s&quot;</span>, res.c_str());</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="comment">//mdi.AddOutput(&quot;SEDSUBBASIN&quot;,&quot;ton/s&quot;, &quot;sediment yield production of each subbasin, sediment flux at subbasin (kg/s)&quot;, DT_Raster1D);</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="comment">//mdi.AddInput(&quot;T_HCH&quot;,&quot;mm&quot;, &quot;Water depth in the downslope boundary of cells&quot;,&quot;Module&quot;,DT_Array2D);     //chWH, from channel routing module</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="comment">//mdi.AddInput(&quot;FlowWidth&quot;,&quot;m&quot;, &quot;Flow width of overland plane&quot;,&quot;Module&quot;,DT_Raster);     //FlowWidth, from Overland routing module</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">//mdi.AddInput(&quot;T_QCH&quot;, &quot;m3/s&quot;, &quot;Flux in the downslope boundary of cells&quot;, &quot;Module&quot;,DT_Array2D);</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">/*mdi.AddOutput(&quot;CHDETFLOW&quot;,&quot;kg/m^2&quot;, &quot;distribution of channel flow detachment&quot;, DT_Raster);</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">mdi.AddOutput(&quot;CHSEDDEP&quot;,&quot;kg&quot;, &quot;distribution of channel sediment deposition&quot;, DT_Raster);</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">mdi.AddOutput(&quot;CHSEDCONC&quot;,&quot;kg/m^3&quot;, &quot;distribution of sediment concentration in channel flow&quot;, DT_Raster);</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">mdi.AddOutput(&quot;CHSEDINFLOW&quot;,&quot;kg&quot;, &quot;distribution of sediment content in channel flow&quot;, DT_Raster);*/</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    </div>
+<div class="ttc" id="a01426_html_ga0087c853569e2c94d58c3499365662e9"><div class="ttname"><a href="../../dc/de6/a01426.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a></div><div class="ttdeci">SEIMS_MODULE_API const char * MetadataInformation()</div><div class="ttdoc">function to return the XML Metadata document string </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d22/a01049_source.html#l00015">api.cpp:15</a></div></div>
+<div class="ttc" id="a00272_html"><div class="ttname"><a href="../../d9/dd6/a00272.html">KinWavSed_CH</a></div><div class="ttdoc">Kinematic wave method for channel flow erosion and deposition. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d1f/a01087_source.html#l00024">KinWavSed_CH.h:24</a></div></div>
+<div class="ttc" id="a00280_html"><div class="ttname"><a href="../../d0/dcd/a00280.html">MetadataInfo</a></div><div class="ttdoc">Metadata information of module. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/daa/a00996_source.html#l00091">MetadataInfo.h:91</a></div></div>
+<div class="ttc" id="a00336_html"><div class="ttname"><a href="../../dd/d1d/a00336.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00047">SimulationModule.h:47</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_ed16674693235890c7cb51a5b1a1dba7.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_3d2c2d91a53bef5945323df2c718b9e1.html">preprocess</a></li><li class="navelem"><b>db_import_sites.py</b></li>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:34 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_0416dddcf4ae60131836efd2402708ae.html">erosion</a></li><li class="navelem"><a class="el" href="../../dir_6700bcf4be201fe4dee234aa8ef418b2.html">KinWavSed_CH</a></li><li class="navelem"><b>api.cpp</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:25:59 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

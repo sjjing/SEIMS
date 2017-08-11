@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/buildstorm/googletest-src/googletest/docs/Samples.md Source File</title>
+<title>SEIMS: seims/postprocess/run_models_dingguang.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('d8/db4/a00760.html','../../');});
+$(document).ready(function(){initNavTree('d8/db4/a00760_source.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -112,30 +112,59 @@ $(document).ready(function(){initNavTree('d8/db4/a00760.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">seims/buildstorm/googletest-src/googletest/docs/Samples.md</div>  </div>
+<div class="title">run_models_dingguang.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;If you<span class="stringliteral">&#39;re like us, you&#39;</span>d like to look at some Google Test sample code.  The</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;[samples folder](../samples) has a number of well-commented samples showing how to use a</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;variety of Google Test features.</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;  * [Sample #1](../samples/sample1_unittest.cc) shows the basic steps of <span class="keyword">using</span> Google Test to test C++ functions.</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;  * [Sample #2](../samples/sample2_unittest.cc) shows a more complex unit test <span class="keywordflow">for</span> a <span class="keyword">class</span> with multiple member functions.</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;  * [Sample #3](../samples/sample3_unittest.cc) uses a test fixture.</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;  * [Sample #4](../samples/sample4_unittest.cc) is another basic example of <span class="keyword">using</span> Google Test.</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;  * [Sample #5](../samples/sample5_unittest.cc) teaches how to reuse a test fixture in multiple test cases by deriving sub-fixtures from it.</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;  * [Sample #6](../samples/sample6_unittest.cc) demonstrates type-parameterized tests.</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;  * [Sample #7](../samples/sample7_unittest.cc) teaches the basics of value-parameterized tests.</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;  * [Sample #8](../samples/sample8_unittest.cc) shows <span class="keyword">using</span> `Combine()` in value-parameterized tests.</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;  * [Sample #9](../samples/sample9_unittest.cc) shows use of the listener API to modify Google Test<span class="stringliteral">&#39;s console output and the use of its reflection API to inspect test results.</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="stringliteral">  * [Sample #10](../samples/sample10_unittest.cc) shows use of the listener API to implement a primitive memory leak checker.</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">def </span>SumByFile(filename, year):</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    f = open(filename)</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    lines = f.readlines()</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    f.close()</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    s = 0</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keywordflow">for</span> line <span class="keywordflow">in</span> lines:</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        items = line.split()</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <span class="keywordflow">if</span> len(items) &lt; 3:</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordflow">if</span> items[0][:4] == str(year):</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            s += float(items[-1])</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">return</span> s</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;dirlist = []</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;baseFolder = <span class="stringliteral">r&quot;C:\z_code\Hydro\SEIMS\model_data\dingguang\model_dingguang_30m_longterm&quot;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;baseSceneID = <span class="stringliteral">&quot;0&quot;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;ScenarioIDs = [<span class="stringliteral">&quot;1&quot;</span>, <span class="stringliteral">&quot;2&quot;</span>, <span class="stringliteral">&quot;3&quot;</span>, <span class="stringliteral">&quot;4&quot;</span>]</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;ScenarioNames = [<span class="stringliteral">&quot;DemoExtend_ALL&quot;</span>, <span class="stringliteral">&quot;DemoExtend_PLANT&quot;</span>, <span class="stringliteral">&quot;DemoExtend_ANIMAL&quot;</span>, <span class="stringliteral">&quot;DemoExtend_SEWAGE&quot;</span>]</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;year = 2014</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;subbasinID = 0</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"># statistics base scenario outputs</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;baseParDict = {<span class="stringliteral">&#39;COD&#39;</span>: 0., <span class="stringliteral">&#39;TN&#39;</span>: 0., <span class="stringliteral">&#39;TP&#39;</span>: 0.}</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordflow">for</span> par <span class="keywordflow">in</span> baseParDict.keys():</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    filename = <span class="stringliteral">r&#39;%s\OUTPUT%s\%d_CH_%s.txt&#39;</span> % (baseFolder, baseSceneID, subbasinID, par)</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    baseParDict[par] = round(SumByFile(filename, year) / 1000., 2)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordflow">print</span> <span class="stringliteral">&quot;base Scene, &quot;</span>, baseParDict</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keywordflow">for</span> idx, sceneID <span class="keywordflow">in</span> enumerate(ScenarioIDs):</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    parDict = {<span class="stringliteral">&#39;COD&#39;</span>: 0., <span class="stringliteral">&#39;TN&#39;</span>: 0., <span class="stringliteral">&#39;TP&#39;</span>: 0.}</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    reduceDict = {<span class="stringliteral">&#39;COD&#39;</span>: 0., <span class="stringliteral">&#39;TN&#39;</span>: 0., <span class="stringliteral">&#39;TP&#39;</span>: 0.}</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    reduceRateDict = {<span class="stringliteral">&#39;COD&#39;</span>: 0., <span class="stringliteral">&#39;TN&#39;</span>: 0., <span class="stringliteral">&#39;TP&#39;</span>: 0.}</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordflow">for</span> par <span class="keywordflow">in</span> parDict.keys():</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        filename = <span class="stringliteral">r&#39;%s\OUTPUT%s\%d_CH_%s.txt&#39;</span> % (baseFolder, sceneID, subbasinID, par)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        parDict[par] = round(SumByFile(filename, year) / 1000., 2)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        reduceDict[par] = round(baseParDict[par] - parDict[par], 2)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        reduceRateDict[par] = round(reduceDict[par] / baseParDict[par], 2)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">print</span> ScenarioNames[idx], parDict</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&quot;    reduce, &quot;</span>, reduceDict</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">print</span> <span class="stringliteral">&quot;    reduceRate, &quot;</span>, reduceRateDict</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>Samples.md</b></li>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:29 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_61da0db7be14312bde940296c0e3c020.html">postprocess</a></li><li class="navelem"><b>run_models_dingguang.py</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:25:58 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

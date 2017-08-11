@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/scenario_analysis/userdef.py Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology/IKW_IF/InterFlow_IKW.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,87 +112,322 @@ $(document).ready(function(){initNavTree('d1/d3d/a01110_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">userdef.py</div>  </div>
+<div class="title">InterFlow_IKW.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">User defined tools</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># @Class userdef</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"># @Author Huiran GAO</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"># @Date   2016-11-08</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> uuid</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> math <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> scenario <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"># Model</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">def </span>__uniqueid__():</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    id = int(str(uuid.uuid4().fields[-1])[:8])</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">while</span> <span class="keyword">True</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordflow">yield</span> id</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        id += 1</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">//#include &quot;vld.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;seims.h&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;InterFlow_IKW.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#a3234ebc38b6d321386e2952add34f15b">    7</a></span>&#160;<a class="code" href="../../d3/dcc/a00264.html#a3234ebc38b6d321386e2952add34f15b">InterFlow_IKW::InterFlow_IKW</a>(<span class="keywordtype">void</span>) : m_nCells(-1), m_dt(-1.0f), m_CellWidth(-1.0f), m_chWidth(NULL),</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;                                     m_s0(NULL), m_rootDepth(NULL), m_ks(NULL), m_landuseFactor(1.f),</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                                     m_soilMoistrue(NULL), m_porosity(NULL), m_poreIndex(NULL), m_fieldCapacity(NULL),</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                                     m_flowInIndex(NULL), m_routingLayers(NULL), m_nLayers(-1),</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;                                     m_q(NULL), m_h(NULL), m_sr(NULL), m_streamLink(NULL), m_hReturnFlow(NULL),</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;                                     m_soilDepth(NULL) {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#a4413d912681a981eff2939ffd1227114">   15</a></span>&#160;<a class="code" href="../../d3/dcc/a00264.html#a4413d912681a981eff2939ffd1227114">InterFlow_IKW::~InterFlow_IKW</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    Release1DArray(<a class="code" href="../../d3/dcc/a00264.html#a5984f36d9979875b6c7a7fdb11f7bd0a">m_h</a>);</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    Release1DArray(<a class="code" href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">m_q</a>);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    Release1DArray(<a class="code" href="../../d3/dcc/a00264.html#ad8643a8181d1fadf37e97934bf828214">m_hReturnFlow</a>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;}</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">def </span>calBenefitandCost(individual):</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    Sce = Scenario()</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="comment"># random.seed()</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="comment"># ms = float(random.randint(0, 1000))</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="comment"># time.sleep(ms / 1000.)</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment"># Sce.getIdfromMongo()</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    Sce.setId(__uniqueid__().next())</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    Sce.attributes = individual</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    Sce.decoding()</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    Sce.importoMongo(HOSTNAME, PORT, BMPScenarioDBName)</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment"># Calculate benefit and cost</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    Sce.cost()</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    Sce.benefit()</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="comment"># Save scenarios information in file</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    Sce.saveInfo(scenariosInfo)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    f1 = Sce.cost_eco</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    f2 = Sce.benefit_env</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span> f1, f2</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">def </span>test(individual):</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    g = sum(individual) / len(individual)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    f1 = sum(individual)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    f2 = sin(g) * (1 - sqrt(f1))</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">return</span> f1, f2</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">######################################</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"># GA Mutations                       #</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">######################################</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">def </span>mutModel(individual, indpb):</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    sceSize = farm_Num + point_cattle_Num + point_pig_Num + point_sewage_Num</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    field_index = farm_Num - 1</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    point_cattle_index = point_cattle_Num + field_index</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    point_pig_index = point_pig_Num + point_cattle_index</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment"># point_sewage_index = point_sewage_Num + point_pig_index</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">if</span> random.random() &lt; indpb:</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        mpoint = random.randint(0, sceSize - 1)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">if</span> mpoint &lt;= field_index:</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            individual[mpoint] = selectBMPatRandom(bmps_farm)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">elif</span> mpoint &lt;= point_cattle_index:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            individual[mpoint] = selectBMPatRandom(bmps_cattle)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">elif</span> mpoint &lt;= point_pig_index:</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            individual[mpoint] = selectBMPatRandom(bmps_pig)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            individual[mpoint] = selectBMPatRandom(bmps_sewage)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">return</span> individual</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">bool</span> InterFlow_IKW::CheckInputData(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../dd/d1d/a00336.html#aabd631c05d3e74aa9970f7415f2f5de7">m_date</a> &lt;= 0) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;You have not set the Date variable.&quot;</span>);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">m_nCells</a> &lt;= 0) {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The cell number of the input can not be less than zero.&quot;</span>);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d3/dcc/a00264.html#a91bc4f3fe377b599f1b938c1776a74cb">m_dt</a> &lt;= 0) {</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;You have not set the TimeStep variable.&quot;</span>);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    }</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d3/dcc/a00264.html#abcc89a32c55b92a70d0671aff0d5fd02">m_CellWidth</a> &lt;= 0) {</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;You have not set the CellWidth variable.&quot;</span>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d3/dcc/a00264.html#a3b80d70de126effbce39b05bb3c9a060">m_chWidth</a> == NULL) {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_CH, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: CHWIDTH has not been set.&quot;</span>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d3/dcc/a00264.html#a0bdca251295b07f6261c9ed495a082e4">m_flowInIndex</a> == NULL) {</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: flow in index has not been set.&quot;</span>);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d3/dcc/a00264.html#a516f185e02a0205411851ecc664decf9">m_routingLayers</a> == NULL) {</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: routingLayers has not been set.&quot;</span>);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d3/dcc/a00264.html#aecc3729f02915d2b5363745f7733d9b1">m_s0</a> == NULL) {</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: slope has not been set.&quot;</span>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d3/dcc/a00264.html#a8ba841bd531d52f8258ddbd34eaeeb9c">m_rootDepth</a> == NULL) {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: soil depth has not been set.&quot;</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d3/dcc/a00264.html#ae6fec78f0c5a73354e6b863fdc9e1d73">m_ks</a> == NULL) {</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: Conductivity has not been set.&quot;</span>);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_porosity == NULL) {</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The porosity can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_poreIndex == NULL) {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The pore index can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_fieldCapacity == NULL) {</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The field capacity can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    }</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_soilMoistrue == NULL) {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The soil moistrue can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_streamLink == NULL) {</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The STREAM_LINK can not be NULL.&quot;</span>);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d3/dcc/a00264.html#ab01fcacddb0b7fbfdb30901fe5e96ef0">m_sr</a> == NULL) {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter D_SURU is not set.&quot;</span>);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    }</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;}</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="keywordtype">void</span> InterFlow_IKW::initialOutputs() {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">m_nCells</a> &lt;= 0) {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;initialOutputs&quot;</span>, <span class="stringliteral">&quot;The cell number of the input can not be less than zero.&quot;</span>);</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    }</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">m_q</a> == NULL) {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        CheckInputData();</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">m_q</a> = <span class="keyword">new</span> <span class="keywordtype">float</span>[<a class="code" href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">m_nCells</a>];</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#a5984f36d9979875b6c7a7fdb11f7bd0a">m_h</a> = <span class="keyword">new</span> <span class="keywordtype">float</span>[<a class="code" href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">m_nCells</a>];</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#ad8643a8181d1fadf37e97934bf828214">m_hReturnFlow</a> = <span class="keyword">new</span> <span class="keywordtype">float</span>[<a class="code" href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">m_nCells</a>];</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">m_nCells</a>; ++i) {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;            <a class="code" href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">m_q</a>[i] = 0.0f;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            <a class="code" href="../../d3/dcc/a00264.html#a5984f36d9979875b6c7a7fdb11f7bd0a">m_h</a>[i] = 0.f;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <a class="code" href="../../d3/dcc/a00264.html#ad8643a8181d1fadf37e97934bf828214">m_hReturnFlow</a>[i] = 0.f;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        }</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="keywordtype">void</span> InterFlow_IKW::FlowInSoil(<span class="keywordtype">int</span> <span class="keywordtype">id</span>) {</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="comment">//sum the upstream overland flow</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordtype">float</span> qUp = 0.0f;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> k = 1; k &lt;= (int) <a class="code" href="../../d3/dcc/a00264.html#a0bdca251295b07f6261c9ed495a082e4">m_flowInIndex</a>[<span class="keywordtype">id</span>][0]; ++k) {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordtype">int</span> flowInID = (int) <a class="code" href="../../d3/dcc/a00264.html#a0bdca251295b07f6261c9ed495a082e4">m_flowInIndex</a>[<span class="keywordtype">id</span>][k];</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordflow">if</span> (m_streamLink[<span class="keywordtype">id</span>] &gt; 0) {</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            qUp += <a class="code" href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">m_q</a>[flowInID];</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        }</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    }</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordtype">float</span> flowWidth = <a class="code" href="../../d3/dcc/a00264.html#abcc89a32c55b92a70d0671aff0d5fd02">m_CellWidth</a>;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="comment">// there is no land in this cell</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordflow">if</span> (m_streamLink[<span class="keywordtype">id</span>] &gt; 0) {</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        flowWidth -= <a class="code" href="../../d3/dcc/a00264.html#a3b80d70de126effbce39b05bb3c9a060">m_chWidth</a>[id];</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordflow">if</span> (flowWidth &lt;= 0) {</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            <a class="code" href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">m_q</a>[id] = qUp;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <a class="code" href="../../d3/dcc/a00264.html#a5984f36d9979875b6c7a7fdb11f7bd0a">m_h</a>[id] = 0.f;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        }</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    }</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="comment">// adjust soil moisture</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordtype">float</span> s0 = <a class="code" href="../../d3/dcc/a00264.html#aecc3729f02915d2b5363745f7733d9b1">m_s0</a>[id];</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordtype">float</span> soilVolumn = <a class="code" href="../../d3/dcc/a00264.html#a8ba841bd531d52f8258ddbd34eaeeb9c">m_rootDepth</a>[id] / 1000 * <a class="code" href="../../d3/dcc/a00264.html#abcc89a32c55b92a70d0671aff0d5fd02">m_CellWidth</a> * flowWidth / cos(atan(s0)); <span class="comment">//m3</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    m_soilMoistrue[id] += qUp * <a class="code" href="../../d3/dcc/a00264.html#a91bc4f3fe377b599f1b938c1776a74cb">m_dt</a> / soilVolumn;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="comment">// the water exceeds the porosity is added to storage (return flow)</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordflow">if</span> (m_soilMoistrue[<span class="keywordtype">id</span>] &gt; m_porosity[<span class="keywordtype">id</span>]) {</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#ad8643a8181d1fadf37e97934bf828214">m_hReturnFlow</a>[id] = (m_soilMoistrue[id] - m_porosity[id]) * <a class="code" href="../../d3/dcc/a00264.html#a8ba841bd531d52f8258ddbd34eaeeb9c">m_rootDepth</a>[<span class="keywordtype">id</span>];</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#ab01fcacddb0b7fbfdb30901fe5e96ef0">m_sr</a>[id] += <a class="code" href="../../d3/dcc/a00264.html#ad8643a8181d1fadf37e97934bf828214">m_hReturnFlow</a>[id];</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        m_soilMoistrue[id] = m_porosity[id];</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    }</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="comment">// if soil moisture is below the field capacity, no interflow will be generated</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordflow">if</span> (m_soilMoistrue[<span class="keywordtype">id</span>] &lt; m_fieldCapacity[<span class="keywordtype">id</span>]) {</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">m_q</a>[id] = 0.f;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#a5984f36d9979875b6c7a7fdb11f7bd0a">m_h</a>[id] = 0.f;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    }</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="comment">// calculate effective hydraulic conductivity (mm/h -&gt; m/s)</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="comment">//float k = m_ks[id]/1000/3600 * pow((m_soilMoistrue[id] - m_residual[id])/(m_porosity[id] - m_residual[id]), m_poreIndex[id]);</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordtype">float</span> k = <a class="code" href="../../d3/dcc/a00264.html#ae6fec78f0c5a73354e6b863fdc9e1d73">m_ks</a>[id] / 1000 / 3600 * pow(m_soilMoistrue[<span class="keywordtype">id</span>] / m_porosity[<span class="keywordtype">id</span>], m_poreIndex[<span class="keywordtype">id</span>]);</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="comment">// calculate interflow (m3/s)</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <a class="code" href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">m_q</a>[id] = <a class="code" href="../../d3/dcc/a00264.html#a088ff5f85f6140b6b328c99c38e6df18">m_landuseFactor</a> * <a class="code" href="../../d3/dcc/a00264.html#a8ba841bd531d52f8258ddbd34eaeeb9c">m_rootDepth</a>[id] / 1000 * s0 * k * <a class="code" href="../../d3/dcc/a00264.html#abcc89a32c55b92a70d0671aff0d5fd02">m_CellWidth</a>;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="comment">// available water</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordtype">float</span> availableWater = (m_soilMoistrue[id] - m_fieldCapacity[id]) * soilVolumn;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordtype">float</span> interFlow = <a class="code" href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">m_q</a>[id] * <a class="code" href="../../d3/dcc/a00264.html#a91bc4f3fe377b599f1b938c1776a74cb">m_dt</a>; <span class="comment">// m3</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordflow">if</span> (interFlow &gt; availableWater) {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">m_q</a>[id] = availableWater / <a class="code" href="../../d3/dcc/a00264.html#a91bc4f3fe377b599f1b938c1776a74cb">m_dt</a>;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        interFlow = availableWater;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    }</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <a class="code" href="../../d3/dcc/a00264.html#a5984f36d9979875b6c7a7fdb11f7bd0a">m_h</a>[id] = 1000 * interFlow / (m_CellWidth * <a class="code" href="../../d3/dcc/a00264.html#abcc89a32c55b92a70d0671aff0d5fd02">m_CellWidth</a>);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="comment">// adjust soil moisture</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    m_soilMoistrue[id] -= interFlow / soilVolumn;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;}</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
+<div class="line"><a name="l00164"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#a828a77e3f2c33109f4a1bcca4936951a">  164</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d3/dcc/a00264.html#a828a77e3f2c33109f4a1bcca4936951a">InterFlow_IKW::Execute</a>() {</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    initialOutputs();</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> iLayer = 0; iLayer &lt; m_nLayers; ++iLayer) {</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="comment">// There are not any flow relationship within each routing layer.</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="comment">// So parallelization can be done here.</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <span class="keywordtype">int</span> nCells = (int) <a class="code" href="../../d3/dcc/a00264.html#a516f185e02a0205411851ecc664decf9">m_routingLayers</a>[iLayer][0];</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        <span class="comment">//SetOpenMPThread(2);</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> iCell = 1; iCell &lt;= nCells; ++iCell) {</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;            <span class="keywordtype">int</span> <span class="keywordtype">id</span> = (int) <a class="code" href="../../d3/dcc/a00264.html#a516f185e02a0205411851ecc664decf9">m_routingLayers</a>[iLayer][iCell];</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            FlowInSoil(<span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        }</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    }</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;}</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="keywordtype">bool</span> InterFlow_IKW::CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n) {</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keywordflow">if</span> (n &lt;= 0) {</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <span class="comment">//this-&gt;StatusMsg(&quot;Input data for &quot;+string(key) +&quot; is invalid. The size could not be less than zero.&quot;);</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    }</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">m_nCells</a> != n) {</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="keywordflow">if</span> (this-&gt;<a class="code" href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">m_nCells</a> &lt;= 0) { this-&gt;<a class="code" href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">m_nCells</a> = n; }</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;            <span class="comment">//this-&gt;StatusMsg(&quot;Input data for &quot;+string(key) +&quot; is invalid. All the input data should have same size.&quot;);</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            ostringstream oss;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;            oss &lt;&lt; <span class="stringliteral">&quot;Input data for &quot;</span> + string(key) &lt;&lt; <span class="stringliteral">&quot; is invalid with size: &quot;</span> &lt;&lt; n &lt;&lt; <span class="stringliteral">&quot;. The origin size is &quot;</span> &lt;&lt;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                <a class="code" href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">m_nCells</a> &lt;&lt; <span class="stringliteral">&quot;.\n&quot;</span>;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;CheckInputSize&quot;</span>, oss.str());</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        }</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    }</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;}</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
+<div class="line"><a name="l00201"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#a30646bc5f2151606d3456c373c6bd6c4">  201</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d3/dcc/a00264.html#a30646bc5f2151606d3456c373c6bd6c4">InterFlow_IKW::SetValue</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data) {</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, Tag_HillSlopeTimeStep)) {</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        m_dt = data;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, Tag_CellWidth)) {</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        m_CellWidth = data;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, Tag_CellSize)) {</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">m_nCells</a> = (int) data;</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_KI)) {</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#a088ff5f85f6140b6b328c99c38e6df18">m_landuseFactor</a> = data;</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_OMP_THREADNUM)) {</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        SetOpenMPThread((<span class="keywordtype">int</span>) data);</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;SetSingleData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;            + <span class="stringliteral">&quot; does not exist. Please contact the module developer.&quot;</span>);</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    }</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;}</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
+<div class="line"><a name="l00220"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#a1ab89fdfe400ec9f213d5cb1d1290197">  220</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d3/dcc/a00264.html#a1ab89fdfe400ec9f213d5cb1d1290197">InterFlow_IKW::Set1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data) {</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="comment">//check the input data</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    CheckInputSize(key, n);</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, VAR_SLOPE)) {</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#aecc3729f02915d2b5363745f7733d9b1">m_s0</a> = data;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_SOILDEPTH)) {</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#ad78ae4f374cf9a78089e1efe5acdd276">m_soilDepth</a> = data;</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_FIELDCAP)) {</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        this-&gt;m_fieldCapacity = data;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_SOILDEPTH)) {</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        this-&gt;<a class="code" href="../../d3/dcc/a00264.html#a8ba841bd531d52f8258ddbd34eaeeb9c">m_rootDepth</a> = data;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_CONDUCT)) {</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        this-&gt;<a class="code" href="../../d3/dcc/a00264.html#ae6fec78f0c5a73354e6b863fdc9e1d73">m_ks</a> = data;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_POROST)) {</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        this-&gt;m_porosity = data;</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_POREIDX)) {</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        this-&gt;m_poreIndex = data;</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_SOL_ST)) {</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        this-&gt;m_soilMoistrue = data;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_CHWIDTH)) {</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#a3b80d70de126effbce39b05bb3c9a060">m_chWidth</a> = data;</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_SURU)) {</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#ab01fcacddb0b7fbfdb30901fe5e96ef0">m_sr</a> = data;</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_STREAM_LINK)) {</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        m_streamLink = data;</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;Set1DData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + s</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            + <span class="stringliteral">&quot; does not exist. Please contact the module developer.&quot;</span>);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    }</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;}</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;</div>
+<div class="line"><a name="l00253"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#a50b9f61498c48ce59a8f888c0c20707c">  253</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d3/dcc/a00264.html#a50b9f61498c48ce59a8f888c0c20707c">InterFlow_IKW::Get1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data) {</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    initialOutputs();</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    *n = <a class="code" href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">m_nCells</a>;</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_QSOIL)) {</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        *data = <a class="code" href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">m_q</a>;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_RETURNFLOW)) {</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;        *data = <a class="code" href="../../d3/dcc/a00264.html#ad8643a8181d1fadf37e97934bf828214">m_hReturnFlow</a>;</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;Get1DData&quot;</span>, <span class="stringliteral">&quot;Output &quot;</span> + sk</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;            +</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                <span class="stringliteral">&quot; does not exist in current module. Please contact the module developer.&quot;</span>);</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    }</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;}</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;</div>
+<div class="line"><a name="l00269"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#ab685721c7cacf1041e5ecd7df76abe53">  269</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d3/dcc/a00264.html#ab685721c7cacf1041e5ecd7df76abe53">InterFlow_IKW::Set2DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nrows, <span class="keywordtype">int</span> ncols, <span class="keywordtype">float</span> **data) {</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <span class="comment">//check the input data</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, Tag_ROUTING_LAYERS)) {</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        m_nLayers = nrows;</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#a516f185e02a0205411851ecc664decf9">m_routingLayers</a> = data;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, Tag_FLOWIN_INDEX_D8)) {</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        <a class="code" href="../../d3/dcc/a00264.html#a0bdca251295b07f6261c9ed495a082e4">m_flowInIndex</a> = data;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_IKW_IF, <span class="stringliteral">&quot;Set2DData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;            + <span class="stringliteral">&quot; does not exist. Please contact the module developer.&quot;</span>);</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    }</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;}</div>
+<div class="ttc" id="a00336_html_aabd631c05d3e74aa9970f7415f2f5de7"><div class="ttname"><a href="../../dd/d1d/a00336.html#aabd631c05d3e74aa9970f7415f2f5de7">SimulationModule::m_date</a></div><div class="ttdeci">time_t m_date</div><div class="ttdoc">date time </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00168">SimulationModule.h:168</a></div></div>
+<div class="ttc" id="a00264_html_ab685721c7cacf1041e5ecd7df76abe53"><div class="ttname"><a href="../../d3/dcc/a00264.html#ab685721c7cacf1041e5ecd7df76abe53">InterFlow_IKW::Set2DData</a></div><div class="ttdeci">virtual void Set2DData(const char *key, int nrows, int ncols, float **data)</div><div class="ttdoc">Set 2D data, by default, DT_Raster2D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d3d/a01110_source.html#l00269">InterFlow_IKW.cpp:269</a></div></div>
+<div class="ttc" id="a00264_html_a30646bc5f2151606d3456c373c6bd6c4"><div class="ttname"><a href="../../d3/dcc/a00264.html#a30646bc5f2151606d3456c373c6bd6c4">InterFlow_IKW::SetValue</a></div><div class="ttdeci">virtual void SetValue(const char *key, float data)</div><div class="ttdoc">Set data, DT_Single. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d3d/a01110_source.html#l00201">InterFlow_IKW.cpp:201</a></div></div>
+<div class="ttc" id="a00264_html_a91bc4f3fe377b599f1b938c1776a74cb"><div class="ttname"><a href="../../d3/dcc/a00264.html#a91bc4f3fe377b599f1b938c1776a74cb">InterFlow_IKW::m_dt</a></div><div class="ttdeci">float m_dt</div><div class="ttdoc">time step (second) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00064">InterFlow_IKW.h:64</a></div></div>
+<div class="ttc" id="a00264_html_a50b9f61498c48ce59a8f888c0c20707c"><div class="ttname"><a href="../../d3/dcc/a00264.html#a50b9f61498c48ce59a8f888c0c20707c">InterFlow_IKW::Get1DData</a></div><div class="ttdeci">virtual void Get1DData(const char *key, int *n, float **data)</div><div class="ttdoc">Get 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d3d/a01110_source.html#l00253">InterFlow_IKW.cpp:253</a></div></div>
+<div class="ttc" id="a00264_html_a38299b86b9910323e25428472c136f6f"><div class="ttname"><a href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">InterFlow_IKW::m_q</a></div><div class="ttdeci">float * m_q</div><div class="ttdoc">output flow to downstream cells (output) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00106">InterFlow_IKW.h:106</a></div></div>
+<div class="ttc" id="a00264_html_a5984f36d9979875b6c7a7fdb11f7bd0a"><div class="ttname"><a href="../../d3/dcc/a00264.html#a5984f36d9979875b6c7a7fdb11f7bd0a">InterFlow_IKW::m_h</a></div><div class="ttdeci">float * m_h</div><div class="ttdoc">interflow depth </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00108">InterFlow_IKW.h:108</a></div></div>
+<div class="ttc" id="a00264_html_aecc3729f02915d2b5363745f7733d9b1"><div class="ttname"><a href="../../d3/dcc/a00264.html#aecc3729f02915d2b5363745f7733d9b1">InterFlow_IKW::m_s0</a></div><div class="ttdeci">float * m_s0</div><div class="ttdoc">slope (percent) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00069">InterFlow_IKW.h:69</a></div></div>
+<div class="ttc" id="a00264_html_ab01fcacddb0b7fbfdb30901fe5e96ef0"><div class="ttname"><a href="../../d3/dcc/a00264.html#ab01fcacddb0b7fbfdb30901fe5e96ef0">InterFlow_IKW::m_sr</a></div><div class="ttdeci">float * m_sr</div><div class="ttdoc">depression storage </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00103">InterFlow_IKW.h:103</a></div></div>
+<div class="ttc" id="a00264_html_a088ff5f85f6140b6b328c99c38e6df18"><div class="ttname"><a href="../../d3/dcc/a00264.html#a088ff5f85f6140b6b328c99c38e6df18">InterFlow_IKW::m_landuseFactor</a></div><div class="ttdeci">float m_landuseFactor</div><div class="ttdoc">scaling factor depending on land use (Ki) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00077">InterFlow_IKW.h:77</a></div></div>
+<div class="ttc" id="a00264_html_a8ba841bd531d52f8258ddbd34eaeeb9c"><div class="ttname"><a href="../../d3/dcc/a00264.html#a8ba841bd531d52f8258ddbd34eaeeb9c">InterFlow_IKW::m_rootDepth</a></div><div class="ttdeci">float * m_rootDepth</div><div class="ttdoc">root depth (m) /// mm? LJ </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00071">InterFlow_IKW.h:71</a></div></div>
+<div class="ttc" id="a00264_html_abdf7c332fbd53e26cfe107f16914a038"><div class="ttname"><a href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">InterFlow_IKW::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">size </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00059">InterFlow_IKW.h:59</a></div></div>
+<div class="ttc" id="a00264_html_ad8643a8181d1fadf37e97934bf828214"><div class="ttname"><a href="../../d3/dcc/a00264.html#ad8643a8181d1fadf37e97934bf828214">InterFlow_IKW::m_hReturnFlow</a></div><div class="ttdeci">float * m_hReturnFlow</div><div class="ttdoc">return flow </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00110">InterFlow_IKW.h:110</a></div></div>
+<div class="ttc" id="a00264_html_a828a77e3f2c33109f4a1bcca4936951a"><div class="ttname"><a href="../../d3/dcc/a00264.html#a828a77e3f2c33109f4a1bcca4936951a">InterFlow_IKW::Execute</a></div><div class="ttdeci">virtual int Execute(void)</div><div class="ttdoc">Execute the simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d3d/a01110_source.html#l00164">InterFlow_IKW.cpp:164</a></div></div>
+<div class="ttc" id="a00264_html_ad78ae4f374cf9a78089e1efe5acdd276"><div class="ttname"><a href="../../d3/dcc/a00264.html#ad78ae4f374cf9a78089e1efe5acdd276">InterFlow_IKW::m_soilDepth</a></div><div class="ttdeci">float * m_soilDepth</div><div class="ttdoc">soil depth (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00073">InterFlow_IKW.h:73</a></div></div>
+<div class="ttc" id="a00264_html_a4413d912681a981eff2939ffd1227114"><div class="ttname"><a href="../../d3/dcc/a00264.html#a4413d912681a981eff2939ffd1227114">InterFlow_IKW::~InterFlow_IKW</a></div><div class="ttdeci">~InterFlow_IKW(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d3d/a01110_source.html#l00015">InterFlow_IKW.cpp:15</a></div></div>
+<div class="ttc" id="a00264_html_abcc89a32c55b92a70d0671aff0d5fd02"><div class="ttname"><a href="../../d3/dcc/a00264.html#abcc89a32c55b92a70d0671aff0d5fd02">InterFlow_IKW::m_CellWidth</a></div><div class="ttdeci">float m_CellWidth</div><div class="ttdoc">cell width of the grid (m) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00062">InterFlow_IKW.h:62</a></div></div>
+<div class="ttc" id="a00264_html_a3234ebc38b6d321386e2952add34f15b"><div class="ttname"><a href="../../d3/dcc/a00264.html#a3234ebc38b6d321386e2952add34f15b">InterFlow_IKW::InterFlow_IKW</a></div><div class="ttdeci">InterFlow_IKW(void)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d3d/a01110_source.html#l00007">InterFlow_IKW.cpp:7</a></div></div>
+<div class="ttc" id="a00264_html_a1ab89fdfe400ec9f213d5cb1d1290197"><div class="ttname"><a href="../../d3/dcc/a00264.html#a1ab89fdfe400ec9f213d5cb1d1290197">InterFlow_IKW::Set1DData</a></div><div class="ttdeci">virtual void Set1DData(const char *key, int n, float *data)</div><div class="ttdoc">Set 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d3d/a01110_source.html#l00220">InterFlow_IKW.cpp:220</a></div></div>
+<div class="ttc" id="a00264_html_a3b80d70de126effbce39b05bb3c9a060"><div class="ttname"><a href="../../d3/dcc/a00264.html#a3b80d70de126effbce39b05bb3c9a060">InterFlow_IKW::m_chWidth</a></div><div class="ttdeci">float * m_chWidth</div><div class="ttdoc">channel width </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00066">InterFlow_IKW.h:66</a></div></div>
+<div class="ttc" id="a00264_html_a516f185e02a0205411851ecc664decf9"><div class="ttname"><a href="../../d3/dcc/a00264.html#a516f185e02a0205411851ecc664decf9">InterFlow_IKW::m_routingLayers</a></div><div class="ttdeci">float ** m_routingLayers</div><div class="ttdoc">Routing layers according to the flow direction. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00099">InterFlow_IKW.h:99</a></div></div>
+<div class="ttc" id="a00264_html_a0bdca251295b07f6261c9ed495a082e4"><div class="ttname"><a href="../../d3/dcc/a00264.html#a0bdca251295b07f6261c9ed495a082e4">InterFlow_IKW::m_flowInIndex</a></div><div class="ttdeci">float ** m_flowInIndex</div><div class="ttdoc">2d array of flow in cells </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00091">InterFlow_IKW.h:91</a></div></div>
+<div class="ttc" id="a00264_html_ae6fec78f0c5a73354e6b863fdc9e1d73"><div class="ttname"><a href="../../d3/dcc/a00264.html#ae6fec78f0c5a73354e6b863fdc9e1d73">InterFlow_IKW::m_ks</a></div><div class="ttdeci">float * m_ks</div><div class="ttdoc">conductivity (mm/h) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00075">InterFlow_IKW.h:75</a></div></div>
+<div class="ttc" id="a00285_html"><div class="ttname"><a href="../../d3/d58/a00285.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d85/a00908_source.html#l00020">ModelException.h:20</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e9804dfb28c80687c0b1771681283077.html">scenario_analysis</a></li><li class="navelem"><b>userdef.py</b></li>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:35 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_b025a90df650157315ed0b6f97f5b0af.html">IKW_IF</a></li><li class="navelem"><b>InterFlow_IKW.cpp</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:26:00 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

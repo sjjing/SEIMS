@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/doxygen_def_modules.h Source File</title>
+<title>SEIMS: seims_storm_linux_gcc48/doc/wiki/Module development/Develop-environment.md Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('db/d1c/a01229_source.html','../../');});
+$(document).ready(function(){initNavTree('db/d1c/a01229.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -112,17 +112,79 @@ $(document).ready(function(){initNavTree('db/d1c/a01229_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">doxygen_def_modules.h</div>  </div>
+<div class="title">seims_storm_linux_gcc48/doc/wiki/Module development/Develop-environment.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;SEIMS 开发环境</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;-----------------------</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;by Huiran Gao</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;Latest Updated：May.31, 2016 </div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;-----------------------</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"># 目录</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;[**1. Windows下VS编译**](#1-windows下vs编译)</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;[**2. 开发辅助工具-VAssistX介绍**](#2-开发辅助工具-vassistx介绍)</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;1. [VAssistX安装与说明](#i-vassistx安装与说明)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;2. [VAssistX的使用](#ii-vassistx的使用)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"># Windows下VS编译</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor"></span>SEIMS模型采用C++编写，开发工具主要是**VS 2010**。</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;安装Microsoft Visual Studio 2010后，打开“开始” -&gt;  Microsoft Visual Studio 2010 -&gt; Visual Studio Tools-&gt;Visual Studio 命令提示 (2010)，以**管理员方式运行**，切换到VS工程目录，VS工程目录是在SEIMS源码外新建的一个文件夹，比如 `D:\SEIMS\SEIMS_prj`。</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;然后使用CMake命令生成VS 2010工程，详细参考[**Windows下SEIMS主程序的编译**](Windows<span class="preprocessor">#ii-windows下seims主程序的编译)</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;编译完成后，打开VS工程，生成解决方案，工程目录结构如下：</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;![](http:<span class="comment">//i.imgur.com/hR7E7ZN.png)</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor"># 开发辅助工具-VAssistX介绍</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span>**VAssistX**（Visual Assist X）是开发环境的辅助工具，具有强大的编辑特色，可以完全集成到开发环境中，使用该工具可以更加轻松地编写代码。支持C/C++，C#，Java和HTML等语言，能自动识别各种关键字、系统函数、成员变量、自动给出输入提示、自动标示错误等，有助于提高开发过程的自动化和开发效率。</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;在SEIMS中，为了使模型代码具有更好的可读性、传承性，我们使用[doxygen](http:<span class="comment">//www.doxygen.nl/)规则对代码进行注释，在VS2010中借助VAssistX进行快速添加注释。</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">## i. VAssistX安装与说明</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span>VAssistX（破解版）下载地址：[http:<span class="comment">//pan.baidu.com/s/1qXI4UPe](http://pan.baidu.com/s/1qXI4UPe)</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;选择本地安装的VS版本 -&gt; Install。</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;![](http:<span class="comment">//i.imgur.com/htMVHUl.png)</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;安装完成后，打开VS2010，菜单栏中会出现VAssistX菜单项，说明安装成功。</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;![](http:<span class="comment">//i.imgur.com/G62YwdG.png)</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">## ii. VAssistX的使用</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;打开VAssistX选项自定义注释，Suggestion -&gt; Edit VA Snippets,自定义注释方法如图所示：</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;![](http:<span class="comment">//i.imgur.com/3I0xXvB.jpg)</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;添加一些符合doxygen规则的C++注释模板，为了方便起见，快捷键Shortcut统一设置为`/  *!`，这样，当需要输入注释模板时，输入`</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><b>doxygen_def_modules.h</b></li>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:35 for SEIMS by
+    <li class="navelem"><b>Develop-environment.md</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:26:01 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

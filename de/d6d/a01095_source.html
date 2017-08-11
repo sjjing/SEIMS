@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/pygeoc/setup.py Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/erosion/SEDR_SBAGNOLD/SEDR_SBAGNOLD.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,150 +112,156 @@ $(document).ready(function(){initNavTree('de/d6d/a01095_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">setup.py</div>  </div>
+<div class="title">SEDR_SBAGNOLD.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="../../d1/d88/a01578.html">    1</a></span>&#160;<span class="stringliteral">&quot;&quot;&quot;A setuptools based setup module for PyGeoC.</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="stringliteral">   PyGeoC is short for &quot;Python for GeoComputation&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">   Author: Liang-Jun Zhu</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">   E-mail: zlj@lreis.ac.cn</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">   Blog  : zhulj.net</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"># To use a consistent encoding</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">from</span> codecs <span class="keyword">import</span> open</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> os <span class="keyword">import</span> path</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"># Always prefer setuptools over distutils</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> setuptools.command.test <span class="keyword">import</span> test <span class="keyword">as</span> TestCommand</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">import</span> pygeoc</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;here = path.abspath(path.dirname(__file__))</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"># Get the long description from the README file</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;with open(path.join(here, <span class="stringliteral">&#39;README.rst&#39;</span>), encoding=<span class="stringliteral">&#39;utf-8&#39;</span>) <span class="keyword">as</span> f:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    long_description = f.read()</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">class </span>Tox(TestCommand):</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">def </span>finalize_options(self):</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        TestCommand.finalize_options(self)</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        self.test_args = []</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        self.test_suite = <span class="keyword">True</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">def </span>run_tests(self):</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="comment"># import here, cause outside the eggs aren&#39;t loaded</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">import</span> tox, sys</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        errcode = tox.cmdline(self.test_args)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        sys.exit(errcode)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;setup(</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        name=<span class="stringliteral">&#39;PyGeoC&#39;</span>,</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="comment"># Versions should comply with PEP440.  For a discussion on single-sourcing</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="comment"># the version across setup.py and the project code, see</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="comment"># https://packaging.python.org/en/latest/single_source_version.html</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        version=pygeoc.__version__,</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        description=<span class="stringliteral">&#39;Python for GeoComputation&#39;</span>,</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        long_description=long_description,</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html">   35</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/df7/a00331.html">SEDR_SBAGNOLD</a> : <span class="keyword">public</span> <a class="code" href="../../dd/d1d/a00336.html">SimulationModule</a> {</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <a class="code" href="../../d8/df7/a00331.html">SEDR_SBAGNOLD</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    ~<a class="code" href="../../d8/df7/a00331.html">SEDR_SBAGNOLD</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> GetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> *value);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="comment"># The project&#39;s main homepage.</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        url=pygeoc.__url__,</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment"># Author details</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        author=pygeoc.__author__,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        author_email=pygeoc.__email__,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="comment"># Choose your license</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        license=<span class="stringliteral">&#39;MIT&#39;</span>,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">//virtual void Set2DData(const char *key, int nrows, int ncols, float **data);</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *nRows, <span class="keywordtype">int</span> *nCols, <span class="keywordtype">float</span> ***data);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetReaches(<a class="code" href="../../dc/d31/a00208.html">clsReaches</a> *reaches);</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment"># See https://pypi.python.org/pypi?%3Aaction=list_classifiers</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        classifiers=[</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="comment"># How mature is this project? Common values are</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="comment">#   1 - Planning</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="comment">#   2 - Pre-Alpha</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="comment">#   3 - Alpha</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="comment">#   4 - Beta</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="comment">#   5 - Production/Stable</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="stringliteral">&#39;Development Status :: 4 - Beta&#39;</span>,</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="comment"># Indicate who your project is intended for</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="stringliteral">&#39;Intended Audience :: Science/Research&#39;</span>,</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="stringliteral">&#39;Topic :: Scientific/Engineering :: GIS&#39;</span>,</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="comment"># Pick your license as you wish (should match &quot;license&quot; above)</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="stringliteral">&#39;License :: OSI Approved :: MIT License&#39;</span>,</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="comment"># Specify the Python versions you support here. In particular, ensure</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="comment"># that you indicate whether you support Python 2, Python 3 or both.</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="stringliteral">&#39;Programming Language :: Python :: 2&#39;</span>,</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="stringliteral">&#39;Programming Language :: Python :: 2.6&#39;</span>,</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="stringliteral">&#39;Programming Language :: Python :: 2.7&#39;</span>,</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        ],</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="comment"># What does your project relate to?</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        keywords=<span class="stringliteral">&#39;GeoComputation utility library&#39;</span>,</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="comment"># You can just specify the packages manually here if your project is</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="comment"># simple. Or you can use find_packages().</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        packages=[<span class="stringliteral">&#39;pygeoc&#39;</span>,</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                  <span class="stringliteral">&#39;pygeoc.raster&#39;</span>,</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                  <span class="stringliteral">&#39;pygeoc.vector&#39;</span>,</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                  <span class="stringliteral">&#39;pygeoc.hydro&#39;</span>,</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                  <span class="stringliteral">&#39;pygeoc.utils&#39;</span>],</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="comment"># Alternatively, if you want to distribute just a my_module.py, uncomment</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="comment"># this:</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="comment">#   py_modules=[&quot;my_module&quot;],</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="comment"># List run-time dependencies here.  These will be installed by pip when</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="comment"># your project is installed. For an analysis of &quot;install_requires&quot; vs pip&#39;s</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="comment"># requirements files see:</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="comment"># https://packaging.python.org/en/latest/requirements.html</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        install_requires=[</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <span class="comment"># &#39;gdal&gt;=1.9.0,&lt;2.0&#39;,</span></div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="comment"># &#39;numpy&gt;=1.9.0&#39;</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        ],</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="comment"># List additional groups of dependencies here (e.g. development</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="comment"># dependencies). You can install these using the following syntax,</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="comment"># for example:</span></div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="comment"># $ pip install -e .[dev,test]</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        extras_require={},</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="comment"># If there are data files included in your packages that need to be</span></div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="comment"># installed, specify them here.  If using Python 2.6 or less, then these</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="comment"># have to be included in MANIFEST.in as well.</span></div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        package_data={},</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetScenario(<a class="code" href="../../dd/dbb/a00330.html">Scenario</a> *sce);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordtype">bool</span> CheckInputSizeChannel(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a433b9338bff401017b36faa4230106b0">   67</a></span>&#160;    <span class="keyword">virtual</span> TimeStepType GetTimeStepType(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> TIMESTEP_CHANNEL; };</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">int</span> m_dt;</div>
+<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#ae4a7627c44c54dcb03434ea188933c2a">   72</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d8/df7/a00331.html#ae4a7627c44c54dcb03434ea188933c2a">m_nreach</a>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#abdc8f7cb8b17520c44e29ee6910c28b0">   74</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d8/df7/a00331.html#abdc8f7cb8b17520c44e29ee6910c28b0">m_VCD</a>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a2f5700f599de10d321820de3326eb108">   76</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d8/df7/a00331.html#a2f5700f599de10d321820de3326eb108">m_prf</a>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#abeca63c0fb7f4db117eec16b5715a23c">   78</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d8/df7/a00331.html#abeca63c0fb7f4db117eec16b5715a23c">m_spcon</a>;</div>
+<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#aaf4468691dc56f7368f4710fcdf79343">   80</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d8/df7/a00331.html#aaf4468691dc56f7368f4710fcdf79343">m_spexp</a>;</div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a9ec3e59f9b0083b6cf8aacdf7b763381">   82</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d8/df7/a00331.html#a9ec3e59f9b0083b6cf8aacdf7b763381">m_vcrit</a>;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">//float m_coverFactor;</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment"></span>    <span class="comment">//float m_erodibilityFactor;</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#aa4b737a9a7b6c7a4f56545aba08b97c6">   89</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#aa4b737a9a7b6c7a4f56545aba08b97c6">m_sedtoCh</a>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a58242e00fa52bc8875bc10fa10764bf8">   91</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#a58242e00fa52bc8875bc10fa10764bf8">m_CrAreaCh</a>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a86f5f547a987478999aa5f8e7c964355">   93</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d8/df7/a00331.html#a86f5f547a987478999aa5f8e7c964355">m_Chs0</a>;</div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a375ca652f5e6e595cb2d26e13c7794a3">   95</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d8/df7/a00331.html#a375ca652f5e6e595cb2d26e13c7794a3">m_sedChi0</a>;</div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#aa2dd925620488b33f3cef3e8b6eb952b">   97</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#aa2dd925620488b33f3cef3e8b6eb952b">m_qchOut</a>;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordtype">float</span> *m_chOrder;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">float</span> *m_chWidth;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">float</span> *m_chDepth;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="comment">//length of reach (m)</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">float</span> *m_chLen;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">float</span> *m_chVel;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">float</span> *m_chSlope;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordtype">float</span> *m_chManning;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordtype">float</span> *m_chCover;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">float</span> *m_chErod;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#aa0f89160f4e6e3ddff3621568af34313">  111</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#aa0f89160f4e6e3ddff3621568af34313">m_reachDownStream</a>;</div>
+<div class="line"><a name="l00113"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a1c95f04e14cc6eca19b60d687d5da731">  113</a></span>&#160;    vector &lt;vector&lt;int&gt;&gt; <a class="code" href="../../d8/df7/a00331.html#a1c95f04e14cc6eca19b60d687d5da731">m_reachUpStream</a>;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="comment">// id the reaches</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    vector&lt;int&gt; m_reachId;</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="comment"># Although &#39;package_data&#39; is the preferred approach, in some case you may</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="comment"># need to place data files outside of your packages. See:</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="comment"># http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files # noqa</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="comment"># In this case, &#39;data_file&#39; will be installed into &#39;&lt;sys.prefix&gt;/my_data&#39;</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="comment"># data_files=[(&#39;my_data&#39;, [&#39;data/data_file&#39;])],</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        data_files=[],</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        tests_require=[<span class="stringliteral">&#39;tox&#39;</span>],</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        cmdclass={<span class="stringliteral">&#39;test&#39;</span>: Tox},</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="comment"># To provide executable scripts, use entry points in preference to the</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="comment"># &quot;scripts&quot; keyword. Entry points provide cross-platform support and allow</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="comment"># pip to create the appropriate form of executable for the target platform.</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        entry_points={</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            <span class="stringliteral">&#39;console_scripts&#39;</span>: [</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                <span class="stringliteral">&#39;PyGeoC=PyGeoC:main&#39;</span>,</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            ],</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        },</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;)</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="comment">/* point source operations</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="comment">     * key: unique index, BMPID * 100000 + subScenarioID</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="comment">     * value: point source management factory instance</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="comment">     */</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    map&lt;int, BMPPointSrcFactory *&gt; m_ptSrcFactory;</div>
+<div class="line"><a name="l00124"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a6c7fffc3c9c78cd2e7e73626f3acc41b">  124</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#a6c7fffc3c9c78cd2e7e73626f3acc41b">m_ptSub</a>;</div>
+<div class="line"><a name="l00126"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#acf94a36ac30f33753e9b41b4f5c39e86">  126</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#acf94a36ac30f33753e9b41b4f5c39e86">m_chStorage</a>;</div>
+<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a9daed33f93d9e55719153addbdc72a05">  128</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#a9daed33f93d9e55719153addbdc72a05">m_preChStorage</a>;</div>
+<div class="line"><a name="l00130"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#aad6390933db7af9aeaf4c20444954c18">  130</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#aad6390933db7af9aeaf4c20444954c18">m_chWTdepth</a>;</div>
+<div class="line"><a name="l00132"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a5128ff09741e4595e9f4c5f4448cf505">  132</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#a5128ff09741e4595e9f4c5f4448cf505">m_preChWTDepth</a>;</div>
+<div class="line"><a name="l00134"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#adf0256f4461bc388af3c98cb74de69d0">  134</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#adf0256f4461bc388af3c98cb74de69d0">m_chWTWidth</a>;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="comment">// OUTPUT</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#aaa6785424480fb19cbb96aff3ddcb10b">  137</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#aaa6785424480fb19cbb96aff3ddcb10b">m_sedOut</a>;</div>
+<div class="line"><a name="l00139"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a86aa22d68b5626e0de1153d5c19728e8">  139</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#a86aa22d68b5626e0de1153d5c19728e8">m_sedStorage</a>;</div>
+<div class="line"><a name="l00141"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a2a848bca8ab56ad56749dce42f038193">  141</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#a2a848bca8ab56ad56749dce42f038193">m_sedDep</a>;</div>
+<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#ade6ca10b97426657eb8e94998167e704">  143</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#ade6ca10b97426657eb8e94998167e704">m_sedDeg</a>;</div>
+<div class="line"><a name="l00145"></a><span class="lineno"><a class="line" href="../../d8/df7/a00331.html#a3fd7961357808e0ea05b18398759966c">  145</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d8/df7/a00331.html#a3fd7961357808e0ea05b18398759966c">m_sedConc</a>;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="keywordtype">float</span> *m_rchSand;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keywordtype">float</span> *m_rchSilt;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keywordtype">float</span> *m_rchClay;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">float</span> *m_rchSag;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="keywordtype">float</span> *m_rchLag;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">float</span> *m_rchGra;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordtype">float</span> *m_rchBankEro;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordtype">float</span> *m_rchDeg;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordtype">float</span> *m_rchDep;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordtype">float</span> *m_flplainDep;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    map&lt;int, vector&lt;int&gt; &gt; m_reachLayers;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="keywordtype">void</span> initialOutputs(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordtype">void</span> PointSourceLoading(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keywordtype">void</span> SedChannelRouting(<span class="keywordtype">int</span> i);</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordtype">void</span> doChannelDowncuttingAndWidening(<span class="keywordtype">int</span> <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;};</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="comment">//float m_sideslopeFloodplain;</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="comment"></span><span class="comment">//float m_sideslopeMain;</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="comment"></span><span class="comment">//float* m_chStorage;</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="comment"></span><span class="comment">//float** m_T_CHSB;</span></div>
+<div class="ttc" id="a00331_html_abeca63c0fb7f4db117eec16b5715a23c"><div class="ttname"><a href="../../d8/df7/a00331.html#abeca63c0fb7f4db117eec16b5715a23c">SEDR_SBAGNOLD::m_spcon</a></div><div class="ttdeci">float m_spcon</div><div class="ttdoc">Coefficient in sediment transport equation. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00078">SEDR_SBAGNOLD.h:78</a></div></div>
+<div class="ttc" id="a00331_html_a1c95f04e14cc6eca19b60d687d5da731"><div class="ttname"><a href="../../d8/df7/a00331.html#a1c95f04e14cc6eca19b60d687d5da731">SEDR_SBAGNOLD::m_reachUpStream</a></div><div class="ttdeci">vector&lt; vector&lt; int &gt; &gt; m_reachUpStream</div><div class="ttdoc">upstream id (The value is -1 if there if no upstream reach) </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00113">SEDR_SBAGNOLD.h:113</a></div></div>
+<div class="ttc" id="a00331_html_aa2dd925620488b33f3cef3e8b6eb952b"><div class="ttname"><a href="../../d8/df7/a00331.html#aa2dd925620488b33f3cef3e8b6eb952b">SEDR_SBAGNOLD::m_qchOut</a></div><div class="ttdeci">float * m_qchOut</div><div class="ttdoc">channel outflow, m^3/s </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00097">SEDR_SBAGNOLD.h:97</a></div></div>
+<div class="ttc" id="a00331_html_aa0f89160f4e6e3ddff3621568af34313"><div class="ttname"><a href="../../d8/df7/a00331.html#aa0f89160f4e6e3ddff3621568af34313">SEDR_SBAGNOLD::m_reachDownStream</a></div><div class="ttdeci">float * m_reachDownStream</div><div class="ttdoc">downstream id (The value is 0 if there if no downstream reach) </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00111">SEDR_SBAGNOLD.h:111</a></div></div>
+<div class="ttc" id="a00331_html_aa4b737a9a7b6c7a4f56545aba08b97c6"><div class="ttname"><a href="../../d8/df7/a00331.html#aa4b737a9a7b6c7a4f56545aba08b97c6">SEDR_SBAGNOLD::m_sedtoCh</a></div><div class="ttdeci">float * m_sedtoCh</div><div class="ttdoc">sediment from subbasin (hillslope), kg </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00089">SEDR_SBAGNOLD.h:89</a></div></div>
+<div class="ttc" id="a00330_html"><div class="ttname"><a href="../../dd/dbb/a00330.html">MainBMP::Scenario</a></div><div class="ttdoc">Main class of scenario in BMP database. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/da3/a00953_source.html#l00039">Scenario.h:39</a></div></div>
+<div class="ttc" id="a00331_html_a86f5f547a987478999aa5f8e7c964355"><div class="ttname"><a href="../../d8/df7/a00331.html#a86f5f547a987478999aa5f8e7c964355">SEDR_SBAGNOLD::m_Chs0</a></div><div class="ttdeci">float m_Chs0</div><div class="ttdoc">initial channel storage per meter of reach length (m^3/m) </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00093">SEDR_SBAGNOLD.h:93</a></div></div>
+<div class="ttc" id="a00331_html_a375ca652f5e6e595cb2d26e13c7794a3"><div class="ttname"><a href="../../d8/df7/a00331.html#a375ca652f5e6e595cb2d26e13c7794a3">SEDR_SBAGNOLD::m_sedChi0</a></div><div class="ttdeci">float m_sedChi0</div><div class="ttdoc">Initial channel sediment concentration, ton/m^3, i.e., kg/L. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00095">SEDR_SBAGNOLD.h:95</a></div></div>
+<div class="ttc" id="a00331_html_aaf4468691dc56f7368f4710fcdf79343"><div class="ttname"><a href="../../d8/df7/a00331.html#aaf4468691dc56f7368f4710fcdf79343">SEDR_SBAGNOLD::m_spexp</a></div><div class="ttdeci">float m_spexp</div><div class="ttdoc">Exponent in sediment transport equation. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00080">SEDR_SBAGNOLD.h:80</a></div></div>
+<div class="ttc" id="a00331_html_a86aa22d68b5626e0de1153d5c19728e8"><div class="ttname"><a href="../../d8/df7/a00331.html#a86aa22d68b5626e0de1153d5c19728e8">SEDR_SBAGNOLD::m_sedStorage</a></div><div class="ttdeci">float * m_sedStorage</div><div class="ttdoc">channel sediment storage (kg) </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00139">SEDR_SBAGNOLD.h:139</a></div></div>
+<div class="ttc" id="a00331_html_abdc8f7cb8b17520c44e29ee6910c28b0"><div class="ttname"><a href="../../d8/df7/a00331.html#abdc8f7cb8b17520c44e29ee6910c28b0">SEDR_SBAGNOLD::m_VCD</a></div><div class="ttdeci">int m_VCD</div><div class="ttdoc">whether change channel dimensions, 0 - do not change, 1 - compute channel degredation ...</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00074">SEDR_SBAGNOLD.h:74</a></div></div>
+<div class="ttc" id="a00331_html_acf94a36ac30f33753e9b41b4f5c39e86"><div class="ttname"><a href="../../d8/df7/a00331.html#acf94a36ac30f33753e9b41b4f5c39e86">SEDR_SBAGNOLD::m_chStorage</a></div><div class="ttdeci">float * m_chStorage</div><div class="ttdoc">reach storage (m^3) at time t </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00126">SEDR_SBAGNOLD.h:126</a></div></div>
+<div class="ttc" id="a00331_html_aaa6785424480fb19cbb96aff3ddcb10b"><div class="ttname"><a href="../../d8/df7/a00331.html#aaa6785424480fb19cbb96aff3ddcb10b">SEDR_SBAGNOLD::m_sedOut</a></div><div class="ttdeci">float * m_sedOut</div><div class="ttdoc">initial reach sediment out (kg) at time t </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00137">SEDR_SBAGNOLD.h:137</a></div></div>
+<div class="ttc" id="a00331_html_a5128ff09741e4595e9f4c5f4448cf505"><div class="ttname"><a href="../../d8/df7/a00331.html#a5128ff09741e4595e9f4c5f4448cf505">SEDR_SBAGNOLD::m_preChWTDepth</a></div><div class="ttdeci">float * m_preChWTDepth</div><div class="ttdoc">channel water depth of previous timestep, m </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00132">SEDR_SBAGNOLD.h:132</a></div></div>
+<div class="ttc" id="a00331_html_a58242e00fa52bc8875bc10fa10764bf8"><div class="ttname"><a href="../../d8/df7/a00331.html#a58242e00fa52bc8875bc10fa10764bf8">SEDR_SBAGNOLD::m_CrAreaCh</a></div><div class="ttdeci">float * m_CrAreaCh</div><div class="ttdoc">cross-sectional area of flow in the channel (m^2) </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00091">SEDR_SBAGNOLD.h:91</a></div></div>
+<div class="ttc" id="a00331_html_a6c7fffc3c9c78cd2e7e73626f3acc41b"><div class="ttname"><a href="../../d8/df7/a00331.html#a6c7fffc3c9c78cd2e7e73626f3acc41b">SEDR_SBAGNOLD::m_ptSub</a></div><div class="ttdeci">float * m_ptSub</div><div class="ttdoc">The point source loading (kg), m_ptSub[id], id is the reach id, load from m_Scenario. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00124">SEDR_SBAGNOLD.h:124</a></div></div>
+<div class="ttc" id="a00331_html_ade6ca10b97426657eb8e94998167e704"><div class="ttname"><a href="../../d8/df7/a00331.html#ade6ca10b97426657eb8e94998167e704">SEDR_SBAGNOLD::m_sedDeg</a></div><div class="ttdeci">float * m_sedDeg</div><div class="ttdoc">sediment of degradation </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00143">SEDR_SBAGNOLD.h:143</a></div></div>
+<div class="ttc" id="a00331_html_a2f5700f599de10d321820de3326eb108"><div class="ttname"><a href="../../d8/df7/a00331.html#a2f5700f599de10d321820de3326eb108">SEDR_SBAGNOLD::m_prf</a></div><div class="ttdeci">float m_prf</div><div class="ttdoc">the peak rate adjustment factor </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00076">SEDR_SBAGNOLD.h:76</a></div></div>
+<div class="ttc" id="a00331_html_aad6390933db7af9aeaf4c20444954c18"><div class="ttname"><a href="../../d8/df7/a00331.html#aad6390933db7af9aeaf4c20444954c18">SEDR_SBAGNOLD::m_chWTdepth</a></div><div class="ttdeci">float * m_chWTdepth</div><div class="ttdoc">channel water depth, m </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00130">SEDR_SBAGNOLD.h:130</a></div></div>
+<div class="ttc" id="a00208_html"><div class="ttname"><a href="../../dc/d31/a00208.html">clsReaches</a></div><div class="ttdoc">Read and store all reaches information as input parameters. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d45/a00961_source.html#l00221">clsReach.h:221</a></div></div>
+<div class="ttc" id="a00331_html"><div class="ttname"><a href="../../d8/df7/a00331.html">SEDR_SBAGNOLD</a></div><div class="ttdoc">Sediment routing using variable channel dimension(VCD) method at daily time scale. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00035">SEDR_SBAGNOLD.h:35</a></div></div>
+<div class="ttc" id="a00331_html_a2a848bca8ab56ad56749dce42f038193"><div class="ttname"><a href="../../d8/df7/a00331.html#a2a848bca8ab56ad56749dce42f038193">SEDR_SBAGNOLD::m_sedDep</a></div><div class="ttdeci">float * m_sedDep</div><div class="ttdoc">sediment of deposition </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00141">SEDR_SBAGNOLD.h:141</a></div></div>
+<div class="ttc" id="a00331_html_a9daed33f93d9e55719153addbdc72a05"><div class="ttname"><a href="../../d8/df7/a00331.html#a9daed33f93d9e55719153addbdc72a05">SEDR_SBAGNOLD::m_preChStorage</a></div><div class="ttdeci">float * m_preChStorage</div><div class="ttdoc">reach storage of previous timestep, m^3 </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00128">SEDR_SBAGNOLD.h:128</a></div></div>
+<div class="ttc" id="a00331_html_ae4a7627c44c54dcb03434ea188933c2a"><div class="ttname"><a href="../../d8/df7/a00331.html#ae4a7627c44c54dcb03434ea188933c2a">SEDR_SBAGNOLD::m_nreach</a></div><div class="ttdeci">int m_nreach</div><div class="ttdoc">reach number (= subbasin number) </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00072">SEDR_SBAGNOLD.h:72</a></div></div>
+<div class="ttc" id="a00331_html_a9ec3e59f9b0083b6cf8aacdf7b763381"><div class="ttname"><a href="../../d8/df7/a00331.html#a9ec3e59f9b0083b6cf8aacdf7b763381">SEDR_SBAGNOLD::m_vcrit</a></div><div class="ttdeci">float m_vcrit</div><div class="ttdoc">critical velocity for sediment deposition </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00082">SEDR_SBAGNOLD.h:82</a></div></div>
+<div class="ttc" id="a00331_html_a3fd7961357808e0ea05b18398759966c"><div class="ttname"><a href="../../d8/df7/a00331.html#a3fd7961357808e0ea05b18398759966c">SEDR_SBAGNOLD::m_sedConc</a></div><div class="ttdeci">float * m_sedConc</div><div class="ttdoc">sediment concentration (g/L, i.e., kg/m3) </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00145">SEDR_SBAGNOLD.h:145</a></div></div>
+<div class="ttc" id="a00331_html_adf0256f4461bc388af3c98cb74de69d0"><div class="ttname"><a href="../../d8/df7/a00331.html#adf0256f4461bc388af3c98cb74de69d0">SEDR_SBAGNOLD::m_chWTWidth</a></div><div class="ttdeci">float * m_chWTWidth</div><div class="ttdoc">channel bankfull width, m </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d6d/a01095_source.html#l00134">SEDR_SBAGNOLD.h:134</a></div></div>
+<div class="ttc" id="a00336_html"><div class="ttname"><a href="../../dd/d1d/a00336.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00047">SimulationModule.h:47</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_d8b73b43b5bed3f628cfe27c845cae28.html">pygeoc</a></li><li class="navelem"><b>setup.py</b></li>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:35 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_0416dddcf4ae60131836efd2402708ae.html">erosion</a></li><li class="navelem"><a class="el" href="../../dir_34fe973cdb6a45ace349877b35bf9e8d.html">SEDR_SBAGNOLD</a></li><li class="navelem"><b>SEDR_SBAGNOLD.h</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:26:00 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

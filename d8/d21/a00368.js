@@ -1,6 +1,5 @@
 var a00368 =
 [
-    [ "__init__", "d8/d21/a00368.html#a12520347cd4b39e868e759271949bbde", null ],
-    [ "__init__", "d8/d21/a00368.html#a12520347cd4b39e868e759271949bbde", null ],
-    [ "__init__", "d8/d21/a00368.html#a12520347cd4b39e868e759271949bbde", null ]
+    [ "Clone", "d8/d21/a00368.html#ab7e33f3365a848e7a68bbf75a78ca45b", null ],
+    [ "Clone", "d8/d21/a00368.html#ab7e33f3365a848e7a68bbf75a78ca45b", null ]
 ];

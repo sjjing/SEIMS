@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_longterm_linux_gcc48/seims/scenario_analysis/userdef.py Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology/IKW_IF/InterFlow_IKW.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,87 +112,102 @@ $(document).ready(function(){initNavTree('d3/de1/a01111_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">userdef.py</div>  </div>
+<div class="title">InterFlow_IKW.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">User defined tools</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># @Class userdef</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment"># @Author Huiran GAO</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment"># @Date   2016-11-08</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> uuid</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> math <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> scenario <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"># Model</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">def </span>__uniqueid__():</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    id = int(str(uuid.uuid4().fields[-1])[:8])</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">while</span> <span class="keyword">True</span>:</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        <span class="keywordflow">yield</span> id</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        id += 1</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">def </span>calBenefitandCost(individual):</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    Sce = Scenario()</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="comment"># random.seed()</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="comment"># ms = float(random.randint(0, 1000))</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="comment"># time.sleep(ms / 1000.)</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment"># Sce.getIdfromMongo()</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    Sce.setId(__uniqueid__().next())</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    Sce.attributes = individual</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    Sce.decoding()</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    Sce.importoMongo(HOSTNAME, PORT, BMPScenarioDBName)</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment"># Calculate benefit and cost</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    Sce.cost()</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    Sce.benefit()</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="comment"># Save scenarios information in file</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    Sce.saveInfo(scenariosInfo)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    f1 = Sce.cost_eco</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    f2 = Sce.benefit_env</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">return</span> f1, f2</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d3/dcc/a00264.html">InterFlow_IKW</a> : <span class="keyword">public</span> <a class="code" href="../../dd/d1d/a00336.html">SimulationModule</a> {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <a class="code" href="../../d3/dcc/a00264.html">InterFlow_IKW</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    ~<a class="code" href="../../d3/dcc/a00264.html">InterFlow_IKW</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nrows, <span class="keywordtype">int</span> ncols, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">def </span>test(individual):</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    g = sum(individual) / len(individual)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    f1 = sum(individual)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    f2 = sin(g) * (1 - sqrt(f1))</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">return</span> f1, f2</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="comment">######################################</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"># GA Mutations                       #</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="comment">######################################</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keyword">def </span>mutModel(individual, indpb):</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    sceSize = farm_Num + point_cattle_Num + point_pig_Num + point_sewage_Num</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    field_index = farm_Num - 1</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    point_cattle_index = point_cattle_Num + field_index</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    point_pig_index = point_pig_Num + point_cattle_index</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="comment"># point_sewage_index = point_sewage_Num + point_pig_index</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">if</span> random.random() &lt; indpb:</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        mpoint = random.randint(0, sceSize - 1)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">if</span> mpoint &lt;= field_index:</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            individual[mpoint] = selectBMPatRandom(bmps_farm)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="keywordflow">elif</span> mpoint &lt;= point_cattle_index:</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            individual[mpoint] = selectBMPatRandom(bmps_cattle)</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">elif</span> mpoint &lt;= point_pig_index:</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            individual[mpoint] = selectBMPatRandom(bmps_pig)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            individual[mpoint] = selectBMPatRandom(bmps_sewage)</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">return</span> individual</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">//float Power(float a, float n)</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="comment">//{</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="comment">//  if (a &gt;= 0)</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="comment">//      return pow(a, n);</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="comment">//  else</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">//      return -pow(-a, n);</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">//}</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">void</span> FlowInSoil(<span class="keywordtype">int</span> <span class="keywordtype">id</span>);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> initialOutputs(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">   59</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">m_nCells</a>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#abcc89a32c55b92a70d0671aff0d5fd02">   62</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d3/dcc/a00264.html#abcc89a32c55b92a70d0671aff0d5fd02">m_CellWidth</a>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#a91bc4f3fe377b599f1b938c1776a74cb">   64</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d3/dcc/a00264.html#a91bc4f3fe377b599f1b938c1776a74cb">m_dt</a>;</div>
+<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#a3b80d70de126effbce39b05bb3c9a060">   66</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d3/dcc/a00264.html#a3b80d70de126effbce39b05bb3c9a060">m_chWidth</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#aecc3729f02915d2b5363745f7733d9b1">   69</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d3/dcc/a00264.html#aecc3729f02915d2b5363745f7733d9b1">m_s0</a>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#a8ba841bd531d52f8258ddbd34eaeeb9c">   71</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d3/dcc/a00264.html#a8ba841bd531d52f8258ddbd34eaeeb9c">m_rootDepth</a>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#ad78ae4f374cf9a78089e1efe5acdd276">   73</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d3/dcc/a00264.html#ad78ae4f374cf9a78089e1efe5acdd276">m_soilDepth</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#ae6fec78f0c5a73354e6b863fdc9e1d73">   75</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d3/dcc/a00264.html#ae6fec78f0c5a73354e6b863fdc9e1d73">m_ks</a>;</div>
+<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#a088ff5f85f6140b6b328c99c38e6df18">   77</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d3/dcc/a00264.html#a088ff5f85f6140b6b328c99c38e6df18">m_landuseFactor</a>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordtype">float</span> *m_soilMoistrue;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="comment">//float* m_residual;</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">float</span> *m_porosity;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordtype">float</span> *m_poreIndex;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordtype">float</span> *m_fieldCapacity;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">float</span> *m_streamLink;</div>
+<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#a0bdca251295b07f6261c9ed495a082e4">   91</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d3/dcc/a00264.html#a0bdca251295b07f6261c9ed495a082e4">m_flowInIndex</a>;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#a516f185e02a0205411851ecc664decf9">   99</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d3/dcc/a00264.html#a516f185e02a0205411851ecc664decf9">m_routingLayers</a>;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">int</span> m_nLayers;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#ab01fcacddb0b7fbfdb30901fe5e96ef0">  103</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d3/dcc/a00264.html#ab01fcacddb0b7fbfdb30901fe5e96ef0">m_sr</a>;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">  106</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">m_q</a>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#a5984f36d9979875b6c7a7fdb11f7bd0a">  108</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d3/dcc/a00264.html#a5984f36d9979875b6c7a7fdb11f7bd0a">m_h</a>;</div>
+<div class="line"><a name="l00110"></a><span class="lineno"><a class="line" href="../../d3/dcc/a00264.html#ad8643a8181d1fadf37e97934bf828214">  110</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d3/dcc/a00264.html#ad8643a8181d1fadf37e97934bf828214">m_hReturnFlow</a>;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;};</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="ttc" id="a00264_html_a91bc4f3fe377b599f1b938c1776a74cb"><div class="ttname"><a href="../../d3/dcc/a00264.html#a91bc4f3fe377b599f1b938c1776a74cb">InterFlow_IKW::m_dt</a></div><div class="ttdeci">float m_dt</div><div class="ttdoc">time step (second) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00064">InterFlow_IKW.h:64</a></div></div>
+<div class="ttc" id="a00264_html"><div class="ttname"><a href="../../d3/dcc/a00264.html">InterFlow_IKW</a></div><div class="ttdoc">Interflow routing using implicit finite difference method. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00022">InterFlow_IKW.h:22</a></div></div>
+<div class="ttc" id="a00264_html_a38299b86b9910323e25428472c136f6f"><div class="ttname"><a href="../../d3/dcc/a00264.html#a38299b86b9910323e25428472c136f6f">InterFlow_IKW::m_q</a></div><div class="ttdeci">float * m_q</div><div class="ttdoc">output flow to downstream cells (output) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00106">InterFlow_IKW.h:106</a></div></div>
+<div class="ttc" id="a00264_html_a5984f36d9979875b6c7a7fdb11f7bd0a"><div class="ttname"><a href="../../d3/dcc/a00264.html#a5984f36d9979875b6c7a7fdb11f7bd0a">InterFlow_IKW::m_h</a></div><div class="ttdeci">float * m_h</div><div class="ttdoc">interflow depth </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00108">InterFlow_IKW.h:108</a></div></div>
+<div class="ttc" id="a00264_html_aecc3729f02915d2b5363745f7733d9b1"><div class="ttname"><a href="../../d3/dcc/a00264.html#aecc3729f02915d2b5363745f7733d9b1">InterFlow_IKW::m_s0</a></div><div class="ttdeci">float * m_s0</div><div class="ttdoc">slope (percent) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00069">InterFlow_IKW.h:69</a></div></div>
+<div class="ttc" id="a00264_html_ab01fcacddb0b7fbfdb30901fe5e96ef0"><div class="ttname"><a href="../../d3/dcc/a00264.html#ab01fcacddb0b7fbfdb30901fe5e96ef0">InterFlow_IKW::m_sr</a></div><div class="ttdeci">float * m_sr</div><div class="ttdoc">depression storage </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00103">InterFlow_IKW.h:103</a></div></div>
+<div class="ttc" id="a00264_html_a088ff5f85f6140b6b328c99c38e6df18"><div class="ttname"><a href="../../d3/dcc/a00264.html#a088ff5f85f6140b6b328c99c38e6df18">InterFlow_IKW::m_landuseFactor</a></div><div class="ttdeci">float m_landuseFactor</div><div class="ttdoc">scaling factor depending on land use (Ki) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00077">InterFlow_IKW.h:77</a></div></div>
+<div class="ttc" id="a00264_html_a8ba841bd531d52f8258ddbd34eaeeb9c"><div class="ttname"><a href="../../d3/dcc/a00264.html#a8ba841bd531d52f8258ddbd34eaeeb9c">InterFlow_IKW::m_rootDepth</a></div><div class="ttdeci">float * m_rootDepth</div><div class="ttdoc">root depth (m) /// mm? LJ </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00071">InterFlow_IKW.h:71</a></div></div>
+<div class="ttc" id="a00264_html_abdf7c332fbd53e26cfe107f16914a038"><div class="ttname"><a href="../../d3/dcc/a00264.html#abdf7c332fbd53e26cfe107f16914a038">InterFlow_IKW::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">size </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00059">InterFlow_IKW.h:59</a></div></div>
+<div class="ttc" id="a00264_html_ad8643a8181d1fadf37e97934bf828214"><div class="ttname"><a href="../../d3/dcc/a00264.html#ad8643a8181d1fadf37e97934bf828214">InterFlow_IKW::m_hReturnFlow</a></div><div class="ttdeci">float * m_hReturnFlow</div><div class="ttdoc">return flow </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00110">InterFlow_IKW.h:110</a></div></div>
+<div class="ttc" id="a00264_html_ad78ae4f374cf9a78089e1efe5acdd276"><div class="ttname"><a href="../../d3/dcc/a00264.html#ad78ae4f374cf9a78089e1efe5acdd276">InterFlow_IKW::m_soilDepth</a></div><div class="ttdeci">float * m_soilDepth</div><div class="ttdoc">soil depth (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00073">InterFlow_IKW.h:73</a></div></div>
+<div class="ttc" id="a00264_html_abcc89a32c55b92a70d0671aff0d5fd02"><div class="ttname"><a href="../../d3/dcc/a00264.html#abcc89a32c55b92a70d0671aff0d5fd02">InterFlow_IKW::m_CellWidth</a></div><div class="ttdeci">float m_CellWidth</div><div class="ttdoc">cell width of the grid (m) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00062">InterFlow_IKW.h:62</a></div></div>
+<div class="ttc" id="a00264_html_a3b80d70de126effbce39b05bb3c9a060"><div class="ttname"><a href="../../d3/dcc/a00264.html#a3b80d70de126effbce39b05bb3c9a060">InterFlow_IKW::m_chWidth</a></div><div class="ttdeci">float * m_chWidth</div><div class="ttdoc">channel width </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00066">InterFlow_IKW.h:66</a></div></div>
+<div class="ttc" id="a00264_html_a516f185e02a0205411851ecc664decf9"><div class="ttname"><a href="../../d3/dcc/a00264.html#a516f185e02a0205411851ecc664decf9">InterFlow_IKW::m_routingLayers</a></div><div class="ttdeci">float ** m_routingLayers</div><div class="ttdoc">Routing layers according to the flow direction. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00099">InterFlow_IKW.h:99</a></div></div>
+<div class="ttc" id="a00264_html_a0bdca251295b07f6261c9ed495a082e4"><div class="ttname"><a href="../../d3/dcc/a00264.html#a0bdca251295b07f6261c9ed495a082e4">InterFlow_IKW::m_flowInIndex</a></div><div class="ttdeci">float ** m_flowInIndex</div><div class="ttdoc">2d array of flow in cells </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00091">InterFlow_IKW.h:91</a></div></div>
+<div class="ttc" id="a00264_html_ae6fec78f0c5a73354e6b863fdc9e1d73"><div class="ttname"><a href="../../d3/dcc/a00264.html#ae6fec78f0c5a73354e6b863fdc9e1d73">InterFlow_IKW::m_ks</a></div><div class="ttdeci">float * m_ks</div><div class="ttdoc">conductivity (mm/h) </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de1/a01111_source.html#l00075">InterFlow_IKW.h:75</a></div></div>
+<div class="ttc" id="a00336_html"><div class="ttname"><a href="../../dd/d1d/a00336.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00047">SimulationModule.h:47</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_ed16674693235890c7cb51a5b1a1dba7.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_8157d38e6e792b87d5d7706b536f1214.html">scenario_analysis</a></li><li class="navelem"><b>userdef.py</b></li>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:35 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_b025a90df650157315ed0b6f97f5b0af.html">IKW_IF</a></li><li class="navelem"><b>InterFlow_IKW.h</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:26:00 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

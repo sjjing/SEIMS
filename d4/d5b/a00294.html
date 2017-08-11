@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: 模块开发Demo</title>
+<title>SEIMS: MUSK_CH Class Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -52,10 +52,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Packages</span></a></li>
-      <li><a href="../../annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -73,6 +73,14 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
           </span>
         </div>
       </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="../../classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="../../inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="../../functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -105,207 +113,617 @@ $(document).ready(function(){initNavTree('d4/d5b/a00294.html','../../');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="../../d4/d62/a01531.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">模块开发Demo </div>  </div>
+<div class="title">MUSK_CH Class Reference<div class="ingroups"><a class="el" href="../../d9/ddc/a01423.html">MUSK_CH</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>以一个简单Demo为例介绍，模块开发的整体流程。</p>
-<p>一般来说，模块编写基本步骤如下：</p>
-<ul>
-<li>1. 阅读相关文献和模型文档，编写模型文档的理论部分；</li>
-<li>2. 设计模块名，基本命名规则为<code>过程_算法</code>，如<code>PET_H</code>为蒸散发过程（PET）的Hargreaves方法实现；缩写规范自行查找，比如<code>YLD</code>可以是作物产量<code>Yield</code>的缩写，没有指定具体算法的，命名只有<code>过程</code>也可；</li>
-<li>3. 根据模型的相关理论，参考已有成熟模型的代码，列出模型的输入（包括以其他模块的输出作为输入）、输出，编写元数据函数(<code>MetadataInformation</code>)代码，即<code>api.cpp</code>；</li>
-<li>在头文件中定义所需变量，并在实现文件(<code>.cpp</code>)中做参数初始化（构造函数）、赋值（<code>SetValue</code>, <code>Set1DData</code>, <code>Set2DData</code>系列函数）和有效性检查（<code>CheckInputData</code>系列函数）的工作；</li>
-<li>根据公式，编写<code>Execute</code>函数的代码，实现模拟功能</li>
-<li>编写输出代码，<code>Get1DData</code>，<code>Get2DData</code>等</li>
-<li>代码检查、测试</li>
-</ul>
-<h1>目录</h1>
-<ol type="1">
-<li><a href="../../#1-新建模块">新建模块</a></li>
-<li><a href="../../#2-编写元数据函数">编写元数据函数</a></li>
-<li><a href="../../#3-头文件定义">头文件定义</a></li>
-<li><a href="../../#4-实现函数编写">实现函数编写</a></li>
-<li><a href="../../#5-模块测试">模块测试</a></li>
-</ol>
-<h2>1. 新建模块</h2>
-<p>这里，默认你已经掌握SEIMS代码基本结构和<code>CMAKE</code>编译知识，并已经成功编译出SEIMS的VS工程，如果没有，请往前阅读相关文档。</p>
-<p>**模块功能设计**：</p>
-<ul>
-<li>测试模型对单层栅格和多层栅格数据的支持</li>
-<li>分别读取Raster1D和Raster2D数据，做简单运算之后，输出</li>
-<li>模块命名为<code>IO_TEST</code></li>
-</ul>
-<p>**利用CMAKE新建模块工程**：</p>
-<ul>
-<li>在<code>SEIMS/src/modules/test</code>下新建目录<code>IO_TEST</code>，并在<code>SEIMS/src/modules/test/CMakeLists.txt</code>中添加语句<code>ADD_SUBDIRECTORY(./IO_TEST)</code>；</li>
-<li>复制<code>SEIMS/src/modules/test/template/</code>目录下的元数据模板<code>api.cpp</code>，头文件模板<code><a class="el" href="../../db/df2/a01425_source.html">template.h</a></code>，实现函数模板<code><a class="el" href="../../d5/da5/a01424_source.html">template.cpp</a></code>，以及<code>CMakeLists.txt</code>到<code>IO_TEST</code>目录下；</li>
-<li>根据需要，对头文件和实现函数文件进行重命名，这里我们重命名为<code><a class="el" href="../../d9/ddc/a01423_source.html">IO_test.h</a></code>和<code><a class="el" href="../../d1/df4/a01422_source.html">IO_test.cpp</a></code>,并修改<code>CMakeLists.txt</code>中相关设置，具体如下图所示 <div class="image">
-<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fcmakelist-modification.jpg" />
+
+<p>channel flow routing using <a class="el" href="../../d9/d5e/a00295.html" title="Channel routing using Muskingum-Cunge method. ">Muskingum</a> method  
+ <a href="../../d4/d5b/a00294.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../dc/d64/a01140_source.html">MUSK_CH.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for MUSK_CH:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../dc/d0c/a01532.png" border="0" usemap="#_m_u_s_k___c_h_inherit__map" alt="Inheritance graph"/></div>
+<map name="_m_u_s_k___c_h_inherit__map" id="_m_u_s_k___c_h_inherit__map">
+<area shape="rect" id="node2" href="../../dd/d1d/a00336.html" title="Base module for all simulation modules in SEIMS. " alt="" coords="17,6,212,317"/></map>
 </div>
-</li>
-<li>一切准备就绪，打开Visual Studio 命令提示工具进行编译，随后打开VS，便可看到新增的模块工程，如下图： <div class="image">
-<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fnew-module-created.jpg" />
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a9fcd5f45879d057ee55d075436d09b70"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a9fcd5f45879d057ee55d075436d09b70">Execute</a> (void)</td></tr>
+<tr class="memdesc:a9fcd5f45879d057ee55d075436d09b70"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute function.  <a href="#a9fcd5f45879d057ee55d075436d09b70">More...</a><br/></td></tr>
+<tr class="separator:a9fcd5f45879d057ee55d075436d09b70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaadfb5c1f906b1b06f09fc6cee23d04c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaadfb5c1f906b1b06f09fc6cee23d04c"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#aaadfb5c1f906b1b06f09fc6cee23d04c">SetValue</a> (const char *key, float data)</td></tr>
+<tr class="memdesc:aaadfb5c1f906b1b06f09fc6cee23d04c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set value of the module. <br/></td></tr>
+<tr class="separator:aaadfb5c1f906b1b06f09fc6cee23d04c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a87578c3b4e9af3197c392cc6b1094d99"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a87578c3b4e9af3197c392cc6b1094d99"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a87578c3b4e9af3197c392cc6b1094d99">GetValue</a> (const char *key, float *value)</td></tr>
+<tr class="memdesc:a87578c3b4e9af3197c392cc6b1094d99"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get value. <br/></td></tr>
+<tr class="separator:a87578c3b4e9af3197c392cc6b1094d99"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47c3db5364ee70821d56382a8742ab9b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a47c3db5364ee70821d56382a8742ab9b"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a47c3db5364ee70821d56382a8742ab9b">Set1DData</a> (const char *key, int n, float *data)</td></tr>
+<tr class="memdesc:a47c3db5364ee70821d56382a8742ab9b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 1D data. <br/></td></tr>
+<tr class="separator:a47c3db5364ee70821d56382a8742ab9b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9fe831d74b1b76ccddaec480cfc00bd6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9fe831d74b1b76ccddaec480cfc00bd6"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a9fe831d74b1b76ccddaec480cfc00bd6">Get1DData</a> (const char *key, int *n, float **data)</td></tr>
+<tr class="memdesc:a9fe831d74b1b76ccddaec480cfc00bd6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 1D data. <br/></td></tr>
+<tr class="separator:a9fe831d74b1b76ccddaec480cfc00bd6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4aec588cf10b2afc9c8997a284af821e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4aec588cf10b2afc9c8997a284af821e"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a4aec588cf10b2afc9c8997a284af821e">Get2DData</a> (const char *key, int *nRows, int *nCols, float ***data)</td></tr>
+<tr class="memdesc:a4aec588cf10b2afc9c8997a284af821e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 2D data. <br/></td></tr>
+<tr class="separator:a4aec588cf10b2afc9c8997a284af821e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a392e2fe906ba0778ff9fdfda40f50960"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a392e2fe906ba0778ff9fdfda40f50960">SetScenario</a> (<a class="el" href="../../dd/dbb/a00330.html">Scenario</a> *sce)</td></tr>
+<tr class="memdesc:a392e2fe906ba0778ff9fdfda40f50960"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pointer of Scenario class which contains all BMP information. Added by LJ, 2016-6-14.  <a href="#a392e2fe906ba0778ff9fdfda40f50960">More...</a><br/></td></tr>
+<tr class="separator:a392e2fe906ba0778ff9fdfda40f50960"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3999a8f057d15dc17c49c760a6cae3a5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3999a8f057d15dc17c49c760a6cae3a5"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a3999a8f057d15dc17c49c760a6cae3a5">SetReaches</a> (<a class="el" href="../../dc/d31/a00208.html">clsReaches</a> *reaches)</td></tr>
+<tr class="memdesc:a3999a8f057d15dc17c49c760a6cae3a5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pointer of <a class="el" href="../../dc/d31/a00208.html" title="Read and store all reaches information as input parameters. ">clsReaches</a> class which contains all reaches information. Added by LJ, 2016-7-2. <br/></td></tr>
+<tr class="separator:a3999a8f057d15dc17c49c760a6cae3a5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff3436e6be79f59b7ae8708594cae84c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff3436e6be79f59b7ae8708594cae84c"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#aff3436e6be79f59b7ae8708594cae84c">CheckInputSize</a> (const char *key, int n)</td></tr>
+<tr class="memdesc:aff3436e6be79f59b7ae8708594cae84c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check input size. <br/></td></tr>
+<tr class="separator:aff3436e6be79f59b7ae8708594cae84c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afdfae02550dcd7129d5982e77426722a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afdfae02550dcd7129d5982e77426722a"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#afdfae02550dcd7129d5982e77426722a">CheckInputData</a> (void)</td></tr>
+<tr class="memdesc:afdfae02550dcd7129d5982e77426722a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check input data. <br/></td></tr>
+<tr class="separator:afdfae02550dcd7129d5982e77426722a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a41a40dbafb7cb9ae14858ebc1583596e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a41a40dbafb7cb9ae14858ebc1583596e"></a>
+virtual TimeStepType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a41a40dbafb7cb9ae14858ebc1583596e">GetTimeStepType</a> (void)</td></tr>
+<tr class="memdesc:a41a40dbafb7cb9ae14858ebc1583596e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get time step type. <br/></td></tr>
+<tr class="separator:a41a40dbafb7cb9ae14858ebc1583596e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a00336"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00336')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../dd/d1d/a00336.html">SimulationModule</a></td></tr>
+<tr class="memitem:aa9934866122995dc98611de6515f47c5 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9934866122995dc98611de6515f47c5"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#aa9934866122995dc98611de6515f47c5">SimulationModule</a> (void)</td></tr>
+<tr class="memdesc:aa9934866122995dc98611de6515f47c5 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br/></td></tr>
+<tr class="separator:aa9934866122995dc98611de6515f47c5 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75fc67bcf8bc5a1dc0eb467af5a9861c inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a75fc67bcf8bc5a1dc0eb467af5a9861c"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a75fc67bcf8bc5a1dc0eb467af5a9861c">~SimulationModule</a> (void)</td></tr>
+<tr class="memdesc:a75fc67bcf8bc5a1dc0eb467af5a9861c inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br/></td></tr>
+<tr class="separator:a75fc67bcf8bc5a1dc0eb467af5a9861c inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8526abbeed3f49071f39e0c17559e522 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8526abbeed3f49071f39e0c17559e522"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a8526abbeed3f49071f39e0c17559e522">SetDate</a> (time_t t, int yearIdx)</td></tr>
+<tr class="memdesc:a8526abbeed3f49071f39e0c17559e522 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set date time, as well as the sequence number of the entire simulation. Added by LJ for statistics convenient. <br/></td></tr>
+<tr class="separator:a8526abbeed3f49071f39e0c17559e522 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46191d743a839a5290fd42d318b500d0 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a46191d743a839a5290fd42d318b500d0"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a46191d743a839a5290fd42d318b500d0">SetTheadNumber</a> (int threadNum)</td></tr>
+<tr class="memdesc:a46191d743a839a5290fd42d318b500d0 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set thread number for OpenMP. <br/></td></tr>
+<tr class="separator:a46191d743a839a5290fd42d318b500d0 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7b9caed16e56bf880b171040981403e inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7b9caed16e56bf880b171040981403e"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#af7b9caed16e56bf880b171040981403e">SetClimateDataType</a> (float value)</td></tr>
+<tr class="memdesc:af7b9caed16e56bf880b171040981403e inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set climate data type, P, M, PET etc. <br/></td></tr>
+<tr class="separator:af7b9caed16e56bf880b171040981403e inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a497fa950bc9c4d85cfb1ae13d83f06c9 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a497fa950bc9c4d85cfb1ae13d83f06c9"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a497fa950bc9c4d85cfb1ae13d83f06c9">Set2DData</a> (const char *key, int nRows, int nCols, float **data)</td></tr>
+<tr class="memdesc:a497fa950bc9c4d85cfb1ae13d83f06c9 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 2D data, by default, DT_Raster2D. <br/></td></tr>
+<tr class="separator:a497fa950bc9c4d85cfb1ae13d83f06c9 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3c60349cd6720bb66e58fa4cd31a999 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3c60349cd6720bb66e58fa4cd31a999"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#ac3c60349cd6720bb66e58fa4cd31a999">Set1DArrayData</a> (const char *key, int n, float *data)</td></tr>
+<tr class="memdesc:ac3c60349cd6720bb66e58fa4cd31a999 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 1D array data, DT_Array1D. <br/></td></tr>
+<tr class="separator:ac3c60349cd6720bb66e58fa4cd31a999 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f7470f5f4f831b9053e3ff2d92c1813 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1f7470f5f4f831b9053e3ff2d92c1813"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a1f7470f5f4f831b9053e3ff2d92c1813">Set2DArrayData</a> (const char *key, int nRows, int nCols, float **data)</td></tr>
+<tr class="memdesc:a1f7470f5f4f831b9053e3ff2d92c1813 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 2D array data, by default, DT_Array2D. <br/></td></tr>
+<tr class="separator:a1f7470f5f4f831b9053e3ff2d92c1813 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb23e43dd78e4fb8ce5d25a9855dd748 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeb23e43dd78e4fb8ce5d25a9855dd748"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#aeb23e43dd78e4fb8ce5d25a9855dd748">Get1DArrayData</a> (const char *key, int *n, float **data)</td></tr>
+<tr class="memdesc:aeb23e43dd78e4fb8ce5d25a9855dd748 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 1D Array data, by default, DT_Array1D. <br/></td></tr>
+<tr class="separator:aeb23e43dd78e4fb8ce5d25a9855dd748 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3330ba74e63c5e2e6368d5d62d4048ea inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3330ba74e63c5e2e6368d5d62d4048ea"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a3330ba74e63c5e2e6368d5d62d4048ea">Get2DArrayData</a> (const char *key, int *nRows, int *nCols, float ***data)</td></tr>
+<tr class="memdesc:a3330ba74e63c5e2e6368d5d62d4048ea inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 2D Array data, by default, DT_Array2D. <br/></td></tr>
+<tr class="separator:a3330ba74e63c5e2e6368d5d62d4048ea inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97da293bca13cf5934d9ef6da34d9290 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a97da293bca13cf5934d9ef6da34d9290"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a97da293bca13cf5934d9ef6da34d9290">SetSubbasins</a> (<a class="el" href="../../da/de7/a00210.html">clsSubbasins</a> *)</td></tr>
+<tr class="memdesc:a97da293bca13cf5934d9ef6da34d9290 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pointer of <a class="el" href="../../da/de7/a00210.html" title="Manager all Subbasin related parameters and methods. ">clsSubbasins</a> class which contains all subbasins information. Added by LJ, 2016-7-28. <br/></td></tr>
+<tr class="separator:a97da293bca13cf5934d9ef6da34d9290 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbcc7144125d11f1da27da05f4a94338 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abbcc7144125d11f1da27da05f4a94338"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#abbcc7144125d11f1da27da05f4a94338">ResetSubTimeStep</a> (void)</td></tr>
+<tr class="memdesc:abbcc7144125d11f1da27da05f4a94338 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset subtime step. <br/></td></tr>
+<tr class="separator:abbcc7144125d11f1da27da05f4a94338 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b1e6030fa901ac2bfa4350a819b4ecb inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b1e6030fa901ac2bfa4350a819b4ecb"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a4b1e6030fa901ac2bfa4350a819b4ecb">IsInputsSetDone</a> (void)</td></tr>
+<tr class="memdesc:a4b1e6030fa901ac2bfa4350a819b4ecb inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the inputs parameters (i.e., parameters derived from other modules) have been set. <br/></td></tr>
+<tr class="separator:a4b1e6030fa901ac2bfa4350a819b4ecb inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94457cc066581e7ecd1d3c88ebdf3163 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a94457cc066581e7ecd1d3c88ebdf3163"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a94457cc066581e7ecd1d3c88ebdf3163">SetInputsDone</a> (bool setDone)</td></tr>
+<tr class="memdesc:a94457cc066581e7ecd1d3c88ebdf3163 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the status of setting inputs parameters. <br/></td></tr>
+<tr class="separator:a94457cc066581e7ecd1d3c88ebdf3163 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a7c4aab2a29a56c743ecd9593fb01af7f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a7c4aab2a29a56c743ecd9593fb01af7f">initialOutputs</a> (void)</td></tr>
+<tr class="memdesc:a7c4aab2a29a56c743ecd9593fb01af7f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initial outputs.  <a href="#a7c4aab2a29a56c743ecd9593fb01af7f">More...</a><br/></td></tr>
+<tr class="separator:a7c4aab2a29a56c743ecd9593fb01af7f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a14091c1907d0e37741f5cadd46173771"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a14091c1907d0e37741f5cadd46173771">PointSourceLoading</a> (void)</td></tr>
+<tr class="separator:a14091c1907d0e37741f5cadd46173771"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f81ae3bdf3790fa4393925b987f73ec"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a1f81ae3bdf3790fa4393925b987f73ec">ChannelFlow</a> (int i)</td></tr>
+<tr class="memdesc:a1f81ae3bdf3790fa4393925b987f73ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">Channel flow.  <a href="#a1f81ae3bdf3790fa4393925b987f73ec">More...</a><br/></td></tr>
+<tr class="separator:a1f81ae3bdf3790fa4393925b987f73ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4d13f29e2617d4f444cf78af66bd8020"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4d13f29e2617d4f444cf78af66bd8020"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a4d13f29e2617d4f444cf78af66bd8020">GetDt</a> (float timeStep, float fmin, float fmax, float &amp;dt, int &amp;n)</td></tr>
+<tr class="memdesc:a4d13f29e2617d4f444cf78af66bd8020"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get date time. <br/></td></tr>
+<tr class="separator:a4d13f29e2617d4f444cf78af66bd8020"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae82d24ffe28f483589d96cf976595a49"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae82d24ffe28f483589d96cf976595a49"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#ae82d24ffe28f483589d96cf976595a49">GetCoefficients</a> (float reachLength, float v0, MuskWeights &amp;weights)</td></tr>
+<tr class="memdesc:ae82d24ffe28f483589d96cf976595a49"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get coefficients. <br/></td></tr>
+<tr class="separator:ae82d24ffe28f483589d96cf976595a49"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a495febdea1d47dee525642831ca65eea"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a495febdea1d47dee525642831ca65eea">updateWaterWidthDepth</a> (int i)</td></tr>
+<tr class="separator:a495febdea1d47dee525642831ca65eea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a0493e054af8975a515f1ce102250eba0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0493e054af8975a515f1ce102250eba0"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a0493e054af8975a515f1ce102250eba0">m_dt</a></td></tr>
+<tr class="memdesc:a0493e054af8975a515f1ce102250eba0"><td class="mdescLeft">&#160;</td><td class="mdescRight">time step (sec) <br/></td></tr>
+<tr class="separator:a0493e054af8975a515f1ce102250eba0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ada6d5b2e49d695dfd1f7c6e22c5996c5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ada6d5b2e49d695dfd1f7c6e22c5996c5"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#ada6d5b2e49d695dfd1f7c6e22c5996c5">m_nreach</a></td></tr>
+<tr class="memdesc:ada6d5b2e49d695dfd1f7c6e22c5996c5"><td class="mdescLeft">&#160;</td><td class="mdescRight">reach number (= subbasin number) <br/></td></tr>
+<tr class="separator:ada6d5b2e49d695dfd1f7c6e22c5996c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af054c8e6a5d7893a5992719eb219ef45"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af054c8e6a5d7893a5992719eb219ef45"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#af054c8e6a5d7893a5992719eb219ef45">m_outletID</a></td></tr>
+<tr class="memdesc:af054c8e6a5d7893a5992719eb219ef45"><td class="mdescLeft">&#160;</td><td class="mdescRight">outlet ID <br/></td></tr>
+<tr class="separator:af054c8e6a5d7893a5992719eb219ef45"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32656938dbc3602b49e6eb90264773aa"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a32656938dbc3602b49e6eb90264773aa"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a32656938dbc3602b49e6eb90264773aa">m_ptSub</a></td></tr>
+<tr class="memdesc:a32656938dbc3602b49e6eb90264773aa"><td class="mdescLeft">&#160;</td><td class="mdescRight">The point source discharge (m3/s), m_ptSub[id], id is the reach id, load from m_Scenario. <br/></td></tr>
+<tr class="separator:a32656938dbc3602b49e6eb90264773aa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a927331337eadf050fa362f9e7da9f50c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a927331337eadf050fa362f9e7da9f50c"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a927331337eadf050fa362f9e7da9f50c">m_Kchb</a></td></tr>
+<tr class="memdesc:a927331337eadf050fa362f9e7da9f50c"><td class="mdescLeft">&#160;</td><td class="mdescRight">hydraulic conductivity of the channel bed (mm/h) <br/></td></tr>
+<tr class="separator:a927331337eadf050fa362f9e7da9f50c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36331b94a66b826eaa0127dc6157715f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a36331b94a66b826eaa0127dc6157715f"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a36331b94a66b826eaa0127dc6157715f">m_Kbank</a></td></tr>
+<tr class="memdesc:a36331b94a66b826eaa0127dc6157715f"><td class="mdescLeft">&#160;</td><td class="mdescRight">hydraulic conductivity of the channel bank (mm/h) <br/></td></tr>
+<tr class="separator:a36331b94a66b826eaa0127dc6157715f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35350ca356d0d3b663caec85ff50e69a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a35350ca356d0d3b663caec85ff50e69a"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a35350ca356d0d3b663caec85ff50e69a">m_Epch</a></td></tr>
+<tr class="memdesc:a35350ca356d0d3b663caec85ff50e69a"><td class="mdescLeft">&#160;</td><td class="mdescRight">reach evaporation adjustment factor; <br/></td></tr>
+<tr class="separator:a35350ca356d0d3b663caec85ff50e69a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac26579b9bf3d7778706f9493a3e331e4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac26579b9bf3d7778706f9493a3e331e4"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#ac26579b9bf3d7778706f9493a3e331e4">m_Bnk0</a></td></tr>
+<tr class="memdesc:ac26579b9bf3d7778706f9493a3e331e4"><td class="mdescLeft">&#160;</td><td class="mdescRight">initial bank storage per meter of reach length (m3/m) <br/></td></tr>
+<tr class="separator:ac26579b9bf3d7778706f9493a3e331e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a37168660ed6cbbcac407b5b3f637175a"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a37168660ed6cbbcac407b5b3f637175a">m_chSideSlope</a></td></tr>
+<tr class="memdesc:a37168660ed6cbbcac407b5b3f637175a"><td class="mdescLeft">&#160;</td><td class="mdescRight">initial channel storage per meter of reach length (m3/m)  <a href="#a37168660ed6cbbcac407b5b3f637175a">More...</a><br/></td></tr>
+<tr class="separator:a37168660ed6cbbcac407b5b3f637175a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa6a4a177baa4d9f361b0ab4a93177b80"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa6a4a177baa4d9f361b0ab4a93177b80"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#aa6a4a177baa4d9f361b0ab4a93177b80">m_Chs0_perc</a></td></tr>
+<tr class="memdesc:aa6a4a177baa4d9f361b0ab4a93177b80"><td class="mdescLeft">&#160;</td><td class="mdescRight">initial percentage of channel volume <br/></td></tr>
+<tr class="separator:aa6a4a177baa4d9f361b0ab4a93177b80"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21d13efc0708dc5a2dad091efee97707"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a21d13efc0708dc5a2dad091efee97707"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a21d13efc0708dc5a2dad091efee97707">m_Vseep0</a></td></tr>
+<tr class="memdesc:a21d13efc0708dc5a2dad091efee97707"><td class="mdescLeft">&#160;</td><td class="mdescRight">the initial volume of transmission loss to the deep aquifer over the time interval (m3/s) <br/></td></tr>
+<tr class="separator:a21d13efc0708dc5a2dad091efee97707"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac58e2782333080795df781e33559307e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac58e2782333080795df781e33559307e"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#ac58e2782333080795df781e33559307e">m_aBank</a></td></tr>
+<tr class="memdesc:ac58e2782333080795df781e33559307e"><td class="mdescLeft">&#160;</td><td class="mdescRight">bank flow recession constant <br/></td></tr>
+<tr class="separator:ac58e2782333080795df781e33559307e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a50ffe6abd3869dfc113fc47243667874"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a50ffe6abd3869dfc113fc47243667874"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a50ffe6abd3869dfc113fc47243667874">m_bBank</a></td></tr>
+<tr class="memdesc:a50ffe6abd3869dfc113fc47243667874"><td class="mdescLeft">&#160;</td><td class="mdescRight">bank storage loss coefficient <br/></td></tr>
+<tr class="separator:a50ffe6abd3869dfc113fc47243667874"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaba297b9945199456522602299277cb1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aaba297b9945199456522602299277cb1"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#aaba297b9945199456522602299277cb1">m_subbasin</a></td></tr>
+<tr class="memdesc:aaba297b9945199456522602299277cb1"><td class="mdescLeft">&#160;</td><td class="mdescRight">subbasin grid <br/></td></tr>
+<tr class="separator:aaba297b9945199456522602299277cb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15d8df768526b30a91bbf16de94b5927"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a15d8df768526b30a91bbf16de94b5927"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a15d8df768526b30a91bbf16de94b5927">m_area</a></td></tr>
+<tr class="memdesc:a15d8df768526b30a91bbf16de94b5927"><td class="mdescLeft">&#160;</td><td class="mdescRight">the subbasin area (m2) //add to the reach parameters file <br/></td></tr>
+<tr class="separator:a15d8df768526b30a91bbf16de94b5927"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64732d39a3db1753ea1f23307f297883"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a64732d39a3db1753ea1f23307f297883"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a64732d39a3db1753ea1f23307f297883">m_petCh</a></td></tr>
+<tr class="memdesc:a64732d39a3db1753ea1f23307f297883"><td class="mdescLeft">&#160;</td><td class="mdescRight">Average PET for each subbasin. <br/></td></tr>
+<tr class="separator:a64732d39a3db1753ea1f23307f297883"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af3eb766ebf070623cd47c82e875ca51d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af3eb766ebf070623cd47c82e875ca51d"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#af3eb766ebf070623cd47c82e875ca51d">m_qsSub</a></td></tr>
+<tr class="memdesc:af3eb766ebf070623cd47c82e875ca51d"><td class="mdescLeft">&#160;</td><td class="mdescRight">overland flow to streams from each subbasin (m3/s) <br/></td></tr>
+<tr class="separator:af3eb766ebf070623cd47c82e875ca51d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af82feca7df14b7cec230ae11065d3477"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af82feca7df14b7cec230ae11065d3477"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#af82feca7df14b7cec230ae11065d3477">m_qiSub</a></td></tr>
+<tr class="memdesc:af82feca7df14b7cec230ae11065d3477"><td class="mdescLeft">&#160;</td><td class="mdescRight">interflow to streams from each subbasin (m3/s) <br/></td></tr>
+<tr class="separator:af82feca7df14b7cec230ae11065d3477"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad8e22417fe99650452ecd3fc1e99eb1f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad8e22417fe99650452ecd3fc1e99eb1f"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#ad8e22417fe99650452ecd3fc1e99eb1f">m_qgSub</a></td></tr>
+<tr class="memdesc:ad8e22417fe99650452ecd3fc1e99eb1f"><td class="mdescLeft">&#160;</td><td class="mdescRight">groundwater flow out of the subbasin (m3/s) <br/></td></tr>
+<tr class="separator:ad8e22417fe99650452ecd3fc1e99eb1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c6f6f7a893763d661afa40bb810020e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5c6f6f7a893763d661afa40bb810020e"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a5c6f6f7a893763d661afa40bb810020e">m_gwStorage</a></td></tr>
+<tr class="memdesc:a5c6f6f7a893763d661afa40bb810020e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Groundwater storage (mm) of the subbasin. <br/></td></tr>
+<tr class="separator:a5c6f6f7a893763d661afa40bb810020e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad375286f9c0a1921df8ef58b6b5666e7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad375286f9c0a1921df8ef58b6b5666e7"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#ad375286f9c0a1921df8ef58b6b5666e7">m_qsCh</a></td></tr>
+<tr class="memdesc:ad375286f9c0a1921df8ef58b6b5666e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">channel outflow <br/></td></tr>
+<tr class="separator:ad375286f9c0a1921df8ef58b6b5666e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7dd15960c638933473c9d8bf44147a2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab7dd15960c638933473c9d8bf44147a2"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#ab7dd15960c638933473c9d8bf44147a2">m_chOrder</a></td></tr>
+<tr class="memdesc:ab7dd15960c638933473c9d8bf44147a2"><td class="mdescLeft">&#160;</td><td class="mdescRight">channel order <br/></td></tr>
+<tr class="separator:ab7dd15960c638933473c9d8bf44147a2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20f2469d09efe86e65fd2568c4a911ec"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a20f2469d09efe86e65fd2568c4a911ec"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a20f2469d09efe86e65fd2568c4a911ec">m_chWidth</a></td></tr>
+<tr class="memdesc:a20f2469d09efe86e65fd2568c4a911ec"><td class="mdescLeft">&#160;</td><td class="mdescRight">channel width (m) <br/></td></tr>
+<tr class="separator:a20f2469d09efe86e65fd2568c4a911ec"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adba4e7724a04f99b9eca8be1559815dd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adba4e7724a04f99b9eca8be1559815dd"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#adba4e7724a04f99b9eca8be1559815dd">m_chWTWidth</a></td></tr>
+<tr class="memdesc:adba4e7724a04f99b9eca8be1559815dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">channel water width (m) <br/></td></tr>
+<tr class="separator:adba4e7724a04f99b9eca8be1559815dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25bb9c24b65f8d83935a28bb4e9c6c26"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a25bb9c24b65f8d83935a28bb4e9c6c26"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a25bb9c24b65f8d83935a28bb4e9c6c26">m_chBtmWidth</a></td></tr>
+<tr class="memdesc:a25bb9c24b65f8d83935a28bb4e9c6c26"><td class="mdescLeft">&#160;</td><td class="mdescRight">bottom width of channel (m) <br/></td></tr>
+<tr class="separator:a25bb9c24b65f8d83935a28bb4e9c6c26"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a1a36588cb166730e523c95878653cb"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3a1a36588cb166730e523c95878653cb"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a3a1a36588cb166730e523c95878653cb">m_chDepth</a></td></tr>
+<tr class="memdesc:a3a1a36588cb166730e523c95878653cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">channel depth (m) <br/></td></tr>
+<tr class="separator:a3a1a36588cb166730e523c95878653cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3eb5ec95695d7aaaecce0e69890f58a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3eb5ec95695d7aaaecce0e69890f58a"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#ac3eb5ec95695d7aaaecce0e69890f58a">m_chWTdepth</a></td></tr>
+<tr class="memdesc:ac3eb5ec95695d7aaaecce0e69890f58a"><td class="mdescLeft">&#160;</td><td class="mdescRight">channel water depth (m) <br/></td></tr>
+<tr class="separator:ac3eb5ec95695d7aaaecce0e69890f58a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0b61caee10efd8f22374e22068732d2e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0b61caee10efd8f22374e22068732d2e"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a0b61caee10efd8f22374e22068732d2e">m_preChWTDepth</a></td></tr>
+<tr class="memdesc:a0b61caee10efd8f22374e22068732d2e"><td class="mdescLeft">&#160;</td><td class="mdescRight">channel water depth of previous timestep (m) <br/></td></tr>
+<tr class="separator:a0b61caee10efd8f22374e22068732d2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d7ffc73ba7952bd520581504aee3ca3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3d7ffc73ba7952bd520581504aee3ca3"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a3d7ffc73ba7952bd520581504aee3ca3">m_chLen</a></td></tr>
+<tr class="memdesc:a3d7ffc73ba7952bd520581504aee3ca3"><td class="mdescLeft">&#160;</td><td class="mdescRight">channel length (m) <br/></td></tr>
+<tr class="separator:a3d7ffc73ba7952bd520581504aee3ca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acd99085f2a83c5eeab56c4aa5702a8ca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acd99085f2a83c5eeab56c4aa5702a8ca"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#acd99085f2a83c5eeab56c4aa5702a8ca">m_chVel</a></td></tr>
+<tr class="memdesc:acd99085f2a83c5eeab56c4aa5702a8ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">channel flow velocity (m/s) <br/></td></tr>
+<tr class="separator:acd99085f2a83c5eeab56c4aa5702a8ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb04982ce4392ef5d97af5a8c9d2eb61"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="acb04982ce4392ef5d97af5a8c9d2eb61"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#acb04982ce4392ef5d97af5a8c9d2eb61">m_bankStorage</a></td></tr>
+<tr class="memdesc:acb04982ce4392ef5d97af5a8c9d2eb61"><td class="mdescLeft">&#160;</td><td class="mdescRight">bank storage (m^3) <br/></td></tr>
+<tr class="separator:acb04982ce4392ef5d97af5a8c9d2eb61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a00edccdb01788409e0672a200417d518"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a00edccdb01788409e0672a200417d518"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a00edccdb01788409e0672a200417d518">m_deepGroundwater</a></td></tr>
+<tr class="memdesc:a00edccdb01788409e0672a200417d518"><td class="mdescLeft">&#160;</td><td class="mdescRight">groundwater recharge to channel or perennial base flow, m^3/s <br/></td></tr>
+<tr class="separator:a00edccdb01788409e0672a200417d518"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4152019a630faffa626fa8c2c0a99030"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4152019a630faffa626fa8c2c0a99030"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a4152019a630faffa626fa8c2c0a99030">m_seepage</a></td></tr>
+<tr class="memdesc:a4152019a630faffa626fa8c2c0a99030"><td class="mdescLeft">&#160;</td><td class="mdescRight">seepage to deep aquifer <br/></td></tr>
+<tr class="separator:a4152019a630faffa626fa8c2c0a99030"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72b10e45b27b8230fb7268938484f1db"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a72b10e45b27b8230fb7268938484f1db"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a72b10e45b27b8230fb7268938484f1db">m_reachDownStream</a></td></tr>
+<tr class="memdesc:a72b10e45b27b8230fb7268938484f1db"><td class="mdescLeft">&#160;</td><td class="mdescRight">downstream id (The value is 0 if there if no downstream reach) <br/></td></tr>
+<tr class="separator:a72b10e45b27b8230fb7268938484f1db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3f999fc179d5abec14cdff03c57c3985"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3f999fc179d5abec14cdff03c57c3985"></a>
+vector&lt; vector&lt; int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a3f999fc179d5abec14cdff03c57c3985">m_reachUpStream</a></td></tr>
+<tr class="memdesc:a3f999fc179d5abec14cdff03c57c3985"><td class="mdescLeft">&#160;</td><td class="mdescRight">upstream id (The value is -1 if there if no upstream reach) <br/></td></tr>
+<tr class="separator:a3f999fc179d5abec14cdff03c57c3985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8646100052e8aa894a8d75aa9bdf80e0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8646100052e8aa894a8d75aa9bdf80e0"></a>
+map&lt; int, <a class="el" href="../../d7/ded/a00196.html">BMPPointSrcFactory</a> * &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a8646100052e8aa894a8d75aa9bdf80e0">m_ptSrcFactory</a></td></tr>
+<tr class="memdesc:a8646100052e8aa894a8d75aa9bdf80e0"><td class="mdescLeft">&#160;</td><td class="mdescRight">scenario data <br/></td></tr>
+<tr class="separator:a8646100052e8aa894a8d75aa9bdf80e0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a129873925bf861064dde3d642d28b97d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a129873925bf861064dde3d642d28b97d"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a129873925bf861064dde3d642d28b97d">m_chStorage</a></td></tr>
+<tr class="memdesc:a129873925bf861064dde3d642d28b97d"><td class="mdescLeft">&#160;</td><td class="mdescRight">reach storage (m^3) at time, t <br/></td></tr>
+<tr class="separator:a129873925bf861064dde3d642d28b97d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afceb000463f8594c9d458ae9e2ba1ce7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afceb000463f8594c9d458ae9e2ba1ce7"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#afceb000463f8594c9d458ae9e2ba1ce7">m_preChStorage</a></td></tr>
+<tr class="memdesc:afceb000463f8594c9d458ae9e2ba1ce7"><td class="mdescLeft">&#160;</td><td class="mdescRight">reach storage (m^3) at previous time step, t-1 <br/></td></tr>
+<tr class="separator:afceb000463f8594c9d458ae9e2ba1ce7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac8ce0d2425241fec26f4b01acfc51c56"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac8ce0d2425241fec26f4b01acfc51c56"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#ac8ce0d2425241fec26f4b01acfc51c56">m_qOut</a></td></tr>
+<tr class="memdesc:ac8ce0d2425241fec26f4b01acfc51c56"><td class="mdescLeft">&#160;</td><td class="mdescRight">reach outflow (m3/s) at time, t <br/></td></tr>
+<tr class="separator:ac8ce0d2425241fec26f4b01acfc51c56"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8c67563ef54e6e5df541b83978691bac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8c67563ef54e6e5df541b83978691bac"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a8c67563ef54e6e5df541b83978691bac">m_qIn</a></td></tr>
+<tr class="memdesc:a8c67563ef54e6e5df541b83978691bac"><td class="mdescLeft">&#160;</td><td class="mdescRight">flowin discharge at the last time step <br/></td></tr>
+<tr class="separator:a8c67563ef54e6e5df541b83978691bac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3d4136f27b80b818e3db2cfd7952bc74"><td class="memItemLeft" align="right" valign="top">map&lt; int, vector&lt; int &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d5b/a00294.html#a3d4136f27b80b818e3db2cfd7952bc74">m_reachLayers</a></td></tr>
+<tr class="separator:a3d4136f27b80b818e3db2cfd7952bc74"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_a00336"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_a00336')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../dd/d1d/a00336.html">SimulationModule</a></td></tr>
+<tr class="memitem:aabd631c05d3e74aa9970f7415f2f5de7 inherit pro_attribs_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aabd631c05d3e74aa9970f7415f2f5de7"></a>
+time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#aabd631c05d3e74aa9970f7415f2f5de7">m_date</a></td></tr>
+<tr class="memdesc:aabd631c05d3e74aa9970f7415f2f5de7 inherit pro_attribs_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">date time <br/></td></tr>
+<tr class="separator:aabd631c05d3e74aa9970f7415f2f5de7 inherit pro_attribs_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addfe4dd5800efd0bb827338daf65d64c inherit pro_attribs_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="addfe4dd5800efd0bb827338daf65d64c"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#addfe4dd5800efd0bb827338daf65d64c">m_yearIdx</a></td></tr>
+<tr class="memdesc:addfe4dd5800efd0bb827338daf65d64c inherit pro_attribs_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">index of current year of simulation, e.g., the simulation period from 2010 to 2015, m_yearIdx is 2 when simulate 2012. <br/></td></tr>
+<tr class="separator:addfe4dd5800efd0bb827338daf65d64c inherit pro_attribs_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adee1865c86a9761af76cec98cac30a44 inherit pro_attribs_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adee1865c86a9761af76cec98cac30a44"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#adee1865c86a9761af76cec98cac30a44">m_tsCounter</a></td></tr>
+<tr class="memdesc:adee1865c86a9761af76cec98cac30a44 inherit pro_attribs_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">sub-timestep counter <br/></td></tr>
+<tr class="separator:adee1865c86a9761af76cec98cac30a44 inherit pro_attribs_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68422923210ead26b1651bf0e0a339f6 inherit pro_attribs_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a68422923210ead26b1651bf0e0a339f6"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a68422923210ead26b1651bf0e0a339f6">m_inputsSetDone</a></td></tr>
+<tr class="memdesc:a68422923210ead26b1651bf0e0a339f6 inherit pro_attribs_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the inputs parameters (i.e., parameters derived from other modules) have been set. <br/></td></tr>
+<tr class="separator:a68422923210ead26b1651bf0e0a339f6 inherit pro_attribs_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>channel flow routing using <a class="el" href="../../d9/d5e/a00295.html" title="Channel routing using Muskingum-Cunge method. ">Muskingum</a> method </p>
+
+<p>Definition at line <a class="el" href="../../dc/d64/a01140_source.html#l00044">44</a> of file <a class="el" href="../../dc/d64/a01140_source.html">MUSK_CH.h</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a1f81ae3bdf3790fa4393925b987f73ec"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MUSK_CH::ChannelFlow </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Channel flow. </p>
+<p>interflow flow</p>
+<p>groundwater flow</p>
+<p>point sources flow</p>
+<p>m^3</p>
+<p>update channel water depth and width according to channel water storage </p>
+
+<p>Definition at line <a class="el" href="../../d5/d3e/a01139_source.html#l00532">532</a> of file <a class="el" href="../../d5/d3e/a01139_source.html">MUSK_CH.cpp</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d4/d5b/a00294_a1f81ae3bdf3790fa4393925b987f73ec_cgraph.png" border="0" usemap="#d4/d5b/a00294_a1f81ae3bdf3790fa4393925b987f73ec_cgraph" alt=""/></div>
+<map name="d4/d5b/a00294_a1f81ae3bdf3790fa4393925b987f73ec_cgraph" id="d4/d5b/a00294_a1f81ae3bdf3790fa4393925b987f73ec_cgraph">
+<area shape="rect" id="node2" href="../../d4/d5b/a00294.html#a495febdea1d47dee525642831ca65eea" title="MUSK_CH::updateWaterWidth\lDepth" alt="" coords="261,5,504,51"/><area shape="rect" id="node3" href="../../d4/d5b/a00294.html#ae82d24ffe28f483589d96cf976595a49" title="Get coefficients. " alt="" coords="273,76,492,105"/><area shape="rect" id="node4" href="../../d4/d5b/a00294.html#a4d13f29e2617d4f444cf78af66bd8020" title="Get date time. " alt="" coords="553,76,703,105"/></map>
 </div>
-</li>
-</ul>
-<p><a href="../../#目录">返回目录</a></p>
-<h2>2. 编写元数据函数</h2>
-<p>为了便于统一修改，并保持SEIMS整体的一致性，<code>api.cpp</code>中所有字符串类型的元数据信息均在<code>src/base/util/text.h</code>头文件中以宏定义&lt;tt&gt;::define的形式进行管理。</p>
-<h3>2.1 SetClass</h3>
-<p>定义模块所属模块组及描述，在<code><a class="el" href="../../de/d16/a01228_source.html">text.h</a></code>中定义为<code>MCLS_</code>及<code>MCLSDESC_</code>，如：</p>
-<p>```cpp /// Potential Evapotranspiration Modules #define MCLS_PET "Potential Evapotranspiration" #define MCLSDESC_PET "Calculate the potential evapotranspiration" ```</p>
-<h3>2.2 SetID, SetDescription</h3>
-<p>定义该模块的唯一标识符ID和描述，在<code><a class="el" href="../../de/d16/a01228_source.html">text.h</a></code>中定义为<code>MID_</code>及<code>MDESC_</code>，如：</p>
-<p>```cpp #define MID_PET_H "PET_H" #define MDESC_PET_H "Hargreaves method for calculating the potential evapotranspiration." ``` SetName 同 SetID</p>
-<h3>2.3 AddParameter</h3>
-<p>所有从数据库中原始读取的参数，均以AddParameter形式定义，这些参数在模拟开始前从数据库中读取，以指针的形式在不同模块间传递，模拟开始后，不重复读取！</p>
-<p>共有5个输入：</p>
-<ul>
-<li>变量名，在<code><a class="el" href="../../de/d16/a01228_source.html">text.h</a></code>中定义为<code>VAR_</code>，如CN2值定义为<code>VAR_CN2</code></li>
-<li>单位，在<code><a class="el" href="../../de/d16/a01228_source.html">text.h</a></code>中定义为<code>UNIT_</code>，如秒的单位为<code>UNIT_SECOND</code></li>
-<li>描述，在<code><a class="el" href="../../de/d16/a01228_source.html">text.h</a></code>中定义为<code>DESC_</code>，如CN2值得描述为<code>DESC_CN2</code></li>
-<li>来源，来源共有如下几种：<ul>
-<li><code>File_Input</code>:来自模型配置文件<code>file.in</code>,如模拟时间步长</li>
-<li><code>Source_HydroClimateDB</code>：来自水文气象数据库，如气温</li>
-<li><code>Source_ParameterDB</code>：来自模型参数数据库，包括MongoDB中<code>Parameters</code>表和<code>spatial</code>表</li>
-</ul>
-</li>
-<li>数据类型，为<code>dimensionTypes</code>枚举型变量，主要包括：<ul>
-<li><code>DT_Single</code>：单个数值型</li>
-<li><code>DT_Array1D</code>：一维数组，如站点平均气温</li>
-<li><code>DT_Array2D</code>：二维数组，如栅格分层计算的层数及每层栅格的索引值</li>
-<li><code>DT_Raster1D</code>：一维栅格数据，如DEM</li>
-<li><code>DT_Raster2D</code>：二维栅格数据，如多层土壤属性栅格</li>
-<li><code>DT_Scenario</code>：情景数据</li>
-</ul>
-</li>
-</ul>
-<h3>2.4 AddInput</h3>
-<p>所有来源于其他模块输出的参数均以AddInput的形式定义，这部分参数在模块运行之前，检查其他模块是否有输出该参数，如果有，则获取指针；如果该参数尚未初始化，则由对应模块的<code>initialOutputs()</code>函数进行初始化并输出。</p>
-<p>与AddParameter的设置基本一致，唯一的区别在于AddInput的变量来源必须是<code>Source_Module</code>。</p>
-<p>二者的区别为：</p>
-<ul>
-<li>AddParameter中的参数，在模型构建时（即开始逐时间步长计算之前）一次性读取（除气象水文数据外），具体参见<code>src/base/ModuleFactory.cpp</code>中的：</li>
-</ul>
-<p>```cpp void ModuleFactory::SetData() ```</p>
-<ul>
-<li>而AddInput的参数，在模型开始第一个时间步长运行前，获取该参数的内存地址：</li>
-</ul>
-<p>```cpp void ModuleFactory::GetValueFromDependencyModule() ```</p>
-<h3>2.5 AddOutput</h3>
-<p>AddOutput需要设置变量名、单位、描述、数据类型，不再赘述。</p>
-<h3>2.6 Demo</h3>
-<p>我们设定了测试模型输入输出的模块目的，这里我们可以这样定义AddParameter和AddOutput（暂不涉及从其他模块中读取变量）：读取一维栅格数据<code>VAR_CN2</code>和二维栅格数据<code>VAR_CONDUCT</code>，分别输出为<code>CN2_M</code>和<code>K_M</code>：</p>
-<p>```cpp /// set parameters from database mdi.AddParameter(VAR_CN2, UNIT_NON_DIM, DESC_CN2, Source_ParameterDB, DT_Raster1D); mdi.AddParameter(VAR_CONDUCT, UNIT_WTRDLT_MMH, DESC_CONDUCT, Source_ParameterDB, DT_Raster2D); /// set the output variables mdi.AddOutput("CN2_M",UNIT_NON_DIM, DESC_CN2, DT_Raster1D); mdi.AddOutput("K_M",UNIT_WTRDLT_MMH,DESC_CONDUCT,DT_Raster2D); ```</p>
-<p><a href="../../#目录">返回目录</a></p>
-<h2>3. 头文件定义</h2>
-<h3>3.1 利用VAssistX快速重命名</h3>
-<p>打开头文件<code><a class="el" href="../../d9/ddc/a01423_source.html">IO_test.h</a></code>之后，首先想将默认的继承于<code><a class="el" href="../../d7/db5/a00472.html" title="Base module for all simulation modules in SEIMS. ">SimulationModule</a></code>的子类名称改为<code>IO_TEST</code>，有了VassistX我们可以很方便的快速重命名，如下：</p>
-<div class="image">
-<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fvs-rename.jpg" />
+</p>
+
 </div>
-<div class="image">
-<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fvs-rename2.jpg" />
 </div>
-<h3>3.2 定义输入、输出变量</h3>
-<p>与<code>api.cpp</code>中设置的变量一一对应，在<code>IO_TEST</code>类定义变量名，并做好注释，这里我的定义如下：</p>
-<p>```cpp private: /// valid cells number int m_nCells; /// input 1D raster data float* m_raster1D; /// maximum number of soil layers int m_soilLayers; /// input 2D raster data float** m_raster2D; /// output 1D raster data float* m_output1Draster; /// output 2D raster data float** m_output2Draster; ```</p>
-<h3>3.3 定义public或private函数</h3>
-<ul>
-<li>构造函数和析构函数：（必需）</li>
-<li>算法执行函数：（必须），<code>virtual int Execute();</code></li>
-<li>获取输入数据系列函数：（多选）<ul>
-<li><code>SetValue</code>：设置<code>DT_Single</code>类型数据</li>
-<li><code>Set1DData</code>：设置<code>DT_Array1D</code>和<code>DT_Raster1D</code>类型数据</li>
-<li><code>Set2DData</code>：设置<code>DT_Array2D</code>和<code>DT_Raster2D</code>类型数据</li>
+<a class="anchor" id="a9fcd5f45879d057ee55d075436d09b70"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int MUSK_CH::Execute </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Execute function. </p>
+<p>load point source water volume from m_ptSrcFactory </p>
+
+<p>Reimplemented from <a class="el" href="../../dd/d1d/a00336.html#aeeec0ab34636df859c0b3116db18942f">SimulationModule</a>.</p>
+
+<p>Definition at line <a class="el" href="../../d5/d3e/a01139_source.html#l00212">212</a> of file <a class="el" href="../../d5/d3e/a01139_source.html">MUSK_CH.cpp</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d4/d5b/a00294_a9fcd5f45879d057ee55d075436d09b70_cgraph.png" border="0" usemap="#d4/d5b/a00294_a9fcd5f45879d057ee55d075436d09b70_cgraph" alt=""/></div>
+<map name="d4/d5b/a00294_a9fcd5f45879d057ee55d075436d09b70_cgraph" id="d4/d5b/a00294_a9fcd5f45879d057ee55d075436d09b70_cgraph">
+<area shape="rect" id="node2" href="../../d4/d5b/a00294.html#afdfae02550dcd7129d5982e77426722a" title="Check input data. " alt="" coords="237,5,462,35"/><area shape="rect" id="node3" href="../../d4/d5b/a00294.html#a7c4aab2a29a56c743ecd9593fb01af7f" title="Initial outputs. " alt="" coords="248,59,451,88"/><area shape="rect" id="node4" href="../../d4/d5b/a00294.html#a14091c1907d0e37741f5cadd46173771" title="MUSK_CH::PointSourceLoading" alt="" coords="221,112,477,141"/><area shape="rect" id="node7" href="../../d4/d5b/a00294.html#a1f81ae3bdf3790fa4393925b987f73ec" title="Channel flow. " alt="" coords="246,183,453,212"/><area shape="rect" id="node5" href="../../dd/de2/a00320.html#a365fbf3e535c4a5b71043e06229a8d8f" title="Located subbasin ID. " alt="" coords="526,33,783,79"/><area shape="rect" id="node6" href="../../dd/de2/a00320.html#acf17c775faae95ff2672fd795bd6c745" title="size " alt="" coords="526,103,783,150"/><area shape="rect" id="node8" href="../../d4/d5b/a00294.html#a495febdea1d47dee525642831ca65eea" title="MUSK_CH::updateWaterWidth\lDepth" alt="" coords="533,174,776,221"/><area shape="rect" id="node9" href="../../d4/d5b/a00294.html#ae82d24ffe28f483589d96cf976595a49" title="Get coefficients. " alt="" coords="545,245,764,275"/><area shape="rect" id="node10" href="../../d4/d5b/a00294.html#a4d13f29e2617d4f444cf78af66bd8020" title="Get date time. " alt="" coords="833,245,983,275"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a7c4aab2a29a56c743ecd9593fb01af7f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MUSK_CH::initialOutputs </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initial outputs. </p>
+<p>initialize point source loadings </p>
+
+<p>Definition at line <a class="el" href="../../d5/d3e/a01139_source.html#l00106">106</a> of file <a class="el" href="../../d5/d3e/a01139_source.html">MUSK_CH.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a14091c1907d0e37741f5cadd46173771"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MUSK_CH::PointSourceLoading </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>load point source water discharge (m3/s) on current day from Scenario</p>
+<p>reset point source loading water to 0.f</p>
+<p>m3/'size'/day</p>
+<p>m3/'size'/day ==&gt; m3/s </p>
+
+<p>Definition at line <a class="el" href="../../d5/d3e/a01139_source.html#l00176">176</a> of file <a class="el" href="../../d5/d3e/a01139_source.html">MUSK_CH.cpp</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d4/d5b/a00294_a14091c1907d0e37741f5cadd46173771_cgraph.png" border="0" usemap="#d4/d5b/a00294_a14091c1907d0e37741f5cadd46173771_cgraph" alt=""/></div>
+<map name="d4/d5b/a00294_a14091c1907d0e37741f5cadd46173771_cgraph" id="d4/d5b/a00294_a14091c1907d0e37741f5cadd46173771_cgraph">
+<area shape="rect" id="node2" href="../../dd/de2/a00320.html#a365fbf3e535c4a5b71043e06229a8d8f" title="Located subbasin ID. " alt="" coords="310,5,567,51"/><area shape="rect" id="node3" href="../../dd/de2/a00320.html#acf17c775faae95ff2672fd795bd6c745" title="size " alt="" coords="310,75,567,122"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a392e2fe906ba0778ff9fdfda40f50960"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MUSK_CH::SetScenario </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="../../dd/dbb/a00330.html">Scenario</a> *&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set pointer of Scenario class which contains all BMP information. Added by LJ, 2016-6-14. </p>
+<p>Key is uniqueBMPID, which is calculated by BMP_ID * 100000 + subScenario; </p>
+
+<p>Reimplemented from <a class="el" href="../../dd/d1d/a00336.html#ae6dfd515de376498a12a22724e57650a">SimulationModule</a>.</p>
+
+<p>Definition at line <a class="el" href="../../d5/d3e/a01139_source.html#l00413">413</a> of file <a class="el" href="../../d5/d3e/a01139_source.html">MUSK_CH.cpp</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d4/d5b/a00294_a392e2fe906ba0778ff9fdfda40f50960_cgraph.png" border="0" usemap="#d4/d5b/a00294_a392e2fe906ba0778ff9fdfda40f50960_cgraph" alt=""/></div>
+<map name="d4/d5b/a00294_a392e2fe906ba0778ff9fdfda40f50960_cgraph" id="d4/d5b/a00294_a392e2fe906ba0778ff9fdfda40f50960_cgraph">
+<area shape="rect" id="node2" href="../../dd/dbb/a00330.html#ab220b5748d6eeddc3d60e0129d90a67b" title="Get BMPs Factories. " alt="" coords="254,5,426,51"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a495febdea1d47dee525642831ca65eea"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void MUSK_CH::updateWaterWidthDepth </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>update channel water depth and width according to channel water storage </p>
+
+<p>Definition at line <a class="el" href="../../d5/d3e/a01139_source.html#l00518">518</a> of file <a class="el" href="../../d5/d3e/a01139_source.html">MUSK_CH.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a37168660ed6cbbcac407b5b3f637175a"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float* MUSK_CH::m_chSideSlope</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>initial channel storage per meter of reach length (m3/m) </p>
+<p>inverse of the channel side slope, by default is 2. </p>
+
+<p>Definition at line <a class="el" href="../../dc/d64/a01140_source.html#l00101">101</a> of file <a class="el" href="../../dc/d64/a01140_source.html">MUSK_CH.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a3d4136f27b80b818e3db2cfd7952bc74"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">map&lt;int, vector&lt;int&gt; &gt; MUSK_CH::m_reachLayers</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>reach layers key: stream order value: reach ID </p>
+
+<p>Definition at line <a class="el" href="../../dc/d64/a01140_source.html#l00192">192</a> of file <a class="el" href="../../dc/d64/a01140_source.html">MUSK_CH.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>seims/src/seims_main/modules/hydrology_longterm/MUSK_CH/<a class="el" href="../../dc/d64/a01140_source.html">MUSK_CH.h</a></li>
+<li>seims/src/seims_main/modules/hydrology_longterm/MUSK_CH/<a class="el" href="../../d5/d3e/a01139_source.html">MUSK_CH.cpp</a></li>
 </ul>
-</li>
-<li>获取输出数据系列函数：（多选）<ul>
-<li><code>GetValue</code>：读取<code>DT_Single</code>类型数据</li>
-<li><code>Get1DData</code>：读取<code>DT_Array1D</code>和<code>DT_Raster1D</code>类型数据</li>
-<li><code>Get2DData</code>：读取<code>DT_Array2D</code>和<code>DT_Raster2D</code>类型数据</li>
-</ul>
-</li>
-<li>其他一些自定义的函数</li>
-</ul>
-<h2>4. 实现函数编写</h2>
-<p>接下来我们可以进入实现函数编写的阶段。</p>
-<h3>4.1 参数初始化</h3>
-<p>按照AddParameter，AddInput，AddOutput中参数定义顺序，在构造函数中依次进行参数初始化，基本原则为：</p>
-<ul>
-<li><code>DT_Single</code>类型数据设置为-1或者<code>NODATA</code>(<code><a class="el" href="../../d0/d39/a01138_source.html">utils.h</a></code>中定义)</li>
-<li><code>DT_Array1D</code>, <code>DT_Raster1D</code>, <code>DT_Array2D</code>和<code>DT_Raster2D</code>类型变量设置为<code>NULL</code></li>
-</ul>
-<p>这里我们这样初始化：</p>
-<p>```cpp IO_TEST::IO_TEST(void):m_nCells(-1), m_raster1D(NULL), m_raster2D(NULL), m_output1Draster(NULL), m_output2Draster(NULL) { } ```</p>
-<h3>4.2 内存释放（析构函数）</h3>
-<p>基本原则是：凡是在该模块中new的内存均需要在析构函数中释放，除非该变量在其他地方被显式释放。对于一维数组利用<code>delete[]</code>即可，对于二维数组则需要遍历释放，并重新赋值为<code>NULL</code>避免“野指针”。</p>
-<p>这里我们这样释放内存：</p>
-<p>```cpp IO_TEST::~IO_TEST(void) { if (m_output1Draster != NULL) delete[] m_output1Draster; m_output1Draster = NULL; if (m_output2Draster != NULL) { for(int i = 0; i &lt; m_nCells; i++) delete[] m_output2Draster[i]; delete[] m_output2Draster; m_output2Draster = NULL; } } ```</p>
-<p>由于释放内存频繁用到，因此，在<code><a class="el" href="../../d0/d39/a01138_source.html">utils.h</a></code>中定义了模板函数用于释放内存：</p>
-<p>```cpp #include "utils.h" if(m_output1Draster != NULL) Release1DArray(m_output1Draster); if(m_output2Draster != NULL) Release2DArray(m_nCells, m_output2Draster) ```</p>
-<h3>4.3 变量赋值</h3>
-<p>赋值时首先进行数据长度检查（<code>CheckInputSize()</code>）,在进行长度检查时，顺便给栅格个数（<code>m_nCells</code>）赋值，随后对变量名进行匹配（<code>StringMatch()</code>），如果匹配则赋值，以<code>Set1DData</code>为例:</p>
-<p>```cpp void IO_TEST::Set1DData(const char* key, int n, float* data) { if(!this-&gt;CheckInputSize(key,n)) return; string sk(key); if(StringMatch(sk, VAR_CN2)) this-&gt;m_raster1D = data; }</p>
-<p>bool IO_TEST::CheckInputSize(const char* key, int n) { if(n&lt;=0) throw <a class="el" href="../../d2/de1/a00421.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputSize","Input data for "+string(key) +" is invalid. The size could not be less than zero."); if(this-&gt;m_nCells != n) { if(this-&gt;m_nCells &lt;=0) this-&gt;m_nCells = n; else throw <a class="el" href="../../d2/de1/a00421.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputSize","Input data for "+string(key) +" is invalid. All the input data should have same size."); } return true; } ```</p>
-<h3>4.4 参数有效性检查</h3>
-<p>有效性检查函数<code>CheckInputData()</code>用于逐个判断SetValue系列函数中设置的输入是否均以成功赋值，如没有，则抛出异常。</p>
-<p>```cpp bool IO_TEST::CheckInputData() { if(this-&gt;m_date == -1) /// m_date is protected variable member in base class <a class="el" href="../../d7/db5/a00472.html" title="Base module for all simulation modules in SEIMS. ">SimulationModule</a>. throw <a class="el" href="../../d2/de1/a00421.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","You have not set the time."); if(m_nCells &lt;= 0) throw <a class="el" href="../../d2/de1/a00421.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","The dimension of the input data can not be less than zero."); if(m_raster1D == NULL) throw <a class="el" href="../../d2/de1/a00421.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","The 1D raster input data can not be less than zero."); if(m_raster2D == NULL) throw <a class="el" href="../../d2/de1/a00421.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","The 2D raster input data can not be less than zero."); return true; } ```</p>
-<h3>4.5 编写Execute函数</h3>
-<p>在Execute函数中，首先需要为输出变量开辟内存空间，并赋初值，然后进行模块功能的实现。</p>
-<p>这里我们以简单的算法为例：</p>
-<p>```cpp int IO_TEST::Execute() { /// Initialize output variables if (m_output1Draster == NULL) { m_output1Draster = new float[m_nCells]; #pragma omp parallel for for (int i = 0; i &lt; m_nCells; ++i) m_output1Draster[i] = 0.f; } if (m_output2Draster == NULL) { m_output2Draster = new float*[m_nCells]; #pragma omp parallel for for (int i = 0; i &lt; m_nCells; ++i) { m_output2Draster[i] = new float[m_soilLayers]; for(int j = 0; j &lt; m_soilLayers; j++) m_output2Draster[i][j] = 0.f; } } /// Execute function #pragma omp parallel for for (int i = 0; i &lt; m_nCells; ++i) { m_output1Draster[i] = m_raster1D[i] * 0.5f; for(int j = 0; j &lt; m_soilLayers; j++) m_output2Draster[i][j] = m_raster2D[i][j] + 2.f; } return true; } ```</p>
-<p>与内存释放类似，为方便参数初始化，在<code>util.h</code>中定义了模板函数，调用示例如下：</p>
-<p>```cpp /// Initialize output variables if(m_output1Draster == NULL) Initialize1DArray(m_nCells, m_output1Draster, 0.f) if(m_output2Draster == NULL) Initialize2DArray(m_nCells, m_soilLayers, m_output2Draster, 0.f) ```</p>
-<h3>4.6 编写变量输出代码</h3>
-<p>与变量赋值代码类似，首先进行变量名匹配，然后进行赋值，以<code>Get2DData</code>为例：</p>
-<p>```cpp void IO_TEST::Get2DData(const char* key, int* n, int* col, float*** data) { string sk(key); if(StringMatch(sk, "K_M")) { *data = this-&gt;m_output2Draster; *n = this-&gt;m_nCells; *col = this-&gt;m_soilLayers; } } ```</p>
-<p>至此，这个简单的<code>IO_TEST</code>模块的代码编写工作便完成了！</p>
-<p><a href="../../#目录">返回目录</a></p>
-<h2>5. 模块测试</h2>
-<p>&gt;值得一提的是，SEIMS同时也是一个模块化框架，单独运行某一个模块也是可以的(当然是在保证气象输入正确的前提下)。</p>
-<p>对于我们编写的这个IO测试模块，可以通过配置模型输入文件，仅运行这一模块，并得到输出。</p>
-<h3>5.1 config.fig</h3>
-<p>通过之前的学习，相信你对config.fig的输入格式已经有所了解，不再赘述，具体设置如下：</p>
-<p>``` </p>
-<h3>FORMAT</h3>
-<h3>MODULE CLASS NO. | PROCESS NAME | METHOD NAME | MODULE ID</h3>
-<h3>-1 | Module Test</h3>
-<p>0 | IO test| IO | IO_TEST ```</p>
-<h3>5.2 file.in</h3>
-<p>既然仅测试这一模块，那就只设置模拟一天（其实file.in对IO_TEST没用）</p>
-<p>``` MODE|Daily INTERVAL|1 STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-01-02 00:00:00 ``` </p>
-<h3>5.3 file.out</h3>
-<p>分别设置2个输出，注意设置开始和结束时间要在file.in中模拟时间段之内，即：</p>
-<p>``` </p>
-<h3>-1 Module IO TEST</h3>
-<p>OUTPUTID|CN2_M COUNT | 1 TYPE | MEAN STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-01-02 00:00:00 FILENAME | CN2_M.tif</p>
-<p>OUTPUTID|K_M COUNT | 1 TYPE | MEAN STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-01-02 00:00:00 FILENAME | K_M.tif ```</p>
-<h3>5.4 运行模型</h3>
-<p>我的运行命令为：</p>
-<p>``` D: E:</p>
-<div class="fragment"><div class="line">\Hydro\SEIMS\model_data\TEST\model_dianbu_30m_longterm  6 0 127.0.0.1 27017</div>
-<div class="line">```</div>
-<div class="line"></div>
-<div class="line">值得注意的是，模型目录文件夹名称一定要与MongoDB数据库名一致！</div>
-<div class="line"></div>
-<div class="line">运行后在该目录下可以看到&lt;tt&gt;output&lt;/tt&gt;文件夹：</div>
-<div class="line"></div>
-<div class="line">&lt;img src=<span class="stringliteral">&quot;http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2FIO_test_run.jpg&quot;</span> alt=<span class="stringliteral">&quot;&quot;</span>/&gt;</div>
-<div class="line"></div>
-<div class="line">&lt;img src=<span class="stringliteral">&quot;http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2FIO_test_run_output.jpg&quot;</span> alt=<span class="stringliteral">&quot;&quot;</span>/&gt;</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line">至此，一个简单的SEIMS框架下的模块便编写完成了！</div>
-<div class="line"></div>
-<div class="line">&lt;a href=<span class="stringliteral">&quot;#目录&quot;</span>&gt;返回目录&lt;/a&gt;</div>
-</div><!-- fragment --></div></div><!-- contents -->
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:46 for SEIMS by
+    <li class="navelem"><a class="el" href="../../d4/d5b/a00294.html">MUSK_CH</a></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:26:05 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: MongoDB的安装预配置</title>
+<title>SEIMS: MainBMP::PlantManagement::HarvestOnlyOperation Class Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -52,10 +52,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Packages</span></a></li>
-      <li><a href="../../annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -73,6 +73,14 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
           </span>
         </div>
       </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="../../classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="../../inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="../../functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -105,79 +113,91 @@ $(document).ready(function(){initNavTree('d4/d9a/a00246.html','../../');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="../../dd/d8d/a01667.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">MongoDB的安装预配置 </div>  </div>
+<div class="title">MainBMP::PlantManagement::HarvestOnlyOperation Class Reference</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>by Huiran Gao</p>
-<p>Latest Updated：May.31, 2016 </p>
-<hr/>
- <h1>目录</h1>
-<p><a href="../../#1-mongodb安装">**1. MongoDB安装**</a></p>
-<ol type="1">
-<li><a href="../../#i-安装">安装</a></li>
-<li><a href="../../#ii-测试">测试</a></li>
-</ol>
-<p><a href="../../#2-mongodb配置">**2. MongoDB配置**</a></p>
-<p><a href="../../#3-mongovue">**3. MongoVUE**</a></p>
-<h1>1. MongoDB安装</h1>
-<h2>i. 安装</h2>
-<ul>
-<li>运行<code>mongodb-win32-x86_64-2.6.1.msi</code>，实际上是解压程序，将解压后的所有文件放到一个**全英文且没有空格**的文件夹中，比如<code>E:\MongoDB</code></li>
-<li>在MongoDB文件夹内新建logs文件夹，用于存储日志文件，比如<code>E:\MongoDB\logs</code>，并在此文件夹内新建空文件<code>mongodb.log</code></li>
-<li>在MongoDB文件夹内新建db文件夹，用于存放数据库文件，比如<code>E:\MongoDB\db</code></li>
-<li><p class="startli">启动MongoDB: 以系统管理员身份运行cmd，输入以下命令：</p>
-<p class="startli">```shell cd E: E: mongod.exe &ndash;dbpath=e: ```</p>
-<p class="startli">如看到控制台最后一行类似:</p>
-<p class="startli">``` Tue Oct 09 11:50:55 [websvr] admin web console watiing for connections on port 27017 ```</p>
-<p class="startli">说明启动成功,MongoDB占用系统27017端口。</p>
-</li>
-</ul>
-<h2>ii. 测试</h2>
-<p>测试MongoDB，以管理员身份新建一个cmd窗口：</p>
-<p>```shell cd E: E: mongo ```</p>
-<p>如出现<code>connecting to:test</code>说明测试通过。</p>
-<div class="image">
-<img src="http://i.imgur.com/Wkr40Z2.png" />
+
+<p>HarvestOnly operation.  
+ <a href="../../d4/d9a/a00246.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../dc/da0/a00951_source.html">PlantManagementOperation.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for MainBMP::PlantManagement::HarvestOnlyOperation:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d7/d47/a01668.png" border="0" usemap="#_main_b_m_p_1_1_plant_management_1_1_harvest_only_operation_inherit__map" alt="Inheritance graph"/></div>
+<map name="_main_b_m_p_1_1_plant_management_1_1_harvest_only_operation_inherit__map" id="_main_b_m_p_1_1_plant_management_1_1_harvest_only_operation_inherit__map">
+<area shape="rect" id="node2" href="../../d2/d41/a00318.html" title="Base class of plant management operation. " alt="" coords="5,5,259,333"/></map>
 </div>
-<p>继续测试：</p>
-<p>```shell use test db.foo.save({hello:0}) db.foo.find() ```</p>
-<p>如果出现类似<code>{ "_id" : ObjectId("574cfef6c02688f96a5819a1"), "Hello" : 0 }</code>之类信息，说明测试成功数据已经插入数据库，</p>
-<div class="image">
-<img src="http://i.imgur.com/Zz9caSo.png" />
-</div>
-<p>然后输入<code>exit</code>退出。</p>
-<h1>2. MongoDB配置</h1>
-<ul>
-<li><p class="startli">**注册MongoDB为系统服务** 以系统管理员身份运行cmd（必须以系统管理员身份运行cmd，否则会报错）：</p>
-<p class="startli">```shell cd E: E: mongo.exe &ndash;dbpath=d: &ndash;logpath=d:.log &ndash;install &ndash;serviceName "MongoDB" ```</p>
-<p class="startli">如果控制台出现类似 <code>Tue Oct 09 12:05:15 Service can be started from the command line with 'net start MongoDB'</code>这样的语句，说明服务已经注册成功。</p>
-</li>
-<li><p class="startli">**启动MongoDB数据库服务** 在cmd中输入:</p>
-<p class="startli">```shell net start MongoDB ``` 即可启动MongoDB数据库服务，此时控制台输出Mongo DB服务已经启动成功，说明系统启动成功。</p>
-<p class="startli">注意：MongoDB的安装目录需全英文且没有空格</p>
-</li>
-<li><b>MongoDB 安装为Windows服务，设置为自动启动</b></li>
-<li><p class="startli">以管理员方式运行cmd,输入以下命令:</p>
-<p class="startli">```shell mongod &ndash;install &ndash;serviceName "MongoDB" &ndash;serviceDisplayName "MongoDB" &ndash;logpath d:.log &ndash;logappend &ndash;dbpath d: &ndash;directoryperdb ```</p>
-<p class="startli">不提示错误即表示设置成功！</p>
-<p class="startli"><code>--install</code>：安装MongoDB服务</p>
-<p class="startli"><code>--serviceName</code>：安装Windows服务时使用的服务名</p>
-<p class="startli"><code>--serviceDisplayName</code>：在Windows服务管理器中显示的服务名</p>
-<p class="startli"><code>--logpath</code>：MongoDB日志输出文件名称。虽说该参数直译是“日志路径”，其实要指定的是一个具体的完整文件名。这里我使用的是C盘根目录下的MongoDB.Log文件。该文件不用事先创建，直接指定就是了。</p>
-<p class="startli"><code>--dbpath</code>：指定MongoDB数据存放的路径。这个就是最关键的参数了，不仅该目录要存在，并且最好不要以“\”结尾。</p>
-<p class="startli"><code>--directoryperdb</code>：这个参数很好理解，让MongoDB按照数据库的不同，针对每一个数据库都建立一个目录，所谓的“目录每数据库”。</p>
-</li>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:aba8b8590f1ff254d77c5b65b30da9342"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aba8b8590f1ff254d77c5b65b30da9342"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d9a/a00246.html#aba8b8590f1ff254d77c5b65b30da9342">HarvestOnlyOperation</a> (int mgtOp, bool usebaseHU, float husc, int year, int month, int day, float *parameters)</td></tr>
+<tr class="memdesc:aba8b8590f1ff254d77c5b65b30da9342"><td class="mdescLeft">&#160;</td><td class="mdescRight">HarvestOnly. <br/></td></tr>
+<tr class="separator:aba8b8590f1ff254d77c5b65b30da9342"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2d5d28478a092aba27973947c396fe8f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2d5d28478a092aba27973947c396fe8f"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d4/d9a/a00246.html#a2d5d28478a092aba27973947c396fe8f">dump</a> (ostream *fs)</td></tr>
+<tr class="memdesc:a2d5d28478a092aba27973947c396fe8f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Output. <br/></td></tr>
+<tr class="separator:a2d5d28478a092aba27973947c396fe8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a00318"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00318')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../d2/d41/a00318.html">MainBMP::PlantManagement::PlantManagementOperation</a></td></tr>
+<tr class="memitem:a08d0d690cddb5bae8e7143f54cf0f05b inherit pub_methods_a00318"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#a08d0d690cddb5bae8e7143f54cf0f05b">PlantManagementOperation</a> (int mgtOp, bool usebaseHU, float husc, int year, int month, int day, float *parameters)</td></tr>
+<tr class="memdesc:a08d0d690cddb5bae8e7143f54cf0f05b inherit pub_methods_a00318"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor.  <a href="#a08d0d690cddb5bae8e7143f54cf0f05b">More...</a><br/></td></tr>
+<tr class="separator:a08d0d690cddb5bae8e7143f54cf0f05b inherit pub_methods_a00318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a808041af891a2a84e51b5c6af7503c3c inherit pub_methods_a00318"><td class="memItemLeft" align="right" valign="top">virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#a808041af891a2a84e51b5c6af7503c3c">~PlantManagementOperation</a> (void)</td></tr>
+<tr class="memdesc:a808041af891a2a84e51b5c6af7503c3c inherit pub_methods_a00318"><td class="mdescLeft">&#160;</td><td class="mdescRight">virtual Destructor  <a href="#a808041af891a2a84e51b5c6af7503c3c">More...</a><br/></td></tr>
+<tr class="separator:a808041af891a2a84e51b5c6af7503c3c inherit pub_methods_a00318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_a00318"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_a00318')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../d2/d41/a00318.html">MainBMP::PlantManagement::PlantManagementOperation</a></td></tr>
+<tr class="memitem:ac88dbda51aa7da05257c03993d4ec409 inherit pro_attribs_a00318"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac88dbda51aa7da05257c03993d4ec409"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#ac88dbda51aa7da05257c03993d4ec409">m_useBaseHUSC</a></td></tr>
+<tr class="memdesc:ac88dbda51aa7da05257c03993d4ec409 inherit pro_attribs_a00318"><td class="mdescLeft">&#160;</td><td class="mdescRight">use base hu or plant accumulated hu <br/></td></tr>
+<tr class="separator:ac88dbda51aa7da05257c03993d4ec409 inherit pro_attribs_a00318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a205d1060e4e5de5d5aeaffb0298964ab inherit pro_attribs_a00318"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a205d1060e4e5de5d5aeaffb0298964ab"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#a205d1060e4e5de5d5aeaffb0298964ab">m_frHU</a></td></tr>
+<tr class="memdesc:a205d1060e4e5de5d5aeaffb0298964ab inherit pro_attribs_a00318"><td class="mdescLeft">&#160;</td><td class="mdescRight">husc <br/></td></tr>
+<tr class="separator:a205d1060e4e5de5d5aeaffb0298964ab inherit pro_attribs_a00318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac45a30a11d48c2d1148f6aa2ee031c77 inherit pro_attribs_a00318"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac45a30a11d48c2d1148f6aa2ee031c77"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#ac45a30a11d48c2d1148f6aa2ee031c77">m_year</a></td></tr>
+<tr class="memdesc:ac45a30a11d48c2d1148f6aa2ee031c77 inherit pro_attribs_a00318"><td class="mdescLeft">&#160;</td><td class="mdescRight">year <br/></td></tr>
+<tr class="separator:ac45a30a11d48c2d1148f6aa2ee031c77 inherit pro_attribs_a00318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af32ba3fa08dbddf3c43c5ca929df123a inherit pro_attribs_a00318"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af32ba3fa08dbddf3c43c5ca929df123a"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#af32ba3fa08dbddf3c43c5ca929df123a">m_month</a></td></tr>
+<tr class="memdesc:af32ba3fa08dbddf3c43c5ca929df123a inherit pro_attribs_a00318"><td class="mdescLeft">&#160;</td><td class="mdescRight">month <br/></td></tr>
+<tr class="separator:af32ba3fa08dbddf3c43c5ca929df123a inherit pro_attribs_a00318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a86dbd0fc98db4de521727bb621a591a4 inherit pro_attribs_a00318"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a86dbd0fc98db4de521727bb621a591a4"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#a86dbd0fc98db4de521727bb621a591a4">m_day</a></td></tr>
+<tr class="memdesc:a86dbd0fc98db4de521727bb621a591a4 inherit pro_attribs_a00318"><td class="mdescLeft">&#160;</td><td class="mdescRight">day <br/></td></tr>
+<tr class="separator:a86dbd0fc98db4de521727bb621a591a4 inherit pro_attribs_a00318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15bc6209cedadf38c05d77d0a74658d6 inherit pro_attribs_a00318"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a15bc6209cedadf38c05d77d0a74658d6"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#a15bc6209cedadf38c05d77d0a74658d6">m_mgtOp</a></td></tr>
+<tr class="memdesc:a15bc6209cedadf38c05d77d0a74658d6 inherit pro_attribs_a00318"><td class="mdescLeft">&#160;</td><td class="mdescRight">management operation code <br/></td></tr>
+<tr class="separator:a15bc6209cedadf38c05d77d0a74658d6 inherit pro_attribs_a00318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22a357d2e84820f077517403342ef061 inherit pro_attribs_a00318"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a22a357d2e84820f077517403342ef061"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d2/d41/a00318.html#a22a357d2e84820f077517403342ef061">m_parameters</a></td></tr>
+<tr class="memdesc:a22a357d2e84820f077517403342ef061 inherit pro_attribs_a00318"><td class="mdescLeft">&#160;</td><td class="mdescRight">parameters, mgt1~mgt10 <br/></td></tr>
+<tr class="separator:a22a357d2e84820f077517403342ef061 inherit pro_attribs_a00318"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>HarvestOnly operation. </p>
+
+<p>Definition at line <a class="el" href="../../dc/da0/a00951_source.html#l00316">316</a> of file <a class="el" href="../../dc/da0/a00951_source.html">PlantManagementOperation.h</a>.</p>
+</div><hr/>The documentation for this class was generated from the following files:<ul>
+<li>seims/src/seims_main/base/bmps/<a class="el" href="../../dc/da0/a00951_source.html">PlantManagementOperation.h</a></li>
+<li>seims/src/seims_main/base/bmps/<a class="el" href="../../df/d39/a00950_source.html">PlantManagementOperation.cpp</a></li>
 </ul>
-<h1>3. MongoVUE</h1>
-<p>详见<a href="../../Windows#（2）-mongodb及mongovue">MongoDB及MongoVUE</a></p>
-<p>Good luck! </p>
-</div></div><!-- contents -->
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:46 for SEIMS by
+    <li class="navelem"><a class="el" href="../../d2/d68/a01295.html">MainBMP</a></li><li class="navelem"><a class="el" href="../../d4/d64/a01296.html">PlantManagement</a></li><li class="navelem"><a class="el" href="../../d4/d9a/a00246.html">HarvestOnlyOperation</a></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:26:05 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

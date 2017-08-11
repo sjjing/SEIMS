@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_storm_linux_gcc48/seims/bin/include/gtest/internal/gtest-port-arch.h Source File</title>
+<title>SEIMS: seims/src/commonlibs/MongoUtilClass/main.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,111 +112,172 @@ $(document).ready(function(){initNavTree('d2/dab/a00886_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">gtest-port-arch.h</div>  </div>
+<div class="title">main.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Copyright 2015, Google Inc.</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// All rights reserved.</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Redistribution and use in source and binary forms, with or without</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// modification, are permitted provided that the following conditions are</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">// met:</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//     * Redistributions of source code must retain the above copyright</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">// notice, this list of conditions and the following disclaimer.</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">//     * Redistributions in binary form must reproduce the above</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// copyright notice, this list of conditions and the following disclaimer</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// in the documentation and/or other materials provided with the</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">// distribution.</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">//     * Neither the name of Google Inc. nor the names of its</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// contributors may be used to endorse or promote products derived from</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// this software without specific prior written permission.</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// &quot;AS IS&quot; AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">// LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">// LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">// THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment">// OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment">// The Google C++ Testing Framework (Google Test)</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment">// This header file defines the GTEST_OS_* macro.</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">// It is separate from gtest-port.h so that custom/gtest-port.h can include it.</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#ifndef GTEST_INCLUDE_GTEST_INTERNAL_GTEST_PORT_ARCH_H_</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define GTEST_INCLUDE_GTEST_INTERNAL_GTEST_PORT_ARCH_H_</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">// Determines the platform on which Google Test is compiled.</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#ifdef __CYGWIN__</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># define GTEST_OS_CYGWIN 1</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#elif defined __SYMBIAN32__</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># define GTEST_OS_SYMBIAN 1</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#elif defined _WIN32</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># define GTEST_OS_WINDOWS 1</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># ifdef _WIN32_WCE</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  define GTEST_OS_WINDOWS_MOBILE 1</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># elif defined(__MINGW__) || defined(__MINGW32__)</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  define GTEST_OS_WINDOWS_MINGW 1</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># elif defined(WINAPI_FAMILY)</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  include &lt;winapifamily.h&gt;</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#  if WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_DESKTOP)</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   define GTEST_OS_WINDOWS_DESKTOP 1</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  elif WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_PHONE_APP)</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   define GTEST_OS_WINDOWS_PHONE 1</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  elif WINAPI_FAMILY_PARTITION(WINAPI_PARTITION_APP)</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#   define GTEST_OS_WINDOWS_RT 1</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  else</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="preprocessor"></span>    <span class="comment">// WINAPI_FAMILY defined but no known partition matched.</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="comment">// Default to desktop.</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#   define GTEST_OS_WINDOWS_DESKTOP 1</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  endif</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># else</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  define GTEST_OS_WINDOWS_DESKTOP 1</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># endif  // _WIN32_WCE</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#elif defined __APPLE__</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># define GTEST_OS_MAC 1</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># if TARGET_OS_IPHONE</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  define GTEST_OS_IOS 1</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># endif</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#elif defined __FreeBSD__</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># define GTEST_OS_FREEBSD 1</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#elif defined __linux__</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># define GTEST_OS_LINUX 1</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># if defined __ANDROID__</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#  define GTEST_OS_LINUX_ANDROID 1</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># endif</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#elif defined __MVS__</span></div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># define GTEST_OS_ZOS 1</span></div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#elif defined(__sun) &amp;&amp; defined(__SVR4)</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># define GTEST_OS_SOLARIS 1</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#elif defined(_AIX)</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># define GTEST_OS_AIX 1</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#elif defined(__hpux)</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># define GTEST_OS_HPUX 1</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#elif defined __native_client__</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># define GTEST_OS_NACL 1</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#elif defined __NetBSD__</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># define GTEST_OS_NETBSD 1</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#elif defined __OpenBSD__</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># define GTEST_OS_OPENBSD 1</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#elif defined __QNX__</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor"></span><span class="preprocessor"># define GTEST_OS_QNX 1</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#endif  // __CYGWIN__</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="preprocessor">#endif  // GTEST_INCLUDE_GTEST_INTERNAL_GTEST_PORT_ARCH_H_</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#if (defined _DEBUG) &amp;&amp; (defined MSVC) &amp;&amp; (defined VLD)</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;vld.h&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* Run Visual Leak Detector during Debug */</span><span class="preprocessor"></span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;MongoUtil.h&quot;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#define HEADER_RS_NODATA        &quot;NODATA_VALUE&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_XLL           &quot;XLLCENTER&quot;  </span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#define HEADER_RS_YLL           &quot;YLLCENTER&quot;  </span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#define HEADER_RS_NROWS         &quot;NROWS&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_NCOLS         &quot;NCOLS&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_CELLSIZE      &quot;CELLSIZE&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_LAYERS        &quot;LAYERS&quot;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define HEADER_RS_SRS           &quot;SRS&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span><span class="keyword">const</span> <span class="keywordtype">char</span> *RASTER_HEADERS[8] = {HEADER_RS_NCOLS, HEADER_RS_NROWS, HEADER_RS_XLL, HEADER_RS_YLL, HEADER_RS_CELLSIZE,</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;                                 HEADER_RS_NODATA, HEADER_RS_LAYERS, HEADER_RS_SRS};</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="../../d1/de3/a00306.html">   23</a></span>&#160;<span class="keyword">struct </span><a class="code" href="../../d1/de3/a00306.html">OrgOutItem</a></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="../../d1/de3/a00306.html">OrgOutItem</a>() {};</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    ~<a class="code" href="../../d1/de3/a00306.html">OrgOutItem</a>() {};</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">string</span> modCls;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">string</span> outputID;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">string</span> descprition;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordtype">string</span> outFileName;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">string</span> aggType;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">string</span> unit;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">string</span> subBsn;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">string</span> dataType;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keywordtype">string</span> intervalUnit;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">string</span> sTimeStr;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">string</span> eTimeStr;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">int</span> interval;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordtype">int</span> use;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;};</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordtype">int</span> main() {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;*** MongoUtil Demo ***&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Get a MongoDB instance&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keywordtype">string</span> ip = <span class="stringliteral">&quot;127.0.0.1&quot;</span>;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">int</span> port = 27017;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    MongoClient *client = <a class="code" href="../../de/d25/a00290.html#aeced16f71369981407785747585d7fac">MongoClient::Init</a>(ip.c_str(), port);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">if</span> (NULL == client) { <span class="comment">// return if connection to MongoDB failed</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">return</span> -1;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    mongoc_client_t *conn = client-&gt;getConn();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Get database names&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    vector&lt;string&gt; dbnames;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    client-&gt;getDatabaseNames(dbnames);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">for</span> (vector&lt;string&gt;::iterator it = dbnames.begin(); it != dbnames.end(); it++) {</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        cout &lt;&lt; *it &lt;&lt; endl;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    }</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    cout &lt;&lt; endl;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordtype">string</span> modelname = <span class="stringliteral">&quot;model_dianbu2_30m_demo&quot;</span>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    mongoc_database_t *db = client-&gt;getDatabase(modelname);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordtype">string</span> collname = <span class="stringliteral">&quot;FILE_IN&quot;</span>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    mongoc_collection_t *coll = client-&gt;getCollection(modelname, collname);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="comment">/*******Begin*********/</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    bson_t* b = bson_new();</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    unique_ptr&lt;MongoCollection&gt; collection(<span class="keyword">new</span> MongoCollection(client-&gt;getCollection(modelname, collname)));</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    mongoc_cursor_t* cursor = collection-&gt;ExecuteQuery(b);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    bson_iter_t itertor;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keyword">const</span> bson_t* bsonTable;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">while</span> (mongoc_cursor_more(cursor) &amp;&amp; mongoc_cursor_next(cursor, &amp;bsonTable)) {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;itertor, bsonTable, <span class="stringliteral">&quot;TAG&quot;</span>)) {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            cout &lt;&lt; GetStringFromBsonIterator(&amp;itertor) &lt;&lt; <span class="stringliteral">&quot;: &quot;</span>;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        }</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;itertor, bsonTable, <span class="stringliteral">&quot;VALUE&quot;</span>)) {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            cout &lt;&lt; GetStringFromBsonIterator(&amp;itertor) &lt;&lt; endl;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    }</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    bson_destroy(b);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    mongoc_cursor_destroy(cursor);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    b = BCON_NEW(<span class="stringliteral">&quot;$query&quot;</span>, <span class="stringliteral">&quot;{&quot;</span>, <span class="stringliteral">&quot;NAME&quot;</span>, <span class="stringliteral">&quot;{&quot;</span>, <span class="stringliteral">&quot;$in&quot;</span>, <span class="stringliteral">&quot;[&quot;</span>, BCON_UTF8(<span class="stringliteral">&quot;OUTLET_ID&quot;</span>),</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        BCON_UTF8(<span class="stringliteral">&quot;SUBBASINID_NUM&quot;</span>), <span class="stringliteral">&quot;]&quot;</span>, <span class="stringliteral">&quot;}&quot;</span>, <span class="stringliteral">&quot;}&quot;</span>);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="comment">//mongoc_collection_t* c2 = client-&gt;getCollection(modelname, &quot;PARAMETERS&quot;);</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="comment">//cursor = mongoc_collection_find(c2, MONGOC_QUERY_NONE, 0, 0, 0, b, NULL, NULL);</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="comment">//cursor = mongoc_collection_find_with_opts(c2, b, NULL, NULL);</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    unique_ptr&lt;MongoCollection&gt; collection2(<span class="keyword">new</span> MongoCollection(client-&gt;getCollection(modelname, <span class="stringliteral">&quot;PARAMETERS&quot;</span>)));</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    cursor = collection2-&gt;ExecuteQuery(b);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    bson_error_t *err = NULL;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keywordflow">if</span> (mongoc_cursor_error(cursor, err)) {</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;ERROR: Nothing found for subbasin number and outlet ID.&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    bson_iter_t iter;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">while</span> (mongoc_cursor_more(cursor) &amp;&amp; mongoc_cursor_next(cursor, &amp;bsonTable)) {</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        <span class="keywordtype">string</span> nameTmp = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keywordtype">int</span> numTmp = -1;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, <span class="stringliteral">&quot;NAME&quot;</span>)) {</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            nameTmp = GetStringFromBsonIterator(&amp;iter);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            cout &lt;&lt; <span class="stringliteral">&quot;NAME: &quot;</span> &lt;&lt; nameTmp;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        }</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;iter, bsonTable, <span class="stringliteral">&quot;VALUE&quot;</span>)) {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            GetNumericFromBsonIterator(&amp;iter, numTmp);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            cout &lt;&lt; <span class="stringliteral">&quot;, VALUE: &quot;</span> &lt;&lt; numTmp &lt;&lt; endl;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    }</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    bson_destroy(b);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    mongoc_cursor_destroy(cursor);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="comment">/*******End*********/</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Get collection names&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="comment">//vector&lt;string&gt; colnames = client.getCollectionNames(string(&quot;model_dianbu2_30m_longterm&quot;));</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="comment"></span>    vector &lt;string&gt; colnames;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <a class="code" href="../../da/dd4/a00291.html">MongoDatabase</a>(conn, <span class="keywordtype">string</span>(<span class="stringliteral">&quot;model_dianbu2_30m_longterm&quot;</span>)).<a class="code" href="../../da/dd4/a00291.html#a782c2d6acfc61bab6dabce7e0ac3e3e5">getCollectionNames</a>(colnames);</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordflow">for</span> (vector&lt;string&gt;::iterator it = colnames.begin(); it != colnames.end(); it++) {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        cout &lt;&lt; *it &lt;&lt; endl;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    }</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    cout &lt;&lt; endl;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    mongoc_gridfs_t *gfs = client-&gt;getGridFS(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;model_dianbu2_30m_longterm&quot;</span>), <span class="keywordtype">string</span>(<span class="stringliteral">&quot;SPATIAL&quot;</span>));</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Get GridFS file names&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="comment">//vector&lt;string&gt; gfsfilenames = client.getGridFSFileNames(string(&quot;model_dianbu2_30m_longterm&quot;), string(&quot;SPATIAL&quot;));</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="comment"></span>    vector &lt;string&gt; gfsfilenames;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <a class="code" href="../../d8/d0a/a00292.html">MongoGridFS</a>().<a class="code" href="../../d8/d0a/a00292.html#af1e8ad99d6bdb84805c4adb2fe4ca63a">getFileNames</a>(gfsfilenames, gfs);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="comment">//vector&lt;string&gt; gfsfilenames = MongoGridFS(gfs).getFileNames();</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;Totally &quot;</span> &lt;&lt; gfsfilenames.size() &lt;&lt; <span class="stringliteral">&quot; files existed!&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <a class="code" href="../../d8/d0a/a00292.html">MongoGridFS</a> mgfs = <a class="code" href="../../d8/d0a/a00292.html">MongoGridFS</a>(gfs);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keywordtype">size_t</span> length;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordtype">char</span> *databuf;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    mgfs.<a class="code" href="../../d8/d0a/a00292.html#a59803caa23585bfff0b5e039da5a9512">getStreamData</a>(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;0_AWC&quot;</span>), databuf, length);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    bson_t *metadata = mgfs.<a class="code" href="../../d8/d0a/a00292.html#ad9e826d6e16e45c388fa23c327cdfca1">getFileMetadata</a>(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;0_AWC&quot;</span>));</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 7; i++) {</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keywordtype">double</span> tmp;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        GetNumericFromBson(metadata, RASTER_HEADERS[i], tmp);</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        cout &lt;&lt; RASTER_HEADERS[i] &lt;&lt; <span class="stringliteral">&quot;: &quot;</span> &lt;&lt; tmp &lt;&lt; endl;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    }</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordtype">string</span> srs = GetStringFromBson(metadata, HEADER_RS_SRS);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;srs: &quot;</span> &lt;&lt; srs &lt;&lt; endl;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    mgfs.<a class="code" href="../../d8/d0a/a00292.html#af69c8de18c04e4b3f41ffe3dd99d957b">writeStreamData</a>(<span class="keywordtype">string</span>(<span class="stringliteral">&quot;AWC&quot;</span>), databuf, length, metadata);</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    Release1DArray(databuf);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="keywordflow">if</span> (NULL != client) {</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keyword">delete</span> client;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    }</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;}</div>
+<div class="ttc" id="a00292_html_af69c8de18c04e4b3f41ffe3dd99d957b"><div class="ttname"><a href="../../d8/d0a/a00292.html#af69c8de18c04e4b3f41ffe3dd99d957b">MongoGridFS::writeStreamData</a></div><div class="ttdeci">void writeStreamData(string const &amp;gfilename, char *&amp;buf, size_t &amp;length, const bson_t *p, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Write stream data to a GridFS file. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d1c/a00903_source.html#l00311">MongoUtil.cpp:311</a></div></div>
+<div class="ttc" id="a00291_html"><div class="ttname"><a href="../../da/dd4/a00291.html">MongoDatabase</a></div><div class="ttdoc">Create a MongoDB database instance. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d0a/a00904_source.html#l00121">MongoUtil.h:121</a></div></div>
+<div class="ttc" id="a00306_html"><div class="ttname"><a href="../../d1/de3/a00306.html">OrgOutItem</a></div><div class="ttdoc">Setting Outputs for SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dab/a00886_source.html#l00023">main.cpp:23</a></div></div>
+<div class="ttc" id="a00292_html_ad9e826d6e16e45c388fa23c327cdfca1"><div class="ttname"><a href="../../d8/d0a/a00292.html#ad9e826d6e16e45c388fa23c327cdfca1">MongoGridFS::getFileMetadata</a></div><div class="ttdeci">bson_t * getFileMetadata(string const &amp;gfilename, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get metadata of a given GridFS file name. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d1c/a00903_source.html#l00264">MongoUtil.cpp:264</a></div></div>
+<div class="ttc" id="a00292_html_a59803caa23585bfff0b5e039da5a9512"><div class="ttname"><a href="../../d8/d0a/a00292.html#a59803caa23585bfff0b5e039da5a9512">MongoGridFS::getStreamData</a></div><div class="ttdeci">void getStreamData(string const &amp;gfilename, char *&amp;databuf, size_t &amp;datalength, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get stream data of a given GridFS file name. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d1c/a00903_source.html#l00284">MongoUtil.cpp:284</a></div></div>
+<div class="ttc" id="a00291_html_a782c2d6acfc61bab6dabce7e0ac3e3e5"><div class="ttname"><a href="../../da/dd4/a00291.html#a782c2d6acfc61bab6dabce7e0ac3e3e5">MongoDatabase::getCollectionNames</a></div><div class="ttdeci">void getCollectionNames(vector&lt; string &gt; &amp;collNames)</div><div class="ttdoc">Get collection names in current database. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d1c/a00903_source.html#l00123">MongoUtil.cpp:123</a></div></div>
+<div class="ttc" id="a00292_html"><div class="ttname"><a href="../../d8/d0a/a00292.html">MongoGridFS</a></div><div class="ttdoc">Create a MongoDB GridFS instance. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d0a/a00904_source.html#l00172">MongoUtil.h:172</a></div></div>
+<div class="ttc" id="a00290_html_aeced16f71369981407785747585d7fac"><div class="ttname"><a href="../../de/d25/a00290.html#aeced16f71369981407785747585d7fac">MongoClient::Init</a></div><div class="ttdeci">static MongoClient * Init(const char *host, uint16_t port)</div><div class="ttdoc">Validation check before the constructor of MongoClient. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d1c/a00903_source.html#l00018">MongoUtil.cpp:18</a></div></div>
+<div class="ttc" id="a00292_html_af1e8ad99d6bdb84805c4adb2fe4ca63a"><div class="ttname"><a href="../../d8/d0a/a00292.html#af1e8ad99d6bdb84805c4adb2fe4ca63a">MongoGridFS::getFileNames</a></div><div class="ttdeci">void getFileNames(vector&lt; string &gt; &amp;fileExisted, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get GridFS file names. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d1c/a00903_source.html#l00238">MongoUtil.cpp:238</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_9acb163bfc580721a7f3d6aabfda8dbb.html">seims_storm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_fd8dd4f548e8390633a5614720372e6e.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_00a1111703bbbf2f87400b5ea3489d75.html">bin</a></li><li class="navelem"><a class="el" href="../../dir_8018f3e88d0627c2395378938de74044.html">include</a></li><li class="navelem"><a class="el" href="../../dir_49d8ae50901bd4fa88e8d8e8ee530b3f.html">gtest</a></li><li class="navelem"><a class="el" href="../../dir_4979530fd49b46639bb7b231cfda17d9.html">internal</a></li><li class="navelem"><b>gtest-port-arch.h</b></li>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:33 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_56b1596c4d72ede71823cdba70d715a1.html">commonlibs</a></li><li class="navelem"><a class="el" href="../../dir_6c8659227d40b2417dce38dbeff5e81f.html">MongoUtilClass</a></li><li class="navelem"><b>main.cpp</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:25:59 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

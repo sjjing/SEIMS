@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: # Github使用说明</title>
+<title>SEIMS: GWaterReservoir Class Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -52,10 +52,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Packages</span></a></li>
-      <li><a href="../../annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -73,6 +73,14 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
           </span>
         </div>
       </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="../../classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="../../inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="../../functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -105,181 +113,303 @@ $(document).ready(function(){initNavTree('d6/d08/a00244.html','../../');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="../../d6/d51/a01494.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title"># Github使用说明 </div>  </div>
+<div class="title">GWaterReservoir Class Reference<div class="ingroups"><a class="el" href="../../d9/d6e/a01409.html">GW_RSVR</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>在开始之前，强烈建议阅读以下学习资料：</p>
-<ul>
-<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/">廖学峰老师的Git教程</a></li>
-<li><a href="http://www.codeceo.com/article/git-command-guide.html">常用的Git命令</a></li>
-</ul>
-<h1>目录</h1>
-<ol type="1">
-<li><a href="../../#1windows下安装git">Windows下安装Git</a></li>
-<li><a href="../../#2从github中克隆代码库及代码修改">从Github中克隆代码库及代码修改</a></li>
-<li><a href="../../#3代码同步与更新">代码同步与更新</a></li>
-<li><a href="../../#4subtree操作">subtree操作</a></li>
-<li><a href="../../#5submodule操作">submodule操作（弃用技术，留存备忘）</a></li>
-</ol>
-<h2>1.Windows下安装Git</h2>
-<p>Windows下推荐使用<a href="http://msysgit.github.io/">msysgit</a>的Git工具，直接下载安装即可，安装完成后，<code>开始 -&gt; Git -&gt; Git Bash</code>，打开一个类似命令行的窗口，说明Git安装成功了。 安装完成后，在git bash 命令行里输入：</p>
-<div class="fragment"><div class="line">$ git config --global user.name <span class="stringliteral">&quot;Your Name&quot;</span></div>
-<div class="line">$ git config --global user.email <span class="stringliteral">&quot;email@example.com&quot;</span></div>
-<div class="line"></div>
-<div class="line">e.g.,</div>
-<div class="line">$ git config --global user.name <span class="stringliteral">&quot;crazyzlj&quot;</span></div>
-<div class="line">$ git config --global user.email <span class="stringliteral">&quot;crazyzlj@gmail.com&quot;</span></div>
-</div><!-- fragment --><p>这两行表示，这台机器上的所有Git仓库都使用这个配置(用户名和邮件地址)。</p>
-<p>P.S. 如何在push的时候免输密码，可以参考这个<a href="http://www.cnblogs.com/ballwql/p/3462104.html">博客</a>的方法二，设置简单。</p>
-<p><em class="fa fa-exclamation-triangle fa-2x"></em> **注意！**</p>
-<h3>1.1.Git中AutoCRLF与SafeCRLF换行符问题</h3>
-<p>众所周知，Windows系统和Linux/Unix系统的换行符不同，而Windows下的Git默认情况下会在提交代码时自动替换换行符LF或CR为CRLF，这样对跨平台代码造成了极大的不便。</p>
-<p>因此，我们一般约定代码采用Linux编码，即 <code>LF \n</code>。打开Git shell进行如下设置：</p>
-<p>``` </p>
-<h1>AutoCRLF, 设置提交、检出时均不转换</h1>
-<p>git config &ndash;global core.autocrlf false </p>
-<h1>SafeCRLF, 设置拒绝提交包含混合换行符的文件，并且在提交混合换行符的文件时给出警告，从而手动转换为LF换行符后提交</h1>
-<h1>对于Windows设置为true</h1>
-<p>git config &ndash;global core.safecrlf true </p>
-<h1>对于linux设置为false</h1>
-<p>git config &ndash;global core.safecrlf false </p>
-<h1>同时，在SEIMS/.gitattributes里我们已经设置了一些例外，如Windows批处理文件.bat即为CRLF</h1>
-<p>```</p>
-<p><a href="../../#目录">返回目录</a> </p>
-<h2>2.从Github中克隆代码库及代码修改</h2>
-<p>配置好本地的Git环境之后，我们需要将代码库从Github上克隆到本地计算机。</p>
-<ul>
-<li>首先在Github.com上注册一个账号。注册好之后，需要设置SSH key，在<code>git bash</code>中输入： <div class="fragment"><div class="line">ssh-keygen -t rsa -C youremail@example.com</div>
-<div class="line"></div>
-<div class="line">e.g.,</div>
-<div class="line">ssh-keygen -t rsa -C crazyzlj@gmail.com</div>
-</div><!-- fragment --></li>
-</ul>
-<p>一路回车，如果顺利的话，在用户目录（如<code>C:\Users\ZhuLJ</code>）里能找到&lt;tt&gt;.ssh目录，里面有<code>id_rsa</code>和<code>id_rsa.pub</code>两个文件，这两个就是SSH Key的密钥对，前者是私钥，后者是公钥。</p>
-<ul>
-<li>然后，登录Github，打开 Account Settings，SSH key页面，点Add SSH Key，Title任意填，在Key文本框里填上<code>id_rsa.pub</code>的内容，点击Add key就好啦。</li>
-<li>打开<a href="https://github.com/lreis2415/SEIMS2017">SEIMS模型的首页</a>， 点击<code>Fork</code>，来创建自己账户下的SEIMS克隆，克隆结束之后，复制克隆库的**SSH**地址。下一步，我们将克隆一份代码库到本地计算机。</li>
-</ul>
-<div class="fragment"><div class="line">cd &lt;destination folder&gt;</div>
-<div class="line">git clone git@github.com:&lt;yourname&gt;/SEIMS.git</div>
-<div class="line"><span class="preprocessor">#推荐只克隆dev分支，用法（需要有git-1.7.10以上版本）：</span></div>
-<div class="line"><span class="preprocessor"></span>git clone &lt;url&gt; --branch &lt;branch&gt; --single-branch</div>
-<div class="line">e.g.,</div>
-<div class="line">cd e:/code/hydro</div>
-<div class="line">git clone git@github.com:crazyzlj/SEIMS.git</div>
-<div class="line"><span class="preprocessor">#只克隆dev分支示例：</span></div>
-<div class="line"><span class="preprocessor">git clone git@github.com:crazyzlj/SEIMS.git --branch dev --single-branch</span></div>
-</div><!-- fragment --><ul>
-<li>随后，<code>cd</code>到克隆库目录，添加上游远程仓库，这一步**很重要**，关系到之后的代码同步和更新： <div class="fragment"><div class="line">cd SEIMS</div>
-<div class="line">git remote add upstream git@github.com:seims/SEIMS.git</div>
-</div><!-- fragment --></li>
-<li>这样，我们就将SEIMS代码克隆到了本地计算机一份。接下来，我们尝试对本地SEIMS文件做一下修改，然后提交到远程库（你自己的，如<code>crazyzlj/SEIMS</code>，而不是<code>seims/SEIMS</code>），最后通过提交<code>pull request</code> 提交给SEIMS代码拥有者（即seims）。</li>
-</ul>
-<p>为了说明问题，我简单修改了一下<code>README</code>文件，然后 <code>git status</code> 查看本地和远程的差别 随后 </p>
-<div class="fragment"><div class="line">Git add README.md</div>
-<div class="line">Git commit –m <span class="stringliteral">&quot;modification test”</span></div>
-<div class="line"><span class="stringliteral">Git push –u origin master</span></div>
-</div><!-- fragment --><p>这样就把本地的本次修改提交到了**你自己的远程库**中。</p>
-<ul>
-<li>在Github目录下可以看到刚才提交的修改，这时候，如果想把这个修改，提交到<code>seims/SEIMS</code>，需要点击网页上的<code>pull request</code>按钮,然后点击<code>Create pull request</code>，Github会自动判断能否“自动合并”，如果可以，便把本次修改提交完成了，如果不能，就需要我们进行手动解决冲突。 此时，<code>SEIMS</code>拥有者<code>seims</code>就会收到你的<code>pull request</code>并处理了。</li>
-</ul>
-<p><a href="../../#目录">返回目录</a> </p>
-<h2>3.代码同步与更新</h2>
-<p>以上我们知道了如何将本地的修改提交到源代码库，接下来，看看如何将**源代码库中的更新**同步到本地库中。</p>
-<p>比如其他人在<code>seims/SEIMS</code>下修改了README.md文件，现在同步到本地。</p>
-<ul>
-<li>查看远程主机地址 <div class="fragment"><div class="line">git remote -v</div>
-</div><!-- fragment --> 经过以上的设置，正常情况应该看到类似结果,如果没有upstream则需添加上游远程库</li>
-</ul>
-<div class="image">
-<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/seims-img%2Fgitremotev.png" />
+
+<p>Calculate groundwater using reservoir method.  
+ <a href="../../d6/d08/a00244.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../de/d1d/a01105_source.html">GWaterReservoir.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for GWaterReservoir:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d2/d36/a01495.png" border="0" usemap="#_g_water_reservoir_inherit__map" alt="Inheritance graph"/></div>
+<map name="_g_water_reservoir_inherit__map" id="_g_water_reservoir_inherit__map">
+<area shape="rect" id="node2" href="../../dd/d1d/a00336.html" title="Base module for all simulation modules in SEIMS. " alt="" coords="7,6,201,317"/></map>
 </div>
-<ul>
-<li>将源代码库更新的内容同步到本地，检查差异，然后再和本机分支合并，注意，下列代码同步的是<code>upstream</code>库的<code>master</code>分支，如果想同步其他分支，只需将第一行的<code>master</code>替换为相应分支名即可。 <div class="fragment"><div class="line">git fetch upstream master</div>
-<div class="line">git checkout master</div>
-<div class="line">git merge upstream/master</div>
-</div><!-- fragment --></li>
-</ul>
-<blockquote class="doxtable">
-<p>fetch远程库的时候注意，如果仅用git fetch upstream命令，会把所有远程库分支下载，速度慢，因此推荐使用 git fetch upstream master</p>
-<p></p>
-</blockquote>
-<ul>
-<li>多数情况下，Git可以自动合并，如果出现冲突，则需手动处理后，再<code>commit</code>提交，冲突结果类似：</li>
-</ul>
-<div class="image">
-<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/seims-img%2Fconflictwhenmerge.png" />
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a6e436b7df240ca9b2f2335624e37cfc0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6e436b7df240ca9b2f2335624e37cfc0"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#a6e436b7df240ca9b2f2335624e37cfc0">GWaterReservoir</a> (void)</td></tr>
+<tr class="memdesc:a6e436b7df240ca9b2f2335624e37cfc0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br/></td></tr>
+<tr class="separator:a6e436b7df240ca9b2f2335624e37cfc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0d4c540561dc29309b3d17e53d359df2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a0d4c540561dc29309b3d17e53d359df2"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#a0d4c540561dc29309b3d17e53d359df2">~GWaterReservoir</a> (void)</td></tr>
+<tr class="memdesc:a0d4c540561dc29309b3d17e53d359df2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br/></td></tr>
+<tr class="separator:a0d4c540561dc29309b3d17e53d359df2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5faf0daee5a7ae4cf81ca4fe6509581c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5faf0daee5a7ae4cf81ca4fe6509581c"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#a5faf0daee5a7ae4cf81ca4fe6509581c">Set1DData</a> (const char *key, int n, float *data)</td></tr>
+<tr class="memdesc:a5faf0daee5a7ae4cf81ca4fe6509581c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 1D data, by default, DT_Raster1D. <br/></td></tr>
+<tr class="separator:a5faf0daee5a7ae4cf81ca4fe6509581c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacaa93c862dc05e27333814e76924753"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aacaa93c862dc05e27333814e76924753"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#aacaa93c862dc05e27333814e76924753">SetValue</a> (const char *key, float value)</td></tr>
+<tr class="memdesc:aacaa93c862dc05e27333814e76924753"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set data, DT_Single. <br/></td></tr>
+<tr class="separator:aacaa93c862dc05e27333814e76924753"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a16ceb0e1fed6530de13381fef445bb63"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a16ceb0e1fed6530de13381fef445bb63"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#a16ceb0e1fed6530de13381fef445bb63">Get1DData</a> (const char *key, int *n, float **data)</td></tr>
+<tr class="memdesc:a16ceb0e1fed6530de13381fef445bb63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 1D data, by default, DT_Raster1D. <br/></td></tr>
+<tr class="separator:a16ceb0e1fed6530de13381fef445bb63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af97470d80aee1fc2757bf9b0fbb3c4d3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af97470d80aee1fc2757bf9b0fbb3c4d3"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#af97470d80aee1fc2757bf9b0fbb3c4d3">SetReaches</a> (<a class="el" href="../../dc/d31/a00208.html">clsReaches</a> *reaches)</td></tr>
+<tr class="memdesc:af97470d80aee1fc2757bf9b0fbb3c4d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pointer of <a class="el" href="../../dc/d31/a00208.html" title="Read and store all reaches information as input parameters. ">clsReaches</a> class which contains all reaches information. Added by LJ, 2016-7-2. <br/></td></tr>
+<tr class="separator:af97470d80aee1fc2757bf9b0fbb3c4d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2f906ddc60092e8bbdef3f88ebcfa013"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2f906ddc60092e8bbdef3f88ebcfa013"></a>
+virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#a2f906ddc60092e8bbdef3f88ebcfa013">Execute</a> (void)</td></tr>
+<tr class="memdesc:a2f906ddc60092e8bbdef3f88ebcfa013"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute the simulation. <br/></td></tr>
+<tr class="separator:a2f906ddc60092e8bbdef3f88ebcfa013"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a00336"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00336')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../dd/d1d/a00336.html">SimulationModule</a></td></tr>
+<tr class="memitem:aa9934866122995dc98611de6515f47c5 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9934866122995dc98611de6515f47c5"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#aa9934866122995dc98611de6515f47c5">SimulationModule</a> (void)</td></tr>
+<tr class="memdesc:aa9934866122995dc98611de6515f47c5 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br/></td></tr>
+<tr class="separator:aa9934866122995dc98611de6515f47c5 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75fc67bcf8bc5a1dc0eb467af5a9861c inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a75fc67bcf8bc5a1dc0eb467af5a9861c"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a75fc67bcf8bc5a1dc0eb467af5a9861c">~SimulationModule</a> (void)</td></tr>
+<tr class="memdesc:a75fc67bcf8bc5a1dc0eb467af5a9861c inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br/></td></tr>
+<tr class="separator:a75fc67bcf8bc5a1dc0eb467af5a9861c inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8526abbeed3f49071f39e0c17559e522 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8526abbeed3f49071f39e0c17559e522"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a8526abbeed3f49071f39e0c17559e522">SetDate</a> (time_t t, int yearIdx)</td></tr>
+<tr class="memdesc:a8526abbeed3f49071f39e0c17559e522 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set date time, as well as the sequence number of the entire simulation. Added by LJ for statistics convenient. <br/></td></tr>
+<tr class="separator:a8526abbeed3f49071f39e0c17559e522 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46191d743a839a5290fd42d318b500d0 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a46191d743a839a5290fd42d318b500d0"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a46191d743a839a5290fd42d318b500d0">SetTheadNumber</a> (int threadNum)</td></tr>
+<tr class="memdesc:a46191d743a839a5290fd42d318b500d0 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set thread number for OpenMP. <br/></td></tr>
+<tr class="separator:a46191d743a839a5290fd42d318b500d0 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7b9caed16e56bf880b171040981403e inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7b9caed16e56bf880b171040981403e"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#af7b9caed16e56bf880b171040981403e">SetClimateDataType</a> (float value)</td></tr>
+<tr class="memdesc:af7b9caed16e56bf880b171040981403e inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set climate data type, P, M, PET etc. <br/></td></tr>
+<tr class="separator:af7b9caed16e56bf880b171040981403e inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a497fa950bc9c4d85cfb1ae13d83f06c9 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a497fa950bc9c4d85cfb1ae13d83f06c9"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a497fa950bc9c4d85cfb1ae13d83f06c9">Set2DData</a> (const char *key, int nRows, int nCols, float **data)</td></tr>
+<tr class="memdesc:a497fa950bc9c4d85cfb1ae13d83f06c9 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 2D data, by default, DT_Raster2D. <br/></td></tr>
+<tr class="separator:a497fa950bc9c4d85cfb1ae13d83f06c9 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3c60349cd6720bb66e58fa4cd31a999 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3c60349cd6720bb66e58fa4cd31a999"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#ac3c60349cd6720bb66e58fa4cd31a999">Set1DArrayData</a> (const char *key, int n, float *data)</td></tr>
+<tr class="memdesc:ac3c60349cd6720bb66e58fa4cd31a999 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 1D array data, DT_Array1D. <br/></td></tr>
+<tr class="separator:ac3c60349cd6720bb66e58fa4cd31a999 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f7470f5f4f831b9053e3ff2d92c1813 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1f7470f5f4f831b9053e3ff2d92c1813"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a1f7470f5f4f831b9053e3ff2d92c1813">Set2DArrayData</a> (const char *key, int nRows, int nCols, float **data)</td></tr>
+<tr class="memdesc:a1f7470f5f4f831b9053e3ff2d92c1813 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 2D array data, by default, DT_Array2D. <br/></td></tr>
+<tr class="separator:a1f7470f5f4f831b9053e3ff2d92c1813 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aafd60bc9d4176a0cf64af01aed881980 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aafd60bc9d4176a0cf64af01aed881980"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#aafd60bc9d4176a0cf64af01aed881980">GetValue</a> (const char *key, float *value)</td></tr>
+<tr class="memdesc:aafd60bc9d4176a0cf64af01aed881980 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get value, DT_Single. <br/></td></tr>
+<tr class="separator:aafd60bc9d4176a0cf64af01aed881980 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab6dc960ad0a7bd7714e9644b64dc0acb inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab6dc960ad0a7bd7714e9644b64dc0acb"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#ab6dc960ad0a7bd7714e9644b64dc0acb">Get2DData</a> (const char *key, int *nRows, int *nCols, float ***data)</td></tr>
+<tr class="memdesc:ab6dc960ad0a7bd7714e9644b64dc0acb inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 2D data, by default, DT_Raster2D. <br/></td></tr>
+<tr class="separator:ab6dc960ad0a7bd7714e9644b64dc0acb inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb23e43dd78e4fb8ce5d25a9855dd748 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeb23e43dd78e4fb8ce5d25a9855dd748"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#aeb23e43dd78e4fb8ce5d25a9855dd748">Get1DArrayData</a> (const char *key, int *n, float **data)</td></tr>
+<tr class="memdesc:aeb23e43dd78e4fb8ce5d25a9855dd748 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 1D Array data, by default, DT_Array1D. <br/></td></tr>
+<tr class="separator:aeb23e43dd78e4fb8ce5d25a9855dd748 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3330ba74e63c5e2e6368d5d62d4048ea inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3330ba74e63c5e2e6368d5d62d4048ea"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a3330ba74e63c5e2e6368d5d62d4048ea">Get2DArrayData</a> (const char *key, int *nRows, int *nCols, float ***data)</td></tr>
+<tr class="memdesc:a3330ba74e63c5e2e6368d5d62d4048ea inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 2D Array data, by default, DT_Array2D. <br/></td></tr>
+<tr class="separator:a3330ba74e63c5e2e6368d5d62d4048ea inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6dfd515de376498a12a22724e57650a inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae6dfd515de376498a12a22724e57650a"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#ae6dfd515de376498a12a22724e57650a">SetScenario</a> (<a class="el" href="../../dd/dbb/a00330.html">Scenario</a> *)</td></tr>
+<tr class="memdesc:ae6dfd515de376498a12a22724e57650a inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pointer of Scenario class which contains all BMP information. Added by LJ, 2016-6-14. <br/></td></tr>
+<tr class="separator:ae6dfd515de376498a12a22724e57650a inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97da293bca13cf5934d9ef6da34d9290 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a97da293bca13cf5934d9ef6da34d9290"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a97da293bca13cf5934d9ef6da34d9290">SetSubbasins</a> (<a class="el" href="../../da/de7/a00210.html">clsSubbasins</a> *)</td></tr>
+<tr class="memdesc:a97da293bca13cf5934d9ef6da34d9290 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pointer of <a class="el" href="../../da/de7/a00210.html" title="Manager all Subbasin related parameters and methods. ">clsSubbasins</a> class which contains all subbasins information. Added by LJ, 2016-7-28. <br/></td></tr>
+<tr class="separator:a97da293bca13cf5934d9ef6da34d9290 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd96e67e4e6d1c6f50bc51e69aad4a96 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd96e67e4e6d1c6f50bc51e69aad4a96"></a>
+virtual TimeStepType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#abd96e67e4e6d1c6f50bc51e69aad4a96">GetTimeStepType</a> (void)</td></tr>
+<tr class="memdesc:abd96e67e4e6d1c6f50bc51e69aad4a96 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get time step type. <br/></td></tr>
+<tr class="separator:abd96e67e4e6d1c6f50bc51e69aad4a96 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbcc7144125d11f1da27da05f4a94338 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abbcc7144125d11f1da27da05f4a94338"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#abbcc7144125d11f1da27da05f4a94338">ResetSubTimeStep</a> (void)</td></tr>
+<tr class="memdesc:abbcc7144125d11f1da27da05f4a94338 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset subtime step. <br/></td></tr>
+<tr class="separator:abbcc7144125d11f1da27da05f4a94338 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b1e6030fa901ac2bfa4350a819b4ecb inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b1e6030fa901ac2bfa4350a819b4ecb"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a4b1e6030fa901ac2bfa4350a819b4ecb">IsInputsSetDone</a> (void)</td></tr>
+<tr class="memdesc:a4b1e6030fa901ac2bfa4350a819b4ecb inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the inputs parameters (i.e., parameters derived from other modules) have been set. <br/></td></tr>
+<tr class="separator:a4b1e6030fa901ac2bfa4350a819b4ecb inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94457cc066581e7ecd1d3c88ebdf3163 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a94457cc066581e7ecd1d3c88ebdf3163"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a94457cc066581e7ecd1d3c88ebdf3163">SetInputsDone</a> (bool setDone)</td></tr>
+<tr class="memdesc:a94457cc066581e7ecd1d3c88ebdf3163 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the status of setting inputs parameters. <br/></td></tr>
+<tr class="separator:a94457cc066581e7ecd1d3c88ebdf3163 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:aa03bbd6498ce5964b4b191dd862a3c91"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#aa03bbd6498ce5964b4b191dd862a3c91">CheckInputData</a> (void)</td></tr>
+<tr class="memdesc:aa03bbd6498ce5964b4b191dd862a3c91"><td class="mdescLeft">&#160;</td><td class="mdescRight">check the input data. Make sure all the input data is available.  <a href="#aa03bbd6498ce5964b4b191dd862a3c91">More...</a><br/></td></tr>
+<tr class="separator:aa03bbd6498ce5964b4b191dd862a3c91"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a71690671c028ced9d6ada7c9af63125f"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#a71690671c028ced9d6ada7c9af63125f">CheckInputSize</a> (const char *, int n)</td></tr>
+<tr class="memdesc:a71690671c028ced9d6ada7c9af63125f"><td class="mdescLeft">&#160;</td><td class="mdescRight">check the input size. Make sure all the input data have same dimension.  <a href="#a71690671c028ced9d6ada7c9af63125f">More...</a><br/></td></tr>
+<tr class="separator:a71690671c028ced9d6ada7c9af63125f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a9c3534db78ddf66602b5a00f2ffc5ea6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9c3534db78ddf66602b5a00f2ffc5ea6"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#a9c3534db78ddf66602b5a00f2ffc5ea6">m_dt</a></td></tr>
+<tr class="memdesc:a9c3534db78ddf66602b5a00f2ffc5ea6"><td class="mdescLeft">&#160;</td><td class="mdescRight">time step(seconds) <br/></td></tr>
+<tr class="separator:a9c3534db78ddf66602b5a00f2ffc5ea6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f8449bd153c68f56178eeacdf0c6a83"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8f8449bd153c68f56178eeacdf0c6a83"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#a8f8449bd153c68f56178eeacdf0c6a83">m_nCells</a></td></tr>
+<tr class="memdesc:a8f8449bd153c68f56178eeacdf0c6a83"><td class="mdescLeft">&#160;</td><td class="mdescRight">count of valid cells <br/></td></tr>
+<tr class="separator:a8f8449bd153c68f56178eeacdf0c6a83"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8d28dee63d9f131a49b94beb1cd558ca"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8d28dee63d9f131a49b94beb1cd558ca"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#a8d28dee63d9f131a49b94beb1cd558ca">m_nReaches</a></td></tr>
+<tr class="memdesc:a8d28dee63d9f131a49b94beb1cd558ca"><td class="mdescLeft">&#160;</td><td class="mdescRight">count of reaches <br/></td></tr>
+<tr class="separator:a8d28dee63d9f131a49b94beb1cd558ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aad28ec2ebf3265e6e51d9e2ba1c4301d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aad28ec2ebf3265e6e51d9e2ba1c4301d"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#aad28ec2ebf3265e6e51d9e2ba1c4301d">m_CellWidth</a></td></tr>
+<tr class="memdesc:aad28ec2ebf3265e6e51d9e2ba1c4301d"><td class="mdescLeft">&#160;</td><td class="mdescRight">cell size <br/></td></tr>
+<tr class="separator:aad28ec2ebf3265e6e51d9e2ba1c4301d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa8a01b4cc45a6fefe0364f6d664e27bf"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa8a01b4cc45a6fefe0364f6d664e27bf"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#aa8a01b4cc45a6fefe0364f6d664e27bf">m_recharge</a></td></tr>
+<tr class="memdesc:aa8a01b4cc45a6fefe0364f6d664e27bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">percolation from soil layer (mm) <br/></td></tr>
+<tr class="separator:aa8a01b4cc45a6fefe0364f6d664e27bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aff24179ab16dd64e9919b804f9241b20"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aff24179ab16dd64e9919b804f9241b20"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#aff24179ab16dd64e9919b804f9241b20">m_deepCoefficient</a></td></tr>
+<tr class="memdesc:aff24179ab16dd64e9919b804f9241b20"><td class="mdescLeft">&#160;</td><td class="mdescRight">the amount of water recharged to the deep groundwater reservoir <br/></td></tr>
+<tr class="separator:aff24179ab16dd64e9919b804f9241b20"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20c9627e09bb6c208fec4e97544039c2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a20c9627e09bb6c208fec4e97544039c2"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#a20c9627e09bb6c208fec4e97544039c2">m_recessionCoefficient</a></td></tr>
+<tr class="memdesc:a20c9627e09bb6c208fec4e97544039c2"><td class="mdescLeft">&#160;</td><td class="mdescRight">baseflow recession coefficient <br/></td></tr>
+<tr class="separator:a20c9627e09bb6c208fec4e97544039c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a913510dc008500a17e416eeb41d49fd2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a913510dc008500a17e416eeb41d49fd2"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#a913510dc008500a17e416eeb41d49fd2">m_recessionExponent</a></td></tr>
+<tr class="memdesc:a913510dc008500a17e416eeb41d49fd2"><td class="mdescLeft">&#160;</td><td class="mdescRight">baseflow recession exponent <br/></td></tr>
+<tr class="separator:a913510dc008500a17e416eeb41d49fd2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae20eb0f3426407ce266afd32e51115b4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae20eb0f3426407ce266afd32e51115b4"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#ae20eb0f3426407ce266afd32e51115b4">m_storage</a></td></tr>
+<tr class="memdesc:ae20eb0f3426407ce266afd32e51115b4"><td class="mdescLeft">&#160;</td><td class="mdescRight">ground water storage (mm) <br/></td></tr>
+<tr class="separator:ae20eb0f3426407ce266afd32e51115b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af588128fbcdca589809328bd837592a1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af588128fbcdca589809328bd837592a1"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#af588128fbcdca589809328bd837592a1">m_storageMax</a></td></tr>
+<tr class="memdesc:af588128fbcdca589809328bd837592a1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Maximum groundwater storage. <br/></td></tr>
+<tr class="separator:af588128fbcdca589809328bd837592a1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b0c70fd939185042d48a6989ada9261"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3b0c70fd939185042d48a6989ada9261"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#a3b0c70fd939185042d48a6989ada9261">m_qOutlet</a></td></tr>
+<tr class="memdesc:a3b0c70fd939185042d48a6989ada9261"><td class="mdescLeft">&#160;</td><td class="mdescRight">outflow at basin outlet <br/></td></tr>
+<tr class="separator:a3b0c70fd939185042d48a6989ada9261"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83040cc852b4d0f38c448d5a4d3223d2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a83040cc852b4d0f38c448d5a4d3223d2"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d6/d08/a00244.html#a83040cc852b4d0f38c448d5a4d3223d2">m_percSubbasin</a></td></tr>
+<tr class="memdesc:a83040cc852b4d0f38c448d5a4d3223d2"><td class="mdescLeft">&#160;</td><td class="mdescRight">temporary variables <br/></td></tr>
+<tr class="separator:a83040cc852b4d0f38c448d5a4d3223d2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_a00336"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_a00336')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../dd/d1d/a00336.html">SimulationModule</a></td></tr>
+<tr class="memitem:aabd631c05d3e74aa9970f7415f2f5de7 inherit pro_attribs_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aabd631c05d3e74aa9970f7415f2f5de7"></a>
+time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#aabd631c05d3e74aa9970f7415f2f5de7">m_date</a></td></tr>
+<tr class="memdesc:aabd631c05d3e74aa9970f7415f2f5de7 inherit pro_attribs_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">date time <br/></td></tr>
+<tr class="separator:aabd631c05d3e74aa9970f7415f2f5de7 inherit pro_attribs_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addfe4dd5800efd0bb827338daf65d64c inherit pro_attribs_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="addfe4dd5800efd0bb827338daf65d64c"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#addfe4dd5800efd0bb827338daf65d64c">m_yearIdx</a></td></tr>
+<tr class="memdesc:addfe4dd5800efd0bb827338daf65d64c inherit pro_attribs_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">index of current year of simulation, e.g., the simulation period from 2010 to 2015, m_yearIdx is 2 when simulate 2012. <br/></td></tr>
+<tr class="separator:addfe4dd5800efd0bb827338daf65d64c inherit pro_attribs_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adee1865c86a9761af76cec98cac30a44 inherit pro_attribs_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adee1865c86a9761af76cec98cac30a44"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#adee1865c86a9761af76cec98cac30a44">m_tsCounter</a></td></tr>
+<tr class="memdesc:adee1865c86a9761af76cec98cac30a44 inherit pro_attribs_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">sub-timestep counter <br/></td></tr>
+<tr class="separator:adee1865c86a9761af76cec98cac30a44 inherit pro_attribs_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68422923210ead26b1651bf0e0a339f6 inherit pro_attribs_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a68422923210ead26b1651bf0e0a339f6"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a68422923210ead26b1651bf0e0a339f6">m_inputsSetDone</a></td></tr>
+<tr class="memdesc:a68422923210ead26b1651bf0e0a339f6 inherit pro_attribs_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the inputs parameters (i.e., parameters derived from other modules) have been set. <br/></td></tr>
+<tr class="separator:a68422923210ead26b1651bf0e0a339f6 inherit pro_attribs_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Calculate groundwater using reservoir method. </p>
+
+<p>Definition at line <a class="el" href="../../de/d1d/a01105_source.html#l00024">24</a> of file <a class="el" href="../../de/d1d/a01105_source.html">GWaterReservoir.h</a>.</p>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="aa03bbd6498ce5964b4b191dd862a3c91"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool GWaterReservoir::CheckInputData </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>check the input data. Make sure all the input data is available. </p>
+<dl class="section return"><dt>Returns</dt><dd>bool The validity of the input data. </dd></dl>
+
+<p>Definition at line <a class="el" href="../../dd/dcb/a01104_source.html#l00020">20</a> of file <a class="el" href="../../dd/dcb/a01104_source.html">GWaterReservoir.cpp</a>.</p>
+
 </div>
-<ul>
-<li>处理步骤为：<ul>
-<li>打开出现合并冲突的文件</li>
-<li>找到冲突的地方，即<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;HEAD</code>和<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;upstream/master</code>出现的地方</li>
-<li>判断不同版本，并选择去留，并删掉 <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;HEAD</code>和<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;upstream/master</code></li>
-<li><code>git add .</code></li>
-<li><code>git commit -m "merge conflict fixed"</code></li>
-<li><code>git push -u origin master</code></li>
+</div>
+<a class="anchor" id="a71690671c028ced9d6ada7c9af63125f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool GWaterReservoir::CheckInputSize </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>check the input size. Make sure all the input data have same dimension. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">key</td><td>The key of the input data </td></tr>
+    <tr><td class="paramname">n</td><td>The input data dimension </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool The validity of the dimension </dd></dl>
+
+<p>Definition at line <a class="el" href="../../dd/dcb/a01104_source.html#l00052">52</a> of file <a class="el" href="../../dd/dcb/a01104_source.html">GWaterReservoir.cpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>seims/src/seims_main/modules/hydrology/GW_RSVR/<a class="el" href="../../de/d1d/a01105_source.html">GWaterReservoir.h</a></li>
+<li>seims/src/seims_main/modules/hydrology/GW_RSVR/<a class="el" href="../../dd/dcb/a01104_source.html">GWaterReservoir.cpp</a></li>
 </ul>
-</li>
-</ul>
-<p><a href="../../#目录">返回目录</a></p>
-<h2>4.Subtree操作</h2>
-<p>参考资料：<a href="http://aoxuis.me/post/2013-08-06-git-subtree">XA技术不宅的博客</a></p>
-<p>git subtree是一条git子命令，本质上subtree是一种合并策略，从git v1.5.2，官方就推荐使用subtree代替submodule，所以它并不需要保存&lt;tt&gt;.submodule这样的元信息，平时使用时你甚至可以忘掉有subtree的存在，只需子项目管理者在适当的时候与子项目库进行双向同步更新。</p>
-<h3>4.1第一次添加子目录，并建立与git项目的关联</h3>
-<p>建立关联总共有2条命令：</p>
-<ul>
-<li>语法：<code>git remote add -f &lt;子仓库名&gt; &lt;子仓库地址&gt;</code></li>
-</ul>
-<p>解释：其中-f意思是在添加远程仓库之后，立即执行fetch。</p>
-<p>+　语法：<code>git subtree add --prefix=&lt;子目录名&gt; &lt;子仓库名&gt; &lt;分支&gt; --squash</code></p>
-<p>解释：<code>--squash</code>意思是把subtree的改动合并成一次commit，这样就不用拉取子项目完整的历史记录。<code>--prefix</code>之后的=等号也可以用空格。</p>
-<p>**示例**:</p>
-<p>``` $git remote add -f wiki <a href="https://github.com/lreis2415/SEIMS2017.wiki.git">https://github.com/lreis2415/SEIMS2017.wiki.git</a> $git subtree add &ndash;prefix=doc/wiki wiki master &ndash;squash ```</p>
-<h2>4.2从远程仓库更新子目录</h2>
-<p>更新子目录有2条命令:</p>
-<ul>
-<li>语法：<code>git fetch &lt;远程仓库名&gt; &lt;分支&gt;</code></li>
-<li>语法：<code>git subtree pull --prefix=&lt;子目录名&gt; &lt;远程分支&gt; &lt;分支&gt; --squash</code></li>
-</ul>
-<p>**示例**:</p>
-<p>``` $git fetch wiki master $git subtree pull &ndash;prefix=doc/wiki wiki master &ndash;squash ```</p>
-<h2>4.3从子目录push到远程仓库（确认你有写权限）</h2>
-<p>推送子目录的变更有1条命令:</p>
-<ul>
-<li>语法：<code>git subtree push --prefix=&lt;子目录名&gt; &lt;远程分支名&gt; 分支</code></li>
-</ul>
-<p>**示例**:</p>
-<p>``` $git subtree push &ndash;prefix=doc/wiki wiki master ```</p>
-<p><a href="../../#目录">返回目录</a></p>
-<h2>5.Submodule操作</h2>
-<p>一个项目可以独立出来一些功能相对独立、允许其他人重复使用的通用模块，这个时候，就需要使用**子模块**的概念了。</p>
-<h3>5.1 包含子模块的仓库的克隆</h3>
-<p>项目根目录下的&lt;tt&gt;.submodules文件定义了该项目的子模块列表和地址信息，如果该文件存在且不为空，那么可采取下面的方式对该项目进行克隆。</p>
-<p>参考资料：http://www.kafeitu.me/git/2012/03/27/git-submodule.html</p>
-<p>``` git clone &lt;parent-git-path&gt; git submodule update &ndash;init &ndash;recursive ```</p>
-<h3>5.2 为当前项目添加子模块</h3>
-<p>``` git submodule add &lt;child-git-path&gt; &lt;current-store-path&gt; ``<code> 其中，</code>&lt;child-git-path&gt;<code>是指子模块仓库地址，</code>&lt;current-store-path&gt;<code>指将子模块放置在当前工程下的路径。 注意：路径不能以</code>/` 结尾（会造成修改不生效）、不能是现有工程已有的目录（不能顺利 Clone）</p>
-<h3>5.3 删除子模块</h3>
-<p>To remove a submodule you need to:</p>
-<ol type="1">
-<li>Delete the relevant section from the .gitmodules file.</li>
-<li>Stage the .gitmodules changes <code>git add .gitmodules</code></li>
-<li>Delete the relevant section from <code>.git/config</code>.</li>
-<li>Run <code>git rm --cached path_to_submodule (no trailing slash)</code><code>.</code></li>
-<li><code>Run</code>rm -rf .git/modules/path_to_submodule<code></code></li>
-<li><code>Commit</code>git commit -m "Removed submodule &lt;name&gt;"`</li>
-<li>Delete the now untracked submodule files</li>
-<li>rm -rf path_to_submodule</li>
-</ol>
-<h3></h3>
-<p><a href="../../#目录">返回目录</a> </p>
-</div></div><!-- contents -->
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:46 for SEIMS by
+    <li class="navelem"><a class="el" href="../../d6/d08/a00244.html">GWaterReservoir</a></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:26:04 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -1,5 +1,7 @@
 var a00381 =
 [
-    [ "HarvestKillOperation", "de/d08/a00381.html#a1682b0931a5ddc0388939934bf8ebfc8", null ],
-    [ "dump", "de/d08/a00381.html#a444c492c0a3521720d3ba70162e6cda4", null ]
+    [ "BranchFiles", "de/d08/a00381.html#ade7758492a8ff054359c9dac675a307b", null ],
+    [ "BranchFiles", "de/d08/a00381.html#ade7758492a8ff054359c9dac675a307b", null ],
+    [ "GetFilesToBranch", "de/d08/a00381.html#a5c95919f835f56325d0f56aa7880c0b3", null ],
+    [ "GetFilesToBranch", "de/d08/a00381.html#a5c95919f835f56325d0f56aa7880c0b3", null ]
 ];

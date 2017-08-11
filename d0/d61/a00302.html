@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: MongoDB的安装预配置</title>
+<title>SEIMS: Nutrient_Transformation Class Reference</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -52,10 +52,10 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   <div id="navrow1" class="tabs">
     <ul class="tablist">
       <li><a href="../../index.html"><span>Main&#160;Page</span></a></li>
-      <li class="current"><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
+      <li><a href="../../pages.html"><span>Related&#160;Pages</span></a></li>
       <li><a href="../../modules.html"><span>Modules</span></a></li>
       <li><a href="../../namespaces.html"><span>Packages</span></a></li>
-      <li><a href="../../annotated.html"><span>Classes</span></a></li>
+      <li class="current"><a href="../../annotated.html"><span>Classes</span></a></li>
       <li><a href="../../files.html"><span>Files</span></a></li>
       <li>
         <div id="MSearchBox" class="MSearchBoxInactive">
@@ -73,6 +73,14 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
           </span>
         </div>
       </li>
+    </ul>
+  </div>
+  <div id="navrow2" class="tabs2">
+    <ul class="tablist">
+      <li><a href="../../annotated.html"><span>Class&#160;List</span></a></li>
+      <li><a href="../../classes.html"><span>Class&#160;Index</span></a></li>
+      <li><a href="../../inherits.html"><span>Class&#160;Hierarchy</span></a></li>
+      <li><a href="../../functions.html"><span>Class&#160;Members</span></a></li>
     </ul>
   </div>
 </div><!-- top -->
@@ -105,79 +113,1023 @@ $(document).ready(function(){initNavTree('d0/d61/a00302.html','../../');});
 </div>
 
 <div class="header">
+  <div class="summary">
+<a href="#pub-methods">Public Member Functions</a> &#124;
+<a href="#pri-methods">Private Member Functions</a> &#124;
+<a href="#pri-attribs">Private Attributes</a> &#124;
+<a href="../../d6/d83/a01544.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">MongoDB的安装预配置 </div>  </div>
+<div class="title">Nutrient_Transformation Class Reference<div class="ingroups"><a class="el" href="../../d9/d6f/a01445.html">NUTR_TF</a></div></div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>by Huiran Gao</p>
-<p>Latest Updated：May.31, 2016 </p>
-<hr/>
- <h1>目录</h1>
-<p><a href="../../#1-mongodb安装">**1. MongoDB安装**</a></p>
-<ol type="1">
-<li><a href="../../#i-安装">安装</a></li>
-<li><a href="../../#ii-测试">测试</a></li>
-</ol>
-<p><a href="../../#2-mongodb配置">**2. MongoDB配置**</a></p>
-<p><a href="../../#3-mongovue">**3. MongoVUE**</a></p>
-<h1>1. MongoDB安装</h1>
-<h2>i. 安装</h2>
-<ul>
-<li>运行<code>mongodb-win32-x86_64-2.6.1.msi</code>，实际上是解压程序，将解压后的所有文件放到一个**全英文且没有空格**的文件夹中，比如<code>E:\MongoDB</code></li>
-<li>在MongoDB文件夹内新建logs文件夹，用于存储日志文件，比如<code>E:\MongoDB\logs</code>，并在此文件夹内新建空文件<code>mongodb.log</code></li>
-<li>在MongoDB文件夹内新建db文件夹，用于存放数据库文件，比如<code>E:\MongoDB\db</code></li>
-<li><p class="startli">启动MongoDB: 以系统管理员身份运行cmd，输入以下命令：</p>
-<p class="startli">```shell cd E: E: mongod.exe &ndash;dbpath=e: ```</p>
-<p class="startli">如看到控制台最后一行类似:</p>
-<p class="startli">``` Tue Oct 09 11:50:55 [websvr] admin web console watiing for connections on port 27017 ```</p>
-<p class="startli">说明启动成功,MongoDB占用系统27017端口。</p>
-</li>
-</ul>
-<h2>ii. 测试</h2>
-<p>测试MongoDB，以管理员身份新建一个cmd窗口：</p>
-<p>```shell cd E: E: mongo ```</p>
-<p>如出现<code>connecting to:test</code>说明测试通过。</p>
-<div class="image">
-<img src="http://i.imgur.com/Wkr40Z2.png" />
+
+<p>Daily nitrogen and phosphorus mineralization and immobilization. Considering fresh organic material (plant residue) and active and stable humus material.  
+ <a href="../../d0/d61/a00302.html#details">More...</a></p>
+
+<p><code>#include &lt;<a class="el" href="../../d9/dbb/a01186_source.html">Nutrient_Transformation.h</a>&gt;</code></p>
+<div class="dynheader">
+Inheritance diagram for Nutrient_Transformation:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../dd/dba/a01545.png" border="0" usemap="#_nutrient___transformation_inherit__map" alt="Inheritance graph"/></div>
+<map name="_nutrient___transformation_inherit__map" id="_nutrient___transformation_inherit__map">
+<area shape="rect" id="node2" href="../../dd/d1d/a00336.html" title="Base module for all simulation modules in SEIMS. " alt="" coords="48,6,243,317"/></map>
 </div>
-<p>继续测试：</p>
-<p>```shell use test db.foo.save({hello:0}) db.foo.find() ```</p>
-<p>如果出现类似<code>{ "_id" : ObjectId("574cfef6c02688f96a5819a1"), "Hello" : 0 }</code>之类信息，说明测试成功数据已经插入数据库，</p>
-<div class="image">
-<img src="http://i.imgur.com/Zz9caSo.png" />
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
+Public Member Functions</h2></td></tr>
+<tr class="memitem:a7c57934ffc3ee12992de97fe5a29b395"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a7c57934ffc3ee12992de97fe5a29b395">~Nutrient_Transformation</a> (void)</td></tr>
+<tr class="separator:a7c57934ffc3ee12992de97fe5a29b395"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acae00caea54f903955fea1534f466ac1"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#acae00caea54f903955fea1534f466ac1">Set1DData</a> (const char *key, int n, float *data)</td></tr>
+<tr class="memdesc:acae00caea54f903955fea1534f466ac1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 1D data, by default, DT_Raster1D.  <a href="#acae00caea54f903955fea1534f466ac1">More...</a><br/></td></tr>
+<tr class="separator:acae00caea54f903955fea1534f466ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac33ee733eae3a3fe71478ad30ef6657d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac33ee733eae3a3fe71478ad30ef6657d"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#ac33ee733eae3a3fe71478ad30ef6657d">Set2DData</a> (const char *key, int nRows, int nCols, float **data)</td></tr>
+<tr class="memdesc:ac33ee733eae3a3fe71478ad30ef6657d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 2D data, by default, DT_Raster2D. <br/></td></tr>
+<tr class="separator:ac33ee733eae3a3fe71478ad30ef6657d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1092cf75ef88858f0e477875c640b1b7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1092cf75ef88858f0e477875c640b1b7"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a1092cf75ef88858f0e477875c640b1b7">SetValue</a> (const char *key, float value)</td></tr>
+<tr class="memdesc:a1092cf75ef88858f0e477875c640b1b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set data, DT_Single. <br/></td></tr>
+<tr class="separator:a1092cf75ef88858f0e477875c640b1b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8582051ba97b3a82899f431e35d570ce"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a8582051ba97b3a82899f431e35d570ce">Execute</a> (void)</td></tr>
+<tr class="memdesc:a8582051ba97b3a82899f431e35d570ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute the simulation.  <a href="#a8582051ba97b3a82899f431e35d570ce">More...</a><br/></td></tr>
+<tr class="separator:a8582051ba97b3a82899f431e35d570ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3de089dd6f4b8c733fa472646ad31920"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3de089dd6f4b8c733fa472646ad31920"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a3de089dd6f4b8c733fa472646ad31920">GetValue</a> (const char *key, float *value)</td></tr>
+<tr class="memdesc:a3de089dd6f4b8c733fa472646ad31920"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get value, DT_Single. <br/></td></tr>
+<tr class="separator:a3de089dd6f4b8c733fa472646ad31920"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a053d4ea8f63cbd6818d32d7ebb78a3db"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a053d4ea8f63cbd6818d32d7ebb78a3db"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a053d4ea8f63cbd6818d32d7ebb78a3db">Get1DData</a> (const char *key, int *n, float **data)</td></tr>
+<tr class="memdesc:a053d4ea8f63cbd6818d32d7ebb78a3db"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 1D data, by default, DT_Raster1D. <br/></td></tr>
+<tr class="separator:a053d4ea8f63cbd6818d32d7ebb78a3db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c44da6ed634f58657d4dc407cf5c3f7"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a5c44da6ed634f58657d4dc407cf5c3f7">Get2DData</a> (const char *key, int *nRows, int *nCols, float ***data)</td></tr>
+<tr class="memdesc:a5c44da6ed634f58657d4dc407cf5c3f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 2D data, by default, DT_Raster2D.  <a href="#a5c44da6ed634f58657d4dc407cf5c3f7">More...</a><br/></td></tr>
+<tr class="separator:a5c44da6ed634f58657d4dc407cf5c3f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="inherit_header pub_methods_a00336"><td colspan="2" onclick="javascript:toggleInherit('pub_methods_a00336')"><img src="../../closed.png" alt="-"/>&#160;Public Member Functions inherited from <a class="el" href="../../dd/d1d/a00336.html">SimulationModule</a></td></tr>
+<tr class="memitem:aa9934866122995dc98611de6515f47c5 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa9934866122995dc98611de6515f47c5"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#aa9934866122995dc98611de6515f47c5">SimulationModule</a> (void)</td></tr>
+<tr class="memdesc:aa9934866122995dc98611de6515f47c5 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Constructor. <br/></td></tr>
+<tr class="separator:aa9934866122995dc98611de6515f47c5 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a75fc67bcf8bc5a1dc0eb467af5a9861c inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a75fc67bcf8bc5a1dc0eb467af5a9861c"></a>
+virtual&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a75fc67bcf8bc5a1dc0eb467af5a9861c">~SimulationModule</a> (void)</td></tr>
+<tr class="memdesc:a75fc67bcf8bc5a1dc0eb467af5a9861c inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Destructor. <br/></td></tr>
+<tr class="separator:a75fc67bcf8bc5a1dc0eb467af5a9861c inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8526abbeed3f49071f39e0c17559e522 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8526abbeed3f49071f39e0c17559e522"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a8526abbeed3f49071f39e0c17559e522">SetDate</a> (time_t t, int yearIdx)</td></tr>
+<tr class="memdesc:a8526abbeed3f49071f39e0c17559e522 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set date time, as well as the sequence number of the entire simulation. Added by LJ for statistics convenient. <br/></td></tr>
+<tr class="separator:a8526abbeed3f49071f39e0c17559e522 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46191d743a839a5290fd42d318b500d0 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a46191d743a839a5290fd42d318b500d0"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a46191d743a839a5290fd42d318b500d0">SetTheadNumber</a> (int threadNum)</td></tr>
+<tr class="memdesc:a46191d743a839a5290fd42d318b500d0 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set thread number for OpenMP. <br/></td></tr>
+<tr class="separator:a46191d743a839a5290fd42d318b500d0 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7b9caed16e56bf880b171040981403e inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af7b9caed16e56bf880b171040981403e"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#af7b9caed16e56bf880b171040981403e">SetClimateDataType</a> (float value)</td></tr>
+<tr class="memdesc:af7b9caed16e56bf880b171040981403e inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set climate data type, P, M, PET etc. <br/></td></tr>
+<tr class="separator:af7b9caed16e56bf880b171040981403e inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac3c60349cd6720bb66e58fa4cd31a999 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac3c60349cd6720bb66e58fa4cd31a999"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#ac3c60349cd6720bb66e58fa4cd31a999">Set1DArrayData</a> (const char *key, int n, float *data)</td></tr>
+<tr class="memdesc:ac3c60349cd6720bb66e58fa4cd31a999 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 1D array data, DT_Array1D. <br/></td></tr>
+<tr class="separator:ac3c60349cd6720bb66e58fa4cd31a999 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1f7470f5f4f831b9053e3ff2d92c1813 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1f7470f5f4f831b9053e3ff2d92c1813"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a1f7470f5f4f831b9053e3ff2d92c1813">Set2DArrayData</a> (const char *key, int nRows, int nCols, float **data)</td></tr>
+<tr class="memdesc:a1f7470f5f4f831b9053e3ff2d92c1813 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set 2D array data, by default, DT_Array2D. <br/></td></tr>
+<tr class="separator:a1f7470f5f4f831b9053e3ff2d92c1813 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb23e43dd78e4fb8ce5d25a9855dd748 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeb23e43dd78e4fb8ce5d25a9855dd748"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#aeb23e43dd78e4fb8ce5d25a9855dd748">Get1DArrayData</a> (const char *key, int *n, float **data)</td></tr>
+<tr class="memdesc:aeb23e43dd78e4fb8ce5d25a9855dd748 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 1D Array data, by default, DT_Array1D. <br/></td></tr>
+<tr class="separator:aeb23e43dd78e4fb8ce5d25a9855dd748 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3330ba74e63c5e2e6368d5d62d4048ea inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a3330ba74e63c5e2e6368d5d62d4048ea"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a3330ba74e63c5e2e6368d5d62d4048ea">Get2DArrayData</a> (const char *key, int *nRows, int *nCols, float ***data)</td></tr>
+<tr class="memdesc:a3330ba74e63c5e2e6368d5d62d4048ea inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get 2D Array data, by default, DT_Array2D. <br/></td></tr>
+<tr class="separator:a3330ba74e63c5e2e6368d5d62d4048ea inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6dfd515de376498a12a22724e57650a inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae6dfd515de376498a12a22724e57650a"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#ae6dfd515de376498a12a22724e57650a">SetScenario</a> (<a class="el" href="../../dd/dbb/a00330.html">Scenario</a> *)</td></tr>
+<tr class="memdesc:ae6dfd515de376498a12a22724e57650a inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pointer of Scenario class which contains all BMP information. Added by LJ, 2016-6-14. <br/></td></tr>
+<tr class="separator:ae6dfd515de376498a12a22724e57650a inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4115c5f61d71efde62d3b62c70b51ec inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa4115c5f61d71efde62d3b62c70b51ec"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#aa4115c5f61d71efde62d3b62c70b51ec">SetReaches</a> (<a class="el" href="../../dc/d31/a00208.html">clsReaches</a> *)</td></tr>
+<tr class="memdesc:aa4115c5f61d71efde62d3b62c70b51ec inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pointer of <a class="el" href="../../dc/d31/a00208.html" title="Read and store all reaches information as input parameters. ">clsReaches</a> class which contains all reaches information. Added by LJ, 2016-7-2. <br/></td></tr>
+<tr class="separator:aa4115c5f61d71efde62d3b62c70b51ec inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97da293bca13cf5934d9ef6da34d9290 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a97da293bca13cf5934d9ef6da34d9290"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a97da293bca13cf5934d9ef6da34d9290">SetSubbasins</a> (<a class="el" href="../../da/de7/a00210.html">clsSubbasins</a> *)</td></tr>
+<tr class="memdesc:a97da293bca13cf5934d9ef6da34d9290 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Set pointer of <a class="el" href="../../da/de7/a00210.html" title="Manager all Subbasin related parameters and methods. ">clsSubbasins</a> class which contains all subbasins information. Added by LJ, 2016-7-28. <br/></td></tr>
+<tr class="separator:a97da293bca13cf5934d9ef6da34d9290 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd96e67e4e6d1c6f50bc51e69aad4a96 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd96e67e4e6d1c6f50bc51e69aad4a96"></a>
+virtual TimeStepType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#abd96e67e4e6d1c6f50bc51e69aad4a96">GetTimeStepType</a> (void)</td></tr>
+<tr class="memdesc:abd96e67e4e6d1c6f50bc51e69aad4a96 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get time step type. <br/></td></tr>
+<tr class="separator:abd96e67e4e6d1c6f50bc51e69aad4a96 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbcc7144125d11f1da27da05f4a94338 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abbcc7144125d11f1da27da05f4a94338"></a>
+virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#abbcc7144125d11f1da27da05f4a94338">ResetSubTimeStep</a> (void)</td></tr>
+<tr class="memdesc:abbcc7144125d11f1da27da05f4a94338 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Reset subtime step. <br/></td></tr>
+<tr class="separator:abbcc7144125d11f1da27da05f4a94338 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4b1e6030fa901ac2bfa4350a819b4ecb inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4b1e6030fa901ac2bfa4350a819b4ecb"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a4b1e6030fa901ac2bfa4350a819b4ecb">IsInputsSetDone</a> (void)</td></tr>
+<tr class="memdesc:a4b1e6030fa901ac2bfa4350a819b4ecb inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the inputs parameters (i.e., parameters derived from other modules) have been set. <br/></td></tr>
+<tr class="separator:a4b1e6030fa901ac2bfa4350a819b4ecb inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a94457cc066581e7ecd1d3c88ebdf3163 inherit pub_methods_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a94457cc066581e7ecd1d3c88ebdf3163"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a94457cc066581e7ecd1d3c88ebdf3163">SetInputsDone</a> (bool setDone)</td></tr>
+<tr class="memdesc:a94457cc066581e7ecd1d3c88ebdf3163 inherit pub_methods_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Change the status of setting inputs parameters. <br/></td></tr>
+<tr class="separator:a94457cc066581e7ecd1d3c88ebdf3163 inherit pub_methods_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Private Member Functions</h2></td></tr>
+<tr class="memitem:a36ee884be7bca2128b01799cbfff6c63"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a36ee884be7bca2128b01799cbfff6c63">CheckInputData</a> (void)</td></tr>
+<tr class="memdesc:a36ee884be7bca2128b01799cbfff6c63"><td class="mdescLeft">&#160;</td><td class="mdescRight">check the input data. Make sure all the input data is available.  <a href="#a36ee884be7bca2128b01799cbfff6c63">More...</a><br/></td></tr>
+<tr class="separator:a36ee884be7bca2128b01799cbfff6c63"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a79731ee0e265814bb1612130553db131"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a79731ee0e265814bb1612130553db131">CheckInputSize</a> (const char *, int)</td></tr>
+<tr class="memdesc:a79731ee0e265814bb1612130553db131"><td class="mdescLeft">&#160;</td><td class="mdescRight">check the input size. Make sure all the input data have same dimension.  <a href="#a79731ee0e265814bb1612130553db131">More...</a><br/></td></tr>
+<tr class="separator:a79731ee0e265814bb1612130553db131"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aacd51312b7f6535e8feb68acbde08d34"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#aacd51312b7f6535e8feb68acbde08d34">Mineralization_StaticCarbonMethod</a> (int i)</td></tr>
+<tr class="memdesc:aacd51312b7f6535e8feb68acbde08d34"><td class="mdescLeft">&#160;</td><td class="mdescRight">estimates daily nitrogen and phosphorus mineralization and immobilization. considering fresh organic material (plant residue) and active and stable humus material Execute when CSWAT = 0, rewrite from nminrl.f of SWAT  <a href="#aacd51312b7f6535e8feb68acbde08d34">More...</a><br/></td></tr>
+<tr class="separator:aacd51312b7f6535e8feb68acbde08d34"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a207cc85c711b33e18b10097357eec1"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a9a207cc85c711b33e18b10097357eec1">Mineralization_CFARMOneCarbonModel</a> (int i)</td></tr>
+<tr class="memdesc:a9a207cc85c711b33e18b10097357eec1"><td class="mdescLeft">&#160;</td><td class="mdescRight">simulates organic C, N, and P cycling in soil using C-FARM one carbon model Execute when CSWAT = 1, rewrite from carbon_new.f and ndenit.f of SWAT  THIS IS ON THE TODO LIST.  <a href="#a9a207cc85c711b33e18b10097357eec1">More...</a><br/></td></tr>
+<tr class="separator:a9a207cc85c711b33e18b10097357eec1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a35ed6fa9c66388fe72158bcdc947ff3b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a35ed6fa9c66388fe72158bcdc947ff3b">Mineralization_CENTURYModel</a> (int i)</td></tr>
+<tr class="memdesc:a35ed6fa9c66388fe72158bcdc947ff3b"><td class="mdescLeft">&#160;</td><td class="mdescRight">simulates organic C, N, and P cycling in soil using CENTURY model Execute when CSWAT = 2, rewrite from carbon_zhang.f90 and ndenit.f of SWAT  <a href="#a35ed6fa9c66388fe72158bcdc947ff3b">More...</a><br/></td></tr>
+<tr class="separator:a35ed6fa9c66388fe72158bcdc947ff3b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a89802a658801c65eda196eb92b50df55"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a89802a658801c65eda196eb92b50df55">Volatilization</a> (int i)</td></tr>
+<tr class="memdesc:a89802a658801c65eda196eb92b50df55"><td class="mdescLeft">&#160;</td><td class="mdescRight">estimates daily mineralization (NH3 to NO3) and volatilization of NH3. rewrite from nitvol.f of SWAT  <a href="#a89802a658801c65eda196eb92b50df55">More...</a><br/></td></tr>
+<tr class="separator:a89802a658801c65eda196eb92b50df55"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4704d9c3746551f76ae72ba1ed11742c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a4704d9c3746551f76ae72ba1ed11742c">CalculatePflux</a> (int i)</td></tr>
+<tr class="memdesc:a4704d9c3746551f76ae72ba1ed11742c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate P flux between the labile, active mineral and stable mineral p pools. rewrite from pminrl, and pminrl2 according to solP_model  In current version, the solP_model is set to 0, i.e., pminrl2 is used as default.  <a href="#a4704d9c3746551f76ae72ba1ed11742c">More...</a><br/></td></tr>
+<tr class="separator:a4704d9c3746551f76ae72ba1ed11742c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a010737f95377503fdf98db2cc5f95875"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a010737f95377503fdf98db2cc5f95875">initialOutputs</a> (void)</td></tr>
+<tr class="memdesc:a010737f95377503fdf98db2cc5f95875"><td class="mdescLeft">&#160;</td><td class="mdescRight">initial outputs  <a href="#a010737f95377503fdf98db2cc5f95875">More...</a><br/></td></tr>
+<tr class="separator:a010737f95377503fdf98db2cc5f95875"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
+Private Attributes</h2></td></tr>
+<tr class="memitem:a6b4e0d4ae13872826b797d83063d1721"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6b4e0d4ae13872826b797d83063d1721"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a6b4e0d4ae13872826b797d83063d1721">m_cellWidth</a></td></tr>
+<tr class="memdesc:a6b4e0d4ae13872826b797d83063d1721"><td class="mdescLeft">&#160;</td><td class="mdescRight">cell width of grid map (m) <br/></td></tr>
+<tr class="separator:a6b4e0d4ae13872826b797d83063d1721"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae16d23358638cb5d8a2f9c55527e7b58"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ae16d23358638cb5d8a2f9c55527e7b58"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#ae16d23358638cb5d8a2f9c55527e7b58">m_nCells</a></td></tr>
+<tr class="memdesc:ae16d23358638cb5d8a2f9c55527e7b58"><td class="mdescLeft">&#160;</td><td class="mdescRight">number of cells <br/></td></tr>
+<tr class="separator:ae16d23358638cb5d8a2f9c55527e7b58"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abceae744774c7851e3aa7afb2c3c4443"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abceae744774c7851e3aa7afb2c3c4443"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#abceae744774c7851e3aa7afb2c3c4443">m_nSoilLayers</a></td></tr>
+<tr class="memdesc:abceae744774c7851e3aa7afb2c3c4443"><td class="mdescLeft">&#160;</td><td class="mdescRight">soil layers <br/></td></tr>
+<tr class="separator:abceae744774c7851e3aa7afb2c3c4443"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a287d9f45e23ece1be2a72d9bed5b9b1e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a287d9f45e23ece1be2a72d9bed5b9b1e"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a287d9f45e23ece1be2a72d9bed5b9b1e">m_soilLayers</a></td></tr>
+<tr class="memdesc:a287d9f45e23ece1be2a72d9bed5b9b1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">maximum soil layers <br/></td></tr>
+<tr class="separator:a287d9f45e23ece1be2a72d9bed5b9b1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c00d29c5d2183c61f959b56173c0680"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2c00d29c5d2183c61f959b56173c0680"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a2c00d29c5d2183c61f959b56173c0680">m_a_days</a></td></tr>
+<tr class="memdesc:a2c00d29c5d2183c61f959b56173c0680"><td class="mdescLeft">&#160;</td><td class="mdescRight">days since P application <br/></td></tr>
+<tr class="separator:a2c00d29c5d2183c61f959b56173c0680"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a23d08d94d6895a4ef3dc923ccb1608b8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a23d08d94d6895a4ef3dc923ccb1608b8"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a23d08d94d6895a4ef3dc923ccb1608b8">m_b_days</a></td></tr>
+<tr class="memdesc:a23d08d94d6895a4ef3dc923ccb1608b8"><td class="mdescLeft">&#160;</td><td class="mdescRight">days since P deficit <br/></td></tr>
+<tr class="separator:a23d08d94d6895a4ef3dc923ccb1608b8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac91e0de2f933dfae48f90836516d0eda"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac91e0de2f933dfae48f90836516d0eda"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#ac91e0de2f933dfae48f90836516d0eda">m_tillage_switch</a></td></tr>
+<tr class="memdesc:ac91e0de2f933dfae48f90836516d0eda"><td class="mdescLeft">&#160;</td><td class="mdescRight">tillage factor on SOM decomposition, used by CENTURY model <br/></td></tr>
+<tr class="separator:ac91e0de2f933dfae48f90836516d0eda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0f739e89917bd542e2199d21973b80f7"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a0f739e89917bd542e2199d21973b80f7">m_cmn</a></td></tr>
+<tr class="memdesc:a0f739e89917bd542e2199d21973b80f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">input data  <a href="#a0f739e89917bd542e2199d21973b80f7">More...</a><br/></td></tr>
+<tr class="separator:a0f739e89917bd542e2199d21973b80f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a246a5ea2dd30447b86738c829e2fae01"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a246a5ea2dd30447b86738c829e2fae01"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a246a5ea2dd30447b86738c829e2fae01">m_nactfr</a></td></tr>
+<tr class="memdesc:a246a5ea2dd30447b86738c829e2fae01"><td class="mdescLeft">&#160;</td><td class="mdescRight">nitrogen active pool fraction. The fraction of organic nitrogen in the active pool. <br/></td></tr>
+<tr class="separator:a246a5ea2dd30447b86738c829e2fae01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9f05766dd12131fe2cb8b9e0fc30a179"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9f05766dd12131fe2cb8b9e0fc30a179"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a9f05766dd12131fe2cb8b9e0fc30a179">m_sdnco</a></td></tr>
+<tr class="memdesc:a9f05766dd12131fe2cb8b9e0fc30a179"><td class="mdescLeft">&#160;</td><td class="mdescRight">denitrification threshold: fraction of field capacity <br/></td></tr>
+<tr class="separator:a9f05766dd12131fe2cb8b9e0fc30a179"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab5ce1d535279d3ba42a5a74caeb864b2"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab5ce1d535279d3ba42a5a74caeb864b2"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#ab5ce1d535279d3ba42a5a74caeb864b2">m_psp</a></td></tr>
+<tr class="memdesc:ab5ce1d535279d3ba42a5a74caeb864b2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Phosphorus availability index. The fraction of fertilizer P remaining in labile pool after initial rapid phase of P sorption. <br/></td></tr>
+<tr class="separator:ab5ce1d535279d3ba42a5a74caeb864b2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2c3b3859f8fea5e4d19c04e690a87cd8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a2c3b3859f8fea5e4d19c04e690a87cd8"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a2c3b3859f8fea5e4d19c04e690a87cd8">m_landcover</a></td></tr>
+<tr class="memdesc:a2c3b3859f8fea5e4d19c04e690a87cd8"><td class="mdescLeft">&#160;</td><td class="mdescRight">land cover code from crop.dat <br/></td></tr>
+<tr class="separator:a2c3b3859f8fea5e4d19c04e690a87cd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aac59f949da489f35cfbde39dc60c3ce2"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#aac59f949da489f35cfbde39dc60c3ce2">m_rsdco_pl</a></td></tr>
+<tr class="separator:aac59f949da489f35cfbde39dc60c3ce2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afb11c5d540bea30f08113263f6649fc3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="afb11c5d540bea30f08113263f6649fc3"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#afb11c5d540bea30f08113263f6649fc3">m_sol_cov</a></td></tr>
+<tr class="memdesc:afb11c5d540bea30f08113263f6649fc3"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of residue on soil surface (kg/ha) <br/></td></tr>
+<tr class="separator:afb11c5d540bea30f08113263f6649fc3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99f0d9dcb1c388b8fea7f594ad3fe20e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a99f0d9dcb1c388b8fea7f594ad3fe20e"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a99f0d9dcb1c388b8fea7f594ad3fe20e">m_sol_rsdin</a></td></tr>
+<tr class="memdesc:a99f0d9dcb1c388b8fea7f594ad3fe20e"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of residue on soil surface (kg/ha) <br/></td></tr>
+<tr class="separator:a99f0d9dcb1c388b8fea7f594ad3fe20e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a950dece0689618d54cda482269d92eda"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a950dece0689618d54cda482269d92eda"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a950dece0689618d54cda482269d92eda">m_sote</a></td></tr>
+<tr class="memdesc:a950dece0689618d54cda482269d92eda"><td class="mdescLeft">&#160;</td><td class="mdescRight">daily average temperature of soil layer(deg C) <br/></td></tr>
+<tr class="separator:a950dece0689618d54cda482269d92eda"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a92b1181f0b628e9249468eca2934a092"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a92b1181f0b628e9249468eca2934a092"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a92b1181f0b628e9249468eca2934a092">m_sol_om</a></td></tr>
+<tr class="memdesc:a92b1181f0b628e9249468eca2934a092"><td class="mdescLeft">&#160;</td><td class="mdescRight">percent organic matter in soil layer (%) <br/></td></tr>
+<tr class="separator:a92b1181f0b628e9249468eca2934a092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6c47f4928c56fc4598417191935b67ac"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6c47f4928c56fc4598417191935b67ac"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a6c47f4928c56fc4598417191935b67ac">m_sol_bd</a></td></tr>
+<tr class="memdesc:a6c47f4928c56fc4598417191935b67ac"><td class="mdescLeft">&#160;</td><td class="mdescRight">bulk density of the soil (Mg/m3) <br/></td></tr>
+<tr class="separator:a6c47f4928c56fc4598417191935b67ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56ac9a23e298d5acd2d4c4b0f3017168"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a56ac9a23e298d5acd2d4c4b0f3017168"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a56ac9a23e298d5acd2d4c4b0f3017168">m_sol_cbn</a></td></tr>
+<tr class="memdesc:a56ac9a23e298d5acd2d4c4b0f3017168"><td class="mdescLeft">&#160;</td><td class="mdescRight">percent organic carbon in soil layer (%) <br/></td></tr>
+<tr class="separator:a56ac9a23e298d5acd2d4c4b0f3017168"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e84773818aa5f7d62685388794e9692"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6e84773818aa5f7d62685388794e9692"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a6e84773818aa5f7d62685388794e9692">m_soilStorage</a></td></tr>
+<tr class="memdesc:a6e84773818aa5f7d62685388794e9692"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of water stored in the soil layer on current day(mm H2O) <br/></td></tr>
+<tr class="separator:a6e84773818aa5f7d62685388794e9692"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8db0bcdc66f10c8d8eea8a7406fcb501"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8db0bcdc66f10c8d8eea8a7406fcb501"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a8db0bcdc66f10c8d8eea8a7406fcb501">m_sol_awc</a></td></tr>
+<tr class="memdesc:a8db0bcdc66f10c8d8eea8a7406fcb501"><td class="mdescLeft">&#160;</td><td class="mdescRight">Water content of soil profile at field capacity(mm H2O) (FC-WP) <br/></td></tr>
+<tr class="separator:a8db0bcdc66f10c8d8eea8a7406fcb501"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad152e6e00411bc7ada5e69315b74672d"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad152e6e00411bc7ada5e69315b74672d"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#ad152e6e00411bc7ada5e69315b74672d">m_sol_z</a></td></tr>
+<tr class="memdesc:ad152e6e00411bc7ada5e69315b74672d"><td class="mdescLeft">&#160;</td><td class="mdescRight">depth to bottom of soil layer <br/></td></tr>
+<tr class="separator:ad152e6e00411bc7ada5e69315b74672d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a51a0b378478268d5f027e2c31438f768"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a51a0b378478268d5f027e2c31438f768"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a51a0b378478268d5f027e2c31438f768">m_sol_clay</a></td></tr>
+<tr class="memdesc:a51a0b378478268d5f027e2c31438f768"><td class="mdescLeft">&#160;</td><td class="mdescRight">Percent of clay content. <br/></td></tr>
+<tr class="separator:a51a0b378478268d5f027e2c31438f768"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abd567010aecc7a9ba08290de725f5859"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abd567010aecc7a9ba08290de725f5859"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#abd567010aecc7a9ba08290de725f5859">m_sol_rock</a></td></tr>
+<tr class="memdesc:abd567010aecc7a9ba08290de725f5859"><td class="mdescLeft">&#160;</td><td class="mdescRight">percent of rock content <br/></td></tr>
+<tr class="separator:abd567010aecc7a9ba08290de725f5859"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa492b70bb1a07a00dc6ce4f6e21e88c3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa492b70bb1a07a00dc6ce4f6e21e88c3"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#aa492b70bb1a07a00dc6ce4f6e21e88c3">m_sol_thick</a></td></tr>
+<tr class="memdesc:aa492b70bb1a07a00dc6ce4f6e21e88c3"><td class="mdescLeft">&#160;</td><td class="mdescRight">thick of each soil layer <br/></td></tr>
+<tr class="separator:aa492b70bb1a07a00dc6ce4f6e21e88c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeaabd911e94c70b685c7f1ea24d0d237"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aeaabd911e94c70b685c7f1ea24d0d237"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#aeaabd911e94c70b685c7f1ea24d0d237">m_sol_aorgn</a></td></tr>
+<tr class="memdesc:aeaabd911e94c70b685c7f1ea24d0d237"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of nitrogen stored in the active organic (humic) nitrogen pool(kg N/ha) <br/></td></tr>
+<tr class="separator:aeaabd911e94c70b685c7f1ea24d0d237"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84ead0a617016b98955d21ae5be57e71"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a84ead0a617016b98955d21ae5be57e71"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a84ead0a617016b98955d21ae5be57e71">m_sol_fon</a></td></tr>
+<tr class="memdesc:a84ead0a617016b98955d21ae5be57e71"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of nitrogen stored in the fresh organic (residue) pool(kg N/ha) <br/></td></tr>
+<tr class="separator:a84ead0a617016b98955d21ae5be57e71"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a659743059b242474cb0d265db4efc026"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a659743059b242474cb0d265db4efc026"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a659743059b242474cb0d265db4efc026">m_sol_fop</a></td></tr>
+<tr class="memdesc:a659743059b242474cb0d265db4efc026"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of phosphorus stored in the fresh organic (residue) pool(kg P/ha) <br/></td></tr>
+<tr class="separator:a659743059b242474cb0d265db4efc026"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8346fd6a71ac915dcac2c1b29374caf6"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8346fd6a71ac915dcac2c1b29374caf6"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a8346fd6a71ac915dcac2c1b29374caf6">m_sol_actp</a></td></tr>
+<tr class="memdesc:a8346fd6a71ac915dcac2c1b29374caf6"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of phosphorus stored in the active mineral phosphorus pool <br/></td></tr>
+<tr class="separator:a8346fd6a71ac915dcac2c1b29374caf6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a456192a151623d5aebbcdfd56f3ca8b0"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a456192a151623d5aebbcdfd56f3ca8b0"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a456192a151623d5aebbcdfd56f3ca8b0">m_sol_stap</a></td></tr>
+<tr class="memdesc:a456192a151623d5aebbcdfd56f3ca8b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of phosphorus in the soil layer stored in the stable mineral phosphorus pool <br/></td></tr>
+<tr class="separator:a456192a151623d5aebbcdfd56f3ca8b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af015c18262d571f1d85b74764b772282"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af015c18262d571f1d85b74764b772282"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#af015c18262d571f1d85b74764b772282">m_sol_wsatur</a></td></tr>
+<tr class="memdesc:af015c18262d571f1d85b74764b772282"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of water held in the soil layer at saturation <br/></td></tr>
+<tr class="separator:af015c18262d571f1d85b74764b772282"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a97a50a659b2d78bbefdf2091b37fd323"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a97a50a659b2d78bbefdf2091b37fd323"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a97a50a659b2d78bbefdf2091b37fd323">m_sol_por</a></td></tr>
+<tr class="memdesc:a97a50a659b2d78bbefdf2091b37fd323"><td class="mdescLeft">&#160;</td><td class="mdescRight">porosity mm/mm <br/></td></tr>
+<tr class="separator:a97a50a659b2d78bbefdf2091b37fd323"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab477f1fda17f336b33588ebf021cd89b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab477f1fda17f336b33588ebf021cd89b"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#ab477f1fda17f336b33588ebf021cd89b">m_sand</a></td></tr>
+<tr class="memdesc:ab477f1fda17f336b33588ebf021cd89b"><td class="mdescLeft">&#160;</td><td class="mdescRight">percent sand content of soil material <br/></td></tr>
+<tr class="separator:ab477f1fda17f336b33588ebf021cd89b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad065652fbae7b0eea63892b8e6261d3c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad065652fbae7b0eea63892b8e6261d3c"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#ad065652fbae7b0eea63892b8e6261d3c">m_sol_WOC</a></td></tr>
+<tr class="memdesc:ad065652fbae7b0eea63892b8e6261d3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">output data <br/></td></tr>
+<tr class="separator:ad065652fbae7b0eea63892b8e6261d3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a750b6d80880e17d189105f2de2e2e28e"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a750b6d80880e17d189105f2de2e2e28e"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a750b6d80880e17d189105f2de2e2e28e">m_sol_HS</a></td></tr>
+<tr class="memdesc:a750b6d80880e17d189105f2de2e2e28e"><td class="mdescLeft">&#160;</td><td class="mdescRight">mass of OM in passive humus <br/></td></tr>
+<tr class="separator:a750b6d80880e17d189105f2de2e2e28e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a46fde30ffeb6bda189e0363e3e4f37b7"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a46fde30ffeb6bda189e0363e3e4f37b7"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a46fde30ffeb6bda189e0363e3e4f37b7">m_sol_HSC</a></td></tr>
+<tr class="memdesc:a46fde30ffeb6bda189e0363e3e4f37b7"><td class="mdescLeft">&#160;</td><td class="mdescRight">mass of OM in slow humus <br/></td></tr>
+<tr class="separator:a46fde30ffeb6bda189e0363e3e4f37b7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7041bddbf707197171a0c2c5f9f4e3ff"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a7041bddbf707197171a0c2c5f9f4e3ff"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a7041bddbf707197171a0c2c5f9f4e3ff">m_sol_HSN</a></td></tr>
+<tr class="memdesc:a7041bddbf707197171a0c2c5f9f4e3ff"><td class="mdescLeft">&#160;</td><td class="mdescRight">mass of C present in slow humus <br/></td></tr>
+<tr class="separator:a7041bddbf707197171a0c2c5f9f4e3ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa50aa474f771a226f34874833082053f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa50aa474f771a226f34874833082053f"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#aa50aa474f771a226f34874833082053f">m_sol_HPC</a></td></tr>
+<tr class="memdesc:aa50aa474f771a226f34874833082053f"><td class="mdescLeft">&#160;</td><td class="mdescRight">mass of N present in slow humus <br/></td></tr>
+<tr class="separator:aa50aa474f771a226f34874833082053f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a412d7e031da16487ffaa0d6205525213"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a412d7e031da16487ffaa0d6205525213"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a412d7e031da16487ffaa0d6205525213">m_sol_HPN</a></td></tr>
+<tr class="memdesc:a412d7e031da16487ffaa0d6205525213"><td class="mdescLeft">&#160;</td><td class="mdescRight">mass of C present in passive humus <br/></td></tr>
+<tr class="separator:a412d7e031da16487ffaa0d6205525213"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad898a06f9d17fb3d2f1f442843db7e70"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad898a06f9d17fb3d2f1f442843db7e70"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#ad898a06f9d17fb3d2f1f442843db7e70">m_sol_LM</a></td></tr>
+<tr class="memdesc:ad898a06f9d17fb3d2f1f442843db7e70"><td class="mdescLeft">&#160;</td><td class="mdescRight">mass of N present in passive humus <br/></td></tr>
+<tr class="separator:ad898a06f9d17fb3d2f1f442843db7e70"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad68c4d13afe1ee46e00030850093813c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ad68c4d13afe1ee46e00030850093813c"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#ad68c4d13afe1ee46e00030850093813c">m_sol_LMC</a></td></tr>
+<tr class="memdesc:ad68c4d13afe1ee46e00030850093813c"><td class="mdescLeft">&#160;</td><td class="mdescRight">metabolic litter SOM pool <br/></td></tr>
+<tr class="separator:ad68c4d13afe1ee46e00030850093813c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a48ee0795b34203de0557be0235244e87"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a48ee0795b34203de0557be0235244e87"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a48ee0795b34203de0557be0235244e87">m_sol_LMN</a></td></tr>
+<tr class="memdesc:a48ee0795b34203de0557be0235244e87"><td class="mdescLeft">&#160;</td><td class="mdescRight">metabolic litter C pool <br/></td></tr>
+<tr class="separator:a48ee0795b34203de0557be0235244e87"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f3dd9af2846dc26206d01f6b7426099"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4f3dd9af2846dc26206d01f6b7426099"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a4f3dd9af2846dc26206d01f6b7426099">m_sol_LSC</a></td></tr>
+<tr class="memdesc:a4f3dd9af2846dc26206d01f6b7426099"><td class="mdescLeft">&#160;</td><td class="mdescRight">metabolic litter N pool <br/></td></tr>
+<tr class="separator:a4f3dd9af2846dc26206d01f6b7426099"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4810d2e0bca2618d5f44e2831f7668ae"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a4810d2e0bca2618d5f44e2831f7668ae"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a4810d2e0bca2618d5f44e2831f7668ae">m_sol_LSN</a></td></tr>
+<tr class="memdesc:a4810d2e0bca2618d5f44e2831f7668ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">structural litter C pool <br/></td></tr>
+<tr class="separator:a4810d2e0bca2618d5f44e2831f7668ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a84e7d0314bc7cad2fd5e0f177a90d993"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a84e7d0314bc7cad2fd5e0f177a90d993"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a84e7d0314bc7cad2fd5e0f177a90d993">m_sol_LS</a></td></tr>
+<tr class="memdesc:a84e7d0314bc7cad2fd5e0f177a90d993"><td class="mdescLeft">&#160;</td><td class="mdescRight">structural litter N pool <br/></td></tr>
+<tr class="separator:a84e7d0314bc7cad2fd5e0f177a90d993"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5d31d09c8faaf23157b2738626f3b965"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5d31d09c8faaf23157b2738626f3b965"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a5d31d09c8faaf23157b2738626f3b965">m_sol_LSL</a></td></tr>
+<tr class="memdesc:a5d31d09c8faaf23157b2738626f3b965"><td class="mdescLeft">&#160;</td><td class="mdescRight">structural litter SOM pool <br/></td></tr>
+<tr class="separator:a5d31d09c8faaf23157b2738626f3b965"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9db44a03a19f4b3a3ab0b07a3bb335a3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a9db44a03a19f4b3a3ab0b07a3bb335a3"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a9db44a03a19f4b3a3ab0b07a3bb335a3">m_sol_LSLC</a></td></tr>
+<tr class="memdesc:a9db44a03a19f4b3a3ab0b07a3bb335a3"><td class="mdescLeft">&#160;</td><td class="mdescRight">lignin weight in structural litter <br/></td></tr>
+<tr class="separator:a9db44a03a19f4b3a3ab0b07a3bb335a3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abfe7cf7d5f27bcc9032c7c5a1cfcb12b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="abfe7cf7d5f27bcc9032c7c5a1cfcb12b"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#abfe7cf7d5f27bcc9032c7c5a1cfcb12b">m_sol_LSLNC</a></td></tr>
+<tr class="memdesc:abfe7cf7d5f27bcc9032c7c5a1cfcb12b"><td class="mdescLeft">&#160;</td><td class="mdescRight">lignin amount in structural litter pool <br/></td></tr>
+<tr class="separator:abfe7cf7d5f27bcc9032c7c5a1cfcb12b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5959c5aea9141e8e64fda405be90068a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5959c5aea9141e8e64fda405be90068a"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a5959c5aea9141e8e64fda405be90068a">m_sol_RNMN</a></td></tr>
+<tr class="memdesc:a5959c5aea9141e8e64fda405be90068a"><td class="mdescLeft">&#160;</td><td class="mdescRight">non-lignin part of the structural litter C <br/></td></tr>
+<tr class="separator:a5959c5aea9141e8e64fda405be90068a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12db065cb55b26cb7f0fb18855d478c1"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a12db065cb55b26cb7f0fb18855d478c1"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a12db065cb55b26cb7f0fb18855d478c1">m_sol_RSPC</a></td></tr>
+<tr class="memdesc:a12db065cb55b26cb7f0fb18855d478c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">non <br/></td></tr>
+<tr class="separator:a12db065cb55b26cb7f0fb18855d478c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb190431f988c27aee6d98d75adc7215"><td class="memItemLeft" align="right" valign="top">float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#acb190431f988c27aee6d98d75adc7215">m_hmntl</a></td></tr>
+<tr class="memdesc:acb190431f988c27aee6d98d75adc7215"><td class="mdescLeft">&#160;</td><td class="mdescRight">non  <a href="#acb190431f988c27aee6d98d75adc7215">More...</a><br/></td></tr>
+<tr class="separator:acb190431f988c27aee6d98d75adc7215"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5c4a9287963f8a10d75e0b81464a0488"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a5c4a9287963f8a10d75e0b81464a0488"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a5c4a9287963f8a10d75e0b81464a0488">m_hmptl</a></td></tr>
+<tr class="memdesc:a5c4a9287963f8a10d75e0b81464a0488"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of phosphorus moving from the organic to labile pool in soil profile on current day in cell(kg P/ha) <br/></td></tr>
+<tr class="separator:a5c4a9287963f8a10d75e0b81464a0488"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1411d91189e604e23594a2bd696fe9c4"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a1411d91189e604e23594a2bd696fe9c4"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a1411d91189e604e23594a2bd696fe9c4">m_rmn2tl</a></td></tr>
+<tr class="memdesc:a1411d91189e604e23594a2bd696fe9c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of nitrogen moving from the fresh organic (residue) to the nitrate(80%) and active organic(20%) pools in soil profile on current day in cell(kg N/ha) <br/></td></tr>
+<tr class="separator:a1411d91189e604e23594a2bd696fe9c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a054cfdff2a295dea2a8d13156f713305"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a054cfdff2a295dea2a8d13156f713305"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a054cfdff2a295dea2a8d13156f713305">m_rmptl</a></td></tr>
+<tr class="memdesc:a054cfdff2a295dea2a8d13156f713305"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of phosphorus moving from the fresh organic (residue) to the labile(80%) and organic(20%) pools in soil profile on current day in cell(kg P/ha) <br/></td></tr>
+<tr class="separator:a054cfdff2a295dea2a8d13156f713305"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af1da2a59738151467ae8146d1060c3bd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af1da2a59738151467ae8146d1060c3bd"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#af1da2a59738151467ae8146d1060c3bd">m_rwntl</a></td></tr>
+<tr class="memdesc:af1da2a59738151467ae8146d1060c3bd"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of nitrogen moving from active organic to stable organic pool in soil profile on current day in cell(kg N/ha) <br/></td></tr>
+<tr class="separator:af1da2a59738151467ae8146d1060c3bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a729ad44be197f9cadb6fe2163fa5ba64"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a729ad44be197f9cadb6fe2163fa5ba64"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a729ad44be197f9cadb6fe2163fa5ba64">m_wdntl</a></td></tr>
+<tr class="memdesc:a729ad44be197f9cadb6fe2163fa5ba64"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of nitrogen lost from nitrate pool by denitrification in soil profile on current day in cell(kg N/ha) <br/></td></tr>
+<tr class="separator:a729ad44be197f9cadb6fe2163fa5ba64"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29ab369e5c3cce38d836b985fbfb9c3a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a29ab369e5c3cce38d836b985fbfb9c3a"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a29ab369e5c3cce38d836b985fbfb9c3a">m_rmp1tl</a></td></tr>
+<tr class="memdesc:a29ab369e5c3cce38d836b985fbfb9c3a"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of phosphorus moving from the labile mineral pool to the active mineral pool in the soil profile on the current day in cell(kg P/ha) <br/></td></tr>
+<tr class="separator:a29ab369e5c3cce38d836b985fbfb9c3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab52bd1ac6c51240d628f1de439eefd3"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aab52bd1ac6c51240d628f1de439eefd3"></a>
+float *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#aab52bd1ac6c51240d628f1de439eefd3">m_roctl</a></td></tr>
+<tr class="memdesc:aab52bd1ac6c51240d628f1de439eefd3"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of phosphorus moving from the active mineral pool to the stable mineral pool in the soil profile on the current day in cell(kg P/ha) <br/></td></tr>
+<tr class="separator:aab52bd1ac6c51240d628f1de439eefd3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a0722a21cca9b55ffbe477a05e21b0edd"><td class="memItemLeft" align="right" valign="top">float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a0722a21cca9b55ffbe477a05e21b0edd">m_sol_no3</a></td></tr>
+<tr class="separator:a0722a21cca9b55ffbe477a05e21b0edd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a11f89e2dfdf0a4accbfa9bccc197eacd"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a11f89e2dfdf0a4accbfa9bccc197eacd"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a11f89e2dfdf0a4accbfa9bccc197eacd">m_sol_orgn</a></td></tr>
+<tr class="memdesc:a11f89e2dfdf0a4accbfa9bccc197eacd"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of nitrogen stored in the stable organic N pool(kg N/ha) <br/></td></tr>
+<tr class="separator:a11f89e2dfdf0a4accbfa9bccc197eacd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f63e8a55826f63e40e35b7057a0e93f"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a6f63e8a55826f63e40e35b7057a0e93f"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a6f63e8a55826f63e40e35b7057a0e93f">m_sol_orgp</a></td></tr>
+<tr class="memdesc:a6f63e8a55826f63e40e35b7057a0e93f"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of phosphorus stored in the organic P pool in soil layer(kg P/ha) <br/></td></tr>
+<tr class="separator:a6f63e8a55826f63e40e35b7057a0e93f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8cf6742729969e8e7c6274698d18c7ea"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8cf6742729969e8e7c6274698d18c7ea"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a8cf6742729969e8e7c6274698d18c7ea">m_sol_rsd</a></td></tr>
+<tr class="memdesc:a8cf6742729969e8e7c6274698d18c7ea"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of organic matter in the soil classified as residue(kg/ha) <br/></td></tr>
+<tr class="separator:a8cf6742729969e8e7c6274698d18c7ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa08705f74e49389655801d74a5be1502"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aa08705f74e49389655801d74a5be1502"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#aa08705f74e49389655801d74a5be1502">m_sol_solp</a></td></tr>
+<tr class="memdesc:aa08705f74e49389655801d74a5be1502"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of phosphorus stored in solution(kg P/ha) <br/></td></tr>
+<tr class="separator:aa08705f74e49389655801d74a5be1502"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a72dae8eff1f45fc33e484dd7f7398474"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a72dae8eff1f45fc33e484dd7f7398474"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a72dae8eff1f45fc33e484dd7f7398474">m_sol_nh4</a></td></tr>
+<tr class="memdesc:a72dae8eff1f45fc33e484dd7f7398474"><td class="mdescLeft">&#160;</td><td class="mdescRight">amount of nitrogen stored in the ammonium pool in soil layer(kg/ha) <br/></td></tr>
+<tr class="separator:a72dae8eff1f45fc33e484dd7f7398474"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a22dd0b3709cafc7f7cbe9e8bef38a32a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a22dd0b3709cafc7f7cbe9e8bef38a32a"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a22dd0b3709cafc7f7cbe9e8bef38a32a">m_sol_wpmm</a></td></tr>
+<tr class="memdesc:a22dd0b3709cafc7f7cbe9e8bef38a32a"><td class="mdescLeft">&#160;</td><td class="mdescRight">water content of soil at -1.5 MPa (wilting point) <br/></td></tr>
+<tr class="separator:a22dd0b3709cafc7f7cbe9e8bef38a32a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e12e2441fe6ee6102a0257500f04375"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8e12e2441fe6ee6102a0257500f04375"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a8e12e2441fe6ee6102a0257500f04375">m_wshd_dnit</a></td></tr>
+<tr class="memdesc:a8e12e2441fe6ee6102a0257500f04375"><td class="mdescLeft">&#160;</td><td class="mdescRight">nitrogen lost from nitrate pool due to denitrification in watershed(kg N/ha) <br/></td></tr>
+<tr class="separator:a8e12e2441fe6ee6102a0257500f04375"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a683ff2f8f85cf45f01927120111f17ed"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a683ff2f8f85cf45f01927120111f17ed"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a683ff2f8f85cf45f01927120111f17ed">m_wshd_hmn</a></td></tr>
+<tr class="memdesc:a683ff2f8f85cf45f01927120111f17ed"><td class="mdescLeft">&#160;</td><td class="mdescRight">nitrogen moving from active organic to nitrate pool in watershed(kg N/ha) <br/></td></tr>
+<tr class="separator:a683ff2f8f85cf45f01927120111f17ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6a61b1571b1bdca2f13e301fe16cbde"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ac6a61b1571b1bdca2f13e301fe16cbde"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#ac6a61b1571b1bdca2f13e301fe16cbde">m_wshd_hmp</a></td></tr>
+<tr class="memdesc:ac6a61b1571b1bdca2f13e301fe16cbde"><td class="mdescLeft">&#160;</td><td class="mdescRight">phosphorus moving from organic to labile pool in watershed(kg P/ha) <br/></td></tr>
+<tr class="separator:ac6a61b1571b1bdca2f13e301fe16cbde"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0cfefa0f780f18e43419b4167019593"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="af0cfefa0f780f18e43419b4167019593"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#af0cfefa0f780f18e43419b4167019593">m_wshd_rmn</a></td></tr>
+<tr class="memdesc:af0cfefa0f780f18e43419b4167019593"><td class="mdescLeft">&#160;</td><td class="mdescRight">nitrogen moving from fresh organic (residue) to nitrate and active organic pools in watershed(kg N/ha) <br/></td></tr>
+<tr class="separator:af0cfefa0f780f18e43419b4167019593"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aed7020d2946d9b0a7ab8cc8a33d40fb9"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aed7020d2946d9b0a7ab8cc8a33d40fb9"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#aed7020d2946d9b0a7ab8cc8a33d40fb9">m_wshd_rmp</a></td></tr>
+<tr class="memdesc:aed7020d2946d9b0a7ab8cc8a33d40fb9"><td class="mdescLeft">&#160;</td><td class="mdescRight">phosphorus moving from fresh organic (residue) to labile and organic pools in watershed(kg P/ha) <br/></td></tr>
+<tr class="separator:aed7020d2946d9b0a7ab8cc8a33d40fb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a12a91661827216a8abc98ca3fa76396b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a12a91661827216a8abc98ca3fa76396b"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a12a91661827216a8abc98ca3fa76396b">m_wshd_rwn</a></td></tr>
+<tr class="memdesc:a12a91661827216a8abc98ca3fa76396b"><td class="mdescLeft">&#160;</td><td class="mdescRight">nitrogen moving from active organic to stable organic pool in watershed(kg N/ha) <br/></td></tr>
+<tr class="separator:a12a91661827216a8abc98ca3fa76396b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a232d41db78f0b58b6687b12f627c56b5"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a232d41db78f0b58b6687b12f627c56b5"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a232d41db78f0b58b6687b12f627c56b5">m_wshd_nitn</a></td></tr>
+<tr class="memdesc:a232d41db78f0b58b6687b12f627c56b5"><td class="mdescLeft">&#160;</td><td class="mdescRight">nitrogen moving from active organic to stable organic pool in watershed(kg N/ha) <br/></td></tr>
+<tr class="separator:a232d41db78f0b58b6687b12f627c56b5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8060313972939f8d06f0b5f7c54de8c8"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a8060313972939f8d06f0b5f7c54de8c8"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a8060313972939f8d06f0b5f7c54de8c8">m_wshd_voln</a></td></tr>
+<tr class="memdesc:a8060313972939f8d06f0b5f7c54de8c8"><td class="mdescLeft">&#160;</td><td class="mdescRight">nitrogen moving from active organic to stable organic pool in watershed(kg N/ha) <br/></td></tr>
+<tr class="separator:a8060313972939f8d06f0b5f7c54de8c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab276274a29978c8c9976061c504a941b"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab276274a29978c8c9976061c504a941b"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#ab276274a29978c8c9976061c504a941b">m_wshd_pal</a></td></tr>
+<tr class="memdesc:ab276274a29978c8c9976061c504a941b"><td class="mdescLeft">&#160;</td><td class="mdescRight">phosphorus moving from labile mineral to active mineral pool in watershed <br/></td></tr>
+<tr class="separator:ab276274a29978c8c9976061c504a941b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a686d6000813bdd8afced75822287a96c"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a686d6000813bdd8afced75822287a96c"></a>
+float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#a686d6000813bdd8afced75822287a96c">m_wshd_pas</a></td></tr>
+<tr class="memdesc:a686d6000813bdd8afced75822287a96c"><td class="mdescLeft">&#160;</td><td class="mdescRight">phosphorus moving from active mineral to stable mineral pool in watershed <br/></td></tr>
+<tr class="separator:a686d6000813bdd8afced75822287a96c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab59a50921d0d3f8e9e65edebd4a6882a"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="ab59a50921d0d3f8e9e65edebd4a6882a"></a>
+float **&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../d0/d61/a00302.html#ab59a50921d0d3f8e9e65edebd4a6882a">m_conv_wt</a></td></tr>
+<tr class="memdesc:ab59a50921d0d3f8e9e65edebd4a6882a"><td class="mdescLeft">&#160;</td><td class="mdescRight">factor which converts kg/kg soil to kg/ha, could be used in other nutrient modules <br/></td></tr>
+<tr class="separator:ab59a50921d0d3f8e9e65edebd4a6882a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
+Additional Inherited Members</h2></td></tr>
+<tr class="inherit_header pro_attribs_a00336"><td colspan="2" onclick="javascript:toggleInherit('pro_attribs_a00336')"><img src="../../closed.png" alt="-"/>&#160;Protected Attributes inherited from <a class="el" href="../../dd/d1d/a00336.html">SimulationModule</a></td></tr>
+<tr class="memitem:aabd631c05d3e74aa9970f7415f2f5de7 inherit pro_attribs_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="aabd631c05d3e74aa9970f7415f2f5de7"></a>
+time_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#aabd631c05d3e74aa9970f7415f2f5de7">m_date</a></td></tr>
+<tr class="memdesc:aabd631c05d3e74aa9970f7415f2f5de7 inherit pro_attribs_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">date time <br/></td></tr>
+<tr class="separator:aabd631c05d3e74aa9970f7415f2f5de7 inherit pro_attribs_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:addfe4dd5800efd0bb827338daf65d64c inherit pro_attribs_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="addfe4dd5800efd0bb827338daf65d64c"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#addfe4dd5800efd0bb827338daf65d64c">m_yearIdx</a></td></tr>
+<tr class="memdesc:addfe4dd5800efd0bb827338daf65d64c inherit pro_attribs_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">index of current year of simulation, e.g., the simulation period from 2010 to 2015, m_yearIdx is 2 when simulate 2012. <br/></td></tr>
+<tr class="separator:addfe4dd5800efd0bb827338daf65d64c inherit pro_attribs_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:adee1865c86a9761af76cec98cac30a44 inherit pro_attribs_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="adee1865c86a9761af76cec98cac30a44"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#adee1865c86a9761af76cec98cac30a44">m_tsCounter</a></td></tr>
+<tr class="memdesc:adee1865c86a9761af76cec98cac30a44 inherit pro_attribs_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">sub-timestep counter <br/></td></tr>
+<tr class="separator:adee1865c86a9761af76cec98cac30a44 inherit pro_attribs_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a68422923210ead26b1651bf0e0a339f6 inherit pro_attribs_a00336"><td class="memItemLeft" align="right" valign="top"><a class="anchor" id="a68422923210ead26b1651bf0e0a339f6"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="../../dd/d1d/a00336.html#a68422923210ead26b1651bf0e0a339f6">m_inputsSetDone</a></td></tr>
+<tr class="memdesc:a68422923210ead26b1651bf0e0a339f6 inherit pro_attribs_a00336"><td class="mdescLeft">&#160;</td><td class="mdescRight">Whether the inputs parameters (i.e., parameters derived from other modules) have been set. <br/></td></tr>
+<tr class="separator:a68422923210ead26b1651bf0e0a339f6 inherit pro_attribs_a00336"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
+<div class="textblock"><p>Daily nitrogen and phosphorus mineralization and immobilization. Considering fresh organic material (plant residue) and active and stable humus material. </p>
+
+<p>Definition at line <a class="el" href="../../d9/dbb/a01186_source.html#l00036">36</a> of file <a class="el" href="../../d9/dbb/a01186_source.html">Nutrient_Transformation.h</a>.</p>
+</div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
+<a class="anchor" id="a7c57934ffc3ee12992de97fe5a29b395"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">Nutrient_Transformation::~Nutrient_Transformation </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>release CENTURY related variables </p>
+
+<p>Definition at line <a class="el" href="../../d3/dd3/a01185_source.html#l00036">36</a> of file <a class="el" href="../../d3/dd3/a01185_source.html">Nutrient_Transformation.cpp</a>.</p>
+
 </div>
-<p>然后输入<code>exit</code>退出。</p>
-<h1>2. MongoDB配置</h1>
-<ul>
-<li><p class="startli">**注册MongoDB为系统服务** 以系统管理员身份运行cmd（必须以系统管理员身份运行cmd，否则会报错）：</p>
-<p class="startli">```shell cd E: E: mongo.exe &ndash;dbpath=d: &ndash;logpath=d:.log &ndash;install &ndash;serviceName "MongoDB" ```</p>
-<p class="startli">如果控制台出现类似 <code>Tue Oct 09 12:05:15 Service can be started from the command line with 'net start MongoDB'</code>这样的语句，说明服务已经注册成功。</p>
-</li>
-<li><p class="startli">**启动MongoDB数据库服务** 在cmd中输入:</p>
-<p class="startli">```shell net start MongoDB ``` 即可启动MongoDB数据库服务，此时控制台输出Mongo DB服务已经启动成功，说明系统启动成功。</p>
-<p class="startli">注意：MongoDB的安装目录需全英文且没有空格</p>
-</li>
-<li><b>MongoDB 安装为Windows服务，设置为自动启动</b></li>
-<li><p class="startli">以管理员方式运行cmd,输入以下命令:</p>
-<p class="startli">```shell mongod &ndash;install &ndash;serviceName "MongoDB" &ndash;serviceDisplayName "MongoDB" &ndash;logpath d:.log &ndash;logappend &ndash;dbpath d: &ndash;directoryperdb ```</p>
-<p class="startli">不提示错误即表示设置成功！</p>
-<p class="startli"><code>--install</code>：安装MongoDB服务</p>
-<p class="startli"><code>--serviceName</code>：安装Windows服务时使用的服务名</p>
-<p class="startli"><code>--serviceDisplayName</code>：在Windows服务管理器中显示的服务名</p>
-<p class="startli"><code>--logpath</code>：MongoDB日志输出文件名称。虽说该参数直译是“日志路径”，其实要指定的是一个具体的完整文件名。这里我使用的是C盘根目录下的MongoDB.Log文件。该文件不用事先创建，直接指定就是了。</p>
-<p class="startli"><code>--dbpath</code>：指定MongoDB数据存放的路径。这个就是最关键的参数了，不仅该目录要存在，并且最好不要以“\”结尾。</p>
-<p class="startli"><code>--directoryperdb</code>：这个参数很好理解，让MongoDB按照数据库的不同，针对每一个数据库都建立一个目录，所谓的“目录每数据库”。</p>
-</li>
+</div>
+<h2 class="groupheader">Member Function Documentation</h2>
+<a class="anchor" id="a4704d9c3746551f76ae72ba1ed11742c"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Nutrient_Transformation::CalculatePflux </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Calculate P flux between the labile, active mineral and stable mineral p pools. rewrite from pminrl, and pminrl2 according to solP_model  In current version, the solP_model is set to 0, i.e., pminrl2 is used as default. </p>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+<p>Definition at line <a class="el" href="../../d3/dd3/a01185_source.html#l00818">818</a> of file <a class="el" href="../../d3/dd3/a01185_source.html">Nutrient_Transformation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a36ee884be7bca2128b01799cbfff6c63"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Nutrient_Transformation::CheckInputData </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>check the input data. Make sure all the input data is available. </p>
+<dl class="section return"><dt>Returns</dt><dd>bool The validity of the input data. </dd></dl>
+
+<p>Definition at line <a class="el" href="../../d3/dd3/a01185_source.html#l00091">91</a> of file <a class="el" href="../../d3/dd3/a01185_source.html">Nutrient_Transformation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a79731ee0e265814bb1612130553db131"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">bool Nutrient_Transformation::CheckInputSize </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>check the input size. Make sure all the input data have same dimension. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramdir">[in]</td><td class="paramname">key</td><td>The key of the input data </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">n</td><td>The input data dimension </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>bool The validity of the dimension </dd></dl>
+
+<p>Definition at line <a class="el" href="../../d3/dd3/a01185_source.html#l00074">74</a> of file <a class="el" href="../../d3/dd3/a01185_source.html">Nutrient_Transformation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a8582051ba97b3a82899f431e35d570ce"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">int Nutrient_Transformation::Execute </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Execute the simulation. </p>
+<p>throw exception if Carbon method invalid </p>
+
+<p>Reimplemented from <a class="el" href="../../dd/d1d/a00336.html#aeeec0ab34636df859c0b3116db18942f">SimulationModule</a>.</p>
+
+<p>Definition at line <a class="el" href="../../d3/dd3/a01185_source.html#l00484">484</a> of file <a class="el" href="../../d3/dd3/a01185_source.html">Nutrient_Transformation.cpp</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d0/d61/a00302_a8582051ba97b3a82899f431e35d570ce_cgraph.png" border="0" usemap="#d0/d61/a00302_a8582051ba97b3a82899f431e35d570ce_cgraph" alt=""/></div>
+<map name="d0/d61/a00302_a8582051ba97b3a82899f431e35d570ce_cgraph" id="d0/d61/a00302_a8582051ba97b3a82899f431e35d570ce_cgraph">
+<area shape="rect" id="node2" href="../../d0/d61/a00302.html#a36ee884be7bca2128b01799cbfff6c63" title="check the input data. Make sure all the input data is available. " alt="" coords="313,5,508,51"/><area shape="rect" id="node3" href="../../d0/d61/a00302.html#a010737f95377503fdf98db2cc5f95875" title="initial outputs " alt="" coords="313,75,508,122"/><area shape="rect" id="node4" href="../../d0/d61/a00302.html#aacd51312b7f6535e8feb68acbde08d34" title="estimates daily nitrogen and phosphorus mineralization and immobilization. considering fresh organic ..." alt="" coords="295,147,527,211"/><area shape="rect" id="node5" href="../../d0/d61/a00302.html#a9a207cc85c711b33e18b10097357eec1" title="simulates organic C, N, and P cycling in soil using C&#45;FARM one carbon model Execute when CSWAT = 1..." alt="" coords="249,235,573,282"/><area shape="rect" id="node6" href="../../d0/d61/a00302.html#a35ed6fa9c66388fe72158bcdc947ff3b" title="simulates organic C, N, and P cycling in soil using CENTURY model Execute when CSWAT = 2..." alt="" coords="279,306,542,353"/><area shape="rect" id="node7" href="../../d0/d61/a00302.html#a89802a658801c65eda196eb92b50df55" title="estimates daily mineralization (NH3 to NO3) and volatilization of NH3. rewrite from nitvol..." alt="" coords="313,377,508,423"/><area shape="rect" id="node8" href="../../d0/d61/a00302.html#a4704d9c3746551f76ae72ba1ed11742c" title="Calculate P flux between the labile, active mineral and stable mineral p pools. rewrite from pminrl..." alt="" coords="313,447,508,494"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a5c44da6ed634f58657d4dc407cf5c3f7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Nutrient_Transformation::Get2DData </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>nRows</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int *&#160;</td>
+          <td class="paramname"><em>nCols</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float ***&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get 2D data, by default, DT_Raster2D. </p>
+<p>2-CENTURY C/N cycling related variables </p>
+
+<p>Reimplemented from <a class="el" href="../../dd/d1d/a00336.html#ab6dc960ad0a7bd7714e9644b64dc0acb">SimulationModule</a>.</p>
+
+<p>Definition at line <a class="el" href="../../d3/dd3/a01185_source.html#l01494">1494</a> of file <a class="el" href="../../d3/dd3/a01185_source.html">Nutrient_Transformation.cpp</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d0/d61/a00302_a5c44da6ed634f58657d4dc407cf5c3f7_cgraph.png" border="0" usemap="#d0/d61/a00302_a5c44da6ed634f58657d4dc407cf5c3f7_cgraph" alt=""/></div>
+<map name="d0/d61/a00302_a5c44da6ed634f58657d4dc407cf5c3f7_cgraph" id="d0/d61/a00302_a5c44da6ed634f58657d4dc407cf5c3f7_cgraph">
+<area shape="rect" id="node2" href="../../d0/d61/a00302.html#a010737f95377503fdf98db2cc5f95875" title="initial outputs " alt="" coords="248,5,443,51"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a010737f95377503fdf98db2cc5f95875"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Nutrient_Transformation::initialOutputs </td>
+          <td>(</td>
+          <td class="paramtype">void&#160;</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>initial outputs </p>
+<p>initialize m_conv_wt</p>
+<p>if m_sol_no3 is not provided, { initialize it.</p>
+<p>if m_sol_orgn is not provided, { initialize it.</p>
+<p>definition of temporary parameters</p>
+<p>soil mass in each layer, kg/ha</p>
+<p>mineral nitrogen, kg/ha</p>
+<p>fraction of Mirobial biomass, humus passive C pools</p>
+<p>same as sol_aorgn </p>
+
+<p>Definition at line <a class="el" href="../../d3/dd3/a01185_source.html#l00254">254</a> of file <a class="el" href="../../d3/dd3/a01185_source.html">Nutrient_Transformation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a35ed6fa9c66388fe72158bcdc947ff3b"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Nutrient_Transformation::Mineralization_CENTURYModel </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>simulates organic C, N, and P cycling in soil using CENTURY model Execute when CSWAT = 2, rewrite from carbon_zhang.f90 and ndenit.f of SWAT </p>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<p>update tillage related variables if stated. Code from subbasin.f of SWAT, line 153-164 if CENTURY model, and tillage operation has been operated</p>
+<p>calculate tillage factor using DSSAT</p>
+<p>calculate C/N dynamics for each soil layer</p>
+<p>cdg = m_sote[i] / (m_sote[i] + exp(5.058459f - 0.2503591f * m_sote[i])); </p>
+
+<p>Definition at line <a class="el" href="../../d3/dd3/a01185_source.html#l00981">981</a> of file <a class="el" href="../../d3/dd3/a01185_source.html">Nutrient_Transformation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a9a207cc85c711b33e18b10097357eec1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Nutrient_Transformation::Mineralization_CFARMOneCarbonModel </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>simulates organic C, N, and P cycling in soil using C-FARM one carbon model Execute when CSWAT = 1, rewrite from carbon_new.f and ndenit.f of SWAT  THIS IS ON THE TODO LIST. </p>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<p>TODO </p>
+
+<p>Definition at line <a class="el" href="../../d3/dd3/a01185_source.html#l00726">726</a> of file <a class="el" href="../../d3/dd3/a01185_source.html">Nutrient_Transformation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aacd51312b7f6535e8feb68acbde08d34"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Nutrient_Transformation::Mineralization_StaticCarbonMethod </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>estimates daily nitrogen and phosphorus mineralization and immobilization. considering fresh organic material (plant residue) and active and stable humus material Execute when CSWAT = 0, rewrite from nminrl.f of SWAT </p>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+<p>Definition at line <a class="el" href="../../d3/dd3/a01185_source.html#l00540">540</a> of file <a class="el" href="../../d3/dd3/a01185_source.html">Nutrient_Transformation.cpp</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acae00caea54f903955fea1534f466ac1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Nutrient_Transformation::Set1DData </td>
+          <td>(</td>
+          <td class="paramtype">const char *&#160;</td>
+          <td class="paramname"><em>key</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">float *&#160;</td>
+          <td class="paramname"><em>data</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Set 1D data, by default, DT_Raster1D. </p>
+<p>tillage related variables of CENTURY model </p>
+
+<p>Reimplemented from <a class="el" href="../../dd/d1d/a00336.html#aba2d6fc2b0e4f8ccf202e0752c45d55c">SimulationModule</a>.</p>
+
+<p>Definition at line <a class="el" href="../../d3/dd3/a01185_source.html#l00206">206</a> of file <a class="el" href="../../d3/dd3/a01185_source.html">Nutrient_Transformation.cpp</a>.</p>
+
+<p><div class="dynheader">
+Here is the call graph for this function:</div>
+<div class="dyncontent">
+<div class="center"><img src="../../d0/d61/a00302_acae00caea54f903955fea1534f466ac1_cgraph.png" border="0" usemap="#d0/d61/a00302_acae00caea54f903955fea1534f466ac1_cgraph" alt=""/></div>
+<map name="d0/d61/a00302_acae00caea54f903955fea1534f466ac1_cgraph" id="d0/d61/a00302_acae00caea54f903955fea1534f466ac1_cgraph">
+<area shape="rect" id="node2" href="../../d0/d61/a00302.html#a79731ee0e265814bb1612130553db131" title="check the input size. Make sure all the input data have same dimension. " alt="" coords="248,5,443,51"/></map>
+</div>
+</p>
+
+</div>
+</div>
+<a class="anchor" id="a89802a658801c65eda196eb92b50df55"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void Nutrient_Transformation::Volatilization </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>i</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>estimates daily mineralization (NH3 to NO3) and volatilization of NH3. rewrite from nitvol.f of SWAT </p>
+<dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+
+<p>Definition at line <a class="el" href="../../d3/dd3/a01185_source.html#l00730">730</a> of file <a class="el" href="../../d3/dd3/a01185_source.html">Nutrient_Transformation.cpp</a>.</p>
+
+</div>
+</div>
+<h2 class="groupheader">Member Data Documentation</h2>
+<a class="anchor" id="a0f739e89917bd542e2199d21973b80f7"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float Nutrient_Transformation::m_cmn</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>input data </p>
+<p>rate factor for humus mineralization on active organic N </p>
+
+<p>Definition at line <a class="el" href="../../d9/dbb/a01186_source.html#l00091">91</a> of file <a class="el" href="../../d9/dbb/a01186_source.html">Nutrient_Transformation.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="acb190431f988c27aee6d98d75adc7215"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float* Nutrient_Transformation::m_hmntl</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>non </p>
+<p>amount of nitrogen moving from active organic to nitrate pool in soil profile on current day in cell(kg N/ha) </p>
+
+<p>Definition at line <a class="el" href="../../d9/dbb/a01186_source.html#l00177">177</a> of file <a class="el" href="../../d9/dbb/a01186_source.html">Nutrient_Transformation.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="aac59f949da489f35cfbde39dc60c3ce2"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float* Nutrient_Transformation::m_rsdco_pl</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>plant residue decomposition coefficient. The fraction of residue which will decompose in a day assuming optimal moisture, temperature, C:N ratio, and C:P ratio </p>
+
+<p>Definition at line <a class="el" href="../../d9/dbb/a01186_source.html#l00105">105</a> of file <a class="el" href="../../d9/dbb/a01186_source.html">Nutrient_Transformation.h</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a0722a21cca9b55ffbe477a05e21b0edd"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">float** Nutrient_Transformation::m_sol_no3</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>input &amp; output data amount of nitrogen stored in the nitrate pool in soil layer(kg N/ha) </p>
+
+<p>Definition at line <a class="el" href="../../d9/dbb/a01186_source.html#l00195">195</a> of file <a class="el" href="../../d9/dbb/a01186_source.html">Nutrient_Transformation.h</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>seims/src/seims_main/modules/nutrient/NUTR_TF/<a class="el" href="../../d9/dbb/a01186_source.html">Nutrient_Transformation.h</a></li>
+<li>seims/src/seims_main/modules/nutrient/NUTR_TF/<a class="el" href="../../d3/dd3/a01185_source.html">Nutrient_Transformation.cpp</a></li>
 </ul>
-<h1>3. MongoVUE</h1>
-<p>详见<a href="../../Windows#（2）-mongodb及mongovue">MongoDB及MongoVUE</a></p>
-<p>Good luck! </p>
-</div></div><!-- contents -->
+</div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:46 for SEIMS by
+    <li class="navelem"><a class="el" href="../../d0/d61/a00302.html">Nutrient_Transformation</a></li>
+    <li class="footer">Generated on Fri Aug 11 2017 13:26:05 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

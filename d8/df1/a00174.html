@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: V1_5_XcodeGuide</title>
+<title>SEIMS: SEIMS 模型配置、运行及率定</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,72 +106,87 @@ $(document).ready(function(){initNavTree('d8/df1/a00174.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">V1_5_XcodeGuide </div>  </div>
+<div class="title">SEIMS 模型配置、运行及率定 </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This guide will explain how to use the Google Testing Framework in your Xcode projects on Mac OS X. This tutorial begins by quickly explaining what to do for experienced users. After the quick start, the guide goes provides additional explanation about each step.</p>
-<h1>Quick Start</h1>
-<p>Here is the quick guide for using Google Test in your Xcode project.</p>
+<div class="textblock"><h2>1. 模型配置</h2>
+<p>一个完整的SEIMS模型包括MongoDB数据库、模块配置文件config.fig、模拟时间步长和模拟时段文件file.in、参数输出设置文件file.out。</p>
+<h3>1.1 MongoDB数据库</h3>
+<p>通过[数据预处理](Data-preprocess)，我们得到了SEIMS运行依赖的MongoDB数据库，其中包括气象数据库和参数数据库。</p>
 <ol type="1">
-<li>Download the source from the <a href="http://code.google.com/p/googletest">website</a> using this command: <code>svn checkout <a href="http://googletest.googlecode.com/svn/trunk/">http://googletest.googlecode.com/svn/trunk/</a> googletest-read-only</code></li>
-</ol>
-<ol type="1">
-<li>Open up the <code>gtest.xcodeproj</code> in the <code>googletest-read-only/xcode/</code> directory and build the gtest.framework.</li>
-</ol>
-<ol type="1">
-<li>Create a new "Shell Tool" target in your Xcode project called something like "UnitTests"</li>
-</ol>
-<ol type="1">
-<li>Add the gtest.framework to your project and add it to the "Link Binary with Libraries" build phase of "UnitTests"</li>
-</ol>
-<ol type="1">
-<li>Add your unit test source code to the "Compile Sources" build phase of "UnitTests"</li>
-</ol>
-<ol type="1">
-<li>Edit the "UnitTests" executable and add an environment variable named "DYLD\_FRAMEWORK\_PATH" with a value equal to the path to the framework containing the gtest.framework relative to the compiled executable.</li>
-</ol>
-<ol type="1">
-<li>Build and Go</li>
-</ol>
-<p>The following sections further explain each of the steps listed above in depth, describing in more detail how to complete it including some variations.</p>
-<h1>Get the Source</h1>
-<p>Currently, the gtest.framework discussed here isn't available in a tagged release of Google Test, it is only available in the trunk. As explained at the Google Test [site](<a href="http://code.google.com/p/googletest/source/checkout">http://code.google.com/p/googletest/source/checkout</a>"&gt;svn), you can get the code from anonymous SVN with this command:</p>
-<p>``` svn checkout <a href="http://googletest.googlecode.com/svn/trunk/">http://googletest.googlecode.com/svn/trunk/</a> googletest-read-only ```</p>
-<p>Alternatively, if you are working with Subversion in your own code base, you can add Google Test as an external dependency to your own Subversion repository. By following this approach, everyone that checks out your svn repository will also receive a copy of Google Test (a specific version, if you wish) without having to check it out explicitly. This makes the set up of your project simpler and reduces the copied code in the repository.</p>
-<p>To use <code>svn:externals</code>, decide where you would like to have the external source reside. You might choose to put the external source inside the trunk, because you want it to be part of the branch when you make a release. However, keeping it outside the trunk in a version-tagged directory called something like <code>third-party/googletest/1.0.1</code>, is another option. Once the location is established, use <code>svn propedit svn:externals _directory_</code> to set the svn:externals property on a directory in your repository. This directory won't contain the code, but be its versioned parent directory.</p>
-<p>The command <code>svn propedit</code> will bring up your Subversion editor, making editing the long, (potentially multi-line) property simpler. This same method can be used to check out a tagged branch, by using the appropriate URL (e.g. <code><a href="http://googletest.googlecode.com/svn/tags/release-1.0.1">http://googletest.googlecode.com/svn/tags/release-1.0.1</a></code>). Additionally, the svn:externals property allows the specification of a particular revision of the trunk with the <code>-r_##_</code> option (e.g. <code>externals/src/googletest -r60 <a href="http://googletest.googlecode.com/svn/trunk">http://googletest.googlecode.com/svn/trunk</a></code>).</p>
-<p>Here is an example of using the svn:externals properties on a trunk (read via <code>svn propget</code>) of a project. This value checks out a copy of Google Test into the <code>trunk/externals/src/googletest/</code> directory.</p>
-<p>``` [Computer:svn] user$ svn propget svn:externals trunk externals/src/googletest <a href="http://googletest.googlecode.com/svn/trunk">http://googletest.googlecode.com/svn/trunk</a> ```</p>
-<h1>Add the Framework to Your Project</h1>
-<p>The next step is to build and add the gtest.framework to your own project. This guide describes two common ways below.</p>
-<ul>
-<li><b>Option 1</b> &mdash; The simplest way to add Google Test to your own project, is to open gtest.xcodeproj (found in the xcode/ directory of the Google Test trunk) and build the framework manually. Then, add the built framework into your project using the "Add-&gt;Existing Framework..." from the context menu or "Project-&gt;Add..." from the main menu. The gtest.framework is relocatable and contains the headers and object code that you'll need to make tests. This method requires rebuilding every time you upgrade Google Test in your project.</li>
-<li><b>Option 2</b> &mdash; If you are going to be living off the trunk of Google Test, incorporating its latest features into your unit tests (or are a Google Test developer yourself). You'll want to rebuild the framework every time the source updates. to do this, you'll need to add the gtest.xcodeproj file, not the framework itself, to your own Xcode project. Then, from the build products that are revealed by the project's disclosure triangle, you can find the gtest.framework, which can be added to your targets (discussed below).</li>
+<li>气象数据库：降水和气象数据</li>
+<li>参数数据库：以模型名称命名，包括下面几个表：<ul>
+<li>parameters：包含模型的各个输入参数的信息，可以通过调整Impact参数进行调参</li>
+<li>reaches：河道相关属性信息</li>
+<li>SiteList：模拟所需的降水和气象站点</li>
+<li>Spatial：模拟所需的栅格数据、气象插值权重数据等，以<code>GridFS</code>方式存储</li>
 </ul>
-<h1>Make a Test Target</h1>
-<p>To start writing tests, make a new "Shell Tool" target. This target template is available under BSD, Cocoa, or Carbon. Add your unit test source code to the "Compile Sources" build phase of the target.</p>
-<p>Next, you'll want to add gtest.framework in two different ways, depending upon which option you chose above.</p>
+</li>
+</ol>
+<h3>1.2 config.fig</h3>
+<p>模型运行所需的模块列表，SEIMS按照顺序依次加载指定的各个模块，在每个模拟时间步长内顺序执行。</p>
+<p>通用格式为： ``` </p>
+<h3>FORMAT</h3>
+<h3>MODULE CLASS NO. | PROCESS NAME | METHOD NAME | MODULE ID</h3>
+<p>i.e. #0 | Climate 0 | TimeSeries | | TSD_RD 0 | Interpolation | Thiessen_0 | ITP 0 | PET | Hargreaves | PET_H ```</p>
+<blockquote class="doxtable">
+<p>以::开头的为注视行；允许有空行</p>
+<p></p>
+</blockquote>
+<h3>1.3 file.in</h3>
+<p>设置SEIMS模型运行的:</p>
 <ul>
-<li><b>Option 1</b> &mdash; During compilation, Xcode will need to know that you are linking against the gtest.framework. Add the gtest.framework to the "Link Binary with Libraries" build phase of your test target. This will include the Google Test headers in your header search path, and will tell the linker where to find the library.</li>
-<li><b>Option 2</b> &mdash; If your working out of the trunk, you'll also want to add gtest.framework to your "Link Binary with Libraries" build phase of your test target. In addition, you'll want to add the gtest.framework as a dependency to your unit test target. This way, Xcode will make sure that gtest.framework is up to date, every time your build your target. Finally, if you don't share build directories with Google Test, you'll have to copy the gtest.framework into your own build products directory using a "Run Script" build phase.</li>
+<li>MODE：<code>Daily</code>指日尺度模型；<code>Storm</code>指次降水模型；</li>
+<li>Interval：步长，如果为Daily模拟，步长默认为1天，不可修改；如果为Storm模拟，步长单位为秒，可以分别指定坡面过程和河道过程的模拟步长，如“60, 60”指定次降水模拟的坡面和河道过程步长都是60s；</li>
+<li>STARTTIME:模拟开始时间,格式：YYYY-MM-DD HH:MM:SS</li>
+<li>ENDTIME:模拟结束时间</li>
 </ul>
-<h1>Set Up the Executable Run Environment</h1>
-<p>Since the unit test executable is a shell tool, it doesn't have a bundle with a <code>Contents/Frameworks</code> directory, in which to place gtest.framework. Instead, the dynamic linker must be told at runtime to search for the framework in another location. This can be accomplished by setting the "DYLD\_FRAMEWORK\_PATH" environment variable in the "Edit Active Executable ..." Arguments tab, under "Variables to be set in the environment:". The path for this value is the path (relative or absolute) of the directory containing the gtest.framework.</p>
-<p>If you haven't set up the DYLD_FRAMEWORK_PATH, correctly, you might get a message like this:</p>
-<p>``` [Session started at 2008-08-15 06:23:57 -0600.] dyld: Library not loaded: /../Frameworks/gtest.framework/Versions/A/gtest Referenced from: /Users/username/Documents/Sandbox/gtestSample/build/Debug/WidgetFrameworkTest Reason: image not found ```</p>
-<p>To correct this problem, got to the directory containing the executable named in "Referenced from:" value in the error message above. Then, with the terminal in this location, find the relative path to the directory containing the gtest.framework. That is the value you'll need to set as the DYLD_FRAMEWORK_PATH.</p>
-<h1>Build and Go</h1>
-<p>Now, when you click "Build and Go", the test will be executed. Dumping out something like this:</p>
-<p>``` [Session started at 2008-08-06 06:36:13 -0600.] [==========] Running 2 tests from 1 test case. [-------&mdash;] Global test environment set-up. [-------&mdash;] 2 tests from WidgetInitializerTest [ RUN ] WidgetInitializerTest.TestConstructor [ OK ] WidgetInitializerTest.TestConstructor [ RUN ] WidgetInitializerTest.TestConversion [ OK ] WidgetInitializerTest.TestConversion [-------&mdash;] Global test environment tear-down [==========] 2 tests from 1 test case ran. [ PASSED ] 2 tests.</p>
-<p>The Debugger has exited with status 0. ```</p>
-<h1>Summary</h1>
-<p>Unit testing is a valuable way to ensure your data model stays valid even during rapid development or refactoring. The Google Testing Framework is a great unit testing framework for C and C++ which integrates well with an Xcode development environment. </p>
+<p>如：</p>
+<p>``` MODE|Daily INTERVAL|1 STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-12-31 00:00:00 ```</p>
+<h3>1.4 file.out</h3>
+<p>指定模型输出变量相关信息，基本格式为：</p>
+<p>``` </p>
+<h3>FORMAT: TAG | VALUE</h3>
+<h3>ALL AVAILABLE TAGS:</h3>
+<h3>OUTPUTID : VARIABLE NAME FOR OUTPUT</h3>
+<h3>COUNT : OUTPUT NUMBER, e.g., 2 WHEN OUTPUT PET WITH AGGREGATION TYPE OF SUM AND MEAN.</h3>
+<h3>TYPE : DATA AGGREGATION TYPE, e.g., SUM, AVE, MAX, etc.</h3>
+<h3>STARTTIME : DATA DERIVED TIME START</h3>
+<h3>ENDTIME : DATA DERIVED TIME END</h3>
+<h3>FILENAME : OUTPUT FILENAME WITH SUFFIX, e.g., txt, asc, tif.</h3>
+<p>```</p>
+<p>例如，希望输出模拟时段内降水总量，则<code>OUTPUTID</code>为<code>D_P</code>,<code>TYPE</code>为<code>SUM</code>，如下：</p>
+<p>``` </p>
+<h3>0 HydroClimate</h3>
+<h2>Precipitation</h2>
+<p>OUTPUTID|D_P COUNT | 1 TYPE | SUM STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-12-31 00:00:00 FILENAME | PREC_SUM.tif ```</p>
+<h2>2. 运行</h2>
+<ul>
+<li>SEIMS_OMP版本调用格式为：</li>
+</ul>
+<p>``` seims_omp &lt;ModelPath&gt; &lt;threadsNum&gt; [&lt;layeringMethod&gt; &lt;IP&gt; &lt;port&gt;] ``` 其中：</p>
+<p>&lt;ModelPath&gt; 为模型路径，必需</p>
+<p>&lt;threadsNum&gt; 为OMP并行线程数，必需，大于1</p>
+<p>&lt;layeringMethod&gt; 为栅格分层方法，0或1，分别代表UP_DOWN和DOWN_UP，可选，默认为0</p>
+<p>&lt;IP&gt; 为MongoDB的IP地址，可选，默认为本机</p>
+<p>&lt;port&gt; 为MongoDB端口号，可选，默认为27017</p>
+<p>&gt;注意：&lt;ModelPath&gt;的文件夹名称需与MongoDB中数据库名称对应，且文件夹内需包含<code>config.fig</code>、<code>file.in</code>、<code>file.out</code>。</p>
+<ul>
+<li>SEIMS_MPI版本调用格式为：</li>
+</ul>
+<p>``` mpiexec –n 6 seims &lt;parallel.config file&gt; ```</p>
+<p>其中：</p>
+<p>-n 6 指定并行计算的进程数</p>
+<p>&lt;parallel.config file&gt; 为配置文件，包含 </p>
+<pre class="fragment">ModelName，ProjectPath，ModulePath，DBHost，DBPort，TreadNumber，LayeringMethod
+</pre><h2>3. 率定</h2>
+<p>TO BE CONTINUED！ </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:45 for SEIMS by
+    <li class="footer">Generated on Fri Aug 11 2017 13:26:03 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

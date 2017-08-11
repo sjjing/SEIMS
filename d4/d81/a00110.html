@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: DevGuide</title>
+<title>SEIMS: Python环境配置</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,93 +106,88 @@ $(document).ready(function(){initNavTree('d4/d81/a00110.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">DevGuide </div>  </div>
+<div class="title">Python环境配置 </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>If you are interested in understanding the internals of Google Mock, building from source, or contributing ideas or modifications to the project, then this document is for you.</p>
-<h1>Introduction</h1>
-<p>First, let's give you some background of the project.</p>
-<h2>Licensing</h2>
-<p>All Google Mock source and pre-built packages are provided under the <a href="http://www.opensource.org/licenses/bsd-license.php">New BSD License</a>.</p>
-<h2>The Google Mock Community</h2>
-<p>The Google Mock community exists primarily through the <a href="http://groups.google.com/group/googlemock">discussion group</a>, the <a href="https://github.com/google/googletest/issues">issue tracker</a> and, to a lesser extent, the <a href="../../../">source control repository</a>. You are definitely encouraged to contribute to the discussion and you can also help us to keep the effectiveness of the group high by following and promoting the guidelines listed here.</p>
-<h3>Please Be Friendly</h3>
-<p>Showing courtesy and respect to others is a vital part of the Google culture, and we strongly encourage everyone participating in Google Mock development to join us in accepting nothing less. Of course, being courteous is not the same as failing to constructively disagree with each other, but it does mean that we should be respectful of each other when enumerating the 42 technical reasons that a particular proposal may not be the best choice. There's never a reason to be antagonistic or dismissive toward anyone who is sincerely trying to contribute to a discussion.</p>
-<p>Sure, C++ testing is serious business and all that, but it's also a lot of fun. Let's keep it that way. Let's strive to be one of the friendliest communities in all of open source.</p>
-<h3>Where to Discuss Google Mock</h3>
-<p>As always, discuss Google Mock in the official <a href="http://groups.google.com/group/googlemock">Google C++ Mocking Framework discussion group</a>. You don't have to actually submit code in order to sign up. Your participation itself is a valuable contribution.</p>
-<h1>Working with the Code</h1>
-<p>If you want to get your hands dirty with the code inside Google Mock, this is the section for you.</p>
-<h2>Checking Out the Source from Subversion</h2>
-<p>Checking out the Google Mock source is most useful if you plan to tweak it yourself. You check out the source for Google Mock using a <a href="http://subversion.tigris.org/">Subversion</a> client as you would for any other project hosted on Google Code. Please see the instruction on the <a href="../../../">source code access page</a> for how to do it.</p>
-<h2>Compiling from Source</h2>
-<p>Once you check out the code, you can find instructions on how to compile it in the ../README.md "README" file.</p>
-<h2>Testing</h2>
-<p>A mocking framework is of no good if itself is not thoroughly tested. Tests should be written for any new code, and changes should be verified to not break existing tests before they are submitted for review. To perform the tests, follow the instructions in <a href="http://code.google.com/p/googlemock/source/browse/trunk/README">README</a> and verify that there are no failures.</p>
-<h1>Contributing Code</h1>
-<p>We are excited that Google Mock is now open source, and hope to get great patches from the community. Before you fire up your favorite IDE and begin hammering away at that new feature, though, please take the time to read this section and understand the process. While it seems rigorous, we want to keep a high standard of quality in the code base.</p>
-<h2>Contributor License Agreements</h2>
-<p>You must sign a Contributor License Agreement (CLA) before we can accept any code. The CLA protects you and us.</p>
-<ul>
-<li>If you are an individual writing original source code and you're sure you own the intellectual property, then you'll need to sign an <a href="http://code.google.com/legal/individual-cla-v1.0.html">individual CLA</a>.</li>
-<li>If you work for a company that wants to allow you to contribute your work to Google Mock, then you'll need to sign a <a href="http://code.google.com/legal/corporate-cla-v1.0.html">corporate CLA</a>.</li>
-</ul>
-<p>Follow either of the two links above to access the appropriate CLA and instructions for how to sign and return it.</p>
-<h2>Coding Style</h2>
-<p>To keep the source consistent, readable, diffable and easy to merge, we use a fairly rigid coding style, as defined by the <a href="https://github.com/google/styleguide">google-styleguide</a> project. All patches will be expected to conform to the style outlined <a href="https://github.com/google/styleguide/blob/gh-pages/cppguide.xml">here</a>.</p>
-<h2>Submitting Patches</h2>
-<p>Please do submit code. Here's what you need to do:</p>
-<ol type="1">
-<li>Normally you should make your change against the SVN trunk instead of a branch or a tag, as the latter two are for release control and should be treated mostly as read-only.</li>
-</ol>
-<ol type="1">
-<li>Decide which code you want to submit. A submission should be a set of changes that addresses one issue in the <a href="http://code.google.com/p/googlemock/issues/list">Google Mock issue tracker</a>. Please don't mix more than one logical change per submittal, because it makes the history hard to follow. If you want to make a change that doesn't have a corresponding issue in the issue tracker, please create one.</li>
-</ol>
-<ol type="1">
-<li>Also, coordinate with team members that are listed on the issue in question. This ensures that work isn't being duplicated and communicating your plan early also generally leads to better patches.</li>
-</ol>
-<ol type="1">
-<li>Ensure that your code adheres to the Google Mock source code style.</li>
-</ol>
-<ol type="1">
-<li>Ensure that there are unit tests for your code.</li>
-</ol>
-<ol type="1">
-<li>Sign a Contributor License Agreement.</li>
-</ol>
-<ol type="1">
-<li>Create a patch file using <code>svn diff</code>.</li>
-</ol>
-<ol type="1">
-<li>We use <a href="http://codereview.appspot.com/">Rietveld</a> to do web-based code reviews. You can read about the tool <a href="https://github.com/rietveld-codereview/rietveld/wiki">here</a>. When you are ready, upload your patch via Rietveld and notify <code>googlemock@googlegroups.com</code> to review it. There are several ways to upload the patch. We recommend using the <a href="../../../scripts/upload_gmock.py">upload\_gmock.py</a> script, which you can find in the <code>scripts/</code> folder in the SVN trunk.</li>
-</ol>
-<h2>Google Mock Committers</h2>
-<p>The current members of the Google Mock engineering team are the only committers at present. In the great tradition of eating one's own dogfood, we will be requiring each new Google Mock engineering team member to earn the right to become a committer by following the procedures in this document, writing consistently great code, and demonstrating repeatedly that he or she truly gets the zen of Google Mock.</p>
-<h1>Release Process</h1>
-<p>We follow the typical release process for Subversion-based projects:</p>
-<ol type="1">
-<li>A release branch named <code>release-X.Y</code> is created.</li>
-</ol>
-<ol type="1">
-<li>Bugs are fixed and features are added in trunk; those individual patches are merged into the release branch until it's stable.</li>
-</ol>
-<ol type="1">
-<li>An individual point release (the <code>Z</code> in <code>X.Y.Z</code>) is made by creating a tag from the branch.</li>
-</ol>
-<ol type="1">
-<li>Repeat steps 2 and 3 throughout one release cycle (as determined by features or time).</li>
-</ol>
-<ol type="1">
-<li>Go back to step 1 to create another release branch and so on.</li>
-</ol>
+<div class="textblock"><p>by Huiran Gao, Liang-Jun Zhu</p>
+<p>Latest Updated：May.31, 2016 </p>
 <hr/>
-<p>This page is based on the <a href="http://code.google.com/webtoolkit/makinggwtbetter.html">Making GWT Better</a> guide from the <a href="http://code.google.com/webtoolkit/">Google Web Toolkit</a> project. Except as otherwise <a href="http://code.google.com/policies.html#restrictions">noted</a>, the content of this page is licensed under the <a href="http://creativecommons.org/licenses/by/2.5/">Creative Commons Attribution 2.5 License</a>. </p>
+<h1>目录</h1>
+<p><a href="../../#1-gdal（独立于python）安装">**1. GDAL（独立于Python）安装**</a></p>
+<p><a href="../../#2-python脚本依赖库安装">**2. Python脚本依赖库安装**</a></p>
+<ol type="1">
+<li><a href="../../#i-pip安装">pip安装</a></li>
+<li><a href="../../#ii-使用pip安装whl依赖库">使用pip安装whl依赖库</a></li>
+</ol>
+<p><a href="../../#3-最好用的python编辑器之一--pycharm介绍">**3. 最好用的Python编辑器之一--PyCharm介绍**</a></p>
+<h1>1. GDAL（独立于Python）安装</h1>
+<p>下载并安装gdal-111-1600-x64-core.msi</p>
+<ul>
+<li>链接一: <a href="http://pan.baidu.com/s/1c0saqQW">http://pan.baidu.com/s/1c0saqQW</a> 提取码: ggbj</li>
+<li>链接二：<a href="http://download.gisinternals.com/sdk/downloads/release-1600-x64-gdal-1-11-1-mapserver-6-4-1/gdal-111-1600-x64-core.msi">http://download.gisinternals.com/sdk/downloads/release-1600-x64-gdal-1-11-1-mapserver-6-4-1/gdal-111-1600-x64-core.msi</a></li>
+</ul>
+<p>下载完成后，安装GDAL，一路 Next 就可以，安装路径设为<code>C:\Program Files\GDAL</code>，完成后，在环境变量里新建GDAL_DATA项，值设置为<code>C:\Program Files\GDAL\gdal-data</code></p>
+<p><a href="../../#目录">返回目录</a></p>
+<h1>2. Python脚本依赖库安装</h1>
+<p>SEIMS预处理程序Python (python 2.7版本)依赖包集合下载：</p>
+<ul>
+<li>Python x64, <a href="http://pan.baidu.com/s/1dF9GiYl">百度云盘</a>, 提取码：z2ia</li>
+<li>Python x32, <a href="http://pan.baidu.com/s/1qY7XNw4">百度云盘</a>, 提取码：6cap</li>
+</ul>
+<blockquote class="doxtable">
+<p>注意，这里的64位或者32位指的是Python的版本，而非Windows版本</p>
+<p></p>
+</blockquote>
+<h2>i. pip安装</h2>
+<ul>
+<li><p class="startli">离线安装pip</p>
+<p class="startli">离线安装pip需要下载setuptools和pip并解压</p>
+<p class="startli">随后，管理员方式运行cmd，输入以下命令：</p>
+<p class="startli">```shell cd &lt;setuptools path&gt;=""&gt; python setup.py install cd &lt;pip path&gt;=""&gt; python setup.py install ```</p>
+</li>
+<li><p class="startli">在线安装pip，从<a href="https://bootstrap.pypa.io/get-pip.py">这里</a>下载<code>get-pip.py</code></p>
+<p class="startli">```python python get-pip.py ```</p>
+</li>
+</ul>
+<p>安装好pip，就可以离线安装whl格式的python第三方库了，whl库的下载地址为：<a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/">http://www.lfd.uci.edu/~gohlke/pythonlibs/</a>。</p>
+<h2>ii. 使用pip安装whl依赖库</h2>
+<ul>
+<li><p class="startli">GDAL（依赖于Python）安装 通过上面下载whl库的链接，可以下载完整的GDAL打包文件 <code>GDAL-1.11.3-cp27-none-win_amd64.whl</code>(64位，注意32位和64位的区分)，管理员方式运行cmd，输入安装命令：</p>
+<p class="startli">```shell cd &lt;GDAL path&gt;=""&gt; pip install GDAL-1.11.3-cp27-none-win_amd64.whl ```</p>
+<p class="startli">提示安装成功即可，输入以下命令验证是否安装成功：</p>
+<p class="startli">```python python from osgeo import gdal from osgeo import ogr from osgeo import osr from osgeo import gdal_array from osgeo import gdalconst ```</p>
+</li>
+<li>whl依赖库的批量安装 将下载的whl库文件(比如scipy，numexpr，PyQt4，wxPython（需要wxPython_common），PyGTK，python_dateutil，pytz，matplotlib，pywin32…)放到某一英文目录下，然后新建<code>install.bat</code>文件，输入如下内容：</li>
+</ul>
+<blockquote class="doxtable">
+<p>注意修改python路径：<code>PYPATH</code> install.bat文件应与whl库文件放在同一文件夹。</p>
+<p></p>
+</blockquote>
+<p>```shell  off  off echo "Liangjun Zhu, zlj@lreis.ac.cn" echo "-- Install Python Packages Using Pip..." echo "-- WHL files downloaded from http://www.lfd.uci.edu/~gohlke/pythonlibs/" pushd %~dp0 cd %~dp0 :: python path, x86 or x64 versioned python set PYPATH=C:/python27x86/ set PIPPYTH=PYPATHScripts/ :: COMMENT-1: Install easy_install and pip without network ::PYPATHpython %~dp0-18.2.py install ::PYPATHpython %~dp0-7.1.2.py install :: COMMENT-2: Install easy_install and pip without network ::PYPATHpython get-pip.py for /f "delims=" %i in ('dir /s/b "*.whl"') do ( echo installing %%~ni ... PIPPYTHpip install %i ) echo "-- All packages installed Succeed!" pause ```</p>
+<p>这样便会自动安装该文件夹所有的packages...</p>
+<p><a href="../../#目录">返回目录</a></p>
+<h1>3. 最好用的Python编辑器之一&ndash;PyCharm介绍</h1>
+<p>PyCharm是一种Python IDE，带有一整套可以帮助用户在使用Python语言开发时提高其效率的工具，比如调试、语法高亮、Project管理、代码跳转、智能提示、自动完成、单元测试、版本控制。</p>
+<p>特点：</p>
+<ul>
+<li><p class="startli">编码协助</p>
+<p class="startli">提供了一个带编码补全，代码片段，支持代码折叠和分割窗口的智能、可配置的编辑器;</p>
+</li>
+<li><p class="startli">项目代码导航</p>
+<p class="startli">帮助用户即时从一个文件导航至另一个，从一个方法至其申明或者用法甚至可以穿过类的层次;</p>
+</li>
+<li>代码分析 用户可使用其编码语法，错误高亮，智能检测以及一键式代码快速补全建议;</li>
+<li>Python重构 在项目范围内轻松进行重命名，提取方法/超类，导入域/变量/常量，移动和前推/后退重构。</li>
+<li>......</li>
+</ul>
+<p>下载链接：<a href="http://pan.baidu.com/s/1i5nnvNJ">百度云盘</a>，提取码：gyy2</p>
+<p><a href="../../#目录">返回目录</a> </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:42 for SEIMS by
+    <li class="footer">Generated on Fri Aug 11 2017 13:26:03 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

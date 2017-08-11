@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: Samples</title>
+<title>SEIMS: # Github使用说明</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,28 +106,180 @@ $(document).ready(function(){initNavTree('db/d44/a00162.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Samples </div>  </div>
+<div class="title"># Github使用说明 </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>If you're like us, you'd like to look at some Google Test sample code. The <a href="../../../samples">samples folder</a> has a number of well-commented samples showing how to use a variety of Google Test features.</p>
+<div class="textblock"><p>在开始之前，强烈建议阅读以下学习资料：</p>
 <ul>
-<li><a href="../../../samples/sample1_unittest.cc">Sample #1</a> shows the basic steps of using Google Test to test C++ functions.</li>
-<li><a href="../../../samples/sample2_unittest.cc">Sample #2</a> shows a more complex unit test for a class with multiple member functions.</li>
-<li><a href="../../../samples/sample3_unittest.cc">Sample #3</a> uses a test fixture.</li>
-<li><a href="../../../samples/sample4_unittest.cc">Sample #4</a> is another basic example of using Google Test.</li>
-<li><a href="../../../samples/sample5_unittest.cc">Sample #5</a> teaches how to reuse a test fixture in multiple test cases by deriving sub-fixtures from it.</li>
-<li><a href="../../../samples/sample6_unittest.cc">Sample #6</a> demonstrates type-parameterized tests.</li>
-<li><a href="../../../samples/sample7_unittest.cc">Sample #7</a> teaches the basics of value-parameterized tests.</li>
-<li><a href="../../../samples/sample8_unittest.cc">Sample #8</a> shows using <code>Combine()</code> in value-parameterized tests.</li>
-<li><a href="../../../samples/sample9_unittest.cc">Sample #9</a> shows use of the listener API to modify Google Test's console output and the use of its reflection API to inspect test results.</li>
-<li><a href="../../../samples/sample10_unittest.cc">Sample #10</a> shows use of the listener API to implement a primitive memory leak checker. </li>
+<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/">廖学峰老师的Git教程</a></li>
+<li><a href="http://www.codeceo.com/article/git-command-guide.html">常用的Git命令</a></li>
 </ul>
+<h1>目录</h1>
+<ol type="1">
+<li><a href="../../#1windows下安装git">Windows下安装Git</a></li>
+<li><a href="../../#2从github中克隆代码库及代码修改">从Github中克隆代码库及代码修改</a></li>
+<li><a href="../../#3代码同步与更新">代码同步与更新</a></li>
+<li><a href="../../#4subtree操作">subtree操作</a></li>
+<li><a href="../../#5submodule操作">submodule操作（弃用技术，留存备忘）</a></li>
+</ol>
+<h2>1.Windows下安装Git</h2>
+<p>Windows下推荐使用<a href="http://msysgit.github.io/">msysgit</a>的Git工具，直接下载安装即可，安装完成后，<code>开始 -&gt; Git -&gt; Git Bash</code>，打开一个类似命令行的窗口，说明Git安装成功了。 安装完成后，在git bash 命令行里输入：</p>
+<div class="fragment"><div class="line">$ git config --global user.name <span class="stringliteral">&quot;Your Name&quot;</span></div>
+<div class="line">$ git config --global user.email <span class="stringliteral">&quot;email@example.com&quot;</span></div>
+<div class="line"></div>
+<div class="line">e.g.,</div>
+<div class="line">$ git config --global user.name <span class="stringliteral">&quot;crazyzlj&quot;</span></div>
+<div class="line">$ git config --global user.email <span class="stringliteral">&quot;crazyzlj@gmail.com&quot;</span></div>
+</div><!-- fragment --><p>这两行表示，这台机器上的所有Git仓库都使用这个配置(用户名和邮件地址)。</p>
+<p>P.S. 如何在push的时候免输密码，可以参考这个<a href="http://www.cnblogs.com/ballwql/p/3462104.html">博客</a>的方法二，设置简单。</p>
+<p><em class="fa fa-exclamation-triangle fa-2x"></em> **注意！**</p>
+<h3>1.1.Git中AutoCRLF与SafeCRLF换行符问题</h3>
+<p>众所周知，Windows系统和Linux/Unix系统的换行符不同，而Windows下的Git默认情况下会在提交代码时自动替换换行符LF或CR为CRLF，这样对跨平台代码造成了极大的不便。</p>
+<p>因此，我们一般约定代码采用Linux编码，即 <code>LF \n</code>。打开Git shell进行如下设置：</p>
+<p>``` </p>
+<h1>AutoCRLF, 设置提交、检出时均不转换</h1>
+<p>git config &ndash;global core.autocrlf false </p>
+<h1>SafeCRLF, 设置拒绝提交包含混合换行符的文件，并且在提交混合换行符的文件时给出警告，从而手动转换为LF换行符后提交</h1>
+<h1>对于Windows设置为true</h1>
+<p>git config &ndash;global core.safecrlf true </p>
+<h1>对于linux设置为false</h1>
+<p>git config &ndash;global core.safecrlf false </p>
+<h1>同时，在SEIMS/.gitattributes里我们已经设置了一些例外，如Windows批处理文件.bat即为CRLF</h1>
+<p>```</p>
+<p><a href="../../#目录">返回目录</a> </p>
+<h2>2.从Github中克隆代码库及代码修改</h2>
+<p>配置好本地的Git环境之后，我们需要将代码库从Github上克隆到本地计算机。</p>
+<ul>
+<li>首先在Github.com上注册一个账号。注册好之后，需要设置SSH key，在<code>git bash</code>中输入： <div class="fragment"><div class="line">ssh-keygen -t rsa -C youremail@example.com</div>
+<div class="line"></div>
+<div class="line">e.g.,</div>
+<div class="line">ssh-keygen -t rsa -C crazyzlj@gmail.com</div>
+</div><!-- fragment --></li>
+</ul>
+<p>一路回车，如果顺利的话，在用户目录（如<code>C:\Users\ZhuLJ</code>）里能找到&lt;tt&gt;.ssh目录，里面有<code>id_rsa</code>和<code>id_rsa.pub</code>两个文件，这两个就是SSH Key的密钥对，前者是私钥，后者是公钥。</p>
+<ul>
+<li>然后，登录Github，打开 Account Settings，SSH key页面，点Add SSH Key，Title任意填，在Key文本框里填上<code>id_rsa.pub</code>的内容，点击Add key就好啦。</li>
+<li>打开<a href="https://github.com/lreis2415/SEIMS2017">SEIMS模型的首页</a>， 点击<code>Fork</code>，来创建自己账户下的SEIMS克隆，克隆结束之后，复制克隆库的**SSH**地址。下一步，我们将克隆一份代码库到本地计算机。</li>
+</ul>
+<div class="fragment"><div class="line">cd &lt;destination folder&gt;</div>
+<div class="line">git clone git@github.com:&lt;yourname&gt;/SEIMS.git</div>
+<div class="line"><span class="preprocessor">#推荐只克隆dev分支，用法（需要有git-1.7.10以上版本）：</span></div>
+<div class="line"><span class="preprocessor"></span>git clone &lt;url&gt; --branch &lt;branch&gt; --single-branch</div>
+<div class="line">e.g.,</div>
+<div class="line">cd e:/code/hydro</div>
+<div class="line">git clone git@github.com:crazyzlj/SEIMS.git</div>
+<div class="line"><span class="preprocessor">#只克隆dev分支示例：</span></div>
+<div class="line"><span class="preprocessor">git clone git@github.com:crazyzlj/SEIMS.git --branch dev --single-branch</span></div>
+</div><!-- fragment --><ul>
+<li>随后，<code>cd</code>到克隆库目录，添加上游远程仓库，这一步**很重要**，关系到之后的代码同步和更新： <div class="fragment"><div class="line">cd SEIMS</div>
+<div class="line">git remote add upstream git@github.com:seims/SEIMS.git</div>
+</div><!-- fragment --></li>
+<li>这样，我们就将SEIMS代码克隆到了本地计算机一份。接下来，我们尝试对本地SEIMS文件做一下修改，然后提交到远程库（你自己的，如<code>crazyzlj/SEIMS</code>，而不是<code>seims/SEIMS</code>），最后通过提交<code>pull request</code> 提交给SEIMS代码拥有者（即seims）。</li>
+</ul>
+<p>为了说明问题，我简单修改了一下<code>README</code>文件，然后 <code>git status</code> 查看本地和远程的差别 随后 </p>
+<div class="fragment"><div class="line">Git add README.md</div>
+<div class="line">Git commit –m <span class="stringliteral">&quot;modification test”</span></div>
+<div class="line"><span class="stringliteral">Git push –u origin master</span></div>
+</div><!-- fragment --><p>这样就把本地的本次修改提交到了**你自己的远程库**中。</p>
+<ul>
+<li>在Github目录下可以看到刚才提交的修改，这时候，如果想把这个修改，提交到<code>seims/SEIMS</code>，需要点击网页上的<code>pull request</code>按钮,然后点击<code>Create pull request</code>，Github会自动判断能否“自动合并”，如果可以，便把本次修改提交完成了，如果不能，就需要我们进行手动解决冲突。 此时，<code>SEIMS</code>拥有者<code>seims</code>就会收到你的<code>pull request</code>并处理了。</li>
+</ul>
+<p><a href="../../#目录">返回目录</a> </p>
+<h2>3.代码同步与更新</h2>
+<p>以上我们知道了如何将本地的修改提交到源代码库，接下来，看看如何将**源代码库中的更新**同步到本地库中。</p>
+<p>比如其他人在<code>seims/SEIMS</code>下修改了README.md文件，现在同步到本地。</p>
+<ul>
+<li>查看远程主机地址 <div class="fragment"><div class="line">git remote -v</div>
+</div><!-- fragment --> 经过以上的设置，正常情况应该看到类似结果,如果没有upstream则需添加上游远程库</li>
+</ul>
+<div class="image">
+<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/seims-img%2Fgitremotev.png" />
+</div>
+<ul>
+<li>将源代码库更新的内容同步到本地，检查差异，然后再和本机分支合并，注意，下列代码同步的是<code>upstream</code>库的<code>master</code>分支，如果想同步其他分支，只需将第一行的<code>master</code>替换为相应分支名即可。 <div class="fragment"><div class="line">git fetch upstream master</div>
+<div class="line">git checkout master</div>
+<div class="line">git merge upstream/master</div>
+</div><!-- fragment --></li>
+</ul>
+<blockquote class="doxtable">
+<p>fetch远程库的时候注意，如果仅用git fetch upstream命令，会把所有远程库分支下载，速度慢，因此推荐使用 git fetch upstream master</p>
+<p></p>
+</blockquote>
+<ul>
+<li>多数情况下，Git可以自动合并，如果出现冲突，则需手动处理后，再<code>commit</code>提交，冲突结果类似：</li>
+</ul>
+<div class="image">
+<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/seims-img%2Fconflictwhenmerge.png" />
+</div>
+<ul>
+<li>处理步骤为：<ul>
+<li>打开出现合并冲突的文件</li>
+<li>找到冲突的地方，即<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;HEAD</code>和<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;upstream/master</code>出现的地方</li>
+<li>判断不同版本，并选择去留，并删掉 <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;HEAD</code>和<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;upstream/master</code></li>
+<li><code>git add .</code></li>
+<li><code>git commit -m "merge conflict fixed"</code></li>
+<li><code>git push -u origin master</code></li>
+</ul>
+</li>
+</ul>
+<p><a href="../../#目录">返回目录</a></p>
+<h2>4.Subtree操作</h2>
+<p>参考资料：<a href="http://aoxuis.me/post/2013-08-06-git-subtree">XA技术不宅的博客</a></p>
+<p>git subtree是一条git子命令，本质上subtree是一种合并策略，从git v1.5.2，官方就推荐使用subtree代替submodule，所以它并不需要保存&lt;tt&gt;.submodule这样的元信息，平时使用时你甚至可以忘掉有subtree的存在，只需子项目管理者在适当的时候与子项目库进行双向同步更新。</p>
+<h3>4.1第一次添加子目录，并建立与git项目的关联</h3>
+<p>建立关联总共有2条命令：</p>
+<ul>
+<li>语法：<code>git remote add -f &lt;子仓库名&gt; &lt;子仓库地址&gt;</code></li>
+</ul>
+<p>解释：其中-f意思是在添加远程仓库之后，立即执行fetch。</p>
+<p>+　语法：<code>git subtree add --prefix=&lt;子目录名&gt; &lt;子仓库名&gt; &lt;分支&gt; --squash</code></p>
+<p>解释：<code>--squash</code>意思是把subtree的改动合并成一次commit，这样就不用拉取子项目完整的历史记录。<code>--prefix</code>之后的=等号也可以用空格。</p>
+<p>**示例**:</p>
+<p>``` $git remote add -f wiki <a href="https://github.com/lreis2415/SEIMS2017.wiki.git">https://github.com/lreis2415/SEIMS2017.wiki.git</a> $git subtree add &ndash;prefix=doc/wiki wiki master &ndash;squash ```</p>
+<h2>4.2从远程仓库更新子目录</h2>
+<p>更新子目录有2条命令:</p>
+<ul>
+<li>语法：<code>git fetch &lt;远程仓库名&gt; &lt;分支&gt;</code></li>
+<li>语法：<code>git subtree pull --prefix=&lt;子目录名&gt; &lt;远程分支&gt; &lt;分支&gt; --squash</code></li>
+</ul>
+<p>**示例**:</p>
+<p>``` $git fetch wiki master $git subtree pull &ndash;prefix=doc/wiki wiki master &ndash;squash ```</p>
+<h2>4.3从子目录push到远程仓库（确认你有写权限）</h2>
+<p>推送子目录的变更有1条命令:</p>
+<ul>
+<li>语法：<code>git subtree push --prefix=&lt;子目录名&gt; &lt;远程分支名&gt; 分支</code></li>
+</ul>
+<p>**示例**:</p>
+<p>``` $git subtree push &ndash;prefix=doc/wiki wiki master ```</p>
+<p><a href="../../#目录">返回目录</a></p>
+<h2>5.Submodule操作</h2>
+<p>一个项目可以独立出来一些功能相对独立、允许其他人重复使用的通用模块，这个时候，就需要使用**子模块**的概念了。</p>
+<h3>5.1 包含子模块的仓库的克隆</h3>
+<p>项目根目录下的&lt;tt&gt;.submodules文件定义了该项目的子模块列表和地址信息，如果该文件存在且不为空，那么可采取下面的方式对该项目进行克隆。</p>
+<p>参考资料：http://www.kafeitu.me/git/2012/03/27/git-submodule.html</p>
+<p>``` git clone &lt;parent-git-path&gt; git submodule update &ndash;init &ndash;recursive ```</p>
+<h3>5.2 为当前项目添加子模块</h3>
+<p>``` git submodule add &lt;child-git-path&gt; &lt;current-store-path&gt; ``<code> 其中，</code>&lt;child-git-path&gt;<code>是指子模块仓库地址，</code>&lt;current-store-path&gt;<code>指将子模块放置在当前工程下的路径。 注意：路径不能以</code>/` 结尾（会造成修改不生效）、不能是现有工程已有的目录（不能顺利 Clone）</p>
+<h3>5.3 删除子模块</h3>
+<p>To remove a submodule you need to:</p>
+<ol type="1">
+<li>Delete the relevant section from the .gitmodules file.</li>
+<li>Stage the .gitmodules changes <code>git add .gitmodules</code></li>
+<li>Delete the relevant section from <code>.git/config</code>.</li>
+<li>Run <code>git rm --cached path_to_submodule (no trailing slash)</code><code>.</code></li>
+<li><code>Run</code>rm -rf .git/modules/path_to_submodule<code></code></li>
+<li><code>Commit</code>git commit -m "Removed submodule &lt;name&gt;"`</li>
+<li>Delete the now untracked submodule files</li>
+<li>rm -rf path_to_submodule</li>
+</ol>
+<h3></h3>
+<p><a href="../../#目录">返回目录</a> </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Jul 21 2017 07:37:44 for SEIMS by
+    <li class="footer">Generated on Fri Aug 11 2017 13:26:03 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
