@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/postprocess/test.py Source File</title>
+<title>SEIMS: seims/preprocess/db_import_precipitation.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,81 +112,130 @@ $(document).ready(function(){initNavTree('d3/de3/a00763_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">test.py</div>  </div>
+<div class="title">db_import_precipitation.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">import</span> datetime</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">import</span> os</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">import</span> sys</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> matplotlib.cbook <span class="keyword">as</span> cbook</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> matplotlib.dates <span class="keyword">as</span> mdates</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> numpy <span class="keyword">as</span> np</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> pymongo.errors <span class="keyword">import</span> ConnectionFailure</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;a = <span class="stringliteral">&quot;2013-10-10 23:40:00&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment"># 方法:先转换为时间数组,然后转换为其他格式</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;timeArray = datetime.datetime.strptime(a, <span class="stringliteral">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;otherStyleTime = datetime.date.strftime(timeArray, <span class="stringliteral">&quot;%Y/%m/%d&quot;</span>)</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordflow">print</span> otherStyleTime</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Import precipitation data, daily or storm</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Liangjun Zhu, Junzhi Liu</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 16-12-07  lj - rewrite for version 2.0</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">                17-07-04  lj - reorganize according to pylint and google style</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">                17-07-05  lj - Using bulk operation interface to improve MongoDB efficiency.</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">                17-08-05  lj - Add Timezone preprocessor statement in the first line of data file.</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> time</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> datetime <span class="keyword">import</span> timedelta</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> pymongo <span class="keyword">import</span> ASCENDING</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d7/d8c/a01306.html">seims.preprocess.hydro_climate_utility</a> <span class="keyword">import</span> HydroClimateUtilClass</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d4/d49/a01316.html">seims.preprocess.text</a> <span class="keyword">import</span> DBTableNames, DataValueFields, DataType</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> <a class="code" href="../../df/db8/a01317.html">seims.preprocess.utility</a> <span class="keyword">import</span> read_data_items_from_txt</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d4/d2c/a01327.html">seims.pygeoc.pygeoc.utils.utils</a> <span class="keyword">import</span> StringClass</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;years = mdates.YearLocator()  <span class="comment"># every year</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;months = mdates.MonthLocator()  <span class="comment"># every month</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;yearsFmt = mdates.DateFormatter(<span class="stringliteral">&#39;%Y-%M&#39;</span>)</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment"># load a numpy record array from yahoo csv data with fields date,</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment"># open, close, volume, adj_close from the mpl-data/example directory.</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment"># The record array stores python datetime.date as an object array in</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment"># the date column</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;datafile = cbook.get_sample_data(<span class="stringliteral">&#39;goog.npy&#39;</span>)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment"># Python3 cannot load python2 .npy files with datetime(object) arrays</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment"># unless the encoding is set to bytes. Hovever this option was</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment"># not added until numpy 1.10 so this example will only work with</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="comment"># python 2 or with numpy 1.10 and later.</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    r = np.load(datafile, encoding = <span class="stringliteral">&#39;bytes&#39;</span>).view(np.recarray)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordflow">except</span> TypeError:</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    r = np.load(datafile).view(np.recarray)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;fig, ax = plt.subplots()</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;ax.plot(r.date, r.adj_close)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"># format the ticks</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;ax.xaxis.set_major_locator(years)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;ax.xaxis.set_major_formatter(yearsFmt)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;ax.xaxis.set_minor_locator(months)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;datemin = datetime.date(r.date.min().year, 1, 1)</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;datemax = datetime.date(r.date.max().year + 1, 1, 1)</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;ax.set_xlim(datemin, datemax)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"># format the coords message box</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keyword">def </span>price(x):</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">return</span> <span class="stringliteral">&#39;$%1.2f&#39;</span> % x</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;ax.format_xdata = mdates.DateFormatter(<span class="stringliteral">&#39;%Y-%m-%d&#39;</span>)</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;ax.format_ydata = price</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;ax.grid(<span class="keyword">True</span>)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="comment"># rotates and right aligns the x labels, and moves the bottom of the</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="comment"># axes up to make room for them</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;fig.autofmt_xdate()</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;plt.show()</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="../../d9/d39/a00257.html">   21</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d9/d39/a00257.html">ImportPrecipitation</a>(object):</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Import precipitation data, daily or storm.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="../../d9/d39/a00257.html#af9313b6c53cd3fa2f523e22a33969e64">   25</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/d39/a00257.html#af9313b6c53cd3fa2f523e22a33969e64">regular_data_from_txt</a>(climdb, data_file):</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Regular precipitation data from text file.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="comment"># delete existed precipitation data</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        climdb[DBTableNames.data_values].remove({DataValueFields.type: DataType.p})</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        tsysin, tzonein = HydroClimateUtilClass.get_time_system_from_data_file(data_file)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        <span class="keywordflow">if</span> tsysin == <span class="stringliteral">&#39;UTCTIME&#39;</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            tzonein = time.timezone / -3600</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        clim_data_items = read_data_items_from_txt(data_file)</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        clim_flds = clim_data_items[0]</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        station_id = list()</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        bulk = climdb[DBTableNames.data_values].initialize_ordered_bulk_op()</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        count = 0</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="keywordflow">for</span> fld <span class="keywordflow">in</span> clim_flds:</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            <span class="keywordflow">if</span> <span class="keywordflow">not</span> StringClass.string_in_list(fld,</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                                              [DataValueFields.dt, DataValueFields.y,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                                               DataValueFields.m,</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                                               DataValueFields.d, DataValueFields.hour,</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                                               DataValueFields.minute, DataValueFields.second]):</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                station_id.append(fld)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">for</span> i, clim_data_item <span class="keywordflow">in</span> enumerate(clim_data_items):</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">if</span> i == 0:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            dic = dict()</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            precipitation = list()</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordflow">for</span> j, clim_data_v <span class="keywordflow">in</span> enumerate(clim_data_item):</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                <span class="keywordflow">if</span> StringClass.string_in_list(clim_flds[j], station_id):</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                    precipitation.append(float(clim_data_v))</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            utc_time = HydroClimateUtilClass.get_utcdatetime_from_field_values(clim_flds,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;                                                                               clim_data_item,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;                                                                               tsysin, tzonein)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            dic[DataValueFields.local_time] = utc_time + timedelta(minutes=tzonein * 60)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;            dic[DataValueFields.time_zone] = tzonein</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            dic[DataValueFields.utc] = utc_time</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            <span class="keywordflow">for</span> j, cur_id <span class="keywordflow">in</span> enumerate(station_id):</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;                cur_dic = dict()</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;                cur_dic[DataValueFields.value] = precipitation[j]</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                cur_dic[DataValueFields.id] = int(cur_id)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;                cur_dic[DataValueFields.type] = DataType.p</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                cur_dic[DataValueFields.time_zone] = dic[DataValueFields.time_zone]</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                cur_dic[DataValueFields.local_time] = dic[DataValueFields.local_time]</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                cur_dic[DataValueFields.utc] = dic[DataValueFields.utc]</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                bulk.insert(cur_dic)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                count += 1</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                <span class="keywordflow">if</span> count % 500 == 0:  <span class="comment"># execute each 500 records</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                    bulk.execute()</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                    bulk = climdb[DBTableNames.data_values].initialize_ordered_bulk_op()</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">if</span> count % 500 != 0:</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            bulk.execute()</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="comment"># Create index</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        climdb[DBTableNames.data_values].create_index([(DataValueFields.id, ASCENDING),</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                                                       (DataValueFields.type, ASCENDING),</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                                       (DataValueFields.utc, ASCENDING)])</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="../../d9/d39/a00257.html#aa962c9ddd8fa1dc2a1fba80e32b52af5">   81</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d9/d39/a00257.html#aa962c9ddd8fa1dc2a1fba80e32b52af5">workflow</a>(cfg, clim_db):</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Workflow&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&#39;Import Daily Precipitation Data... &#39;</span>)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        ImportPrecipitation.regular_data_from_txt(clim_db, cfg.prec_data)</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keyword">def </span>main():</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;TEST CODE&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d2/d68/a01295.html">seims.preprocess.config</a> <span class="keyword">import</span> parse_ini_configuration</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d6/dae/a01304.html">seims.preprocess.db_mongodb</a> <span class="keyword">import</span> ConnectMongoDB</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    seims_cfg = parse_ini_configuration()</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    client = ConnectMongoDB(seims_cfg.hostname, seims_cfg.port)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    conn = client.get_conn()</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    hydroclim_db = conn[seims_cfg.climate_db]</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keyword">import</span> time</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    st = time.time()</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    ImportPrecipitation.workflow(seims_cfg, hydroclim_db)</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    et = time.time()</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordflow">print</span> et - st</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    client.close()</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    main()</div>
+<div class="ttc" id="a01316_html"><div class="ttname"><a href="../../d4/d49/a01316.html">seims.preprocess.text</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dc8/a00808_source.html#l00001">text.py:1</a></div></div>
+<div class="ttc" id="a01304_html"><div class="ttname"><a href="../../d6/dae/a01304.html">seims.preprocess.db_mongodb</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d9c/a00772_source.html#l00001">db_mongodb.py:1</a></div></div>
+<div class="ttc" id="a01327_html"><div class="ttname"><a href="../../d4/d2c/a01327.html">seims.pygeoc.pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dc2/a00564_source.html#l00001">utils.py:1</a></div></div>
+<div class="ttc" id="a00257_html_af9313b6c53cd3fa2f523e22a33969e64"><div class="ttname"><a href="../../d9/d39/a00257.html#af9313b6c53cd3fa2f523e22a33969e64">seims.preprocess.db_import_precipitation.ImportPrecipitation.regular_data_from_txt</a></div><div class="ttdeci">def regular_data_from_txt</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de3/a00763_source.html#l00025">db_import_precipitation.py:25</a></div></div>
+<div class="ttc" id="a01306_html"><div class="ttname"><a href="../../d7/d8c/a01306.html">seims.preprocess.hydro_climate_utility</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d17/a00778_source.html#l00001">hydro_climate_utility.py:1</a></div></div>
+<div class="ttc" id="a01295_html"><div class="ttname"><a href="../../d2/d68/a01295.html">seims.preprocess.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/deb/a00710_source.html#l00001">config.py:1</a></div></div>
+<div class="ttc" id="a01317_html"><div class="ttname"><a href="../../df/db8/a01317.html">seims.preprocess.utility</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d07/a00811_source.html#l00001">utility.py:1</a></div></div>
+<div class="ttc" id="a00257_html"><div class="ttname"><a href="../../d9/d39/a00257.html">seims.preprocess.db_import_precipitation.ImportPrecipitation</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de3/a00763_source.html#l00021">db_import_precipitation.py:21</a></div></div>
+<div class="ttc" id="a00257_html_aa962c9ddd8fa1dc2a1fba80e32b52af5"><div class="ttname"><a href="../../d9/d39/a00257.html#aa962c9ddd8fa1dc2a1fba80e32b52af5">seims.preprocess.db_import_precipitation.ImportPrecipitation.workflow</a></div><div class="ttdeci">def workflow</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/de3/a00763_source.html#l00081">db_import_precipitation.py:81</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_61da0db7be14312bde940296c0e3c020.html">postprocess</a></li><li class="navelem"><b>test.py</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 13:25:58 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>db_import_precipitation.py</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 14:11:25 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

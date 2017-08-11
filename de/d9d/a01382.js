@@ -1,35 +1,48 @@
 var a01382 =
 [
-    [ "ModelException", "d3/d58/a00285.html", [
-      [ "ModelException", "d3/d58/a00285.html#a60fa24a31edef1abcda4930a18717057", null ],
-      [ "~ModelException", "d3/d58/a00285.html#a9b1352b304a1a4e082cd6c322607dafc", null ],
-      [ "toString", "d3/d58/a00285.html#af1e727d462200d9bfaf44ee15921b7b5", null ],
-      [ "what", "d3/d58/a00285.html#ad628c8e55ba32a0a106b66174ebdc725", null ]
-    ] ],
-    [ "ModelClass", "db/dc3/a00284.html", null ],
-    [ "Parameter", "d5/d0f/a00308.html", [
-      [ "Description", "d5/d0f/a00308.html#a128967267b3d97fff9752c02ff2b4df5", null ],
-      [ "Dimension", "d5/d0f/a00308.html#a42518156e29a2aaca7ef8af465672387", null ],
-      [ "Name", "d5/d0f/a00308.html#af1600c2482a158d22b69f57b0a0e68d6", null ],
-      [ "Source", "d5/d0f/a00308.html#a96b1cb9b1ecc5c1fea4bf390554748ea", null ],
-      [ "Units", "d5/d0f/a00308.html#a609b143e4269a08f8c38cf03466e96c1", null ]
-    ] ],
-    [ "Information", "dc/d6a/a00261.html", [
-      [ "Author", "dc/d6a/a00261.html#a1b8fa5ae955f80cbd549cd3186788d3f", null ],
-      [ "Description", "dc/d6a/a00261.html#a9f0b0e91a740ff0e1f3d0b48b069983a", null ],
-      [ "EMail", "dc/d6a/a00261.html#a0ea3ec0a518e6f2a6afcfe5a47e6a092", null ],
-      [ "Helpfile", "dc/d6a/a00261.html#a8e1e2fee4394c6306a3fd80387281d94", null ],
-      [ "Id", "dc/d6a/a00261.html#a648bb8c9d3e9459afe4f131fa389352a", null ],
-      [ "Name", "dc/d6a/a00261.html#aa411bbe0edd95d200b59c0b7606173d3", null ],
-      [ "Version", "dc/d6a/a00261.html#a0fea44ad14e758340799fe8ce77b8330", null ],
-      [ "Website", "dc/d6a/a00261.html#af713e5818c8dff3d1c81c2dbd711e4c4", null ]
-    ] ],
-    [ "InputVariable", "df/da9/a00263.html", [
-      [ "Description", "df/da9/a00263.html#a575ddb3a443f1af8b2bbda99b93f352d", null ],
-      [ "Dimension", "df/da9/a00263.html#a5791bfd6dcb1157dd9b424b5b96ed9fa", null ],
-      [ "Name", "df/da9/a00263.html#af99b3ec7f57773deec50ad5df619570e", null ],
-      [ "Source", "df/da9/a00263.html#ab80ce26a8f8f8779e70a29a091cbe914", null ],
-      [ "Units", "df/da9/a00263.html#aebb39a1a99108f15439249e0c108b384", null ]
-    ] ],
-    [ "dimensionTypes", "de/d9d/a01382.html#gac6cf78ef837450cfb19495fe34976b8c", null ]
+    [ "DiffusiveWave", "dc/d55/a00226.html", [
+      [ "DiffusiveWave", "dc/d55/a00226.html#a68509e9ba166447db382c7e7436afcf5", null ],
+      [ "~DiffusiveWave", "dc/d55/a00226.html#a85532cec475b39f5f02cc9756df8dcd8", null ],
+      [ "ChannelFlow", "dc/d55/a00226.html#a822ecc8f1778e3cd2e388ffcb17cc766", null ],
+      [ "CheckInputData", "dc/d55/a00226.html#a4c358f25e7de1a6a6ec7ec1e3901ab18", null ],
+      [ "CheckInputSize", "dc/d55/a00226.html#a1aeb56e1df2ea7ce213b942cd8a351dc", null ],
+      [ "CheckInputSizeChannel", "dc/d55/a00226.html#a537f3021561ef01e3aca8468c9440631", null ],
+      [ "Execute", "dc/d55/a00226.html#a79d671f8446dcd3f2d86eb61e7c8561b", null ],
+      [ "Get1DData", "dc/d55/a00226.html#ade0a895a3265f557839f48a35f6304c4", null ],
+      [ "Get2DData", "dc/d55/a00226.html#abb91dc7ba26731387e440f5b67f77fce", null ],
+      [ "GetValue", "dc/d55/a00226.html#ab388a5ca394d6d0bddaac1b03ce22ffd", null ],
+      [ "initialOutputs", "dc/d55/a00226.html#a755ebe3edd4524ce4edb75910df7beb9", null ],
+      [ "Set1DData", "dc/d55/a00226.html#a747ebc9bf8de4491bb4e7ee2d71535c0", null ],
+      [ "Set2DData", "dc/d55/a00226.html#a87a9bd59e8f5b225d1597cee1e21f93a", null ],
+      [ "SetReaches", "dc/d55/a00226.html#a9f8bdf404f59acc1a463f0eefe437eda", null ],
+      [ "SetValue", "dc/d55/a00226.html#a5aedf04d7e26794909d899224666f25f", null ],
+      [ "m_CellWidth", "dc/d55/a00226.html#a9f63ca37e098bba8b3ca9649f177f93d", null ],
+      [ "m_chNumber", "dc/d55/a00226.html#ab3b6147571cd2d1291d9c3f561878833", null ],
+      [ "m_chWidth", "dc/d55/a00226.html#a6ef86662adae4fcea4018b23f4fdf2a6", null ],
+      [ "m_direction", "dc/d55/a00226.html#aa44948612c7efc15087f019262ca02e6", null ],
+      [ "m_dt", "dc/d55/a00226.html#af4b310d929a670f52e33cc100b69ef02", null ],
+      [ "m_elevation", "dc/d55/a00226.html#a3a742b4e7c8257f617a6c996b0b7dbaa", null ],
+      [ "m_flowInIndex", "dc/d55/a00226.html#ac64aee5b5a652c34978c023cf894a17d", null ],
+      [ "m_flowLen", "dc/d55/a00226.html#a871f4c44937d05e3a667cfa4860c472c", null ],
+      [ "m_flowOutIndex", "dc/d55/a00226.html#a2df2e84709db84da5cc15c038cfa1ff5", null ],
+      [ "m_hCh", "dc/d55/a00226.html#a273284d92c16f3f4036a24b8fc84914a", null ],
+      [ "m_idToIndex", "dc/d55/a00226.html#af70292137dfa05222f9d3849322c983f", null ],
+      [ "m_idUpReach", "dc/d55/a00226.html#ab63c9a8c2fb4664c9078aa621987c2fc", null ],
+      [ "m_layeringMethod", "dc/d55/a00226.html#a2075837b55bec1ac284d1f52918f305a", null ],
+      [ "m_manningScalingFactor", "dc/d55/a00226.html#a1e50b6e5e6fb1644ac6d0dd092049932", null ],
+      [ "m_nCells", "dc/d55/a00226.html#a7b50ffc8793f72552fb30b9db66c818a", null ],
+      [ "m_prec", "dc/d55/a00226.html#a8710f01ad7bcc2ccac66493607faf4e7", null ],
+      [ "m_qCh", "dc/d55/a00226.html#a5205a8b4e17ebeb8ce6846596a4d436a", null ],
+      [ "m_qi", "dc/d55/a00226.html#a4f36262d07a91479dcaf19a2cc69312e", null ],
+      [ "m_qs", "dc/d55/a00226.html#a2570b85c699bb256b1d1b503f41aa92b", null ],
+      [ "m_qSubbasin", "dc/d55/a00226.html#a38b68fc0ef15a76ec947478c1e07f968", null ],
+      [ "m_qUpReach", "dc/d55/a00226.html#a4c6815a2857b29107f25a6d1c93c467e", null ],
+      [ "m_reachDownStream", "dc/d55/a00226.html#ab72f1a378689cb5221cfddee5af8ab82", null ],
+      [ "m_reachN", "dc/d55/a00226.html#a217523adff205da7424bb395c6c6f760", null ],
+      [ "m_reachs", "dc/d55/a00226.html#a1a771e1ba0e78c7d664cf3f74642bd11", null ],
+      [ "m_reachUpStream", "dc/d55/a00226.html#a62f1abb675198810c9939790739f3ca2", null ],
+      [ "m_sourceCellIds", "dc/d55/a00226.html#a42fb6e842f17ec055c849fd4a0a5d951", null ],
+      [ "m_streamLink", "dc/d55/a00226.html#a9ba1816aa23b610ffb46bea52883e598", null ],
+      [ "m_streamOrder", "dc/d55/a00226.html#a27acb24133eb534d81bce5c37b5bac42", null ]
+    ] ]
 ];

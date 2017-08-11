@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology/DEP_FS/DepressionFS.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology/SUR_SGA/test.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,174 +112,121 @@ $(document).ready(function(){initNavTree('d4/da7/a01102_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">DepressionFS.cpp</div>  </div>
+<div class="title">test.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;seims.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../d9/d10/a01103.html">DepressionFS.h</a>&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="../../d5/ddf/a00224.html#a933ffc1557cef29993ee8f619e0a7d77">    4</a></span>&#160;<a class="code" href="../../d5/ddf/a00224.html#a933ffc1557cef29993ee8f619e0a7d77">DepressionFS::DepressionFS</a>(<span class="keywordtype">void</span>) : m_nCells(-1),</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                                   m_depCo(NODATA_VALUE), m_depCap(NULL), m_pet(NULL), m_ei(NULL),</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                                   m_sd(NULL), m_sr(NULL), m_checkInput(true) {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;}</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../d5/ddf/a00224.html#a11678128e4bc7eb5dae4b63878e2ca0a">    9</a></span>&#160;<a class="code" href="../../d5/ddf/a00224.html#a11678128e4bc7eb5dae4b63878e2ca0a">DepressionFS::~DepressionFS</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    Release1DArray(<a class="code" href="../../d5/ddf/a00224.html#a45f46a8f39c5a96518c35b82127f2691">m_sd</a>);</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    Release1DArray(<a class="code" href="../../d5/ddf/a00224.html#a2a346f7d4c55cf593401bf08ca0652ec">m_sr</a>);</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    Release1DArray(<a class="code" href="../../d5/ddf/a00224.html#ada7e687d5d87387f1f52dbd0074624ee">m_storageCapSurplus</a>);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;}</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keywordtype">bool</span> DepressionFS::CheckInputData(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../dd/d1d/a00336.html#aabd631c05d3e74aa9970f7415f2f5de7">m_date</a> == -1) {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_DEP_FS, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;You have not set the time.&quot;</span>);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    }</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/ddf/a00224.html#ad57e04a7dc0b0058628574bf22b17e8b">m_nCells</a> &lt;= 0) {</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_DEP_FS, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The cell number of the input can not be less than zero.&quot;</span>);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    }</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/ddf/a00224.html#a5817c75d4bbfbdfd8ec4d58045a4e1d9">m_depCo</a> == NODATA_VALUE) {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_DEP_FS, <span class="stringliteral">&quot;CheckInputData&quot;</span>,</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;                             <span class="stringliteral">&quot;The parameter: initial depression storage coefficient has not been set.&quot;</span>);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    }</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/ddf/a00224.html#a6ce504413d1677dd565a6cd120fc6597">m_depCap</a> == NULL) {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_DEP_FS, <span class="stringliteral">&quot;CheckInputData&quot;</span>,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                             <span class="stringliteral">&quot;The parameter: depression storage capacity has not been set.&quot;</span>);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    }</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#ifndef STORM_MODE</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">if</span> (<a class="code" href="../../d5/ddf/a00224.html#a2271f5d76746d34da5407ffb7d03a19b">m_pet</a> == NULL) {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_DEP_FS, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The parameter: PET has not been set.&quot;</span>);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    }</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/ddf/a00224.html#adb2445504dbddb88819bdbbaae403e3a">m_ei</a> == NULL) {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_DEP_FS, <span class="stringliteral">&quot;CheckInputData&quot;</span>,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                             <span class="stringliteral">&quot;The parameter: evaporation from the interception storage has not been set.&quot;</span>);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    }</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* not STORM_MODE */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;StormGreenAmpt.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;ctime&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define N 1</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keywordtype">void</span> InitValue(<span class="keywordtype">float</span> *a, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> value) {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i) {</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        a[i] = value;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    }</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">int</span> main() {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">int</span> threadCount = 10;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <a class="code" href="../../d0/d48/a00351.html">StormGreenAmpt</a> ga;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    ga.<a class="code" href="../../dd/d1d/a00336.html#a8526abbeed3f49071f39e0c17559e522">SetDate</a>(100);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a1f74ecd97f49df43e5e656e2a66814d5">SetValue</a>(<span class="stringliteral">&quot;TimeStep&quot;</span>, 1.0f);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a1f74ecd97f49df43e5e656e2a66814d5">SetValue</a>(<span class="stringliteral">&quot;T_snow&quot;</span>, 0.0f);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a1f74ecd97f49df43e5e656e2a66814d5">SetValue</a>(<span class="stringliteral">&quot;t_soil&quot;</span>, 0.0f);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a1f74ecd97f49df43e5e656e2a66814d5">SetValue</a>(<span class="stringliteral">&quot;T0&quot;</span>, 1.0f);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordtype">float</span> *ks = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];<span class="comment">//mm/h</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    InitValue(ks, N, 13.2f);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;Conductivity&quot;</span>, N, ks);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">float</span> *clay = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    InitValue(clay, N, 0.10f);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;Clay&quot;</span>, N, clay);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">float</span> *sand = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    InitValue(sand, N, 0.70f);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;Sand&quot;</span>, N, sand);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordtype">float</span> *porosity = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    InitValue(porosity, N, 0.437f);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;porosity&quot;</span>, N, porosity);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="keywordtype">void</span> DepressionFS::initialOutputs() {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/ddf/a00224.html#ad57e04a7dc0b0058628574bf22b17e8b">m_nCells</a> &lt;= 0) {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_DEP_FS, <span class="stringliteral">&quot;initialOutputs&quot;</span>, <span class="stringliteral">&quot;The cell number of the input can not be less than zero.&quot;</span>);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/ddf/a00224.html#a45f46a8f39c5a96518c35b82127f2691">m_sd</a> == NULL) {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <a class="code" href="../../d5/ddf/a00224.html#a45f46a8f39c5a96518c35b82127f2691">m_sd</a> = <span class="keyword">new</span> <span class="keywordtype">float</span>[<a class="code" href="../../d5/ddf/a00224.html#ad57e04a7dc0b0058628574bf22b17e8b">m_nCells</a>];</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <a class="code" href="../../d5/ddf/a00224.html#a2a346f7d4c55cf593401bf08ca0652ec">m_sr</a> = <span class="keyword">new</span> <span class="keywordtype">float</span>[<a class="code" href="../../d5/ddf/a00224.html#ad57e04a7dc0b0058628574bf22b17e8b">m_nCells</a>];</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <a class="code" href="../../d5/ddf/a00224.html#ada7e687d5d87387f1f52dbd0074624ee">m_storageCapSurplus</a> = <span class="keyword">new</span> <span class="keywordtype">float</span>[<a class="code" href="../../d5/ddf/a00224.html#ad57e04a7dc0b0058628574bf22b17e8b">m_nCells</a>];</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d5/ddf/a00224.html#ad57e04a7dc0b0058628574bf22b17e8b">m_nCells</a>; ++i) {</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <a class="code" href="../../d5/ddf/a00224.html#a45f46a8f39c5a96518c35b82127f2691">m_sd</a>[i] = <a class="code" href="../../d5/ddf/a00224.html#a5817c75d4bbfbdfd8ec4d58045a4e1d9">m_depCo</a> * <a class="code" href="../../d5/ddf/a00224.html#a6ce504413d1677dd565a6cd120fc6597">m_depCap</a>[i];</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;            <a class="code" href="../../d5/ddf/a00224.html#a2a346f7d4c55cf593401bf08ca0652ec">m_sr</a>[i] = 0.0f;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;}</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">float</span> *wp = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    InitValue(wp, N, 10.0f);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;Wiltingpoint&quot;</span>, N, wp);</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordtype">float</span> *initMst = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    InitValue(initMst, N, 0.1f);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;InitialSoilMoisture&quot;</span>, N, initMst);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordtype">float</span> *pNet = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    InitValue(pNet, N, 0.6f);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_NEPR&quot;</span>, N, pNet);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">float</span> *tMin = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    InitValue(tMin, N, 10.0f);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_Tmin&quot;</span>, N, tMin);</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="../../d5/ddf/a00224.html#a6b09a00b6278d9b68315cbf22d3c672a">   58</a></span>&#160;<span class="keywordtype">int</span> <a class="code" href="../../d5/ddf/a00224.html#a6b09a00b6278d9b68315cbf22d3c672a">DepressionFS::Execute</a>() {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    initialOutputs();</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/ddf/a00224.html#ac055334e35fb65b2c5f971b7f6ebc620">m_checkInput</a>) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        CheckInputData();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <a class="code" href="../../d5/ddf/a00224.html#ac055334e35fb65b2c5f971b7f6ebc620">m_checkInput</a> = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; <a class="code" href="../../d5/ddf/a00224.html#ad57e04a7dc0b0058628574bf22b17e8b">m_nCells</a>; ++i) {</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="comment">// sr is temporarily used to stored the water depth including the depression storage</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordtype">float</span> hWater = <a class="code" href="../../d5/ddf/a00224.html#a2a346f7d4c55cf593401bf08ca0652ec">m_sr</a>[i];</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="keywordflow">if</span> (hWater &lt;= <a class="code" href="../../d5/ddf/a00224.html#a6ce504413d1677dd565a6cd120fc6597">m_depCap</a>[i]) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <a class="code" href="../../d5/ddf/a00224.html#a45f46a8f39c5a96518c35b82127f2691">m_sd</a>[i] = hWater;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <a class="code" href="../../d5/ddf/a00224.html#a2a346f7d4c55cf593401bf08ca0652ec">m_sr</a>[i] = 0.f;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <a class="code" href="../../d5/ddf/a00224.html#a45f46a8f39c5a96518c35b82127f2691">m_sd</a>[i] = <a class="code" href="../../d5/ddf/a00224.html#a6ce504413d1677dd565a6cd120fc6597">m_depCap</a>[i];</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <a class="code" href="../../d5/ddf/a00224.html#a2a346f7d4c55cf593401bf08ca0652ec">m_sr</a>[i] = hWater - <a class="code" href="../../d5/ddf/a00224.html#a6ce504413d1677dd565a6cd120fc6597">m_depCap</a>[i];</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        }</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <a class="code" href="../../d5/ddf/a00224.html#ada7e687d5d87387f1f52dbd0074624ee">m_storageCapSurplus</a>[i] = <a class="code" href="../../d5/ddf/a00224.html#a6ce504413d1677dd565a6cd120fc6597">m_depCap</a>[i] - <a class="code" href="../../d5/ddf/a00224.html#a45f46a8f39c5a96518c35b82127f2691">m_sd</a>[i];</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keywordtype">bool</span> DepressionFS::CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n) {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">if</span> (n &lt;= 0) {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="comment">//StatusMsg(&quot;Input data for &quot;+string(key) +&quot; is invalid. The size could not be less than zero.&quot;);</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    }</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">if</span> (<a class="code" href="../../d5/ddf/a00224.html#ad57e04a7dc0b0058628574bf22b17e8b">m_nCells</a> != n) {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="../../d5/ddf/a00224.html#ad57e04a7dc0b0058628574bf22b17e8b">m_nCells</a> &lt;= 0) { <a class="code" href="../../d5/ddf/a00224.html#ad57e04a7dc0b0058628574bf22b17e8b">m_nCells</a> = n; }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="comment">//StatusMsg(&quot;Input data for &quot;+string(key) +&quot; is invalid. All the input data should have same size.&quot;);</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            ostringstream oss;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            oss &lt;&lt; <span class="stringliteral">&quot;Input data for &quot;</span> + string(key) &lt;&lt; <span class="stringliteral">&quot; is invalid with size: &quot;</span> &lt;&lt; n &lt;&lt; <span class="stringliteral">&quot;. The origin size is &quot;</span> &lt;&lt;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                <a class="code" href="../../d5/ddf/a00224.html#ad57e04a7dc0b0058628574bf22b17e8b">m_nCells</a> &lt;&lt; <span class="stringliteral">&quot;.\n&quot;</span>;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_DEP_FS, <span class="stringliteral">&quot;CheckInputSize&quot;</span>, oss.str());</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        }</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    }</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;}</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
-<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="../../d5/ddf/a00224.html#a32402d251581d1b75aad27907e394282">   99</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/ddf/a00224.html#a32402d251581d1b75aad27907e394282">DepressionFS::SetValue</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data) {</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_DEPREIN)) {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <a class="code" href="../../d5/ddf/a00224.html#a5817c75d4bbfbdfd8ec4d58045a4e1d9">m_depCo</a> = data;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_OMP_THREADNUM)) {</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        SetOpenMPThread((<span class="keywordtype">int</span>) data);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_DEP_FS, <span class="stringliteral">&quot;SetValue&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            + <span class="stringliteral">&quot; does not exist in current module. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno"><a class="line" href="../../d5/ddf/a00224.html#a42120f0926a585eff3ac89f8c4fc135a">  111</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/ddf/a00224.html#a42120f0926a585eff3ac89f8c4fc135a">DepressionFS::Set1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data) {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">//check the input data</span></div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    CheckInputSize(key, n);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_DEPRESSION)) {</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <a class="code" href="../../d5/ddf/a00224.html#a6ce504413d1677dd565a6cd120fc6597">m_depCap</a> = data;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_PET)) {</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <a class="code" href="../../d5/ddf/a00224.html#a2271f5d76746d34da5407ffb7d03a19b">m_pet</a> = data;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_DEP_FS, <span class="stringliteral">&quot;Set1DData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + sk</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            + <span class="stringliteral">&quot; does not exist in current module. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    }</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="../../d5/ddf/a00224.html#a5f4c599baf74b8387ab2008432385e3a">  125</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d5/ddf/a00224.html#a5f4c599baf74b8387ab2008432385e3a">DepressionFS::Get1DData</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data) {</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    initialOutputs();</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordtype">string</span> sk(key);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    *n = <a class="code" href="../../d5/ddf/a00224.html#ad57e04a7dc0b0058628574bf22b17e8b">m_nCells</a>;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordflow">if</span> (StringMatch(sk, VAR_DPST)) {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        *data = <a class="code" href="../../d5/ddf/a00224.html#a45f46a8f39c5a96518c35b82127f2691">m_sd</a>;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_SURU)) {</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        *data = <a class="code" href="../../d5/ddf/a00224.html#a2a346f7d4c55cf593401bf08ca0652ec">m_sr</a>;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(sk, VAR_STCAPSURPLUS)) {</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        *data = <a class="code" href="../../d5/ddf/a00224.html#ada7e687d5d87387f1f52dbd0074624ee">m_storageCapSurplus</a>;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_DEP_FS, <span class="stringliteral">&quot;Get1DData&quot;</span>, <span class="stringliteral">&quot;Output &quot;</span> + sk</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            + <span class="stringliteral">&quot; does not exist in current module. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    }</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;}</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
-<div class="ttc" id="a00224_html_ada7e687d5d87387f1f52dbd0074624ee"><div class="ttname"><a href="../../d5/ddf/a00224.html#ada7e687d5d87387f1f52dbd0074624ee">DepressionFS::m_storageCapSurplus</a></div><div class="ttdeci">float * m_storageCapSurplus</div><div class="ttdoc">surplus of storage capacity </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d10/a01103_source.html#l00078">DepressionFS.h:78</a></div></div>
-<div class="ttc" id="a00224_html_adb2445504dbddb88819bdbbaae403e3a"><div class="ttname"><a href="../../d5/ddf/a00224.html#adb2445504dbddb88819bdbbaae403e3a">DepressionFS::m_ei</a></div><div class="ttdeci">float * m_ei</div><div class="ttdoc">evaporation from the interception storage </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d10/a01103_source.html#l00070">DepressionFS.h:70</a></div></div>
-<div class="ttc" id="a00224_html_a6ce504413d1677dd565a6cd120fc6597"><div class="ttname"><a href="../../d5/ddf/a00224.html#a6ce504413d1677dd565a6cd120fc6597">DepressionFS::m_depCap</a></div><div class="ttdeci">float * m_depCap</div><div class="ttdoc">depression storage capacity </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d10/a01103_source.html#l00065">DepressionFS.h:65</a></div></div>
-<div class="ttc" id="a00336_html_aabd631c05d3e74aa9970f7415f2f5de7"><div class="ttname"><a href="../../dd/d1d/a00336.html#aabd631c05d3e74aa9970f7415f2f5de7">SimulationModule::m_date</a></div><div class="ttdeci">time_t m_date</div><div class="ttdoc">date time </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00168">SimulationModule.h:168</a></div></div>
-<div class="ttc" id="a01103_html"><div class="ttname"><a href="../../d9/d10/a01103.html">DepressionFS.h</a></div><div class="ttdoc">A simple fill and spill method method to calculate depression storage. </div></div>
-<div class="ttc" id="a00224_html_a2271f5d76746d34da5407ffb7d03a19b"><div class="ttname"><a href="../../d5/ddf/a00224.html#a2271f5d76746d34da5407ffb7d03a19b">DepressionFS::m_pet</a></div><div class="ttdeci">float * m_pet</div><div class="ttdoc">pet </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d10/a01103_source.html#l00068">DepressionFS.h:68</a></div></div>
-<div class="ttc" id="a00224_html_a32402d251581d1b75aad27907e394282"><div class="ttname"><a href="../../d5/ddf/a00224.html#a32402d251581d1b75aad27907e394282">DepressionFS::SetValue</a></div><div class="ttdeci">virtual void SetValue(const char *key, float data)</div><div class="ttdoc">Set data, DT_Single. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/da7/a01102_source.html#l00099">DepressionFS.cpp:99</a></div></div>
-<div class="ttc" id="a00224_html_a42120f0926a585eff3ac89f8c4fc135a"><div class="ttname"><a href="../../d5/ddf/a00224.html#a42120f0926a585eff3ac89f8c4fc135a">DepressionFS::Set1DData</a></div><div class="ttdeci">virtual void Set1DData(const char *key, int n, float *data)</div><div class="ttdoc">Set 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/da7/a01102_source.html#l00111">DepressionFS.cpp:111</a></div></div>
-<div class="ttc" id="a00224_html_ac055334e35fb65b2c5f971b7f6ebc620"><div class="ttname"><a href="../../d5/ddf/a00224.html#ac055334e35fb65b2c5f971b7f6ebc620">DepressionFS::m_checkInput</a></div><div class="ttdeci">bool m_checkInput</div><div class="ttdoc">whether check inputs, TODO Is it useless? By LJ </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d10/a01103_source.html#l00083">DepressionFS.h:83</a></div></div>
-<div class="ttc" id="a00224_html_a5f4c599baf74b8387ab2008432385e3a"><div class="ttname"><a href="../../d5/ddf/a00224.html#a5f4c599baf74b8387ab2008432385e3a">DepressionFS::Get1DData</a></div><div class="ttdeci">virtual void Get1DData(const char *key, int *n, float **data)</div><div class="ttdoc">Get 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/da7/a01102_source.html#l00125">DepressionFS.cpp:125</a></div></div>
-<div class="ttc" id="a00224_html_a2a346f7d4c55cf593401bf08ca0652ec"><div class="ttname"><a href="../../d5/ddf/a00224.html#a2a346f7d4c55cf593401bf08ca0652ec">DepressionFS::m_sr</a></div><div class="ttdeci">float * m_sr</div><div class="ttdoc">surface runoff </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d10/a01103_source.html#l00076">DepressionFS.h:76</a></div></div>
-<div class="ttc" id="a00224_html_a45f46a8f39c5a96518c35b82127f2691"><div class="ttname"><a href="../../d5/ddf/a00224.html#a45f46a8f39c5a96518c35b82127f2691">DepressionFS::m_sd</a></div><div class="ttdeci">float * m_sd</div><div class="ttdoc">depression storage </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d10/a01103_source.html#l00074">DepressionFS.h:74</a></div></div>
-<div class="ttc" id="a00224_html_a933ffc1557cef29993ee8f619e0a7d77"><div class="ttname"><a href="../../d5/ddf/a00224.html#a933ffc1557cef29993ee8f619e0a7d77">DepressionFS::DepressionFS</a></div><div class="ttdeci">DepressionFS(void)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/da7/a01102_source.html#l00004">DepressionFS.cpp:4</a></div></div>
-<div class="ttc" id="a00224_html_a11678128e4bc7eb5dae4b63878e2ca0a"><div class="ttname"><a href="../../d5/ddf/a00224.html#a11678128e4bc7eb5dae4b63878e2ca0a">DepressionFS::~DepressionFS</a></div><div class="ttdeci">~DepressionFS(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/da7/a01102_source.html#l00009">DepressionFS.cpp:9</a></div></div>
-<div class="ttc" id="a00285_html"><div class="ttname"><a href="../../d3/d58/a00285.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d85/a00908_source.html#l00020">ModelException.h:20</a></div></div>
-<div class="ttc" id="a00224_html_ad57e04a7dc0b0058628574bf22b17e8b"><div class="ttname"><a href="../../d5/ddf/a00224.html#ad57e04a7dc0b0058628574bf22b17e8b">DepressionFS::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">valid cells number </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d10/a01103_source.html#l00060">DepressionFS.h:60</a></div></div>
-<div class="ttc" id="a00224_html_a6b09a00b6278d9b68315cbf22d3c672a"><div class="ttname"><a href="../../d5/ddf/a00224.html#a6b09a00b6278d9b68315cbf22d3c672a">DepressionFS::Execute</a></div><div class="ttdeci">virtual int Execute(void)</div><div class="ttdoc">Execute the simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/da7/a01102_source.html#l00058">DepressionFS.cpp:58</a></div></div>
-<div class="ttc" id="a00224_html_a5817c75d4bbfbdfd8ec4d58045a4e1d9"><div class="ttname"><a href="../../d5/ddf/a00224.html#a5817c75d4bbfbdfd8ec4d58045a4e1d9">DepressionFS::m_depCo</a></div><div class="ttdeci">float m_depCo</div><div class="ttdoc">initial depression storage coefficient </div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d10/a01103_source.html#l00063">DepressionFS.h:63</a></div></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">float</span> *tMax = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    InitValue(tMax, N, 25.0f);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_Tmax&quot;</span>, N, tMax);</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordtype">float</span> *soilMoisture = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    InitValue(soilMoisture, N, 0.1f);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_SOMO&quot;</span>, N, soilMoisture);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordtype">float</span> *sd = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    InitValue(sd, N, 0.0f);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_DPST&quot;</span>, N, sd);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">float</span> *tSoil = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    InitValue(tSoil, N, 20.0f);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_SOTE&quot;</span>, N, tSoil);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordtype">float</span> *sa = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    InitValue(sa, N, 0.0f);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_SNAC&quot;</span>, N, sa);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordtype">float</span> *sm = <span class="keyword">new</span> <span class="keywordtype">float</span>[N];</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    InitValue(sm, N, 0.0f);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    ga.<a class="code" href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">Set1DData</a>(<span class="stringliteral">&quot;D_SNME&quot;</span>, N, sm);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    clock_t t1, t2;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    t1 = clock();</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="comment">//#pragma omp parallel for</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; 200; i++) {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        ga.<a class="code" href="../../d0/d48/a00351.html#a2b3ec9d687c6d566cb2d5b6e4b61d54d">Execute</a>();</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordtype">float</span> *p;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordtype">int</span> n;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        ga.<a class="code" href="../../d0/d48/a00351.html#ad5335343382ffe9302d721f5a7c574aa">Get1DData</a>(<span class="stringliteral">&quot;Infil&quot;</span>, &amp;n, &amp;p);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="comment">//cout &lt;&lt; p[0] &lt;&lt; &quot;\n&quot;;</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    }</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    cout &lt;&lt; endl;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    t2 = clock();</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    cout &lt;&lt; t2 - t1 &lt;&lt; endl;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;}</div>
+<div class="ttc" id="a00351_html_ad5335343382ffe9302d721f5a7c574aa"><div class="ttname"><a href="../../d0/d48/a00351.html#ad5335343382ffe9302d721f5a7c574aa">StormGreenAmpt::Get1DData</a></div><div class="ttdeci">virtual void Get1DData(const char *key, int *n, float **data)</div><div class="ttdoc">Get 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dbd/a01100_source.html#l00040">StormGreenAmpt.cpp:40</a></div></div>
+<div class="ttc" id="a00336_html_a8526abbeed3f49071f39e0c17559e522"><div class="ttname"><a href="../../dd/d1d/a00336.html#a8526abbeed3f49071f39e0c17559e522">SimulationModule::SetDate</a></div><div class="ttdeci">virtual void SetDate(time_t t, int yearIdx)</div><div class="ttdoc">Set date time, as well as the sequence number of the entire simulation. Added by LJ for statistics co...</div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d85/a00976_source.html#l00059">SimulationModule.h:59</a></div></div>
+<div class="ttc" id="a00351_html_a1f74ecd97f49df43e5e656e2a66814d5"><div class="ttname"><a href="../../d0/d48/a00351.html#a1f74ecd97f49df43e5e656e2a66814d5">StormGreenAmpt::SetValue</a></div><div class="ttdeci">virtual void SetValue(const char *key, float value)</div><div class="ttdoc">Set data, DT_Single. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dbd/a01100_source.html#l00278">StormGreenAmpt.cpp:278</a></div></div>
+<div class="ttc" id="a00351_html_a99dae76458ad662444fd4f4a8905dbc6"><div class="ttname"><a href="../../d0/d48/a00351.html#a99dae76458ad662444fd4f4a8905dbc6">StormGreenAmpt::Set1DData</a></div><div class="ttdeci">virtual void Set1DData(const char *key, int n, float *data)</div><div class="ttdoc">Set 1D data, by default, DT_Raster1D. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dbd/a01100_source.html#l00308">StormGreenAmpt.cpp:308</a></div></div>
+<div class="ttc" id="a00351_html"><div class="ttname"><a href="../../d0/d48/a00351.html">StormGreenAmpt</a></div><div class="ttdoc">Green-Ampt Method to calculate infiltration and excess precipitation. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d99/a01101_source.html#l00021">StormGreenAmpt.h:21</a></div></div>
+<div class="ttc" id="a00351_html_a2b3ec9d687c6d566cb2d5b6e4b61d54d"><div class="ttname"><a href="../../d0/d48/a00351.html#a2b3ec9d687c6d566cb2d5b6e4b61d54d">StormGreenAmpt::Execute</a></div><div class="ttdeci">virtual int Execute(void)</div><div class="ttdoc">Execute the simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dbd/a01100_source.html#l00162">StormGreenAmpt.cpp:162</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_2b6acf6fd44d6ce05f607e1b9f3873b3.html">DEP_FS</a></li><li class="navelem"><b>DepressionFS.cpp</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 13:26:00 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_4007bc7af592d6693c5c1bdb2836af59.html">SUR_SGA</a></li><li class="navelem"><b>test.cpp</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 14:11:26 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/test/seims_framework/unittest_utilsclass.cpp Source File</title>
+<title>SEIMS: seims_storm_linux_gcc48/doc/wiki/mk_sidebar.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,32 +112,34 @@ $(document).ready(function(){initNavTree('d0/d5a/a01199_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">unittest_utilsclass.cpp</div>  </div>
+<div class="title">mk_sidebar.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;src/commonlibs/UtilsClass/utils.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;gtest/gtest.h&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;TEST(UtilsFileIOTest, commonUse) {</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    <a class="code" href="../../dc/de3/a00373.html">utilsFileIO</a> utilsfileio;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="comment">// windows path style, mixed style</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    EXPECT_EQ(<span class="stringliteral">&quot;tif&quot;</span>, utilsfileio.<a class="code" href="../../dc/de3/a00373.html#ae703f665e3cb825b7b9e7305be453cda">GetSuffix</a>(<span class="stringliteral">&quot;c:/test/dem.tif&quot;</span>));</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    EXPECT_EQ(<span class="stringliteral">&quot;fig&quot;</span>, utilsfileio.<a class="code" href="../../dc/de3/a00373.html#ae703f665e3cb825b7b9e7305be453cda">GetSuffix</a>(<span class="stringliteral">&quot;c:\\test\\config.fig&quot;</span>));</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    EXPECT_EQ(<span class="stringliteral">&quot;txt&quot;</span>, utilsfileio.<a class="code" href="../../dc/de3/a00373.html#ae703f665e3cb825b7b9e7305be453cda">GetSuffix</a>(<span class="stringliteral">&quot;c:\\test/file.txt&quot;</span>));</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="comment">// linux or unix sytle</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    EXPECT_EQ(<span class="stringliteral">&quot;tif&quot;</span>, utilsfileio.<a class="code" href="../../dc/de3/a00373.html#ae703f665e3cb825b7b9e7305be453cda">GetSuffix</a>(<span class="stringliteral">&quot;/usr/seims/data/dem.tif&quot;</span>));</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="comment">// without suffix</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    EXPECT_EQ(<span class="stringliteral">&quot;&quot;</span>, utilsfileio.<a class="code" href="../../dc/de3/a00373.html#ae703f665e3cb825b7b9e7305be453cda">GetSuffix</a>(<span class="stringliteral">&quot;abcdefg&quot;</span>));</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
-<div class="ttc" id="a00373_html_ae703f665e3cb825b7b9e7305be453cda"><div class="ttname"><a href="../../dc/de3/a00373.html#ae703f665e3cb825b7b9e7305be453cda">utilsFileIO::GetSuffix</a></div><div class="ttdeci">static string GetSuffix(string const &amp;fullFileName)</div><div class="ttdoc">Return the suffix of a given file&#39;s path. </div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d12/a00910_source.html#l00612">utils.cpp:612</a></div></div>
-<div class="ttc" id="a00373_html"><div class="ttname"><a href="../../dc/de3/a00373.html">utilsFileIO</a></div><div class="ttdoc">File Input and output related functions. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/d12/a00911_source.html#l00590">utils.h:590</a></div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="keyword">import</span> os</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">def </span>createIndexFile(startpath, indexFile):</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;    <span class="keywordflow">for</span> root, dirs, files <span class="keywordflow">in</span> os.walk(startpath):</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;        files = [f <span class="keywordflow">for</span> f <span class="keywordflow">in</span> files <span class="keywordflow">if</span> <span class="keywordflow">not</span> f[0] == <span class="stringliteral">&#39;.&#39;</span>]</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;        dirs[:] = [d <span class="keywordflow">for</span> d <span class="keywordflow">in</span> dirs <span class="keywordflow">if</span> <span class="keywordflow">not</span> d[0] == <span class="stringliteral">&#39;.&#39;</span>]</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        level = root.replace(startpath, <span class="stringliteral">&#39;&#39;</span>).count(os.sep) - 1</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;        indent = <span class="stringliteral">&#39; &#39;</span> * 2 * (level)</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        directory = os.path.basename(root)</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;        <span class="keywordflow">if</span> directory != <span class="stringliteral">&#39;.&#39;</span>:</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;            indexFile.write(<span class="stringliteral">&#39;{}- {}\n&#39;</span>.format(indent, os.path.basename(root)))</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;            subindent = <span class="stringliteral">&#39; &#39;</span> * 2 * (level + 1)</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;            <span class="keywordflow">for</span> f <span class="keywordflow">in</span> files:</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;                indexFile.write(<span class="stringliteral">&#39;{}- [{}]({})\n&#39;</span>.format(subindent, f[:-3], f[:-3]))</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;indexFile = open(<span class="stringliteral">&#39;_Sidebar.md&#39;</span>, <span class="stringliteral">&#39;w&#39;</span>)</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;createIndexFile(<span class="stringliteral">&quot;.&quot;</span>, indexFile)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;indexFile.close();</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_cb5a40850f309af10cea0bc5f8a7206c.html">test</a></li><li class="navelem"><a class="el" href="../../dir_c7a38090291a9b8671b3548ff36d05b1.html">seims_framework</a></li><li class="navelem"><b>unittest_utilsclass.cpp</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 13:26:01 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_9acb163bfc580721a7f3d6aabfda8dbb.html">seims_storm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_60a2e93d9f028b3b39b7b75574980c19.html">doc</a></li><li class="navelem"><a class="el" href="../../dir_305d54bbffceea5ca33afbff6de081c6.html">wiki</a></li><li class="navelem"><b>mk_sidebar.py</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 14:11:27 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

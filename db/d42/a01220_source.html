@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_longterm_linux_gcc48/doc/wiki/Home.md Source File</title>
+<title>SEIMS: seims_longterm_linux_gcc48/doc/wiki/Run SEIMS/Construct-python-env.md Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,70 +112,165 @@ $(document).ready(function(){initNavTree('db/d42/a01220.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">seims_longterm_linux_gcc48/doc/wiki/Home.md</div>  </div>
+<div class="title">seims_longterm_linux_gcc48/doc/wiki/Run SEIMS/Construct-python-env.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">## 1.基本信息</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span>SEIMS（Spatially Explicit Integrated Modeling System）模型是以栅格为基本模拟单元、能体现水流空间运动的全分布式水文模型，在借鉴SWAT、Wetspa、LISEM、CASC2D、DHSVM和流溪河模型等多个模型基础上开发的模块化水文模型，采用C++编写，采用共享内存（OpenMP）和消息传递（MPI）实现了子流域-基本单元的双层并行计算，并利用NoSql数据库MongoDB进行数据组织管理。</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;Python环境配置</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;--------------------------</div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;SEIMS模型可通过常用C++编译器（如MSVC、GCC、Clang、Intel C++）编译成32位或64位程序，并运行在常见操作系统中（如Windows、Linux、macOS），master主分支在多个平台下的编译状态：</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;by Huiran Gao, Liang-Jun Zhu</div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;[![Build status](https:<span class="comment">//ci.appveyor.com/api/projects/status/i3mxjy0wjgphcyu1/branch/master?svg=true)](https://ci.appveyor.com/project/lreis-2415/seims/branch/master) [![Build Status](http://badges.herokuapp.com/travis/lreis2415/SEIMS?branch=master&amp;env=BUILD_NAME=linux_gcc48&amp;label=linux_gcc48)](https://travis-ci.org/lreis2415/SEIMS) [![Build Status](http://badges.herokuapp.com/travis/lreis2415/SEIMS?branch=master&amp;env=BUILD_NAME=osx_xcode&amp;label=osx_clang)](https://travis-ci.org/lreis2415/SEIMS)</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;Latest Updated：May.31, 2016 </div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;目前，模型仍在持续开发、完善中，我们欢迎任何建议和反馈（通过issue、push request或email等方式）。</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;--------------------------</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">## 2.对于开发者</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"># 目录</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;流域过程模型涉及多个子过程，各子过程之间通常有发生的先后顺序，也有同时发生的现象。如何在程序中对这些地理过程进行模块化划分及组合，需要我们对模型的整体结构、地理过程有一个宏观的把握。</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;[**1. GDAL（独立于Python）安装**](#1-gdal（独立于python）安装)</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;因此，希望参与模型开发的同学能够整体了解SEIMS的基本架构，在分析解决问题过程中，能够从</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;&gt;数据准备——预处理——输入——运算——输出</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;这个整体流程的角度去思考。</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;[**2. Python脚本依赖库安装**](#2-python脚本依赖库安装)</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;1. [pip安装](#i-pip安装)</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;2. [使用pip安装whl依赖库](#ii-使用pip安装whl依赖库)</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">### 2.1. 知识储备</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;+ 2.1.1. [Git简明操作](Git-guidance)</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;+ 2.1.2. [Python环境搭建](https:<span class="comment">//zhulj.net/python/2016/03/18/Python-Env-For-GISer.html)及语法学习</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;+ 2.1.3. C++语法学习</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;+ 2.1.4. 代码规范，可学习[Google Code Style](https:<span class="comment">//github.com/google/styleguide)</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;### 2.2. 建议步骤</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;[**3. 最好用的Python编辑器之一--PyCharm介绍**](#3-最好用的python编辑器之一--pycharm介绍)</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;# 1. GDAL（独立于Python）安装</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;下载并安装gdal-111-1600-x64-core.msi</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;+ 链接一: [http:<span class="comment">//pan.baidu.com/s/1c0saqQW](http://pan.baidu.com/s/1c0saqQW) 提取码: ggbj </span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;+ 链接二：[http:<span class="comment">//download.gisinternals.com/sdk/downloads/release-1600-x64-gdal-1-11-1-mapserver-6-4-1/gdal-111-1600-x64-core.msi](http://download.gisinternals.com/sdk/downloads/release-1600-x64-gdal-1-11-1-mapserver-6-4-1/gdal-111-1600-x64-core.msi) </span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;+ 2.2.1. 详细学习[Git简明操作教程](Git-guidance)，重点掌握**冲突管理**和**Git分支管理**；</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;+ 2.2.2. 根据实际情况选择对应操作系统对SEIMS进行编译、安装，只需编译OpenMP版本即可，[Windows](Windows)、[Linux](Linux)、[macOS](macOS)；</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;+ 2.2.3. 学习[SEIMS模型所需准备数据](Data-preparation)，[配置预处理程序](Construct-python-env)，并成功实现[数据预处理](Data-preprocess)（即顺利构建MongoDB数据库）；</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;+ 2.2.4. 按照[示例数据](Dianbu)，[配置并运行SEIMS](Executation-and-calibration)，得到结果；</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;+ 2.2.5. 接下来就可以自己搭建SEIMS开发环境，[以Visual Studio和PyCharm为例](Develop-environment)，并[阅读开发规范](Coding-protocol)；</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;+ 2.2.6. 配合现有模块及[SEIMS开发文档](https:<span class="comment">//lreis2415.github.io/SEIMS/)，学习SEIMS结构，尤其是数据组织方式、模型运行流程等；</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;+ 2.2.7. 根据[模块开发Demo](Module-demo)，熟悉模块、函数、变量的命名及[名词缩写规范](Global-abbreviation)，完整敲一遍代码，并编译、运行、调试；</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;+ 2.2.8. 根据[现有模块开发状态](Module-in-development)，结合需要，进行现有模块测试、增加新模块等，**请注意**这些工作都是在自定义分支下进行的，如`moduletest_musk`；</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;+ 2.2.9. 根据示例数据（或补充数据）进行模块测试，确定代码无误后，合并分支至`dev`，并新建`issue`供模型开发组讨论。</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;### 3. 参考文献</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;#### 3.1 学位论文</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;+ 高会然, 2017. 坡位功能特征指导下的 BMPs 空间配置方法. 地理科学与资源研究所,中国科学院大学, 北京. (硕士)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;+ 谢军, 2015. 福建红壤区流域水土流失治理措施的情景分析--以朱溪河小流域为例. 福州大学, 福州. (硕士)</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;+ 吴辉, 2014. 流域最佳管理措施空间配置优化研究. 地理科学与资源研究所,中国科学院大学, 北京. (博士)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;+ 刘军志, 2013. 分布式水文模型的子流域-基本单元双层并行计算方法. 地理科学与资源研究所, 中国科学院大学, 北京. (博士)</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;下载完成后，安装GDAL，一路 Next 就可以，安装路径设为`C:\Program Files\GDAL`，完成后，在环境变量里新建GDAL_DATA项，值设置为`C:\Program Files\GDAL\gdal-data`</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;[返回目录](#目录)</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor"># 2. Python脚本依赖库安装</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;SEIMS预处理程序Python (python 2.7版本)依赖包集合下载：</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;+ Python x64, [百度云盘](http:<span class="comment">//pan.baidu.com/s/1dF9GiYl), 提取码：z2ia</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;+ Python x32, [百度云盘](http:<span class="comment">//pan.baidu.com/s/1qY7XNw4), 提取码：6cap</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;&gt; 注意，这里的64位或者32位指的是Python的版本，而非Windows版本</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">## i. pip安装</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;+ 离线安装pip</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    离线安装pip需要下载setuptools和pip并解压</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;#### 3.2 期刊文章</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    随后，管理员方式运行cmd，输入以下命令：</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;+ 吴辉, 刘永波, 秦承志, 刘军志, 江净超, 朱阿兴, 2016. [流域最佳管理措施情景优化算法的并行化](http:<span class="comment">//www.cnki.net/kcms/doi/10.13203/j.whugis20140048.html). 武汉大学学报(信息科学版). 41(2): 202–207.</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;+ Liu, J.-Z, Zhu, A.-X., Qin, C.-Z., Wu, H., Jiang, J.-C, 2016. [A two-level parallelization method <span class="keywordflow">for</span> distributed hydrological models](http:<span class="comment">//dx.doi.org/10.1016/j.envsoft.2016.02.032). Environmental Modelling &amp; Software 80, 175-184.</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;+ Liu, J.-Z, Zhu, A.-X., Liu, Y.-B, Zhu, T.-X, Qin, C.-Z., 2014. [A layered approach to parallel computing <span class="keywordflow">for</span> spatially distributed hydrological modeling](http:<span class="comment">//dx.doi.org/10.1016/j.envsoft.2013.10.005). Environmental Modelling &amp; Software 51, 221-227.</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;+ 吴辉, 刘永波, 刘军志, 朱阿兴, 2014. [农业最佳管理措施在全分布式水文模型中的表达--以罗玉沟流域为例](http:<span class="comment">//www.cnki.net/kcms/detail/detail.aspx?dbcode=CJFD&amp;filename=JORE201402011&amp;dbname=CJFD2014&amp;uid=WEEvREcwSlJHSldRa1FhcEE0NXdnZ3lnczMwU2hwUHdrU0I0MkQzNUsyUT0=$9A4hF_YAuvQ5obgVAqNKPCYcEjKensW4ggI8Fm4gTkoUKaID8j8gFw!!). 资源与生态学报: 英文版, 179-184.</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;+ 刘军志, 朱阿兴, 刘永波, 秦承志, 陈腊娇, 吴辉, 杨琳, 2013. [基于栅格分层的逐栅格汇流算法并行化研究](http:<span class="comment">//www.cnki.net/kcms/detail/detail.aspx?dbcode=CJFD&amp;filename=GFKJ201301023&amp;dbname=CJFD2013&amp;uid=WEEvREcwSlJHSldRa1FhcEE0NXdnZ3lnczMwU2hwUHdrU0I0MkQzNUsyUT0=$9A4hF_YAuvQ5obgVAqNKPCYcEjKensW4ggI8Fm4gTkoUKaID8j8gFw!!). 国防科技大学学报 35, 123-129.</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    ```shell</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    cd &lt;setuptools path&gt;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    python setup.py install</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    cd &lt;pip path&gt;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    python setup.py install</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    ```</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;+ 在线安装pip，从[这里](https:<span class="comment">//bootstrap.pypa.io/get-pip.py)下载`get-pip.py`</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    ```python</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    python <span class="keyword">get</span>-pip.py</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    ```</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;安装好pip，就可以离线安装whl格式的python第三方库了，whl库的下载地址为：[http:<span class="comment">//www.lfd.uci.edu/~gohlke/pythonlibs/](http://www.lfd.uci.edu/~gohlke/pythonlibs/)。</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="preprocessor">## ii. 使用pip安装whl依赖库</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;+ GDAL（依赖于Python）安装</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  通过上面下载whl库的链接，可以下载完整的GDAL打包文件 `GDAL-1.11.3-cp27-none-win_amd64.whl`(64位，注意32位和64位的区分)，管理员方式运行cmd，输入安装命令：</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  ```shell</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  cd &lt;GDAL path&gt;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  pip install GDAL-1.11.3-cp27-none-win_amd64.whl</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  ```</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  提示安装成功即可，输入以下命令验证是否安装成功：</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  ```python</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  python</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  from osgeo <span class="keyword">import</span> gdal</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  from osgeo <span class="keyword">import</span> ogr</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  from osgeo <span class="keyword">import</span> osr</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  from osgeo <span class="keyword">import</span> gdal_array</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  from osgeo <span class="keyword">import</span> gdalconst</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  ```</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;+ whl依赖库的批量安装</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  将下载的whl库文件(比如scipy，numexpr，PyQt4，wxPython（需要wxPython_common），PyGTK，python_dateutil，pytz，matplotlib，pywin32…)放到某一英文目录下，然后新建`install.bat`文件，输入如下内容：</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;&gt; 注意修改python路径：`PYPATH`</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;&gt; install.bat文件应与whl库文件放在同一文件夹。</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;```shell</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;@echo off</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;@echo off</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;echo <span class="stringliteral">&quot;Liangjun Zhu, zlj@lreis.ac.cn&quot;</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;echo <span class="stringliteral">&quot;-- Install Python Packages Using Pip...&quot;</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;echo <span class="stringliteral">&quot;-- WHL files downloaded from http://www.lfd.uci.edu/~gohlke/pythonlibs/&quot;</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;pushd %~dp0</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;cd %~dp0</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;:: python path, x86 or x64 versioned python</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;set PYPATH=C:/python27x86/</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;set PIPPYTH=%PYPATH%Scripts/</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;:: COMMENT-1: Install easy_install and pip without network</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;::%PYPATH%python %~dp0\setuptools-18.2\setup.py install</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;::%PYPATH%python %~dp0\pip-7.1.2\setup.py install</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;:: COMMENT-2: Install easy_install and pip without network</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;::%PYPATH%python <span class="keyword">get</span>-pip.py</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="keywordflow">for</span> /f <span class="stringliteral">&quot;delims=&quot;</span> %%i in (<span class="stringliteral">&#39;dir /s/b &quot;*.whl&quot;&#39;</span>) do ( </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;echo installing %%~ni ...</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;%PIPPYTH%pip install %%i </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;)</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;echo &quot;-- All packages installed Succeed!&quot;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;pause</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;```</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;这样便会自动安装该文件夹所有的packages...</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;[返回目录](<span class="preprocessor">#目录)</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;<span class="preprocessor"># 3. 最好用的Python编辑器之一--PyCharm介绍</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;PyCharm是一种Python IDE，带有一整套可以帮助用户在使用Python语言开发时提高其效率的工具，比如调试、语法高亮、Project管理、代码跳转、智能提示、自动完成、单元测试、版本控制。</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;特点：</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;+ 编码协助</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  </div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    提供了一个带编码补全，代码片段，支持代码折叠和分割窗口的智能、可配置的编辑器;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;+ 项目代码导航</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    帮助用户即时从一个文件导航至另一个，从一个方法至其申明或者用法甚至可以穿过类的层次;</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;+ 代码分析</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    用户可使用其编码语法，错误高亮，智能检测以及一键式代码快速补全建议;</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;+ Python重构</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    在项目范围内轻松进行重命名，提取方法/超类，导入域/变量/常量，移动和前推/后退重构。</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;+ ......</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;下载链接：[百度云盘](http:<span class="comment">//pan.baidu.com/s/1i5nnvNJ)，提取码：gyy2</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;[返回目录](#目录)</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>Home.md</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 13:26:01 for SEIMS by
+    <li class="navelem"><b>Construct-python-env.md</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 14:11:27 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

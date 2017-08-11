@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/main/main_mpi/CombineRaster.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology/CH_MSK/api.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,417 +112,82 @@ $(document).ready(function(){initNavTree('df/dbc/a01004_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">CombineRaster.cpp</div>  </div>
+<div class="title">api.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;sstream&gt;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">//gdal</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;gdal.h&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;gdal_priv.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &quot;cpl_string.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;Muskingum.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <a class="code" href="../../dd/d1d/a00336.html">SimulationModule</a> *</div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;parallel.h&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;clsRasterData.cpp&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;GetInstance() {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d9/d5e/a00295.html">Muskingum</a>();</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">//#include &quot;Raster.h&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keywordtype">void</span> CombineRasters(map &lt; <span class="keywordtype">int</span>, <a class="code" href="../../d5/df1/a00206.html">clsRasterData &lt; float &gt;</a> * &gt; *allRasterData, <span class="keywordtype">string</span> &amp; m_srs, <span class="keywordtype">string</span> &amp; outputRaster) {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordtype">float</span> xMin = FLT_MAX;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">float</span> xMax = 0.f;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordtype">float</span> yMin = FLT_MAX;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keywordtype">float</span> yMax = 0.f;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordtype">float</span> xll = 0.f, yll = 0.f, dx = 0.f, dy = 0.f, xur = 0.f, yur = 0.f;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">int</span> nRows = 0, nCols = 0;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">int</span> nSubbasins = allRasterData-&gt;size();</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="comment">// loop to get global extent</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt;= nSubbasins; i++) {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="../../d5/df1/a00206.html">clsRasterData&lt;float&gt;</a> *rs = allRasterData-&gt;at(i);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        nRows = rs-&gt;<a class="code" href="../../d5/df1/a00206.html#a2f90b200ccef886fe285b054d92ddd16">getRows</a>();</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        nCols = rs-&gt;<a class="code" href="../../d5/df1/a00206.html#a106e00b76367e8948e594fed8d964b18">getCols</a>();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        dx = rs-&gt;<a class="code" href="../../d5/df1/a00206.html#aa7fb739c69d2d47d62ee5e7bbc6e8cbc">getCellWidth</a>();</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        dy = dx;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        xll = rs-&gt;<a class="code" href="../../d5/df1/a00206.html#ab87c4d94e197bf25a5b842aa1830ab3e">getXllCenter</a>() - 0.5f * dx;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        yll = rs-&gt;<a class="code" href="../../d5/df1/a00206.html#adad9f52f59df10febbf69be5ce04ab78">getYllCenter</a>() - 0.5f * dy;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        xur = xll + nCols * dx;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        yur = yll + nRows * dy;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="comment">//cout &lt;&lt; &quot;[DEBUG]\t&quot; &lt;&lt; nRows &lt;&lt; &quot;\t&quot; &lt;&lt; nCols &lt;&lt; &quot;\t&quot; &lt;&lt; xll &lt;&lt; &quot;\t&quot; &lt;&lt; yll &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="keywordflow">if</span> (i == 1) {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            xMin = xll;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;            yMin = yll;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            xMax = xur;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            yMax = yur;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        xMin = (xll &lt; xMin) ? xll : xMin;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        xMax = (xur &gt; xMax) ? xur : xMax;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        yMin = (yll &lt; yMin) ? yll : yMin;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        yMax = (yur &gt; yMax) ? yur : yMax;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    }</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// function to return the XML Metadata document string</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../d0/dc7/a01402.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a>() {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">string</span> res = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="../../d0/dcd/a00280.html">MetadataInfo</a> mdi;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment">// set the information properties</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    mdi.SetAuthor(<span class="stringliteral">&quot;Junzhi Liu&quot;</span>);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    mdi.SetClass(MCLS_CH_ROUTING, MCLSDESC_CH_ROUTING);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    mdi.SetDescription(MDESC_CH_MSK);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    mdi.SetEmail(SEIMS_EMAIL);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    mdi.SetHelpfile(<span class="stringliteral">&quot;CH_MSK.chm&quot;</span>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    mdi.SetID(MID_CH_MSK);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    mdi.SetName(MID_CH_MSK);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    mdi.SetVersion(<span class="stringliteral">&quot;0.1&quot;</span>);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    mdi.SetWebsite(SEIMS_SITE);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    mdi.AddParameter(Tag_HillSlopeTimeStep, UNIT_SECOND, DESC_TIMESTEP, File_Input, DT_Single);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    mdi.AddParameter(Tag_LayeringMethod, UNIT_NON_DIM, DESC_LayeringMethod, File_Input, DT_Single);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    mdi.AddParameter(Tag_CellSize, UNIT_NON_DIM, DESC_CellSize, Source_ParameterDB, DT_Single);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    mdi.AddParameter(Tag_CellWidth, UNIT_LEN_M, DESC_CellWidth, Source_ParameterDB, DT_Single);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    mdi.AddParameter(VAR_MSK_X, UNIT_NON_DIM, DESC_MSK_X, Source_ParameterDB, DT_Single);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    mdi.AddParameter(VAR_SLOPE, UNIT_PERCENT, DESC_SLOPE, Source_ParameterDB, DT_Raster1D);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    mdi.AddParameter(VAR_FLOWDIR, UNIT_NON_DIM, DESC_FLOWDIR, Source_ParameterDB, DT_Raster1D);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    mdi.AddParameter(VAR_CHWIDTH, UNIT_LEN_M, DESC_CHWIDTH, Source_ParameterDB, DT_Raster1D);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="comment">// reach information</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    mdi.AddParameter(Tag_FLOWOUT_INDEX_D8, UNIT_NON_DIM, DESC_FLOWOUT_INDEX_D8, Source_ParameterDB, DT_Array1D);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    mdi.AddParameter(Tag_FLOWIN_INDEX_D8, UNIT_NON_DIM, DESC_FLOWIN_INDEX_D8, Source_ParameterDB, DT_Array2D);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    mdi.AddParameter(VAR_STREAM_LINK, UNIT_NON_DIM, DESC_STREAM_LINK, Source_ParameterDB, DT_Raster1D);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">//mdi.AddParameter(Tag_ReachParameter, UNIT_NON_DIM, DESC_REACH_PARAM, Source_ParameterDB, DT_Array2D);</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment">// add reach information</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    mdi.AddParameter(VAR_REACH_PARAM, UNIT_NON_DIM, DESC_REACH_PARAM, Source_ParameterDB, DT_Reach);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    mdi.AddParameter(VAR_CHS0, UNIT_STRG_M3M, DESC_CHS0, Source_ParameterDB, DT_Single);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="comment">// from other module</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    mdi.AddInput(VAR_SBQG, UNIT_FLOW_CMS, DESC_SBQG, Source_Module, DT_Array1D);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    mdi.AddInput(VAR_QSOIL, UNIT_FLOW_CMS, DESC_QSOIL, Source_Module, DT_Raster1D);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    mdi.AddInput(VAR_QOVERLAND, UNIT_FLOW_CMS, DESC_QOVERLAND, Source_Module, DT_Raster1D);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    mdi.AddInput(VAR_PCP, UNIT_DEPTH_MM, DESC_PCP, Source_Module, DT_Raster1D);</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">int</span> nColsTotal = int((xMax - xMin) / dx + 0.5);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">int</span> nRowsTotal = int((yMax - yMin) / dy + 0.5);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">//cout &lt;&lt; xMin &lt;&lt; &quot;\t&quot; &lt;&lt; yMax &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment">//cout &lt;&lt; nRowsTotal &lt;&lt; &quot;\t&quot; &lt;&lt; nColsTotal &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">int</span> nTotal = nRowsTotal * nColsTotal;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordtype">float</span> *data = <span class="keyword">new</span> <span class="keywordtype">float</span>[nTotal];</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordtype">float</span> noDataValue = -9999.f;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nTotal; i++) {</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        data[i] = noDataValue;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    map&lt;string, double&gt; m_headers;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    m_headers.at(HEADER_RS_NCOLS) = (double) nColsTotal;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    m_headers.at(HEADER_RS_NCOLS) = (double) nColsTotal;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    m_headers.at(HEADER_RS_NROWS) = (double) nRowsTotal;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    m_headers.at(HEADER_RS_NODATA) = (double) noDataValue;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    m_headers.at(HEADER_RS_CELLSIZE) = (double) dx;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    m_headers.at(HEADER_RS_XLL) = (double) xMin;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    m_headers.at(HEADER_RS_YLL) = (double) yMin;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="comment">// loop to put data in the array</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt;= nSubbasins; i++) {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <a class="code" href="../../d5/df1/a00206.html">clsRasterData&lt;float&gt;</a> *rs = allRasterData-&gt;at(i);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        nRows = rs-&gt;<a class="code" href="../../d5/df1/a00206.html#a2f90b200ccef886fe285b054d92ddd16">getRows</a>();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        nCols = rs-&gt;<a class="code" href="../../d5/df1/a00206.html#a106e00b76367e8948e594fed8d964b18">getCols</a>();</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        dx = rs-&gt;<a class="code" href="../../d5/df1/a00206.html#aa7fb739c69d2d47d62ee5e7bbc6e8cbc">getCellWidth</a>();</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        dy = dx;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        xll = rs-&gt;<a class="code" href="../../d5/df1/a00206.html#ab87c4d94e197bf25a5b842aa1830ab3e">getXllCenter</a>() - 0.5f * dx;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        yll = rs-&gt;<a class="code" href="../../d5/df1/a00206.html#adad9f52f59df10febbf69be5ce04ab78">getYllCenter</a>() - 0.5f * dy;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        yur = yll + nRows * dy;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordtype">float</span> subNoDataValue = rs-&gt;<a class="code" href="../../d5/df1/a00206.html#ad08beee591e087636617b49c9362e537">getNoDataValue</a>(); <span class="comment">// use this or -9999?</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keywordtype">int</span> cellNums = 0;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordtype">float</span> *subData = NULL; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordtype">float</span> **validPosition = NULL;</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        rs-&gt;<a class="code" href="../../d5/df1/a00206.html#a3bee650563291d65bfd5e320492f69c1">getRasterData</a>(&amp;cellNums, &amp;subData);</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        rs-&gt;<a class="code" href="../../d5/df1/a00206.html#a76e65d5f3c316e6ed6dfaa3f98592150">getRasterPositionData</a>(&amp;cellNums, &amp;validPosition);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> idx = 0; idx &lt; cellNums; idx++) {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            <span class="keywordtype">int</span> k = validPosition[idx][0];</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordtype">int</span> m = validPosition[idx][1];</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keywordtype">int</span> i = int((yMax - yur + (k + 0.5) * dy) / dy); </div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keywordtype">int</span> j = int((xll + (m + 0.5) * dx - xMin) / dx); </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordtype">int</span> index = i * nColsTotal + j; </div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            data[index] = subData[idx];</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        }</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    }</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <a class="code" href="../../d5/df1/a00206.html">clsRasterData&lt;float&gt;::outputGTiff</a>(m_headers, m_srs, data, outputRaster);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;[DEBUG]\toutput file: &quot;</span> &lt;&lt; outputRaster &lt;&lt; endl;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;}</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="keywordtype">void</span> CombineRasterResults(<span class="keywordtype">string</span> &amp;folder, <span class="keywordtype">string</span> &amp;sVar, <span class="keywordtype">string</span> &amp;fileType, <span class="keywordtype">int</span> nSubbasins, <span class="keywordtype">string</span> &amp;outputRaster) {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">string</span> m_srs;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    map &lt; int, clsRasterData &lt; float &gt; * &gt; allRasterData;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt;= nSubbasins; i++) {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordtype">string</span> curFileName = ValueToString(i) + <span class="stringliteral">&quot;_&quot;</span> + sVar + fileType;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <a class="code" href="../../d5/df1/a00206.html">clsRasterData&lt;float&gt;</a> rs;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordflow">if</span> (<span class="keywordtype">string</span>(ASCIIExtension).find(fileType) != <span class="keywordtype">string</span>(ASCIIExtension).npos) { </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            rs.<a class="code" href="../../d5/df1/a00206.html#ac12a69a0a4a4625de0e819c2fcd0cb05">ReadASCFile</a>(curFileName.c_str());</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        } <span class="keywordflow">else</span> { </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            rs.ReadFromGDAL(curFileName.c_str());</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        }</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordflow">if</span> (m_srs == <span class="stringliteral">&quot;&quot;</span>) {</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;            m_srs = rs.<a class="code" href="../../d5/df1/a00206.html#a086382bf394bb04251b95cd1e046bdf3">getSRSString</a>();</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        }</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        allRasterData[i] = &amp;rs;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    }</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    CombineRasters(&amp;allRasterData, m_srs, outputRaster);</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="comment">//   float xMin = FLT_MAX; /// previous code is 1.e10</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="comment">//   float xMax = 0.f;</span></div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="comment">//   float yMin = FLT_MAX;</span></div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="comment">//   float yMax = 0.f;</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="comment">//   float xll, yll, dx, dy, nRows, nCols, xur, yur;</span></div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <span class="comment">//string m_srs = &quot;&quot;;</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="comment">//   // ostringstream oss;</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="comment"></span>    <span class="comment">//map&lt;int, clsRasterData&lt;float&gt;* &gt; allRasterData;</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="comment">//   // loop to get global extent</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="comment">//   for (int i = 1; i &lt;= nSubbasins; i++)</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="comment">//   {</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="comment">//       //oss.str(&quot;&quot;);</span></div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="comment">//       //oss &lt;&lt; folder &lt;&lt; i &lt;&lt; &quot;_&quot; &lt;&lt; sVar &lt;&lt; &quot;.asc&quot;;</span></div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="comment">// //      Raster&lt;float&gt; rs;</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    <span class="comment">//  //rs.ReadArcAscHeader(oss.str().c_str());</span></div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="comment">//  string curFileName = ValueToString(i) + &quot;_&quot; + sVar + fileType;</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <span class="comment">//  clsRasterData&lt;float&gt; rs;</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="comment">//</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="comment">//  if (string(ASCIIExtension).find(fileType) != string(ASCIIExtension).npos) /// ASC file</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="comment">//      rs.ReadASCFile(curFileName.c_str());</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="comment">//  else /// GTiff file</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="comment">//      rs.ReadFromGDAL(curFileName.c_str());</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="comment">//  if (m_srs == &quot;&quot;)</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="comment">//      m_srs = rs.getSRSString();</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="comment">//  allRasterData[i] = &amp;rs;</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="comment">//       //nRows = rs.GetNumberOfRows();</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="comment">//       //nCols = rs.GetNumberofColumns();</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="comment">//       //dx = rs.GetXCellSize();</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <span class="comment">//       //dy = dx;</span></div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="comment">//       //xll = rs.GetXllCenter() - 0.5f * dx;</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="comment">//       //yll = rs.GetYllCenter() - 0.5f * dy;</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="comment">//       //xur = xll + nCols * dx;</span></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="comment">//       //yur = yll + nRows * dy;</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="comment">//  nRows = rs.getRows();</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="comment">//  nCols = rs.getCols();</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="comment">//  dx = rs.getCellWidth();</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="comment">//  dy = dx;</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="comment">//  xll = rs.getXllCenter() - 0.5f * dx;</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="comment">//  yll = rs.getYllCenter() - 0.5f * dy;</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="comment">//  xur = xll + nCols * dx;</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="comment">//  yur = yll + nRows * dy;</span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="comment">//       //cout &lt;&lt; &quot;[DEBUG]\t&quot; &lt;&lt; nRows &lt;&lt; &quot;\t&quot; &lt;&lt; nCols &lt;&lt; &quot;\t&quot; &lt;&lt; xll &lt;&lt; &quot;\t&quot; &lt;&lt; yll &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="comment">//       if (i == 1)</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="comment">//       {</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="comment">//           xMin = xll;</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="comment">//           yMin = yll;</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="comment">//           xMax = xur;</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="comment">//           yMax = yur;</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="comment">//           continue;</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <span class="comment">//       }</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    <span class="comment">//       xMin = (xll &lt; xMin) ? xll : xMin;</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="comment">//       xMax = (xur &gt; xMax) ? xur : xMax;</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="comment">//       yMin = (yll &lt; yMin) ? yll : yMin;</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="comment">//       yMax = (yur &gt; yMax) ? yur : yMax;</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="comment">//   }</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="comment">//   int nColsTotal = int((xMax - xMin) / dx + 0.5);</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="comment">//   int nRowsTotal = int((yMax - yMin) / dy + 0.5);</span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    <span class="comment">//   //cout &lt;&lt; xMin &lt;&lt; &quot;\t&quot; &lt;&lt; yMax &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="comment">//   //cout &lt;&lt; nRowsTotal &lt;&lt; &quot;\t&quot; &lt;&lt; nColsTotal &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="comment">//   int nTotal = nRowsTotal * nColsTotal;</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;    <span class="comment">//   float *data = new float[nTotal];</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="comment">//   float noDataValue = -9999.f;</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="comment">//for (int i = 0; i &lt; nTotal; i++)</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="comment">//{</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="comment">//  data[i] = noDataValue;</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="comment">//}</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="comment"></span>    <span class="comment">//map&lt;string, double&gt; *m_headers;</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="comment">//m_headers-&gt;at(HEADER_RS_NCOLS) = (double) nColsTotal;</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="comment">//m_headers-&gt;at(HEADER_RS_NCOLS) = (double) nColsTotal;</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="comment">//m_headers-&gt;at(HEADER_RS_NROWS) = (double) nRowsTotal;</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="comment">//m_headers-&gt;at(HEADER_RS_NODATA) = (double) noDataValue;</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="comment">//m_headers-&gt;at(HEADER_RS_CELLSIZE) = (double) dx;</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="comment">//m_headers-&gt;at(HEADER_RS_XLL) = (double) xMin;</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="comment">//m_headers-&gt;at(HEADER_RS_YLL) = (double) yMin;</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="comment">//</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="comment">//   // loop to put data in the array</span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="comment">//   for (int i = 1; i &lt;= nSubbasins; i++)</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="comment">//   {</span></div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="comment">//       //cout &lt;&lt; i &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="comment">//       //oss.str(&quot;&quot;);</span></div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="comment">//       //oss &lt;&lt; folder &lt;&lt; i &lt;&lt; &quot;_&quot; &lt;&lt; sVar &lt;&lt; &quot;.asc&quot;;</span></div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="comment">//       //Raster&lt;float&gt; rs;</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="comment">//       //rs.ReadFromArcAsc(oss.str().c_str());</span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="comment">//       //nRows = rs.GetNumberOfRows();</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="comment">//       //nCols = rs.GetNumberofColumns();</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="comment">//       //dx = rs.GetXCellSize();</span></div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="comment">//       //dy = dx;</span></div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="comment">//       //xll = rs.GetXllCenter() - 0.5f * dx;</span></div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="comment">//       //yll = rs.GetYllCenter() - 0.5f * dy;</span></div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="comment">//       //yur = yll + nRows * dy;</span></div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="comment">//       //float subNoDataValue = rs.GetNoDataValue();</span></div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="comment">//       //float **subData = rs.GetData();</span></div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="comment">//  clsRasterData&lt;float&gt;* rs = allRasterData[i];</span></div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="comment">//  nRows = rs-&gt;getRows();</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="comment">//  nCols = rs-&gt;getCols();</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="comment">//  dx = rs-&gt;getCellWidth();</span></div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <span class="comment">//  dy = dx;</span></div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="comment">//  xll = rs-&gt;getXllCenter() - 0.5f * dx;</span></div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <span class="comment">//  yll = rs-&gt;getYllCenter() - 0.5f * dy;</span></div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="comment">//  yur = yll + nRows * dy;</span></div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="comment">//  float subNoDataValue = rs-&gt;getNoDataValue();</span></div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <span class="comment">//  int cellNums = 0;</span></div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="comment">//  float *subData = NULL; /// all geotif should be 1D data</span></div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="comment">//  float **validPosition = NULL;</span></div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <span class="comment">//  rs-&gt;getRasterData(&amp;cellNums, &amp;subData);</span></div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <span class="comment">//  rs-&gt;getRasterPositionData(&amp;cellNums, &amp;validPosition);</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="comment">//  for (int idx = 0; idx &lt; cellNums; idx++)</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="comment">//  {</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="comment">//      int k = validPosition[idx][0];</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="comment">//      int m = validPosition[idx][1];</span></div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <span class="comment">//      int i = int((yMax - yur + (k + 0.5) * dy) / dy); /// row in whole extent</span></div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="comment">//      int j = int((xll + (m + 0.5) * dx - xMin) / dx); /// col in whole extent</span></div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="comment">//      int index = i * nColsTotal + j; /// index in whole extent</span></div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="comment">//      data[index] = subData[idx];</span></div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="comment">//  }</span></div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="comment">//       //for (int k = 0; k &lt; nRows; k++)</span></div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="comment">//       //{</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="comment">//       //    for (int m = 0; m &lt; nCols; m++)</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="comment">//       //    {</span></div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    <span class="comment">//       //        if (FloatEqual(subData[k][m], subNoDataValue))</span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="comment">//       //            continue;</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="comment">//       //        int i = int((yMax - yur + (k + 0.5) * dy) / dy);</span></div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="comment">//       //        int j = int((xll + (m + 0.5) * dx - xMin) / dx);</span></div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="comment">//       //        int index = i * nColsTotal + j;</span></div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="comment">//       //        data[index] = subData[k][m];</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="comment">//       //    }</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="comment">//       //}</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="comment">//   }</span></div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    <span class="comment">//   // Raster&lt;float&gt;::OutputGTiff(outputRaster.c_str(), nRowsTotal, nColsTotal, xMin, yMin, dx, noDataValue, data);</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="comment">//clsRasterData&lt;float&gt;::outputGTiff(m_headers, m_srs, data, outputRaster);</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="comment">//   cout &lt;&lt; &quot;[DEBUG]\toutput file: &quot; &lt;&lt; outputRaster &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;}</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="keywordtype">void</span> CombineRasterResultsMongo(mongoc_gridfs_t *gfs, <span class="keywordtype">string</span> &amp;sVar, <span class="keywordtype">int</span> nSubbasins, <span class="keywordtype">string</span> &amp;outputRaster) {</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <span class="keywordtype">string</span> m_srs;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    map &lt; int, clsRasterData &lt; float &gt; * &gt; allRasterData;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt;= nSubbasins; i++) {</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;        <span class="keywordtype">string</span> curFileName = ValueToString(i) + <span class="stringliteral">&quot;_&quot;</span> + sVar;</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        <a class="code" href="../../d5/df1/a00206.html">clsRasterData&lt;float&gt;</a> rs;</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        rs.ReadFromMongoDB(gfs, curFileName.c_str());</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        <span class="keywordflow">if</span> (m_srs == <span class="stringliteral">&quot;&quot;</span>) {</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            m_srs = rs.<a class="code" href="../../d5/df1/a00206.html#a086382bf394bb04251b95cd1e046bdf3">getSRSString</a>();</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        }</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;        allRasterData[i] = &amp;rs;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    }</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    CombineRasters(&amp;allRasterData, m_srs, outputRaster);</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;}</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="comment">//void CombineRasterResultsMongo(mongoc_gridfs_t *gfs, string &amp;sVar, int nSubbasins, string &amp;outputRaster)</span></div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="comment">//{</span></div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="comment">//    float xMin = 1e10;</span></div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="comment">//    float xMax = 0.f;</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="comment">//    float yMin = 1e10;</span></div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="comment">//    float yMax = 0.f;</span></div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="comment">//    float xll, yll, dx, dy, nRows, nCols, xur, yur;</span></div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<span class="comment">//    // loop to get global extent</span></div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="comment">//    ostringstream oss;</span></div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="comment">//    for (int i = 1; i &lt;= nSubbasins; i++)</span></div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="comment">//    {</span></div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="comment">//        oss.str(&quot;&quot;);</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="comment">//        oss &lt;&lt; i &lt;&lt; &quot;_&quot; &lt;&lt; sVar;</span></div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="comment">//        Raster&lt;float&gt; rs;</span></div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="comment">//        rs.ReadMongoDBHeader(gfs, oss.str().c_str());</span></div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="comment">//        nRows = rs.GetNumberOfRows();</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="comment">//        nCols = rs.GetNumberofColumns();</span></div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="comment">//        dx = rs.GetXCellSize();</span></div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="comment">//        dy = dx;</span></div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="comment">//        xll = rs.GetXllCenter() - 0.5f * dx;</span></div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="comment">//        yll = rs.GetYllCenter() - 0.5f * dy;</span></div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="comment">//        xur = xll + nCols * dx;</span></div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;<span class="comment">//        yur = yll + nRows * dy;</span></div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="comment">//        //cout &lt;&lt; &quot;[DEBUG]\t&quot; &lt;&lt; nRows &lt;&lt; &quot;\t&quot; &lt;&lt; nCols &lt;&lt; &quot;\t&quot; &lt;&lt; xll &lt;&lt; &quot;\t&quot; &lt;&lt; yll &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="comment">//        if (i == 1)</span></div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="comment">//        {</span></div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="comment">//            xMin = xll;</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="comment">//            yMin = yll;</span></div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="comment">//            xMax = xur;</span></div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="comment">//            yMax = yur;</span></div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="comment">//            continue;</span></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="comment">//        }</span></div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="comment">//        xMin = (xll &lt; xMin) ? xll : xMin;</span></div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="comment">//        xMax = (xur &gt; xMax) ? xur : xMax;</span></div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="comment">//        yMin = (yll &lt; yMin) ? yll : yMin;</span></div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="comment">//        yMax = (yur &gt; yMax) ? yur : yMax;</span></div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="comment">//    }</span></div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="comment">//    int nColsTotal = int((xMax - xMin) / dx + 0.5);</span></div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="comment">//    int nRowsTotal = int((yMax - yMin) / dy + 0.5);</span></div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="comment">//    //cout &lt;&lt; xMin &lt;&lt; &quot;\t&quot; &lt;&lt; yMax &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;<span class="comment">//    //cout &lt;&lt; nRowsTotal &lt;&lt; &quot;\t&quot; &lt;&lt; nColsTotal &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;<span class="comment">//    int nTotal = nRowsTotal * nColsTotal;</span></div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="comment">//    float *data = new float[nTotal];</span></div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="comment">//    float noDataValue = -9999;</span></div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="comment">//    for (int i = 0; i &lt; nTotal; i++)</span></div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="comment">//    {</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;<span class="comment">//        data[i] = noDataValue;</span></div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="comment">//    }</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment">//    // loop to put data in the array</span></div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment">//    for (int i = 1; i &lt;= nSubbasins; i++)</span></div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;<span class="comment">//    {</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;<span class="comment">//        //cout &lt;&lt; i &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment">//        oss.str(&quot;&quot;);</span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="comment">//        oss &lt;&lt; i &lt;&lt; &quot;_&quot; &lt;&lt; sVar;</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="comment">//        Raster&lt;float&gt; rs;</span></div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="comment">//        rs.ReadFromMongoDB(gfs, oss.str().c_str());</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="comment">//        nRows = rs.GetNumberOfRows();</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment">//        nCols = rs.GetNumberofColumns();</span></div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="comment">//        dx = rs.GetXCellSize();</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="comment">//        dy = dx;</span></div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="comment">//        xll = rs.GetXllCenter() - 0.5f * dx;</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="comment">//        yll = rs.GetYllCenter() - 0.5f * dy;</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment">//        yur = yll + nRows * dy;</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment">//        float subNoDataValue = rs.GetNoDataValue();</span></div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment">//        float **subData = rs.GetData();</span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="comment">//        for (int k = 0; k &lt; nRows; k++)</span></div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="comment">//        {</span></div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="comment">//            for (int m = 0; m &lt; nCols; m++)</span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="comment">//            {</span></div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="comment">//                if (FloatEqual(subData[k][m], subNoDataValue))</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="comment">//                    continue;</span></div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="comment">//                int i = int((yMax - yur + (k + 0.5) * dy) / dy);</span></div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="comment">//                int j = int((xll + (m + 0.5) * dx - xMin) / dx);</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="comment">//                int index = i * nColsTotal + j;</span></div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="comment">//                data[index] = subData[k][m];</span></div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="comment">//            }</span></div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="comment">//        }</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="comment">//    }</span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="comment">//    //Raster&lt;float&gt;::OutputRaster(outputFile.c_str(), nRowsTotal, nColsTotal, xMin, yMin, dx, noDataValue, data);</span></div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="comment">//    Raster&lt;float&gt;::OutputGTiff(outputRaster.c_str(), nRowsTotal, nColsTotal, xMin, yMin, dx, noDataValue, data);</span></div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="comment">//    cout &lt;&lt; &quot;[DEBUG]\toutput file: &quot; &lt;&lt; outputRaster &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="comment">//}</span></div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="comment">//int main()</span></div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="comment">//{</span></div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;<span class="comment">//  int nSubbasins = 899;</span></div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="comment">//  string folder = &quot;D:\\watershed_simulation\\output\\&quot;;</span></div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;<span class="comment">//  string sVar = &quot;SURU&quot;;</span></div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="comment">//  GDALAllRegister();</span></div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;<span class="comment">//  CombineRaster(folder, sVar, nSubbasins);</span></div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;<span class="comment">//  return 0;</span></div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="comment">//}</span></div>
-<div class="ttc" id="a00206_html_a3bee650563291d65bfd5e320492f69c1"><div class="ttname"><a href="../../d5/df1/a00206.html#a3bee650563291d65bfd5e320492f69c1">clsRasterData::getRasterData</a></div><div class="ttdeci">bool getRasterData(int *nRows, T **data)</div><div class="ttdoc">Get raster data, include valid cell number and data. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00373">clsRasterData.cpp:373</a></div></div>
-<div class="ttc" id="a00206_html_a086382bf394bb04251b95cd1e046bdf3"><div class="ttname"><a href="../../d5/df1/a00206.html#a086382bf394bb04251b95cd1e046bdf3">clsRasterData::getSRSString</a></div><div class="ttdeci">string getSRSString(void)</div><div class="ttdoc">Get the spatial reference string. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/dd8/a00906_source.html#l00448">clsRasterData.h:448</a></div></div>
-<div class="ttc" id="a00206_html_aa7fb739c69d2d47d62ee5e7bbc6e8cbc"><div class="ttname"><a href="../../d5/df1/a00206.html#aa7fb739c69d2d47d62ee5e7bbc6e8cbc">clsRasterData::getCellWidth</a></div><div class="ttdeci">float getCellWidth(void) const </div><div class="ttdoc">Get cell size of raster data. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/dd8/a00906_source.html#l00381">clsRasterData.h:381</a></div></div>
-<div class="ttc" id="a00206_html"><div class="ttname"><a href="../../d5/df1/a00206.html">clsRasterData&lt; float &gt;</a></div></div>
-<div class="ttc" id="a00206_html_a2f90b200ccef886fe285b054d92ddd16"><div class="ttname"><a href="../../d5/df1/a00206.html#a2f90b200ccef886fe285b054d92ddd16">clsRasterData::getRows</a></div><div class="ttdeci">int getRows(void) const </div><div class="ttdoc">Get row number of raster data. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/dd8/a00906_source.html#l00378">clsRasterData.h:378</a></div></div>
-<div class="ttc" id="a00206_html_ad08beee591e087636617b49c9362e537"><div class="ttname"><a href="../../d5/df1/a00206.html#ad08beee591e087636617b49c9362e537">clsRasterData::getNoDataValue</a></div><div class="ttdeci">T getNoDataValue(void) const </div><div class="ttdoc">Get NoDATA value of raster data. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/dd8/a00906_source.html#l00395">clsRasterData.h:395</a></div></div>
-<div class="ttc" id="a00206_html_adad9f52f59df10febbf69be5ce04ab78"><div class="ttname"><a href="../../d5/df1/a00206.html#adad9f52f59df10febbf69be5ce04ab78">clsRasterData::getYllCenter</a></div><div class="ttdeci">double getYllCenter(void) const </div><div class="ttdoc">Get Y coordinate of left lower corner of raster data. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/dd8/a00906_source.html#l00387">clsRasterData.h:387</a></div></div>
-<div class="ttc" id="a00206_html_a76e65d5f3c316e6ed6dfaa3f98592150"><div class="ttname"><a href="../../d5/df1/a00206.html#a76e65d5f3c316e6ed6dfaa3f98592150">clsRasterData::getRasterPositionData</a></div><div class="ttdeci">void getRasterPositionData(int &amp;datalength, int ***positiondata)</div><div class="ttdoc">Get position index data and the data length. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00397">clsRasterData.cpp:397</a></div></div>
-<div class="ttc" id="a00206_html_ac12a69a0a4a4625de0e819c2fcd0cb05"><div class="ttname"><a href="../../d5/df1/a00206.html#ac12a69a0a4a4625de0e819c2fcd0cb05">clsRasterData::ReadASCFile</a></div><div class="ttdeci">void ReadASCFile(string filename, bool calcPositions=true, clsRasterData&lt; MaskT &gt; *mask=NULL, bool useMaskExtent=true, T defalutValue=(T) NODATA_VALUE)</div><div class="ttdoc">Read raster data from ASC file, mask data is optional. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00853">clsRasterData.cpp:853</a></div></div>
-<div class="ttc" id="a00206_html_ab87c4d94e197bf25a5b842aa1830ab3e"><div class="ttname"><a href="../../d5/df1/a00206.html#ab87c4d94e197bf25a5b842aa1830ab3e">clsRasterData::getXllCenter</a></div><div class="ttdeci">double getXllCenter(void) const </div><div class="ttdoc">Get X coordinate of left lower corner of raster data. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/dd8/a00906_source.html#l00384">clsRasterData.h:384</a></div></div>
-<div class="ttc" id="a00206_html_a106e00b76367e8948e594fed8d964b18"><div class="ttname"><a href="../../d5/df1/a00206.html#a106e00b76367e8948e594fed8d964b18">clsRasterData::getCols</a></div><div class="ttdeci">int getCols(void) const </div><div class="ttdoc">Get column number of raster data. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/dd8/a00906_source.html#l00375">clsRasterData.h:375</a></div></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="comment">// output</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    mdi.AddOutput(VAR_QCH, UNIT_FLOW_CMS, DESC_QCH, DT_Array2D);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    mdi.AddOutput(VAR_QOUTLET, UNIT_FLOW_CMS, DESC_QOUTLET, DT_Single);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    mdi.AddOutput(VAR_QSUBBASIN, UNIT_FLOW_CMS, DESC_QSUBBASIN, DT_Array1D);</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    mdi.AddOutput(VAR_HCH, UNIT_DEPTH_MM, DESC_HCH, DT_Array2D);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    res = mdi.GetXMLDocument();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">char</span> *tmp = <span class="keyword">new</span> <span class="keywordtype">char</span>[res.size() + 1];</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    strprintf(tmp, res.size() + 1, <span class="stringliteral">&quot;%s&quot;</span>, res.c_str());</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
+<div class="ttc" id="a01402_html_ga0087c853569e2c94d58c3499365662e9"><div class="ttname"><a href="../../d0/dc7/a01402.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a></div><div class="ttdeci">SEIMS_MODULE_API const char * MetadataInformation()</div><div class="ttdoc">function to return the XML Metadata document string </div><div class="ttdef"><b>Definition:</b> <a href="../../db/d23/a01025_source.html#l00015">api.cpp:15</a></div></div>
+<div class="ttc" id="a00295_html"><div class="ttname"><a href="../../d9/d5e/a00295.html">Muskingum</a></div><div class="ttdoc">Channel routing using Muskingum-Cunge method. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dd3/a01077_source.html#l00034">Muskingum.h:34</a></div></div>
+<div class="ttc" id="a00280_html"><div class="ttname"><a href="../../d0/dcd/a00280.html">MetadataInfo</a></div><div class="ttdoc">Metadata information of module. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d4e/a00972_source.html#l00091">MetadataInfo.h:91</a></div></div>
+<div class="ttc" id="a00336_html"><div class="ttname"><a href="../../dd/d1d/a00336.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d85/a00976_source.html#l00047">SimulationModule.h:47</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_c151e3c36c54954dcb4737f82d8a1963.html">main</a></li><li class="navelem"><a class="el" href="../../dir_c959c6c529103227cdb83d2a16e8fd6e.html">main_mpi</a></li><li class="navelem"><b>CombineRaster.cpp</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 13:25:59 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_e6e19fa73ac966302b754a875f3407ee.html">CH_MSK</a></li><li class="navelem"><b>api.cpp</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 14:11:26 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

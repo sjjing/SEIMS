@@ -139,8 +139,8 @@ $(document).ready(function(){initNavTree('d2/d34/a00156.html','../../');});
 <p>**利用CMAKE新建模块工程**：</p>
 <ul>
 <li>在<code>SEIMS/src/modules/test</code>下新建目录<code>IO_TEST</code>，并在<code>SEIMS/src/modules/test/CMakeLists.txt</code>中添加语句<code>ADD_SUBDIRECTORY(./IO_TEST)</code>；</li>
-<li>复制<code>SEIMS/src/modules/test/template/</code>目录下的元数据模板<code>api.cpp</code>，头文件模板<code><a class="el" href="../../d0/d32/a01198_source.html">template.h</a></code>，实现函数模板<code><a class="el" href="../../d4/d10/a01197_source.html">template.cpp</a></code>，以及<code>CMakeLists.txt</code>到<code>IO_TEST</code>目录下；</li>
-<li>根据需要，对头文件和实现函数文件进行重命名，这里我们重命名为<code><a class="el" href="../../d2/d22/a01196_source.html">IO_test.h</a></code>和<code><a class="el" href="../../d8/df3/a01195_source.html">IO_test.cpp</a></code>,并修改<code>CMakeLists.txt</code>中相关设置，具体如下图所示 <div class="image">
+<li>复制<code>SEIMS/src/modules/test/template/</code>目录下的元数据模板<code>api.cpp</code>，头文件模板<code><a class="el" href="../../da/dfb/a01174_source.html">template.h</a></code>，实现函数模板<code><a class="el" href="../../d7/d0c/a01173_source.html">template.cpp</a></code>，以及<code>CMakeLists.txt</code>到<code>IO_TEST</code>目录下；</li>
+<li>根据需要，对头文件和实现函数文件进行重命名，这里我们重命名为<code><a class="el" href="../../d6/db6/a01172_source.html">IO_test.h</a></code>和<code><a class="el" href="../../d2/d22/a01171_source.html">IO_test.cpp</a></code>,并修改<code>CMakeLists.txt</code>中相关设置，具体如下图所示 <div class="image">
 <img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fcmakelist-modification.jpg" />
 </div>
 </li>
@@ -153,18 +153,18 @@ $(document).ready(function(){initNavTree('d2/d34/a00156.html','../../');});
 <h2>2. 编写元数据函数</h2>
 <p>为了便于统一修改，并保持SEIMS整体的一致性，<code>api.cpp</code>中所有字符串类型的元数据信息均在<code>src/base/util/text.h</code>头文件中以宏定义&lt;tt&gt;::define的形式进行管理。</p>
 <h3>2.1 SetClass</h3>
-<p>定义模块所属模块组及描述，在<code><a class="el" href="../../df/d59/a01001_source.html">text.h</a></code>中定义为<code>MCLS_</code>及<code>MCLSDESC_</code>，如：</p>
+<p>定义模块所属模块组及描述，在<code><a class="el" href="../../d5/d6c/a00977_source.html">text.h</a></code>中定义为<code>MCLS_</code>及<code>MCLSDESC_</code>，如：</p>
 <p>```cpp /// Potential Evapotranspiration Modules #define MCLS_PET "Potential Evapotranspiration" #define MCLSDESC_PET "Calculate the potential evapotranspiration" ```</p>
 <h3>2.2 SetID, SetDescription</h3>
-<p>定义该模块的唯一标识符ID和描述，在<code><a class="el" href="../../df/d59/a01001_source.html">text.h</a></code>中定义为<code>MID_</code>及<code>MDESC_</code>，如：</p>
+<p>定义该模块的唯一标识符ID和描述，在<code><a class="el" href="../../d5/d6c/a00977_source.html">text.h</a></code>中定义为<code>MID_</code>及<code>MDESC_</code>，如：</p>
 <p>```cpp #define MID_PET_H "PET_H" #define MDESC_PET_H "Hargreaves method for calculating the potential evapotranspiration." ``` SetName 同 SetID</p>
 <h3>2.3 AddParameter</h3>
 <p>所有从数据库中原始读取的参数，均以AddParameter形式定义，这些参数在模拟开始前从数据库中读取，以指针的形式在不同模块间传递，模拟开始后，不重复读取！</p>
 <p>共有5个输入：</p>
 <ul>
-<li>变量名，在<code><a class="el" href="../../df/d59/a01001_source.html">text.h</a></code>中定义为<code>VAR_</code>，如CN2值定义为<code>VAR_CN2</code></li>
-<li>单位，在<code><a class="el" href="../../df/d59/a01001_source.html">text.h</a></code>中定义为<code>UNIT_</code>，如秒的单位为<code>UNIT_SECOND</code></li>
-<li>描述，在<code><a class="el" href="../../df/d59/a01001_source.html">text.h</a></code>中定义为<code>DESC_</code>，如CN2值得描述为<code>DESC_CN2</code></li>
+<li>变量名，在<code><a class="el" href="../../d5/d6c/a00977_source.html">text.h</a></code>中定义为<code>VAR_</code>，如CN2值定义为<code>VAR_CN2</code></li>
+<li>单位，在<code><a class="el" href="../../d5/d6c/a00977_source.html">text.h</a></code>中定义为<code>UNIT_</code>，如秒的单位为<code>UNIT_SECOND</code></li>
+<li>描述，在<code><a class="el" href="../../d5/d6c/a00977_source.html">text.h</a></code>中定义为<code>DESC_</code>，如CN2值得描述为<code>DESC_CN2</code></li>
 <li>来源，来源共有如下几种：<ul>
 <li><code>File_Input</code>:来自模型配置文件<code>file.in</code>,如模拟时间步长</li>
 <li><code>Source_HydroClimateDB</code>：来自水文气象数据库，如气温</li>
@@ -201,7 +201,7 @@ $(document).ready(function(){initNavTree('d2/d34/a00156.html','../../');});
 <p><a href="../../#目录">返回目录</a></p>
 <h2>3. 头文件定义</h2>
 <h3>3.1 利用VAssistX快速重命名</h3>
-<p>打开头文件<code><a class="el" href="../../d2/d22/a01196_source.html">IO_test.h</a></code>之后，首先想将默认的继承于<code><a class="el" href="../../dd/d1d/a00336.html" title="Base module for all simulation modules in SEIMS. ">SimulationModule</a></code>的子类名称改为<code>IO_TEST</code>，有了VassistX我们可以很方便的快速重命名，如下：</p>
+<p>打开头文件<code><a class="el" href="../../d6/db6/a01172_source.html">IO_test.h</a></code>之后，首先想将默认的继承于<code><a class="el" href="../../dd/d1d/a00336.html" title="Base module for all simulation modules in SEIMS. ">SimulationModule</a></code>的子类名称改为<code>IO_TEST</code>，有了VassistX我们可以很方便的快速重命名，如下：</p>
 <div class="image">
 <img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fvs-rename.jpg" />
 </div>
@@ -234,7 +234,7 @@ $(document).ready(function(){initNavTree('d2/d34/a00156.html','../../');});
 <h3>4.1 参数初始化</h3>
 <p>按照AddParameter，AddInput，AddOutput中参数定义顺序，在构造函数中依次进行参数初始化，基本原则为：</p>
 <ul>
-<li><code>DT_Single</code>类型数据设置为-1或者<code>NODATA</code>(<code><a class="el" href="../../d7/d12/a00911_source.html">utils.h</a></code>中定义)</li>
+<li><code>DT_Single</code>类型数据设置为-1或者<code>NODATA</code>(<code><a class="el" href="../../d7/d92/a00887_source.html">utils.h</a></code>中定义)</li>
 <li><code>DT_Array1D</code>, <code>DT_Raster1D</code>, <code>DT_Array2D</code>和<code>DT_Raster2D</code>类型变量设置为<code>NULL</code></li>
 </ul>
 <p>这里我们这样初始化：</p>
@@ -243,7 +243,7 @@ $(document).ready(function(){initNavTree('d2/d34/a00156.html','../../');});
 <p>基本原则是：凡是在该模块中new的内存均需要在析构函数中释放，除非该变量在其他地方被显式释放。对于一维数组利用<code>delete[]</code>即可，对于二维数组则需要遍历释放，并重新赋值为<code>NULL</code>避免“野指针”。</p>
 <p>这里我们这样释放内存：</p>
 <p>```cpp IO_TEST::~IO_TEST(void) { if (m_output1Draster != NULL) delete[] m_output1Draster; m_output1Draster = NULL; if (m_output2Draster != NULL) { for(int i = 0; i &lt; m_nCells; i++) delete[] m_output2Draster[i]; delete[] m_output2Draster; m_output2Draster = NULL; } } ```</p>
-<p>由于释放内存频繁用到，因此，在<code><a class="el" href="../../d7/d12/a00911_source.html">utils.h</a></code>中定义了模板函数用于释放内存：</p>
+<p>由于释放内存频繁用到，因此，在<code><a class="el" href="../../d7/d92/a00887_source.html">utils.h</a></code>中定义了模板函数用于释放内存：</p>
 <p>```cpp #include "utils.h" if(m_output1Draster != NULL) Release1DArray(m_output1Draster); if(m_output2Draster != NULL) Release2DArray(m_nCells, m_output2Draster) ```</p>
 <h3>4.3 变量赋值</h3>
 <p>赋值时首先进行数据长度检查（<code>CheckInputSize()</code>）,在进行长度检查时，顺便给栅格个数（<code>m_nCells</code>）赋值，随后对变量名进行匹配（<code>StringMatch()</code>），如果匹配则赋值，以<code>Set1DData</code>为例:</p>
@@ -305,7 +305,7 @@ $(document).ready(function(){initNavTree('d2/d34/a00156.html','../../');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 13:26:03 for SEIMS by
+    <li class="footer">Generated on Fri Aug 11 2017 14:11:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

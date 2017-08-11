@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/grid_layering/CompressIndex.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/base/bmps/BMPPlantMgtFactory.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,30 +112,214 @@ $(document).ready(function(){initNavTree('dd/d7a/a00921_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">CompressIndex.cpp</div>  </div>
+<div class="title">BMPPlantMgtFactory.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Author: Junzhi Liu</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// Date: 2013-04-19</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keywordtype">int</span> CalCompressedIndex(<span class="keywordtype">int</span> n, <span class="keywordtype">int</span> *mask, <span class="keywordtype">int</span> noDataValue, <span class="keywordtype">int</span> *compressedIndex) {</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;    <span class="keywordtype">int</span> counter = 0;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; n; ++i) {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;        <span class="keywordflow">if</span> (mask[i] == noDataValue) {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;            compressedIndex[i] = -1;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;            compressedIndex[i] = counter++;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        }</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    }</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">return</span> counter;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;BMPPlantMgtFactory.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using namespace </span>MainBMP;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="../../d3/d2a/a00195.html#a3f054423ba2c86ff4896afb87ac29832">    5</a></span>&#160;<a class="code" href="../../d3/d2a/a00195.html#a3f054423ba2c86ff4896afb87ac29832">BMPPlantMgtFactory::BMPPlantMgtFactory</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> scenarioId, <span class="keyword">const</span> <span class="keywordtype">int</span> bmpId, <span class="keyword">const</span> <span class="keywordtype">int</span> subScenario,</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                                       <span class="keyword">const</span> <span class="keywordtype">int</span> bmpType, <span class="keyword">const</span> <span class="keywordtype">int</span> bmpPriority, vector&lt;string&gt; &amp;distribution,</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                                       <span class="keyword">const</span> <span class="keywordtype">string</span> collection, <span class="keyword">const</span> <span class="keywordtype">string</span> location) :</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <a class="code" href="../../dc/d57/a00194.html">BMPFactory</a>(scenarioId, bmpId, subScenario, bmpType, bmpPriority, distribution, collection, location)</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;{</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordflow">if</span> (StringMatch(location, <span class="stringliteral">&quot;ALL&quot;</span>)) {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;        <a class="code" href="../../d3/d2a/a00195.html#a514c51623eeb813de414b0dbcac9e8e5">m_location</a>.clear();</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <a class="code" href="../../d3/d2a/a00195.html#a514c51623eeb813de414b0dbcac9e8e5">m_location</a> = SplitStringForInt(location, <span class="charliteral">&#39;-&#39;</span>);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    }</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="../../d3/d2a/a00195.html#af5c1ebe72d3af23b1d30f7c9d86bdb3b">   17</a></span>&#160;<a class="code" href="../../d3/d2a/a00195.html#af5c1ebe72d3af23b1d30f7c9d86bdb3b">BMPPlantMgtFactory::~BMPPlantMgtFactory</a>() {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    Release1DArray(<a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    map&lt;int, PlantManagementOperation *&gt;::iterator it;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">for</span> (it = <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>.begin(); it != <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>.end();) {</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordflow">if</span> (it-&gt;second != NULL) {</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <span class="keyword">delete</span> it-&gt;second;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            it-&gt;second = NULL;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        }</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>.erase(it++);</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    }</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>.clear();</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;}</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../d3/d2a/a00195.html#a6a6f46c9693e3bcb8c484da66c48a560">   30</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d3/d2a/a00195.html#a6a6f46c9693e3bcb8c484da66c48a560">BMPPlantMgtFactory::loadBMP</a>(MongoClient* conn, <span class="keyword">const</span> <span class="keywordtype">string</span> &amp;bmpDBName) {</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    bson_t *b = bson_new();</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    bson_t *child1 = bson_new(), *child2 = bson_new();</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    BSON_APPEND_DOCUMENT_BEGIN(b, <span class="stringliteral">&quot;$query&quot;</span>, child1);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    BSON_APPEND_INT32(child1, FLD_SCENARIO_SUB, <a class="code" href="../../dc/d57/a00194.html#a779426b1e43efb2835af551d0ba98285">m_subScenarioId</a>);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    bson_append_document_end(b, child1);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    BSON_APPEND_DOCUMENT_BEGIN(b, <span class="stringliteral">&quot;$orderby&quot;</span>, child2);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    BSON_APPEND_INT32(child2, BMP_FLD_SEQUENCE, 1);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    bson_append_document_end(b, child2);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    bson_destroy(child1);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    bson_destroy(child2);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    unique_ptr&lt;MongoCollection&gt; collection(<span class="keyword">new</span> MongoCollection(conn-&gt;getCollection(bmpDBName, <a class="code" href="../../dc/d57/a00194.html#a43cb16434d2caa7245ebca352a950f62">m_bmpCollection</a>)));</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    mongoc_cursor_t* cursor = collection-&gt;ExecuteQuery(b);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">const</span> bson_t *bsonTable;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    bson_iter_t itertor;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">int</span> paramNum = 10;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a> = <span class="keyword">new</span> <span class="keywordtype">float</span>[paramNum];</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">int</span> count = 1; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    <span class="keywordflow">while</span> (mongoc_cursor_next(cursor, &amp;bsonTable)) {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="comment">//int seqNo;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="keywordtype">int</span> mgtCode = -1, year = -9999, month = -9999, day = -9999;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordtype">float</span> husc = 0.f;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordtype">bool</span> usebaseHU = <span class="keyword">true</span>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;itertor, bsonTable, BMP_FLD_NAME)) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;            <a class="code" href="../../d3/d2a/a00195.html#a9b36d475cdb1b002f4933c3168f4c1ef">m_name</a> = GetStringFromBsonIterator(&amp;itertor);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;itertor, bsonTable, BMP_PLTOP_FLD_LUCC)) {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            GetNumericFromBsonIterator(&amp;itertor, <a class="code" href="../../d3/d2a/a00195.html#a0c9286037905fd4d3623261bf8e7d84e">m_luccID</a>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">if</span> (<a class="code" href="../../d3/d2a/a00195.html#a0c9286037905fd4d3623261bf8e7d84e">m_luccID</a> &lt; 0) <a class="code" href="../../d3/d2a/a00195.html#a0c9286037905fd4d3623261bf8e7d84e">m_luccID</a> = 1; <span class="comment">// AGRL Agricultural Land-Generic</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;itertor, bsonTable, BMP_PLTOP_FLD_MGTOP)) {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            GetNumericFromBsonIterator(&amp;itertor, mgtCode);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        }</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="comment">//if (bson_iter_init_find(&amp;itertor,bsonTable,BMP_FLD_SEQUENCE))</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment">//  GetNumericFromBsonIterator(&amp;itertor, seqNo);</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;itertor, bsonTable, BMP_PLTOP_FLD_YEAR)) {</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            GetNumericFromBsonIterator(&amp;itertor, year);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        }</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;itertor, bsonTable, BMP_PLTOP_FLD_MONTH)) {</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            GetNumericFromBsonIterator(&amp;itertor, month);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;itertor, bsonTable, BMP_PLTOP_FLD_DAY)) {</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            GetNumericFromBsonIterator(&amp;itertor, day);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;itertor, bsonTable, BMP_PLTOP_FLD_BASEHU)) {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            usebaseHU = GetBoolFromBsonIterator(&amp;itertor);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        }</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init_find(&amp;itertor, bsonTable, BMP_PLTOP_FLD_HUSC)) {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            GetNumericFromBsonIterator(&amp;itertor, husc);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        }</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; paramNum; i++) {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            ostringstream oss;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            oss &lt;&lt; BMP_PLTOP_FLD_MGT_PRE &lt;&lt; (i + 1);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            <span class="keywordflow">if</span> (bson_iter_init_find(&amp;itertor, bsonTable, oss.str().c_str())) {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                GetNumericFromBsonIterator(&amp;itertor, <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>[i]);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            }</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordtype">int</span> uniqueMgtCode = count * 1000 + mgtCode;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <a class="code" href="../../d3/d2a/a00195.html#a6ced6c110b41852c3931a3a9ed503b28">m_bmpSequence</a>.push_back(uniqueMgtCode);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="keywordflow">switch</span> (mgtCode) {</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_Plant:</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../de/dab/a00319.html">PlantOperation</a>(mgtCode, usebaseHU, husc, year, month, day,</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                                                                  <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_Irrigation:</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../d5/d35/a00266.html">IrrigationOperation</a>(mgtCode, usebaseHU, husc, year, month, day,</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                                                                       <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_Fertilizer:</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../d1/da8/a00230.html">FertilizerOperation</a>(mgtCode, usebaseHU, husc, year, month, day,</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                                                                       <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_Pesticide:</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../dd/db3/a00313.html">PesticideOperation</a>(mgtCode, usebaseHU, husc, year, month, day,</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;                                                                      <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_HarvestKill:</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../d6/d22/a00245.html">HarvestKillOperation</a>(mgtCode, usebaseHU, husc, year, month, day,</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                                                                        <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_Tillage:</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../d2/d3e/a00366.html">TillageOperation</a>(mgtCode, usebaseHU, husc, year, month, day,</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                                                                    <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_Harvest:</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../d4/d9a/a00246.html">HarvestOnlyOperation</a>(mgtCode, usebaseHU, husc, year, month, day,</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                                                                        <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_Kill:</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../dd/d86/a00271.html">KillOperation</a>(mgtCode, usebaseHU, husc, year, month, day,</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                                                                 <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_Grazing:</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../d3/d42/a00235.html">GrazingOperation</a>(mgtCode, usebaseHU, husc, year, month, day,</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                                                                    <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_AutoIrrigation:</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../da/d15/a00188.html">AutoIrrigationOperation</a>(mgtCode, usebaseHU, husc, year, month, day,</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                                                                           <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_AutoFertilizer:</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../d6/daa/a00187.html">AutoFertilizerOperation</a>(mgtCode, usebaseHU, husc, year, month, day,</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                                                                           <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_ReleaseImpound:</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../d8/dfc/a00327.html">ReleaseImpoundOperation</a>(mgtCode, usebaseHU, husc, year, month, day,</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                                                                           <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_ContinuousFertilizer:</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../d1/de1/a00213.html">ContinuousFertilizerOperation</a>(mgtCode, usebaseHU, husc, year, month,</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                                                                                 day, <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_ContinuousPesticide:</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../d3/dd1/a00214.html">ContinuousPesticideOperation</a>(mgtCode, usebaseHU, husc, year, month,</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                                                                                day, <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            <span class="keywordflow">case</span> BMP_PLTOP_Burning:</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[uniqueMgtCode] = <span class="keyword">new</span> <a class="code" href="../../de/db1/a00197.html">BurningOperation</a>(mgtCode, usebaseHU, husc, year, month, day,</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                                                                    <a class="code" href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">m_parameters</a>);</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            <span class="keywordflow">default</span>:<span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        }</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        count++;</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    }</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    bson_destroy(b);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    mongoc_cursor_destroy(cursor);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;}</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
+<div class="line"><a name="l00160"></a><span class="lineno"><a class="line" href="../../d3/d2a/a00195.html#ae474d53ce30ae6ac0262f55c6944f5b7">  160</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d3/d2a/a00195.html#ae474d53ce30ae6ac0262f55c6944f5b7">BMPPlantMgtFactory::Dump</a>(ostream *fs) {</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordflow">if</span> (fs == NULL) <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    *fs &lt;&lt; <span class="stringliteral">&quot;Plant Management Factory: &quot;</span> &lt;&lt; endl &lt;&lt;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <span class="stringliteral">&quot;    SubScenario ID: &quot;</span> &lt;&lt; <a class="code" href="../../dc/d57/a00194.html#a779426b1e43efb2835af551d0ba98285">m_subScenarioId</a> &lt;&lt; <span class="stringliteral">&quot; Name = &quot;</span> &lt;&lt; <a class="code" href="../../d3/d2a/a00195.html#a9b36d475cdb1b002f4933c3168f4c1ef">m_name</a> &lt;&lt; endl;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordflow">for</span> (vector&lt;int&gt;::iterator it = <a class="code" href="../../d3/d2a/a00195.html#a6ced6c110b41852c3931a3a9ed503b28">m_bmpSequence</a>.begin(); it != <a class="code" href="../../d3/d2a/a00195.html#a6ced6c110b41852c3931a3a9ed503b28">m_bmpSequence</a>.end(); it++) {</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        map&lt;int, PlantManagementOperation *&gt;::iterator findIdx = <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>.find(*it);</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <span class="keywordflow">if</span> (findIdx != <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>.end()) {</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <a class="code" href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">m_bmpPlantOps</a>[*it]-&gt;dump(fs);</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        }</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    }</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;}</div>
+<div class="ttc" id="a00327_html"><div class="ttname"><a href="../../d8/dfc/a00327.html">MainBMP::PlantManagement::ReleaseImpoundOperation</a></div><div class="ttdoc">ReleaseImpound operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00512">PlantManagementOperation.h:512</a></div></div>
+<div class="ttc" id="a00195_html_a1073943191193c6eb899ee9a3a9ec90a"><div class="ttname"><a href="../../d3/d2a/a00195.html#a1073943191193c6eb899ee9a3a9ec90a">MainBMP::BMPPlantMgtFactory::m_parameters</a></div><div class="ttdeci">float * m_parameters</div><div class="ttdoc">parameters </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dcf/a00922_source.html#l00072">BMPPlantMgtFactory.h:72</a></div></div>
+<div class="ttc" id="a00230_html"><div class="ttname"><a href="../../d1/da8/a00230.html">MainBMP::PlantManagement::FertilizerOperation</a></div><div class="ttdoc">Fertilizer operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00190">PlantManagementOperation.h:190</a></div></div>
+<div class="ttc" id="a00188_html"><div class="ttname"><a href="../../da/d15/a00188.html">MainBMP::PlantManagement::AutoIrrigationOperation</a></div><div class="ttdoc">Auto irrigation operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00406">PlantManagementOperation.h:406</a></div></div>
+<div class="ttc" id="a00194_html_a779426b1e43efb2835af551d0ba98285"><div class="ttname"><a href="../../dc/d57/a00194.html#a779426b1e43efb2835af551d0ba98285">MainBMP::BMPFactory::m_subScenarioId</a></div><div class="ttdeci">const int m_subScenarioId</div><div class="ttdoc">SubScenario ID within one BMP iD. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d82/a00920_source.html#l00078">BMPFactory.h:78</a></div></div>
+<div class="ttc" id="a00195_html_a9b36d475cdb1b002f4933c3168f4c1ef"><div class="ttname"><a href="../../d3/d2a/a00195.html#a9b36d475cdb1b002f4933c3168f4c1ef">MainBMP::BMPPlantMgtFactory::m_name</a></div><div class="ttdeci">string m_name</div><div class="ttdoc">subSecenario name </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dcf/a00922_source.html#l00068">BMPPlantMgtFactory.h:68</a></div></div>
+<div class="ttc" id="a00235_html"><div class="ttname"><a href="../../d3/d42/a00235.html">MainBMP::PlantManagement::GrazingOperation</a></div><div class="ttdoc">Grazing operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00364">PlantManagementOperation.h:364</a></div></div>
+<div class="ttc" id="a00195_html_a3f054423ba2c86ff4896afb87ac29832"><div class="ttname"><a href="../../d3/d2a/a00195.html#a3f054423ba2c86ff4896afb87ac29832">MainBMP::BMPPlantMgtFactory::BMPPlantMgtFactory</a></div><div class="ttdeci">BMPPlantMgtFactory(const int scenarioId, const int bmpId, const int subScenario, const int bmpType, const int bmpPriority, vector&lt; string &gt; &amp;distribution, const string collection, const string location)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d7a/a00921_source.html#l00005">BMPPlantMgtFactory.cpp:5</a></div></div>
+<div class="ttc" id="a00195_html_a6ced6c110b41852c3931a3a9ed503b28"><div class="ttname"><a href="../../d3/d2a/a00195.html#a6ced6c110b41852c3931a3a9ed503b28">MainBMP::BMPPlantMgtFactory::m_bmpSequence</a></div><div class="ttdeci">vector&lt; int &gt; m_bmpSequence</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dcf/a00922_source.html#l00080">BMPPlantMgtFactory.h:80</a></div></div>
+<div class="ttc" id="a00187_html"><div class="ttname"><a href="../../d6/daa/a00187.html">MainBMP::PlantManagement::AutoFertilizerOperation</a></div><div class="ttdoc">Auto Fertilizer operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00459">PlantManagementOperation.h:459</a></div></div>
+<div class="ttc" id="a00195_html_a514c51623eeb813de414b0dbcac9e8e5"><div class="ttname"><a href="../../d3/d2a/a00195.html#a514c51623eeb813de414b0dbcac9e8e5">MainBMP::BMPPlantMgtFactory::m_location</a></div><div class="ttdeci">vector&lt; int &gt; m_location</div><div class="ttdoc">field index for where to apply the subScenario </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dcf/a00922_source.html#l00074">BMPPlantMgtFactory.h:74</a></div></div>
+<div class="ttc" id="a00214_html"><div class="ttname"><a href="../../d3/dd1/a00214.html">MainBMP::PlantManagement::ContinuousPesticideOperation</a></div><div class="ttdoc">Continuous Pesticide operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00588">PlantManagementOperation.h:588</a></div></div>
+<div class="ttc" id="a00195_html_a85082e4d199b12b63d83b24934322312"><div class="ttname"><a href="../../d3/d2a/a00195.html#a85082e4d199b12b63d83b24934322312">MainBMP::BMPPlantMgtFactory::m_bmpPlantOps</a></div><div class="ttdeci">map&lt; int, PlantManagementOperation * &gt; m_bmpPlantOps</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dcf/a00922_source.html#l00085">BMPPlantMgtFactory.h:85</a></div></div>
+<div class="ttc" id="a00195_html_ae474d53ce30ae6ac0262f55c6944f5b7"><div class="ttname"><a href="../../d3/d2a/a00195.html#ae474d53ce30ae6ac0262f55c6944f5b7">MainBMP::BMPPlantMgtFactory::Dump</a></div><div class="ttdeci">void Dump(ostream *fs)</div><div class="ttdoc">Output. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d7a/a00921_source.html#l00160">BMPPlantMgtFactory.cpp:160</a></div></div>
+<div class="ttc" id="a00246_html"><div class="ttname"><a href="../../d4/d9a/a00246.html">MainBMP::PlantManagement::HarvestOnlyOperation</a></div><div class="ttdoc">HarvestOnly operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00316">PlantManagementOperation.h:316</a></div></div>
+<div class="ttc" id="a00366_html"><div class="ttname"><a href="../../d2/d3e/a00366.html">MainBMP::PlantManagement::TillageOperation</a></div><div class="ttdoc">Tillage operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00289">PlantManagementOperation.h:289</a></div></div>
+<div class="ttc" id="a00266_html"><div class="ttname"><a href="../../d5/d35/a00266.html">MainBMP::PlantManagement::IrrigationOperation</a></div><div class="ttdoc">Irrigation operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00143">PlantManagementOperation.h:143</a></div></div>
+<div class="ttc" id="a00194_html_a43cb16434d2caa7245ebca352a950f62"><div class="ttname"><a href="../../dc/d57/a00194.html#a43cb16434d2caa7245ebca352a950f62">MainBMP::BMPFactory::m_bmpCollection</a></div><div class="ttdeci">const string m_bmpCollection</div><div class="ttdoc">Collection name. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d82/a00920_source.html#l00085">BMPFactory.h:85</a></div></div>
+<div class="ttc" id="a00313_html"><div class="ttname"><a href="../../dd/db3/a00313.html">MainBMP::PlantManagement::PesticideOperation</a></div><div class="ttdoc">Pesticide operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00224">PlantManagementOperation.h:224</a></div></div>
+<div class="ttc" id="a00213_html"><div class="ttname"><a href="../../d1/de1/a00213.html">MainBMP::PlantManagement::ContinuousFertilizerOperation</a></div><div class="ttdoc">Continuous Fertilizer operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00550">PlantManagementOperation.h:550</a></div></div>
+<div class="ttc" id="a00195_html_af5c1ebe72d3af23b1d30f7c9d86bdb3b"><div class="ttname"><a href="../../d3/d2a/a00195.html#af5c1ebe72d3af23b1d30f7c9d86bdb3b">MainBMP::BMPPlantMgtFactory::~BMPPlantMgtFactory</a></div><div class="ttdeci">~BMPPlantMgtFactory(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d7a/a00921_source.html#l00017">BMPPlantMgtFactory.cpp:17</a></div></div>
+<div class="ttc" id="a00245_html"><div class="ttname"><a href="../../d6/d22/a00245.html">MainBMP::PlantManagement::HarvestKillOperation</a></div><div class="ttdoc">HarvestKill operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00256">PlantManagementOperation.h:256</a></div></div>
+<div class="ttc" id="a00195_html_a0c9286037905fd4d3623261bf8e7d84e"><div class="ttname"><a href="../../d3/d2a/a00195.html#a0c9286037905fd4d3623261bf8e7d84e">MainBMP::BMPPlantMgtFactory::m_luccID</a></div><div class="ttdeci">int m_luccID</div><div class="ttdoc">landuse / landcover </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dcf/a00922_source.html#l00070">BMPPlantMgtFactory.h:70</a></div></div>
+<div class="ttc" id="a00195_html_a6a6f46c9693e3bcb8c484da66c48a560"><div class="ttname"><a href="../../d3/d2a/a00195.html#a6a6f46c9693e3bcb8c484da66c48a560">MainBMP::BMPPlantMgtFactory::loadBMP</a></div><div class="ttdeci">void loadBMP(MongoClient *conn, const string &amp;bmpDBName)</div><div class="ttdoc">Load BMP parameters from MongoDB. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d7a/a00921_source.html#l00030">BMPPlantMgtFactory.cpp:30</a></div></div>
+<div class="ttc" id="a00194_html"><div class="ttname"><a href="../../dc/d57/a00194.html">MainBMP::BMPFactory</a></div><div class="ttdoc">Base class to initiate a BMP data. </div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d82/a00920_source.html#l00028">BMPFactory.h:28</a></div></div>
+<div class="ttc" id="a00197_html"><div class="ttname"><a href="../../de/db1/a00197.html">MainBMP::PlantManagement::BurningOperation</a></div><div class="ttdoc">Burning operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00626">PlantManagementOperation.h:626</a></div></div>
+<div class="ttc" id="a00319_html"><div class="ttname"><a href="../../de/dab/a00319.html">MainBMP::PlantManagement::PlantOperation</a></div><div class="ttdoc">Plant management operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00086">PlantManagementOperation.h:86</a></div></div>
+<div class="ttc" id="a00271_html"><div class="ttname"><a href="../../dd/d86/a00271.html">MainBMP::PlantManagement::KillOperation</a></div><div class="ttdoc">Kill operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00349">PlantManagementOperation.h:349</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_e18f81762effd1d09ce50d10289caf24.html">grid_layering</a></li><li class="navelem"><b>CompressIndex.cpp</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 13:25:59 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_c4eaa6a6e6c4ee7b087e3de60cab1bbc.html">bmps</a></li><li class="navelem"><b>BMPPlantMgtFactory.cpp</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 14:11:26 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

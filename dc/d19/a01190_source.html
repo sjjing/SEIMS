@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/nutrient/NutrGW/NutrientinGroundwater.h Source File</title>
+<title>SEIMS: seims_longterm_linux_gcc48/doc/wiki/Compile and Install/Linux.md Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('dc/d19/a01190_source.html','../../');});
+$(document).ready(function(){initNavTree('dc/d19/a01190.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -112,109 +112,78 @@ $(document).ready(function(){initNavTree('dc/d19/a01190_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">NutrientinGroundwater.h</div>  </div>
+<div class="title">seims_longterm_linux_gcc48/doc/wiki/Compile and Install/Linux.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dc/d0f/a00303.html">NutrientinGroundwater</a> : <span class="keyword">public</span> <a class="code" href="../../dd/d1d/a00336.html">SimulationModule</a> {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="../../dc/d0f/a00303.html">NutrientinGroundwater</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    ~<a class="code" href="../../dc/d0f/a00303.html">NutrientinGroundwater</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> value);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nRows, <span class="keywordtype">int</span> nCols, <span class="keywordtype">float</span> **data);</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;Linux下SEIMS模型的编译与运行</div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;----------------</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;&gt; Latest update: 2017-3-23</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">## 1. 准备工作</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;以192.168.6.55服务器上zhulj账号下的配置为例：</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;+ CMake 版本更新为3.7.2，路径`~/CMake/bin/cmake`;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;+ GCC编译器版本至4.8.4，路径`~/gcc4.8.4/bin`，在CMake命令中加入`-DCMAKE_C_COMPILER=~/gcc4.8.4/bin/gcc -DCMAKE_CXX_COMPILER=~/gcc4.8.4/bin/g++`以显示定义GCC编译器路径；</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;+ MPICH版本至3.1.4，路径`~/mpich/bin`,同理，如果编译MPI版本，则需显示定义编译器路径：`-DCMAKE_CXX_COMPILER=~/mpich/bin/mpic++`;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;+ mongo-c-driver版本至1.6.0，路径`~/code/mongo-c-driver`，并在`~/.bash_profile`中更新了环境变量`MONGOC_ROOT_DIR`、`PKG_CONFIG_PATH`和`LD_LIBRARY_PATH`，以确保基于mongo-c-driver的程序能够顺利编译、链接、安装、运行。</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;+ GDAL采用服务器现有版本1.9.0，并新建环境变量`export GDAL_ROOT=/soft/share`</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;+ Python版本至2.7.9，路径`/usr/bin`（软链接至2.7.9，旧版本为`/usr/bin/python2.6`）</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">## 2. SEIMS编译和安装</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;使用CMake编译SEIMS时有3个可选参数：</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;1. `-DPARALLEL`，不添加则默认为编译`OpenMP`版本程序，添加`-DPARALLEL=MPI`则编译MPI/OpenMP混合版本；</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;2. `-DARCH`，~~用于指定编译32位还是64程序(目前仅适用于Windows)，需要与`GDAL`和`mongo-c-driver`版本匹配，不添加则默认为32位程序，添加`-DARCH=64`则为64位；~~</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;3. `-DSTROM`，用于指定是否编译次降水模型，不添加默认为0，即长时段模型，添加`-DSTROM=1`则编译次降水模型。</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;4. `-DUNITTEST`，用于指定是否编译基于Googletest的单元测试模块</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;5. `-DINSTALL_PREFIX`，用于指定安装路径，如不指定，默认为源码目录下的`bin`文件夹。</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;```shell</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;cd &lt;SEIMS root path&gt;/seims</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;mkdir build</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;cd build</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;/home/zhulj/CMake/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/home/zhulj/gcc4.8.4/bin/gcc -DCMAKE_CXX_COMPILER=/home/zhulj/gcc4.8.4/bin/g++</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;make (or make 2&gt;&amp;1 | tee build.log 用于保存编译日志)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;make install</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;```</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;+ 在执行`make`命令时，可追加 `-j 4`命令利用CPU多核性能并行编译程序，提高编译速度，并行进程数最好设置为物理核数的2倍。</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;+ 编译完成之后，SEIMS模型所有可执行文件和模块库均安装于`&lt;SEIMS root path&gt;/seims/bin`目录下。</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetReaches(<a class="code" href="../../dc/d31/a00208.html">clsReaches</a> *reaches);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="comment">//virtual void Set2DData(const char* key, int nRows, int nCols, float** data);</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="comment">//virtual void GetValue(const char* key, float* value);</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    <span class="comment">//virtual void Get2DData(const char* key, int* nRows, int* nCols, float*** data);</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetSubbasins(<a class="code" href="../../da/de7/a00210.html">clsSubbasins</a> *subbasins);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#abaa8d92fd352a222b678942148dcb1c1">   49</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../dc/d0f/a00303.html#abaa8d92fd352a222b678942148dcb1c1">m_cellWidth</a>;</div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#a5983448adb88f4483663208a11c2b82e">   51</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../dc/d0f/a00303.html#a5983448adb88f4483663208a11c2b82e">m_nCells</a>;</div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#ad440345df1db27d8b71febdf9da0fb8f">   53</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../dc/d0f/a00303.html#ad440345df1db27d8b71febdf9da0fb8f">m_TimeStep</a>;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#acd4b5e8eec1f886a6c759d183dbb8842">   57</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../dc/d0f/a00303.html#acd4b5e8eec1f886a6c759d183dbb8842">m_gw0</a>;</div>
-<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#affee7531b7077f999f2b910c7d7b10d2">   59</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../dc/d0f/a00303.html#affee7531b7077f999f2b910c7d7b10d2">m_gwno3Con</a>;</div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#a9945afbe39807419c23112d64de43e10">   61</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../dc/d0f/a00303.html#a9945afbe39807419c23112d64de43e10">m_gwNO3</a>;</div>
-<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#a88c69048255dbea4cddbe8cd82bf8255">   63</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../dc/d0f/a00303.html#a88c69048255dbea4cddbe8cd82bf8255">m_gwSolCon</a>;</div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#a4669aa71c20f0389fe7d5460e5b93387">   65</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../dc/d0f/a00303.html#a4669aa71c20f0389fe7d5460e5b93387">m_gwSolP</a>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#afe4dec62d26b468deab2b0b7ab3c9f31">   67</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../dc/d0f/a00303.html#afe4dec62d26b468deab2b0b7ab3c9f31">m_gw_q</a>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#adef55d701e44fa31b1e038860210fc5e">   69</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../dc/d0f/a00303.html#adef55d701e44fa31b1e038860210fc5e">m_gwStor</a>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#a2b870d6c826b49ec07b5d3b19ecbfd62">   71</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../dc/d0f/a00303.html#a2b870d6c826b49ec07b5d3b19ecbfd62">m_perco_no3_gw</a>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#af5d6c2b649740b47faa91d86e1002882">   73</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../dc/d0f/a00303.html#af5d6c2b649740b47faa91d86e1002882">m_perco_solp_gw</a>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="comment">// soil related</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#aba657c6d23fa1a116896de3e3da59cf4">   77</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> **<a class="code" href="../../dc/d0f/a00303.html#aba657c6d23fa1a116896de3e3da59cf4">m_sol_no3</a>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#a4367a05966181a854968dee1b050337d">   79</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../dc/d0f/a00303.html#a4367a05966181a854968dee1b050337d">m_sol_solp</a>;</div>
-<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#a3a2975f6362a801474d7fdeb5b86908a">   81</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../dc/d0f/a00303.html#a3a2975f6362a801474d7fdeb5b86908a">m_nSoilLayers</a>;</div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#a0263498769be7779b6db66da52ff44a2">   83</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../dc/d0f/a00303.html#a0263498769be7779b6db66da52ff44a2">m_soilLayers</a>;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
-<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#ace80162b8fca267485d3b90b15bf099e">   89</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../dc/d0f/a00303.html#ace80162b8fca267485d3b90b15bf099e">m_no3GwToCh</a>;</div>
-<div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#a3ef0dc929a4ad51afa384f5e7e31ad85">   91</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../dc/d0f/a00303.html#a3ef0dc929a4ad51afa384f5e7e31ad85">m_solpGwToCh</a>;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#a4a2c6a2ab5585a9c0e5d035d649de614">   95</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../dc/d0f/a00303.html#a4a2c6a2ab5585a9c0e5d035d649de614">m_nSubbasins</a>;</div>
-<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#a44f922d84254eb26a496a3eb269babae">   97</a></span>&#160;    vector&lt;int&gt; <a class="code" href="../../dc/d0f/a00303.html#a44f922d84254eb26a496a3eb269babae">m_subbasinIDs</a>;</div>
-<div class="line"><a name="l00099"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#a0f2546e5dd41a66f967ad5f0ba201524">   99</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../dc/d0f/a00303.html#a0f2546e5dd41a66f967ad5f0ba201524">m_subbasin</a>;</div>
-<div class="line"><a name="l00101"></a><span class="lineno"><a class="line" href="../../dc/d0f/a00303.html#add5a8b8fc4e7c708529896ddd0d63f9d">  101</a></span>&#160;    <a class="code" href="../../da/de7/a00210.html">clsSubbasins</a> *<a class="code" href="../../dc/d0f/a00303.html#add5a8b8fc4e7c708529896ddd0d63f9d">m_subbasinsInfo</a>;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordtype">void</span> initialOutputs(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;};</div>
-<div class="ttc" id="a00303_html_acd4b5e8eec1f886a6c759d183dbb8842"><div class="ttname"><a href="../../dc/d0f/a00303.html#acd4b5e8eec1f886a6c759d183dbb8842">NutrientinGroundwater::m_gw0</a></div><div class="ttdeci">float m_gw0</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00057">NutrientinGroundwater.h:57</a></div></div>
-<div class="ttc" id="a00303_html_af5d6c2b649740b47faa91d86e1002882"><div class="ttname"><a href="../../dc/d0f/a00303.html#af5d6c2b649740b47faa91d86e1002882">NutrientinGroundwater::m_perco_solp_gw</a></div><div class="ttdeci">float * m_perco_solp_gw</div><div class="ttdoc">amount of solute P percolating past bottom of soil profile, kg </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00073">NutrientinGroundwater.h:73</a></div></div>
-<div class="ttc" id="a00303_html_a2b870d6c826b49ec07b5d3b19ecbfd62"><div class="ttname"><a href="../../dc/d0f/a00303.html#a2b870d6c826b49ec07b5d3b19ecbfd62">NutrientinGroundwater::m_perco_no3_gw</a></div><div class="ttdeci">float * m_perco_no3_gw</div><div class="ttdoc">amount of nitrate percolating past bottom of soil profile, kg </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00071">NutrientinGroundwater.h:71</a></div></div>
-<div class="ttc" id="a00303_html_a4a2c6a2ab5585a9c0e5d035d649de614"><div class="ttname"><a href="../../dc/d0f/a00303.html#a4a2c6a2ab5585a9c0e5d035d649de614">NutrientinGroundwater::m_nSubbasins</a></div><div class="ttdeci">int m_nSubbasins</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00095">NutrientinGroundwater.h:95</a></div></div>
-<div class="ttc" id="a00210_html"><div class="ttname"><a href="../../da/de7/a00210.html">clsSubbasins</a></div><div class="ttdoc">Manager all Subbasin related parameters and methods. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/dcd/a00965_source.html#l00236">clsSubbasin.h:236</a></div></div>
-<div class="ttc" id="a00303_html_a44f922d84254eb26a496a3eb269babae"><div class="ttname"><a href="../../dc/d0f/a00303.html#a44f922d84254eb26a496a3eb269babae">NutrientinGroundwater::m_subbasinIDs</a></div><div class="ttdeci">vector&lt; int &gt; m_subbasinIDs</div><div class="ttdoc">subbasin IDs </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00097">NutrientinGroundwater.h:97</a></div></div>
-<div class="ttc" id="a00303_html_adef55d701e44fa31b1e038860210fc5e"><div class="ttname"><a href="../../dc/d0f/a00303.html#adef55d701e44fa31b1e038860210fc5e">NutrientinGroundwater::m_gwStor</a></div><div class="ttdeci">float * m_gwStor</div><div class="ttdoc">groundwater storage </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00069">NutrientinGroundwater.h:69</a></div></div>
-<div class="ttc" id="a00303_html_affee7531b7077f999f2b910c7d7b10d2"><div class="ttname"><a href="../../dc/d0f/a00303.html#affee7531b7077f999f2b910c7d7b10d2">NutrientinGroundwater::m_gwno3Con</a></div><div class="ttdeci">float * m_gwno3Con</div><div class="ttdoc">nitrate N concentration in groundwater loading to reach (mg/L, i.e. g/m3) </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00059">NutrientinGroundwater.h:59</a></div></div>
-<div class="ttc" id="a00303_html_afe4dec62d26b468deab2b0b7ab3c9f31"><div class="ttname"><a href="../../dc/d0f/a00303.html#afe4dec62d26b468deab2b0b7ab3c9f31">NutrientinGroundwater::m_gw_q</a></div><div class="ttdeci">float * m_gw_q</div><div class="ttdoc">groundwater contribution to stream flow (m3/s) </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00067">NutrientinGroundwater.h:67</a></div></div>
-<div class="ttc" id="a00303_html"><div class="ttname"><a href="../../dc/d0f/a00303.html">NutrientinGroundwater</a></div><div class="ttdoc">Calculates the nitrate and soluble phosphorus loading contributed by groundwater flow. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00024">NutrientinGroundwater.h:24</a></div></div>
-<div class="ttc" id="a00303_html_ace80162b8fca267485d3b90b15bf099e"><div class="ttname"><a href="../../dc/d0f/a00303.html#ace80162b8fca267485d3b90b15bf099e">NutrientinGroundwater::m_no3GwToCh</a></div><div class="ttdeci">float * m_no3GwToCh</div><div class="ttdoc">outputs </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00089">NutrientinGroundwater.h:89</a></div></div>
-<div class="ttc" id="a00303_html_aba657c6d23fa1a116896de3e3da59cf4"><div class="ttname"><a href="../../dc/d0f/a00303.html#aba657c6d23fa1a116896de3e3da59cf4">NutrientinGroundwater::m_sol_no3</a></div><div class="ttdeci">float ** m_sol_no3</div><div class="ttdoc">amount of nitrogen stored in the nitrate pool in soil layer </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00077">NutrientinGroundwater.h:77</a></div></div>
-<div class="ttc" id="a00303_html_add5a8b8fc4e7c708529896ddd0d63f9d"><div class="ttname"><a href="../../dc/d0f/a00303.html#add5a8b8fc4e7c708529896ddd0d63f9d">NutrientinGroundwater::m_subbasinsInfo</a></div><div class="ttdeci">clsSubbasins * m_subbasinsInfo</div><div class="ttdoc">subbasins information </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00101">NutrientinGroundwater.h:101</a></div></div>
-<div class="ttc" id="a00303_html_a0f2546e5dd41a66f967ad5f0ba201524"><div class="ttname"><a href="../../dc/d0f/a00303.html#a0f2546e5dd41a66f967ad5f0ba201524">NutrientinGroundwater::m_subbasin</a></div><div class="ttdeci">float * m_subbasin</div><div class="ttdoc">subbasin grid (subbasins ID) </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00099">NutrientinGroundwater.h:99</a></div></div>
-<div class="ttc" id="a00303_html_ad440345df1db27d8b71febdf9da0fb8f"><div class="ttname"><a href="../../dc/d0f/a00303.html#ad440345df1db27d8b71febdf9da0fb8f">NutrientinGroundwater::m_TimeStep</a></div><div class="ttdeci">int m_TimeStep</div><div class="ttdoc">time step (s) </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00053">NutrientinGroundwater.h:53</a></div></div>
-<div class="ttc" id="a00303_html_a0263498769be7779b6db66da52ff44a2"><div class="ttname"><a href="../../dc/d0f/a00303.html#a0263498769be7779b6db66da52ff44a2">NutrientinGroundwater::m_soilLayers</a></div><div class="ttdeci">float * m_soilLayers</div><div class="ttdoc">number of soil layers of each cell </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00083">NutrientinGroundwater.h:83</a></div></div>
-<div class="ttc" id="a00303_html_a3a2975f6362a801474d7fdeb5b86908a"><div class="ttname"><a href="../../dc/d0f/a00303.html#a3a2975f6362a801474d7fdeb5b86908a">NutrientinGroundwater::m_nSoilLayers</a></div><div class="ttdeci">int m_nSoilLayers</div><div class="ttdoc">max number of soil layers </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00081">NutrientinGroundwater.h:81</a></div></div>
-<div class="ttc" id="a00303_html_abaa8d92fd352a222b678942148dcb1c1"><div class="ttname"><a href="../../dc/d0f/a00303.html#abaa8d92fd352a222b678942148dcb1c1">NutrientinGroundwater::m_cellWidth</a></div><div class="ttdeci">float m_cellWidth</div><div class="ttdoc">cell width of grid map (m) </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00049">NutrientinGroundwater.h:49</a></div></div>
-<div class="ttc" id="a00303_html_a3ef0dc929a4ad51afa384f5e7e31ad85"><div class="ttname"><a href="../../dc/d0f/a00303.html#a3ef0dc929a4ad51afa384f5e7e31ad85">NutrientinGroundwater::m_solpGwToCh</a></div><div class="ttdeci">float * m_solpGwToCh</div><div class="ttdoc">soluble P loading to reach in groundwater to channel </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00091">NutrientinGroundwater.h:91</a></div></div>
-<div class="ttc" id="a00303_html_a88c69048255dbea4cddbe8cd82bf8255"><div class="ttname"><a href="../../dc/d0f/a00303.html#a88c69048255dbea4cddbe8cd82bf8255">NutrientinGroundwater::m_gwSolCon</a></div><div class="ttdeci">float * m_gwSolCon</div><div class="ttdoc">soluble P concentration in groundwater loading to reach (mg/L, i.e. g/m3) </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00063">NutrientinGroundwater.h:63</a></div></div>
-<div class="ttc" id="a00303_html_a4367a05966181a854968dee1b050337d"><div class="ttname"><a href="../../dc/d0f/a00303.html#a4367a05966181a854968dee1b050337d">NutrientinGroundwater::m_sol_solp</a></div><div class="ttdeci">float ** m_sol_solp</div><div class="ttdoc">amount of soluble phosphorus stored in the soil layer </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00079">NutrientinGroundwater.h:79</a></div></div>
-<div class="ttc" id="a00208_html"><div class="ttname"><a href="../../dc/d31/a00208.html">clsReaches</a></div><div class="ttdoc">Read and store all reaches information as input parameters. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d45/a00961_source.html#l00221">clsReach.h:221</a></div></div>
-<div class="ttc" id="a00303_html_a4669aa71c20f0389fe7d5460e5b93387"><div class="ttname"><a href="../../dc/d0f/a00303.html#a4669aa71c20f0389fe7d5460e5b93387">NutrientinGroundwater::m_gwSolP</a></div><div class="ttdeci">float * m_gwSolP</div><div class="ttdoc">kg </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00065">NutrientinGroundwater.h:65</a></div></div>
-<div class="ttc" id="a00303_html_a9945afbe39807419c23112d64de43e10"><div class="ttname"><a href="../../dc/d0f/a00303.html#a9945afbe39807419c23112d64de43e10">NutrientinGroundwater::m_gwNO3</a></div><div class="ttdeci">float * m_gwNO3</div><div class="ttdoc">kg </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00061">NutrientinGroundwater.h:61</a></div></div>
-<div class="ttc" id="a00303_html_a5983448adb88f4483663208a11c2b82e"><div class="ttname"><a href="../../dc/d0f/a00303.html#a5983448adb88f4483663208a11c2b82e">NutrientinGroundwater::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">number of cells </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00051">NutrientinGroundwater.h:51</a></div></div>
-<div class="ttc" id="a00336_html"><div class="ttname"><a href="../../dd/d1d/a00336.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/df2/a01000_source.html#l00047">SimulationModule.h:47</a></div></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">## 3. Python for SEIMS 依赖包的安装</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span> </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;SEIMS预处理、后处理、率定、情景分析等所需的Python依赖库及版本要求如下：</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;```py</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;pygeoc</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"># Preprocess</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span>GDAL&gt;=1.9.0,&lt;2.0</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;numpy&gt;=1.9.0</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;pymongo&gt;=3.0</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;networkx&gt;=1.10</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;Shapely&gt;=1.5.0</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"># Postprocess</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span>matplotlib&gt;=1.5.0</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;pathlib2&gt;=2.0.0</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"># Scenario analysis</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span>deap&gt;=1.0.2</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;scoop&gt;=0.7.1.1</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;```</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;+ SEIMS提供了自动安装脚本，脚本依赖于pip，因此请确保pip已正确安装，[参考教程](https:<span class="comment">//pip.pypa.io/en/stable/installing/)：</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  + 下载[<span class="keyword">get</span>-pip.py](https:<span class="comment">//bootstrap.pypa.io/get-pip.py)</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  + `python <span class="keyword">get</span>-pip.py`</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;+ 执行`sudo sh pyseims_install_linux.sh`即可自动安装完成所有依赖库，包括SEIMS自带的`PyGeoC`。</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;+ 安装完成后，运行`python pyseims_check.py`检查所需python库是否已经安装成功，如果有未成功的请单独安装。</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_3996e886b1e07c3846ebc60dfa15d754.html">nutrient</a></li><li class="navelem"><a class="el" href="../../dir_9544f52b76267faa0d341681833bd39f.html">NutrGW</a></li><li class="navelem"><b>NutrientinGroundwater.h</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 13:26:01 for SEIMS by
+    <li class="navelem"><b>Linux.md</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 14:11:27 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

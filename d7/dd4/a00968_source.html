@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/data/InputStation.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/base/module_setting/SettingsInput.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,206 +112,80 @@ $(document).ready(function(){initNavTree('d7/dd4/a00968_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">InputStation.cpp</div>  </div>
+<div class="title">SettingsInput.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;InputStation.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="../../d9/d8d/a00262.html#aec49b5af2605cf8ffa2f33863f373256">    5</a></span>&#160;<a class="code" href="../../d9/d8d/a00262.html#aec49b5af2605cf8ffa2f33863f373256">InputStation::InputStation</a>(MongoClient* conn, time_t dtHillslope, time_t dtChannel) : </div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    m_conn(conn), m_dtHs(dtHillslope), m_dtCh(dtChannel) {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;}</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno"><a class="line" href="../../d9/d8d/a00262.html#a9139a9070ff4efddc1a9f9de560a431c">    9</a></span>&#160;<a class="code" href="../../d9/d8d/a00262.html#a9139a9070ff4efddc1a9f9de560a431c">InputStation::~InputStation</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    StatusMessage(<span class="stringliteral">&quot;Start to release InputStation data ...&quot;</span>);</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">for</span> (map&lt;string, Measurement *&gt;::iterator it = <a class="code" href="../../d9/d8d/a00262.html#aaac83716639a14e8b428de4fcf38ec7d">m_measurement</a>.begin(); it != <a class="code" href="../../d9/d8d/a00262.html#aaac83716639a14e8b428de4fcf38ec7d">m_measurement</a>.end();) {</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;        <span class="keywordflow">if</span> (it-&gt;second != NULL) {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;            <span class="keyword">delete</span> it-&gt;second;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            it-&gt;second = NULL;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;        }</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <a class="code" href="../../d9/d8d/a00262.html#aaac83716639a14e8b428de4fcf38ec7d">m_measurement</a>.erase(it++);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    }</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <a class="code" href="../../d9/d8d/a00262.html#aaac83716639a14e8b428de4fcf38ec7d">m_measurement</a>.clear();</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#ifndef SEIMS_SETTING_INPUT_H</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEIMS_SETTING_INPUT_H</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;Settings.h&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;InputStation.h&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;Scenario.h&quot;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;MongoUtil.h&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">using namespace </span>MainBMP;</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keywordflow">for</span> (map&lt;string, float *&gt;::iterator it = <a class="code" href="../../d9/d8d/a00262.html#ae54de024217809572c1aaec2c587f1ea">m_latitude</a>.begin(); it != <a class="code" href="../../d9/d8d/a00262.html#ae54de024217809572c1aaec2c587f1ea">m_latitude</a>.end();) {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="keywordflow">if</span> (it-&gt;second != NULL) {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;            <span class="keyword">delete</span>[] it-&gt;second;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;            it-&gt;second = NULL;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        }</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <a class="code" href="../../d9/d8d/a00262.html#ae54de024217809572c1aaec2c587f1ea">m_latitude</a>.erase(it++);</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    }</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="../../d9/d8d/a00262.html#ae54de024217809572c1aaec2c587f1ea">m_latitude</a>.clear();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">for</span> (map&lt;string, float *&gt;::iterator it = <a class="code" href="../../d9/d8d/a00262.html#aad64bf6fa89cfe2ff9747b6264b8c3e0">m_elevation</a>.begin(); it != <a class="code" href="../../d9/d8d/a00262.html#aad64bf6fa89cfe2ff9747b6264b8c3e0">m_elevation</a>.end();) {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="keywordflow">if</span> (it-&gt;second != NULL) {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <span class="keyword">delete</span>[] it-&gt;second;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;            it-&gt;second = NULL;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        }</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <a class="code" href="../../d9/d8d/a00262.html#aad64bf6fa89cfe2ff9747b6264b8c3e0">m_elevation</a>.erase(it++);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    }</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="../../d9/d8d/a00262.html#aad64bf6fa89cfe2ff9747b6264b8c3e0">m_elevation</a>.clear();</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;}</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../df/d91/a00335.html">SettingsInput</a> : <span class="keyword">public</span> <a class="code" href="../../da/d75/a00334.html">Settings</a> {</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="../../df/d91/a00335.html">SettingsInput</a>(vector&lt;string&gt;&amp; stringvector);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    ~<a class="code" href="../../df/d91/a00335.html">SettingsInput</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">static</span> <a class="code" href="../../df/d91/a00335.html">SettingsInput</a>* Init(vector&lt;string&gt;&amp; stringvector);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Dump(<span class="keywordtype">string</span>);</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../d9/d8d/a00262.html#aaef33c01b2bb328720173a063312a48c">   38</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d9/d8d/a00262.html#aaef33c01b2bb328720173a063312a48c">InputStation::build_query_bson</a>(<span class="keywordtype">int</span> nSites, vector&lt;int&gt; &amp;siteIDList, <span class="keywordtype">string</span> &amp;siteType, bson_t *query) {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="comment">//query = bson_new();  query has been initalized before</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    bson_t *child = bson_new();</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    bson_t *child2 = bson_new();</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    bson_t *child3 = bson_new();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    BSON_APPEND_DOCUMENT_BEGIN(query, <span class="stringliteral">&quot;$query&quot;</span>, child);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    BSON_APPEND_DOCUMENT_BEGIN(child, MONG_HYDRO_DATA_SITEID, child2);</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    BSON_APPEND_ARRAY_BEGIN(child2, <span class="stringliteral">&quot;$in&quot;</span>, child3);</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    ostringstream ossIndex;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> iSite = 0; iSite &lt; nSites; iSite++) {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        ossIndex.str(<span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        ossIndex &lt;&lt; iSite;</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        BSON_APPEND_INT32(child3, ossIndex.str().c_str(), siteIDList[iSite]);</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    bson_append_array_end(child2, child3);</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    bson_append_document_end(child, child2);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    bson_destroy(child2);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    bson_destroy(child3);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">if</span> (siteType == DataType_Precipitation) {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        BSON_APPEND_UTF8(child, MONG_HYDRO_SITE_TYPE, siteType.c_str());<span class="comment">//&quot;Type&quot;</span></div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        child2 = bson_new();</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        child3 = bson_new();</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        BSON_APPEND_DOCUMENT_BEGIN(child, MONG_HYDRO_SITE_TYPE, child2);<span class="comment">//&quot;Type&quot;</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        BSON_APPEND_ARRAY_BEGIN(child2, <span class="stringliteral">&quot;$in&quot;</span>, child3);</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        BSON_APPEND_UTF8(child3, <span class="stringliteral">&quot;0&quot;</span>, DataType_Precipitation);  <span class="comment">//&quot;P&quot;</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        BSON_APPEND_UTF8(child3, <span class="stringliteral">&quot;1&quot;</span>, DataType_Meteorology);    <span class="comment">//&quot;M&quot;</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        bson_append_array_end(child2, child3);</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        bson_append_document_end(child, child2);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        bson_destroy(child2);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        bson_destroy(child3);</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        BSON_APPEND_UTF8(child, MONG_HYDRO_SITE_TYPE, siteType.c_str());</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    }<span class="comment">//&quot;Type&quot;</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    bson_append_document_end(query, child);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    bson_destroy(child);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    child2 = bson_new();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    BSON_APPEND_DOCUMENT_BEGIN(query, <span class="stringliteral">&quot;$orderby&quot;</span>, child2);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    BSON_APPEND_INT32(child2, MONG_HYDRO_DATA_SITEID, 1);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    bson_append_document_end(query, child2);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    bson_destroy(child2);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;}</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
-<div class="line"><a name="l00083"></a><span class="lineno"><a class="line" href="../../d9/d8d/a00262.html#aa11da83df6f999201bc6d96bc4dd810f">   83</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d9/d8d/a00262.html#aa11da83df6f999201bc6d96bc4dd810f">InputStation::ReadSitesInfo</a>(<span class="keywordtype">string</span> siteType, <span class="keywordtype">string</span> hydroDBName, <span class="keywordtype">string</span> sitesList) {</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    vector &lt;string&gt; vecSites = SplitString(sitesList, <span class="charliteral">&#39;,&#39;</span>);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordtype">int</span> nSites = (int) vecSites.size();</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="comment">//convert from string to int, the IDList is in order in MongoDB</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    vector&lt;int&gt; siteIDList;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> iSite = 0; iSite &lt; nSites; iSite++) {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        siteIDList.push_back(atoi(vecSites[iSite].c_str()));</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="comment">//sort(siteIDList.begin(), siteIDList.end());</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    bson_t *query = bson_new();</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <a class="code" href="../../d9/d8d/a00262.html#aaef33c01b2bb328720173a063312a48c">build_query_bson</a>(nSites, siteIDList, siteType, query);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="comment">//printf(&quot;%s\n&quot;,bson_as_json(query,NULL));</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    unique_ptr&lt;MongoCollection&gt; collection(<span class="keyword">new</span> MongoCollection(<a class="code" href="../../d9/d8d/a00262.html#ac0ca0170344118e11078200e09aab46e">m_conn</a>-&gt;getCollection(hydroDBName, DB_TAB_SITES)));</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    mongoc_cursor_t* cursor = collection-&gt;ExecuteQuery(query);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keyword">const</span> bson_t *record = NULL;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordtype">float</span> *pEle = <span class="keyword">new</span> <span class="keywordtype">float</span>[nSites];</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordtype">float</span> *pLat = <span class="keyword">new</span> <span class="keywordtype">float</span>[nSites];</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">float</span> ele, lat;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">bool</span> hasData = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    vector&lt;int&gt;::iterator siteIDIter;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">while</span> (mongoc_cursor_more(cursor) &amp;&amp; mongoc_cursor_next(cursor, &amp;record)) {</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        hasData = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        bson_iter_t iter;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordtype">int</span> siteIndex = -1;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordtype">int</span> curSiteID = -1;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init(&amp;iter, record) &amp;&amp; bson_iter_find(&amp;iter, MONG_HYDRO_DATA_SITEID)) {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;            GetNumericFromBsonIterator(&amp;iter, curSiteID);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(<span class="stringliteral">&quot;Measurement&quot;</span>, <span class="stringliteral">&quot;Measurement&quot;</span>,</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                                 <span class="stringliteral">&quot;The Site ID field does not exist in Sites table, Please check and retry.&quot;</span>);</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        }</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        siteIDIter = find(siteIDList.begin(), siteIDList.end(), curSiteID);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        siteIndex = distance(siteIDList.begin(), siteIDIter);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init(&amp;iter, record) &amp;&amp; bson_iter_find(&amp;iter, MONG_HYDRO_SITE_LAT)) {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            GetNumericFromBsonIterator(&amp;iter, lat);</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(<span class="stringliteral">&quot;InputStation&quot;</span>, <span class="stringliteral">&quot;ReadSitesInfo&quot;</span>, <span class="stringliteral">&quot;The Lat field does not exist in Sites table.&quot;</span>);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        }</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        <span class="keywordflow">if</span> (bson_iter_init(&amp;iter, record) &amp;&amp; bson_iter_find(&amp;iter, MONG_HYDRO_SITE_ELEV)) {</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            GetNumericFromBsonIterator(&amp;iter, ele);</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(<span class="stringliteral">&quot;InputStation&quot;</span>, <span class="stringliteral">&quot;ReadSitesInfo&quot;</span>, <span class="stringliteral">&quot;The Lat field does not exist in Sites table.&quot;</span>);</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        }</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        pLat[siteIndex] = lat;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        pEle[siteIndex] = ele;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    }</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordflow">if</span> (!hasData) {</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(<span class="stringliteral">&quot;InputStation&quot;</span>, <span class="stringliteral">&quot;ReadSitesInfo&quot;</span>, <span class="stringliteral">&quot;Query failed.&quot;</span>);</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    }</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    mongoc_cursor_destroy(cursor);</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    bson_destroy(query);</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <a class="code" href="../../d9/d8d/a00262.html#aad64bf6fa89cfe2ff9747b6264b8c3e0">m_elevation</a>[siteType] = pEle;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <a class="code" href="../../d9/d8d/a00262.html#ae54de024217809572c1aaec2c587f1ea">m_latitude</a>[siteType] = pLat;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <a class="code" href="../../d9/d8d/a00262.html#afafeff6b8bff06dfb0f06c60fe1476bb">m_numSites</a>[siteType] = nSites;</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;}</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
-<div class="line"><a name="l00144"></a><span class="lineno"><a class="line" href="../../d9/d8d/a00262.html#a2961669393efba94b2094691f136e0e7">  144</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d9/d8d/a00262.html#a2961669393efba94b2094691f136e0e7">InputStation::ReadSitesData</a>(<span class="keywordtype">string</span> hydroDBName, <span class="keywordtype">string</span> sitesList, <span class="keywordtype">string</span> siteType, time_t startDate,</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                                 time_t endDate, <span class="keywordtype">bool</span> stormMode) {</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    siteType = GetUpper(siteType);</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="comment">//clock_t start = clock();</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordflow">if</span> (stormMode) {</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <a class="code" href="../../d9/d8d/a00262.html#aaac83716639a14e8b428de4fcf38ec7d">m_measurement</a>[siteType] = <span class="keyword">new</span> <a class="code" href="../../d9/d0d/a00298.html">NotRegularMeasurement</a>(<a class="code" href="../../d9/d8d/a00262.html#ac0ca0170344118e11078200e09aab46e">m_conn</a>, hydroDBName, sitesList, siteType, startDate, endDate);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <a class="code" href="../../d9/d8d/a00262.html#aaac83716639a14e8b428de4fcf38ec7d">m_measurement</a>[siteType] = <span class="keyword">new</span> <a class="code" href="../../d8/d23/a00326.html">RegularMeasurement</a>(<a class="code" href="../../d9/d8d/a00262.html#ac0ca0170344118e11078200e09aab46e">m_conn</a>, hydroDBName, sitesList, siteType, startDate, endDate, <a class="code" href="../../d9/d8d/a00262.html#ae03badcf7f98f869eba397215294415d">m_dtHs</a>);</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    }</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="comment">//clock_t end = clock();</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="comment">//cout &lt;&lt; &quot;Read measurement &quot; &lt;&lt; siteType &lt;&lt; &quot; &quot; &lt;&lt; end - start &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="comment">//start = clock();</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    <span class="keywordflow">if</span> (StringMatch(siteType, DataType_Precipitation))  <span class="comment">// &quot;P&quot;</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    {</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <a class="code" href="../../d9/d8d/a00262.html#aa11da83df6f999201bc6d96bc4dd810f">ReadSitesInfo</a>(DataType_Precipitation, hydroDBName, sitesList);</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (<a class="code" href="../../d9/d8d/a00262.html#aad64bf6fa89cfe2ff9747b6264b8c3e0">m_elevation</a>.find(DataType_Meteorology) == <a class="code" href="../../d9/d8d/a00262.html#aad64bf6fa89cfe2ff9747b6264b8c3e0">m_elevation</a>.end()) <span class="comment">// &quot;M&quot;</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    {</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <a class="code" href="../../d9/d8d/a00262.html#aa11da83df6f999201bc6d96bc4dd810f">ReadSitesInfo</a>(DataType_Meteorology, hydroDBName, sitesList);</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    }</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="comment">//end = clock();</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="comment">//cout &lt;&lt; &quot;ReadSitesInfo &quot; &lt;&lt; siteType &lt;&lt; &quot; &quot; &lt;&lt; end - start &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;}</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
-<div class="line"><a name="l00169"></a><span class="lineno"><a class="line" href="../../d9/d8d/a00262.html#abdd4eb90118878e83a98a8ba41a87cc5">  169</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="../../d9/d8d/a00262.html#abdd4eb90118878e83a98a8ba41a87cc5">InputStation::GetTimeSeriesData</a>(time_t time, <span class="keywordtype">string</span> type, <span class="keywordtype">int</span> *nRow, <span class="keywordtype">float</span> **data) {</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <a class="code" href="../../d6/d4b/a00277.html">Measurement</a> *m = <a class="code" href="../../d9/d8d/a00262.html#aaac83716639a14e8b428de4fcf38ec7d">m_measurement</a>[type];</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    *nRow = m-&gt;<a class="code" href="../../d6/d4b/a00277.html#ac9840e5b7a26d91beca48aac90d52d8b">NumberOfSites</a>();</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="comment">//cout &lt;&lt; type &lt;&lt; &quot;\t&quot; &lt;&lt; *nRow &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    *data = m-&gt;<a class="code" href="../../d6/d4b/a00277.html#a2195da07e9d304304905d020d32e9760">GetSiteDataByTime</a>(time);</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;}</div>
-<div class="ttc" id="a00262_html_ae03badcf7f98f869eba397215294415d"><div class="ttname"><a href="../../d9/d8d/a00262.html#ae03badcf7f98f869eba397215294415d">InputStation::m_dtHs</a></div><div class="ttdeci">time_t m_dtHs</div><div class="ttdoc">Hillslope scale time interval. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfd/a00969_source.html#l00069">InputStation.h:69</a></div></div>
-<div class="ttc" id="a00262_html_abdd4eb90118878e83a98a8ba41a87cc5"><div class="ttname"><a href="../../d9/d8d/a00262.html#abdd4eb90118878e83a98a8ba41a87cc5">InputStation::GetTimeSeriesData</a></div><div class="ttdeci">void GetTimeSeriesData(time_t time, string type, int *nRow, float **data)</div><div class="ttdoc">Get time series data. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00169">InputStation.cpp:169</a></div></div>
-<div class="ttc" id="a00262_html_a2961669393efba94b2094691f136e0e7"><div class="ttname"><a href="../../d9/d8d/a00262.html#a2961669393efba94b2094691f136e0e7">InputStation::ReadSitesData</a></div><div class="ttdeci">void ReadSitesData(string hydroDBName, string sitesList, string siteType, time_t startDate, time_t endDate, bool stormMode=false)</div><div class="ttdoc">Read data of each site type. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00144">InputStation.cpp:144</a></div></div>
-<div class="ttc" id="a00262_html_aaac83716639a14e8b428de4fcf38ec7d"><div class="ttname"><a href="../../d9/d8d/a00262.html#aaac83716639a14e8b428de4fcf38ec7d">InputStation::m_measurement</a></div><div class="ttdeci">map&lt; string, Measurement * &gt; m_measurement</div><div class="ttdoc">Measurement object of each data type. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfd/a00969_source.html#l00071">InputStation.h:71</a></div></div>
-<div class="ttc" id="a00262_html_afafeff6b8bff06dfb0f06c60fe1476bb"><div class="ttname"><a href="../../d9/d8d/a00262.html#afafeff6b8bff06dfb0f06c60fe1476bb">InputStation::m_numSites</a></div><div class="ttdeci">map&lt; string, int &gt; m_numSites</div><div class="ttdoc">site numbers of each site type </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfd/a00969_source.html#l00077">InputStation.h:77</a></div></div>
-<div class="ttc" id="a00277_html_a2195da07e9d304304905d020d32e9760"><div class="ttname"><a href="../../d6/d4b/a00277.html#a2195da07e9d304304905d020d32e9760">Measurement::GetSiteDataByTime</a></div><div class="ttdeci">virtual float * GetSiteDataByTime(time_t t)=0</div><div class="ttdoc">Get site data by time. </div></div>
-<div class="ttc" id="a00326_html"><div class="ttname"><a href="../../d8/d23/a00326.html">RegularMeasurement</a></div><div class="ttdoc">Regular hydroclimate data, e.g., daily data. </div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d49/a00979_source.html#l00021">RegularMeasurement.h:21</a></div></div>
-<div class="ttc" id="a00262_html_aa11da83df6f999201bc6d96bc4dd810f"><div class="ttname"><a href="../../d9/d8d/a00262.html#aa11da83df6f999201bc6d96bc4dd810f">InputStation::ReadSitesInfo</a></div><div class="ttdeci">void ReadSitesInfo(string siteType, string hydroDBName, string sitesList)</div><div class="ttdoc">Read HydroClimate sites information from HydroClimateDB (MongoDB) </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00083">InputStation.cpp:83</a></div></div>
-<div class="ttc" id="a00262_html_ac0ca0170344118e11078200e09aab46e"><div class="ttname"><a href="../../d9/d8d/a00262.html#ac0ca0170344118e11078200e09aab46e">InputStation::m_conn</a></div><div class="ttdeci">MongoClient * m_conn</div><div class="ttdoc">MongoDB client object. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfd/a00969_source.html#l00065">InputStation.h:65</a></div></div>
-<div class="ttc" id="a00298_html"><div class="ttname"><a href="../../d9/d0d/a00298.html">NotRegularMeasurement</a></div><div class="ttdoc">Not Regular hydroclimate data, i.e., for storm model. </div><div class="ttdef"><b>Definition:</b> <a href="../../d3/da5/a00973_source.html#l00021">NotRegularMeasurement.h:21</a></div></div>
-<div class="ttc" id="a00262_html_ae54de024217809572c1aaec2c587f1ea"><div class="ttname"><a href="../../d9/d8d/a00262.html#ae54de024217809572c1aaec2c587f1ea">InputStation::m_latitude</a></div><div class="ttdeci">map&lt; string, float * &gt; m_latitude</div><div class="ttdoc">Site ID: latitude. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfd/a00969_source.html#l00075">InputStation.h:75</a></div></div>
-<div class="ttc" id="a00277_html_ac9840e5b7a26d91beca48aac90d52d8b"><div class="ttname"><a href="../../d6/d4b/a00277.html#ac9840e5b7a26d91beca48aac90d52d8b">Measurement::NumberOfSites</a></div><div class="ttdeci">int NumberOfSites(void) const </div><div class="ttdoc">Get Number of site. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d3c/a00971_source.html#l00044">Measurement.h:44</a></div></div>
-<div class="ttc" id="a00262_html_aec49b5af2605cf8ffa2f33863f373256"><div class="ttname"><a href="../../d9/d8d/a00262.html#aec49b5af2605cf8ffa2f33863f373256">InputStation::InputStation</a></div><div class="ttdeci">InputStation(MongoClient *conn, time_t dtHillslope, time_t dtChannel)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00005">InputStation.cpp:5</a></div></div>
-<div class="ttc" id="a00262_html_aaef33c01b2bb328720173a063312a48c"><div class="ttname"><a href="../../d9/d8d/a00262.html#aaef33c01b2bb328720173a063312a48c">InputStation::build_query_bson</a></div><div class="ttdeci">void build_query_bson(int nSites, vector&lt; int &gt; &amp;siteIDList, string &amp;siteType, bson_t *query)</div><div class="ttdoc">build BSON query sentences for MongoDB </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00038">InputStation.cpp:38</a></div></div>
-<div class="ttc" id="a00277_html"><div class="ttname"><a href="../../d6/d4b/a00277.html">Measurement</a></div><div class="ttdoc">Get HydroClimate measurement data from MongoDB. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d3c/a00971_source.html#l00021">Measurement.h:21</a></div></div>
-<div class="ttc" id="a00262_html_aad64bf6fa89cfe2ff9747b6264b8c3e0"><div class="ttname"><a href="../../d9/d8d/a00262.html#aad64bf6fa89cfe2ff9747b6264b8c3e0">InputStation::m_elevation</a></div><div class="ttdeci">map&lt; string, float * &gt; m_elevation</div><div class="ttdoc">Site ID: elevation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dfd/a00969_source.html#l00073">InputStation.h:73</a></div></div>
-<div class="ttc" id="a00262_html_a9139a9070ff4efddc1a9f9de560a431c"><div class="ttname"><a href="../../d9/d8d/a00262.html#a9139a9070ff4efddc1a9f9de560a431c">InputStation::~InputStation</a></div><div class="ttdeci">~InputStation(void)</div><div class="ttdoc">Destructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00009">InputStation.cpp:9</a></div></div>
-<div class="ttc" id="a00285_html"><div class="ttname"><a href="../../d3/d58/a00285.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d85/a00908_source.html#l00020">ModelException.h:20</a></div></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a7a9ce2224d4680bccfd069f0fadf9a1d">   39</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a7a9ce2224d4680bccfd069f0fadf9a1d">getStartTime</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_startDate; }</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a7c23aa31719d03a2ac39dbab46dbc184">   42</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a7c23aa31719d03a2ac39dbab46dbc184">getEndTime</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_endDate; }</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#afcb41ae2cda97acf9cde4ea93ac42f2c">   45</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#afcb41ae2cda97acf9cde4ea93ac42f2c">getDtHillslope</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_dtHs; }</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a2aadc540afcd4379cdfa1af8d24ed99c">   48</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a2aadc540afcd4379cdfa1af8d24ed99c">getDtChannel</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_dtCh; }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a37588cc605d9ed980a8e42b6d3a1a0b7">   51</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a37588cc605d9ed980a8e42b6d3a1a0b7">getDtDaily</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> 86400; }</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#aec82eef341da4a36c40ae2aceb1d9722">   54</a></span>&#160;    <span class="keywordtype">string</span>&amp; <a class="code" href="../../df/d91/a00335.html#aec82eef341da4a36c40ae2aceb1d9722">getModelMode</a>(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> m_mode; }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a00faee40d1fb543b0eea9dc6145851ed">   57</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../df/d91/a00335.html#a00faee40d1fb543b0eea9dc6145851ed">isStormMode</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_isStormModel; }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> readSimulationPeriodDate(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a90cd7c4a484ed1294a80ec6e515c5458">   65</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a90cd7c4a484ed1294a80ec6e515c5458">m_startDate</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a0b2dd70eee0ff83818e5e15717b914c3">   67</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a0b2dd70eee0ff83818e5e15717b914c3">m_endDate</a>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a4b26228ba3e9f0109951fcbbf8d3b74a">   69</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a4b26228ba3e9f0109951fcbbf8d3b74a">m_dtHs</a>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a68396d28a25a25af0a70054ab2d3019c">   71</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a68396d28a25a25af0a70054ab2d3019c">m_dtCh</a>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a7f93c75b7d1750b7f5e84e2bb89f3192">   73</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="../../df/d91/a00335.html#a7f93c75b7d1750b7f5e84e2bb89f3192">m_mode</a>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#aa4150d381d0b80ffe478084393b86703">   75</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../df/d91/a00335.html#aa4150d381d0b80ffe478084393b86703">m_isStormModel</a>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* SEIMS_SETTING_INPUT_H */</span><span class="preprocessor"></span></div>
+<div class="ttc" id="a00335_html_aa4150d381d0b80ffe478084393b86703"><div class="ttname"><a href="../../df/d91/a00335.html#aa4150d381d0b80ffe478084393b86703">SettingsInput::m_isStormModel</a></div><div class="ttdeci">bool m_isStormModel</div><div class="ttdoc">is storm model? </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00075">SettingsInput.h:75</a></div></div>
+<div class="ttc" id="a00335_html_a68396d28a25a25af0a70054ab2d3019c"><div class="ttname"><a href="../../df/d91/a00335.html#a68396d28a25a25af0a70054ab2d3019c">SettingsInput::m_dtCh</a></div><div class="ttdeci">time_t m_dtCh</div><div class="ttdoc">Time interval for channel scale processes. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00071">SettingsInput.h:71</a></div></div>
+<div class="ttc" id="a00335_html_aec82eef341da4a36c40ae2aceb1d9722"><div class="ttname"><a href="../../df/d91/a00335.html#aec82eef341da4a36c40ae2aceb1d9722">SettingsInput::getModelMode</a></div><div class="ttdeci">string &amp; getModelMode(void)</div><div class="ttdoc">Get model mode. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00054">SettingsInput.h:54</a></div></div>
+<div class="ttc" id="a00335_html_a4b26228ba3e9f0109951fcbbf8d3b74a"><div class="ttname"><a href="../../df/d91/a00335.html#a4b26228ba3e9f0109951fcbbf8d3b74a">SettingsInput::m_dtHs</a></div><div class="ttdeci">time_t m_dtHs</div><div class="ttdoc">Time interval for hillslope scale processes. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00069">SettingsInput.h:69</a></div></div>
+<div class="ttc" id="a00335_html_a37588cc605d9ed980a8e42b6d3a1a0b7"><div class="ttname"><a href="../../df/d91/a00335.html#a37588cc605d9ed980a8e42b6d3a1a0b7">SettingsInput::getDtDaily</a></div><div class="ttdeci">time_t getDtDaily(void) const </div><div class="ttdoc">Get daily time interval of simulation in sec. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00051">SettingsInput.h:51</a></div></div>
+<div class="ttc" id="a00335_html"><div class="ttname"><a href="../../df/d91/a00335.html">SettingsInput</a></div><div class="ttdoc">Input settings for SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00025">SettingsInput.h:25</a></div></div>
+<div class="ttc" id="a00335_html_a7f93c75b7d1750b7f5e84e2bb89f3192"><div class="ttname"><a href="../../df/d91/a00335.html#a7f93c75b7d1750b7f5e84e2bb89f3192">SettingsInput::m_mode</a></div><div class="ttdeci">string m_mode</div><div class="ttdoc">Simulation mode, can be DAILY or HOURLY. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00073">SettingsInput.h:73</a></div></div>
+<div class="ttc" id="a00335_html_a2aadc540afcd4379cdfa1af8d24ed99c"><div class="ttname"><a href="../../df/d91/a00335.html#a2aadc540afcd4379cdfa1af8d24ed99c">SettingsInput::getDtChannel</a></div><div class="ttdeci">time_t getDtChannel(void) const </div><div class="ttdoc">Get time interval for channel scale processes. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00048">SettingsInput.h:48</a></div></div>
+<div class="ttc" id="a00334_html"><div class="ttname"><a href="../../da/d75/a00334.html">Settings</a></div><div class="ttdoc">Base class for input or output Settings. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6e/a00966_source.html#l00022">Settings.h:22</a></div></div>
+<div class="ttc" id="a00335_html_a7a9ce2224d4680bccfd069f0fadf9a1d"><div class="ttname"><a href="../../df/d91/a00335.html#a7a9ce2224d4680bccfd069f0fadf9a1d">SettingsInput::getStartTime</a></div><div class="ttdeci">time_t getStartTime(void) const </div><div class="ttdoc">Get start time of simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00039">SettingsInput.h:39</a></div></div>
+<div class="ttc" id="a00335_html_a0b2dd70eee0ff83818e5e15717b914c3"><div class="ttname"><a href="../../df/d91/a00335.html#a0b2dd70eee0ff83818e5e15717b914c3">SettingsInput::m_endDate</a></div><div class="ttdeci">time_t m_endDate</div><div class="ttdoc">End date of simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00067">SettingsInput.h:67</a></div></div>
+<div class="ttc" id="a00335_html_afcb41ae2cda97acf9cde4ea93ac42f2c"><div class="ttname"><a href="../../df/d91/a00335.html#afcb41ae2cda97acf9cde4ea93ac42f2c">SettingsInput::getDtHillslope</a></div><div class="ttdeci">time_t getDtHillslope(void) const </div><div class="ttdoc">Get time interval for hillslope scale processes. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00045">SettingsInput.h:45</a></div></div>
+<div class="ttc" id="a00335_html_a90cd7c4a484ed1294a80ec6e515c5458"><div class="ttname"><a href="../../df/d91/a00335.html#a90cd7c4a484ed1294a80ec6e515c5458">SettingsInput::m_startDate</a></div><div class="ttdeci">time_t m_startDate</div><div class="ttdoc">Start date of simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00065">SettingsInput.h:65</a></div></div>
+<div class="ttc" id="a00335_html_a00faee40d1fb543b0eea9dc6145851ed"><div class="ttname"><a href="../../df/d91/a00335.html#a00faee40d1fb543b0eea9dc6145851ed">SettingsInput::isStormMode</a></div><div class="ttdeci">bool isStormMode(void) const </div><div class="ttdoc">is storm model </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00057">SettingsInput.h:57</a></div></div>
+<div class="ttc" id="a00335_html_a7c23aa31719d03a2ac39dbab46dbc184"><div class="ttname"><a href="../../df/d91/a00335.html#a7c23aa31719d03a2ac39dbab46dbc184">SettingsInput::getEndTime</a></div><div class="ttdeci">time_t getEndTime(void) const </div><div class="ttdoc">Get end time of simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00042">SettingsInput.h:42</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_24d0af58b2644ad205aa9a0d9adbb65a.html">data</a></li><li class="navelem"><b>InputStation.cpp</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 13:25:59 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_cce2c0ac50386f26b5b526fa8626cc77.html">module_setting</a></li><li class="navelem"><b>SettingsInput.h</b></li>
+    <li class="footer">Generated on Fri Aug 11 2017 14:11:26 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

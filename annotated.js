@@ -43,7 +43,7 @@ var annotated =
     [ "gtest_xml_test_utils", null, [
       [ "GTestXMLTestCase", "d6/d82/a00243.html", "d6/d82/a00243" ]
     ] ],
-    [ "MainBMP", "d2/d68/a01295.html", "d2/d68/a01295" ],
+    [ "MainBMP", "dd/d39/a01271.html", "dd/d39/a01271" ],
     [ "pump", null, [
       [ "Cursor", "d3/dd5/a00215.html", "d3/dd5/a00215" ],
       [ "Token", "d8/d21/a00368.html", "d8/d21/a00368" ]
@@ -170,9 +170,9 @@ var annotated =
             ] ]
           ] ]
         ] ],
-        [ "setup", "d7/dc4/a01354.html", null ]
+        [ "setup", "d5/d78/a01330.html", null ]
       ] ],
-      [ "pyseims_check", "d8/d4e/a01355.html", null ]
+      [ "pyseims_check", "dc/d8e/a01331.html", null ]
     ] ],
     [ "upload", null, [
       [ "ClientLoginError", "db/d53/a00202.html", null ],
