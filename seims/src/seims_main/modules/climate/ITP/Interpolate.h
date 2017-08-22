@@ -55,16 +55,16 @@ public:
 
     void CheckInputData(void);
 
-	// @In
-	// @Description count of stations
+    // @In
+    // @Description count of stations
     int m_nStatioins;
 
-	// @In
-	// @Description count of valid cells
+    // @In
+    // @Description count of valid cells
     int m_nCells;
 
-	// @In
-	// @Description data of stations
+    // @In
+    // @Description data of stations
     float *m_stationData;
 
 
@@ -72,27 +72,27 @@ public:
     // @Description weights of each sites of all valid cells
 	float *m_weights;
 
-	// @In
+    // @In
     // @Description whether using vertical interpolation
     bool m_vertical;
 
-	// @In
-	// @Description elevation of stations
-	// @Optional
+    // @In
+    // @Description elevation of stations
+    // @Optional
     float *m_hStations;
 
-	// @In
+    // @In
     // @Description elevation of cells
-	// @Optional
+    // @Optional
     float *m_dem;
 
-	// @In
+    // @In
     // @Description Lapse Rate, a 2D array. The first level is by month, and the second level is by data type in order of (P,T,PET).
-	// @Optional
+    // @Optional
 	float **LapseRate;
 
-	// @Out
-	// @Description interpolation result
+    // @Out
+    // @Description interpolation result
     float *m_itpOutput;
 
 
