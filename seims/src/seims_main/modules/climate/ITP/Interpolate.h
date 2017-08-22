@@ -70,7 +70,7 @@ public:
 
     // @In
     // @Description weights of each sites of all valid cells
-	float *m_weights;
+    float *m_weights;
 
     // @In
     // @Description whether using vertical interpolation
@@ -89,7 +89,7 @@ public:
     // @In
     // @Description Lapse Rate, a 2D array. The first level is by month, and the second level is by data type in order of (P,T,PET).
     // @Optional
-	float **LapseRate;
+    float **LapseRate;
 
     // @Out
     // @Description interpolation result
