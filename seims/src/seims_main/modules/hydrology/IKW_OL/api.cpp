@@ -24,7 +24,7 @@ extern "C" SEIMS_MODULE_API const char *MetadataInformation() {
     mdi.SetVersion("0.1");
     mdi.SetWebsite(SEIMS_SITE);
 
-	MetadataInfo::AddModuleMetadata<ImplicitKinematicWave_OL>(mdi);
+	//MetadataInfo::AddModuleMetadata<ImplicitKinematicWave_OL>(mdi);
     res = mdi.GetXMLDocument();
 
     char *tmp = new char[res.size() + 1];

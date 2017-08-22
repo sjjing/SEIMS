@@ -5,7 +5,7 @@ using namespace std;
 
 Interpolate::Interpolate() : m_nCells(-1), m_nStatioins(-1),
                              m_month(-1), m_itpOutput(NULL), m_stationData(NULL), m_weights(NULL),
-                             m_dem(NULL), m_hStations(NULL), m_lapseRate(NULL), m_vertical(false), m_dataType(0) {
+                             m_dem(NULL), m_hStations(NULL), LapseRate(NULL), m_vertical(false), m_dataType(0) {
 }
 
 void Interpolate::SetClimateDataType(float value) {
@@ -57,7 +57,7 @@ int Interpolate::Execute() {
 
             if (m_vertical) {
                 float delta = m_dem[i] - m_hStations[j];
-                float factor = m_lapseRate[m_month][m_dataType];
+                float factor = LapseRate[m_month][m_dataType];
                 float adjust = m_weights[index] * delta * factor / 100.f;
                 value += adjust;
             }
@@ -110,7 +110,7 @@ void Interpolate::Set2DData(const char *key, int nRows, int nCols, float **data)
         if (m_vertical) {
             int nMonth = 12;
             CheckInputSize(sk, nRows, nMonth);
-            m_lapseRate = data;
+            LapseRate = data;
         }
     } else {
         throw ModelException(MID_ITP, "Set2DData", "Parameter " + sk + " does not exist.");
@@ -177,7 +177,7 @@ void Interpolate::CheckInputData() {
         throw ModelException(MID_ITP, "CheckInputData", "The parameter: Weight has not been set.");
     }
     if (m_vertical) {
-        if (m_lapseRate == NULL) {
+        if (LapseRate == NULL) {
             throw ModelException(MID_ITP, "CheckInputData", "The parameter: LapseRate has not been set.");
         }
         if (m_dem == NULL) {

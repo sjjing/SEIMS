@@ -245,24 +245,6 @@ public:
 
     string GetXMLDocument(void);
 
-	/*!
-	* \brief Add metadata about parameters, inputs and outputs of a SimulationModule to a XML class
-	*/
-	template<typename T>
-	static void AddModuleMetadata(MetadataInfo& mdi){
-		for (map<const string, VariableMetadata>::iterator iter = T::parameterInfo.begin(); iter != T::parameterInfo.end(); iter++){
-			mdi.AddParameter(iter->first, iter->second.Units, iter->second.Description, Source_ParameterDB, iter->second.Dimension);
-		}
-
-		for (map<const string, VariableMetadata>::iterator iter = T::inputsInfo.begin(); iter != T::inputsInfo.end(); iter++){
-			mdi.AddInput(iter->first, iter->second.Units, iter->second.Description, Source_Module, iter->second.Dimension);
-		}
-
-		for (map<const string, VariableMetadata>::iterator iter = T::outputsInfo.begin(); iter != T::outputsInfo.end(); iter++){
-			mdi.AddOutput(iter->first, iter->second.Units, iter->second.Description, iter->second.Dimension);
-		}
-	};
-
 };
 
 

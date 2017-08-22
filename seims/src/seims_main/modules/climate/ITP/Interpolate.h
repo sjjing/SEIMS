@@ -6,6 +6,7 @@
  */
 #pragma once
 
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -54,32 +55,58 @@ public:
 
     void CheckInputData(void);
 
-private:
-    // This is the climate data type. It is used to get the specific lapse rate from lapse_rate table.
-    // It is also used to create a string which can match the output id.
-    // For example, if data_type = 1, i.e. the data type is P, main program will connect the output variable name "D"
-    // and the data type to create a string like D_P,
-    // this string is the same with the output id in the output lookup table and file.out.
-    int m_dataType;
-    /// count of stations
+	// @In
+	// @Description count of stations
     int m_nStatioins;
-    /// data of stations
-    float *m_stationData;
-    /// count of valid cells
-    int m_nCells;
-    /// weights of each sites of all valid cells
-    float *m_weights;
 
-    /// whether using vertical interpolation
+	// @In
+	// @Description count of valid cells
+    int m_nCells;
+
+	// @In
+	// @Description data of stations
+    float *m_stationData;
+
+
+    // @In
+    // @Description weights of each sites of all valid cells
+	float *m_weights;
+
+	// @In
+    // @Description whether using vertical interpolation
     bool m_vertical;
-    /// elevation of stations
+
+	// @In
+	// @Description elevation of stations
+	// @Optional
     float *m_hStations;
-    /// elevation of cells
+
+	// @In
+    // @Description elevation of cells
+	// @Optional
     float *m_dem;
-    /// Lapse Rate, a 2D array. The first level is by month, and the second level is by data type in order of (P,T,PET).
-    float **m_lapseRate;
-    /// month
-    int m_month;
-    /// interpolation result
+
+	// @In
+    // @Description Lapse Rate, a 2D array. The first level is by month, and the second level is by data type in order of (P,T,PET).
+	// @Optional
+	float **LapseRate;
+
+	// @Out
+	// @Description interpolation result
     float *m_itpOutput;
+
+
+private:
+	/// month
+	int m_month;
+	// This is the climate data type. It is used to get the specific lapse rate from lapse_rate table.
+	// It is also used to create a string which can match the output id.
+	// For example, if data_type = 1, i.e. the data type is P, main program will connect the output variable name "D"
+	// and the data type to create a string like D_P,
+	// this string is the same with the output id in the output lookup table and file.out.
+	int m_dataType;
 };
+
+
+VISITABLE_STRUCT(Interpolate, m_nStatioins, m_nCells, m_stationData, m_weights, m_vertical, m_hStations,
+	m_dem, LapseRate, m_itpOutput);
