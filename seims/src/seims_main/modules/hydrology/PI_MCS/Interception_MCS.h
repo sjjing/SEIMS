@@ -33,73 +33,73 @@ public:
 
     /* Parameters from database */
 
-	// @In
-	// @Description Calibration parameter, the sine-shaped curve controller exponent b, default is 1.35
+    // @In
+    // @Description Calibration parameter, the sine-shaped curve controller exponent b, default is 1.35
     float Pi_b;
 
-	// @In
-	// @Description Calibration parameter, the initial interception storage for all cells, mm
+    // @In
+    // @Description Calibration parameter, the initial interception storage for all cells, mm
     float Init_IS;
 
-	// @In
-	// @Description Maximum storage capacity, mm
+    // @In
+    // @Description Maximum storage capacity, mm
     float *Interc_max;
 
-	// @In
-	// @Description Minimum storage capacity, mm
+    // @In
+    // @Description Minimum storage capacity, mm
     float *Interc_min;
 
 #ifdef STORM_MODE
 
-	// @In
-	// @Description hillslope time step, seconds
+    // @In
+    // @Description hillslope time step, seconds
     float DT_HS;
 
-	// @In
-	// @Description slope for rainfall correction, height/width, i.e. tan(slope)
+    // @In
+    // @Description slope for rainfall correction, height/width, i.e. tan(slope)
     float *m_slope;
 #endif
 
     /* Input variables from other module's output */
 
-	// @In
-	// @Description Precipitation, For STROM_MODE model, the unit is rainfall intensity mm/h, For LONGTERM_MODE model, the unit is mm
+    // @In
+    // @Description Precipitation, For STROM_MODE model, the unit is rainfall intensity mm/h, For LONGTERM_MODE model, the unit is mm
     float *D_P;
 
 #ifndef STORM_MODE
 
-	// @In
-	// @Description PET, mm
+    // @In
+    // @Description PET, mm
     float *PET;
 
 #endif
 
     /* Results */
 
-	// @Out
-	// @Description current interception storage, the initial value equal to 0, mm
+    // @Out
+    // @Description current interception storage, the initial value equal to 0, mm
     float *canstor;
 
-	// @Out
-	// @Description Interception loss, mm
+    // @Out
+    // @Description Interception loss, mm
     float *INLO;
 
 #ifndef STORM_MODE
 
-	// @Out
-	// @Description Evaporation loss from intercepted rainfall, mm
+    // @Out
+    // @Description Evaporation loss from intercepted rainfall, mm
     float *INET;
 
 #endif
 
-	// @Out
-	// @Description Net precipitation (after slope correction, of course), mm
+    // @Out
+    // @Description Net precipitation (after slope correction, of course), mm
     float *NEPR;
 
     /* Others */
 
-	// @In
-	// @Description number of valid cells
+    // @In
+    // @Description number of valid cells
     int m_nCells;
 
 public:
