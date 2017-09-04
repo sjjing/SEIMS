@@ -49,23 +49,23 @@ public:
 
     virtual TimeStepType GetTimeStepType(void) { return TIMESTEP_CHANNEL; };
 
-	/// upstream id (The value is -1 if there if no upstream reach)
-	vector <vector<int>> m_reachUpStream;
+    /// upstream id (The value is -1 if there if no upstream reach)
+    vector <vector<int>> m_reachUpStream;
 
-	/// id the reaches
-	vector<int> m_reachId;
+    /// id the reaches
+    vector<int> m_reachId;
 
-	/* reach up-down layering
-	* key: stream order
-	* value: reach ID of current stream order
-	*/
-	map<int, vector<int> > m_reachLayers;
+    /* reach up-down layering
+    * key: stream order
+    * value: reach ID of current stream order
+    */
+    map<int, vector<int> > m_reachLayers;
 
-	/* point source operations
-	* key: unique index, BMPID * 100000 + subScenarioID
-	* value: point source management factory instance
-	*/
-	map<int, BMPPointSrcFactory *> m_ptSrcFactory;
+    /* point source operations
+    * key: unique index, BMPID * 100000 + subScenarioID
+    * value: point source management factory instance
+    */
+    map<int, BMPPointSrcFactory *> m_ptSrcFactory;
 
     // @In
     // @Description cell number
@@ -75,460 +75,460 @@ public:
     // @Description time step (sec)
     int DT_CH;
 
-	// @In
-	// @Description downstream id (The value is 0 if there if no downstream reach)
+    // @In
+    // @Description downstream id (The value is 0 if there if no downstream reach)
     float *reachDownStream;
    
-	// @In
-	// @Description reaches number
+    // @In
+    // @Description reaches number
     int nReaches;
    
 	// @In
 	// @Description input data
     float QUPREACH;
 
-	// @In
+    // @In
     // @Description ratio of chlorophyll-a to algal biomass (ug chla/mg alg)
     float ai0;     
     
-	// @In
+    // @In
     // @Description fraction of algal biomass that is nitrogen (mg N/mg alg)
 	float ai1;
 
-	// @In
-	// @Description fraction of algal biomass that is phosphorus (mg P/mg alg)
+    // @In
+    // @Description fraction of algal biomass that is phosphorus (mg P/mg alg)
     float ai2; 
 
-	// @In
-	// @Description the rate of oxygen production per unit of algal photosynthesis (mg O2/mg alg)
+    // @In
+    // @Description the rate of oxygen production per unit of algal photosynthesis (mg O2/mg alg)
     float ai3;   
 
-	// @In
-	// @Description the rate of oxygen uptake per unit of algae respiration (mg O2/mg alg)
+    // @In
+    // @Description the rate of oxygen uptake per unit of algae respiration (mg O2/mg alg)
     float ai4;  
 
-	// @In
-	// @Description the rate of oxygen uptake per unit of NH3 nitrogen oxidation (mg O2/mg N)
+    // @In
+    // @Description the rate of oxygen uptake per unit of NH3 nitrogen oxidation (mg O2/mg N)
     float ai5; 
 
-	// @In
-	// @Description the rate of oxygen uptake per unit of NO2 nitrogen oxidation (mg O2/mg N)
+    // @In
+    // @Description the rate of oxygen uptake per unit of NO2 nitrogen oxidation (mg O2/mg N)
     float ai6;  
 
-	// @In
-	// @Description non-algal portion of the light extinction coefficient
+    // @In
+    // @Description non-algal portion of the light extinction coefficient
     float lambda0;   
 
-	// @In
-	// @Description linear algal self-shading coefficient
+    // @In
+    // @Description linear algal self-shading coefficient
     float lambda1;  
 
-	// @In
-	// @Description nonlinear algal self-shading coefficient
+    // @In
+    // @Description nonlinear algal self-shading coefficient
     float lambda2;   
 
-	// @In
-	// @Description half saturation coefficient for light (MJ/(m2*hr))
+    // @In
+    // @Description half saturation coefficient for light (MJ/(m2*hr))
     float k_l;
 
-	// @In
-	// @Description half-saturation constant for nitrogen (mg N/L)
+    // @In
+    // @Description half-saturation constant for nitrogen (mg N/L)
     float k_n;      
 
-	// @In
-	// @Description half saturation constant for phosphorus (mg P/L)
+    // @In
+    // @Description half saturation constant for phosphorus (mg P/L)
     float k_p;       
 
-	// @In
-	// @Description algal preference factor for ammonia
-	float p_n;
+    // @In
+    // @Description algal preference factor for ammonia
+    float p_n;
 
-	// @In
-	// @Description fraction of solar radiation computed in the temperature heat balance that is photo synthetically active
+    // @In
+    // @Description fraction of solar radiation computed in the temperature heat balance that is photo synthetically active
     float tfact;
 
-	// @In
-	// @Description fraction of overland flow
+    // @In
+    // @Description fraction of overland flow
     float rnum1;
 
-	// @In
-	// @Description option for calculating the local specific growth rate of algae, 1: multiplicative: u = mumax * fll * fnn * fpp, 2: limiting nutrient: u = mumax * fll * Min(fnn, fpp), 3: harmonic mean: u = mumax * fll * 2. / ((1/fnn)+(1/fpp)) 
+    // @In
+    // @Description option for calculating the local specific growth rate of algae, 1: multiplicative: u = mumax * fll * fnn * fpp, 2: limiting nutrient: u = mumax * fll * Min(fnn, fpp), 3: harmonic mean: u = mumax * fll * 2. / ((1/fnn)+(1/fpp)) 
     int igropt;
 
-	// @In
-	// @Description maximum specific algal growth rate at 20 deg C
+    // @In
+    // @Description maximum specific algal growth rate at 20 deg C
     float mumax;
 
-	// @In
-	// @Description algal respiration rate at 20 deg C (1/day)
+    // @In
+    // @Description algal respiration rate at 20 deg C (1/day)
     float rhoq;
 
-	// @In
-	// @Description Conversion factor
+    // @In
+    // @Description Conversion factor
     float cod_n;
 
-	// @In
-	// @Description Reaction coefficient
+    // @In
+    // @Description Reaction coefficient
     float cod_k;
 
-	// @In
-	// @Description stream link
+    // @In
+    // @Description stream link
     float *STREAM_LINK;
 
-	// @In
-	// @Description soil temperature (deg C)
+    // @In
+    // @Description soil temperature (deg C)
     float *SOTE;
 
-	// @In
-	// @Description day length for current day (h)
+    // @In
+    // @Description day length for current day (h)
     float *daylength;
 
-	// @In
-	// @Description solar radiation for the day (MJ/m2)
+    // @In
+    // @Description solar radiation for the day (MJ/m2)
     float *SR;
 
-	// @In
-	// @Description bank storage
+    // @In
+    // @Description bank storage
     float *BKST;
 
-	// @In
-	// @Description order of channel
+    // @In
+    // @Description order of channel
     float *chOrder;
 
-	// @In
-	// @Description channel outflow
+    // @In
+    // @Description channel outflow
     float *QRECH;
 
-	// @In
-	// @Description reach storage (m3) at time t
+    // @In
+    // @Description reach storage (m3) at time t
     float *CHST;
 
-	// @In
-	// @Description reach storage of previous timestep
+    // @In
+    // @Description reach storage of previous timestep
     float *preCHST;
 
-	// @In
-	// @Description channel water depth m
+    // @In
+    // @Description channel water depth m
     float *CHWTDEPTH;
 
-	// @In
-	// @Description channel water depth of previous timestep, m
+    // @In
+    // @Description channel water depth of previous timestep, m
     float *prechwtdepth;
 
-	// @In
-	// @Description temperature of water in reach (deg C)
+    // @In
+    // @Description temperature of water in reach (deg C)
     float *wattemp;
 
-	// @In
-	// @Description rate constant for biological oxidation of NH3 to NO2 in reach at 20 deg C
+    // @In
+    // @Description rate constant for biological oxidation of NH3 to NO2 in reach at 20 deg C
     float *bc1;   
 
-	// @In
-	// @Description rate constant for biological oxidation of NO2 to NO3 in reach at 20 deg C
+    // @In
+    // @Description rate constant for biological oxidation of NO2 to NO3 in reach at 20 deg C
     float *bc2;       
 
-	// @In
-	// @Description rate constant for biological oxidation of organic N to ammonia in reach at 20 deg C
+    // @In
+    // @Description rate constant for biological oxidation of organic N to ammonia in reach at 20 deg C
     float *bc3;      
 
-	// @In
-	// @Description rate constant for biological oxidation of organic P to dissolved P in reach at 20 deg C
+    // @In
+    // @Description rate constant for biological oxidation of organic P to dissolved P in reach at 20 deg C
     float *bc4;     
 
-	// @In
-	// @Description local algal settling rate in reach at 20 deg C (m/day)
+    // @In
+    // @Description local algal settling rate in reach at 20 deg C (m/day)
     float *rs1;      
 
-	// @In
-	// @Description benthos source rate for dissolved phosphorus in reach at 20 deg C (mg disP-P)/((m**2)*day)
+    // @In
+    // @Description benthos source rate for dissolved phosphorus in reach at 20 deg C (mg disP-P)/((m**2)*day)
     float *rs2;     
 
-	// @In
-	// @Description benthos source rate for ammonia nitrogen in reach at 20 deg C (mg NH4-N)/((m**2)*day)
+    // @In
+    // @Description benthos source rate for ammonia nitrogen in reach at 20 deg C (mg NH4-N)/((m**2)*day)
     float *rs3;       
 
-	// @In
-	// @Description rate coefficient for organic nitrogen settling in reach at 20 deg C (1/day)
+    // @In
+    // @Description rate coefficient for organic nitrogen settling in reach at 20 deg C (1/day)
     float *rs4;  
 
-	// @In
-	// @Description organic phosphorus settling rate in reach at 20 deg C (1/day)
+    // @In
+    // @Description organic phosphorus settling rate in reach at 20 deg C (1/day)
     float *rs5;  
 
-	// @In
-	// @Description CBOD deoxygenation rate coefficient in reach at 20 deg C (1/day)
+    // @In
+    // @Description CBOD deoxygenation rate coefficient in reach at 20 deg C (1/day)
     float *rk1;      
 
-	// @In
-	// @Description reaeration rate in accordance with Fickian diffusion in reach at 20 deg C (1/day)
+    // @In
+    // @Description reaeration rate in accordance with Fickian diffusion in reach at 20 deg C (1/day)
     float *rk2;    
 
-	// @In
-	// @Description rate of loss of CBOD due to settling in reach at 20 deg C (1/day)
+    // @In
+    // @Description rate of loss of CBOD due to settling in reach at 20 deg C (1/day)
     float *rk3;  
 
-	// @In
-	// @Description sediment oxygen demand rate in reach at 20 deg C (mg O2/ ((m**2)*day))
+    // @In
+    // @Description sediment oxygen demand rate in reach at 20 deg C (mg O2/ ((m**2)*day))
     float *rk4;    
 
-	// @In
-	// @Description Channel organic nitrogen concentration in basin, ppm
+    // @In
+    // @Description Channel organic nitrogen concentration in basin, ppm
     float ch_onco;
 
-	// @In
-	// @Description Channel organic phosphorus concentration in basin, ppm
+    // @In
+    // @Description Channel organic phosphorus concentration in basin, ppm
     float ch_opco;
 
-	// @In
-	// @Description amount of nitrate transported with lateral flow
+    // @In
+    // @Description amount of nitrate transported with lateral flow
     float *latno3ToCh;
 
-	// @In
-	// @Description amount of nitrate transported with surface runoff
+    // @In
+    // @Description amount of nitrate transported with surface runoff
     float *sur_no3_ToCh;
 
-	// @In
-	// @Description amount of ammonian transported with surface runoff
+    // @In
+    // @Description amount of ammonian transported with surface runoff
     float *SUR_NH4_TOCH;
 
-	// @In
-	// @Description amount of soluble phosphorus in surface runoff
+    // @In
+    // @Description amount of soluble phosphorus in surface runoff
     float *sur_solp_ToCh;
 
-	// @In
-	// @Description cod to reach in surface runoff (kg)
+    // @In
+    // @Description cod to reach in surface runoff (kg)
     float *sur_cod_ToCH;
 
-	// @In
-	// @Description nitrate loading to reach in groundwater
+    // @In
+    // @Description nitrate loading to reach in groundwater
     float *no3gwToCh;
 
-	// @In
-	// @Description soluble P loading to reach in groundwater
+    // @In
+    // @Description soluble P loading to reach in groundwater
     float *minpgwToCh;
 
-	// @In
-	// @Description amount of organic nitrogen in surface runoff
+    // @In
+    // @Description amount of organic nitrogen in surface runoff
     float *sedorgnToCh;
 
-	// @In
-	// @Description amount of organic phosphorus in surface runoff
+    // @In
+    // @Description amount of organic phosphorus in surface runoff
     float *sedorgpToCh;
 
-	// @In
-	// @Description amount of active mineral phosphorus absorbed to sediment in surface runoff
+    // @In
+    // @Description amount of active mineral phosphorus absorbed to sediment in surface runoff
     float *sedminpaToCh;
 
-	// @In
-	// @Description amount of stable mineral phosphorus absorbed to sediment in surface runoff
+    // @In
+    // @Description amount of stable mineral phosphorus absorbed to sediment in surface runoff
     float *sedminpsToCh;
 
-	// @In
-	// @Description amount of nitrite transported with lateral flow
+    // @In
+    // @Description amount of nitrite transported with lateral flow
     float *nitriteToCh;
 
     /// point source loadings (kg) to channel of each timestep
 
-	// @Out
-	// @Description nitrate
+    // @Out
+    // @Description nitrate
     float *ptNO3ToCh;
 
-	// @In
-	// @Description ammonia nitrogen
+    // @In
+    // @Description ammonia nitrogen
     float *ptNH4ToCh;
 
-	// @In
-	// @Description Organic nitrogen
+    // @In
+    // @Description Organic nitrogen
     float *ptOrgNToCh;
 
-	// @Out
-	// @Description total nitrogen
+    // @Out
+    // @Description total nitrogen
     float *ptTNToCh;
 
-	// @In
-	// @Description soluble (dissolved) phosphorus
+    // @In
+    // @Description soluble (dissolved) phosphorus
     float *ptSolPToCh;
 
-	// @In
-	// @Description Organic phosphorus
+    // @In
+    // @Description Organic phosphorus
     float *ptOrgPToCh;
 
-	// @Out
-	// @Description total phosphorus
+    // @Out
+    // @Description total phosphorus
     float *ptTPToCh;
 
-	// @Out
-	// @Description COD
+    // @Out
+    // @Description COD
     float *ptCODToCh;
 
-	// @In
-	// @Description channel erosion
+    // @In
+    // @Description channel erosion
     float *rch_deg;
 
     /// nutrient amount stored in reach
 
-	// @In
-	// @Description algal biomass storage in reach (kg)
+    // @In
+    // @Description algal biomass storage in reach (kg)
     float *chAlgae;
 
-	// @In
-	// @Description organic nitrogen storage in reach (kg)
+    // @In
+    // @Description organic nitrogen storage in reach (kg)
     float *chOrgN;
 
-	// @Out
-	// @Description ammonia storage in reach (kg)
+    // @Out
+    // @Description ammonia storage in reach (kg)
     float *CHSTR_NH4;
 
-	// @In
-	// @Description nitrite storage in reach (kg)
+    // @In
+    // @Description nitrite storage in reach (kg)
     float *chNO2;
 
-	// @Out
-	// @Description nitrate storage in reach (kg)
+    // @Out
+    // @Description nitrate storage in reach (kg)
     float *CHSTR_NO3;
 
-	// @Out
-	// @Description total nitrogen in reach (kg)
+    // @Out
+    // @Description total nitrogen in reach (kg)
     float *CHSTR_TN;
 
-	// @In
-	// @Description organic phosphorus storage in reach (kg)
+    // @In
+    // @Description organic phosphorus storage in reach (kg)
     float *chOrgP;
 
-	// @In
-	// @Description dissolved phosphorus storage in reach (kg)
+    // @In
+    // @Description dissolved phosphorus storage in reach (kg)
     float *chSolP;
 
-	// @Out
-	// @Description total phosphorus storage in reach (kg)
+    // @Out
+    // @Description total phosphorus storage in reach (kg)
     float *CHSTR_TP;
 
-	// @In
-	// @Description carbonaceous oxygen demand in reach (kg)
+    // @In
+    // @Description carbonaceous oxygen demand in reach (kg)
     float *chCOD;
 
-	// @In
-	// @Description dissolved oxygen storage in reach (kg)
+    // @In
+    // @Description dissolved oxygen storage in reach (kg)
     float *chDOx;
 
-	// @In
-	// @Description chlorophyll-a storage in reach (kg)
+    // @In
+    // @Description chlorophyll-a storage in reach (kg)
     float *chChlora;
 
-	// @In
-	// @Description saturation storage of dissolved oxygen (kg)
+    // @In
+    // @Description saturation storage of dissolved oxygen (kg)
     float soxy;
 
     /// Outputs, both amount (kg) and concentration (mg/L)
 
-	// @Out
-	// @Description algal biomass amount in reach (kg)
+    // @Out
+    // @Description algal biomass amount in reach (kg)
     float *ch_algae;
 
-	// @Out
-	// @Description algal biomass concentration in reach (mg/L)
+    // @Out
+    // @Description algal biomass concentration in reach (mg/L)
     float *ch_algaeConc;
 
-	// @Out
-	// @Description chlorophyll-a biomass amount in reach (kg)
+    // @Out
+    // @Description chlorophyll-a biomass amount in reach (kg)
     float *CH_chlora;
 
-	// @Out
-	// @Description chlorophyll-a biomass concentration in reach (mg/L)
+    // @Out
+    // @Description chlorophyll-a biomass concentration in reach (mg/L)
     float *CH_chloraConc;
 
-	// @Out
-	// @Description organic nitrogen amount in reach (kg)
+    // @Out
+    // @Description organic nitrogen amount in reach (kg)
     float *CH_ORGN;
 
-	// @Out
-	// @Description organic nitrogen concentration in reach (mg/L)
+    // @Out
+    // @Description organic nitrogen concentration in reach (mg/L)
     float *CH_ORGNConc;
 
-	// @Out
-	// @Description organic phosphorus amount in reach (kg)
+    // @Out
+    // @Description organic phosphorus amount in reach (kg)
     float *CH_ORGP;
 
-	// @Out
-	// @Description organic phosphorus concentration in reach (mg/L)
+    // @Out
+    // @Description organic phosphorus concentration in reach (mg/L)
     float *CH_ORGPConc;
 
-	// @Out
-	// @Description ammonia amount in reach (kg)
+    // @Out
+    // @Description ammonia amount in reach (kg)
     float *ch_nh4;
 
-	// @Out
-	// @Description ammonia concentration in reach (mg/L)
+    // @Out
+    // @Description ammonia concentration in reach (mg/L)
     float *ch_nh4Conc;
 
-	// @Out
-	// @Description nitrite amount in reach (kg)
+    // @Out
+    // @Description nitrite amount in reach (kg)
     float *CH_NO2;
 
-	// @Out
-	// @Description nitrite concentration in reach (mg/L)
+    // @Out
+    // @Description nitrite concentration in reach (mg/L)
     float *CH_NO2Conc;
 
-	// @Out
-	// @Description nitrate amount in reach (kg)
+    // @Out
+    // @Description nitrate amount in reach (kg)
     float *CH_NO3;
 
-	// @Out
-	// @Description nitrate concentration in reach (mg/L)
+    // @Out
+    // @Description nitrate concentration in reach (mg/L)
     float *CH_NO3Conc;
 
-	// @Out
-	// @Description dissolved phosphorus amount in reach (kg)
+    // @Out
+    // @Description dissolved phosphorus amount in reach (kg)
     float *CH_SOLP;
 
-	// @Out
-	// @Description dissolved phosphorus concentration in reach (mg/L)
+    // @Out
+    // @Description dissolved phosphorus concentration in reach (mg/L)
     float *CH_SOLPConc;
 
-	// @Out
-	// @Description carbonaceous oxygen demand in reach (kg)
+    // @Out
+    // @Description carbonaceous oxygen demand in reach (kg)
     float *CH_COD;
 
-	// @Out
-	// @Description carbonaceous oxygen demand concentration in reach (mg/L)
+    // @Out
+    // @Description carbonaceous oxygen demand concentration in reach (mg/L)
     float *CH_CODConc;
 
-	// @Out
-	// @Description dissolved oxygen amount in reach (kg)
+    // @Out
+    // @Description dissolved oxygen amount in reach (kg)
     float *ch_dox;
 
-	// @Out
-	// @Description dissolved oxygen concentration in reach (mg/L)
+    // @Out
+    // @Description dissolved oxygen concentration in reach (mg/L)
     float *ch_doxConc;
 
-	// @Out
-	// @Descriptiontotal N amount in reach (kg)
+    // @Out
+    // @Descriptiontotal N amount in reach (kg)
     float *CH_TN;
 
-	// @Out
-	// @Description total N concentration in reach (mg/L)
+    // @Out
+    // @Description total N concentration in reach (mg/L)
     float *CH_TNConc;
 
-	// @Out
-	// @Description total P amount in reach (kg)
+    // @Out
+    // @Description total P amount in reach (kg)
     float *CH_TP;
 
-	// @Out
-	// @Description total P concentration in reach (mg/L)
+    // @Out
+    // @Description total P concentration in reach (mg/L)
     float *CH_TPConc;
 
     //intermediate variables
 
-	// @In
-	// @Description mean day length of each channel (hr)
+    // @In
+    // @Description mean day length of each channel (hr)
     float *chDaylen;
 
-	// @In
-	// @Description mean solar radiation of each channel
+    // @In
+    // @Description mean solar radiation of each channel
     float *chSr;
 
-	// @In
-	// @Description valid cell numbers of each channel
+    // @In
+    // @Description valid cell numbers of each channel
     int *chCellCount;
 
 private:
