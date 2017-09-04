@@ -68,188 +68,188 @@ public:
 
     virtual TimeStepType GetTimeStepType(void) { return TIMESTEP_CHANNEL; };
 
-	/// upstream id (The value is -1 if there if no upstream reach)
-	vector <vector<int>> m_reachUpStream;
+    /// upstream id (The value is -1 if there if no upstream reach)
+    vector <vector<int>> m_reachUpStream;
 
-	// id the reaches
-	vector<int> m_reachId;
+    // id the reaches
+    vector<int> m_reachId;
 
-	/* point source operations
-	* key: unique index, BMPID * 100000 + subScenarioID
-	* value: point source management factory instance
-	*/
-	map<int, BMPPointSrcFactory *> m_ptSrcFactory;
+    /* point source operations
+    * key: unique index, BMPID * 100000 + subScenarioID
+    * value: point source management factory instance
+    */
+    map<int, BMPPointSrcFactory *> m_ptSrcFactory;
 
-	map<int, vector<int> > m_reachLayers;
+    map<int, vector<int> > m_reachLayers;
 
-	// @In
-	// @Description time step (sec)
+    // @In
+    // @Description time step (sec)
     int TIMESTEP;
 
-	// @In
-	// @Description reach number (= subbasin number)
+    // @In
+    // @Description reach number (= subbasin number)
     int nreach;
 
-	// @In
-	// @Description whether change channel dimensions, 0 - do not change, 1 - compute channel degredation
+    // @In
+    // @Description whether change channel dimensions, 0 - do not change, 1 - compute channel degredation
     int vcd;
 
-	// @In
-	// @Description the peak rate adjustment factor
+    // @In
+    // @Description the peak rate adjustment factor
     float p_rf;
 
-	// @In
-	// @Description Coefficient in sediment transport equation
+    // @In
+    // @Description Coefficient in sediment transport equation
     float spcon;
 
-	// @In
-	// @Description Exponent in sediment transport equation
+    // @In
+    // @Description Exponent in sediment transport equation
     float spexp;
 
-	// @In
-	// @Description critical velocity for sediment deposition
+    // @In
+    // @Description critical velocity for sediment deposition
     float vcrit;
    
-	// @In
-	// @Description sediment from subbasin (hillslope), kg
+    // @In
+    // @Description sediment from subbasin (hillslope), kg
     float *SEDTOCH;
     
-	// @In
-	// @Description initial channel storage per meter of reach length (m^3/m)
+    // @In
+    // @Description initial channel storage per meter of reach length (m^3/m)
     float Chs0;
 
-	// @In
-	// @Description Initial channel sediment concentration, ton/m^3, i.e., kg/L
+    // @In
+    // @Description Initial channel sediment concentration, ton/m^3, i.e., kg/L
     float sed_chi;
 
-	// @In
-	// @Description channel outflow, m^3/s
+    // @In
+    // @Description channel outflow, m^3/s
     float *QRECH;
 
-	// @In
-	// @Description Order of reach
+    // @In
+    // @Description Order of reach
     float *chOrder;
 
-	// @In
-	// @Description Width of reach
+    // @In
+    // @Description Width of reach
     float *chWidth;
 
-	// @In
-	// @Description Depth of reach
+    // @In
+    // @Description Depth of reach
     float *chDepth;
 
-	// @In
-	// @Description length of reach (m)
+    // @In
+    // @Description length of reach (m)
     float *chLen;
 
-	// @In
-	// @Description Vel of reach
+    // @In
+    // @Description Vel of reach
     float *chVel;
 
-	// @In
-	// @Description Slope of reach
+    // @In
+    // @Description Slope of reach
     float *chSlope;
 
-	// @In
-	// @Description Manning of reach
+    // @In
+    // @Description Manning of reach
     float *chManning;
 
-	// @In
-	// @Description Cover of reach
+    // @In
+    // @Description Cover of reach
     float *chCover;
 
-	// @In
-	// @Description Erod of reach
+    // @In
+    // @Description Erod of reach
     float *chErod;
 
-	// @In
-	// @Description downstream id (The value is 0 if there if no downstream reach)
+    // @In
+    // @Description downstream id (The value is 0 if there if no downstream reach)
     float *reachDownStream;
     
-	// @In
-	// @Description The point source loading (kg), ptSub[id], id is the reach id, load from m_Scenario
+    // @In
+    // @Description The point source loading (kg), ptSub[id], id is the reach id, load from m_Scenario
     float *ptSub;
 
-	// @In
-	// @Description reach storage (m^3) at time t
+    // @In
+    // @Description reach storage (m^3) at time t
     float *CHST;
 
-	// @In
-	// @Description reach storage of previous timestep, m^3
+    // @In
+    // @Description reach storage of previous timestep, m^3
     float *preCHST;
 
-	// @In
-	// @Description channel water depth, m
+    // @In
+    // @Description channel water depth, m
     float *CHWTDEPTH;
 
-	// @In
-	// @Description channel water depth of previous timestep, m
+    // @In
+    // @Description channel water depth of previous timestep, m
     float *prechwtdepth;
 
-	// @In
-	// @Description channel bankfull width, m
+    // @In
+    // @Description channel bankfull width, m
     float *chwtwidth;
 
     // OUTPUT
 
-	// @Out
-	// @Description initial reach sediment out (kg) at time t
+    // @Out
+    // @Description initial reach sediment out (kg) at time t
     float *SEDRECH;
 
-	// @Out
-	// @Description channel sediment storage (kg)
+    // @Out
+    // @Description channel sediment storage (kg)
     float *sedStorage;
 
-	// @Out
-	// @Description sediment of deposition
+    // @Out
+    // @Description sediment of deposition
     float *sedDep;
 
-	// @Out
-	// @Description sediment of degradation
+    // @Out
+    // @Description sediment of degradation
     float *sedDeg;
 
-	// @Out
-	// @Description sediment concentration (g/L, i.e., kg/m3)
+    // @Out
+    // @Description sediment concentration (g/L, i.e., kg/m3)
     float *SEDRECHConc;
 
-	// @Out
-	// @Description sand concentration
+    // @Out
+    // @Description sand concentration
     float *rchSand;
 
-	// @Out
-	// @Description Silt concentration
+    // @Out
+    // @Description Silt concentration
     float *rchSilt;
 
-	// @Out
-	// @Description Clay concentration
+    // @Out
+    // @Description Clay concentration
     float *rchClay;
 
-	// @Out
-	// @Description small agg concentration
+    // @Out
+    // @Description small agg concentration
     float *rchSag;
 
-	// @Out
-	// @Description large agg concentration
+    // @Out
+    // @Description large agg concentration
     float *rchLag;
 
-	// @Out
-	// @Description gra concentration
+    // @Out
+    // @Description gra concentration
     float *rchGra;
 
-	// @Out
-	// @Description bank erosion
+    // @Out
+    // @Description bank erosion
     float *rch_bank_ero;
 
-	// @Out
-	// @Description reach degradation
+    // @Out
+    // @Description reach degradation
     float *rch_deg;
 
-	// @Out
-	// @Description reach deposition
+    // @Out
+    // @Description reach deposition
     float *rch_dep;
 
-	// @Out
-	// @Description Floodplain Deposition
+    // @Out
+    // @Description Floodplain Deposition
     float *flplain_dep;    
 
     void initialOutputs(void);

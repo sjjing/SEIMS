@@ -49,124 +49,124 @@ public:
 
     bool CheckInputData(void);
 
-	// @In
-	// @Description valid cell number
+    // @In
+    // @Description valid cell number
     int m_nCells;
 
-	// @In
-	// @Description cell width (m)
+    // @In
+    // @Description cell width (m)
     float CELLWIDTH;
 
-	// @In
-	// @Description subbasin number
+    // @In
+    // @Description subbasin number
     int nsub;
 
-	// @In
-	// @Description soil layer number
+    // @In
+    // @Description soil layer number
     int nSoilLayers;
 
-	// @In
-	// @Description deposition ratio
+    // @In
+    // @Description deposition ratio
     float depRatio;  
 
-	// @In
-	// @Description grid from parameter, sand fraction
+    // @In
+    // @Description grid from parameter, sand fraction
     float *det_sand;
 
-	// @In
-	// @Description silt fraction
+    // @In
+    // @Description silt fraction
     float *det_silt;
 
-	// @In
-	// @Description clay fraction
+    // @In
+    // @Description clay fraction
     float *det_clay;
 
-	// @In
-	// @Description small aggregate fraction
+    // @In
+    // @Description small aggregate fraction
     float *det_smagg;
 
-	// @In
-	// @Description large aggregate fraction
+    // @In
+    // @Description large aggregate fraction
     float *det_lgagg;
 
-	// @In
-	// @Description USLE P factor (Practice)
+    // @In
+    // @Description USLE P factor (Practice)
     float *USLE_P;
 
-	// @In
-	// @Description USLE K factor (erodibility), multi-layer paramters. By LJ
+    // @In
+    // @Description USLE K factor (erodibility), multi-layer paramters. By LJ
     float **USLE_K;
 
-	// @In
-	// @Description USLE C factor (land cover)
+    // @In
+    // @Description USLE C factor (land cover)
     float *USLE_C;
 
-	// @In
-	// @Description Slope gradient (drop/distance)
+    // @In
+    // @Description Slope gradient (drop/distance)
     float *slope;
 
-	// @In
-	// @Description flow accumulation (number of accumulated cells)
+    // @In
+    // @Description flow accumulation (number of accumulated cells)
     float *acc;
 
-	// @In
-	// @Description stream link
+    // @In
+    // @Description stream link
     float *STREAM_LINK;
   
-	// @In
-	// @Description USLE LS factor
+    // @In
+    // @Description USLE LS factor
     float *USLE_LS;
 
-	// @In
-	// @Description cell area (A, km^2)
+    // @In
+    // @Description cell area (A, km^2)
     float cellAreaKM;
 
-	// @In
-	// @Description cell area factor (3.79 * A^0.7)
+    // @In
+    // @Description cell area factor (3.79 * A^0.7)
     float cellAreaKM1;
 
-	// @In
-	// @Description cell area factor (0.903 * A^0.017)
+    // @In
+    // @Description cell area factor (0.903 * A^0.017)
     float cellAreaKM2;
 
-	// @In
-	// @Description Slope^0.16
+    // @In
+    // @Description Slope^0.16
     float *slopeForPq;
 
     //grid from other modules
 
-	// @In
-	// @Description snow accumulation
+    // @In
+    // @Description snow accumulation
     float *SNAC;
 
-	// @In
-	// @Description surface runoff (mm)
+    // @In
+    // @Description surface runoff (mm)
     float *OL_Flow;
 
     //result
 
-	// @Out
-	// @Description sediment yield on each cell
+    // @Out
+    // @Description sediment yield on each cell
     float *SOER;
 
-	// @Out
-	// @Description sand yield
+    // @Out
+    // @Description sand yield
     float *sand_yld;
 
-	// @Out
-	// @Description silt yield
+    // @Out
+    // @Description silt yield
     float *silt_yld;
 
-	// @Out
-	// @Description clay yield
+    // @Out
+    // @Description clay yield
     float *clay_yld;
 
-	// @Out
-	// @Description small aggregate yield
+    // @Out
+    // @Description small aggregate yield
     float *sag_yld;
 
-	// @Out
-	// @Description large aggregate yield
+    // @Out
+    // @Description large aggregate yield
     float *lag_yld;
 
     //! initialize outputs
