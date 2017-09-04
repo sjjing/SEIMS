@@ -52,82 +52,82 @@ public:
 
     void initialOutputs(void);
 
-	// @In
-	// @Description Valid cells number
+    // @In
+    // @Description Valid cells number
     int m_nCells;
 
-	// @In
-	// @Description Mean air temperature at which snow melt will occur, sub_smtmp
+    // @In
+    // @Description Mean air temperature at which snow melt will occur, sub_smtmp
     float T0;
 
-	// @In
-	// @Description fraction coefficient of precipitation as snow
+    // @In
+    // @Description fraction coefficient of precipitation as snow
     float K_blow;
 
-	// @In
-	// @Description Snowfall temperature, i.e., precipitation as snow
+    // @In
+    // @Description Snowfall temperature, i.e., precipitation as snow
     float T_snow;
 
-	// @In
-	// @Description Snow pack temperature lag factor (0-1)
+    // @In
+    // @Description Snow pack temperature lag factor (0-1)
     float lag_snow;
 
-	// @In
-	// @Description Maximum melt rate for snow during year, sub_smfmx
+    // @In
+    // @Description Maximum melt rate for snow during year, sub_smfmx
     float c_snow6;
 
-	// @In
-	// @Description Minimum melt rate for snow during year, sub_smfmn
+    // @In
+    // @Description Minimum melt rate for snow during year, sub_smfmn
     float c_snow12;
 
-	// @In
-	// @Description Minimum snow water content that corresponds to 100% snow cover, mm H2O, SNOCOVMX
+    // @In
+    // @Description Minimum snow water content that corresponds to 100% snow cover, mm H2O, SNOCOVMX
     float SNOCOVMX;
 
-	// @In
-	// @Description Fraction of SNOCOVMX that corresponds to 50% snow cover, SNO50COV
+    // @In
+    // @Description Fraction of SNOCOVMX that corresponds to 50% snow cover, SNO50COV
     float SNO50COV;
 
-	// @In
-	// @Description 1st shape parameter for snow cover equation
+    // @In
+    // @Description 1st shape parameter for snow cover equation
     float snowCoverCoef1;
 
-	// @In
-	// @Description 2nd shape parameter for snow cover equation
+    // @In
+    // @Description 2nd shape parameter for snow cover equation
     float snowCoverCoef2;
 
-	// @In
-	// @Description Mean temperature
+    // @In
+    // @Description Mean temperature
     float *TMEAN;
 
-	// @In
-	// @Description Max temperature
+    // @In
+    // @Description Max temperature
     float *TMAX;
 
-	// @In
-	// @Description Net precipitation
+    // @In
+    // @Description Net precipitation
     float *NEPR;
 
-	// @In
-	// @Description snow redistribution
+    // @In
+    // @Description snow redistribution
     float *SNAC;
 
-	// @In
-	// @Description snow sublimation, snoev in SWAT in etact.f
+    // @In
+    // @Description snow sublimation, snoev in SWAT in etact.f
     float *SE;
 
-	// @In
-	// @Description temperature of snow pack, snotmp in SWAT
+    // @In
+    // @Description temperature of snow pack, snotmp in SWAT
     float *packT;
 
     /// outputs
 
-	// @Out
-	// @Description amount of water in snow melt, snomlt in SWAT
+    // @Out
+    // @Description amount of water in snow melt, snomlt in SWAT
     float *SNME;
 
-	// @Out
-	// @Description snow accumulation, sno_hru in SWAT
+    // @Out
+    // @Description snow accumulation, sno_hru in SWAT
     float *SA;
 };
 

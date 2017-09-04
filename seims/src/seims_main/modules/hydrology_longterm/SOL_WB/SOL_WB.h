@@ -29,105 +29,105 @@ using namespace std;
 
 class SOL_WB : public SimulationModule {
 
-	//! subbasin IDs
-	vector<int> m_subbasinIDs;
-	//! All subbasins information,\sa clsSubbasins, \sa Subbasin
-	clsSubbasins *m_subbasinsInfo;
+    //! subbasin IDs
+    vector<int> m_subbasinIDs;
+    //! All subbasins information,\sa clsSubbasins, \sa Subbasin
+    clsSubbasins *m_subbasinsInfo;
 
-	// @In
-	// @Description valid cells number
+    // @In
+    // @Description valid cells number
     int m_nCells;
 
-	// @In
-	// @Description maximum soil layers number
+    // @In
+    // @Description maximum soil layers number
     int nSoilLayers;
 
-	// @In
-	// @Description soil layers number of each cell
+    // @In
+    // @Description soil layers number of each cell
     float *soillayers;
 
-	// @In
-	// @Description soil thickness of each layer
+    // @In
+    // @Description soil thickness of each layer
     float **soilthick;
 
-	// @In
-	// @Description the maximum soil depth
+    // @In
+    // @Description the maximum soil depth
     float *SOL_ZMX;
 
-	// @In
-	// @Description Net precipitation (include snow melt if stated) (mm)
+    // @In
+    // @Description Net precipitation (include snow melt if stated) (mm)
     float *NEPR;
 
-	// @In
-	// @Description infiltration water (mm)
+    // @In
+    // @Description infiltration water (mm)
     float *INFIL;
 
-	// @In
-	// @Description evaporation from the soil water storage, es_day in SWAT (mm)
+    // @In
+    // @Description evaporation from the soil water storage, es_day in SWAT (mm)
     float *SOET;
 
-	// @In
-	// @Description revaporization from groundwater to the last soil layer (mm)
+    // @In
+    // @Description revaporization from groundwater to the last soil layer (mm)
     float *Revap;
 
-	// @In
-	// @Description subsurface runoff
+    // @In
+    // @Description subsurface runoff
     float **SSRU;
 
-	// @In
-	// @Description percolation (mm)
+    // @In
+    // @Description percolation (mm)
     float **Perco;
 
-	// @In
-	// @Description soil storage (mm)
+    // @In
+    // @Description soil storage (mm)
     float **solst;
     
-	// @In
-	// @Description precipitation on the current day (mm)
+    // @In
+    // @Description precipitation on the current day (mm)
     float *D_P;
 
-	// @In
-	// @Description interception loss (mm)
+    // @In
+    // @Description interception loss (mm)
     float *INLO;
 
-	// @In
-	// @Description evaporation from the interception storage (mm)
+    // @In
+    // @Description evaporation from the interception storage (mm)
     float *INET;
 
-	// @In
-	// @Description depression (mm)
+    // @In
+    // @Description depression (mm)
     float *DPST;
 
-	// @In
-	// @Description evaporation from depression storage (mm)
+    // @In
+    // @Description evaporation from depression storage (mm)
     float *DEET;
 
-	// @In
-	// @Description surface runoff generated (mm)
+    // @In
+    // @Description surface runoff generated (mm)
     float *SURU;
 
-	// @In
-	// @Description groundwater runoff
+    // @In
+    // @Description groundwater runoff
     float *RG;
 
-	// @In
-	// @Description snow sublimation
+    // @In
+    // @Description snow sublimation
     float *SNSB;
 
-	// @In
-	// @Description mean temperature
+    // @In
+    // @Description mean temperature
     float *TMEAN;
 
-	// @In
-	// @Description soil temperature
+    // @In
+    // @Description soil temperature
     float *SOTE;
 
-	// @In
-	// @Description subbasins number
+    // @In
+    // @Description subbasins number
     int nSubbasins;
    
-	// @Out
-	// @Description soil water balance, time series result, the row index is subbasinID
+    // @Out
+    // @Description soil water balance, time series result, the row index is subbasinID
     float **SOWB;
 
 public:
