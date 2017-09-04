@@ -259,7 +259,7 @@ void DiffusiveWave::ChannelFlow(int iReach, int iCell, int id) {
     } else {
         m_qCh[iReach][iCell] = qNew;//m_hCh[iReach][iCell]
         m_hCh[iReach][iCell] = c * pow(qNew, 0.6f) / m_chWidth[iReach];
-        //float hh = (qUp + qLat*dx - qNew)*m_dt/(m_chWidth[iReach]*dx) + m_hCh[iReach][iCell];
+        //float hh = (qUp + qLat*dx - qNew)*TIMESTEP/(m_chWidth[iReach]*dx) + m_hCh[iReach][iCell];
     }
 }
 

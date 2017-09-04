@@ -11,9 +11,9 @@ Percolation_DARCY::Percolation_DARCY(void) {
     //m_Residual= NULL;
     m_Poreindex = NULL;
     m_Moisture = NULL;
-    //m_ES = NULL;
+    //SOET = NULL;
     m_FieldCapacity = NULL;
-    //m_SoilT = NULL;
+    //SOTE = NULL;
     //m_ForzenT = -99.0f;
 
     m_recharge = NULL;
@@ -35,7 +35,7 @@ int Percolation_DARCY::Execute() {
 
 #pragma omp parallel for
     for (int i = 0; i < m_nCells; i++) {
-        //if(this->m_SoilT[i] <= this->m_ForzenT)	//if the soil temperature is lower than tFrozen, then PERC = 0.
+        //if(this->SOTE[i] <= this->m_ForzenT)	//if the soil temperature is lower than tFrozen, then PERC = 0.
         //{
         //	m_recharge[i] = 0.0f;
         //	continue;
@@ -96,8 +96,8 @@ void Percolation_DARCY::Set1DData(const char *key, int nRows, float *data) {
     else if (StringMatch(s, VAR_FIELDCAP)) { this->m_FieldCapacity = data; }
     else if (StringMatch(s, VAR_SOILDEPTH)) {
         this->m_rootDepth = data;
-        //else if(StringMatch(s,"D_ES"))			this->m_ES = data;
-        //else if(StringMatch(s,"D_SOTE"))		this->m_SoilT = data;
+        //else if(StringMatch(s,"D_ES"))			this->SOET = data;
+        //else if(StringMatch(s,"D_SOTE"))		this->SOTE = data;
     } else {
         throw ModelException(MID_PERCO_DARCY, "SetValue", "Parameter " + s +
             " does not exist in current module. Please contact the module developer.");
@@ -145,7 +145,7 @@ bool Percolation_DARCY::CheckInputData() {
     if (this->m_Moisture == NULL) {
         throw ModelException(MID_PERCO_DARCY, "CheckInputData", "The Moisture can not be NULL.");
     }
-    //if(this->m_SoilT == NULL)			throw ModelException(MID_PERCO_DARCY,"CheckInputData","The soil temerature can not be NULL.");
+    //if(this->SOTE == NULL)			throw ModelException(MID_PERCO_DARCY,"CheckInputData","The soil temerature can not be NULL.");
     //if(this->m_ForzenT == -99.0f)		throw ModelException(MID_PERCO_DARCY,"CheckInputData","The threshold soil freezing temerature can not be NULL.");
 
     return true;

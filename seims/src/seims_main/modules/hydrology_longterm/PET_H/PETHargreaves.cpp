@@ -60,7 +60,7 @@ int PETHargreaves::Execute() {
     if (!this->CheckInputData()) return false;
     initialOutputs();
     m_jday = JulianDay(this->m_date);
-    //cout<<m_jday<<","m_tMean[0]<<","<<m_tMax[0]<<","<<m_tMin[0]<<endl;
+    //cout<<jday<<","TMEAN[0]<<","<<m_tMax[0]<<","<<m_tMin[0]<<endl;
 #pragma omp parallel for
     for (int i = 0; i < m_nCells; ++i) {
         /// update phubase of the simulation year.
@@ -85,7 +85,7 @@ int PETHargreaves::Execute() {
         float petValue = m_HCoef_pet * h0 * pow(abs(m_tMax[i] - m_tMin[i]), 0.5f)
             * (m_tMean[i] + 17.8f) / latentHeat;
         m_pet[i] = m_petFactor * max(0.0f, petValue);
-        /// calculate m_vpd
+        /// calculate VPD
         float satVaporPressure = SaturationVaporPressure(m_tMean[i]);
         float actualVaporPressure = 0.f;
         if (m_rhd[i] > 1) {   /// IF percent unit.

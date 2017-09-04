@@ -26,7 +26,7 @@ int PER_PI::Execute() {
     for (int i = 0; i < m_nCells; i++) {
         /// firstly, assume all infiltrated water is added to the first soil layer.
         // this step is removed to surface runoff and infiltration module. by LJ, 2016-9-2
-        //m_soilStorage[i][0] += m_infil[i];
+        //solst[i][0] += m_infil[i];
         /// secondly, model water percolation across layers
         for (int j = 0; j < (int) m_nSoilLayers[i]; j++) {
             float k = 0.f, swater = 0.f, maxSoilWater = 0.f, fcSoilWater = 0.f;
@@ -40,10 +40,10 @@ int PER_PI::Execute() {
             fcSoilWater = m_fc[i][j];
 
             //bool percAllowed = true;
-            //if (j < (int)m_nSoilLayers[i] -1 ){
+            //if (j < (int)nSoilLayers[i] -1 ){
             //	float nextSoilWater = 0.f;
-            //	nextSoilWater = m_soilStorage[i][j+1];
-            //	if (nextSoilWater >= m_fc[i][j+1])
+            //	nextSoilWater = solst[i][j+1];
+            //	if (nextSoilWater >= sol_awc[i][j+1])
             //		percAllowed = false;
             //}
 
@@ -77,10 +77,10 @@ int PER_PI::Execute() {
                     m_soilStorage[i][j + 1] += m_perc[i][j];
                 }
 
-                //if (m_soilStorage[i][j] != m_soilStorage[i][j] || m_soilStorage[i][j] < 0.f)
+                //if (solst[i][j] != solst[i][j] || solst[i][j] < 0.f)
                 //{
                 //    cout << MID_PER_PI << " CELL:" << i << ", Layer: " << j << "\tPerco:" << swater << "\t" <<
-                //    fcSoilWater << "\t" << m_perc[i][j] << "\t" << m_soilThick[i][j] << "\tValue:" << m_soilStorage[i][j] <<
+                //    fcSoilWater << "\t" << m_perc[i][j] << "\t" << soilthick[i][j] << "\tValue:" << solst[i][j] <<
                 //    endl;
                 //    throw ModelException(MID_PER_PI, "Execute", "moisture is less than zero.");
                 //}
@@ -90,8 +90,8 @@ int PER_PI::Execute() {
         }
         //if (i == 1762)
         //{
-        //	for (int j = 0; j < (int)m_nSoilLayers[i]; j++)
-        //		cout<<"after, infil: "<<m_infil[i]<<", perco: "<<m_perc[i][j]<<", soilStorage: "<<m_soilStorage[i][j]<<endl;
+        //	for (int j = 0; j < (int)nSoilLayers[i]; j++)
+        //		cout<<"after, infil: "<<m_infil[i]<<", perco: "<<m_perc[i][j]<<", soilStorage: "<<solst[i][j]<<endl;
         //}
         /// update total soil water content
         m_soilStorageProfile[i] = 0.f;

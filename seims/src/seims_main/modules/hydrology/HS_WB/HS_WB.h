@@ -67,7 +67,7 @@ private:
     //float* m_se;
     //float* m_tMax;
     //float* m_tMin;
-    //float* m_soilT;
+    //float* SOTE;
 
 
 public:

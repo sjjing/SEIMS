@@ -3,15 +3,15 @@
 
 using namespace std;
 
-IUH_SED_OL::IUH_SED_OL(void) : m_TimeStep(-1), m_nCells(-1), m_CellWidth(NODATA_VALUE), m_cellArea(NODATA_VALUE),
-                               m_nSubbasins(-1), m_subbasin(NULL), m_subbasinsInfo(NULL),
-                               m_iuhCell(NULL), m_iuhCols(-1), m_cellFlowCols(-1),
-                               m_sedYield(NULL), m_cellSed(NULL), m_sedtoCh(NULL), m_sedOL(NULL) {
+IUH_SED_OL::IUH_SED_OL(void) : TIMESTEP(-1), m_nCells(-1), CELLWIDTH(NODATA_VALUE), cellArea(NODATA_VALUE),
+                               nSubbasins(-1), subbasin(NULL), m_subbasinsInfo(NULL),
+                               Ol_iuh(NULL), iuhCols(-1), cellFlowCols(-1),
+                               SOER(NULL), cellSed(NULL), SEDTOCH(NULL), SED_OL(NULL) {
 }
 
 IUH_SED_OL::~IUH_SED_OL(void) {
-    Release1DArray(m_sedtoCh);
-    Release2DArray(m_nCells, m_cellSed);
+    Release1DArray(SEDTOCH);
+    Release2DArray(m_nCells, cellSed);
 }
 
 bool IUH_SED_OL::CheckInputData(void) {
@@ -21,16 +21,16 @@ bool IUH_SED_OL::CheckInputData(void) {
     if (m_nCells < 0) {
         throw ModelException(MID_IUH_SED_OL, "CheckInputData", "The parameter: m_nCells has not been set.");
     }
-    if (FloatEqual(m_CellWidth, NODATA_VALUE)) {
-        throw ModelException(MID_IUH_SED_OL, "CheckInputData", "The parameter: m_CellWidth has not been set.");
+    if (FloatEqual(CELLWIDTH, NODATA_VALUE)) {
+        throw ModelException(MID_IUH_SED_OL, "CheckInputData", "The parameter: CELLWIDTH has not been set.");
     }
-    if (m_TimeStep <= 0) {
-        throw ModelException(MID_IUH_SED_OL, "CheckInputData", "The parameter: m_TimeStep has not been set.");
+    if (TIMESTEP <= 0) {
+        throw ModelException(MID_IUH_SED_OL, "CheckInputData", "The parameter: TIMESTEP has not been set.");
     }
-    if (m_subbasin == NULL) {
-        throw ModelException(MID_IUH_SED_OL, "CheckInputData", "The parameter: m_subbasin has not been set.");
+    if (subbasin == NULL) {
+        throw ModelException(MID_IUH_SED_OL, "CheckInputData", "The parameter: subbasin has not been set.");
     }
-    if (m_nSubbasins <= 0) {
+    if (nSubbasins <= 0) {
         throw ModelException(MID_IUH_SED_OL, "CheckInputData", "The subbasins number must be greater than 0.");
     }
     if (m_subbasinIDs.empty()) {
@@ -39,25 +39,25 @@ bool IUH_SED_OL::CheckInputData(void) {
     if (m_subbasinsInfo == NULL) {
         throw ModelException(MID_IUH_SED_OL, "CheckInputData", "The parameter: m_subbasinsInfo has not been set.");
     }
-    if (m_iuhCell == NULL) {
-        throw ModelException(MID_IUH_SED_OL, "CheckInputData", "The parameter: m_iuhCell has not been set.");
+    if (Ol_iuh == NULL) {
+        throw ModelException(MID_IUH_SED_OL, "CheckInputData", "The parameter: Ol_iuh has not been set.");
     }
     return true;
 }
 
 void IUH_SED_OL::initialOutputs() {
-    if (m_cellArea <= 0.f) m_cellArea = m_CellWidth * m_CellWidth;
-    if (m_sedtoCh == NULL) {
-        Initialize1DArray(m_nSubbasins + 1, m_sedtoCh, 0.f);
-        Initialize1DArray(m_nCells, m_sedOL, 0.f);
+    if (cellArea <= 0.f) cellArea = CELLWIDTH * CELLWIDTH;
+    if (SEDTOCH == NULL) {
+        Initialize1DArray(nSubbasins + 1, SEDTOCH, 0.f);
+        Initialize1DArray(m_nCells, SED_OL, 0.f);
 
         for (int i = 0; i < m_nCells; i++) {
-            m_cellFlowCols = max(int(m_iuhCell[i][1] + 1), m_cellFlowCols);
+            cellFlowCols = max(int(Ol_iuh[i][1] + 1), cellFlowCols);
         }
-        //get m_cellFlowCols, i.e. the maximum of second column of OL_IUH plus 1.
+        //get cellFlowCols, i.e. the maximum of second column of OL_IUH plus 1.
 
-        //m_cellSed = new float *[m_nCells];
-        Initialize2DArray(m_nCells, m_cellFlowCols, m_cellSed, 0.f);
+        //cellSed = new float *[m_nCells];
+        Initialize2DArray(m_nCells, cellFlowCols, cellSed, 0.f);
     }
 }
 
@@ -66,27 +66,27 @@ int IUH_SED_OL::Execute() {
     initialOutputs();
     // delete value of last time step
 #pragma omp parallel for
-    for (int i = 0; i < m_nSubbasins + 1; i++) {
-        m_sedtoCh[i] = 0.f;
+    for (int i = 0; i < nSubbasins + 1; i++) {
+        SEDTOCH[i] = 0.f;
     }
 
 #pragma omp parallel for
     for (int i = 0; i < m_nCells; i++) {
         //forward one time step
-        for (int j = 0; j < m_cellFlowCols; j++) {
-            if (j != m_cellFlowCols - 1) {
-                m_cellSed[i][j] = m_cellSed[i][j + 1];
+        for (int j = 0; j < cellFlowCols; j++) {
+            if (j != cellFlowCols - 1) {
+                cellSed[i][j] = cellSed[i][j + 1];
             } else {
-                m_cellSed[i][j] = 0.f;
+                cellSed[i][j] = 0.f;
             }
         }
 
-        if (m_sedYield[i] > 0.f) {
-            int min = int(this->m_iuhCell[i][0]);
-            int max = int(this->m_iuhCell[i][1]);
+        if (SOER[i] > 0.f) {
+            int min = int(this->Ol_iuh[i][0]);
+            int max = int(this->Ol_iuh[i][1]);
             int col = 2;
             for (int k = min; k <= max; k++) {
-                m_cellSed[i][k] += m_sedYield[i] * m_iuhCell[i][col];
+                cellSed[i][k] += SOER[i] * Ol_iuh[i][col];
                 col++;
             }
         }
@@ -94,23 +94,23 @@ int IUH_SED_OL::Execute() {
 
     for (int i = 0; i < m_nCells; i++) {
         //add today's flow
-        int subi = (int) m_subbasin[i];
-        if (m_nSubbasins == 1) {
+        int subi = (int) subbasin[i];
+        if (nSubbasins == 1) {
             subi = 1;
-        } else if (subi >= m_nSubbasins + 1) {
+        } else if (subi >= nSubbasins + 1) {
             throw ModelException(MID_IUH_SED_OL, "Execute", "The subbasin " + ValueToString(subi) + " is invalid.");
         }
-        m_sedtoCh[subi] += m_cellSed[i][0];
-        m_sedOL[i] = m_cellSed[i][0];
-        //if(i == 1852) cout << m_cellSed[i][0] << endl;
+        SEDTOCH[subi] += cellSed[i][0];
+        SED_OL[i] = cellSed[i][0];
+        //if(i == 1852) cout << cellSed[i][0] << endl;
     }
-    //cout << m_sedtoCh[1] << endl;
+    //cout << SEDTOCH[1] << endl;
     float tmp = 0.f;
 #pragma omp parallel for reduction(+:tmp)
-    for (int i = 1; i < m_nSubbasins + 1; i++) {
-        tmp += m_sedtoCh[i];        //get overland flow routing for entire watershed.
+    for (int i = 1; i < nSubbasins + 1; i++) {
+        tmp += SEDTOCH[i];        //get overland flow routing for entire watershed.
     }
-    m_sedtoCh[0] = tmp;
+    SEDTOCH[0] = tmp;
 
     return 0;
 }
@@ -133,9 +133,9 @@ bool IUH_SED_OL::CheckInputSize(const char *key, int n) {
 void IUH_SED_OL::SetValue(const char *key, float value) {
     string sk(key);
 
-    if (StringMatch(sk, Tag_TimeStep)) { m_TimeStep = (int) value; }
+    if (StringMatch(sk, Tag_TimeStep)) { TIMESTEP = (int) value; }
     else if (StringMatch(sk, Tag_CellSize)) { m_nCells = (int) value; }
-    else if (StringMatch(sk, Tag_CellWidth)) { m_CellWidth = value; }
+    else if (StringMatch(sk, Tag_CellWidth)) { CELLWIDTH = value; }
     else if (StringMatch(sk, VAR_OMP_THREADNUM)) { SetOpenMPThread((int) value); }
     else {
         throw ModelException(MID_IUH_SED_OL, "SetValue", "Parameter " + sk + " does not exist in current method.");
@@ -147,9 +147,9 @@ void IUH_SED_OL::Set1DData(const char *key, int n, float *data) {
     //set the value
     string sk(key);
     if (StringMatch(sk, VAR_SUBBSN)) {
-        m_subbasin = data;
+        subbasin = data;
     } else if (StringMatch(sk, VAR_SOER)) {
-        m_sedYield = data;
+        SOER = data;
     } else {
         throw ModelException(MID_IUH_SED_OL, "Set1DData", "Parameter " + sk + " does not exist in current method.");
     }
@@ -159,8 +159,8 @@ void IUH_SED_OL::Set2DData(const char *key, int nRows, int nCols, float **data) 
     string sk(key);
     if (StringMatch(sk, VAR_OL_IUH)) {
         this->CheckInputSize(VAR_OL_IUH, nRows);
-        m_iuhCell = data;
-        m_iuhCols = nCols;
+        Ol_iuh = data;
+        iuhCols = nCols;
     } else {
         throw ModelException(MID_IUH_SED_OL, "Set2DData", "Parameter " + sk + " does not exist in current method.");
     }
@@ -169,7 +169,7 @@ void IUH_SED_OL::Set2DData(const char *key, int nRows, int nCols, float **data) 
 void IUH_SED_OL::SetSubbasins(clsSubbasins *subbasins) {
     if (m_subbasinsInfo == NULL) {
         m_subbasinsInfo = subbasins;
-        m_nSubbasins = m_subbasinsInfo->GetSubbasinNumber();
+        nSubbasins = m_subbasinsInfo->GetSubbasinNumber();
         m_subbasinIDs = m_subbasinsInfo->GetSubbasinIDs();
     }
 }
@@ -178,11 +178,11 @@ void IUH_SED_OL::Get1DData(const char *key, int *n, float **data) {
     initialOutputs();
     string sk(key);
     if (StringMatch(sk, VAR_SED_TO_CH)) {
-        *data = m_sedtoCh;   // from each subbasin to channel
-        *n = m_nSubbasins + 1;
+        *data = SEDTOCH;   // from each subbasin to channel
+        *n = nSubbasins + 1;
         return;
     } else if (StringMatch(sk, VAR_SEDYLD)) {
-        *data = m_sedOL;
+        *data = SED_OL;
         *n = m_nCells;
     } else {
         throw ModelException(MID_IUH_SED_OL, "Get1DData", "Result " + sk + " does not exist.");

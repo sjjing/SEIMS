@@ -86,7 +86,7 @@ void SNO_WB::initialOutputs() {
         this->m_SA = new float[this->m_nCells];
         for (int i = 0; i < this->m_nCells; i++) {
             m_SA[i] = 0.0f;
-            //if(this->m_tMean[i] < this->m_tsnow)	this->m_SA[i] = this->m_swe0;	//winter
+            //if(this->TMEAN[i] < this->m_tsnow)	this->m_SA[i] = this->m_swe0;	//winter
             //else
             //	this->m_SA[i] = 0.0f;			// other seasons
         }
@@ -314,10 +314,10 @@ void SNO_WB::GetValue(const char *key, float *data) {
 //				it->second->addP(m_P[cell]);
 //				it->second->addPnet(this->m_Pnet[cell]);
 //				it->second->addPblow(this->m_kblow * this->m_Pnet[cell]);
-//				it->second->addT(m_tMean[cell]);
+//				it->second->addT(TMEAN[cell]);
 //				//it->second->addWind(u);
 //				it->second->addSR(m_SR[cell]);
-//				it->second->addSE(m_SE[cell]);
+//				it->second->addSE(SNSB[cell]);
 //				it->second->addSM(m_SM[cell]);
 //				it->second->addSA(m_SA[cell]);				
 //			}

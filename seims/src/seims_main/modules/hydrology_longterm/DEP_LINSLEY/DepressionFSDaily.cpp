@@ -1,17 +1,17 @@
 #include "seims.h"
 #include "DepressionFSDaily.h"
 
-DepressionFSDaily::DepressionFSDaily(void) : m_nCells(-1), m_depCo(NODATA_VALUE),
-                                             m_depCap(NULL),
-                                             m_pet(NULL), m_ei(NULL), m_pe(NULL),
-                                             m_sd(NULL), m_ed(NULL), m_sr(NULL),
-                                             m_impoundTriger(NULL), m_potVol(NULL) {
+DepressionFSDaily::DepressionFSDaily(void) : m_nCells(-1), Depre_in(NODATA_VALUE),
+                                             Depression(NULL),
+                                             PET(NULL), INET(NULL), EXCP(NULL),
+                                             DPST(NULL), DEET(NULL), SURU(NULL),
+                                             impound_trig(NULL), pot_vol(NULL) {
 }
 
 DepressionFSDaily::~DepressionFSDaily(void) {
-    if (m_sd != NULL) Release1DArray(m_sd);
-    if (m_ed != NULL) Release1DArray(m_ed);
-    if (m_sr != NULL) Release1DArray(m_sr);
+    if (DPST != NULL) Release1DArray(DPST);
+    if (DEET != NULL) Release1DArray(DEET);
+    if (SURU != NULL) Release1DArray(SURU);
 }
 
 bool DepressionFSDaily::CheckInputData(void) {
@@ -22,22 +22,22 @@ bool DepressionFSDaily::CheckInputData(void) {
         throw ModelException(MID_DEP_LINSLEY, "CheckInputData",
                              "The cell number of the input can not be less than zero.");
     }
-    if (m_depCo == NODATA_VALUE) {
+    if (Depre_in == NODATA_VALUE) {
         throw ModelException(MID_DEP_LINSLEY, "CheckInputData",
                              "The parameter: initial depression storage coefficient has not been set.");
     }
-    if (m_depCap == NULL) {
+    if (Depression == NULL) {
         throw ModelException(MID_DEP_LINSLEY, "CheckInputData",
                              "The parameter: depression storage capacity has not been set.");
     }
-    if (m_pet == NULL) {
+    if (PET == NULL) {
         throw ModelException(MID_DEP_LINSLEY, "CheckInputData", "The parameter: PET has not been set.");
     }
-    if (m_ei == NULL) {
+    if (INET == NULL) {
         throw ModelException(MID_DEP_LINSLEY, "CheckInputData",
                              "The parameter: evaporation from the interception storage has not been set.");
     }
-    if (m_pe == NULL) {
+    if (EXCP == NULL) {
         throw ModelException(MID_DEP_LINSLEY, "CheckInputData",
                              "The parameter: excess precipitation has not been set.");
     }
@@ -50,15 +50,15 @@ void DepressionFSDaily::initialOutputs() {
                              "The cell number of the input can not be less than zero.");
     }
 
-    if (m_sd == NULL && m_depCap != NULL) {
-        m_sd = new float[m_nCells];
-        m_ed = new float[m_nCells];
-        m_sr = new float[m_nCells];
+    if (DPST == NULL && Depression != NULL) {
+        DPST = new float[m_nCells];
+        DEET = new float[m_nCells];
+        SURU = new float[m_nCells];
 #pragma omp parallel for
         for (int i = 0; i < m_nCells; ++i) {
-            m_sd[i] = m_depCo * m_depCap[i];
-            m_ed[i] = 0.f;
-            m_sr[i] = 0.f;
+            DPST[i] = Depre_in * Depression[i];
+            DEET[i] = 0.f;
+            SURU[i] = 0.f;
         }
     }
 }
@@ -72,45 +72,45 @@ int DepressionFSDaily::Execute() {
     for (int i = 0; i < m_nCells; ++i) {
         //////////////////////////////////////////////////////////////////////////
         // runoff
-        if (m_depCap[i] < 0.001f) {
-            m_sr[i] = m_pe[i];
-            m_sd[i] = 0.f;
-        } else if (m_pe[i] > 0.f) {
-            float pc = m_pe[i] - m_depCap[i] * log(1.f - m_sd[i] / m_depCap[i]);
-            float deltaSd = m_pe[i] * exp(-pc / m_depCap[i]);
-            if (deltaSd > m_depCap[i] - m_sd[i]) {
-                deltaSd = m_depCap[i] - m_sd[i];
+        if (Depression[i] < 0.001f) {
+            SURU[i] = EXCP[i];
+            DPST[i] = 0.f;
+        } else if (EXCP[i] > 0.f) {
+            float pc = EXCP[i] - Depression[i] * log(1.f - DPST[i] / Depression[i]);
+            float deltaSd = EXCP[i] * exp(-pc / Depression[i]);
+            if (deltaSd > Depression[i] - DPST[i]) {
+                deltaSd = Depression[i] - DPST[i];
             }
-            m_sd[i] += deltaSd;
-            m_sr[i] = m_pe[i] - deltaSd;
+            DPST[i] += deltaSd;
+            SURU[i] = EXCP[i] - deltaSd;
         } else {
-            m_sd[i] += m_pe[i];
-            m_sr[i] = 0.f;
+            DPST[i] += EXCP[i];
+            SURU[i] = 0.f;
         }
 
         //////////////////////////////////////////////////////////////////////////
         // evaporation
-        if (m_sd[i] > 0) {
+        if (DPST[i] > 0) {
             /// TODO: Is this logically right? PET is just potential, which include
             ///       not only ET from surface water, but also from plant and soil.
             ///       Please Check the corresponding theory. By LJ.
             // evaporation from depression storage
-            if (m_pet[i] - m_ei[i] < m_sd[i]) {
-                m_ed[i] = m_pet[i] - m_ei[i];
+            if (PET[i] - INET[i] < DPST[i]) {
+                DEET[i] = PET[i] - INET[i];
             } else {
-                m_ed[i] = m_sd[i];
+                DEET[i] = DPST[i];
             }
-            m_sd[i] -= m_ed[i];
+            DPST[i] -= DEET[i];
         } else {
-            m_ed[i] = 0.f;
-            m_sd[i] = 0.f;
+            DEET[i] = 0.f;
+            DPST[i] = 0.f;
         }
-        if (m_impoundTriger != NULL && FloatEqual(m_impoundTriger[i], 0.f)) {
-            if (m_potVol != NULL) {
-                m_potVol[i] += m_sr[i];
-                m_potVol[i] += m_sd[i];
-                m_sr[i] = 0.f;
-                m_sd[i] = 0.f;
+        if (impound_trig != NULL && FloatEqual(impound_trig[i], 0.f)) {
+            if (pot_vol != NULL) {
+                pot_vol[i] += SURU[i];
+                pot_vol[i] += DPST[i];
+                SURU[i] = 0.f;
+                DPST[i] = 0.f;
             }
         }
     }
@@ -133,7 +133,7 @@ bool DepressionFSDaily::CheckInputSize(const char *key, int n) {
 
 void DepressionFSDaily::SetValue(const char *key, float data) {
     string sk(key);
-    if (StringMatch(sk, VAR_DEPREIN)) { m_depCo = data; }
+    if (StringMatch(sk, VAR_DEPREIN)) { Depre_in = data; }
     else if (StringMatch(sk, VAR_OMP_THREADNUM)) { SetOpenMPThread((int) data); }
     else {
         throw ModelException(MID_DEP_LINSLEY, "SetValue", "Parameter " + sk + " does not exist.");
@@ -145,15 +145,15 @@ void DepressionFSDaily::Set1DData(const char *key, int n, float *data) {
     CheckInputSize(key, n);
     string sk(key);
     if (StringMatch(sk, VAR_DEPRESSION)) {
-        m_depCap = data;
+        Depression = data;
     } else if (StringMatch(sk, VAR_INET)) {
-        m_ei = data;
+        INET = data;
     } else if (StringMatch(sk, VAR_PET)) {
-        m_pet = data;
+        PET = data;
     } else if (StringMatch(sk, VAR_EXCP)) {
-        m_pe = data;
-    } else if (StringMatch(sk, VAR_IMPOUND_TRIG)) { m_impoundTriger = data; }
-    else if (StringMatch(sk, VAR_POT_VOL)) { m_potVol = data; }
+        EXCP = data;
+    } else if (StringMatch(sk, VAR_IMPOUND_TRIG)) { impound_trig = data; }
+    else if (StringMatch(sk, VAR_POT_VOL)) { pot_vol = data; }
     else {
         throw ModelException(MID_DEP_LINSLEY, "Set1DData", "Parameter " + sk + " does not exist.");
     }
@@ -164,11 +164,11 @@ void DepressionFSDaily::Get1DData(const char *key, int *n, float **data) {
     string sk(key);
     *n = m_nCells;
     if (StringMatch(sk, VAR_DPST)) {
-        *data = m_sd;
+        *data = DPST;
     } else if (StringMatch(sk, VAR_DEET)) {
-        *data = m_ed;
+        *data = DEET;
     } else if (StringMatch(sk, VAR_SURU)) {
-        *data = m_sr;
+        *data = SURU;
     } else {
         throw ModelException(MID_DEP_LINSLEY, "Get1DData", "Output " + sk + " does not exist.");
     }

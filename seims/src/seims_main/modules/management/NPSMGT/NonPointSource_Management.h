@@ -4,6 +4,8 @@
  * \date Jul. 2016
  */
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -17,36 +19,60 @@ using namespace std;
  * \brief All management operation in SWAT, e.g., plantop, killop, harvestop, etc.
  */
 class NPS_Management : public SimulationModule {
-private:
-    /// valid cells number
+
+	/*!
+	* areal source operations
+	* key: unique index, BMPID * 100000 + subScenarioID
+	* value: areal source management factory instance
+	*/
+	map<int, BMPArealSrcFactory *> m_arealSrcFactory;
+
+	// @In
+	// @Description valid cells number
     int m_nCells;
-    /// cell width (m)
-    float m_cellWidth;
-    /// area of cell (m^2)
-    float m_cellArea;
-    /// time step (second)
-    float m_timestep;
-    /// management fields raster
-    float *m_mgtFields;
-    /*!
-     * areal source operations
-     * key: unique index, BMPID * 100000 + subScenarioID
-     * value: areal source management factory instance
-     */
-    map<int, BMPArealSrcFactory *> m_arealSrcFactory;
 
-    /// variables to be updated (optionals)
+	// @In
+	// @Description cell width (m)
+    float CELLWIDTH;
 
-    /// water storage of soil layers
-    float **m_soilStorage;
-    /// nitrate kg/ha
-    float **m_sol_no3;
-    /// ammonium kg/ha
-    float **m_sol_nh4;
-    /// soluble phosphorus kg/ha
-    float **m_sol_solp;
-    float **m_sol_orgn;
-    float **m_sol_orgp;
+	// @In
+	// @Description area of cell (m^2)
+    float cellArea;
+
+	// @In
+	// @Description time step (second)
+    float TIMESTEP;
+
+	// @In
+	// @Description management fields raster
+    float *mgt_fields;
+
+    /// variables to be updated (optionals£©
+
+	// @In
+	// @Description water storage of soil layers
+    float **solst;
+
+	// @In
+	// @Description nitrate kg/ha
+    float **sol_no3;
+
+	// @In
+	// @Description ammonium kg/ha
+    float **sol_nh4;
+
+	// @In
+	// @Description soluble phosphorus kg/ha
+    float **sol_solp;
+
+	// @In
+	// @Description organic p
+    float **sol_orgn;
+
+	// @In
+	// @Description organic n
+    float **sol_orgp;
+
 public:
     //! Constructor
     NPS_Management(void);
@@ -85,3 +111,5 @@ private:
      */
     bool CheckInputSize(const char *, int);
 };
+
+VISITABLE_STRUCT(NPS_Management, m_nCells, CELLWIDTH, cellArea, TIMESTEP, mgt_fields, solst, sol_no3, sol_nh4, sol_solp, sol_orgn, sol_orgp);

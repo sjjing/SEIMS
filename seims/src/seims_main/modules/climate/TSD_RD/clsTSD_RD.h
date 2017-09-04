@@ -4,6 +4,8 @@
  * \date Apr. 2010
  */
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;

@@ -9,6 +9,8 @@
  * \description: 1. ReWrite according to percmain.f and sat_excess.f of SWAT
  */
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -25,39 +27,70 @@ using namespace std;
  * 
  */
 class PER_STR : public SimulationModule {
-private:
-    /// number of soil layers
-    int m_nSoilLayers;
-    /// soil layers
-    float *m_soilLayers;
-    /// soil thickness
-    float **m_soilThick;
-    /// time step
-    int m_dt;
-    /// valid cells number
+
+	// @In
+	// @Description number of soil layers
+    int nSoilLayers;
+
+	// @In
+	// @Description soil layers
+    float *soillayers;
+
+	// @In
+	// @Description soil thickness
+    float **soilthick;
+
+	// @In
+	// @Description time step
+    int TIMESTEP;
+
+	// @In
+	// @Description valid cells number
     int m_nCells;
-    /// threshold soil freezing temperature
-    float m_frozenT;
-    /// saturated conductivity
-    float **m_ks;
-    /// amount of water held in the soil layer at saturation (sat - wp water), mm
-    float **m_sat;
-    /// amount of water held in the soil layer at field capacity (fc - wp water) mm H2O
-    float **m_fc;
-    /// soil moisture, mm H2O
-    float **m_soilStorage;
-    /// amount of water stored in soil profile on current day, sol_sw in SWAT
-    float *m_soilStorageProfile;
-    /// soil temperature
-    float *m_soilT;
-    /// infiltration, mm
-    float *m_infil;
-    /// surface runoff, mm
-    float *m_surfQmm;
-    /// pothole volume, mm
-    float *m_potVol;
-    /// Output: percolation
-    float **m_perc;
+
+	// @In
+	// @Description threshold soil freezing temperature
+    float t_soil;
+
+	// @In
+	// @Description saturated conductivity
+    float **Conductivity;
+
+	// @In
+	// @Description amount of water held in the soil layer at saturation (sat - wp water), mm
+    float **sol_ul;
+
+	// @In
+	// @Description amount of water held in the soil layer at field capacity (fc - wp water) mm H2O
+    float **sol_awc;
+
+	// @In
+	// @Description soil moisture, mm H2O
+    float **solst;
+
+	// @In
+	// @Description amount of water stored in soil profile on current day, sol_sw in SWAT
+    float *solsw;
+
+	// @In
+	// @Description soil temperature
+    float *SOTE;
+
+	// @In
+	// @Description infiltration, mm
+    float *INFIL;
+
+	// @In
+	// @Description surface runoff, mm
+    float *SURU;
+
+	// @In
+	// @Description pothole volume, mm
+    float *pot_vol;
+
+	// @Out
+	// @Description percolation
+    float **Perco;
 
 public:
     /// Constructor
@@ -96,3 +129,5 @@ private:
     void initialOutputs(void);
 };
 
+VISITABLE_STRUCT(PER_STR, m_nCells, nSoilLayers, soillayers, soilthick, TIMESTEP, t_soil, Conductivity, sol_ul, sol_awc, solst, solsw, 
+	SOTE, INFIL, SURU, pot_vol, Perco);

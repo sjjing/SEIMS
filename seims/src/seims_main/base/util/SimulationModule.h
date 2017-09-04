@@ -68,7 +68,7 @@ public:
 #endif
     };
 
-    //! Set climate data type, P, M, PET etc.
+    //! Set climate data type, P, M, pet etc.
     virtual void SetClimateDataType(float value) {
     };
 

@@ -8,6 +8,8 @@
  * 
  */
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -28,53 +30,78 @@ public:
 
     //! Destructor
     ~clsPI_MCS(void);
-private:
+
     /* Parameters from database */
 
-    //! Calibration parameter, the sine-shaped curve controller exponent b, default is 1.35
-    float m_Pi_b;
-    //! Calibration parameter, the initial interception storage for all cells, mm
-    float m_Init_IS;
-    //! Maximum storage capacity, mm
-    float *m_maxSt;
-    //! Minimum storage capacity, mm
-    float *m_minSt;
+	// @In
+	// @Description Calibration parameter, the sine-shaped curve controller exponent b, default is 1.35
+    float Pi_b;
+
+	// @In
+	// @Description Calibration parameter, the initial interception storage for all cells, mm
+    float Init_IS;
+
+	// @In
+	// @Description Maximum storage capacity, mm
+    float *Interc_max;
+
+	// @In
+	// @Description Minimum storage capacity, mm
+    float *Interc_min;
+
 #ifdef STORM_MODE
-    //! hillslope time step, seconds
-    float m_hilldt;
-    //! slope for rainfall correction, height/width, i.e. tan(slope)
+
+	// @In
+	// @Description hillslope time step, seconds
+    float DT_HS;
+
+	// @In
+	// @Description slope for rainfall correction, height/width, i.e. tan(slope)
     float *m_slope;
 #endif
 
     /* Input variables from other module's output */
 
-    /*! Precipitation
-     * For STROM_MODE model, the unit is rainfall intensity mm/h
-     * For LONGTERM_MODE model, the unit is mm
-     */
-    float *m_P;
+	// @In
+	// @Description Precipitation, For STROM_MODE model, the unit is rainfall intensity mm/h, For LONGTERM_MODE model, the unit is mm
+    float *D_P;
+
 #ifndef STORM_MODE
-    //! PET, mm
-    float *m_PET;
+
+	// @In
+	// @Description PET, mm
+    float *PET;
+
 #endif
 
     /* Results */
 
-    //! current interception storage, the initial value equal to 0, mm
-    float *m_st;
-    //! Interception loss, mm
-    float *m_interceptionLoss;
+	// @Out
+	// @Description current interception storage, the initial value equal to 0, mm
+    float *canstor;
+
+	// @Out
+	// @Description Interception loss, mm
+    float *INLO;
+
 #ifndef STORM_MODE
-    //! Evaporation loss from intercepted rainfall, mm
-    float *m_evaporationLoss;
+
+	// @Out
+	// @Description Evaporation loss from intercepted rainfall, mm
+    float *INET;
+
 #endif
-    //! Net precipitation (after slope correction, of course), mm
-    float *m_netPrecipitation;
+
+	// @Out
+	// @Description Net precipitation (after slope correction, of course), mm
+    float *NEPR;
 
     /* Others */
 
-    //!  number of valid cells
+	// @In
+	// @Description number of valid cells
     int m_nCells;
+
 public:
     virtual void Set1DData(const char *key, int nRows, float *data);
 
@@ -106,3 +133,6 @@ private:
      */
     void initialOutputs(void);
 };
+
+
+VISITABLE_STRUCT(clsPI_MCS, m_nCells, Pi_b, Init_IS, Interc_max, Interc_min, DT_HS, m_slope, D_P, PET, canstor, INLO, INET, NEPR);

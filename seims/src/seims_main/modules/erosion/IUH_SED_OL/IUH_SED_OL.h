@@ -7,6 +7,8 @@
 */
 
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -45,57 +47,71 @@ public:
 
     bool CheckInputData(void);
 
-private:
+	//! subbasin IDs
+	vector<int> m_subbasinIDs;
 
-    /// time step (sec)
-    int m_TimeStep;
-    /// validate cells number
+	/// subbasins information
+	clsSubbasins *m_subbasinsInfo;
+
+	// @In
+	// @Description time step (sec)
+    int TIMESTEP;
+
+	// @In
+	// @Description validate cells number
     int m_nCells;
-    /// cell width of the grid (m)
-    float m_CellWidth;
-    /// cell area
-    float m_cellArea;
-    /// the total number of subbasins
-    int m_nSubbasins;
-    //! subbasin IDs
-    vector<int> m_subbasinIDs;
-    /// subbasin grid (subbasins ID)
-    float *m_subbasin;
 
-    /// subbasins information
-    clsSubbasins *m_subbasinsInfo;
-    /// start time of IUH for each grid cell
-    ///float* m_uhminCell;
-    /// end time of IUH for each grid cell
-    ///float* m_uhmaxCell;
+	// @In
+	// @Description cell width of the grid (m)
+    float CELLWIDTH;
 
-    /// IUH of each grid cell (1/s)
-    float **m_iuhCell;
-    /// the number of columns of Ol_iuh
-    int m_iuhCols;
-    /// sediment yield in each cell
-    float *m_sedYield;
+	// @In
+	// @Description cell area
+    float cellArea;
 
-    /*/// length of rainfall series
-    int m_nr;*/
-    /// end time of simulation
-    ///time_t m_EndDate;
+	// @In
+	// @Description the total number of subbasins
+    int nSubbasins;
+    
+	// @In
+	// @Description subbasin grid (subbasins ID)
+    float *subbasin;   
+    
+	// @In
+	// @Description IUH of each grid cell (1/s)
+    float **Ol_iuh;
+
+	// @In
+	// @Description the number of columns of Ol_iuh
+    int iuhCols;
+
+	// @In
+	// @Description sediment yield in each cell
+    float *SOER;
 
     //temporary
 
-    /// the maximum of second column of OL_IUH plus 1.
-    int m_cellFlowCols;
-    /// store the sediment of each cell in each day between min time and max time
-    float **m_cellSed;
+	// @In
+	// @Description the maximum of second column of OL_IUH plus 1.
+    int cellFlowCols;
 
-    //////////////////////////////////////////////////////////////////////
+	// @In
+	// @Description store the sediment of each cell in each day between min time and max time
+    float **cellSed;
+
+    
     //output
-    /// sediment to streams
-    float *m_sedtoCh;
-    /// sediment to channel at each cell at current time step
-    float *m_sedOL;
+
+	// @Out
+	// @Description sediment to streams
+    float *SEDTOCH;
+
+	// @Out
+	// @Description sediment to channel at each cell at current time step
+    float *SED_OL;
 
     //! intial outputs
     void initialOutputs(void);
 };
 
+VISITABLE_STRUCT(IUH_SED_OL, m_nCells, TIMESTEP, CELLWIDTH, cellArea, nSubbasins, subbasin, Ol_iuh, iuhCols, SOER, cellFlowCols, cellSed, SEDTOCH, SED_OL);

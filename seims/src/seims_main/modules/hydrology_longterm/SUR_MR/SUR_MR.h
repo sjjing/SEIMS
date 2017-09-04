@@ -12,13 +12,13 @@
 *	2.	Parameter sfrozen would be t_soil and in WaterBalance table.
 *	3.  Delete parameter Moist_in.
 *	4.  Rename the input and output variables. See metadata rules for names.
-*	5.  In function execute, do not change m_pNet[i] directly. This will have influence
+*	5.  In function execute, do not change NEPR[i] directly. This will have influence
 *		on another modules who will use net precipitation. Use local variable to replace it.
 *	6.  Add API function GetValue.
 *
 *	Revision:	Junzhi Liu
 *   Date:		2011-2-19
-*	1.	Rename m_excess to m_pe
+*	1.	Rename m_excess to EXCP
 *	2.	Take snowmelt into consideration when calculating PE, PE=P_NET+Snowmelt-F
 *
 *	Revision:	Junzhi Liu
@@ -38,6 +38,8 @@
 */
 
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -78,79 +80,99 @@ public:
 
     void CheckInputData(void);
 
-private:
-    /// Hillslope time step (second)
-    float m_dt;
-    /// count of valid cells
+	// @In
+	// @Description Hillslope time step (second)
+    float DT_HS;
+
+	// @In
+	// @Description count of valid cells
     int m_nCells;
-    /// net precipitation of each cell (mm)
-    float *m_pNet;
-    /// potential runoff coefficient
-    float *m_runoffCo;
 
-    /// number of soil layers, i.e., the maximum soil layers of all soil types
-    int m_nSoilLayers;
-    /// soil layers number of each cell
-    float *m_soilLayers;
-    //   /// soil depth (mm)
-    //   float **m_soilDepth;
-    ///// soil thickness (mm)
-    //float **m_soilThick;
+	// @In
+	// @Description net precipitation of each cell (mm)
+    float *NEPR;
 
-    //   /// soil porosity, mm H2O/mm Soil
-    //   float **m_porosity;
-    //   /// water content of soil at field capacity, mm H2O/mm Soil
-    //float **m_fieldCap;
-    ///// water content of soil at wilting point, mm H2O/mm Soil
-    //float **m_wiltingPoint;
+	// @In
+	// @Description potential runoff coefficient
+    float *Runoff_co;
 
-    ///mm H2O: (sol_fc) amount of water available to plants in soil layer at field capacity (fc - wp)
-    float **m_sol_awc;
-    /// amount of water held in the soil layer at saturation (sat - wp water), mm H2O, sol_sumul of SWAT
-    float *m_sol_sumsat;
-    /// initial soil water storage fraction related to field capacity (FC-WP)
-    float *m_initSoilStorage;
+	// @In
+	// @Description number of soil layers, i.e., the maximum soil layers of all soil types
+    int nSoilLayers;
 
-    /// runoff exponent
-    float m_kRunoff;
-    /// maximum precipitation corresponding to runoffCo
-    float m_pMax;
-    /// depression storage (mm)
-    float *m_sd;    // SD(t-1) from the depression storage module
+	// @In
+	// @Description soil layers number of each cell
+    float *soillayers;
+    
+	// @In
+	// @Description mm H2O: (sol_fc) amount of water available to plants in soil layer at field capacity (fc - wp)
+    float **sol_awc;
 
-    /// mean air temperature (deg C)
-    float *m_tMean;
-    ///// snow fall temperature (deg C)
-    //float m_tSnow;
-    ///// snow melt threshold temperature (deg C)
-    //float m_t0;
-    ///// snow melt from the snow melt module  (mm)
-    //float *m_snowMelt;
-    ///// snow accumulation from the snow balance module (mm) at t+1 time step
-    //float *m_snowAccu;
+	// @In
+	// @Description amount of water held in the soil layer at saturation (sat - wp water), mm H2O, sol_sumul of SWAT
+    float *sol_sumul;
 
-    /// threshold soil freezing temperature (deg C)
-    float m_tFrozen;
-    /// frozen soil moisture relative to saturation above which no infiltration occur 
-    /// (m3/m3 or mm H2O/ mm Soil)
-    float m_sFrozen;
-    /// soil temperature obtained from the soil temperature module (deg C)
-    float *m_soilTemp;
+	// @In
+	// @Description initial soil water storage fraction related to field capacity (FC-WP)
+    float *Moist_in;
 
-    /// pothole volume, mm
-    float *m_potVol;
-    /// impound trigger
-    float *m_impoundTrig;
+	// @In
+	// @Description runoff exponent
+    float K_run;
+
+	// @In
+	// @Description maximum precipitation corresponding to runoffCo
+    float P_max;
+
+	// @In
+	// @Description depression storage (mm), SD(t-1) from the depression storage module
+    float *DPST;    
+
+	// @In
+	// @Description mean air temperature (deg C)
+    float *TMEAN;
+   
+	// @In
+	// @Description threshold soil freezing temperature (deg C)
+    float t_soil;
+
+	// @In
+	// @Description frozen soil moisture relative to saturation above which no infiltration occur, (m3/m3 or mm H2O/ mm Soil) 
+    float s_frozen;
+
+	// @In
+	// @Description soil temperature obtained from the soil temperature module (deg C)
+    float *SOTE;
+
+	// @In
+	// @Description pothole volume, mm
+    float *pot_vol;
+
+	// @In
+	// @Description impound trigger
+    float *impound_trig;
+
     // output
-    /// the excess precipitation (mm) of the total nCells, which could be depressed or generated surface runoff
-    float *m_pe;
-    /// infiltration map of watershed (mm) of the total nCells
-    float *m_infil;
-    /// soil water storage (mm)
-    float **m_soilStorage;
-    /// soil water storage in soil profile (mm)
-    float *m_soilStorageProfile;
+
+	// @Out
+	// @Description the excess precipitation (mm) of the total nCells, which could be depressed or generated surface runoff
+    float *EXCP;
+
+	// @Out
+	// @Description infiltration map of watershed (mm) of the total nCells
+    float *INFIL;
+
+	// @Out
+	// @Description soil water storage (mm)
+    float **solst;
+
+	// @Out
+	// @Description soil water storage in soil profile (mm)
+    float *solsw;
 
     /// initial output for the first run
     void initialOutputs(void);
 };
+
+VISITABLE_STRUCT(SUR_MR, m_nCells, DT_HS, NEPR, Runoff_co, nSoilLayers, soillayers, sol_awc, sol_sumul, Moist_in, K_run, P_max, DPST, TMEAN, t_soil, 
+	s_frozen, SOTE, pot_vol, impound_trig, EXCP, INFIL, solst, solsw);

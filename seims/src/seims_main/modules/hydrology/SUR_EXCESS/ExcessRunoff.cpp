@@ -7,7 +7,7 @@ ExcessRunoff::ExcessRunoff(void) : m_infil(NULL), m_pe(NULL), m_accumuDepth(NULL
                                    m_dt(-1), m_nCells(-1), m_fieldCap(NULL), m_porosity(NULL), m_ks(NULL),
                                    m_rootDepth(NULL), m_initSoilMoisture(NULL),
                                    m_sd(NULL), m_soilMoisture(NULL), m_pNet(NULL)//,m_t(NULL),
-//m_tSnow(0.0f), m_t0(1.0f),// m_snowAccu(NULL), m_snowMelt(NULL),
+//T_snow(0.0f), m_t0(1.0f),// m_snowAccu(NULL), m_snowMelt(NULL),
 //m_tSoilFrozen(-5.0f), m_sFrozen(0.5f), //m_soilTemp(NULL),
 {
 }
@@ -189,18 +189,18 @@ int ExcessRunoff::Execute(void) {
         //account for the effects of snow melt and soil temperature
         //float t = m_t[i];
         // snow, without snow melt
-        //if (t <= m_tSnow)
+        //if (t <= T_snow)
         //{
         //	pNet = 0.0f;
         //}
         // rain on snow, no snow melt
-        //else if (t > m_tSnow && t <= m_t0 && m_snowAccu[i] > pNet)
+        //else if (t > T_snow && t <= m_t0 && m_snowAccu[i] > pNet)
         //{
         //	pNet = 0.0f;
         //}
         //else
         //{
-        //pNet = m_pNet[i] + m_snowMelt[i] + m_sd[i];
+        //pNet = NEPR[i] + m_snowMelt[i] + m_sd[i];
         pNet = m_pNet[i] + m_sd[i];
         //}
 
@@ -243,7 +243,7 @@ int ExcessRunoff::Execute(void) {
                 m_accumuDepth[i] += m_infil[i];
 
                 // update excess precipitation
-                //m_pe[i] = m_pNet[i] + m_snowMelt[i] - m_infil[i];
+                //m_pe[i] = NEPR[i] + m_snowMelt[i] - m_infil[i];
                 m_pe[i] = m_pNet[i] - m_infil[i];
 
                 // adjust soil moisture
@@ -277,7 +277,7 @@ void ExcessRunoff::SetValue(const char *key, float value) {
 
     //if (StringMatch(sk,"T_snow"))
     //{
-    //	m_tSnow = value;
+    //	T_snow = value;
     //}
     //else if (StringMatch(sk,"t_soil"))
     //{

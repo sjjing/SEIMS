@@ -12,11 +12,11 @@
 *	2.	Delete parameter uhminCell and uhmaxCell because the parameter Ol_iuh
 *		contains these information. The first and second column of Ol_iuh is 
 *		min time and max time.
-*	3.	The number of subbasins (m_nsub) should get from m_subbasin rather than
+*	3.	The number of subbasins (m_nsub) should get from subbasin rather than
 *		from main program. So does variable m_nCells.
-*	4.	Add variable m_iuhCols to store the number of columns of Ol_iuh. In the 
+*	4.	Add variable iuhCols to store the number of columns of Ol_iuh. In the 
 *		meantime, add one parameter nCols to function SetIUHCell.
-*	5.	Add variable m_cellFlow to store the flow of each cell in each day between
+*	5.	Add variable cellFlow to store the flow of each cell in each day between
 *		min time and max time. Its number of columns equals to the maximum of second
 *		column of Ol_iuh add 1.
 *	6.  Add function initial to initialize some variables.
@@ -29,6 +29,8 @@
 *	2.	Replace VAR_SUBBASIN with VAR_SUBBASIN_PARAM, which is common used by several modules.
 */
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -67,58 +69,71 @@ public:
 
     bool CheckInputData(void);
 
-private:
+	//! subbasin IDs
+	vector<int> m_subbasinIDs;
 
-    /// time step (sec)
-    int m_TimeStep;
-    /// validate cells number
+	/// subbasins information
+	clsSubbasins *m_subbasinsInfo;
+
+	// @In
+	// @Description time step (sec)
+    int TIMESTEP;
+
+	// @In
+	// @Description validate cells number
     int m_nCells;
-    /// cell width of the grid (m)
-    float m_CellWidth;
-    /// cell area, BE CAUTION, the unit is m^2, NOT ha!!!
-    float m_cellArea;
-    /// the total number of subbasins
-    int m_nSubbasins;
-    //! subbasin IDs
-    vector<int> m_subbasinIDs;
-    /// subbasin grid (subbasins ID)
-    float *m_subbasin;
 
-    /// subbasins information
-    clsSubbasins *m_subbasinsInfo;
-    /// start time of IUH for each grid cell
-    ///float* m_uhminCell;
-    /// end time of IUH for each grid cell
-    ///float* m_uhmaxCell;
+	// @In
+	// @Description cell width of the grid (m)
+    float CELLWIDTH;
 
-    /// landcover code
-    //float *m_landcover;
-    /// IUH of each grid cell (1/s)
-    float **m_iuhCell;
-    /// the number of columns of Ol_iuh
-    int m_iuhCols;
-    /// surface runoff from depression module
-    float *m_rs;
-    /*/// length of rainfall series
-    int m_nr;*/
-    /// end time of simulation
-    ///time_t m_EndDate;
+	// @In
+	// @Description cell area, BE CAUTION, the unit is m^2, NOT ha!!!
+    float cellArea;
+
+	// @In
+	// @Description the total number of subbasins
+    int nSubbasins;
+
+	// @In
+	// @Description subbasin grid (subbasins ID)
+    float *subbasin;
+
+
+	// @In
+	// @Description IUH of each grid cell (1/s)
+    float **Ol_iuh;
+
+	// @In
+	// @Description the number of columns of Ol_iuh
+    int iuhCols;
+
+	// @In
+	// @Description surface runoff from depression module
+    float *SURU;
 
     //temporary
 
-    /// store the flow of each cell in each day between min time and max time
-    float **m_cellFlow;
-    /// the maximum of second column of OL_IUH plus 1.
-    int m_cellFlowCols;
+	// @In
+	// @Description store the flow of each cell in each day between min time and max time
+    float **cellFlow;
+
+	// @In
+	// @Description the maximum of second column of OL_IUH plus 1.
+    int cellFlowCols;
 
     //output
 
-    /// overland flow to streams for each subbasin (m3/s)
-    float *m_Q_SBOF;
-    // overland flow in each cell (mm) //added by Gao, as intermediate variable, 29 Jul 2016
-    float *m_OL_Flow;
+	// @Out
+	// @Description overland flow to streams for each subbasin (m3/s)
+    float *SBOF;
+
+	// @Out
+	// @Description overland flow in each cell (mm) //added by Gao, as intermediate variable, 29 Jul 2016
+    float *OL_Flow;
 
     //! initial outputs
     void initialOutputs(void);
 };
 
+VISITABLE_STRUCT(IUH_OL, m_nCells, TIMESTEP, CELLWIDTH, cellArea, nSubbasins, subbasin, Ol_iuh, iuhCols, SURU, cellFlow, cellFlowCols, SBOF, OL_Flow);

@@ -33,7 +33,7 @@ private:
     float *m_Moisture;
     float *m_FieldCapacity;
     float *m_rootDepth;
-    //float* m_SoilT;
+    //float* SOTE;
     //float  m_ForzenT;
 
     float *m_recharge;

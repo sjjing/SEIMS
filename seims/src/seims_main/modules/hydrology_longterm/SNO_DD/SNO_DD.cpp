@@ -89,7 +89,7 @@ int SNO_DD::Execute() {
             m_SA[i] += m_kblow * m_Pnet[i];
             m_Pnet[i] *= (1.f - m_kblow);
         }
-            /*else if (m_tMean[i] > m_tsnow && m_tMean[i] <= m_t0)
+            /*else if (TMEAN[i] > m_tsnow && TMEAN[i] <= m_t0)
             {
                 m_SM[i] = 0.f;
                 /// TODO: this part should be carefully reviewed according to

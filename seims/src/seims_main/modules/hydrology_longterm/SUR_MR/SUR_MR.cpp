@@ -1,61 +1,61 @@
 #include "seims.h"
 #include "SUR_MR.h"
 
-SUR_MR::SUR_MR(void) : m_nCells(-1), m_dt(-1), m_nSoilLayers(-1), m_tFrozen(NODATA_VALUE),
-                       m_kRunoff(NODATA_VALUE), m_pMax(NODATA_VALUE),
-    //m_tSnow(NODATA_VALUE), m_t0(NODATA_VALUE), m_snowAccu(NULL), m_snowMelt(NULL),
-                       m_sFrozen(NODATA_VALUE), m_runoffCo(NULL), m_initSoilStorage(NULL), m_tMean(NULL),
-    // m_soilThick(NULL) ,m_fieldCap(NULL),m_wiltingPoint(NULL), m_porosity(NULL),
-                       m_sol_awc(NULL), m_sol_sumsat(NULL), m_soilLayers(NULL),
-                       m_pNet(NULL), m_sd(NULL), m_soilTemp(NULL), m_potVol(NULL), m_impoundTrig(NULL),
-                       m_pe(NULL), m_infil(NULL), m_soilStorage(NULL), m_soilStorageProfile(NULL) {
+SUR_MR::SUR_MR(void) : m_nCells(-1), DT_HS(-1), nSoilLayers(-1), t_soil(NODATA_VALUE),
+                       K_run(NODATA_VALUE), P_max(NODATA_VALUE),
+    //T_snow(NODATA_VALUE), m_t0(NODATA_VALUE), m_snowAccu(NULL), m_snowMelt(NULL),
+                       s_frozen(NODATA_VALUE), Runoff_co(NULL), Moist_in(NULL), TMEAN(NULL),
+    // soilthick(NULL) ,m_fieldCap(NULL),m_wiltingPoint(NULL), m_porosity(NULL),
+                       sol_awc(NULL), sol_sumul(NULL), soillayers(NULL),
+                       NEPR(NULL), DPST(NULL), SOTE(NULL), pot_vol(NULL), impound_trig(NULL),
+                       EXCP(NULL), INFIL(NULL), solst(NULL), solsw(NULL) {
 }
 
 SUR_MR::~SUR_MR(void) {
-    if (m_pe != NULL) Release1DArray(m_pe);
-    if (m_infil != NULL) Release1DArray(m_infil);
-    if (m_soilStorage != NULL) Release2DArray(m_nCells, m_soilStorage);
-    if (m_soilStorageProfile != NULL) Release1DArray(m_soilStorageProfile);
+    if (EXCP != NULL) Release1DArray(EXCP);
+    if (INFIL != NULL) Release1DArray(INFIL);
+    if (solst != NULL) Release2DArray(m_nCells, solst);
+    if (solsw != NULL) Release1DArray(solsw);
 }
 
 void SUR_MR::CheckInputData(void) {
     if (m_date < 0) {
         throw ModelException(MID_SUR_MR, "CheckInputData", "You have not set the time.");
     }
-    if (m_dt < 0) {
+    if (DT_HS < 0) {
         throw ModelException(MID_SUR_MR, "CheckInputData", "You have not set the time step.");
     }
     if (m_nCells <= 0) {
         throw ModelException(MID_SUR_MR, "CheckInputData", "The cell number of the input can not be less than zero.");
     }
-    if (m_initSoilStorage == NULL) {
+    if (Moist_in == NULL) {
         throw ModelException(MID_SUR_MR, "CheckInputData", "The initial soil moisture can not be NULL.");
     }
-    if (m_runoffCo == NULL) {
+    if (Runoff_co == NULL) {
         throw ModelException(MID_SUR_MR, "CheckInputData", "The potential runoff coefficient can not be NULL.");
     }
-    if (FloatEqual(m_tFrozen, NODATA_VALUE)) {
+    if (FloatEqual(t_soil, NODATA_VALUE)) {
         throw ModelException(MID_SUR_MR, "CheckInputData",
                              "The soil freezing temperature of the input data can not be NODATA.");
     }
     //if (FloatEqual(m_t0, NODATA_VALUE))
     //    throw ModelException(MID_SUR_MR, "CheckInputData",
     //                         "The snow melt threshold temperature of the input data can not be NODATA.");
-    //if (FloatEqual(m_tSnow, NODATA_VALUE))
+    //if (FloatEqual(T_snow, NODATA_VALUE))
     //    throw ModelException(MID_SUR_MR, "CheckInputData",
     //                         "The snowfall temperature of the input data can not be NODATA.");
-    if (FloatEqual(m_kRunoff, NODATA_VALUE)) {
+    if (FloatEqual(K_run, NODATA_VALUE)) {
         throw ModelException(MID_SUR_MR, "CheckInputData", "The runoff exponent of the input data can not be NODATA.");
     }
-    if (FloatEqual(m_pMax, NODATA_VALUE)) {
+    if (FloatEqual(P_max, NODATA_VALUE)) {
         throw ModelException(MID_SUR_MR, "CheckInputData",
                              "The maximum P corresponding to runoffCo of the input data can not be NODATA.");
     }
-    if (FloatEqual(m_sFrozen, NODATA_VALUE)) {
+    if (FloatEqual(s_frozen, NODATA_VALUE)) {
         throw ModelException(MID_SUR_MR, "CheckInputData",
                              "The frozen soil moisture of the input data can not be NODATA.");
     }
-    if (m_sol_awc == NULL) {
+    if (sol_awc == NULL) {
         throw ModelException(MID_SUR_MR, "CheckInputData", "The available water amount can not be NULL.");
     }
     //   if (m_fieldCap == NULL)
@@ -64,21 +64,21 @@ void SUR_MR::CheckInputData(void) {
     //if (m_wiltingPoint == NULL)
     //	throw ModelException(MID_SUR_MR, "CheckInputData",
     //	"The water content of soil at wilting point of the input data can not be NULL.");
-    //if (m_soilThick == NULL)
+    //if (soilthick == NULL)
     //	throw ModelException(MID_SUR_MR, "CheckInputData", "the input data: Soil thickness can not be NULL.");
     //   if (m_porosity == NULL)
     //       throw ModelException(MID_SUR_MR, "CheckInputData", "The soil porosity of the input data can not be NULL.");
-    if (m_tMean == NULL) {
+    if (TMEAN == NULL) {
         throw ModelException(MID_SUR_MR, "CheckInputData",
                              "The mean air temperature of the input data can not be NULL.");
     }
-    if (m_soilTemp == NULL) {
+    if (SOTE == NULL) {
         throw ModelException(MID_SUR_MR, "CheckInputData", "The soil temperature of the input data can not be NULL.");
     }
-    if (m_pNet == NULL) {
+    if (NEPR == NULL) {
         throw ModelException(MID_SUR_MR, "CheckInputData", "The net precipitation can not be NULL.");
     }
-    if (m_sd == NULL) {
+    if (DPST == NULL) {
         throw ModelException(MID_SUR_MR, "CheckInputData", "The depression capacity can not be NULL.");
     }
     //if (m_snowAccu == NULL)
@@ -93,20 +93,20 @@ void SUR_MR::initialOutputs() {
                              "The dimension of the input data can not be less than zero.");
     }
     // allocate the output variables
-    if (m_pe == NULL) {
-        Initialize1DArray(m_nCells, m_pe, 0.f);
-        Initialize1DArray(m_nCells, m_infil, 0.f);
-        Initialize1DArray(m_nCells, m_soilStorageProfile, 0.f);
-        Initialize2DArray(m_nCells, m_nSoilLayers, m_soilStorage, NODATA_VALUE);
+    if (EXCP == NULL) {
+        Initialize1DArray(m_nCells, EXCP, 0.f);
+        Initialize1DArray(m_nCells, INFIL, 0.f);
+        Initialize1DArray(m_nCells, solsw, 0.f);
+        Initialize2DArray(m_nCells, nSoilLayers, solst, NODATA_VALUE);
 #pragma omp parallel for
         for (int i = 0; i < m_nCells; i++) {
-            for (int j = 0; j < (int) m_soilLayers[i]; j++) { /// mm
-                if (m_initSoilStorage[i] >= 0.f && m_initSoilStorage[i] <= 1.f && m_sol_awc[i][j] >= 0.f) {
-                    m_soilStorage[i][j] = m_initSoilStorage[i] * m_sol_awc[i][j];
+            for (int j = 0; j < (int) soillayers[i]; j++) { /// mm
+                if (Moist_in[i] >= 0.f && Moist_in[i] <= 1.f && sol_awc[i][j] >= 0.f) {
+                    solst[i][j] = Moist_in[i] * sol_awc[i][j];
                 } else {
-                    m_soilStorage[i][j] = 0.f;
+                    solst[i][j] = 0.f;
                 }
-                m_soilStorageProfile[i] += m_soilStorage[i][j];
+                solsw[i] += solst[i][j];
             }
         }
     }
@@ -115,66 +115,66 @@ void SUR_MR::initialOutputs() {
 int SUR_MR::Execute() {
     CheckInputData();
     initialOutputs();
-    m_pMax = m_pMax * m_dt / 86400.f;
+    P_max = P_max * DT_HS / 86400.f;
 #pragma omp parallel for
     for (int i = 0; i < m_nCells; i++) {
         /// Snow melt should be considered in SnowMelt module, this may be redundant. By LJ
         ////account for the effects of snow melt and soil temperature
         //float t = 0.f, snowMelt = 0.f, snowAcc = 0.f, sd = 0.f;
-        //if (m_tMean != NULL) t = m_tMean[i];
+        //if (TMEAN != NULL) t = TMEAN[i];
         //if (m_snowMelt != NULL)snowMelt = m_snowMelt[i];
         //if (m_snowAccu != NULL)snowAcc = m_snowAccu[i];
-        //if (m_sd != NULL)sd = m_sd[i];
+        //if (DPST != NULL)sd = DPST[i];
 
         //// snow, without snow melt
-        //if (m_tMean[i] <= m_tSnow)
+        //if (TMEAN[i] <= T_snow)
         //    hWater = 0.0f;
         //// rain on snow, no snow melt
-        //else if (m_tMean[i] > m_tSnow && m_tMean[i] <= m_t0 && snowAcc > m_pNet[i])
+        //else if (TMEAN[i] > T_snow && TMEAN[i] <= m_t0 && snowAcc > NEPR[i])
         //    hWater = 0.0f;
         //else
-        //    hWater = m_pNet[i] + snowMelt + m_sd[i];
+        //    hWater = NEPR[i] + snowMelt + DPST[i];
         float hWater = 0.f;
-        hWater = m_pNet[i] + m_sd[i];
+        hWater = NEPR[i] + DPST[i];
         if (hWater > 0.f) {
-            /// in the new version, sm is replaced by m_soilStorageProfile. By lj
-            /// por is replaced by m_sol_sumsat which is calculated by (sat - wp)
+            /// in the new version, sm is replaced by solsw. By lj
+            /// por is replaced by sol_sumul which is calculated by (sat - wp)
             //float sm = 0.f, por = 0.f;
-            //for (int j = 0; j < (int)m_soilLayers[i]; j++)
+            //for (int j = 0; j < (int)soillayers[i]; j++)
             //{
-            //    sm += m_soilStorage[i][j]; ///  mm H2O
-            //    por += m_porosity[i][j] * m_soilThick[i][j]; /// unit can be seen as mm H2O 
+            //    sm += solst[i][j]; ///  mm H2O
+            //    por += m_porosity[i][j] * soilthick[i][j]; /// unit can be seen as mm H2O 
             //}
             // float smFraction = min(sm / por, 1.f);
 
             /// update total soil water content
-            m_soilStorageProfile[i] = 0.f;
-            for (int ly = 0; ly < (int) m_soilLayers[i]; ly++) {
-                m_soilStorageProfile[i] += m_soilStorage[i][ly];
+            solsw[i] = 0.f;
+            for (int ly = 0; ly < (int) soillayers[i]; ly++) {
+                solsw[i] += solst[i][ly];
             }
-            float smFraction = min(m_soilStorageProfile[i] / m_sol_sumsat[i], 1.f);
+            float smFraction = min(solsw[i] / sol_sumul[i], 1.f);
             // for frozen soil, no infiltration will occur
-            if (m_soilTemp[i] <= m_tFrozen && smFraction >= m_sFrozen) {
-                m_pe[i] = m_pNet[i];
-                m_infil[i] = 0.f;
+            if (SOTE[i] <= t_soil && smFraction >= s_frozen) {
+                EXCP[i] = NEPR[i];
+                INFIL[i] = 0.f;
             } else {
-                float alpha = m_kRunoff - (m_kRunoff - 1.f) * hWater / m_pMax;
-                if (hWater >= m_pMax) {
+                float alpha = K_run - (K_run - 1.f) * hWater / P_max;
+                if (hWater >= P_max) {
                     alpha = 1.f;
                 }
 
                 //runoff percentage
                 float runoffPercentage;
-                if (m_runoffCo[i] > 0.99f) {
+                if (Runoff_co[i] > 0.99f) {
                     runoffPercentage = 1.f;
                 } else {
-                    runoffPercentage = m_runoffCo[i] * pow(smFraction, alpha);
+                    runoffPercentage = Runoff_co[i] * pow(smFraction, alpha);
                 }
 
                 float surfq = hWater * runoffPercentage;
                 if (surfq > hWater) surfq = hWater;
-                m_infil[i] = hWater - surfq;
-                m_pe[i] = surfq;
+                INFIL[i] = hWater - surfq;
+                EXCP[i] = surfq;
 
 
                 /// TODO: Why calculate surfq first, rather than infiltration first?
@@ -182,44 +182,44 @@ int SUR_MR::Execute() {
                 ///       then surface runoff should be calculated. By LJ.
 
                 // check the output data, In my view, we should avoid this situation to occur. By LJ.
-                //if (m_infil[i] != m_infil[i] || m_infil[i] < 0.f)
+                //if (INFIL[i] != INFIL[i] || INFIL[i] < 0.f)
                 //{
                 //    //string datestr = getDate(&m_date);
                 //    ostringstream oss;
-                //    oss << "Cell id:" << i << "\tPrecipitation(mm) = " << m_pNet[i] << "\thwater = " << hWater
+                //    oss << "Cell id:" << i << "\tPrecipitation(mm) = " << NEPR[i] << "\thwater = " << hWater
                 //    << "\tpercentage:" << runoffPercentage << "\tmoisture = " << sm
-                //    << "\tInfiltration(mm) = " << m_infil[i] << "\n";
+                //    << "\tInfiltration(mm) = " << INFIL[i] << "\n";
                 //    throw ModelException(MID_SUR_MR, "Execute",
                 //                         "Output data error: infiltration is less than zero. Where:\n"
                 //                         + oss.str() + "Please contact the module developer. ");
                 //}
             }
         } else {
-            m_pe[i] = 0.f;
-            m_infil[i] = 0.f;
+            EXCP[i] = 0.f;
+            INFIL[i] = 0.f;
         }
-        /// if m_infil > 0., m_soilStorage need to be updated here. By LJ, 2016-9-2
-        if (m_infil[i] > 0.f) {
-            //if (m_potVol != NULL && m_potVol[i] > UTIL_ZERO)
+        /// if INFIL > 0., solst need to be updated here. By LJ, 2016-9-2
+        if (INFIL[i] > 0.f) {
+            //if (pot_vol != NULL && pot_vol[i] > UTIL_ZERO)
             //{
-            //	if (m_impoundTrig != NULL && FloatEqual(m_impoundTrig[i], 0.f))
+            //	if (impound_trig != NULL && FloatEqual(impound_trig[i], 0.f))
             //	{
-            //		m_potVol[i] += m_infil[i];
+            //		pot_vol[i] += INFIL[i];
             //		/// when impounded, set the maximum infiltration to 2 mm
-            //		if (m_potVol[i] > 2.f)
-            //			m_infil[i] = 2.f;
+            //		if (pot_vol[i] > 2.f)
+            //			INFIL[i] = 2.f;
             //		else
-            //			m_infil[i] = 0.f;
-            //		m_potVol[i] -= m_infil[i];
+            //			INFIL[i] = 0.f;
+            //		pot_vol[i] -= INFIL[i];
             //	}
             //	//else /// release operation should be considered in IMP_SWAT module
-            //	//	m_infil[i] += m_potVol[i];
+            //	//	INFIL[i] += pot_vol[i];
             //}
-            m_soilStorage[i][0] += m_infil[i];
+            solst[i][0] += INFIL[i];
         }
         //if (i == 200)
         //{
-        //	cout<<"netRain: "<<m_pNet[i]<<", depStrg: "<<m_sd[i]<<", infil: "<<m_infil[i]<<", surfq: "<<m_pe[i]<<endl;
+        //	cout<<"netRain: "<<NEPR[i]<<", depStrg: "<<DPST[i]<<", infil: "<<INFIL[i]<<", surfq: "<<EXCP[i]<<endl;
         //}
     }
     return 0;
@@ -245,13 +245,13 @@ void SUR_MR::SetValue(const char *key, float value) {
     string sk(key);
     if (StringMatch(key, VAR_OMP_THREADNUM)) { SetOpenMPThread((int) value); }
     else if (StringMatch(sk, Tag_HillSlopeTimeStep)) {
-        m_dt = value;
-        //else if (StringMatch(sk, VAR_T_SNOW))m_tSnow = value;
+        DT_HS = value;
+        //else if (StringMatch(sk, VAR_T_SNOW))T_snow = value;
         //else if (StringMatch(sk, VAR_T0))m_t0 = value;
-    } else if (StringMatch(sk, VAR_T_SOIL)) { m_tFrozen = value; }
-    else if (StringMatch(sk, VAR_K_RUN)) { m_kRunoff = value; }
-    else if (StringMatch(sk, VAR_P_MAX)) { m_pMax = value; }
-    else if (StringMatch(sk, VAR_S_FROZEN)) { m_sFrozen = value; }
+    } else if (StringMatch(sk, VAR_T_SOIL)) { t_soil = value; }
+    else if (StringMatch(sk, VAR_K_RUN)) { K_run = value; }
+    else if (StringMatch(sk, VAR_P_MAX)) { P_max = value; }
+    else if (StringMatch(sk, VAR_S_FROZEN)) { s_frozen = value; }
     else {
         throw ModelException(MID_SUR_MR, "SetValue", "Parameter " + sk + " does not exist.");
     }
@@ -261,17 +261,17 @@ void SUR_MR::Set1DData(const char *key, int n, float *data) {
     CheckInputSize(key, n);
     //set the value
     string sk(key);
-    if (StringMatch(sk, VAR_RUNOFF_CO)) { m_runoffCo = data; }
-    else if (StringMatch(sk, VAR_NEPR)) { m_pNet = data; }
-    else if (StringMatch(sk, VAR_TMEAN)) { m_tMean = data; }
-    else if (StringMatch(sk, VAR_MOIST_IN)) { m_initSoilStorage = data; }
-    else if (StringMatch(sk, VAR_DPST)) { m_sd = data; }
-    else if (StringMatch(sk, VAR_SOTE)) { m_soilTemp = data; }
-    else if (StringMatch(sk, VAR_SOILLAYERS)) { m_soilLayers = data; }
-    else if (StringMatch(sk, VAR_SOL_SUMSAT)) { m_sol_sumsat = data; }
-    else if (StringMatch(sk, VAR_POT_VOL)) { m_potVol = data; }
+    if (StringMatch(sk, VAR_RUNOFF_CO)) { Runoff_co = data; }
+    else if (StringMatch(sk, VAR_NEPR)) { NEPR = data; }
+    else if (StringMatch(sk, VAR_TMEAN)) { TMEAN = data; }
+    else if (StringMatch(sk, VAR_MOIST_IN)) { Moist_in = data; }
+    else if (StringMatch(sk, VAR_DPST)) { DPST = data; }
+    else if (StringMatch(sk, VAR_SOTE)) { SOTE = data; }
+    else if (StringMatch(sk, VAR_SOILLAYERS)) { soillayers = data; }
+    else if (StringMatch(sk, VAR_SOL_SUMSAT)) { sol_sumul = data; }
+    else if (StringMatch(sk, VAR_POT_VOL)) { pot_vol = data; }
     else if (StringMatch(sk, VAR_IMPOUND_TRIG)) {
-        m_impoundTrig = data;
+        impound_trig = data;
         //else if (StringMatch(sk, VAR_SNAC))m_snowAccu = data;
         //else if (StringMatch(sk, VAR_SNME))m_snowMelt = data;
     } else {
@@ -282,11 +282,11 @@ void SUR_MR::Set1DData(const char *key, int n, float *data) {
 void SUR_MR::Set2DData(const char *key, int nrows, int ncols, float **data) {
     string sk(key);
     CheckInputSize(key, nrows);
-    m_nSoilLayers = ncols;
+    nSoilLayers = ncols;
     if (StringMatch(sk, VAR_SOL_AWC)) {
-        m_sol_awc = data;
+        sol_awc = data;
         //else if (StringMatch(sk, VAR_FIELDCAP))m_fieldCap = data;
-        //else if (StringMatch(sk, VAR_SOILTHICK))m_soilThick = data;
+        //else if (StringMatch(sk, VAR_SOILTHICK))soilthick = data;
         //else if (StringMatch(sk, VAR_POROST))m_porosity = data;
     } else {
         throw ModelException(MID_SUR_MR, "Set2DData", "Parameter " + sk + " does not exist.");
@@ -297,10 +297,10 @@ void SUR_MR::Get1DData(const char *key, int *n, float **data) {
     initialOutputs();
     string sk(key);
     if (StringMatch(sk, VAR_INFIL)) {
-        *data = m_infil;     //infiltration
+        *data = INFIL;     //infiltration
     } else if (StringMatch(sk, VAR_EXCP)) {
-        *data = m_pe; // excess precipitation
-    } else if (StringMatch(sk, VAR_SOL_SW)) { *data = m_soilStorageProfile; }
+        *data = EXCP; // excess precipitation
+    } else if (StringMatch(sk, VAR_SOL_SW)) { *data = solsw; }
     else {
         throw ModelException(MID_SUR_MR, "Get1DData", "Result " + sk + " does not exist.");
     }
@@ -311,9 +311,9 @@ void SUR_MR::Get2DData(const char *key, int *nRows, int *nCols, float ***data) {
     initialOutputs();
     string sk(key);
     *nRows = m_nCells;
-    *nCols = m_nSoilLayers;
+    *nCols = nSoilLayers;
     if (StringMatch(sk, VAR_SOL_ST)) {
-        *data = m_soilStorage;
+        *data = solst;
     } else {
         throw ModelException(MID_SUR_MR, "Get2DData", "Output " + sk + " does not exist.");
     }

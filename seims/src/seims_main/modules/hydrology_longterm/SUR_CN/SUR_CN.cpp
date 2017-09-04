@@ -172,7 +172,7 @@ int SUR_CN::Execute() {
             snm = m_SM[iCell];
         }
 
-        ///t = (m_tMin[iCell] + m_tMax[iCell]) / 2; /// replaced by m_tMean directly. LJ
+        ///t = (m_tMin[iCell] + m_tMax[iCell]) / 2; /// replaced by TMEAN directly. LJ
         t = m_tMean[iCell];
         //account for the effects of snowmelt and soil temperature
         // snow, without snow melt
@@ -209,8 +209,8 @@ int SUR_CN::Execute() {
                 por += m_porosity[iCell][j] * m_upSoilDepth[j];
                 //aboveDepth += m_depth[j];
             }
-            //sm += m_soilMoisture[i][m_nSoilLayers - 1] * (m_rootDepth[i] - aboveDepth);
-            //por += m_porosity[i][m_nSoilLayers - 1] * (m_rootDepth[i] - aboveDepth);
+            //sm += m_soilMoisture[i][nSoilLayers - 1] * (m_rootDepth[i] - aboveDepth);
+            //por += m_porosity[i][nSoilLayers - 1] * (m_rootDepth[i] - aboveDepth);
 
             sm /= por;
             sm = min(sm, 1.0f);
@@ -410,8 +410,8 @@ void SUR_CN::initalW1W2() {
             wsat += m_porosity[i][j] * m_upSoilDepth[j];
             //aboveDepth += m_upSoilDepth[j];
         }
-        /* fieldcap += m_fieldCap[i][m_nSoilLayers - 1] * (m_rootDepth[i] - aboveDepth);
-         wsat += m_porosity[i][m_nSoilLayers - 1] * (m_rootDepth[i] - aboveDepth);*/
+        /* fieldcap += m_fieldCap[i][nSoilLayers - 1] * (m_rootDepth[i] - aboveDepth);
+         wsat += m_porosity[i][nSoilLayers - 1] * (m_rootDepth[i] - aboveDepth);*/
 
         float cnn = m_CN2[i];
         //float fieldcap = m_fieldCap[i] * m_rootDepth[i];

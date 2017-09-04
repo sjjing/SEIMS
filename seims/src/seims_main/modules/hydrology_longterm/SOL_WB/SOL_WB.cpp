@@ -1,21 +1,21 @@
 #include "seims.h"
 #include "SOL_WB.h"
 
-SOL_WB::SOL_WB(void) : m_nCells(-1), m_nSoilLayers(-1), m_soilLayers(NULL), m_soilThick(NULL), m_soilZMX(NULL),
-                       m_pNet(NULL), m_Infil(NULL), m_ES(NULL), m_Revap(NULL),
-                       m_RI(NULL), m_Perco(NULL), m_soilStorage(NULL),
-                       m_subbasinsInfo(NULL), m_nSubbasins(-1),
-                       m_PCP(NULL), m_Interc(NULL), m_EI(NULL), m_Dep(NULL), m_ED(NULL),
-                       m_RS(NULL), m_RG(NULL), m_SE(NULL), m_tMean(NULL), m_SoilT(NULL),
-                       m_soilWaterBalance(NULL) {
+SOL_WB::SOL_WB(void) : m_nCells(-1), nSoilLayers(-1), soillayers(NULL), soilthick(NULL), SOL_ZMX(NULL),
+                       NEPR(NULL), INFIL(NULL), SOET(NULL), Revap(NULL),
+                       SSRU(NULL), Perco(NULL), solst(NULL),
+                       m_subbasinsInfo(NULL), nSubbasins(-1),
+                       D_P(NULL), INLO(NULL), INET(NULL), DPST(NULL), DEET(NULL),
+                       SURU(NULL), RG(NULL), SNSB(NULL), TMEAN(NULL), SOTE(NULL),
+                       SOWB(NULL) {
 }
 
 SOL_WB::~SOL_WB(void) {
-    if (m_soilWaterBalance != NULL) Release2DArray(m_nSubbasins + 1, m_soilWaterBalance);
+    if (SOWB != NULL) Release2DArray(nSubbasins + 1, SOWB);
 }
 
 void SOL_WB::initialOutputs() {
-    if (m_soilWaterBalance == NULL) Initialize2DArray(m_nSubbasins + 1, 16, m_soilWaterBalance, 0.f);
+    if (SOWB == NULL) Initialize2DArray(nSubbasins + 1, 16, SOWB, 0.f);
 }
 
 int SOL_WB::Execute() {
@@ -50,43 +50,43 @@ void SOL_WB::setValueToSubbasins() {
                 int cell = cells[i];
                 ri = 0.f;
                 sm = 0.f;
-                for (int j = 0; j < (int) m_soilLayers[cell]; j++) {
-                    ri += m_RI[cell][j] / float(cellsNum);
-                    sm += m_soilStorage[cell][j] / float(cellsNum);
+                for (int j = 0; j < (int) soillayers[cell]; j++) {
+                    ri += SSRU[cell][j] / float(cellsNum);
+                    sm += solst[cell][j] / float(cellsNum);
                 }
-                pcp += m_PCP[cell] / float(cellsNum);
-                meanT += m_tMean[cell] / float(cellsNum);
-                soilT += m_SoilT[cell] / float(cellsNum);
-                netPcp += m_pNet[cell] / float(cellsNum);
-                itpET += m_EI[cell] / float(cellsNum);
-                depET += m_ED[cell] / float(cellsNum);
-                infil += m_Infil[cell] / float(cellsNum);
-                totalET += (m_EI[cell] + m_ED[cell] + m_ES[cell]) / float(cellsNum); // add plant et?
-                es += m_ES[cell] / float(cellsNum);
-                netPerc += (m_Perco[cell][(int) m_soilLayers[cell] - 1] - m_Revap[cell]) / float(cellsNum);
-                revap += m_Revap[cell] / float(cellsNum);
-                rs += m_RS[cell] / float(cellsNum);
-                r += (m_RS[cell] + ri) / float(cellsNum);
+                pcp += D_P[cell] / float(cellsNum);
+                meanT += TMEAN[cell] / float(cellsNum);
+                soilT += SOTE[cell] / float(cellsNum);
+                netPcp += NEPR[cell] / float(cellsNum);
+                itpET += INET[cell] / float(cellsNum);
+                depET += DEET[cell] / float(cellsNum);
+                infil += INFIL[cell] / float(cellsNum);
+                totalET += (INET[cell] + DEET[cell] + SOET[cell]) / float(cellsNum); // add plant et?
+                es += SOET[cell] / float(cellsNum);
+                netPerc += (Perco[cell][(int) soillayers[cell] - 1] - Revap[cell]) / float(cellsNum);
+                revap += Revap[cell] / float(cellsNum);
+                rs += SURU[cell] / float(cellsNum);
+                r += (SURU[cell] + ri) / float(cellsNum);
             }
-            float rg = m_RG[*it];
+            float rg = RG[*it];
             r += rg;
 
-            m_soilWaterBalance[*it][0] = pcp;
-            m_soilWaterBalance[*it][1] = meanT;
-            m_soilWaterBalance[*it][2] = soilT;
-            m_soilWaterBalance[*it][3] = netPcp;
-            m_soilWaterBalance[*it][4] = itpET;
-            m_soilWaterBalance[*it][5] = depET;
-            m_soilWaterBalance[*it][6] = infil;
-            m_soilWaterBalance[*it][7] = totalET;
-            m_soilWaterBalance[*it][8] = es;
-            m_soilWaterBalance[*it][9] = netPerc;
-            m_soilWaterBalance[*it][10] = revap;
-            m_soilWaterBalance[*it][11] = rs;
-            m_soilWaterBalance[*it][12] = ri;
-            m_soilWaterBalance[*it][13] = rg;
-            m_soilWaterBalance[*it][14] = r;
-            m_soilWaterBalance[*it][15] = sm;
+            SOWB[*it][0] = pcp;
+            SOWB[*it][1] = meanT;
+            SOWB[*it][2] = soilT;
+            SOWB[*it][3] = netPcp;
+            SOWB[*it][4] = itpET;
+            SOWB[*it][5] = depET;
+            SOWB[*it][6] = infil;
+            SOWB[*it][7] = totalET;
+            SOWB[*it][8] = es;
+            SOWB[*it][9] = netPerc;
+            SOWB[*it][10] = revap;
+            SOWB[*it][11] = rs;
+            SOWB[*it][12] = ri;
+            SOWB[*it][13] = rg;
+            SOWB[*it][14] = r;
+            SOWB[*it][15] = sm;
         }
     }
 }
@@ -94,8 +94,8 @@ void SOL_WB::setValueToSubbasins() {
 void SOL_WB::Set1DData(const char *key, int nRows, float *data) {
     string s(key);
     if (StringMatch(s, VAR_RG)) {
-        m_RG = data;
-        if (m_nSubbasins != nRows - 1) {
+        RG = data;
+        if (nSubbasins != nRows - 1) {
             throw ModelException(MID_SOL_WB, "Set1DData",
                                  "The size of groundwater runoff should be equal to (subbasin number + 1)!");
         }
@@ -103,35 +103,35 @@ void SOL_WB::Set1DData(const char *key, int nRows, float *data) {
     }
     CheckInputSize(key, nRows);
     if (StringMatch(s, VAR_SOILLAYERS)) {
-        m_soilLayers = data;
+        soillayers = data;
     } else if (StringMatch(s, VAR_SOL_ZMX)) {
-        m_soilZMX = data;
+        SOL_ZMX = data;
     } else if (StringMatch(s, VAR_NEPR)) {
-        m_pNet = data;
+        NEPR = data;
     } else if (StringMatch(s, VAR_INFIL)) {
-        m_Infil = data;
+        INFIL = data;
     } else if (StringMatch(s, VAR_SOET)) {
-        m_ES = data;
+        SOET = data;
     } else if (StringMatch(s, VAR_REVAP)) {
-        m_Revap = data;
+        Revap = data;
     } else if (StringMatch(s, VAR_PCP)) {
-        m_PCP = data;
+        D_P = data;
     } else if (StringMatch(s, VAR_INLO)) {
-        m_Interc = data;
+        INLO = data;
     } else if (StringMatch(s, VAR_INET)) {
-        m_EI = data;
+        INET = data;
     } else if (StringMatch(s, VAR_DEET)) {
-        m_ED = data;
+        DEET = data;
     } else if (StringMatch(s, VAR_DPST)) {
-        m_Dep = data;
+        DPST = data;
     } else if (StringMatch(s, VAR_SURU)) {
-        m_RS = data;
+        SURU = data;
     } else if (StringMatch(s, VAR_SNSB)) {
-        m_SE = data;
+        SNSB = data;
     } else if (StringMatch(s, VAR_TMEAN)) {
-        m_tMean = data;
+        TMEAN = data;
     } else if (StringMatch(s, VAR_SOTE)) {
-        m_SoilT = data;
+        SOTE = data;
     } else {
         throw ModelException(MID_SOL_WB, "Set1DData", "Parameter " + s + " does not exist in current module.");
     }
@@ -140,15 +140,15 @@ void SOL_WB::Set1DData(const char *key, int nRows, float *data) {
 void SOL_WB::Set2DData(const char *key, int nrows, int ncols, float **data) {
     string s(key);
     CheckInputSize(key, nrows);
-    m_nSoilLayers = ncols;
+    nSoilLayers = ncols;
     if (StringMatch(s, VAR_PERCO)) {
-        m_Perco = data;
+        Perco = data;
     } else if (StringMatch(s, VAR_SSRU)) {
-        m_RI = data;
+        SSRU = data;
     } else if (StringMatch(s, VAR_SOL_ST)) {
-        m_soilStorage = data;
+        solst = data;
     } else if (StringMatch(s, VAR_SOILTHICK)) {
-        m_soilThick = data;
+        soilthick = data;
     } else {
         throw ModelException(MID_SOL_WB, "Set2DData", "Parameter " + s + " does not exist in current module.");
     }
@@ -157,7 +157,7 @@ void SOL_WB::Set2DData(const char *key, int nrows, int ncols, float **data) {
 void SOL_WB::SetSubbasins(clsSubbasins *subbasins) {
     if (m_subbasinsInfo == NULL) {
         m_subbasinsInfo = subbasins;
-        m_nSubbasins = m_subbasinsInfo->GetSubbasinNumber();
+        nSubbasins = m_subbasinsInfo->GetSubbasinNumber();
         m_subbasinIDs = m_subbasinsInfo->GetSubbasinIDs();
     }
 }
@@ -167,9 +167,9 @@ void SOL_WB::Get2DData(const char *key, int *nRows, int *nCols, float ***data) {
     string s(key);
     if (StringMatch(s, VAR_SOWB)) {
         setValueToSubbasins();
-        *nRows = m_nSubbasins + 1;
+        *nRows = nSubbasins + 1;
         *nCols = 16;
-        *data = m_soilWaterBalance;
+        *data = SOWB;
     } else {
         throw ModelException(MID_SOL_WB, "Get2DData", "Result " + s + " does not exist in current module.");
     }
@@ -181,39 +181,39 @@ void SOL_WB::CheckInputData() {
         throw ModelException(MID_SOL_WB, "CheckInputData",
                              "The dimension of the input data can not be less than zero.");
     }
-    if (m_soilLayers == NULL) {
+    if (soillayers == NULL) {
         throw ModelException(MID_SOL_WB, "CheckInputData", "The soil layers number can not be NULL.");
     }
-    if (m_soilZMX == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The root depth can not be NULL.");
-    if (m_soilThick == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The soil thickness can not be NULL.");
-    if (m_pNet == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The net precipitation can not be NULL.");
-    if (m_Infil == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The infiltration can not be NULL.");
-    if (m_ES == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The evaporation of soil can not be NULL.");
-    if (m_Revap == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The revaporization can not be NULL.");
-    if (m_RI == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The subsurface runoff can not be NULL.");
-    if (m_Perco == NULL) {
+    if (SOL_ZMX == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The root depth can not be NULL.");
+    if (soilthick == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The soil thickness can not be NULL.");
+    if (NEPR == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The net precipitation can not be NULL.");
+    if (INFIL == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The infiltration can not be NULL.");
+    if (SOET == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The evaporation of soil can not be NULL.");
+    if (Revap == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The revaporization can not be NULL.");
+    if (SSRU == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The subsurface runoff can not be NULL.");
+    if (Perco == NULL) {
         throw ModelException(MID_SOL_WB, "CheckInputData", "The percolation data can not be NULL.");
     }
-    if (m_soilStorage == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The soil moisture can not be NULL.");
+    if (solst == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The soil moisture can not be NULL.");
     //if (m_subbasin == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The subbasion can not be NULL.");
-    if (m_PCP == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The precipitation can not be NULL.");
-    if (m_Interc == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The interception can not be NULL.");
-    if (m_Dep == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The depression data can not be NULL.");
-    if (m_ED == NULL) {
+    if (D_P == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The precipitation can not be NULL.");
+    if (INLO == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The interception can not be NULL.");
+    if (DPST == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The depression data can not be NULL.");
+    if (DEET == NULL) {
         throw ModelException(MID_SOL_WB, "CheckInputData", "The evaporation of depression can not be NULL.");
     }
-    if (m_EI == NULL) {
+    if (INET == NULL) {
         throw ModelException(MID_SOL_WB, "CheckInputData", "The evaporation of interception can not be NULL.");
     }
-    if (m_RG == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The runoff of groundwater can not be NULL.");
-    if (m_RS == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The runoff of surface can not be NULL.");
-    //if(m_SE == NULL) throw ModelException(MID_SOL_WB,"CheckInputData","The snow sublimation can not be NULL."); /// OPTIONAL
-    if (m_tMean == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The mean temperature can not be NULL.");
+    if (RG == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The runoff of groundwater can not be NULL.");
+    if (SURU == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The runoff of surface can not be NULL.");
+    //if(SNSB == NULL) throw ModelException(MID_SOL_WB,"CheckInputData","The snow sublimation can not be NULL."); /// OPTIONAL
+    if (TMEAN == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The mean temperature can not be NULL.");
     //if (m_tMin == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The min temperature can not be NULL.");
     //if (m_tMax == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The max temperature can not be NULL.");
-    if (m_SoilT == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The soil temperature can not be NULL.");
+    if (SOTE == NULL) throw ModelException(MID_SOL_WB, "CheckInputData", "The soil temperature can not be NULL.");
 
-    if (m_nSubbasins <= 0) {
+    if (nSubbasins <= 0) {
         throw ModelException(MID_SOL_WB, "CheckInputData", "The subbasins number must be greater than 0.");
     }
     if (m_subbasinIDs.empty()) throw ModelException(MID_SOL_WB, "CheckInputData", "The subbasin IDs can not be EMPTY.");

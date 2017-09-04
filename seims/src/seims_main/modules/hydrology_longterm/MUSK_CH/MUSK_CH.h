@@ -8,11 +8,13 @@
  * \date 18-Sep-2016
  * \description: 1. Add point source loadings from Scenario.
  *               2. Assume the channels have a trapezoidal shape
- *               3. Add m_chBtmWidth as variable intermediate parameter
- *               4. Add m_chSideSlope (default is 2) as input parameter from MongoDB, which is the ratio of run to rise
+ *               3. Add chbtmwidth as variable intermediate parameter
+ *               4. Add chSideSlope (default is 2) as input parameter from MongoDB, which is the ratio of run to rise
  *               5. Add several variables to store values in previous time step, which will be use in QUAL2E etc.
  */
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 #include "Scenario.h"
 
@@ -73,123 +75,205 @@ public:
 
     virtual TimeStepType GetTimeStepType(void) { return TIMESTEP_CHANNEL; };
 
-private:
-    //!
-    float m_vScalingFactor;
+	/// upstream id (The value is -1 if there if no upstream reach)
+	vector <vector<int>> m_reachUpStream;
 
-    /// time step (sec)
-    int m_dt;
-    /// reach number (= subbasin number)
-    int m_nreach;
-    /// outlet ID
-    int m_outletID;
-    /// The point source discharge (m3/s), m_ptSub[id], id is the reach id, load from m_Scenario
-    float *m_ptSub;
+	// the reaches id 
+	vector<int> m_reachId;
 
-    /// hydraulic conductivity of the channel bed (mm/h)
-    float m_Kchb;
-    /// hydraulic conductivity of the channel bank (mm/h)
-    float m_Kbank;
-    /// reach evaporation adjustment factor;
-    float m_Epch;
-    /// initial bank storage per meter of reach length (m3/m)
-    float m_Bnk0;
-    /// initial channel storage per meter of reach length (m3/m)
-    //float m_Chs0;
+	/* point source operations
+	* key: unique index, BMPID * 100000 + subScenarioID
+	* value: point source management factory instance
+	*/
+	map<int, BMPPointSrcFactory *> m_ptSrcFactory;
 
-    /// inverse of the channel side slope, by default is 2.
-    float *m_chSideSlope;
-    /// initial percentage of channel volume
-    float m_Chs0_perc;
-    /// the initial volume of transmission loss to the deep aquifer over the time interval (m3/s)
-    float m_Vseep0;
-    /// bank flow recession constant
-    float m_aBank;
-    /// bank storage loss coefficient
-    float m_bBank;
-    ///subbasin grid
-    float *m_subbasin;
-    /// the subbasin area (m2)  //add to the reach parameters file
-    float *m_area;
+	/*!
+	* reach layers
+	* key: stream order
+	* value: reach ID
+	*/
+	map<int, vector<int> > m_reachLayers;
 
-    /// Average PET for each subbasin
-    float *m_petCh;
+	// @In
+	// @Description flow velocity scaling factor for calibration
+    float VelScaleFactor;
 
-    /// overland flow to streams from each subbasin (m3/s)
-    float *m_qsSub;
-    /// interflow to streams from each subbasin (m3/s)
-    float *m_qiSub;
-    /// groundwater flow out of the subbasin (m3/s)
-    float *m_qgSub;
-    ///  Groundwater storage (mm) of the subbasin
-    float *m_gwStorage;
+	// @In
+	// @Description time step (sec)
+    int DT_CH;
 
-    /// channel outflow
-    float *m_qsCh;
-    float *m_qiCh;
-    float *m_qgCh;
-    /// channel order
-    float *m_chOrder;
-    /// channel width (m)
-    float *m_chWidth;
-    /// channel water width (m)
-    float *m_chWTWidth;
-    /// bottom width of channel (m)
-    float *m_chBtmWidth;
-    /// channel depth (m)
-    float *m_chDepth;
-    /// channel water depth (m)
-    float *m_chWTdepth;
-    /// channel water depth of previous timestep (m)
-    float *m_preChWTDepth;
-    /// channel length (m)
-    float *m_chLen;
-    /// channel flow velocity (m/s)
-    float *m_chVel;
-    /// bank storage (m^3)
-    float *m_bankStorage;
-    /// groundwater recharge to channel or perennial base flow, m^3/s
-    float m_deepGroundwater;
+	// @In
+	// @Description reach number (= subbasin number)
+    int nreach;
 
-    /// seepage to deep aquifer
-    float *m_seepage;
+	// @In
+	// @Description outlet ID
+    int outletID;
 
-    /// downstream id (The value is 0 if there if no downstream reach)
-    float *m_reachDownStream;
-    /// upstream id (The value is -1 if there if no upstream reach)
-    vector <vector<int>> m_reachUpStream;
+	// @In
+	// @Description The point source discharge (m3/s), ptSub[id], id is the reach id, load from m_Scenario
+    float *ptSub;
 
-    // the reaches id 
-    //float *m_reachId;
-    vector<int> m_reachId;
-    // for muskingum
-    float m_x;
-    float m_co1;
-    // IS THIS USEFUL? BY LJ
-    float m_qUpReach;
+	// @In
+	// @Description hydraulic conductivity of the channel bed (mm/h)
+    float K_chb;
+
+	// @In
+	// @Description hydraulic conductivity of the channel bank (mm/h)
+    float K_bank;
+
+	// @In
+	// @Description reach evaporation adjustment factor;
+    float Ep_ch;
+
+	// @In
+	// @Description initial bank storage per meter of reach length (m3/m)
+    float Bnk0;
+    
+	// @In
+	// @Description inverse of the channel side slope, by default is 2.
+    float *chSideSlope;
+
+	// @In
+	// @Description initial percentage of channel volume
+    float chs0_perc;
+
+	// @In
+	// @Description the initial volume of transmission loss to the deep aquifer over the time interval (m3/s)
+    float Vseep0;
+
+	// @In
+	// @Description bank flow recession constant
+    float a_bnk;
+
+	// @In
+	// @Description bank storage loss coefficient
+    float b_bnk;
+
+	// @In
+	// @Description subbasin grid
+    float *subbasin;
+
+	// @In
+	// @Description the subbasin area (m2)  //add to the reach parameters file
+    float *area;
+
+	// @In
+	// @Description Average PET for each subbasin
+    float *SBPET;
+
+	// @In
+	// @Description overland flow to streams from each subbasin (m3/s)
+    float *SBOF;
+
+	// @In
+	// @Description interflow to streams from each subbasin (m3/s)
+    float *SBIF;
+
+	// @In
+	// @Description groundwater flow out of the subbasin (m3/s)
+    float *SBQG;
+
+	// @In
+	// @Description Groundwater storage (mm) of the subbasin
+    float *SBGS;
+
+	// @Out
+	// @Description channel outflow
+    float *QS;
+
+	// @Out
+	// @Description channel outflow
+    float *QI;
+
+	// @Out
+	// @Description channel outflow
+    float *QG;
+
+	// @In
+	// @Description channel order
+    float *chOrder;
+
+	// @In
+	// @Description channel width (m)
+    float *chWidth;
+
+	// @Out
+	// @Description channel water width (m)
+    float *chwtwidth;
+
+	// @Out
+	// @Description bottom width of channel (m)
+    float *chbtmwidth;
+
+	// @In
+	// @Description channel depth (m)
+    float *chDepth;
+
+	// @Out
+	// @Description channel water depth (m)
+    float *CHWTDEPTH;
+
+	// @Out
+	// @Description channel water depth of previous timestep (m)
+    float *prechwtdepth;
+
+	// @In
+	// @Description channel length (m)
+    float *chLen;
+
+	// @In
+	// @Description channel flow velocity (m/s)
+    float *chVel;
+
+	// @Out
+	// @Description bank storage (m^3)
+    float *BKST;
+
+	// @In
+	// @Description groundwater recharge to channel or perennial base flow, m^3/s
+    float GWRQ;
+
+	// @Out
+	// @Description seepage to deep aquifer
+    float *SEEPAGE;
+
+	// @In
+	// @Description downstream id (The value is 0 if there if no downstream reach)
+    float *reachDownStream;
+   
+	// @In
+	// @Description for muskingum
+    float MSK_X;
+
+	// @In
+	// @Description for muskingum
+    float MSK_co1;
+
+	// @In
+	// @Description IS THIS USEFUL? BY LJ
+    float QUPREACH;
+
     /// scenario data
 
-    /* point source operations
-     * key: unique index, BMPID * 100000 + subScenarioID
-     * value: point source management factory instance
-     */
-    map<int, BMPPointSrcFactory *> m_ptSrcFactory;
     //temporary at routing time
 
-    /// reach storage (m^3) at time, t
-    float *m_chStorage;
-    /// reach storage (m^3) at previous time step, t-1
-    float *m_preChStorage;
-    /// reach outflow (m3/s) at time, t
-    float *m_qOut;
-    /// flowin discharge at the last time step
-    float *m_qIn;
-    /*!
-     * reach layers
-     * key: stream order
-     * value: reach ID
-     */
-    map<int, vector<int> > m_reachLayers;
+	// @Out
+	// @Description reach storage (m^3) at time, t
+    float *CHST;
+
+	// @Out
+	// @Description reach storage (m^3) at previous time step, t-1
+    float *preCHST;
+
+	// @Out
+	// @Description reach outflow (m3/s) at time, t
+    float *QRECH;
+
+	// @In
+	// @Description flowin discharge at the last time step
+    float *qIn;
+    
 
     void initialOutputs(void);
 
@@ -204,3 +288,7 @@ private:
     void updateWaterWidthDepth(int i);
 };
 
+VISITABLE_STRUCT(MUSK_CH, VelScaleFactor, DT_CH, nreach, outletID, ptSub, K_chb, K_bank, Ep_ch, Bnk0, chSideSlope, chs0_perc, 
+	Vseep0, a_bnk, b_bnk, subbasin, area, SBPET, SBOF, SBIF, SBQG, SBGS, QS, QI, QG, chOrder, chWidth, chwtwidth, chbtmwidth, 
+	CHWTDEPTH, prechwtdepth, chLen, chVel, BKST, GWRQ, SEEPAGE, reachDownStream, MSK_X, MSK_co1, QUPREACH, CHST, preCHST, 
+	QRECH, qIn);

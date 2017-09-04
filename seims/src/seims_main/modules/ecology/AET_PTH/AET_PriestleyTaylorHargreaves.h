@@ -11,6 +11,8 @@
  *               2. VAR_SNSB should be output other than input.
  */
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -27,52 +29,92 @@ using namespace std;
  * Actual soil evaporation is also calculated.
  */
 class AET_PT_H : public SimulationModule {
-private:
-    /// valid cells number
+
+	// @In
+	// @Description valid cells number
     int m_nCells;
-    /// leaf area index(m^2/m^2)
-    float *m_lai;
-    /// potential evapotranspiration on current day
-    float *m_pet;
-    /// Evaporation loss from canopy storage
-    float *m_canEvp;
-    /// depression storage capacity
-    float *m_depSt;
-    /// soil evaporation compensation factor, if not set or existed, it will be assigned 0.95 as default.
-    /// esco should be vary from 0.01 to 1.0
-    float *m_esco;
-    /// soil layers
-    float *m_nSoilLayers;
-    /// maximum soil layers, mlyr in SWAT
-    int m_soilLayers;
-    /// soil depth
-    float **m_soilDepth;
-    /// soil thickness
-    float **m_soilThick;
-    /// amount of water available to plants in soil layer at field capacity (FC-WP)
-    float **m_solFC;
-    /// amount of residue on soil surface (kg/ha)
-    float *m_solCov;
-    /// amount of nitrogen stored in the nitrate pool
-    float **m_solNo3;
-    /// mean air temperature (deg C)
-    float *m_tMean;
-    /// amount of water in snow on current day
-    float *m_snowAcc;
-    /// snow sublimation on current day
-    float *m_snowSB;
-    /// soil storage of each soil layer, mm H2O
-    float **m_soilStorage;
-    /// soil water storage in soil profile (mm)
-    float *m_soilStorageProfile;
+
+	// @In
+	// @Description leaf area index(m^2/m^2)
+    float *LAIDAY;
+
+	// @In
+	// @Description potential evapotranspiration on current day
+    float *PET;
+
+	// @In
+	// @Description Evaporation loss from canopy storage
+    float *INET;
+
+	// not used
+	// depression storage capacity
+    // float *m_depSt;
+
+	// @In
+	// @Description soil evaporation compensation factor, if not set or existed, it will be assigned 0.95 as default£¬should be vary from 0.01 to 1.0
+    float *esco;
+
+	// @In
+	// @Description soil layers
+    float *soillayers;
+
+	// @In
+	// @Description maximum soil layers, mlyr in SWAT
+    int soilLayers;
+
+	// @In
+	// @Description soil depth
+    float **soilDepth;
+
+	// @In
+	// @Description soil thickness
+    float **soilthick;
+
+	// @In
+	// @Description amount of water available to plants in soil layer at field capacity (FC-WP)
+    float **sol_awc;
+
+	// @In
+	// @Description amount of residue on soil surface (kg/ha)
+    float *sol_cov;
+
+	// @In
+	// @Description amount of nitrogen stored in the nitrate pool
+    float **sol_no3;
+
+	// @In
+	// @Description mean air temperature (deg C)
+    float *TMEAN;
+
+	// @In
+	// @Description amount of water in snow on current day
+    float *SNAC;
+
+	// @In
+	// @Description snow sublimation on current day
+    float *SNSB;
+
+	// @In
+	// @Description soil storage of each soil layer, mm H2O
+    float **solst;
+
+	// @In
+	// @Description soil water storage in soil profile (mm)
+    float *solsw;
+
     /// add output variables
 
-    /// maximum amount of transpiration (plant et)  that can occur on current day in HRU, ep_max in SWAT
-    float *m_ppt;
-    /// actual amount of evaporation (soil et) that occurs on day, es_day in SWAT
-    float *m_soilESDay;
-    /// amount of nitrate moving upward in the soil profile in watershed
-    float m_no3Up;
+	// @Out
+	// @Description maximum amount of transpiration (plant et)  that can occur on current day in HRU, ep_max in SWAT
+    float *PPT;
+
+	// @Out
+	// @Description actual amount of evaporation (soil et) that occurs on day, es_day in SWAT
+    float *SOET;
+
+	// @Out
+	// @Description amount of nitrate moving upward in the soil profile in watershed
+    float sno3up;
 
 public:
     //! Constructor
@@ -111,3 +153,6 @@ private:
     //! initialize outputs
     void initialOutputs(void);
 };
+
+VISITABLE_STRUCT(AET_PT_H, m_nCells, LAIDAY, PET, INET, esco, soillayers, soilLayers, soilDepth, soilthick,
+	sol_awc, sol_cov, sol_no3, TMEAN, SNAC, SNSB, solst, solsw, PPT, SOET, sno3up);

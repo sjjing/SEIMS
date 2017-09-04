@@ -664,7 +664,7 @@
 #define VAR_K_L "k_l"
 #define VAR_K_N "k_n"
 #define VAR_K_P "k_p"
-#define VAR_K_PET "K_pet"                           /// Correction factor for PET
+#define VAR_K_PET "K_pet"                           /// Correction factor for pet
 #define VAR_K_RUN "K_run"
 #define VAR_K_SOIL10 "k_soil10"
 #define VAR_K_SUBLI "K_subli"

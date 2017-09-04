@@ -247,7 +247,7 @@ int PETPenmanMonteith::Execute() {
         //The albedo would be obtained from plant growth module. But now it is assumed to be a constant.
         //After the plant growth module is completed, the following codes should be removed.
         //float albedo = 0.8f;
-        //if(m_tMean[j] > this->m_tSnow) albedo = 0.23f;
+        //if(TMEAN[j] > this->T_snow) albedo = 0.23f;
         //// m_albedo is calculated by BIO_EPIC module. By LJ, Jun., 2016
         //*********************************************************
         // calculate net short-wave radiation for max plant PET

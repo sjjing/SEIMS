@@ -27,6 +27,8 @@
 *---------------------------------------------------------------------*/
 
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -62,34 +64,51 @@ public:
 
     bool CheckInputData(void);
 
-private:
-    /// valid cells number
+	// @In
+	// @Description valid cells number
     int m_nCells;
-    /// impound/release
-    float *m_impoundTriger;
-    /// pothole volume, mm
-    float *m_potVol;
-    /// initial depression storage coefficient
-    float m_depCo;
-    /// depression storage capacity (mm)
-    float *m_depCap;
 
-    /// pet
-    float *m_pet;
-    /// evaporation from the interception storage
-    float *m_ei;
+	// @In
+	// @Description impound/release
+    float *impound_trig;
 
-    /// excess precipitation calculated in the infiltration module
-    float *m_pe;
+	// @In
+	// @Description pothole volume, mm
+    float *pot_vol;
+
+	// @In
+	// @Description initial depression storage coefficient
+    float Depre_in;
+
+	// @In
+	// @Description depression storage capacity (mm)
+    float *Depression;
+
+	// @In
+	// @Description pet
+    float *PET;
+
+	// @In
+	// @Description evaporation from the interception storage
+    float *INET;
+
+	// @In
+	// @Description excess precipitation calculated in the infiltration module
+    float *EXCP;
 
     // state variables (output)
 
-    /// depression storage
-    float *m_sd;
-    /// evaporation from depression storage
-    float *m_ed;
-    /// surface runoff
-    float *m_sr;
+	// @Out
+	// @Description depression storage
+    float *DPST;
+
+	// @Out
+	// @Description evaporation from depression storage
+    float *DEET;
+
+	// @Out
+	// @Description surface runoff
+    float *SURU;
 
     /*!
      * \brief Initialize output variables
@@ -105,3 +124,4 @@ private:
     void initialOutputs(void);
 };
 
+VISITABLE_STRUCT(DepressionFSDaily, m_nCells, impound_trig, pot_vol, Depre_in, Depression, PET, INET, EXCP, DPST, DEET, SURU);

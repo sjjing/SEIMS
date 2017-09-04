@@ -18,6 +18,8 @@
  *               2. Change the module name from SEDR_VCD to SEDR_SBAGNOLD
  */
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -65,96 +67,190 @@ public:
     bool CheckInputData(void);
 
     virtual TimeStepType GetTimeStepType(void) { return TIMESTEP_CHANNEL; };
-private:
-    /// time step (sec)
-    int m_dt;
-    /// reach number (= subbasin number)
-    int m_nreach;
-    /// whether change channel dimensions, 0 - do not change, 1 - compute channel degredation
-    int m_VCD;
-    /// the peak rate adjustment factor
-    float m_prf;
-    /// Coefficient in sediment transport equation
-    float m_spcon;
-    /// Exponent in sediment transport equation
-    float m_spexp;
-    /// critical velocity for sediment deposition
-    float m_vcrit;
-    ///// reach cover factor
-    //float m_coverFactor;
-    ///// channel erodibility factor (cm/hr/Pa)  TODO: this should be an input parameter from database, LJ
-    //float m_erodibilityFactor;
 
-    /// sediment from subbasin (hillslope), kg
-    float *m_sedtoCh;
-    /// cross-sectional area of flow in the channel (m^2)
-    float *m_CrAreaCh;
-    /// initial channel storage per meter of reach length (m^3/m)
-    float m_Chs0;
-    /// Initial channel sediment concentration, ton/m^3, i.e., kg/L
-    float m_sedChi0;
-    /// channel outflow, m^3/s
-    float *m_qchOut;
+	/// upstream id (The value is -1 if there if no upstream reach)
+	vector <vector<int>> m_reachUpStream;
 
-    float *m_chOrder;
-    float *m_chWidth;
-    float *m_chDepth;
-    //length of reach (m)
-    float *m_chLen;
-    float *m_chVel;
-    float *m_chSlope;
-    float *m_chManning;
-    float *m_chCover;
-    float *m_chErod;
+	// id the reaches
+	vector<int> m_reachId;
 
-    /// downstream id (The value is 0 if there if no downstream reach)
-    float *m_reachDownStream;
-    /// upstream id (The value is -1 if there if no upstream reach)
-    vector <vector<int>> m_reachUpStream;
+	/* point source operations
+	* key: unique index, BMPID * 100000 + subScenarioID
+	* value: point source management factory instance
+	*/
+	map<int, BMPPointSrcFactory *> m_ptSrcFactory;
 
-    // id the reaches
-    vector<int> m_reachId;
+	map<int, vector<int> > m_reachLayers;
 
-    /* point source operations
-     * key: unique index, BMPID * 100000 + subScenarioID
-     * value: point source management factory instance
-     */
-    map<int, BMPPointSrcFactory *> m_ptSrcFactory;
-    /// The point source loading (kg), m_ptSub[id], id is the reach id, load from m_Scenario
-    float *m_ptSub;
-    /// reach storage (m^3) at time t
-    float *m_chStorage;
-    /// reach storage of previous timestep, m^3
-    float *m_preChStorage;
-    /// channel water depth, m
-    float *m_chWTdepth;
-    /// channel water depth of previous timestep, m
-    float *m_preChWTDepth;
-    /// channel bankfull width, m
-    float *m_chWTWidth;
+	// @In
+	// @Description time step (sec)
+    int TIMESTEP;
+
+	// @In
+	// @Description reach number (= subbasin number)
+    int nreach;
+
+	// @In
+	// @Description whether change channel dimensions, 0 - do not change, 1 - compute channel degredation
+    int vcd;
+
+	// @In
+	// @Description the peak rate adjustment factor
+    float p_rf;
+
+	// @In
+	// @Description Coefficient in sediment transport equation
+    float spcon;
+
+	// @In
+	// @Description Exponent in sediment transport equation
+    float spexp;
+
+	// @In
+	// @Description critical velocity for sediment deposition
+    float vcrit;
+   
+	// @In
+	// @Description sediment from subbasin (hillslope), kg
+    float *SEDTOCH;
+    
+	// @In
+	// @Description initial channel storage per meter of reach length (m^3/m)
+    float Chs0;
+
+	// @In
+	// @Description Initial channel sediment concentration, ton/m^3, i.e., kg/L
+    float sed_chi;
+
+	// @In
+	// @Description channel outflow, m^3/s
+    float *QRECH;
+
+	// @In
+	// @Description Order of reach
+    float *chOrder;
+
+	// @In
+	// @Description Width of reach
+    float *chWidth;
+
+	// @In
+	// @Description Depth of reach
+    float *chDepth;
+
+	// @In
+	// @Description length of reach (m)
+    float *chLen;
+
+	// @In
+	// @Description Vel of reach
+    float *chVel;
+
+	// @In
+	// @Description Slope of reach
+    float *chSlope;
+
+	// @In
+	// @Description Manning of reach
+    float *chManning;
+
+	// @In
+	// @Description Cover of reach
+    float *chCover;
+
+	// @In
+	// @Description Erod of reach
+    float *chErod;
+
+	// @In
+	// @Description downstream id (The value is 0 if there if no downstream reach)
+    float *reachDownStream;
+    
+	// @In
+	// @Description The point source loading (kg), ptSub[id], id is the reach id, load from m_Scenario
+    float *ptSub;
+
+	// @In
+	// @Description reach storage (m^3) at time t
+    float *CHST;
+
+	// @In
+	// @Description reach storage of previous timestep, m^3
+    float *preCHST;
+
+	// @In
+	// @Description channel water depth, m
+    float *CHWTDEPTH;
+
+	// @In
+	// @Description channel water depth of previous timestep, m
+    float *prechwtdepth;
+
+	// @In
+	// @Description channel bankfull width, m
+    float *chwtwidth;
+
     // OUTPUT
-    /// initial reach sediment out (kg) at time t
-    float *m_sedOut;
-    /// channel sediment storage (kg)
-    float *m_sedStorage;
-    /// sediment of deposition
-    float *m_sedDep;
-    /// sediment of degradation
-    float *m_sedDeg;
-    /// sediment concentration (g/L, i.e., kg/m3)
-    float *m_sedConc;
-    float *m_rchSand;
-    float *m_rchSilt;
-    float *m_rchClay;
-    float *m_rchSag;
-    float *m_rchLag;
-    float *m_rchGra;
 
-    float *m_rchBankEro;
-    float *m_rchDeg;
-    float *m_rchDep;
-    float *m_flplainDep;
-    map<int, vector<int> > m_reachLayers;
+	// @Out
+	// @Description initial reach sediment out (kg) at time t
+    float *SEDRECH;
+
+	// @Out
+	// @Description channel sediment storage (kg)
+    float *sedStorage;
+
+	// @Out
+	// @Description sediment of deposition
+    float *sedDep;
+
+	// @Out
+	// @Description sediment of degradation
+    float *sedDeg;
+
+	// @Out
+	// @Description sediment concentration (g/L, i.e., kg/m3)
+    float *SEDRECHConc;
+
+	// @Out
+	// @Description sand concentration
+    float *rchSand;
+
+	// @Out
+	// @Description Silt concentration
+    float *rchSilt;
+
+	// @Out
+	// @Description Clay concentration
+    float *rchClay;
+
+	// @Out
+	// @Description small agg concentration
+    float *rchSag;
+
+	// @Out
+	// @Description large agg concentration
+    float *rchLag;
+
+	// @Out
+	// @Description gra concentration
+    float *rchGra;
+
+	// @Out
+	// @Description bank erosion
+    float *rch_bank_ero;
+
+	// @Out
+	// @Description reach degradation
+    float *rch_deg;
+
+	// @Out
+	// @Description reach deposition
+    float *rch_dep;
+
+	// @Out
+	// @Description Floodplain Deposition
+    float *flplain_dep;    
 
     void initialOutputs(void);
 
@@ -164,11 +260,19 @@ private:
 
     void doChannelDowncuttingAndWidening(int id);
 };
+
+VISITABLE_STRUCT(SEDR_SBAGNOLD, TIMESTEP, nreach, vcd, p_rf, spcon, spexp, vcrit, SEDTOCH, Chs0, sed_chi, QRECH, chOrder, chWidth, 
+	chDepth, chLen, chVel, chSlope, chManning, chCover, chErod, reachDownStream, ptSub, CHST, preCHST, CHWTDEPTH, prechwtdepth, 
+	chwtwidth, SEDRECH, sedStorage, sedDep, sedDeg, SEDRECHConc, rchSand, rchSilt, rchClay, rchSag, rchLag, rchGra, rch_bank_ero, 
+	rch_deg, rch_dep, flplain_dep);
+
 ///// inverse of flood plain side slope of channel, is a fixed number:  1/slope
 //float m_sideslopeFloodplain;
 ///// inverse of side slope of main channel, is a fixed number:  1/slope
 //float m_sideslopeMain;
 /// reach storage (m3) at time t
-//float* m_chStorage;
+//float* CHST;
 /// Channel sediment balance in a text format for each reach and at each time step
 //float** m_T_CHSB;
+/// cross-sectional area of flow in the channel (m^2)
+//float *m_CrAreaCh;

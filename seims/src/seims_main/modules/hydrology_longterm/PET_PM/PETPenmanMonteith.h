@@ -4,13 +4,13 @@
  * \date Nov. 2010
  * \revised LiangJun Zhu
  * \date May. 2016
- * \note: 1. Add m_tMean from database, which may be measurement value or the mean of tMax and tMin;
+ * \note: 1. Add TMEAN from database, which may be measurement value or the mean of tMax and tMin;
               2. The PET calculate is changed from site-based to cell-based, because PET is not only dependent on Climate site data;
 			  3. Add ecology related parameters (initialized value).
 			  4. Add potential plant transpiration as output.
-			  5. Add m_VPD, m_dayLen as outputs, which will be used in BIO_EPIC module
+			  5. Add m_VPD, daylength as outputs, which will be used in BIO_EPIC module
 			  6. change m_vpd2 and m_gsi from DT_Single to DT_Raster1D, see readplant.f of SWAT
-			  7. Add m_phuBase as outputs, which will be used in MGT_SWAT module
+			  7. Add PHUBASE as outputs, which will be used in MGT_SWAT module
  */
 
 #pragma once

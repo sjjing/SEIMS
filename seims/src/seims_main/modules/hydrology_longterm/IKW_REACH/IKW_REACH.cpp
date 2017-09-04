@@ -47,7 +47,7 @@ IKW_REACH::~IKW_REACH(void) {
 
 bool IKW_REACH::CheckInputData(void) {
     if (m_dt < 0) {
-        throw ModelException("IKW_REACH", "CheckInputData", "The parameter: m_dt has not been set.");
+        throw ModelException("IKW_REACH", "CheckInputData", "The parameter: TIMESTEP has not been set.");
     }
 
     if (m_nreach < 0) {
@@ -624,7 +624,7 @@ void IKW_REACH::ChannelFlow(int i) {
     float totalLoss = m_seepage[i] + bankInLoss + et;
 
     if (m_chStorage[i] >= 0.f) {
-        //qIn -= totalLoss/m_dt;
+        //qIn -= totalLoss/TIMESTEP;
         m_chStorage[i] = st0;
 
         float h = m_chStorage[i] / m_chWidth[i] / m_chLen[i];
@@ -639,7 +639,7 @@ void IKW_REACH::ChannelFlow(int i) {
         float hNew = (alpha * pow(m_qOut[i], 0.6f)) / m_chWidth[i]; // unit m
 
         m_chStorage[i] += (qIn - m_qOut[i]) * m_dt;
-        //float hTest = h + (qIn-m_qOut[i])*m_dt/m_chWidth[i]/m_chLen[i];
+        //float hTest = h + (qIn-m_qOut[i])*TIMESTEP/m_chWidth[i]/m_chLen[i];
 
         if (m_chStorage[i] < 0.f) {
             m_qOut[i] = qIn;

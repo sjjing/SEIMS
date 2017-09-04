@@ -5,6 +5,8 @@
  */
 
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -44,61 +46,98 @@ public:
 
     virtual void SetSubbasins(clsSubbasins *subbasins);
 
-private:
-    /// cell width of grid map (m)
-    float m_cellWidth;
-    /// number of cells
+	//! subbasin IDs
+	vector<int> m_subbasinIDs;
+
+	/// subbasins information
+	clsSubbasins *m_subbasinsInfo;
+
+	// @In
+	// @Description cell width of grid map (m)
+    float CELLWIDTH;
+
+	// @In
+	// @Description number of cells
     int m_nCells;
-    /// time step (s)
-    int m_TimeStep;
+
+	// @In
+	// @Description time step (s)
+    int TIMESTEP;
 
     /// input data
-    /// gw0
-    float m_gw0;
-    /// nitrate N concentration in groundwater loading to reach (mg/L, i.e. g/m3)
-    float *m_gwno3Con;
-    /// kg
-    float *m_gwNO3;
-    /// soluble P concentration in groundwater loading to reach (mg/L, i.e. g/m3)
-    float *m_gwSolCon;
-    /// kg
-    float *m_gwSolP;
-    /// groundwater contribution to stream flow (m3/s)
-    float *m_gw_q;
-    /// groundwater storage
-    float *m_gwStor;
-    /// amount of nitrate percolating past bottom of soil profile, kg
-    float *m_perco_no3_gw;
-    /// amount of solute P percolating past bottom of soil profile, kg
-    float *m_perco_solp_gw;
+
+	// @In
+	// @Description gw0
+    float GW0;
+
+	// @Out
+	// @Description nitrate N concentration in groundwater loading to reach (mg/L, i.e. g/m3)
+    float *gwno3_conc;
+
+	// @Out
+	// @Description kg
+    float *gwno3;
+
+	// @Out
+	// @Description soluble P concentration in groundwater loading to reach (mg/L, i.e. g/m3)
+    float *gwsolp_conc;
+
+	// @Out
+	// @Description kg
+    float *gwsolp;
+
+	// @In
+	// @Description groundwater contribution to stream flow (m3/s)
+    float *SBQG;
+
+	// @In
+	// @Description groundwater storage
+    float *SBGS;
+
+	// @In
+	// @Description amount of nitrate percolating past bottom of soil profile, kg
+    float *perco_n_gw;
+
+	// @In
+	// @Description amount of solute P percolating past bottom of soil profile, kg
+    float *perco_p_gw;
 
     // soil related
-    /// amount of nitrogen stored in the nitrate pool in soil layer
-    float **m_sol_no3;
-    /// amount of soluble phosphorus stored in the soil layer
-    float **m_sol_solp;
-    /// max number of soil layers
-    int m_nSoilLayers;
-    /// number of soil layers of each cell
-    float *m_soilLayers;
 
+	// @In
+	// @Description amount of nitrogen stored in the nitrate pool in soil layer
+    float **sol_no3;
+
+	// @In
+	// @Description amount of soluble phosphorus stored in the soil layer
+    float **sol_solp;
+
+	// @In
+	// @Description max number of soil layers
+    int nSoilLayers;
+
+	// @In
+	// @Description number of soil layers of each cell
+    float *soillayers;
 
     /// outputs
 
-    /// nitrate loading to reach in groundwater to channel
-    float *m_no3GwToCh;
-    /// soluble P loading to reach in groundwater to channel
-    float *m_solpGwToCh;
+	// @Out
+	// @Description nitrate loading to reach in groundwater to channel
+    float *no3gwToCh;
 
-    /// subbasin related
-    /// the total number of subbasins
-    int m_nSubbasins;
-    //! subbasin IDs
-    vector<int> m_subbasinIDs;
-    /// subbasin grid (subbasins ID)
-    float *m_subbasin;
-    /// subbasins information
-    clsSubbasins *m_subbasinsInfo;
+	// @Out
+	// @Description soluble P loading to reach in groundwater to channel
+    float *minpgwToCh;
+
+	// @In
+	// @Description the total number of subbasins
+    int nSubbasins;
+   
+	// @In
+	// @Description subbasin grid (subbasins ID)
+    float *subbasin;
+   
 
 private:
 
@@ -120,3 +159,6 @@ private:
     /// initial outputs
     void initialOutputs(void);
 };
+
+VISITABLE_STRUCT(NutrientinGroundwater, m_nCells, CELLWIDTH, TIMESTEP, GW0, gwno3_conc, gwno3, gwsolp_conc, gwsolp, SBQG, SBGS, perco_n_gw, 
+	perco_p_gw, sol_no3, sol_solp, nSoilLayers, soillayers, no3gwToCh, minpgwToCh, nSubbasins, subbasin);

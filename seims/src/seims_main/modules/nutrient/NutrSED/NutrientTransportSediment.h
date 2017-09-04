@@ -13,6 +13,8 @@
  */
 
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 #include "NutrientCommon.h"
 
@@ -50,110 +52,233 @@ public:
 
     virtual void Get2DData(const char *key, int *nRows, int *nCols, float ***data);
 
-private:
-    /// cell width of grid map (m)
-    float m_cellWidth;
-    /// cell area of grid map (ha)
-    float m_cellArea;
-    /// number of cells
+	//! subbasin IDs
+	vector<int> m_subbasinIDs;
+
+	/// subbasins information
+	clsSubbasins *m_subbasinsInfo;
+
+	// @In
+	// @Description cell width of grid map (m)
+    float CELLWIDTH;
+
+	// @In
+	// @Description cell area of grid map (ha)
+    float cellArea;
+
+	// @In
+	// @Description number of cells
     int m_nCells;
-    /// soil layers
-    float *m_nSoilLayers;
-    /// maximum soil layers
-    int m_soiLayers;
-    /// soil rock content, %
-    float **m_sol_rock;
-    /// sol_ul, soil saturated water amount, mm
-    float **m_sol_wsatur;
-    /* carbon modeling method
-     *   = 0 Static soil carbon (old mineralization routines)
-     *   = 1 C-FARM one carbon pool model
-     *   = 2 Century model
-     */
-    int m_CbnModel;
-    /// enrichment ratio
-    float *m_enratio;
+
+	// @In
+	// @Description soil layers
+    float *soillayers;
+
+	// @In
+	// @Description maximum soil layers
+    int nSoiLayers;
+
+	// @In
+	// @Description soil rock content, %
+    float **rock;
+
+	// @In
+	// @Description sol_ul, soil saturated water amount, mm
+    float **sol_ul;
+
+	// @In
+	// @Description carbon modeling method, 0 Static soil carbon (old mineralization routines), 1 C-FARM one carbon pool model, 2 Century model 
+    int cswat;
+
+	// @In
+	// @Description enrichment ratio
+    float *enratio;
 
     ///inputs
 
-    // soil loss caused by water erosion
-    float *m_sedEroded;
-    // surface runoff generated
-    float *m_surfaceRunoff;
-    //bulk density of the soil
-    float **m_sol_bd;
-    // thickness of soil layer
-    float **m_soilThick;
+	// @In
+	// @Description soil loss caused by water erosion
+    float *SED_OL;
 
-    /// subbasin related
-    /// the total number of subbasins
-    int m_nSubbasins;
-    //! subbasin IDs
-    vector<int> m_subbasinIDs;
-    /// subbasin grid (subbasins ID)
-    float *m_subbasin;
-    /// subbasins information
-    clsSubbasins *m_subbasinsInfo;
+	// @In
+	// @Description surface runoff generated
+    float *OL_Flow;
+
+	// @In
+	// @Description bulk density of the soil
+    float **density;
+
+	// @In
+	// @Description thickness of soil layer
+    float **soilthick;
+
+	// @In
+	// @Description the total number of subbasins
+    int nSubbasins;
+
+	// @In
+	// @Description subbasin grid (subbasins ID)
+    float *subbasin;    
 
     ///output data
-    //amount of organic nitrogen in surface runoff
-    float *m_sedorgn;
-    //amount of organic phosphorus in surface runoff
-    float *m_sedorgp;
-    //amount of active mineral phosphorus sorbed to sediment in surface runoff
-    float *m_sedminpa;
-    //amount of stable mineral phosphorus sorbed to sediment in surface runoff
-    float *m_sedminps;
+
+	// @Out
+	// @Description amount of organic nitrogen in surface runoff
+    float *sedorgn;
+
+	// @Out
+	// @Description amount of organic phosphorus in surface runoff
+    float *sedorgp;
+
+	// @Out
+	// @Description amount of active mineral phosphorus sorbed to sediment in surface runoff
+    float *sedminpa;
+
+	// @Out
+	// @Description amount of stable mineral phosphorus sorbed to sediment in surface runoff
+    float *sedminps;
 
     /// output to channel
 
-    float *m_sedorgnToCh;  // amount of organic N in surface runoff to channel, kg
-    float *m_sedorgpToCh;  // amount of organic P in surface runoff to channel, kg
-    float *m_sedminpaToCh; // amount of active mineral P in surface runoff to channel, kg
-    float *m_sedminpsToCh; // amount of stable mineral P in surface runoff to channel, kg
+	// @Out
+	// @Description amount of organic N in surface runoff to channel, kg
+    float *sedorgnToCh;  
+    
+	// @Out
+	// @Description amount of organic P in surface runoff to channel, kg
+	float *sedorgpToCh;  
+
+	// @Out
+	// @Description amount of active mineral P in surface runoff to channel, kg
+    float *sedminpaToCh; 
+
+	// @Out
+	// @Description amount of stable mineral P in surface runoff to channel, kg
+    float *sedminpsToCh; 
 
     ///input & output
-    //amount of nitrogen stored in the active organic (humic) nitrogen pool, kg N/ha
-    float **m_sol_aorgn;
-    //amount of nitrogen stored in the fresh organic (residue) pool, kg N/ha
-    float **m_sol_fon;
-    //amount of nitrogen stored in the stable organic N pool, kg N/ha
-    float **m_sol_orgn;
-    //amount of phosphorus stored in the organic P pool, kg P/ha
-    float **m_sol_orgp;
-    //amount of phosphorus stored in the fresh organic (residue) pool, kg P/ha
-    float **m_sol_fop;
-    //amount of phosphorus in the soil layer stored in the stable mineral phosphorus pool, kg P/ha
-    float **m_sol_stap;
-    //amount of phosphorus stored in the active mineral phosphorus pool, kg P/ha
-    float **m_sol_actp;
-    /// for C-FARM one carbon model
-    float **m_sol_mp;
-    /// for CENTURY C/Y cycling model
-    /// inputs from other modules
-    float **m_sol_LSN;
-    float **m_sol_LMN;
-    float **m_sol_HPN;
-    float **m_sol_HSN;
-    float **m_sol_HPC;
-    float **m_sol_HSC;
-    float **m_sol_LMC;
-    float **m_sol_LSC;
-    float **m_sol_LS;
-    float **m_sol_LM;
-    float **m_sol_LSL;
-    float **m_sol_LSLC;
-    float **m_sol_LSLNC;
-    float **m_sol_BMC;
-    float **m_sol_WOC;
-    float **m_sol_perco;
-    float **m_sol_laterq;
+
+	// @In
+	// @Description amount of nitrogen stored in the active organic (humic) nitrogen pool, kg N/ha
+    float **sol_aorgn;
+
+	// @In
+	// @Description amount of nitrogen stored in the fresh organic (residue) pool, kg N/ha
+    float **sol_fon;
+
+	// @In
+	// @Description amount of nitrogen stored in the stable organic N pool, kg N/ha
+    float **sol_orgn;
+
+	// @In
+	// @Description amount of phosphorus stored in the organic P pool, kg P/ha
+    float **sol_orgp;
+
+	// @In
+	// @Description amount of phosphorus stored in the fresh organic (residue) pool, kg P/ha
+    float **sol_fop;
+
+	// @In
+	// @Description amount of phosphorus in the soil layer stored in the stable mineral phosphorus pool, kg P/ha
+    float **sol_stap;
+
+	// @In
+	// @Description amount of phosphorus stored in the active mineral phosphorus pool, kg P/ha
+    float **sol_actp;
+
+	// @In
+	// @Description for C-FARM one carbon model
+    float **sol_mp;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_LSN;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_LMN;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_HPN;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_HSN;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_HPC;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_HSC;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_LMC;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_LSC;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_LS;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_LM;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_LSL;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_LSLC;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_LSLNC;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_BMC;
+
+	// @In
+	// @Description CENTURY C/Y cycling model
+    float **sol_WOC;
+
+	// @In
+	// @Description the amount of water percolated from the soil water reservoir, i.e., groundwater recharge
+    float **Perco;
+
+	// @In
+	// @Description Subsurface runoff
+    float **SSRU;
+
     /// outputs
-    float **m_sol_latC; /// lateral flow Carbon loss in each soil layer
-    float **m_sol_percoC; /// percolation Carbon loss in each soil layer
-    float *m_laterC; /// lateral flow Carbon loss in soil profile
-    float *m_percoC; /// percolation Carbon loss in soil profile
-    float *m_sedCLoss; /// amount of C lost with sediment pools
+
+	// @Out
+	// @Description lateral flow Carbon loss in each soil layer
+    float **sol_latc; 
+
+	// @Out
+	// @Description percolation Carbon loss in each soil layer
+    float **sol_percoc; 
+
+	// @Out
+	// @Description lateral flow Carbon loss in soil profile
+    float *latc; 
+
+	// @Out
+	// @Description percolation Carbon loss in soil profile
+    float *percoc; 
+
+	// @Out
+	// @Description amount of C lost with sediment pools
+    float *sedc; 
 
 private:
 
@@ -216,3 +341,8 @@ private:
     /// initial outputs
     void initialOutputs(void);
 };
+
+VISITABLE_STRUCT(NutrientTransportSediment, m_nCells, CELLWIDTH, cellArea, soillayers, nSoiLayers, rock, sol_ul, cswat, enratio, SED_OL, OL_Flow, density, 
+	soilthick, nSubbasins, subbasin, sedorgn, sedorgp, sedminpa, sedminps, sedorgnToCh, sedorgpToCh, sedminpaToCh, sedminpsToCh, sol_aorgn, sol_fon,
+	sol_orgn, sol_orgp, sol_fop, sol_stap, sol_actp, sol_mp, sol_LSN, sol_LMN, sol_HPN, sol_HSN, sol_HPC, sol_HSC, sol_LMC, sol_LSC, sol_LS, sol_LM,
+	sol_LSL, sol_LSLC, sol_LSLNC, sol_BMC, sol_WOC, Perco, SSRU, sol_latc, sol_percoc, latc, percoc, sedc);

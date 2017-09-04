@@ -4,12 +4,14 @@
  * \date Nov. 2010
  * \revised LiangJun Zhu
  * \date May. 2016
- * \note:     1. Add m_tMean from database, which may be measurement value or the mean of tMax and tMin;
+ * \note:     1. Add TMEAN from database, which may be measurement value or the mean of tMax and tMin;
 			  2. The PET calculate is changed from site-based to cell-based, because PET is not only dependent on Climate site data;
-			  3. Add m_VPD, m_dayLen as outputs, which will be used in BIO_EPIC module
-			  4. Add m_phuBase as outputs, which will be used in MGT_SWAT module
+			  3. Add m_VPD, daylength as outputs, which will be used in BIO_EPIC module
+			  4. Add PHUBASE as outputs, which will be used in MGT_SWAT module
  */
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -63,43 +65,76 @@ private:
     //! Initialize of output variables
     void initialOutputs(void);
 
-private:
-    /// mean air temperature for a given day(degree)
-    float *m_tMean;
-    /// maximum air temperature for a given day(degree)
-    float *m_tMax;
-    /// minimum air temperature for a given day(degree)
-    float *m_tMin;
-    /// solar radiation(MJ/m2/d)
-    float *m_sr;
-    /// relative humidity(%)
-    float *m_rhd;
-    /// elevation(m)
-    float *m_elev;
-    /// valid cells number
-    int m_nCells;
-    /// Correction Factor for PET
-    float m_petFactor;
-    ///latitude of the stations
-    float *m_cellLat;
-    /// annual PHU
-    float *m_phutot;
-    ///The temperature of snow melt
-    float m_tSnow;
+	// @In
+	// @Description mean air temperature for a given day(degree)
+    float *TMEAN;
 
-    /// maximum solar radiation of current day
-    float m_srMax;
-    /// Julian day
-    int m_jday;
+	// @In
+	// @Description maximum air temperature for a given day(degree)
+    float *TMAX;
+
+	// @In
+	// @Description minimum air temperature for a given day(degree)
+    float *TMIN;
+
+	// @In
+	// @Description solar radiation(MJ/m2/d)
+    float *SR;
+
+	// @In
+	// @Description relative humidity(%)
+    float *RM;
+
+	// @In
+	// @Description elevation(m)
+    float *DEM;
+
+	// @In
+	// @Description valid cells number
+    int m_nCells;
+
+	// @In
+	// @Description Correction Factor for PET
+    float K_pet;
+
+	// @In
+	// @Description latitude of the stations
+    float *celllat;
+
+	// @In
+	// @Description annual PHU
+    float *PHU0;
+
+	// @In
+	// @Description The temperature of snow melt
+    float T_snow;
+
+	// @In
+	// @Description maximum solar radiation of current day
+    float srMax;
+
+	// @In
+	// @Description Julian day
+    int jday;
 
     /// output
 
-    /// day length (hr)
-    float *m_dayLen;
-    /// base zero total heat units (used when no land cover is growing)
-    float *m_phuBase;
-    /// pet
-    float *m_pet;
-    /// vapor pressure deficit
-    float *m_vpd;
+	// @Out
+	// @Description day length (hr)
+    float *daylength;
+
+	// @Out
+	// @Description base zero total heat units (used when no land cover is growing)
+    float *PHUBASE;
+
+	// @Out
+	// @Description pet
+    float *PET;
+
+	// @Out
+	// @Description vapor pressure deficit
+    float *VPD;
 };
+
+VISITABLE_STRUCT(PETPriestleyTaylor, m_nCells, TMEAN, TMAX, TMIN, SR, RM, DEM, K_pet, celllat, PHU0, T_snow,
+	srMax, jday, daylength, PHUBASE, PET, VPD);

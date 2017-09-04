@@ -198,7 +198,7 @@ int ExcessRunoff::Execute(void) {
                 }
                     //else if(m_soilMoisture[i] >= m_fieldCap[i])
                     //{
-                    //	m_infil[i] = min(ks*m_dt, limitContent);
+                    //	m_infil[i] = min(ks*TIMESTEP, limitContent);
                     //	m_infil[i] = min(pNet, m_infil[i]);
                     //}
                 else {

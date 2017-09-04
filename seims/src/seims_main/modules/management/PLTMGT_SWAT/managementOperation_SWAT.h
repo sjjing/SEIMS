@@ -9,6 +9,9 @@
  *               2. Update fertilizer operation for paddy rice, i.e., ExecuteFertilizerOperation()
  */
 #pragma once
+
+#include <visit_struct/visit_struct_intrusive.hpp>
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 #include "Scenario.h"
 #include "ClimateParams.h"
@@ -25,248 +28,466 @@ using namespace MainBMP;
  * \brief All management operation in SWAT, e.g., plantop, killop, harvestop, etc.
  */
 class MGTOpt_SWAT : public SimulationModule {
-private:
+
+
     /*
     * Plant management factory derived from BMPs Scenario
     * Key is  uniqueBMPID, which is calculated by Landuse_ID * 100 + subScenario;
     * Value is a series of plant management operations
     */
     map<int, BMPPlantMgtFactory *> m_mgtFactory;
-    /// valid cells number
+
+	/// valid cell numbers in each subbasin
+	map<int, int> m_nCellsSubbsn;
+
+	/// subbasin area, key is subbasinID, value is area (ha)
+	map<int, float> m_nAreaSubbsn;
+
+	/// map from LanduseLookup
+	map<int, float *> m_landuseLookupMap;
+
+	/// map for CropLookup
+	map<int, float *> m_cropLookupMap;
+
+	/// map for FertilizerLookup
+	map<int, float *> m_fertilizerLookupMap;
+
+	/// map for TillageLookup
+	map<int, float *> m_tillageLookupMap;
+
+	// @In
+	// @Description valid cells number
     int m_nCells;
-    /// cell width (m)
-    float m_cellWidth;
-    /// cell area (ha)
-    float m_cellArea;
-    /// the total number of subbasins
-    int m_nSub;
-    /// valid cell numbers in each subbasin
-    map<int, int> m_nCellsSubbsn;
-    /// subbasin area, key is subbasinID, value is area (ha)
-    map<int, float> m_nAreaSubbsn;
+
+	// @In
+	// @Description cell width (m)
+    float CELLWIDTH;
+
+	// @In
+	// @Description cell area (ha)
+    float cellArea;
+
+	// @In
+	// @Description the total number of subbasins
+    int nSub;   
 
     /**Parameters from MongoDB**/
 
-    /// subbasin ID of each cell
-    float *m_subBsnID;
-    /// land use
-    float *m_landUse;
-    /// land cover
-    float *m_landCover;
-    /// management unit, e.g., fields
-    float *m_mgtFields;
+	// @In
+	// @Description subbasin ID of each cell
+    float *subbasin;
 
-    /// soil layers
-    float *m_nSoilLayers;
-    /// maximum soil layers
-    int m_soilLayers;
-    /// depth to bottom of soil layer, sol_z, mm
-    float **m_soilDepth;
-    /// soil thick
-    float **m_soilThick;
-    /// maximum root depth of soil
-    float *m_soilZMX;
-    /// bulk density of top soil layer in cell, sol_bd, Mg/m^3, i.e., g/cm3        |
-    float **m_soilBD;
-    /// sol_sumfc(:)   |mm H2O        |amount of water held in the soil profile at field capacity (FC-WP)
-    float *m_soilSumFC;
-    /// sol_n, initialized by sol_cbn / 11.0 according to readsol.f in SWAT
-    float **m_soilN;
-    /// soil carbon, sol_cbn
-    float **m_soilCarbon;
-    /// soil rock (%)
-    float **m_soilRock;
-    /// soil clay (%)
-    float **m_soilClay;
-    /// soil sand (%)
-    float **m_soilSand;
-    /// soil silt (%)
-    float **m_soilSilt;
+	// @In
+	// @Description land use
+    float *landuse;
+
+	// @In
+	// @Description land cover
+    float *landcover;
+
+	// @In
+	// @Description management unit, e.g., fields
+    float *mgt_fields;
+
+	// @In
+	// @Description soil layers
+    float *soillayers;
+
+	// @In
+	// @Description maximum soil layers
+    int soilLayers;
+
+	// @In
+	// @Description depth to bottom of soil layer, sol_z, mm
+    float **soilDepth;
+
+	// @In
+	// @Description soil thick
+    float **soilthick;
+
+	// @In
+	// @Description maximum root depth of soil
+    float *SOL_ZMX;
+
+	// @In
+	// @Description bulk density of top soil layer in cell, sol_bd, Mg/m^3, i.e., g/cm3        |
+    float **density;
+
+	// @In
+	// @Description sol_sumfc(:)   |mm H2O        |amount of water held in the soil profile at field capacity (FC-WP)
+    float *sol_sumAWC;
+
+	// @In
+	// @Description sol_n, initialized by sol_cbn / 11.0 according to readsol.f in SWAT
+    float **sol_N;
+
+	// @In
+	// @Description soil carbon, sol_cbn
+    float **sol_cbn;
+
+	// @In
+	// @Description soil rock (%)
+    float **rock;
+
+	// @In
+	// @Description soil clay (%)
+    float **CLAY;
+
+	// @In
+	// @Description soil sand (%)
+    float **sand;
+
+	// @In
+	// @Description soil silt (%)
+    float **silt;
+
     /**soil properties, both as input and ouput**/
 
-    ///    sol_aorgn(:,:)|kg N/ha       |amount of nitrogen stored in the active organic (humic) nitrogen pool
-    float **m_soilActiveOrgN;
-    ///    sol_fon(:,:)  |kg N/ha       |amount of nitrogen stored in the fresh organic (residue) pool
-    float **m_soilFreshOrgN;
-    ///    sol_fop(:,:)  |kg P/ha       |amount of phosphorus stored in the fresh organic (residue) pool
-    float **m_soilFreshOrgP;
-    ///    sol_nh4(:,:)  |kg N/ha       |amount of nitrogen stored in the ammonium pool in soil layer
-    float **m_soilNH4;
-    ///    sol_no3(:,:)  |kg N/ha       |amount of nitrogen stored in the nitrate pool in soil layer
-    float **m_soilNO3;
-    /// sol_orgn(:,:) |kg N/ha       |amount of nitrogen stored in the stable organic N pool
-    float **m_soilStableOrgN;
-    ///    sol_orgp(:,:) |kg P/ha       |amount of phosphorus stored in the organic P pool
-    float **m_soilOrgP;
-    ///    sol_solp(:,:) |kg P/ha       |amount of inorganic phosphorus stored in solution
-    float **m_soilSolP;
+	// @In
+	// @Description sol_aorgn(:,:)|kg N/ha       |amount of nitrogen stored in the active organic (humic) nitrogen pool
+    float **sol_aorgn;
 
-    /// minimum temperature for plant growth
-    float *m_tBase;
+	// @In
+	// @Description sol_fon(:,:)  |kg N/ha       |amount of nitrogen stored in the fresh organic (residue) pool
+    float **sol_fon;
+
+	// @In
+	// @Description sol_fop(:,:)  |kg P/ha       |amount of phosphorus stored in the fresh organic (residue) pool
+    float **sol_fop;
+
+	// @In
+	// @Description sol_nh4(:,:)  |kg N/ha       |amount of nitrogen stored in the ammonium pool in soil layer
+    float **sol_nh4;
+
+	// @In
+	// @Description sol_no3(:,:)  |kg N/ha       |amount of nitrogen stored in the nitrate pool in soil layer
+    float **sol_no3;
+
+	// @In
+	// @Description sol_orgn(:,:) |kg N/ha       |amount of nitrogen stored in the stable organic N pool
+    float **sol_orgn;
+
+	// @In
+	// @Description sol_orgp(:,:) |kg P/ha       |amount of phosphorus stored in the organic P pool
+    float **sol_orgp;
+
+	// @In
+	// @Description sol_solp(:,:) |kg P/ha       |amount of inorganic phosphorus stored in solution
+    float **sol_solp;
+
+	// @In
+	// @Description minimum temperature for plant growth
+    float *T_BASE;
+
     /** Temporary parameters**/
 
-    /// Sequence number of management operations done in the previous time step run
-    int *m_doneOpSequence;
+	// @In
+	// @Description Sequence number of management operations done in the previous time step run
+    int *doneOpSequence;
 
     /** plant operation related parameters **/
 
-    /// landuse lookup table
-    float **m_landuseLookup;
-    /// landuse number
-    int m_landuseNum;
-    /// map from m_landuseLookup
-    map<int, float *> m_landuseLookupMap;
-    /// CN2 values
-    float *m_CN2;
-    /// plant growth code, 0 or 1
-    float *m_igro;
-    /// land cover/crop  classification:1-7, i.e., IDC
-    float *m_landCoverCls;
-    /// Harvest index target, defined in plant operation and used in harvest/kill operation
-    float *m_HarvestIdxTarg;
-    /// Biomass target
-    float *m_BiomassTarg;
-    /// current year in rotation to maturity
-    float *m_curYearMat;
-    /// wsyf(:)     |(kg/ha)/(kg/ha)|Value of harvest index between 0 and HVSTI
-    /// which represents the lowest value expected due to water stress
-    float *m_wtrStrsYF;
-    /// the leaf area indices for day i
-    float *m_LAIDay;
-    /// phu base
-    float *m_phuBase;
-    /// phu accumulated
-    float *m_phuAcc;
-    /// total number of heat units to bring plant to maturity
-    float *m_phuPlant;
-    /// dormancy flat, idorm in SWAT, 1 is growing and 0 is dormancy
-    float *m_dormFlag;
-    /// hvsti(:)    |(kg/ha)/(kg/ha)|harvest index: crop yield/aboveground biomass
-    float *m_havstIdx;
+	// @In
+	// @Description landuse lookup table
+    float **LanduseLookup;
+
+	// @In
+	// @Description landuse number
+    int landuseNum;
+
+	// @In
+	// @Description CN2 values
+    float *CN2;
+
+	// @In
+	// @Description plant growth code, 0 or 1
+    float *IGRO;
+
+	// @In
+	// @Description land cover/crop  classification:1-7, i.e., IDC
+    float *IDC;
+
+	// @Out
+	// @Description Harvest index target, defined in plant operation and used in harvest/kill operation
+    float *hi_targ;
+
+	// @Out
+	// @Description Biomass target
+    float *biotarg;
+
+	// @In
+	// @Description current year in rotation to maturity
+    float *CURYR_INIT;
+
+	// @In
+	// @Description wsyf(:)|(kg/ha)/(kg/ha)|Value of harvest index between 0 and HVSTI, which represents the lowest value expected due to water stress
+    float *wsyf;
+
+	// @In
+	// @Description the leaf area indices for day i
+    float *LAIDAY;
+
+	// @In
+	// @Description phu base
+    float *PHUBASE;
+
+	// @In
+	// @Description phu accumulated
+    float *frPHUacc;
+
+	// @In
+	// @Description total number of heat units to bring plant to maturity
+    float *PHU_PLT;
+
+	// @In
+	// @Description dormancy flat, idorm in SWAT, 1 is growing and 0 is dormancy
+    float *dormi;
+
+	// @In
+	// @Description hvsti(:)|(kg/ha)/(kg/ha)|harvest index: crop yield/aboveground biomass
+    float *hvsti;
+
+	// @In
+	// @Description
     /// hvstiadj(:) |(kg/ha)/(kg/ha)|optimal harvest index for current time during growing season
-    float *m_havstIdxAdj;
-    /// DO NOT KNOW NOW, initialized as 0.
-    float *m_LAIMaxFr;
-    /// DO NOT KNOW NOW
-    float *m_oLAI;
-    /// fraction of plant biomass that is nitrogen, pltfr_n in SWAT
-    float *m_frPlantN;
-    /// fraction of plant biomass that is phosphorous, pltfr_p in SWAT
-    float *m_frPlantP;
-    /// amount of nitrogen in plant biomass (kg/ha), plantn in SWAT
-    float *m_plantN;
-    /// amount of phosphorus in plant biomass (kg/ha), plantp in SWAT
-    float *m_plantP;
-    /// actual ET simulated during life of plant, plt_et in SWAT
-    float *m_pltET;
-    /// potential ET simulated during life of plant, plt_pet in SWAT
-    float *m_pltPET;
-    /// fraction of total plant biomass that is in roots, rwt in SWAT
-    float *m_frRoot;
-    /// land cover/crop biomass (dry weight), bio_ms in SWAT
-    float *m_biomass;
+    float *hvsti_adj;
 
-    /** HarvestKill operation related **/
-    ///// bio_hv(:,:,:)|kg/ha          |harvested biomass (dry weight)
-    //float** m_harvBiomass;
-    ///// bio_yrms(:) |metric tons/ha |annual biomass (dry weight) in the cell
-    //float* m_annualBiomass;
-    ///// yldkg(:,:,:)|kg/ha          |yield (dry weight) by crop type in the HRU
-    ////float** m_cropYld;
-    ///// yldanu(:)   |metric tons/ha |annual yield (dry weight) in the HRU
-    //float* m_annualYld;
+	// @In
+	// @Description DO NOT KNOW NOW, initialized as 0.
+    float *laimaxfr;
 
-    /// amount of organic matter in the soil layer classified as residue,sol_rsd(:,:)|kg/ha
-    float **m_soilRsd;
-    /// fraction of potential plant growth achieved where the reduction is caused by water stress, strsw in SWAT
-    float *m_frStrsWa;
+	// @In
+	// @Description DO NOT KNOW NOW
+    float *olai;
+
+	// @In
+	// @Description fraction of plant biomass that is nitrogen, pltfr_n in SWAT
+    float *frPlantN;
+
+	// @In
+	// @Description fraction of plant biomass that is phosphorous, pltfr_p in SWAT
+    float *frPlantP;
+
+	// @In
+	// @Description amount of nitrogen in plant biomass (kg/ha), plantn in SWAT
+    float *plant_N;
+
+	// @In
+	// @Description amount of phosphorus in plant biomass (kg/ha), plantp in SWAT
+    float *plant_P;
+
+	// @In
+	// @Description actual ET simulated during life of plant, plt_et in SWAT
+    float *plt_et_tot;
+
+	// @In
+	// @Description potential ET simulated during life of plant, plt_pet in SWAT
+    float *plt_pet_tot;
+
+	// @In
+	// @Description fraction of total plant biomass that is in roots, rwt in SWAT
+    float *frRoot;
+
+	// @In
+	// @Description land cover/crop biomass (dry weight), bio_ms in SWAT
+    float *BIOMASS;
+
+	// @In
+	// @Description amount of organic matter in the soil layer classified as residue,sol_rsd(:,:)|kg/ha
+    float **sol_rsd;
+
+	// @In
+	// @Description fraction of potential plant growth achieved where the reduction is caused by water stress, strsw in SWAT
+    float *frStrsWtr;
 
     /** Crop related parameters **/
 
-    /// crop lookup table
-    float **m_cropLookup;
-    /// crop number
-    int m_cropNum;
-    /// map for m_cropLookup
-    map<int, float *> m_cropLookupMap;
+	// @In
+	// @Description crop lookup table
+    float **CropLookup;
 
+	// @In
+	// @Description crop number
+    int cropNum;
+    
     /** Fertilizer related parameters **/
 
-    /// fertilizer lookup table
-    float **m_fertilizerLookup;
-    /// fertilizer number
-    int m_fertilizerNum;
-    /// map for m_fertilizerLookup
-    map<int, float *> m_fertilizerLookupMap;
-    /* carbon modeling method
-     *   = 0 Static soil carbon (old mineralization routines)
-     *   = 1 C-FARM one carbon pool model
-     *   = 2 Century model
-	 */
-    int m_CbnModel;
-    /**** 1 - C-FARM model ****/
-    /// manure organic carbon in soil, kg/ha
-    float **m_soilManureC;
-    /// manure organic nitrogen in soil, kg/ha
-    float **m_soilManureN;
-    /// manure organic phosphorus in soil, kg/ha
-    float **m_soilManureP;
-    /**** 2 - CENTURY model ****/
-    float **m_sol_HSN; /// slow Nitrogen pool in soil, equals to soil active organic n pool in SWAT
-    float **m_sol_LM; /// metabolic litter SOM pool
-    float **m_sol_LMC; /// metabolic litter C pool
-    float **m_sol_LMN; /// metabolic litter N pool
-    float **m_sol_LSC; /// structural litter C pool
-    float **m_sol_LSN; /// structural litter N pool
-    float **m_sol_LS; /// structural litter SOM pool
-    float **m_sol_LSL; /// lignin weight in structural litter
-    float **m_sol_LSLC; /// lignin amount in structural litter pool
-    float **m_sol_LSLNC; /// non-lignin part of the structural litter C
+	// @In
+	// @Description fertilizer lookup table
+    float **FertilizerLookup;
 
-    /// tillage factor on SOM decomposition, used by CENTURY model
-    float *m_tillage_switch;
-    float *m_tillage_depth;
-    float *m_tillage_days;
-    float *m_tillage_factor;
-    float **m_sol_BMN; ///
-    float **m_sol_HPN; ///
+	// @In
+	// @Description fertilizer number
+    int fertilizerNum;   
+
+	// @In
+	// @Description carbon modeling method, 0 Static soil carbon (old mineralization routines), 1 C-FARM one carbon pool model, 2 Century model
+    int cswat;
+
+	// @Out
+	// @Description C-FARM model, manure organic carbon in soil, kg/ha
+    float **sol_mc;
+
+	// @Out
+	// @Description C-FARM model, manure organic nitrogen in soil, kg/ha
+    float **sol_mn;
+
+	BEGIN_VISITABLES(MGTOpt_SWAT);
+
+	// @Out
+	// @Description C-FARM model, manure organic phosphorus in soil, kg/ha
+    //float **sol_mp;
+	VISITABLE(float **, sol_mp);
+
+	// @In
+	// @Description CENTURY model, slow Nitrogen pool in soil, equals to soil active organic n pool in SWAT
+    //float **sol_HSN; 
+	VISITABLE(float **, sol_HSN);
+
+	// @In
+	// @Description CENTURY model, metabolic litter SOM pool
+    //float **sol_LM; 
+	VISITABLE(float **, sol_LM);
+
+	// @In
+	// @Description CENTURY model, metabolic litter C pool
+    //float **sol_LMC; 
+	VISITABLE(float **, sol_LMC);
+
+	// @In
+	// @Description CENTURY model, metabolic litter N pool
+    //float **sol_LMN; 
+	VISITABLE(float **, sol_LMN);
+
+	// @In
+	// @Description CENTURY model, structural litter C pool
+    //float **sol_LSC; 
+	VISITABLE(float **, sol_LSC);
+
+	// @In
+	// @Description CENTURY model, structural litter N pool
+    //float **sol_LSN;  
+	VISITABLE(float **, sol_LSN);
+
+	// @In
+	// @Description CENTURY model, structural litter SOM pool
+    //float **sol_LS; 
+	VISITABLE(float **, sol_LS);
+
+	// @In
+	// @Description CENTURY model, lignin weight in structural litter
+    //float **sol_LSL; 
+	VISITABLE(float **, sol_LSL);
+
+	// @In
+	// @Description CENTURY model, lignin amount in structural litter pool
+    //float **sol_LSLC; 
+	VISITABLE(float **, sol_LSLC);
+
+	// @In
+	// @Description CENTURY model, non-lignin part of the structural litter C
+    //float **sol_LSLNC; 
+	VISITABLE(float **, sol_LSLNC);
+
+	// @Out
+	// @Description tillage factor on SOM decomposition, used by CENTURY model
+    //float *tillage_switch;
+	VISITABLE(float *, tillage_switch);
+
+	// @Out
+	// @Description tillage factor on SOM decomposition, used by CENTURY model
+    //float *tillage_depth;
+	VISITABLE(float *, tillage_depth);
+
+	// @Out
+	// @Description tillage factor on SOM decomposition, used by CENTURY model
+    //float *tillage_days;
+	VISITABLE(float *, tillage_days);
+
+	// @Out
+	// @Description tillage factor on SOM decomposition, used by CENTURY model
+    //float *tillage_factor;
+	VISITABLE(float *, tillage_factor);
+
+	// @In
+	// @Description NEED to figure out
+    //float **sol_BMN; 
+	VISITABLE(float **, sol_BMN);
+
+	// @In
+	// @Description mass of N present in passive humus
+    //float **sol_HPN; 
+	VISITABLE(float **, sol_HPN);
 
     /** Irrigation operation related **/
 
-    /// irrigation flag
-    float *m_irrFlag;
-    /// aird(:)        |mm H2O        |amount of water applied to cell on current day
-    float *m_appliedWater;
-    /// qird(:)        |mm H2O        |amount of water from irrigation to become surface runoff
-    float *m_irrSurfQWater;
-    /// Currently, deep and shallow aquifer are not distinguished in SEIMS.
-    /// So, m_deepWaterDepth and m_shallowWaterDepth are all set to m_SBGS
-    ///  deepst(:)      |mm H2O        |depth of water in deep aquifer
-    float *m_deepWaterDepth;
-    ///shallst | mm H2O        |depth of water in shallow aquifer
-    float *m_shallowWaterDepth;
-    /// potsa(:)       |ha            |surface area of impounded water body
-    float *m_impoundArea;
-    /// deepirr(:)  |mm H2O        |amount of water removed from deep aquifer for irrigation
-    float *m_deepIrrWater;
-    /// shallirr(:) |mm H2O        |amount of water removed from shallow aquifer for irrigation
-    float *m_shallowIrrWater;
+	// @Out
+	// @Description irrigation flag
+    //float *irr_flag;
+	VISITABLE(float *, irr_flag);
+
+	// @Out
+	// @Description aird(:) |mm H2O |amount of water applied to cell on current day
+    //float *irr_water;
+	VISITABLE(float *, irr_water);
+
+	// @Out
+	// @Description qird(:) |mm H2O |amount of water from irrigation to become surface runoff
+    //float *irr_surfq;
+	VISITABLE(float *, irr_surfq);
+
+	// @In
+	// @Description potsa(:) |ha |surface area of impounded water body
+    //float *pot_sa;
+	VISITABLE(float *, pot_sa);
+
+	// @In
+	// @Description deepirr(:) |mm H2O |amount of water removed from deep aquifer for irrigation
+    //float *m_deepIrrWater;
+	VISITABLE(float *, m_deepIrrWater);
+
+	// @In
+	// @Description shallirr(:) |mm H2O |amount of water removed from shallow aquifer for irrigation
+    //float *m_shallowIrrWater;
+	VISITABLE(float *, m_shallowIrrWater);
+
     /** auto irrigation operation related**/
 
-    /// Water stress identifier, 1 plant water demand, 2 soil water content
-    float *m_wtrStrsID;
-    /// Water stress threshold that triggers irrigation, if m_wtrStresID is 1, the value usually 0.90 ~ 0.95
-    float *m_autoWtrStres;
-    /// irrigation source
-    float *m_autoIrrSource;
-    /// irrigation source location code
-    float *m_autoIrrNo;
-    /// auto irrigation efficiency, 0 ~ 100, IRR_EFF
-    float *m_autoIrrEfficiency;
-    /// amount of irrigation water applied each time auto irrigation is triggered (mm), 0 ~ 100, IRR_MX
-    float *m_autoIrrWtrDepth;
-    /// surface runoff ratio (0-1) (0.1 is 10% surface runoff), IRR_ASQ
-    float *m_autoSurfRunRatio;
+	// @Out
+	// @Description Water stress identifier, 1 plant water demand, 2 soil water content
+    //float *awtr_strsID;
+	VISITABLE(float *, awtr_strsID);
+
+	// @Out
+	// @Description Water stress threshold that triggers irrigation, if m_wtrStresID is 1, the value usually 0.90 ~ 0.95
+    //float *awtr_strsTrig;
+	VISITABLE(float *, awtr_strsTrig);
+
+	// @Out
+	// @Description irrigation source
+    //float *airr_source;
+	VISITABLE(float *, airr_source);
+
+	// @Out
+	// @Description irrigation source location code
+    //float *airr_location;
+	VISITABLE(float *, airr_location);
+
+	// @Out
+	// @Description auto irrigation efficiency, 0 ~ 100, IRR_EFF
+    //float *airr_eff;
+	VISITABLE(float *, airr_eff);
+
+	// @Out
+	// @Description amount of irrigation water applied each time auto irrigation is triggered (mm), 0 ~ 100, IRR_MX
+    //float *airrwtr_depth;
+	VISITABLE(float *, airrwtr_depth);
+
+	// @Out
+	// @Description surface runoff ratio (0-1) (0.1 is 10% surface runoff), IRR_ASQ
+    //float *airrsurf_ratio;
+	VISITABLE(float *, airrsurf_ratio);
+
     ///**Bacteria related**/
     //////// TODO, bacteria modeling will be implemented in the future. (bacteria.f)
     ///// fraction of manure containing active colony forming units (cfu)
@@ -286,99 +507,186 @@ private:
 
     /** HarvestKill, Harvest, and Kill operation related  **/
 
-    /// stsol_rd(:) |mm            |storing last soil root depth for use in harvestkillop/killop /// defined in swu.f
-    float *m_lastSoilRootDepth;
-    /**** Daily carbon change by different means (entire soil profile for each cell) ****/
-    /**** For 2-CENTURY C/N cycling model, these variables will be initialized as 0  ****/
-    /**** at the beginning of the current day ****/
-    /**** 1 harvest, 2 harvestkill, 3 harvgrain op ****/
-    float *m_grainc_d; /// 1,2,3
-    float *m_rsdc_d; /// 1, 2
-    float *m_stoverc_d; /// 2
+	// @In
+	// @Description stsol_rd(:) |mm  |storing last soil root depth for use in harvestkillop/killop /// defined in swu.f
+    //float *lastSoilRD;
+	VISITABLE(float *, lastSoilRD);
 
-    float *m_sedc_d;
-    float *m_surfqc_d;
-    float *m_latc_d;
-    float *m_percc_d;
-    float *m_foc_d;
-    float *m_NPPC_d;
-    float *m_soc_d;
-    float *m_rspc_d;
-    float *m_emitc_d; // include biomass_c eaten by grazing, burnt
+	// @In
+	// @Description Daily carbon change by different means (entire soil profile for each cell), initialized as 0, 1 harvest, 2 harvestkill, 3 harvgrain op, 1,2,3 
+    //float *grainc_d; 
+	VISITABLE(float *, grainc_d);
 
+	// @In
+	// @Description Daily carbon change by different means (entire soil profile for each cell), initialized as 0, 1 harvest, 2 harvestkill, 3 harvgrain op, 1,2
+    //float *m_rsdc_d; 
+	VISITABLE(float *, m_rsdc_d);
+
+	// @In
+	// @Description Daily carbon change by different means (entire soil profile for each cell), initialized as 0, 1 harvest, 2 harvestkill, 3 harvgrain op, 2
+    //float *m_stoverc_d;
+	VISITABLE(float *, m_stoverc_d);
+
+    //float *m_sedc_d;	
+    //float *m_surfqc_d;	
+    //float *m_latc_d;	
+    //float *m_percc_d;	
+    //float *m_foc_d;
+    //float *m_NPPC_d;
+    //float *m_soc_d;
+    //float *m_rspc_d;
+    //float *m_emitc_d; // include biomass_c eaten by grazing, burnt
 
     /** tillage operation related **/
 
-    /// tillage lookup table
-    float **m_tillageLookup;
-    /// tillage number
-    int m_tillageNum;
-    /// map for m_tillageLookup
-    map<int, float *> m_tillageLookupMap;
-    /// sol_actp(:,:) |kg P/ha       |amount of phosphorus stored in the active mineral phosphorus pool
-    float **m_soilActiveMinP;
-    /// sol_stap(:,:) |kg P/ha       |amount of phosphorus in the soil layer stored in the stable mineral phosphorus pool
-    float **m_soilStableMinP;
-    ///// min_res(:)	|kg/ha		   |Min residue allowed due to implementation of residue management in the OPS file.
-    //float* m_minResidue;
+	// @In
+	// @Description tillage lookup table
+    //float **TillageLookup;
+	VISITABLE(float **, TillageLookup);
+
+	// @In
+	// @Description tillage number
+    //int tillageNum;
+	VISITABLE(int, tillageNum);
+    
+	// @In
+	// @Description sol_actp(:,:) |kg P/ha |amount of phosphorus stored in the active mineral phosphorus pool
+    //float **sol_actp;
+	VISITABLE(float **, sol_actp);
+
+	// @In
+	// @Description sol_stap(:,:) |kg P/ha       |amount of phosphorus in the soil layer stored in the stable mineral phosphorus pool
+    //float **sol_stap;
+	VISITABLE(float **, sol_stap);
 
     /**auto fertilizer operation**/
 
-    /// fertilizer ID from fertilizer database
-    float *m_fertilizerID;
-    /* Code for approach used to determine amount of nitrogen to Cell
-            0 Nitrogen target approach
-            1 annual max approach */
-    float *m_NStressCode;
-    /// Nitrogen stress factor of cover/plant that triggers fertilization, usually set 0.90 to 0.95
-    float *m_autoNStress;
-    /// Maximum amount of mineral N allowed in any one application (kg N/ha), auto_napp
-    float *m_autoMaxAppliedN;
-    /// Maximum amount of mineral N allowed to be applied in any one year (kg N/ha), auto_nyr
-    float *m_autoAnnMaxAppliedMinN;
-    /// modifier for auto fertilization target nitrogen content, tnylda
-    float *m_targNYld;
-    /// auto_eff(:) |none           |fertilizer application efficiency calculated as the amount of N applied divided by the amount of N removed at harvest
-    float *m_autoFertEfficiency;
-    /// Fraction of fertilizer applied to top 10mm of soil, the default is 0.2
-    float *m_autoFertSurface;
+
+	// @Out
+	// @Description fertilizer ID from fertilizer database
+    //float *afert_id;
+	VISITABLE(float *, afert_id);
+
+	// @Out
+	// @Description Code for approach used to determine amount of nitrogen to Cell, 0 Nitrogen target approach, 1 annual max approach
+    //float *afert_nstrsID;
+	VISITABLE(float *, afert_nstrsID);
+
+	// @Out
+	// @Description Nitrogen stress factor of cover/plant that triggers fertilization, usually set 0.90 to 0.95
+    //float *afert_nstrs;
+	VISITABLE(float *, afert_nstrs);
+
+	// @Out
+	// @Description Maximum amount of mineral N allowed in any one application (kg N/ha), auto_napp
+    //float *afert_maxN;
+	VISITABLE(float *, afert_maxN);
+
+	// @Out
+	// @Description Maximum amount of mineral N allowed to be applied in any one year (kg N/ha), auto_nyr
+    //float *afert_AmaxN;
+	VISITABLE(float *, afert_AmaxN);
+
+	// @Out
+	// @Description modifier for auto fertilization target nitrogen content, tnylda
+    //float *afert_nyldTarg;
+	VISITABLE(float *, afert_nyldTarg);
+
+	// @Out
+	// @Description auto_eff(:) |none |fertilizer application efficiency calculated as the amount of N applied divided by the amount of N removed at harvest
+    //float *afert_frteff;
+	VISITABLE(float *, afert_frteff);
+
+	// @Out
+	// @Description Fraction of fertilizer applied to top 10mm of soil, the default is 0.2
+    //float *afert_frtsurf;
+	VISITABLE(float *, afert_frtsurf);
+
     /** Grazing operation **/
 
-    /// ndeat(:)    |days          |number of days cell has been grazed
-    float *m_nGrazingDays;
-    /*  igrz(:)     |none          |grazing flag for cell:
-                                                |0 cell currently not grazed
-                                                |1 cell currently grazed */
-    float *m_grzFlag;
+	// @Out
+	// @Description ndeat(:) |days |number of days cell has been grazed
+    //float *grz_days;
+	VISITABLE(float *, grz_days);
+
+	// @Out
+	// @Description igrz(:) |none |grazing flag for cell: 0 cell currently not grazed, 1 cell currently grazed
+    //float *grz_flag;
+	VISITABLE(float *, grz_flag);
+
     /** Release or Impound Operation **/
 
-    /* |release/impound action code:
-           |0 begin impounding water
-           |1 release impounded water
-	 */
-    float *m_impoundTriger;
-    /// volume of water stored in the depression/impounded area, mm
-    float *m_potVol;
-    /// maximum volume of water stored in the depression/impounded area, mm
-    float *m_potVolMax;
-    /// low depth ...., mm
-    float *m_potVolLow;
-    /// no3 amount kg
-    float *m_potNo3;
-    /// nh4 amount kg
-    float *m_potNH4;
-    /// soluble phosphorus amount, kg
-    float *m_potSolP;
-    /// field capacity (FC-WP), mm
-    float **m_sol_fc;
-    /// amount of water held in the soil layer at saturation (sat - wp water), mm
-    float **m_sol_sat;
-    /// soil water storage (mm)
-    float **m_soilStorage;
-    /// soil water storage in soil profile (mm)
-    float *m_soilStorageProfile;
-    /// flag to identify the initialization
-    bool m_initialized;
+	// @Out
+	// @Description release/impound action code: 0 begin impounding water, 1 release impounded water
+    //float *impound_trig;
+	VISITABLE(float *, impound_trig);
+
+	// @In
+	// @Description volume of water stored in the depression/impounded area, mm
+    //float *pot_vol;
+	VISITABLE(float *, pot_vol);
+
+	// @Out
+	// @Description maximum volume of water stored in the depression/impounded area, mm
+    //float *pot_volmaxmm;
+	VISITABLE(float *, pot_volmaxmm);
+
+	// @Out
+	// @Description low depth ...., mm
+    //float *pot_vollowmm;
+	VISITABLE(float *, pot_vollowmm);
+
+	// @In
+	// @Description no3 amount kg
+    //float *pot_no3;
+	VISITABLE(float *, pot_no3);
+
+	// @In
+	// @Description nh4 amount kg
+    //float *pot_nh4;
+	VISITABLE(float *, pot_nh4);
+
+	// @In
+	// @Description soluble phosphorus amount, kg
+    //float *pot_solp;
+	VISITABLE(float *, pot_solp);
+
+	// @In
+	// @Description field capacity (FC-WP), mm
+    //float **sol_awc;
+	VISITABLE(float **, sol_awc);
+
+	// @In
+	// @Description amount of water held in the soil layer at saturation (sat - wp water), mm
+    //float **sol_ul;
+	VISITABLE(float **, sol_ul);
+
+	// @In
+	// @Description soil water storage (mm)
+    //float **solst;
+	VISITABLE(float **, solst);
+
+	// @In
+	// @Description soil water storage in soil profile (mm)
+    //float *solsw;
+	VISITABLE(float *, solsw);
+
+	// @In
+	// @Description flag to identify the initialization
+    //bool initialized;
+	VISITABLE(bool, initialized);
+
+	END_VISITABLES;
+
+private:
+	// @In
+	// @Description deep and shallow aquifer are not distinguished in SEIMS, both are set to m_SBGS, deepst(:) |mm H2O |depth of water in deep aquifer
+	float *m_deepWaterDepth;
+
+	// @In
+	// @Description deep and shallow aquifer are not distinguished in SEIMS, both are set to m_SBGS, shallst | mm H2O |depth of water in shallow aquifer
+	float *m_shallowWaterDepth;
+
 public:
     //! Constructor
     MGTOpt_SWAT(void);
@@ -499,3 +807,10 @@ private:
     /// distributes dead root mass through the soil profile
     void rootFraction(int i, float *&root_fr);
 };
+
+VISITABLE_STRUCT(MGTOpt_SWAT, m_nCells, m_deepWaterDepth, m_shallowWaterDepth, CELLWIDTH, cellArea, nSub, subbasin, landuse, landcover, 
+	mgt_fields, soillayers, soilLayers, soilDepth, soilthick, SOL_ZMX, density, sol_sumAWC, sol_N, sol_cbn, rock, CLAY, sand, silt,
+	sol_aorgn, sol_fon, sol_fop, sol_nh4, sol_no3, sol_orgn, sol_orgp, sol_solp, T_BASE, doneOpSequence, LanduseLookup, landuseNum, 
+	CN2, IGRO, IDC, hi_targ, biotarg, CURYR_INIT, wsyf, LAIDAY, PHUBASE, frPHUacc, PHU_PLT, dormi, hvsti, hvsti_adj, laimaxfr, olai,
+	frPlantN, frPlantP, plant_N, plant_P, plt_et_tot, plt_pet_tot, frRoot, BIOMASS, sol_rsd, frStrsWtr, CropLookup, cropNum, FertilizerLookup,
+	fertilizerNum, cswat, sol_mc, sol_mn);

@@ -6,6 +6,8 @@
  * \revised date May. 2016
  */
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -47,76 +49,125 @@ public:
 
     bool CheckInputData(void);
 
-private:
-    //! valid cell number
+	// @In
+	// @Description valid cell number
     int m_nCells;
-    //! cell width (m)
-    float m_cellWidth;
-    //! subbasin number
-    int m_nsub;
-    //! soil layer number
-    int m_nSoilLayers;
-    //! deposition ratio
-    float m_depRatio;  // added by Wu Hui, 2013.11.16
-    //grid from parameter
-    //! sand fraction
-    float *m_detachSand;
-    //! silt fraction
-    float *m_detachSilt;
-    //! clay fraction
-    float *m_detachClay;
-    //! small aggregate fraction
-    float *m_detachSmAggre;
-    //! large aggregate fraction
-    float *m_detachLgAggre;
 
-    //! USLE P factor (Practice)
-    float *m_usle_p;
-    //! USLE K factor (erodibility), multi-layer paramters. By LJ
-    float **m_usle_k;
-    //! USLE C factor (land cover)
-    float *m_usle_c;
-    //! Slope gradient (drop/distance)
-    float *m_slope;
-    //! flow accumulation (number of accumulated cells)
-    float *m_flowacc;
-    //! stream link
-    float *m_streamLink;
-    ////! Subbasin map
-    //   float *m_subbasin;
+	// @In
+	// @Description cell width (m)
+    float CELLWIDTH;
 
-    //! USLE LS factor
-    float *m_usle_ls;
-    //! cell area (A, km^2)
-    float m_cellAreaKM;
-    //! cell area factor (3.79 * A^0.7)
-    float m_cellAreaKM1;
-    //! cell area factor (0.903 * A^0.017)
-    float m_cellAreaKM2;
-    //! Slope^0.16
-    float *m_slopeForPq;
+	// @In
+	// @Description subbasin number
+    int nsub;
+
+	// @In
+	// @Description soil layer number
+    int nSoilLayers;
+
+	// @In
+	// @Description deposition ratio
+    float depRatio;  
+
+	// @In
+	// @Description grid from parameter, sand fraction
+    float *det_sand;
+
+	// @In
+	// @Description silt fraction
+    float *det_silt;
+
+	// @In
+	// @Description clay fraction
+    float *det_clay;
+
+	// @In
+	// @Description small aggregate fraction
+    float *det_smagg;
+
+	// @In
+	// @Description large aggregate fraction
+    float *det_lgagg;
+
+	// @In
+	// @Description USLE P factor (Practice)
+    float *USLE_P;
+
+	// @In
+	// @Description USLE K factor (erodibility), multi-layer paramters. By LJ
+    float **USLE_K;
+
+	// @In
+	// @Description USLE C factor (land cover)
+    float *USLE_C;
+
+	// @In
+	// @Description Slope gradient (drop/distance)
+    float *slope;
+
+	// @In
+	// @Description flow accumulation (number of accumulated cells)
+    float *acc;
+
+	// @In
+	// @Description stream link
+    float *STREAM_LINK;
+  
+	// @In
+	// @Description USLE LS factor
+    float *USLE_LS;
+
+	// @In
+	// @Description cell area (A, km^2)
+    float cellAreaKM;
+
+	// @In
+	// @Description cell area factor (3.79 * A^0.7)
+    float cellAreaKM1;
+
+	// @In
+	// @Description cell area factor (0.903 * A^0.017)
+    float cellAreaKM2;
+
+	// @In
+	// @Description Slope^0.16
+    float *slopeForPq;
 
     //grid from other modules
 
-    //! snow accumulation
-    float *m_snowAccumulation;
-    //! surface runoff (mm)
-    float *m_surfaceRunoff;
+	// @In
+	// @Description snow accumulation
+    float *SNAC;
+
+	// @In
+	// @Description surface runoff (mm)
+    float *OL_Flow;
 
     //result
 
-    //! sediment yield on each cell
-    float *m_sedimentYield;
-    //! sand yield
-    float *m_sandYield;
-    //! silt yield
-    float *m_siltYield;
-    //! clay yield
-    float *m_clayYield;
-    //! small aggregate yield
-    float *m_smaggreYield;
-    //! large aggregate yield
-    float *m_lgaggreYield;
+	// @Out
+	// @Description sediment yield on each cell
+    float *SOER;
+
+	// @Out
+	// @Description sand yield
+    float *sand_yld;
+
+	// @Out
+	// @Description silt yield
+    float *silt_yld;
+
+	// @Out
+	// @Description clay yield
+    float *clay_yld;
+
+	// @Out
+	// @Description small aggregate yield
+    float *sag_yld;
+
+	// @Out
+	// @Description large aggregate yield
+    float *lag_yld;
 
     //! initialize outputs
     void initialOutputs(void);
@@ -125,3 +176,6 @@ private:
     float getPeakRunoffRate(int);
 };
 
+VISITABLE_STRUCT(MUSLE_AS, m_nCells, CELLWIDTH, nsub, nSoilLayers, depRatio, det_sand, det_silt, det_clay, det_smagg, det_lgagg,
+	USLE_P, USLE_K, USLE_C, slope, acc, STREAM_LINK, USLE_LS, cellAreaKM, cellAreaKM1, cellAreaKM2, slopeForPq, SNAC, OL_Flow, 
+	SOER, sand_yld, silt_yld, clay_yld, sag_yld, lag_yld);

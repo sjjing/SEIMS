@@ -3,22 +3,22 @@
 
 #include "Interception_MCS.h"
 
-clsPI_MCS::clsPI_MCS(void) : m_nCells(-1), m_Pi_b(-1.f), m_Init_IS(0.f),
-                             m_netPrecipitation(NULL), m_interceptionLoss(NULL), m_st(NULL) {
+clsPI_MCS::clsPI_MCS(void) : m_nCells(-1), Pi_b(-1.f), Init_IS(0.f),
+                             NEPR(NULL), INLO(NULL), canstor(NULL) {
 #ifndef STORM_MODE
-    m_evaporationLoss = NULL;
+    INET = NULL;
 #else
-    m_hilldt = -1.f;
+    DT_HS = -1.f;
     m_slope = NULL;
 #endif
 }
 
 clsPI_MCS::~clsPI_MCS(void) {
-    if (this->m_interceptionLoss != NULL) Release1DArray(this->m_interceptionLoss);
-    if (this->m_st != NULL) Release1DArray(this->m_st);
-    if (this->m_netPrecipitation != NULL) Release1DArray(this->m_netPrecipitation);
+    if (this->INLO != NULL) Release1DArray(this->INLO);
+    if (this->canstor != NULL) Release1DArray(this->canstor);
+    if (this->NEPR != NULL) Release1DArray(this->NEPR);
 #ifndef STORM_MODE
-    if (this->m_evaporationLoss != NULL) Release1DArray(this->m_evaporationLoss);
+    if (this->INET != NULL) Release1DArray(this->INET);
 #endif
 }
 
@@ -27,16 +27,16 @@ void clsPI_MCS::Set1DData(const char *key, int nRows, float *data) {
 
     string s(key);
     if (StringMatch(s, VAR_PCP)) {
-        m_P = data;
+        D_P = data;
     }
     else if (StringMatch(s, VAR_PET)) {
 #ifndef STORM_MODE
-        m_PET = data;
+        PET = data;
 #endif
     } else if (StringMatch(s, VAR_INTERC_MAX)) {
-        m_maxSt = data;
+        Interc_max = data;
     } else if (StringMatch(s, VAR_INTERC_MIN)) {
-        m_minSt = data;
+        Interc_min = data;
     } else {
         throw ModelException(MID_PI_SVSC, "Set1DData", "Parameter " + s + " does not exist.");
     }
@@ -44,11 +44,11 @@ void clsPI_MCS::Set1DData(const char *key, int nRows, float *data) {
 
 void clsPI_MCS::SetValue(const char *key, float data) {
     string s(key);
-    if (StringMatch(s, VAR_PI_B)) { this->m_Pi_b = data; }
-    else if (StringMatch(s, VAR_INIT_IS)) { this->m_Init_IS = data; }
+    if (StringMatch(s, VAR_PI_B)) { this->Pi_b = data; }
+    else if (StringMatch(s, VAR_INIT_IS)) { this->Init_IS = data; }
     else if (StringMatch(s, VAR_OMP_THREADNUM)) { SetOpenMPThread((int) data); }
 #ifdef STORM_MODE
-    else if (StringMatch(s, Tag_HillSlopeTimeStep)) { m_hilldt = data; }
+    else if (StringMatch(s, Tag_HillSlopeTimeStep)) { DT_HS = data; }
 #endif // STORM_MODE
     else {
         throw ModelException(MID_PI_SVSC, "SetValue", "Parameter " + s + " does not exist.");
@@ -59,15 +59,15 @@ void clsPI_MCS::Get1DData(const char *key, int *nRows, float **data) {
     initialOutputs();
     string s = key;
     if (StringMatch(s, VAR_INLO)) {
-        *data = m_interceptionLoss;
+        *data = INLO;
     } else if (StringMatch(s, VAR_INET)) {
 #ifndef STORM_MODE
-        *data = m_evaporationLoss;
+        *data = INET;
 #endif
     } else if (StringMatch(s, VAR_CANSTOR)) {
-        *data = m_st;
+        *data = canstor;
     } else if (StringMatch(s, VAR_NEPR)) {
-        *data = m_netPrecipitation;
+        *data = NEPR;
     } else {
         throw ModelException(MID_PI_SVSC, "Get1DData", "Result " + s + " does not exist.");
     }
@@ -75,19 +75,19 @@ void clsPI_MCS::Get1DData(const char *key, int *nRows, float **data) {
 }
 
 void clsPI_MCS::initialOutputs() {
-    if (this->m_st == NULL) {
-        Initialize1DArray(m_nCells, m_st, m_Init_IS);
+    if (this->canstor == NULL) {
+        Initialize1DArray(m_nCells, canstor, Init_IS);
     }
 #ifndef STORM_MODE
-    if (this->m_evaporationLoss == NULL) {
-        Initialize1DArray(m_nCells, m_evaporationLoss, 0.f);
+    if (this->INET == NULL) {
+        Initialize1DArray(m_nCells, INET, 0.f);
     }
 #endif
-    if (this->m_netPrecipitation == NULL) {
-        Initialize1DArray(m_nCells, m_netPrecipitation, 0.f);
+    if (this->NEPR == NULL) {
+        Initialize1DArray(m_nCells, NEPR, 0.f);
     }
-    if (this->m_interceptionLoss == NULL) {
-        Initialize1DArray(m_nCells, m_interceptionLoss, 0.f);
+    if (this->INLO == NULL) {
+        Initialize1DArray(m_nCells, INLO, 0.f);
     }
 }
 
@@ -100,45 +100,45 @@ int clsPI_MCS::Execute() {
     int julian = JulianDay(m_date);
 #pragma omp parallel for
     for (int i = 0; i < this->m_nCells; i++) {
-        if (m_P[i] > 0.f) {
+        if (D_P[i] > 0.f) {
 #ifdef STORM_MODE
             /// correction for slope gradient, water spreads out over larger area
-            m_P[i] = m_P[i] * m_hilldt / 3600.f * cos(atan(m_slope[i]));
+            D_P[i] = D_P[i] * DT_HS / 3600.f * cos(atan(m_slope[i]));
 #endif // STORM_MODE
             //interception storage capacity
             float degree = 2.f * PI * (julian - 87.f) / 365.f;
             /// For water, min and max are both 0, then no need for specific handling.
-            float min = m_minSt[i];
-            float max = m_maxSt[i];
-            float capacity = min + (max - min) * pow(0.5f + 0.5f * sin(degree), m_Pi_b);
+            float min = Interc_min[i];
+            float max = Interc_max[i];
+            float capacity = min + (max - min) * pow(0.5f + 0.5f * sin(degree), Pi_b);
 
-            //interception, currently, m_st[i] is storage of (t-1) time step 
-            float availableSpace = capacity - m_st[i];
+            //interception, currently, canstor[i] is storage of (t-1) time step 
+            float availableSpace = capacity - canstor[i];
             if (availableSpace < 0) {
                 availableSpace = 0.f;
             }
 
-            if (availableSpace < m_P[i]) {
-                m_interceptionLoss[i] = availableSpace;
+            if (availableSpace < D_P[i]) {
+                INLO[i] = availableSpace;
             } else {
-                m_interceptionLoss[i] = m_P[i];
+                INLO[i] = D_P[i];
             }
 
             //net precipitation
-            m_netPrecipitation[i] = m_P[i] - m_interceptionLoss[i];
-            m_st[i] += m_interceptionLoss[i];
+            NEPR[i] = D_P[i] - INLO[i];
+            canstor[i] += INLO[i];
         } else {
-            m_interceptionLoss[i] = 0.f;
-            m_netPrecipitation[i] = 0.f;
+            INLO[i] = 0.f;
+            NEPR[i] = 0.f;
         }
 #ifndef STORM_MODE
         //evaporation
-        if (m_st[i] > m_PET[i]) {
-            m_evaporationLoss[i] = m_PET[i];
+        if (canstor[i] > PET[i]) {
+            INET[i] = PET[i];
         } else {
-            m_evaporationLoss[i] = m_st[i];
+            INET[i] = canstor[i];
         }
-        m_st[i] -= m_evaporationLoss[i];
+        canstor[i] -= INET[i];
 #endif    
     }
     return 0;
@@ -154,39 +154,39 @@ bool clsPI_MCS::CheckInputData() {
                              "The dimension of the input data can not be less than zero.");
     }
 
-    if (this->m_P == NULL) {
+    if (this->D_P == NULL) {
         throw ModelException(MID_PI_SVSC, "CheckInputData", "The precipitation data can not be NULL.");
     }
 #ifndef STORM_MODE
-    if (this->m_PET == NULL) {
+    if (this->PET == NULL) {
         throw ModelException(MID_PI_SVSC, "CheckInputData", "The PET data can not be NULL.");
     }
 #else
     if (this->m_slope == NULL) {
         throw ModelException(MID_PI_SVSC, "CheckInputData", "The slope gradient can not be NULL.");
     }
-    if (this->m_hilldt < 0) {
+    if (this->DT_HS < 0) {
         throw ModelException(MID_PI_SVSC, "CheckInputData", "The Hillslope scale time step must greater than 0.");
     }
 #endif
-    if (this->m_maxSt == NULL) {
+    if (this->Interc_max == NULL) {
         throw ModelException(MID_PI_SVSC, "CheckInputData",
                              "The maximum interception storage capacity can not be NULL.");
     }
 
-    if (this->m_minSt == NULL) {
+    if (this->Interc_min == NULL) {
         throw ModelException(MID_PI_SVSC, "CheckInputData",
                              "The minimum interception storage capacity can not be NULL.");
     }
 
-    if (this->m_Pi_b > 1.5f || this->m_Pi_b < 0.5f) {
+    if (this->Pi_b > 1.5f || this->Pi_b < 0.5f) {
         throw ModelException(MID_PI_SVSC, "CheckInputData",
-                             "The interception storage capacity exponent can not be " + ValueToString(this->m_Pi_b) +
+                             "The interception storage capacity exponent can not be " + ValueToString(this->Pi_b) +
                                  ". It should between 0.5 and 1.5.");
     }
-    if (this->m_Init_IS > 1.f || this->m_Init_IS < 0.f) {
+    if (this->Init_IS > 1.f || this->Init_IS < 0.f) {
         throw ModelException(MID_PI_SVSC, "CheckInputData",
-                             "The Initial interception storage can not be " + ValueToString(this->m_Init_IS) +
+                             "The Initial interception storage can not be " + ValueToString(this->Init_IS) +
                                  ". It should between 0 and 1.");
     }
     return true;

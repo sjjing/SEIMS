@@ -65,26 +65,26 @@ public:
 
     // @In
     // @Description data of stations
-    float *m_stationData;
+    float *T;
 
 
     // @In
     // @Description weights of each sites of all valid cells
-    float *m_weights;
+    float *WEIGHT;
 
     // @In
     // @Description whether using vertical interpolation
-    bool m_vertical;
+    bool VERTICALINTERPOLATION;
 
     // @In
     // @Description elevation of stations
     // @Optional
-    float *m_hStations;
+    float *StationElevation;
 
     // @In
     // @Description elevation of cells
     // @Optional
-    float *m_dem;
+    float *DEM;
 
     // @In
     // @Description Lapse Rate, a 2D array. The first level is by month, and the second level is by data type in order of (P,T,PET).
@@ -108,5 +108,5 @@ private:
 };
 
 
-VISITABLE_STRUCT(Interpolate, m_nStatioins, m_nCells, m_stationData, m_weights, m_vertical, m_hStations,
-	m_dem, LapseRate, m_itpOutput);
+VISITABLE_STRUCT(Interpolate, m_month, m_dataType, m_nStatioins, m_nCells, T, WEIGHT, VERTICALINTERPOLATION, StationElevation,
+	DEM, LapseRate, m_itpOutput);

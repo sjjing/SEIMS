@@ -5,11 +5,13 @@
  *
  * \revised Liang-Jun Zhu
  * \date 2016-7-24
- * \note: 1. Delete m_cellWidth, m_nSoilLayers, m_sol_z, which are useless
- *        2. Change m_wshd_rno3 to store nitrate from rainfall of current day
- *        3. Remove output of m_sol_no3, which is redundant and unnecessary
+ * \note: 1. Delete m_cellWidth, nSoilLayers, m_sol_z, which are useless
+ *        2. Change wshd_rno3 to store nitrate from rainfall of current day
+ *        3. Remove output of sol_no3, which is redundant and unnecessary
  */
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -47,50 +49,62 @@ public:
 
     void initialOutputs(void);
 
-private:
-
-    /// size of array
+	// @In
+	// @Description size of array
     int m_nCells;
-    ///// cell width of grid map (m)
-    //float m_cellWidth;
-    ///// soil layers
-    //float *m_nSoilLayers;
-
-    /// maximum soil layers
-    int m_soiLayers;
+   
+	// @In
+	// @Description maximum soil layers
+    int soiLayers;
 
     /// parameters
 
-    /// concentration of nitrate in the rain (mg N/L)
-    float m_rcn;
-    /// concentration of ammonia in the rain (mg N/L)
-    float m_rca;
-    ///atmospheric dry deposition of nitrates (kg/ha)
-    float m_drydep_no3;
-    ///atmospheric dry deposition of ammonia (kg/ha)
-    float m_drydep_nh4;
+	// @In
+	// @Description concentration of nitrate in the rain (mg N/L)
+    float rcn;
+
+	// @In
+	// @Description concentration of ammonia in the rain (mg N/L)
+    float rca;
+
+	// @In
+	// @Description atmospheric dry deposition of nitrates (kg/ha)
+    float drydep_no3;
+
+	// @In
+	// @Description atmospheric dry deposition of ammonia (kg/ha)
+    float drydep_nh4;
 
     /// inputs
 
-    /// precipitation (mm H2O)
-    float *m_preci;
-    ///// root depth from the soil surface
-    //float **m_sol_z;
+	// @In
+	// @Description precipitation (mm H2O)
+    float *D_P;
 
-    ///amount of ammonium in layer (kg/ha)
-    float **m_sol_nh4;
-    /// amount of nitrate in layer (kg/ha)
-    float **m_sol_no3;
+	// @In
+	// @Description amount of ammonium in layer (kg/ha)
+    float **sol_nh4;
+
+	// @In
+	// @Description amount of nitrate in layer (kg/ha)
+    float **sol_no3;
 
     /// temporaries
 
-    /// nitrate added by rainfall (kg/ha)
-    float m_addrnh4;
-    /// ammonium added by rainfall (kg/ha)
-    float m_addrno3;
+	// @In
+	// @Description nitrate added by rainfall (kg/ha)
+    float addrnh4;
+
+	// @In
+	// @Description ammonium added by rainfall (kg/ha)
+    float addrno3;
 
     /// outputs
 
-    /// amount of NO3 added to soil by rainfall in watershed on current day (kg/ha)
-    float m_wshd_rno3;
+	// @Out
+	// @Description amount of NO3 added to soil by rainfall in watershed on current day (kg/ha)
+    float wshd_rno3;
 };
+
+VISITABLE_STRUCT(AtmosphericDeposition, m_nCells, soiLayers, rcn, rca, drydep_no3, drydep_nh4,
+	D_P, sol_nh4, sol_no3, addrnh4, addrno3, wshd_rno3);

@@ -5,12 +5,14 @@
  * \revised LiangJun Zhu
  * \date 2016-5-29
  *  1. Remove m_isInitial and add initialOutputs(void)
- *  2. Add m_snowCoverMax and m_snowCover50 to adjust for areal extent of snow cover.
+ *  2. Add SNOCOVMX and SNO50COV to adjust for areal extent of snow cover.
  *  3. ReWrite the execute code according to snom.f of SWAT.
  *  4. In this version, snow melt is added to net precipitation.
  * 
  */
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
 using namespace std;
@@ -50,63 +52,84 @@ public:
 
     void initialOutputs(void);
 
-private:
-    //! Valid cells number
+	// @In
+	// @Description Valid cells number
     int m_nCells;
-    //! Mean air temperature at which snow melt will occur, sub_smtmp
-    float m_t0;
-    //! fraction coefficient of precipitation as snow
-    float m_kblow;
-    //! Snowfall temperature, i.e., precipitation as snow
-    float m_tsnow;
-    //! Initial snow water equivalent
-    //float m_swe0;
 
-    /*Snow pack temperature lag factor (0-1), sub_timp in SWAT
-    * 1 = no lag (snow pack temp=current day air temp)
-    * as the lag factor goes to zero, the snow pack's
-    * temperature will be less influenced by the current day's
-    * air temperature
-    */
-    float m_lagSnow;
-    //! Maximum melt rate for snow during year, sub_smfmx
-    float m_csnow6;
-    //! Minimum melt rate for snow during year, sub_smfmn
-    float m_csnow12;
-    //! Minimum snow water content that corresponds to 100% snow cover, mm H2O, SNOCOVMX
-    float m_snowCoverMax;
-    //! Fraction of SNOCOVMX that corresponds to 50% snow cover, SNO50COV
-    float m_snowCover50;
-    //! 1st shape parameter for snow cover equation
-    float m_snowCoverCoef1;
-    //! 2nd shape parameter for snow cover equation
-    float m_snowCoverCoef2;
+	// @In
+	// @Description Mean air temperature at which snow melt will occur, sub_smtmp
+    float T0;
 
-    //! average snow accumulation of the watershed
-    //float m_swe;
-    //! snow water equivalent of last time step
-    //float m_lastSWE;
+	// @In
+	// @Description fraction coefficient of precipitation as snow
+    float K_blow;
 
-    //! Mean temperature
-    float *m_tMean;
-    //! Max temperature
-    float *m_tMax;
-    //! Net precipitation
-    float *m_Pnet;
+	// @In
+	// @Description Snowfall temperature, i.e., precipitation as snow
+    float T_snow;
 
-    //! snow redistribution
-    float *m_SR;
-    //! snow sublimation, snoev in SWAT in etact.f
-    float *m_SE;
+	// @In
+	// @Description Snow pack temperature lag factor (0-1)
+    float lag_snow;
 
-    //! temperature of snow pack, snotmp in SWAT
-    float *m_packT;
+	// @In
+	// @Description Maximum melt rate for snow during year, sub_smfmx
+    float c_snow6;
+
+	// @In
+	// @Description Minimum melt rate for snow during year, sub_smfmn
+    float c_snow12;
+
+	// @In
+	// @Description Minimum snow water content that corresponds to 100% snow cover, mm H2O, SNOCOVMX
+    float SNOCOVMX;
+
+	// @In
+	// @Description Fraction of SNOCOVMX that corresponds to 50% snow cover, SNO50COV
+    float SNO50COV;
+
+	// @In
+	// @Description 1st shape parameter for snow cover equation
+    float snowCoverCoef1;
+
+	// @In
+	// @Description 2nd shape parameter for snow cover equation
+    float snowCoverCoef2;
+
+	// @In
+	// @Description Mean temperature
+    float *TMEAN;
+
+	// @In
+	// @Description Max temperature
+    float *TMAX;
+
+	// @In
+	// @Description Net precipitation
+    float *NEPR;
+
+	// @In
+	// @Description snow redistribution
+    float *SNAC;
+
+	// @In
+	// @Description snow sublimation, snoev in SWAT in etact.f
+    float *SE;
+
+	// @In
+	// @Description temperature of snow pack, snotmp in SWAT
+    float *packT;
 
     /// outputs
 
-    //! amount of water in snow melt, snomlt in SWAT
-    float *m_SM;
-    //! snow accumulation, sno_hru in SWAT
-    float *m_SA;
+	// @Out
+	// @Description amount of water in snow melt, snomlt in SWAT
+    float *SNME;
+
+	// @Out
+	// @Description snow accumulation, sno_hru in SWAT
+    float *SA;
 };
 
+VISITABLE_STRUCT(SNO_SP, m_nCells, T0, K_blow, T_snow, lag_snow, c_snow6, c_snow12, SNOCOVMX, SNO50COV, snowCoverCoef1, snowCoverCoef2,
+	TMEAN, TMAX, NEPR, SNAC, SE, packT, SNME, SA);

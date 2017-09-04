@@ -35,6 +35,8 @@
 *	1.	Move subbasin class to base/data module for sharing with other modules
 */
 #pragma once
+
+#include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 #include "clsSubbasin.h"
 
@@ -99,92 +101,141 @@ private:
      */
     void initialOutputs(void);
 
-private:
-    //inputs
+	//! subbasin IDs
+	vector<int> m_subbasinIDs;
 
-    //! time step, second
-    int m_TimeStep;
-    //! Valid cells number
+	//! All subbasins information,\sa clsSubbasins, \sa Subbasin
+	clsSubbasins *m_subbasinsInfo;
+
+	// @In
+	// @Description time step, second
+    int TIMESTEP;
+
+	// @In
+	// @Description Valid cells number
     int m_nCells;
-    //! cell size of the grid (m)
-    float m_CellWidth;
-    //! maximum soil layers number
-    int m_nSoilLayers;
-    //! soil layers number of each cell
-    float *m_soilLayers;
-    //! soil thickness of each layer
-    float **m_soilThick;
 
-    //float m_upSoilDepth;
+	// @In
+	// @Description cell size of the grid (m)
+    float CELLWIDTH;
 
-    //! groundwater Revap coefficient
-    float m_dp_co;
-    //! baseflow recession coefficient
-    float m_Kg;
-    //! baseflow recession exponent
-    float m_Base_ex;
-    //! the amount of water percolated from the soil water reservoir and input to the groundwater reservoir from the percolation module(mm)
-    float **m_perc;
-    //! evaporation from interception storage (mm) from the interception module
-    float *m_D_EI;
-    //! evaporation from the depression storage (mm) from the depression module
-    float *m_D_ED;
-    //! evaporation from the soil water storage (mm) from the soil ET module
-    float *m_D_ES;
-    //! actual amount of transpiration (mm H2O)
-    float *m_plantEP;
-    //! PET(mm) from the PET modules
-    float *m_D_PET;
-    //! initial ground water storage (or at time t-1)
-    float m_GW0;
-    //! maximum ground water storage
-    float m_GWMAX;
-    //!
-    float *m_petSubbasin;
-    //!
-    float *m_gwStore;
+	// @In
+	// @Description maximum soil layers number
+    int nSoilLayers;
 
-    /// slope (percent, or drop/distance, or tan) of each cell
-    float *m_Slope;
+	// @In
+	// @Description soil layers number of each cell
+    float *soillayers;
 
-    //! soil storage
-    float **m_soilStorage;
-    //! soil depth of each layer, the maximum soil depth is used here, i.e., m_soilDepth[i][(int)m_soilLayers[i]]
-    float **m_soilDepth;
-    //! ground water from bank storage, passed from channel routing module
-    float *m_VgroundwaterFromBankStorage;
+	// @In
+	// @Description soil thickness of each layer
+    float **soilthick;
+
+	// @In
+	// @Description groundwater Revap coefficient
+    float df_coef;
+
+	// @In
+	// @Description baseflow recession coefficient
+    float Kg;
+
+	// @In
+	// @Description baseflow recession exponent
+    float Base_ex;
+
+	// @In
+	// @Description the amount of water percolated from the soil water reservoir and input to the groundwater reservoir from the percolation module(mm)
+    float **Perco;
+
+	// @In
+	// @Description evaporation from interception storage (mm) from the interception module
+    float *INET;
+
+	// @In
+	// @Description evaporation from the depression storage (mm) from the depression module
+    float *DEET;
+
+	// @In
+	// @Description evaporation from the soil water storage (mm) from the soil ET module
+    float *SOET;
+
+	// @In
+	// @Description actual amount of transpiration (mm H2O)
+    float *AET_PLT;
+
+	// @In
+	// @Description PET(mm) from the PET modules
+    float *PET;
+
+	// @In
+	// @Description initial ground water storage (or at time t-1)
+    float GW0;
+
+	// @In
+	// @Description maximum ground water storage
+    float GWMAX;
+
+	// @Out
+	// @Description the potential evapotranspiration rate of the subbasin
+    float *SBPET;
+
+	// @Out
+	// @Description Groundwater storage of the subbasin
+    float *SBGS;
+
+	// @In
+	// @Description slope (percent, or drop/distance, or tan) of each cell
+    float *slope;
+
+	// @In
+	// @Description soil storage
+    float **solst;
+
+	// @In
+	// @Description soil depth of each layer, the maximum soil depth is used here, i.e., soilDepth[i][(int)soillayers[i]]
+    float **soilDepth;
+
+	// @In
+	// @Description ground water from bank storage, passed from channel routing module
+    float *GWNEW;
 
     //output
-    //!
-    float *m_T_Perco;
-    //!
-    float *m_T_PerDep;
-    //!
-    float *m_T_RG;
-    //!
-    float *m_T_QG;
-    //!
-    float *m_D_Revap;
-    //!
-    float *m_T_Revap;
-    //! groundwater water balance statistics
-    float **m_T_GWWB;
 
-    ////! subbasin grid
-    //   float *m_subbasin;
-    //! subbasin number
-    int m_nSubbasins;
-    //! subbasin IDs
-    vector<int> m_subbasinIDs;
-    ////! selected count of output subbasin
-    //   int m_subbasinSelectedCount;
-    ////! subbasin selected to output
-    //   float *m_subbasinSelected;
-    bool m_firstRun;
-    //! All subbasins information,\sa clsSubbasins, \sa Subbasin
-    clsSubbasins *m_subbasinsInfo;
-    ////! vector of all Subbasin instances
-    // vector<Subbasin *> m_subbasinList;
+	// @Out
+	// @Description Perco
+    float *T_Perco;
+
+	// @Out
+	// @Description PerDep
+    float *T_PerDep;
+
+	// @Out
+	// @Description groundwater runoff
+    float *RG;
+
+	// @Out
+	// @Description groundwater flow out of the subbasin
+    float *SBQG;
+
+	// @Out
+	// @Description revaporization from groundwater to the last soil layer
+    float *Revap;
+
+	// @Out
+	// @Description revaporization from groundwater to the last soil layer
+    float *T_Revap;
+
+	// @Out
+	// @Description groundwater water balance statistics
+    float **GWWB;
+
+	// @In
+	// @Description subbasin number
+    int nSubbasins;
+    
+	// @In
+	// @Description first Run
+    bool firstRun;
 
     /*
      * \brief Set groundwater related subbasin parameters
@@ -193,3 +244,7 @@ private:
      */
     void setSubbasinInfos(void);
 };
+
+VISITABLE_STRUCT(ReservoirMethod, m_nCells, TIMESTEP, CELLWIDTH, nSoilLayers, soillayers, soilthick, df_coef, Kg, Base_ex, Perco, INET, 
+	DEET, SOET, AET_PLT, PET, GW0, GWMAX, SBPET, SBGS, slope, solst, soilDepth, GWNEW, T_Perco, T_PerDep, RG, SBQG, Revap, T_Revap, 
+	GWWB, nSubbasins, firstRun);

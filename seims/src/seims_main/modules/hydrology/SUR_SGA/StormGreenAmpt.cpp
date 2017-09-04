@@ -178,7 +178,7 @@ int StormGreenAmpt::Execute(void) {
 #pragma omp parallel for
     for (int i = 0; i < m_nCells; i++) {
         float t = 10.f;
-        /// TODO change to m_tMean
+        /// TODO change to TMEAN
         if (m_tMax != NULL && m_tMin != NULL) {
             t = (m_tMax[i] + m_tMin[i]) / 2.f;
         }
@@ -280,7 +280,7 @@ void StormGreenAmpt::SetValue(const char *key, float value) {
 
     //if (StringMatch(sk,"T_snow"))
     //{
-    //	m_tSnow = value;
+    //	T_snow = value;
     //}
     //else if (StringMatch(sk,"t_soil"))
     //{

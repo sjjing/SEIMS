@@ -183,7 +183,7 @@ public:
     int *getCells(void) { return m_cells; };
 
     ////! Get soil layers number of valid cells
-    //int *getSoilLayers(){return m_nSoilLayers;};
+    //int *getSoilLayers(){return nSoilLayers;};
     //! Get the output flag (true mean output), the function will be deprecated. By LJ
     bool getIsOutput(void) { return m_isOutput; };
 
