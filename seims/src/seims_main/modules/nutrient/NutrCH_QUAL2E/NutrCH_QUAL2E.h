@@ -67,12 +67,12 @@ public:
 	*/
 	map<int, BMPPointSrcFactory *> m_ptSrcFactory;
 
-	// @In
-	// @Description cell number
+    // @In
+    // @Description cell number
     int m_nCells;
 
-	// @In
-	// @Description time step (sec)
+    // @In
+    // @Description time step (sec)
     int DT_CH;
 
 	// @In
