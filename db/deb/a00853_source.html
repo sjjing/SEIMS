@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/scenario_analysis/readTextInfo.py Source File</title>
+<title>SEIMS: seims/preprocess/sd_slopeposition_units.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,405 +112,442 @@ $(document).ready(function(){initNavTree('db/deb/a00853_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">readTextInfo.py</div>  </div>
+<div class="title">sd_slopeposition_units.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># @Read BMP_Scenario text info</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"># @Author Huiran GAO</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"># @Date   2016-10-28</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">import</span> os</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> random</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> platform</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> scoop</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> RelativeImportModules <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment"># import util module located in SEIMS/preprocess</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keywordflow">if</span> __package__ <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    __package__ = import_parents(level = 2)</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> ..preprocess.util <span class="keyword">import</span> *</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">def </span>delSpecialStr(line):</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="stringliteral">    :param line:</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="stringliteral">    :return: line that remove [&#39;\r\n&#39;, &#39;\n\r&#39;, &#39;\r&#39;, &#39;\n&#39;]</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="stringliteral">    &#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    LFs = [<span class="stringliteral">&#39;\r\n&#39;</span>, <span class="stringliteral">&#39;\n\r&#39;</span>, <span class="stringliteral">&#39;\r&#39;</span>, <span class="stringliteral">&#39;\n&#39;</span>]</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keywordflow">for</span> LF <span class="keywordflow">in</span> LFs:</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">if</span> LF <span class="keywordflow">in</span> line:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            line = line.split(LF)[0]</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;            <span class="keywordflow">break</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordflow">return</span> line</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="comment">###### farms ######</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">def </span>getFieldInfo(fieldFile):</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="stringliteral">    :param fieldFile: full path of field text file</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">    :return: field number, field list</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="stringliteral">    &#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="comment"># Get field info</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    fieldTtextArr = []</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="keywordflow">if</span> os.path.isfile(fieldFile):</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        fieldfile_object = open(fieldFile, <span class="stringliteral">&quot;</span><span class="stringliteral">r&quot;)</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">        </span><span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            li = 0</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            <span class="keywordflow">for</span> line <span class="keywordflow">in</span> fieldfile_object:</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                line = delSpecialStr(line)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                <span class="keywordflow">if</span> li != 0 <span class="keywordflow">and</span> li != 2:</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                    fieldTtextArr.append(line.strip())</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                li += 1</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">finally</span>:</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            fieldfile_object.close()</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment"># Get farm field index</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    fieldsNum = int(fieldTtextArr[0])</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    farmFields = []</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    farmLU = []</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(1, fieldsNum):</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        fieldInfo = fieldTtextArr[i].split(<span class="stringliteral">&#39;\t&#39;</span>)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="keywordflow">if</span> int(fieldInfo[3]) == 1 <span class="keywordflow">or</span> int(fieldInfo[3]) == 33:</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            farmFields.append(int(fieldInfo[0]))</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            farmLU.append(int(fieldInfo[3]))</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="comment"># print farmFields</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">return</span> fieldsNum, farmFields, farmLU</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="keyword">def </span>getPointSource(pointFile):</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="stringliteral">    :param pointFile: full path of point source distribute file</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="stringliteral">    :return: cattle points list, pig points list, sewage points list</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;<span class="stringliteral">    &#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="comment">###### points ######</span></div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    pointTextArr = []</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    point_cattle = []</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    point_pig = []</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    point_sewage = []</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    point_cattle_size = []</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    point_pig_size = []</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keywordflow">if</span> os.path.isfile(pointFile):</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        pointfile_object = open(pointFile, <span class="stringliteral">&quot;</span><span class="stringliteral">r&quot;)</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="stringliteral">        </span><span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;            <span class="keywordflow">for</span> line <span class="keywordflow">in</span> pointfile_object:</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                line = delSpecialStr(line)</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;                <span class="keywordflow">if</span> len(line) &gt; 0:</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                    <span class="keywordflow">if</span> line[0] <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="stringliteral">&quot;#&quot;</span>:</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                        pointTextArr.append(line.strip())</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                        <span class="comment"># del pointTtextArr[0]</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="keywordflow">finally</span>:</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            pointfile_object.close()</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="comment"># Get animal farms index</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(1, len(pointTextArr)):</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        pointInfo = pointTextArr[i].split(<span class="stringliteral">&#39;\t&#39;</span>)</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordflow">if</span> int(pointInfo[0]) == 10000:</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            point_cattle.append(pointInfo[1])</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            point_cattle_size.append(int(pointInfo[7]))</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="keywordflow">elif</span> int(pointInfo[0]) == 20000:</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;            point_pig.append(pointInfo[1])</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            point_pig_size.append(int(pointInfo[7]))</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            point_sewage.append(pointInfo[1])</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">return</span> point_cattle, point_pig, point_sewage, point_cattle_size, point_pig_size</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="keyword">def </span>getBMPsInfo(pointBMPsFile):</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="stringliteral">    :param pointBMPsFile: full path of points BMPs info file</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="stringliteral">    :return: farm BMPs, cattle BMPs, pig BMPs, sewage BMPs</span></div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="stringliteral">    &#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="comment"># Get BMPs info</span></div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    BMPs_farm_id = []</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    BMPs_farm = []</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    BMPs_cattle_id = []</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    BMPs_cattle = []</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    BMPs_pig_id = []</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    BMPs_pig = []</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    BMPs_sewage_id = []</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    BMPs_sewage = []</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    pointbmpsTextArr = []</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keywordflow">if</span> os.path.isfile(pointBMPsFile):</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        pointbmpsfile_object = open(pointBMPsFile, <span class="stringliteral">&quot;</span><span class="stringliteral">r&quot;)</span></div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="stringliteral">        </span><span class="keywordflow">try</span>:</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            <span class="keywordflow">for</span> line <span class="keywordflow">in</span> pointbmpsfile_object:</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                line = delSpecialStr(line)</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                <span class="keywordflow">if</span> len(line) &gt; 0:</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                    <span class="keywordflow">if</span> line[0] <span class="keywordflow">is</span> <span class="keywordflow">not</span> <span class="stringliteral">&quot;#&quot;</span>:</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                        pointbmpsTextArr.append(line.strip())</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="keywordflow">finally</span>:</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;            pointbmpsfile_object.close()</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="comment"># Get animal farms&#39; BMPs info</span></div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(1, len(pointbmpsTextArr)):</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        pointbmpsInfo = pointbmpsTextArr[j].split(<span class="stringliteral">&#39;\t&#39;</span>)</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <span class="keywordflow">if</span> int(float(pointbmpsInfo[0]) / 10000.) == 1:</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            BMPs_cattle_id.append(pointbmpsInfo[0])</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keywordflow">elif</span> int(float(pointbmpsInfo[0]) / 10000.) == 2:</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            BMPs_pig_id.append(pointbmpsInfo[0])</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;            BMPs_sewage_id.append(pointbmpsInfo[0])</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    BMPs_farm = [0, 1]</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keywordflow">for</span> cc <span class="keywordflow">in</span> range(len(BMPs_cattle_id)):</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        BMPs_cattle.append(int(BMPs_cattle_id[cc]) - 10000)</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keywordflow">for</span> pp <span class="keywordflow">in</span> range(len(BMPs_pig_id)):</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        BMPs_pig.append(int(BMPs_pig_id[pp]) - 20000)</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;    <span class="keywordflow">for</span> ss <span class="keywordflow">in</span> range(len(BMPs_sewage_id)):</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        BMPs_sewage.append(int(BMPs_sewage_id[ss]) - 40000)</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="comment"># BMP cost</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    BMPs_farm_cost = []</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    BMPs_cattle_cost = numpy.zeros((len(BMPs_cattle) + 1))</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    BMPs_pig_cost = numpy.zeros((len(BMPs_pig) + 1))</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    BMPs_sewage_cost = numpy.zeros((len(BMPs_sewage) + 1))</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(1, len(pointbmpsTextArr)):</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        pointbmpsInfo = pointbmpsTextArr[j].split(<span class="stringliteral">&#39;\t&#39;</span>)</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        cost = float(pointbmpsInfo[20]) + float(pointbmpsInfo[21]) + float(pointbmpsInfo[22])</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">if</span> int(float(pointbmpsInfo[0]) / 10000.) == 1:</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            BMPs_cattle_cost[int(float(pointbmpsInfo[0]) - 10000.)] = cost</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keywordflow">elif</span> int(float(pointbmpsInfo[0]) / 10000.) == 2:</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            BMPs_pig_cost[int(float(pointbmpsInfo[0]) - 20000.)] = cost</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            BMPs_sewage_cost[int(float(pointbmpsInfo[0]) - 40000.)] = cost</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="comment"># print BMPs_farm, &#39;\n&#39;, BMPs_cattle, &#39;\n&#39;, BMPs_pig, &#39;\n&#39;, BMPs_sewage, &#39;\n&#39;, \</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="comment">#         BMPs_cattle_cost, &#39;\n&#39;, BMPs_pig_cost, &#39;\n&#39;, BMPs_sewage_cost</span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <span class="keywordflow">return</span> BMPs_farm, BMPs_cattle, BMPs_pig, BMPs_sewage, BMPs_cattle_cost, BMPs_pig_cost, BMPs_sewage_cost</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="keyword">def </span>selectBMPatRandom(arr):</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="stringliteral">    :param arr: BMPs list</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="stringliteral">    :return: select a BMP randomly</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="stringliteral">    &#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    aLen = len(arr)</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    n = random.randint(0, aLen - 1)</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordflow">return</span> arr[n]</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="keyword">def </span>getPointConfig(scenario, bmps_point, point_source, start_index, end_index):</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="stringliteral">    :param scenario: scenario array</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="stringliteral">    :param bmps_point: BMPs list of point</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="stringliteral">    :param point_source: point source list</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="stringliteral">    :param start_index: point source start index in scenario array</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="stringliteral">    :param end_index: point source end index in scenario array</span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="stringliteral">    :return: config info array</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="stringliteral">    &#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    pointConfig = []</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="keywordflow">for</span> bc <span class="keywordflow">in</span> range(len(bmps_point)):</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        bmp_index = []</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        bmp_index.append(bmps_point[bc])</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <span class="keywordflow">for</span> c <span class="keywordflow">in</span> range(start_index, end_index):</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;            <span class="keywordflow">if</span> scenario[c] == bmps_point[bc]:</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                bmp_index.append(point_source[c - start_index])</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        pointConfig.append(bmp_index)</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="keywordflow">return</span> pointConfig</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Construct hillslope-slope position units.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    The main procedure:\n</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">      1. Assign unique ID to each type of slope position unit with hillslopes, and</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">         assign the up-down relationships according to the slope position sequence.\n</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">      2. Statistics the landuse types and areas within each slope position units.\n</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="stringliteral">      3. Merge hillslope with incomplete slope position sequences to other hillslopes</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="stringliteral">         of the same subbasin.\n</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="stringliteral">      4. Merge subbasin with incomplete slope position sequences to its downstream,</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="stringliteral">         for the outlet subbasin merge to its upstream.</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="stringliteral">    @author   : Liangjun Zhu, Huiran Gao</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="stringliteral">    @changelog: 17-08-14  lj - initial implementation.\n</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">import</span> json</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">import</span> os</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">import</span> numpy</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d1/d17/a01369.html">seims.preprocess.db_import_stream_parameters</a> <span class="keyword">import</span> ImportReaches2Mongo</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d2/d29/a01376.html">seims.preprocess.sd_hillslope</a> <span class="keyword">import</span> DelineateHillslope</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d1/dcc/a01392.html">seims.pygeoc.pygeoc.raster.raster</a> <span class="keyword">import</span> RasterUtilClass, DEFAULT_NODATA</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d6/d2f/a01394.html">seims.pygeoc.pygeoc.utils.utils</a> <span class="keyword">import</span> FileClass</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d9/d45/a01396.html">seims.pygeoc.pygeoc.vector.vector</a> <span class="keyword">import</span> VectorUtilClass</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../db/ddc/a00353.html">   30</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../db/ddc/a00353.html">SlopePositionUnits</a>(object):</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Construct hillslope-slope position units.</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="../../db/ddc/a00353.html#a213fbf9a8832b11de4e4185e6600275c">   34</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../db/ddc/a00353.html#a213fbf9a8832b11de4e4185e6600275c">__init__</a>(self, tag_names, slpposf, reach_shp, hillslpf, landusef):</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Initialization.</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="stringliteral">            tag_names: [tag(integer), name(str)], tag should be ascending from up to bottom.</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="stringliteral">            slpposf: Crisp classification of slope position.</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="stringliteral">            reach_shp: Reach shapefile used to extract the up-down relationships of subbasins</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="stringliteral">            hillslpf: Delineated hillslope file by sd_hillslope.py.</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral">            landusef: Landuse, used to statistics areas of each landuse types within</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">                      slope position units</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral">        Attributes:</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="stringliteral">            slppos_tags(OrderedDict): {tag: name}</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="stringliteral">            subbsin_tree: up-down stream relationships of subbasins.</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="stringliteral">                          {subbsnID: {&#39;upstream&#39;: [], &#39;downstream&#39;: []}}</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="stringliteral">            units_updown_info: Output json data of slope position units.</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="stringliteral">                {&quot;slppos_1&quot;: {id:{&quot;downslope&quot;: [ids], &quot;upslope&quot;: [ids], &quot;landuse&quot;: {luID: area}</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="stringliteral">                                  &quot;hillslope&quot;: [hillslpID], &quot;subbasin&quot;: [subbsnID], &quot;area&quot;: area</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="stringliteral">                                 }</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="stringliteral">                             }</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="stringliteral">                 &quot;slppos_2&quot;: ...</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="stringliteral">                }</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="comment"># Check the file existance</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        FileClass.check_file_exists(slpposf)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        FileClass.check_file_exists(reach_shp)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        FileClass.check_file_exists(hillslpf)</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        FileClass.check_file_exists(landusef)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="comment"># Set inputs</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a2462cedb927cf4e0c92f546350d4385d">ws</a> = os.path.dirname(slpposf)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        tag_names = sorted(tag_names, key=<span class="keyword">lambda</span> x: x[0])</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="comment"># initialize slope position dict with up-down relationships</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">slppos_tags</a> = OrderedDict()</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        <span class="keywordflow">for</span> idx, tagname <span class="keywordflow">in</span> enumerate(tag_names):</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            tag, name = tagname</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordflow">if</span> len(tag_names) &gt; 1:</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                <span class="keywordflow">if</span> idx == 0:</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                    self.<a class="code" href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">slppos_tags</a>[int(tag)] = {<span class="stringliteral">&#39;name&#39;</span>: name, <span class="stringliteral">&#39;upslope&#39;</span>: -1,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                                                  <span class="stringliteral">&#39;downslope&#39;</span>: tag_names[idx + 1][0]}</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                <span class="keywordflow">elif</span> idx == len(tag_names) - 1:</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                    self.<a class="code" href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">slppos_tags</a>[int(tag)] = {<span class="stringliteral">&#39;name&#39;</span>: name, <span class="stringliteral">&#39;upslope&#39;</span>: tag_names[idx - 1][0],</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                                  <span class="stringliteral">&#39;downslope&#39;</span>: -1}</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                    self.<a class="code" href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">slppos_tags</a>[int(tag)] = {<span class="stringliteral">&#39;name&#39;</span>: name, <span class="stringliteral">&#39;upslope&#39;</span>: tag_names[idx - 1][0],</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                                                  <span class="stringliteral">&#39;downslope&#39;</span>: tag_names[idx + 1][0]}</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                self.<a class="code" href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">slppos_tags</a>[int(tag)] = {<span class="stringliteral">&#39;name&#39;</span>: name, <span class="stringliteral">&#39;upslope&#39;</span>: -1, <span class="stringliteral">&#39;downslope&#39;</span>: -1}</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a700ad5907640237be23a67fa54d36f55">reach</a> = reach_shp</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="comment"># read raster data and check the extent based on hillslope.</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        hillslpr = RasterUtilClass.read_raster(hillslpf)</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a3c9b593bf588f4984767492a4e4b6c11">data_hillslp</a> = hillslpr.data</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a58a7da9e99c6de9dd1602c46db83ae69">nrows</a> = hillslpr.nRows</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a87e905386540b6634ae6878d78315d1a">ncols</a> = hillslpr.nCols</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#ac0e9b11153be5a0423199228ad9bb242">dx</a> = hillslpr.dx</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a0289b06df0de8ffe9d1070e4af64dc82">nodata_hillslp</a> = hillslpr.noDataValue</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#ae1db0b8f5dc5c78ea624576d2add1de6">geotrans</a> = hillslpr.geotrans</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a12a43dcd7d091f68595a8ca6afb952a1">srs</a> = hillslpr.srs</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a1d83f6ece9c49b6eaf8476438c94272d">datatype</a> = hillslpr.dataType</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        slpposr = RasterUtilClass.read_raster(slpposf)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="keywordflow">if</span> slpposr.nRows != self.<a class="code" href="../../db/ddc/a00353.html#a58a7da9e99c6de9dd1602c46db83ae69">nrows</a> <span class="keywordflow">or</span> slpposr.nCols != self.<a class="code" href="../../db/ddc/a00353.html#a87e905386540b6634ae6878d78315d1a">ncols</a>:</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;The slopeposition raster MUST have the same dimensions&#39;</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                             <span class="stringliteral">&#39; with hillslope!&#39;</span>)</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a71715d61fd7d05a9b11b8bb8f5617eef">data_slppos</a> = slpposr.data</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a6c614d6374b1f303db3b95ec15aea2cd">nodata_slppos</a> = slpposr.noDataValue</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        landuser = RasterUtilClass.read_raster(landusef)</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">if</span> landuser.nRows != self.<a class="code" href="../../db/ddc/a00353.html#a58a7da9e99c6de9dd1602c46db83ae69">nrows</a> <span class="keywordflow">or</span> landuser.nCols != self.<a class="code" href="../../db/ddc/a00353.html#a87e905386540b6634ae6878d78315d1a">ncols</a>:</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;The landuser raster MUST have the same dimensions&#39;</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;                             <span class="stringliteral">&#39; with hillslope!&#39;</span>)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a31067be2e0633fff210a267a7e262f63">data_landuse</a> = landuser.data</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a3300576e0bcd5a995d40a68426e0f03f">nodata_landuse</a> = landuser.noDataValue</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="comment"># Set intermediate data</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a6b7c9d1bda4bd73477cddca78eaaac11">subbsin_num</a> = -1</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a37a46f0de62b9e3ff883caf0a6c4d314">subbsin_tree</a> = dict()</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">units_updwon</a> = OrderedDict()</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordflow">for</span> tag <span class="keywordflow">in</span> self.<a class="code" href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">slppos_tags</a>:</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;            self.<a class="code" href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">units_updwon</a>[self.slppos_tags.get(tag).get(<span class="stringliteral">&#39;name&#39;</span>)] = dict()</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a6cbfedbbfd0c9927d12a6fd5ae106008">slppos_ids</a> = numpy.ones((self.<a class="code" href="../../db/ddc/a00353.html#a58a7da9e99c6de9dd1602c46db83ae69">nrows</a>, self.<a class="code" href="../../db/ddc/a00353.html#a87e905386540b6634ae6878d78315d1a">ncols</a>)) * DEFAULT_NODATA</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#abce10d20518361380a1ef692057c1390">hierarchy_units</a> = dict()</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="comment"># Set gene_values of outputs</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a4a674632e6e36280c59a0d353b281283">outf_units_origin</a> = self.<a class="code" href="../../db/ddc/a00353.html#a2462cedb927cf4e0c92f546350d4385d">ws</a> + os.sep + <span class="stringliteral">&#39;slppos_units_origin_uniqueid.tif&#39;</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#ad9f98fdf1fc5dce47ccae901a93cb330">outshp_units_origin</a> = self.<a class="code" href="../../db/ddc/a00353.html#a2462cedb927cf4e0c92f546350d4385d">ws</a> + os.sep + <span class="stringliteral">&#39;origin_uniqueid.shp&#39;</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a09c4bb241f89ec77b87fe976422fb363">json_units_origin</a> = self.<a class="code" href="../../db/ddc/a00353.html#a2462cedb927cf4e0c92f546350d4385d">ws</a> + os.sep + <span class="stringliteral">&#39;original_updown.json&#39;</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#ac8d9968b963d6eb2f7fc8cebe70ef47a">outf_units_merged</a> = self.<a class="code" href="../../db/ddc/a00353.html#a2462cedb927cf4e0c92f546350d4385d">ws</a> + os.sep + <span class="stringliteral">&#39;slppos_units.tif&#39;</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#afbe748c7fc3416eeee52cd701a22e4a3">outshp_units_merged</a> = self.<a class="code" href="../../db/ddc/a00353.html#a2462cedb927cf4e0c92f546350d4385d">ws</a> + os.sep + <span class="stringliteral">&#39;slppos_units_merged.shp&#39;</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#afa6e2786c359380b5662ae2dba0782f0">json_units_merged</a> = self.<a class="code" href="../../db/ddc/a00353.html#a2462cedb927cf4e0c92f546350d4385d">ws</a> + os.sep + <span class="stringliteral">&#39;updown.json&#39;</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;</div>
+<div class="line"><a name="l00123"></a><span class="lineno"><a class="line" href="../../db/ddc/a00353.html#ab3d1d46eb2780ba1e44987e88d918833">  123</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../db/ddc/a00353.html#ab3d1d46eb2780ba1e44987e88d918833">extract_subbasin_updown</a>(self):</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Extract the up-down relationship of subbasins.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a37a46f0de62b9e3ff883caf0a6c4d314">subbsin_tree</a> = ImportReaches2Mongo.down_stream(self.<a class="code" href="../../db/ddc/a00353.html#a700ad5907640237be23a67fa54d36f55">reach</a>)[0]</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a6b7c9d1bda4bd73477cddca78eaaac11">subbsin_num</a> = len(self.<a class="code" href="../../db/ddc/a00353.html#a37a46f0de62b9e3ff883caf0a6c4d314">subbsin_tree</a>)</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;</div>
+<div class="line"><a name="l00128"></a><span class="lineno"><a class="line" href="../../db/ddc/a00353.html#a1b8c91316ebc99514805cb60ef8edd4c">  128</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../db/ddc/a00353.html#a1b8c91316ebc99514805cb60ef8edd4c">assign_uniqueid_slppos_units</a>(self):</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get unique ID by multiply slope position value and hillslope ID&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="keywordflow">for</span> m <span class="keywordflow">in</span> range(self.<a class="code" href="../../db/ddc/a00353.html#a58a7da9e99c6de9dd1602c46db83ae69">nrows</a>):</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            <span class="keywordflow">for</span> n <span class="keywordflow">in</span> range(self.<a class="code" href="../../db/ddc/a00353.html#a87e905386540b6634ae6878d78315d1a">ncols</a>):</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                <span class="keywordflow">if</span> self.<a class="code" href="../../db/ddc/a00353.html#a71715d61fd7d05a9b11b8bb8f5617eef">data_slppos</a>[m][n] == self.<a class="code" href="../../db/ddc/a00353.html#a6c614d6374b1f303db3b95ec15aea2cd">nodata_slppos</a> <span class="keywordflow">or</span> \</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;                                self.<a class="code" href="../../db/ddc/a00353.html#a3c9b593bf588f4984767492a4e4b6c11">data_hillslp</a>[m][n] == self.<a class="code" href="../../db/ddc/a00353.html#a0289b06df0de8ffe9d1070e4af64dc82">nodata_hillslp</a>:</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                    <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                cur_slppos = int(self.<a class="code" href="../../db/ddc/a00353.html#a71715d61fd7d05a9b11b8bb8f5617eef">data_slppos</a>[m][n])</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                cur_spname = self.slppos_tags.get(cur_slppos).get(<span class="stringliteral">&#39;name&#39;</span>)</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                cur_hs = int(self.<a class="code" href="../../db/ddc/a00353.html#a3c9b593bf588f4984767492a4e4b6c11">data_hillslp</a>[m][n])</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                <span class="keywordflow">if</span> cur_hs &lt;= self.<a class="code" href="../../db/ddc/a00353.html#a6b7c9d1bda4bd73477cddca78eaaac11">subbsin_num</a>:  <span class="comment"># which is stream</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                    <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                cur_subbsn = DelineateHillslope.get_subbasin_from_hillslope_id(cur_hs,</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                                                                               self.<a class="code" href="../../db/ddc/a00353.html#a6b7c9d1bda4bd73477cddca78eaaac11">subbsin_num</a>)</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                <span class="keywordflow">if</span> cur_subbsn &lt;= 0:</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                    <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                <span class="keywordflow">if</span> cur_slppos <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.<a class="code" href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">slppos_tags</a>:</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                    <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                cur_unit = cur_hs * cur_slppos</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                self.<a class="code" href="../../db/ddc/a00353.html#a6cbfedbbfd0c9927d12a6fd5ae106008">slppos_ids</a>[m][n] = cur_unit</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                <span class="comment"># calculate theoretical downslope and upslope unit ID (check later)</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                down_id = self.slppos_tags.get(cur_slppos).get(<span class="stringliteral">&#39;downslope&#39;</span>) * cur_hs</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                up_id = self.slppos_tags.get(cur_slppos).get(<span class="stringliteral">&#39;upslope&#39;</span>) * cur_hs</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                <span class="keywordflow">if</span> down_id &lt; 0:</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;                    down_id = -1</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                <span class="keywordflow">if</span> up_id &lt; 0:</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                    up_id = -1</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                <span class="keywordflow">if</span> cur_unit <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.units_updwon.get(cur_spname):</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                    self.units_updwon.get(cur_spname)[cur_unit] = {<span class="stringliteral">&#39;area&#39;</span>: 1,</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                                                                   <span class="stringliteral">&#39;downslope&#39;</span>: down_id,</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                                                                   <span class="stringliteral">&#39;upslope&#39;</span>: up_id,</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                                                                   <span class="stringliteral">&#39;hillslope&#39;</span>: [cur_hs],</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                                                                   <span class="stringliteral">&#39;subbasin&#39;</span>: [cur_subbsn],</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                                                                   <span class="stringliteral">&#39;landuse&#39;</span>: dict()}</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                    self.units_updwon.get(cur_spname)[cur_unit][<span class="stringliteral">&#39;area&#39;</span>] += 1</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                <span class="comment"># add landuse statistics</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                cur_lu = self.<a class="code" href="../../db/ddc/a00353.html#a31067be2e0633fff210a267a7e262f63">data_landuse</a>[m][n]</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                <span class="keywordflow">if</span> cur_lu != self.<a class="code" href="../../db/ddc/a00353.html#a3300576e0bcd5a995d40a68426e0f03f">nodata_landuse</a> <span class="keywordflow">and</span> cur_lu &gt; 0:</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                    cur_lu = int(cur_lu)</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                    <span class="keywordflow">if</span> cur_lu <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.units_updwon.get(cur_spname)[cur_unit][<span class="stringliteral">&#39;landuse&#39;</span>]:</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                        self.units_updwon.get(cur_spname)[cur_unit][<span class="stringliteral">&#39;landuse&#39;</span>][cur_lu] = 1</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                    <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                        self.units_updwon.get(cur_spname)[cur_unit][<span class="stringliteral">&#39;landuse&#39;</span>][cur_lu] += 1</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
+<div class="line"><a name="l00173"></a><span class="lineno"><a class="line" href="../../db/ddc/a00353.html#ab5fb50ea1829e24346fc5eb6a2ead626">  173</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../db/ddc/a00353.html#ab5fb50ea1829e24346fc5eb6a2ead626">check_unit_id</a>(self):</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;check the existence of upslope and downslope units.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        <span class="keywordflow">if</span> <span class="stringliteral">&#39;overview&#39;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.<a class="code" href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">units_updwon</a>:</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;            self.<a class="code" href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">units_updwon</a>[<span class="stringliteral">&#39;overview&#39;</span>] = OrderedDict()</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        all_units_ids = list()</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <span class="keywordflow">for</span> sp <span class="keywordflow">in</span> self.<a class="code" href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">slppos_tags</a>:</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            name = self.slppos_tags.get(sp).get(<span class="stringliteral">&#39;name&#39;</span>)</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            cur_units_ids = self.units_updwon.get(name).keys()</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            self.units_updwon.get(<span class="stringliteral">&#39;overview&#39;</span>)[name] = len(cur_units_ids)</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;            all_units_ids += cur_units_ids</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        self.units_updwon.get(<span class="stringliteral">&#39;overview&#39;</span>)[<span class="stringliteral">&#39;all_units&#39;</span>] = len(all_units_ids)</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <span class="keywordflow">for</span> sp <span class="keywordflow">in</span> self.<a class="code" href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">slppos_tags</a>:</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            name = self.slppos_tags.get(sp).get(<span class="stringliteral">&#39;name&#39;</span>)</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="keywordflow">for</span> unitid, unitdict <span class="keywordflow">in</span> self.units_updwon.get(name).iteritems():</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                <span class="keywordflow">if</span> unitdict.get(<span class="stringliteral">&#39;upslope&#39;</span>) &gt; 0 <span class="keywordflow">and</span> unitdict.get(<span class="stringliteral">&#39;upslope&#39;</span>) <span class="keywordflow">not</span> <span class="keywordflow">in</span> all_units_ids:</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                    self.units_updwon.get(name).get(unitid)[<span class="stringliteral">&#39;upslope&#39;</span>] = -1</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                <span class="keywordflow">if</span> unitdict.get(<span class="stringliteral">&#39;downslope&#39;</span>) &gt; 0 <span class="keywordflow">and</span> unitdict.get(<span class="stringliteral">&#39;downslope&#39;</span>) <span class="keywordflow">not</span> <span class="keywordflow">in</span> all_units_ids:</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                    self.units_updwon.get(name).get(unitid)[<span class="stringliteral">&#39;downslope&#39;</span>] = -1</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                <span class="comment"># calculate area</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;                area_km2 = self.<a class="code" href="../../db/ddc/a00353.html#ac0e9b11153be5a0423199228ad9bb242">dx</a> * self.<a class="code" href="../../db/ddc/a00353.html#ac0e9b11153be5a0423199228ad9bb242">dx</a> * 1.e-6</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;                self.units_updwon.get(name).get(unitid)[<span class="stringliteral">&#39;area&#39;</span>] *= area_km2</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                <span class="keywordflow">for</span> luid <span class="keywordflow">in</span> self.units_updwon.get(name).get(unitid)[<span class="stringliteral">&#39;landuse&#39;</span>]:</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                    self.units_updwon.get(name).get(unitid).get(<span class="stringliteral">&#39;landuse&#39;</span>)[luid] *= area_km2</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="keyword">def </span>decodPointScenario(id, pointConfig, ptsrc):</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="stringliteral">&#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="stringliteral">    :param pointConfig: config info array obtained from function getPointConfig()</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="stringliteral">    :return: part of BMPs scenarios text</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="stringliteral">    &#39;&#39;&#39;</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    scenario_Table = []</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keywordflow">for</span> config <span class="keywordflow">in</span> pointConfig:</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        <span class="keywordflow">if</span> len(config) &gt; 1:</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;            scenario_Row = <span class="stringliteral">&quot;&quot;</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            scenario_Row += str(id) + <span class="stringliteral">&quot;\tsName&quot;</span> + str(id) + <span class="stringliteral">&quot;\t1\t&quot;</span> + str(ptsrc + config[0]) \</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;                            + <span class="stringliteral">&quot;\tARRAY|POINT_SOURCE_DISTRIBUTION|&quot;</span> + str(ptsrc) + <span class="stringliteral">&quot;\tPOINT_SOURCE_MANAGEMENT\t&quot;</span></div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;            pidArr = <span class="stringliteral">&quot;&quot;</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;            <span class="keywordflow">for</span> pid <span class="keywordflow">in</span> range(1, len(config)):</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;                <span class="keywordflow">if</span> pid == len(config) - 1:</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                    pidArr += config[pid]</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;                <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                    pidArr += config[pid] + <span class="stringliteral">&quot;,&quot;</span></div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;            scenario_Row += pidArr</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            scenario_Table.append(scenario_Row)</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="keywordflow">return</span> scenario_Table</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="keyword">def </span>ReadSimfromTxt(timeStart, timeEnd, dataDir, sim, subbasinID = 0):</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    TIME_Start = datetime.datetime.strptime(timeStart, <span class="stringliteral">&quot;%Y-%m-%d&quot;</span>)</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    TIME_End = datetime.datetime.strptime(timeEnd, <span class="stringliteral">&quot;%Y-%m-%d&quot;</span>)</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="comment">## Read simulation txt</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    simData = <span class="stringliteral">&quot;%s/%d_%s.txt&quot;</span> % (dataDir, subbasinID, sim)</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keywordflow">while</span> <span class="keywordflow">not</span> os.path.isfile(simData):</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        time.sleep(1)</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="comment"># whether the text file existed?</span></div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> os.path.isfile(simData):</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="keywordflow">raise</span> IOError(<span class="stringliteral">&quot;%s is not existed, please check the configuration!&quot;</span> % simData)</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    simulate = []</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    LFs = [<span class="stringliteral">&#39;\r\n&#39;</span>, <span class="stringliteral">&#39;\n\r&#39;</span>, <span class="stringliteral">&#39;\r&#39;</span>, <span class="stringliteral">&#39;\n&#39;</span>]</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="keywordflow">if</span> os.path.exists(simData):</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        simfile = open(simData, <span class="stringliteral">&quot;</span><span class="stringliteral">r&quot;)</span></div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="stringliteral">        </span><span class="keywordflow">while</span> <span class="keyword">True</span>:</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            line = simfile.readline()</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            <span class="comment"># print line[0]</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            <span class="keywordflow">if</span> line:</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;                <span class="keywordflow">for</span> LF <span class="keywordflow">in</span> LFs:</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                    <span class="keywordflow">if</span> LF <span class="keywordflow">in</span> line:</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;                        line = line.split(LF)[0]</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;                        <span class="keywordflow">break</span></div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                strList = SplitStr(StripStr(line), spliters = <span class="stringliteral">&quot; &quot;</span>)</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                <span class="keywordflow">if</span> len(strList) == 3:</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                    dateStr = strList[0] + <span class="stringliteral">&quot; &quot;</span> + strList[1]</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                    simDatetime = datetime.datetime.strptime(dateStr, <span class="stringliteral">&quot;%Y-%m-%d %H:%M:%S&quot;</span>)</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                    <span class="keywordflow">if</span> simDatetime &gt;= TIME_Start <span class="keywordflow">and</span> simDatetime &lt;= TIME_End:</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                        simulate.append(float(strList[2]))</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                <span class="keywordflow">break</span></div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        simfile.close()</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        <span class="comment"># print simulate</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <span class="keywordflow">return</span> simulate</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="keywordflow">raise</span> IOError(<span class="stringliteral">&quot;%s is not exist&quot;</span> % simData)</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="comment"># String Array to float/int Array</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="keyword">def </span>StrtoFltArr(arr):</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    newArr = []</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(arr)):</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        newArr.append(float(arr[i]))</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    <span class="keywordflow">return</span> newArr</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="keyword">def </span>StrtoIntArr(arr):</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    newArr = []</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(len(arr)):</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        newArr.append(int(arr[i]))</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <span class="keywordflow">return</span> newArr</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="keyword">def </span>printInfo(Str):</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <span class="keywordflow">if</span> platform.system() <span class="keywordflow">is</span> <span class="stringliteral">&quot;Windows&quot;</span>:</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;        <span class="keywordflow">print</span> Str</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;        scoop.logger.warn(Str)</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="keyword">def </span>createForld(forldPath):</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    <span class="comment">## Create forld</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="keywordflow">if</span> <span class="keywordflow">not</span> isPathExists(forldPath):</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        os.makedirs(forldPath)</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00199"></a><span class="lineno"><a class="line" href="../../db/ddc/a00353.html#aef350966005defa957ee278e779cc603">  199</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../db/ddc/a00353.html#aef350966005defa957ee278e779cc603">check_slppos_sequence</a>(seqs, slppos_tags):</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Check the slope position sequence is complete or not.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        flag = <span class="keyword">True</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <span class="keywordflow">for</span> tag <span class="keywordflow">in</span> slppos_tags:</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            <span class="keywordflow">if</span> tag <span class="keywordflow">not</span> <span class="keywordflow">in</span> seqs:</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                flag = <span class="keyword">False</span></div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                <span class="keywordflow">break</span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        <span class="keywordflow">return</span> flag</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
+<div class="line"><a name="l00208"></a><span class="lineno"><a class="line" href="../../db/ddc/a00353.html#a75ad25e39c5a5b5be12fdcfd3272fa37">  208</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../db/ddc/a00353.html#a75ad25e39c5a5b5be12fdcfd3272fa37">merge_slopeposition_units</a>(self):</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Merge hillslope/subbasin with incomplete slope position sequences&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        all_units_ids = list()</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <span class="keywordflow">for</span> sp <span class="keywordflow">in</span> self.<a class="code" href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">slppos_tags</a>:</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;            name = self.slppos_tags.get(sp).get(<span class="stringliteral">&#39;name&#39;</span>)</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;            all_units_ids += self.units_updwon.get(name).keys()</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        <span class="comment"># loop each slope position units</span></div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        hillslp_elim = dict()</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        <span class="keywordflow">for</span> sp, spdict <span class="keywordflow">in</span> self.slppos_tags.iteritems():</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;            name = spdict.get(<span class="stringliteral">&#39;name&#39;</span>)</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;            <span class="keywordflow">for</span> unitid, unitdict <span class="keywordflow">in</span> self.units_updwon.get(name).iteritems():</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;                flag = <span class="keyword">True</span>  <span class="comment"># complete sequences or not</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                <span class="keywordflow">if</span> spdict.get(<span class="stringliteral">&#39;upslope&#39;</span>) &gt; 0 &gt; unitdict.get(<span class="stringliteral">&#39;upslope&#39;</span>):</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;                    flag = <span class="keyword">False</span></div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;                <span class="keywordflow">if</span> spdict.get(<span class="stringliteral">&#39;downslope&#39;</span>) &gt; 0 &gt; unitdict.get(<span class="stringliteral">&#39;downslope&#39;</span>):</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;                    flag = <span class="keyword">False</span></div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;                cur_hillslp_id = unitdict.get(<span class="stringliteral">&#39;hillslope&#39;</span>)[0]</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;                <span class="keywordflow">if</span> <span class="keywordflow">not</span> flag:</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                    <span class="keywordflow">if</span> cur_hillslp_id <span class="keywordflow">not</span> <span class="keywordflow">in</span> hillslp_elim:</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                        hillslp_elim[cur_hillslp_id] = [unitid]</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                <span class="keywordflow">if</span> cur_hillslp_id <span class="keywordflow">in</span> hillslp_elim <span class="keywordflow">and</span> unitid <span class="keywordflow">not</span> <span class="keywordflow">in</span> hillslp_elim[cur_hillslp_id]:</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                    hillslp_elim[cur_hillslp_id].append(unitid)</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&#39;Hillslope with incomplete slope position sequences: &#39;</span> + hillslp_elim.__str__())</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="comment"># Basic procedure:</span></div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <span class="comment">#   1. if header is incomplete, search left and right;</span></div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        <span class="comment">#      if left/right is incomplete, search header and right/left;</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        <span class="comment">#   2. if still not incomplete, check the subbasin,</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        <span class="comment">#   3. if still not satisfied, merge the left and right to the left or right of downstream</span></div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        <span class="comment">#      (or upstream for outlet subbasin). The header always with the left hillslope.</span></div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        hillslope_merge_order = {0: [1, 2], 1: [0, 2], 2: [0, 1]}</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        units_pair = dict()  <span class="comment"># unit id pairs, key is merged unit, value is destination unit.</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="keywordflow">for</span> hillid, unitids <span class="keywordflow">in</span> hillslp_elim.iteritems():</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            subbsnid = DelineateHillslope.get_subbasin_from_hillslope_id(hillid, self.<a class="code" href="../../db/ddc/a00353.html#a6b7c9d1bda4bd73477cddca78eaaac11">subbsin_num</a>)</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            hillids = DelineateHillslope.cal_hs_codes(self.<a class="code" href="../../db/ddc/a00353.html#a6b7c9d1bda4bd73477cddca78eaaac11">subbsin_num</a>, subbsnid)</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            idx = hillids.index(hillid)</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            <span class="comment"># slope positions that existed in current hillslope</span></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            sp_seq = list()</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            <span class="keywordflow">for</span> _id <span class="keywordflow">in</span> unitids:</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                _id /= hillid</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;                <span class="keywordflow">if</span> _id <span class="keywordflow">not</span> <span class="keywordflow">in</span> sp_seq:</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;                    sp_seq.append(_id)</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            satisfied = <span class="keyword">False</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;            cur_units_pair = dict()</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            <span class="keywordflow">for</span> curidx <span class="keywordflow">in</span> hillslope_merge_order[idx]:</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;                dst_hillid = hillids[curidx]</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                <span class="keywordflow">for</span> _id <span class="keywordflow">in</span> sp_seq:</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;                    dst_unit = _id * dst_hillid</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;                    <span class="keywordflow">if</span> dst_unit <span class="keywordflow">in</span> all_units_ids:</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;                        cur_units_pair[_id * hillid] = dst_unit</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;                <span class="keywordflow">for</span> sp <span class="keywordflow">in</span> self.<a class="code" href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">slppos_tags</a>:</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                    _uid = sp * dst_hillid</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;                    <span class="keywordflow">if</span> _uid <span class="keywordflow">in</span> all_units_ids <span class="keywordflow">and</span> sp <span class="keywordflow">not</span> <span class="keywordflow">in</span> sp_seq:</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                        sp_seq.append(sp)</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;                <span class="keywordflow">if</span> SlopePositionUnits.check_slppos_sequence(sp_seq, self.<a class="code" href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">slppos_tags</a>):</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;                    satisfied = <span class="keyword">True</span></div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                    <span class="keywordflow">break</span></div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;            <span class="keywordflow">if</span> satisfied:</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                units_pair.update(cur_units_pair)</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;            <span class="keywordflow">else</span>:  <span class="comment"># means the current subbasin should be merged to downstream</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;                downstream_merge_idx = {0: 1, 1: 1, 2: 2}</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;                cur_units_pair = dict()</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;                dst_subbsn = self.subbsin_tree.get(subbsnid)</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                <span class="keywordflow">if</span> dst_subbsn &lt; 0:  <span class="comment"># outlet subbasin</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;                    <span class="keywordflow">for</span> k, v <span class="keywordflow">in</span> self.subbsin_tree.iteritems():</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                        <span class="keywordflow">if</span> v == subbsnid:</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                            dst_subbsn = k</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;                            <span class="keywordflow">break</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;                <span class="keywordflow">if</span> dst_subbsn &gt; 0:  <span class="comment"># although dst_subbsn may not less than 0, just make sure that!</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;                    dst_hillids = DelineateHillslope.cal_hs_codes(self.<a class="code" href="../../db/ddc/a00353.html#a6b7c9d1bda4bd73477cddca78eaaac11">subbsin_num</a>, dst_subbsn)</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;                    dst_downstream_hs = dst_hillids[downstream_merge_idx[idx]]</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;                    <span class="keywordflow">for</span> _id <span class="keywordflow">in</span> sp_seq:</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;                        dst_unit = _id * dst_downstream_hs</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;                        <span class="keywordflow">if</span> dst_unit <span class="keywordflow">in</span> all_units_ids:</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;                            cur_units_pair[_id * hillid] = dst_unit</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;                units_pair.update(cur_units_pair)</div>
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="keyword">def </span>createPlot(pop, model_Workdir, num_Gens, size_Pops, GenID):</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;    front = numpy.array([ind.fitness.values <span class="keywordflow">for</span> ind <span class="keywordflow">in</span> pop])</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    <span class="comment"># Plot</span></div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    plt.figure(GenID)</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    plt.title(<span class="stringliteral">&quot;Pareto frontier of Scenarios Optimization\n&quot;</span>, color = <span class="stringliteral">&quot;#aa0903&quot;</span>)</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    plt.xlabel(<span class="stringliteral">&quot;cost(Yuan)&quot;</span>)</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    plt.ylabel(<span class="stringliteral">&quot;contaminants(t)&quot;</span>)</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    plt.scatter(front[:, 0], front[:, 1], c = <span class="stringliteral">&quot;</span><span class="stringliteral">r&quot;, alpha = 0.8, s = 12)</span></div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="stringliteral">    plt.title(</span><span class="stringliteral">&quot;\nPopulation: %d, Generation: %d&quot;</span> % (size_Pops, GenID), color = <span class="stringliteral">&quot;green&quot;</span>, fontsize = 9, loc = <span class="stringliteral">&#39;right&#39;</span>)</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    imgPath = model_Workdir + os.sep + <span class="stringliteral">&quot;NSGAII_OUTPUT&quot;</span></div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    createForld(imgPath)</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    pngFullpath = imgPath + os.sep + <span class="stringliteral">&quot;Gen_&quot;</span> \</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                  + str(num_Gens) + <span class="stringliteral">&quot;_Pop_&quot;</span> + str(size_Pops) + os.sep + <span class="stringliteral">&quot;Pareto_Gen_&quot;</span> \</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                  + str(GenID) + <span class="stringliteral">&quot;_Pop_&quot;</span> + str(size_Pops) + <span class="stringliteral">&quot;.png&quot;</span></div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    plt.savefig(pngFullpath)</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    <span class="comment"># plt.show()</span></div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="keyword">def </span>getSceIDlist(scenarios_info):</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    <span class="comment"># Get scenarios info</span></div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    fieldTtextArr = []</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="keywordflow">if</span> os.path.isfile(scenarios_info):</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        fieldfile_object = open(scenarios_info, <span class="stringliteral">&quot;</span><span class="stringliteral">r&quot;)</span></div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="stringliteral">        </span><span class="keywordflow">for</span> line <span class="keywordflow">in</span> fieldfile_object:</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;            fieldTtextArr.append(line.strip())</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    idlist = []</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, len(fieldTtextArr)):</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;        id = fieldTtextArr[i].split(<span class="stringliteral">&#39;\t&#39;</span>)[0]</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        idlist.append(id)</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <span class="keywordflow">return</span> idlist</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="keyword">def </span>delScefromMongoByID(scenarios_info, hostname, port, dbname, delsce = True):</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    <span class="keywordflow">if</span> delsce == <span class="keyword">True</span>:</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        idList = getSceIDlist(scenarios_info)</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        client = <a class="code" href="../../de/d25/a00290.html">MongoClient</a>(hostname, port)</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        db = client[dbname]</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        collection = db.BMP_SCENARIOS</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        <span class="keywordflow">for</span> id <span class="keywordflow">in</span> idList:</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;            collection.remove({<span class="stringliteral">&quot;ID&quot;</span>: id})</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        <span class="keywordflow">return</span></div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="keyword">def </span>delModelOutfile(model_workdir, scenarios_info, delfile = True):</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    <span class="keywordflow">if</span> delfile == <span class="keyword">True</span>:</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        idList = getSceIDlist(scenarios_info)</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        <span class="keywordflow">print</span> idList</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;        <span class="keywordflow">for</span> id <span class="keywordflow">in</span> idList:</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;            outfilename = model_workdir + os.sep + <span class="stringliteral">&quot;OUTPUT&quot;</span> + str(id)</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;            fileList = os.listdir(outfilename)</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;            <span class="keywordflow">for</span> f <span class="keywordflow">in</span> fileList:</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;                filename = outfilename + os.sep + str(f)</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;                <span class="keywordflow">if</span> os.path.isfile(filename):</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;                    os.remove(filename)</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;            <span class="keywordflow">if</span> os.path.isdir(outfilename):</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;                os.rmdir(outfilename)</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        <span class="keywordflow">return</span></div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;</div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;<span class="comment"># if __name__ == &quot;__main__&quot;:</span></div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment">#     delModelOutfile(&quot;D:\SEIMS_model\Model_data\model_dianbu2_30m_longterm&quot;, &quot;D:\SEIMS_model\Model_data\model_dianbu2_30m_longterm\NSGAII_OUTPUT\scenarios_info.txt&quot;, delfile=True)</span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="comment">#     fieldFile = r&#39;D:\GaohrWS\GithubPrj\SEIMS\model_data\dianbu\data_prepare\spatial\mgtfield_t100.txt&#39;</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="comment">#     pointFile = r&#39;D:\GaohrWS\GithubPrj\SEIMS\model_data\dianbu\data_prepare\management\point_source_distribution.txt&#39;</span></div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="comment">#     pointBMPsFile = r&#39;D:\GaohrWS\GithubPrj\SEIMS\model_data\dianbu\data_prepare\management\point_source_management.txt&#39;</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="comment">#     # Scenario</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="comment">#     field_farm = getFieldInfo(fieldFile)[1]</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment">#     field_lu = getFieldInfo(fieldFile)[2]</span></div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="comment">#     point_cattle = getPointSource(pointFile)[0]</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="comment">#     point_pig = getPointSource(pointFile)[1]</span></div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="comment">#     point_sewage = getPointSource(pointFile)[2]</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment">#     # farm_Num = len(getFieldInfo(fieldFile)[1])</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment">#     farm_Num = 1</span></div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment">#     point_cattle_Num = len(point_cattle)</span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment">#     point_pig_Num = len(point_pig)</span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="comment">#     point_sewage_Num = len(point_sewage)</span></div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="comment">#     bmps_farm = getBMPsInfo(pointBMPsFile)[0]</span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="comment">#     bmps_cattle = numpy.sort(getBMPsInfo(pointBMPsFile)[1])</span></div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="comment">#     bmps_pig = numpy.sort(getBMPsInfo(pointBMPsFile)[2])</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="comment">#     bmps_sewage = numpy.sort(getBMPsInfo(pointBMPsFile)[3])</span></div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="comment">#     bmps_farm_cost = [208., 166.]</span></div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="comment">#     bmps_cattle_cost = getBMPsInfo(pointBMPsFile)[4]</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="comment">#     bmps_pig_cost = getBMPsInfo(pointBMPsFile)[5]</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="comment">#     bmps_sewage_cost = getBMPsInfo(pointBMPsFile)[6]</span></div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="comment">#     print &#39;field_farm &#39;, field_farm</span></div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="comment">#     print &#39;field_lu &#39;, field_lu</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="comment">#     print &#39;point_cattle &#39;, point_cattle</span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="comment">#     print &#39;point_pig &#39;, point_pig</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="comment">#     print &#39;point_sewage &#39;, point_sewage</span></div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="comment">#     print &#39;bmps_farm &#39;, bmps_farm</span></div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="comment">#     print &#39;bmps_cattle &#39;, bmps_cattle</span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="comment">#     print &#39;bmps_pig &#39;, bmps_pig</span></div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="comment">#     print &#39;bmps_sewage &#39;, bmps_sewage</span></div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="comment">#</span></div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="comment">#     print &#39;bmps_farm_cost &#39;, bmps_farm_cost</span></div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="comment">#     print &#39;bmps_cattle_cost &#39;, bmps_cattle_cost</span></div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;<span class="comment">#     print &#39;bmps_pig_cost &#39;, bmps_pig_cost</span></div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="comment">#     print &#39;bmps_sewage_cost &#39;, bmps_sewage_cost</span></div>
-<div class="ttc" id="a00290_html"><div class="ttname"><a href="../../de/d25/a00290.html">MongoClient</a></div><div class="ttdoc">Create a MongoDB Client. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d8f/a00880_source.html#l00039">MongoUtil.h:39</a></div></div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&#39;Slope position unit merge-destination pairs: &#39;</span> + units_pair.__str__())</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        <span class="comment"># begin to merge</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        <span class="keywordflow">for</span> srcid, dstid <span class="keywordflow">in</span> units_pair.iteritems():</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            <span class="comment"># replace values in slope position units raster</span></div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;            <span class="keywordflow">for</span> k, v <span class="keywordflow">in</span> units_pair.iteritems():</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;                self.<a class="code" href="../../db/ddc/a00353.html#a6cbfedbbfd0c9927d12a6fd5ae106008">slppos_ids</a>[self.<a class="code" href="../../db/ddc/a00353.html#a6cbfedbbfd0c9927d12a6fd5ae106008">slppos_ids</a> == k] = v</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;            <span class="keywordflow">for</span> sp <span class="keywordflow">in</span> self.<a class="code" href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">slppos_tags</a>:</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                name = self.slppos_tags.get(sp).get(<span class="stringliteral">&#39;name&#39;</span>)</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                <span class="keywordflow">if</span> srcid <span class="keywordflow">in</span> self.units_updwon.get(name).keys():  <span class="comment"># dstid MUST be here too.</span></div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                    srcdict = self.units_updwon.get(name)[srcid]</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;                    self.<a class="code" href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">units_updwon</a>[name][dstid][<span class="stringliteral">&#39;area&#39;</span>] += srcdict[<span class="stringliteral">&#39;area&#39;</span>]</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                    <span class="keywordflow">for</span> luid <span class="keywordflow">in</span> srcdict[<span class="stringliteral">&#39;landuse&#39;</span>]:</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                        <span class="keywordflow">if</span> luid <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.units_updwon.get(name)[dstid][<span class="stringliteral">&#39;landuse&#39;</span>]:</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                            self.<a class="code" href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">units_updwon</a>[name][dstid][<span class="stringliteral">&#39;landuse&#39;</span>][luid] = \</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                                srcdict[<span class="stringliteral">&#39;landuse&#39;</span>][luid]</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;                        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;                            self.<a class="code" href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">units_updwon</a>[name][dstid][<span class="stringliteral">&#39;landuse&#39;</span>][luid] += \</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                                srcdict[<span class="stringliteral">&#39;landuse&#39;</span>][luid]</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                    <span class="keywordflow">if</span> srcdict[<span class="stringliteral">&#39;hillslope&#39;</span>][0] <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.<a class="code" href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">units_updwon</a>[name][dstid][<span class="stringliteral">&#39;hillslope&#39;</span>]:</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                        self.<a class="code" href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">units_updwon</a>[name][dstid][<span class="stringliteral">&#39;hillslope&#39;</span>].append(srcdict[<span class="stringliteral">&#39;hillslope&#39;</span>][0])</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;                    <span class="keywordflow">if</span> srcdict[<span class="stringliteral">&#39;subbasin&#39;</span>][0] <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.<a class="code" href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">units_updwon</a>[name][dstid][<span class="stringliteral">&#39;subbasin&#39;</span>]:</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;                        self.<a class="code" href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">units_updwon</a>[name][dstid][<span class="stringliteral">&#39;subbasin&#39;</span>].append(srcdict[<span class="stringliteral">&#39;subbasin&#39;</span>][0])</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                    self.units_updwon.get(name).pop(srcid)</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                    <span class="keywordflow">break</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        <span class="comment"># rewrite the overview</span></div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;        units_count = 0</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;        <span class="keywordflow">for</span> sp <span class="keywordflow">in</span> self.<a class="code" href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">slppos_tags</a>:</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;            name = self.slppos_tags.get(sp).get(<span class="stringliteral">&#39;name&#39;</span>)</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;            cur_units_count = len(self.units_updwon.get(name).keys())</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;            self.units_updwon.get(<span class="stringliteral">&#39;overview&#39;</span>)[name] = cur_units_count</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            units_count += cur_units_count</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        self.units_updwon.get(<span class="stringliteral">&#39;overview&#39;</span>)[<span class="stringliteral">&#39;all_units&#39;</span>] = units_count</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;</div>
+<div class="line"><a name="l00321"></a><span class="lineno"><a class="line" href="../../db/ddc/a00353.html#a9135ef5a0f7fa578880ae1b79d0cb3db">  321</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../db/ddc/a00353.html#a9135ef5a0f7fa578880ae1b79d0cb3db">extract_subbasin_hillslope_slppos</a>(self):</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Extract the hierarchical relationship of spatial units, i.e.,</span></div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="stringliteral">           Subbasin-Hillslope-Slope position</span></div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#abce10d20518361380a1ef692057c1390">hierarchy_units</a> = dict()</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        <span class="keywordflow">for</span> sp, spdict <span class="keywordflow">in</span> self.slppos_tags.iteritems():</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;            name = spdict.get(<span class="stringliteral">&#39;name&#39;</span>)</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;            <span class="keywordflow">for</span> unitid, unitdict <span class="keywordflow">in</span> self.units_updwon.get(name).iteritems():</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;                sid = unitdict[<span class="stringliteral">&#39;subbasin&#39;</span>][0]</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                hsid = unitdict[<span class="stringliteral">&#39;hillslope&#39;</span>][0]</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                <span class="keywordflow">if</span> sid <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.<a class="code" href="../../db/ddc/a00353.html#abce10d20518361380a1ef692057c1390">hierarchy_units</a>:</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;                    self.<a class="code" href="../../db/ddc/a00353.html#abce10d20518361380a1ef692057c1390">hierarchy_units</a>[sid] = {hsid: {name: unitid}}</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;                <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                    <span class="keywordflow">if</span> hsid <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.<a class="code" href="../../db/ddc/a00353.html#abce10d20518361380a1ef692057c1390">hierarchy_units</a>[sid]:</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                        self.<a class="code" href="../../db/ddc/a00353.html#abce10d20518361380a1ef692057c1390">hierarchy_units</a>[sid][hsid] = {name: unitid}</div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;                    <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;                        self.<a class="code" href="../../db/ddc/a00353.html#abce10d20518361380a1ef692057c1390">hierarchy_units</a>[sid][hsid][name] = unitid</div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">units_updwon</a>[<span class="stringliteral">&#39;hierarchy_units&#39;</span>] = dict()</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">units_updwon</a>[<span class="stringliteral">&#39;hierarchy_units&#39;</span>].update(self.<a class="code" href="../../db/ddc/a00353.html#abce10d20518361380a1ef692057c1390">hierarchy_units</a>)</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;</div>
+<div class="line"><a name="l00342"></a><span class="lineno"><a class="line" href="../../db/ddc/a00353.html#ae4b53cf55861a8a55c3f877592c291b1">  342</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../db/ddc/a00353.html#ae4b53cf55861a8a55c3f877592c291b1">output</a>(self, jfile, unitraster, unitshp):</div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;output json file and slope position units raster file&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        json_updown_data = json.dumps(self.<a class="code" href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">units_updwon</a>, indent=4)</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        f = open(jfile, <span class="stringliteral">&#39;w&#39;</span>)</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        f.write(json_updown_data)</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;        f.close()</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        RasterUtilClass.write_gtiff_file(unitraster, self.<a class="code" href="../../db/ddc/a00353.html#a58a7da9e99c6de9dd1602c46db83ae69">nrows</a>, self.<a class="code" href="../../db/ddc/a00353.html#a87e905386540b6634ae6878d78315d1a">ncols</a>,</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;                                         self.<a class="code" href="../../db/ddc/a00353.html#a6cbfedbbfd0c9927d12a6fd5ae106008">slppos_ids</a>, self.<a class="code" href="../../db/ddc/a00353.html#ae1db0b8f5dc5c78ea624576d2add1de6">geotrans</a>, self.<a class="code" href="../../db/ddc/a00353.html#a12a43dcd7d091f68595a8ca6afb952a1">srs</a>,</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;                                         DEFAULT_NODATA, self.<a class="code" href="../../db/ddc/a00353.html#a1d83f6ece9c49b6eaf8476438c94272d">datatype</a>)</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        VectorUtilClass.raster2shp(unitraster, unitshp)</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Original unique spatial units ID raster saved as &#39;%s&#39;&quot;</span> % unitraster)</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;</div>
+<div class="line"><a name="l00354"></a><span class="lineno"><a class="line" href="../../db/ddc/a00353.html#ad6e880681b5a93a3ed1fe118888de2e0">  354</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../db/ddc/a00353.html#ad6e880681b5a93a3ed1fe118888de2e0">run</a>(self):</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Workflow.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#ab3d1d46eb2780ba1e44987e88d918833">extract_subbasin_updown</a>()</div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a1b8c91316ebc99514805cb60ef8edd4c">assign_uniqueid_slppos_units</a>()</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#ab5fb50ea1829e24346fc5eb6a2ead626">check_unit_id</a>()</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#ae4b53cf55861a8a55c3f877592c291b1">output</a>(self.<a class="code" href="../../db/ddc/a00353.html#a09c4bb241f89ec77b87fe976422fb363">json_units_origin</a>, self.<a class="code" href="../../db/ddc/a00353.html#a4a674632e6e36280c59a0d353b281283">outf_units_origin</a>, self.<a class="code" href="../../db/ddc/a00353.html#ad9f98fdf1fc5dce47ccae901a93cb330">outshp_units_origin</a>)</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a75ad25e39c5a5b5be12fdcfd3272fa37">merge_slopeposition_units</a>()</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#a9135ef5a0f7fa578880ae1b79d0cb3db">extract_subbasin_hillslope_slppos</a>()</div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        self.<a class="code" href="../../db/ddc/a00353.html#ae4b53cf55861a8a55c3f877592c291b1">output</a>(self.<a class="code" href="../../db/ddc/a00353.html#afa6e2786c359380b5662ae2dba0782f0">json_units_merged</a>, self.<a class="code" href="../../db/ddc/a00353.html#ac8d9968b963d6eb2f7fc8cebe70ef47a">outf_units_merged</a>, self.<a class="code" href="../../db/ddc/a00353.html#afbe748c7fc3416eeee52cd701a22e4a3">outshp_units_merged</a>)</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="keyword">def </span>main():</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Delineation slope position units with the associated information.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="comment"># inputs from preprocess</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d2/d1f/a01361.html">seims.preprocess.config</a> <span class="keyword">import</span> parse_ini_configuration</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    seims_cfg = parse_ini_configuration()</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    reach_shp = seims_cfg.vecs.reach</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    hillslp_file = seims_cfg.spatials.hillslope</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    landuse_file = seims_cfg.spatials.landuse</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    <span class="comment"># additional inputs</span></div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    slppos_tag_name = [(1, <span class="stringliteral">&#39;summit&#39;</span>), (4, <span class="stringliteral">&#39;backslope&#39;</span>), (16, <span class="stringliteral">&#39;valley&#39;</span>)]</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    slppos_file = <span class="stringliteral">r&#39;C:\z_data_m\SEIMS2017\fuzslppos_ywz10m\slope_position_units\SLOPEPOSITION.tif&#39;</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    obj = <a class="code" href="../../db/ddc/a00353.html">SlopePositionUnits</a>(slppos_tag_name, slppos_file, reach_shp, hillslp_file, landuse_file)</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    obj.run()</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    main()</div>
+<div class="ttc" id="a00353_html_a09c4bb241f89ec77b87fe976422fb363"><div class="ttname"><a href="../../db/ddc/a00353.html#a09c4bb241f89ec77b87fe976422fb363">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.json_units_origin</a></div><div class="ttdeci">json_units_origin</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00118">sd_slopeposition_units.py:118</a></div></div>
+<div class="ttc" id="a00353_html_a3300576e0bcd5a995d40a68426e0f03f"><div class="ttname"><a href="../../db/ddc/a00353.html#a3300576e0bcd5a995d40a68426e0f03f">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.nodata_landuse</a></div><div class="ttdeci">nodata_landuse</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00104">sd_slopeposition_units.py:104</a></div></div>
+<div class="ttc" id="a00353_html_ab3d1d46eb2780ba1e44987e88d918833"><div class="ttname"><a href="../../db/ddc/a00353.html#ab3d1d46eb2780ba1e44987e88d918833">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.extract_subbasin_updown</a></div><div class="ttdeci">def extract_subbasin_updown</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00123">sd_slopeposition_units.py:123</a></div></div>
+<div class="ttc" id="a00353_html_a87e905386540b6634ae6878d78315d1a"><div class="ttname"><a href="../../db/ddc/a00353.html#a87e905386540b6634ae6878d78315d1a">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.ncols</a></div><div class="ttdeci">ncols</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00087">sd_slopeposition_units.py:87</a></div></div>
+<div class="ttc" id="a00353_html_aef350966005defa957ee278e779cc603"><div class="ttname"><a href="../../db/ddc/a00353.html#aef350966005defa957ee278e779cc603">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.check_slppos_sequence</a></div><div class="ttdeci">def check_slppos_sequence</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00199">sd_slopeposition_units.py:199</a></div></div>
+<div class="ttc" id="a00353_html_a6cbfedbbfd0c9927d12a6fd5ae106008"><div class="ttname"><a href="../../db/ddc/a00353.html#a6cbfedbbfd0c9927d12a6fd5ae106008">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.slppos_ids</a></div><div class="ttdeci">slppos_ids</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00112">sd_slopeposition_units.py:112</a></div></div>
+<div class="ttc" id="a00353_html_a75ad25e39c5a5b5be12fdcfd3272fa37"><div class="ttname"><a href="../../db/ddc/a00353.html#a75ad25e39c5a5b5be12fdcfd3272fa37">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.merge_slopeposition_units</a></div><div class="ttdeci">def merge_slopeposition_units</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00208">sd_slopeposition_units.py:208</a></div></div>
+<div class="ttc" id="a01376_html"><div class="ttname"><a href="../../d2/d29/a01376.html">seims.preprocess.sd_hillslope</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/d60/a00847_source.html#l00001">sd_hillslope.py:1</a></div></div>
+<div class="ttc" id="a00353_html_ae1db0b8f5dc5c78ea624576d2add1de6"><div class="ttname"><a href="../../db/ddc/a00353.html#ae1db0b8f5dc5c78ea624576d2add1de6">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.geotrans</a></div><div class="ttdeci">geotrans</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00090">sd_slopeposition_units.py:90</a></div></div>
+<div class="ttc" id="a00353_html_abce10d20518361380a1ef692057c1390"><div class="ttname"><a href="../../db/ddc/a00353.html#abce10d20518361380a1ef692057c1390">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.hierarchy_units</a></div><div class="ttdeci">hierarchy_units</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00113">sd_slopeposition_units.py:113</a></div></div>
+<div class="ttc" id="a00353_html_ad6e880681b5a93a3ed1fe118888de2e0"><div class="ttname"><a href="../../db/ddc/a00353.html#ad6e880681b5a93a3ed1fe118888de2e0">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.run</a></div><div class="ttdeci">def run</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00354">sd_slopeposition_units.py:354</a></div></div>
+<div class="ttc" id="a00353_html_ab5fb50ea1829e24346fc5eb6a2ead626"><div class="ttname"><a href="../../db/ddc/a00353.html#ab5fb50ea1829e24346fc5eb6a2ead626">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.check_unit_id</a></div><div class="ttdeci">def check_unit_id</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00173">sd_slopeposition_units.py:173</a></div></div>
+<div class="ttc" id="a01396_html"><div class="ttname"><a href="../../d9/d45/a01396.html">seims.pygeoc.pygeoc.vector.vector</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/dac/a00901_source.html#l00001">vector.py:1</a></div></div>
+<div class="ttc" id="a00353_html_afbe748c7fc3416eeee52cd701a22e4a3"><div class="ttname"><a href="../../db/ddc/a00353.html#afbe748c7fc3416eeee52cd701a22e4a3">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.outshp_units_merged</a></div><div class="ttdeci">outshp_units_merged</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00120">sd_slopeposition_units.py:120</a></div></div>
+<div class="ttc" id="a00353_html_a213fbf9a8832b11de4e4185e6600275c"><div class="ttname"><a href="../../db/ddc/a00353.html#a213fbf9a8832b11de4e4185e6600275c">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00034">sd_slopeposition_units.py:34</a></div></div>
+<div class="ttc" id="a00353_html_a12a43dcd7d091f68595a8ca6afb952a1"><div class="ttname"><a href="../../db/ddc/a00353.html#a12a43dcd7d091f68595a8ca6afb952a1">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.srs</a></div><div class="ttdeci">srs</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00091">sd_slopeposition_units.py:91</a></div></div>
+<div class="ttc" id="a00353_html_a0289b06df0de8ffe9d1070e4af64dc82"><div class="ttname"><a href="../../db/ddc/a00353.html#a0289b06df0de8ffe9d1070e4af64dc82">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.nodata_hillslp</a></div><div class="ttdeci">nodata_hillslp</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00089">sd_slopeposition_units.py:89</a></div></div>
+<div class="ttc" id="a00353_html_a3c9b593bf588f4984767492a4e4b6c11"><div class="ttname"><a href="../../db/ddc/a00353.html#a3c9b593bf588f4984767492a4e4b6c11">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.data_hillslp</a></div><div class="ttdeci">data_hillslp</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00085">sd_slopeposition_units.py:85</a></div></div>
+<div class="ttc" id="a00353_html_a58a7da9e99c6de9dd1602c46db83ae69"><div class="ttname"><a href="../../db/ddc/a00353.html#a58a7da9e99c6de9dd1602c46db83ae69">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.nrows</a></div><div class="ttdeci">nrows</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00086">sd_slopeposition_units.py:86</a></div></div>
+<div class="ttc" id="a00353_html_afa6e2786c359380b5662ae2dba0782f0"><div class="ttname"><a href="../../db/ddc/a00353.html#afa6e2786c359380b5662ae2dba0782f0">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.json_units_merged</a></div><div class="ttdeci">json_units_merged</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00121">sd_slopeposition_units.py:121</a></div></div>
+<div class="ttc" id="a01361_html"><div class="ttname"><a href="../../d2/d1f/a01361.html">seims.preprocess.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d96/a00782_source.html#l00001">config.py:1</a></div></div>
+<div class="ttc" id="a00353_html_a71715d61fd7d05a9b11b8bb8f5617eef"><div class="ttname"><a href="../../db/ddc/a00353.html#a71715d61fd7d05a9b11b8bb8f5617eef">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.data_slppos</a></div><div class="ttdeci">data_slppos</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00097">sd_slopeposition_units.py:97</a></div></div>
+<div class="ttc" id="a00353_html_a6e48adbc5e243ccd546e6078a3f6f881"><div class="ttname"><a href="../../db/ddc/a00353.html#a6e48adbc5e243ccd546e6078a3f6f881">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.units_updwon</a></div><div class="ttdeci">units_updwon</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00109">sd_slopeposition_units.py:109</a></div></div>
+<div class="ttc" id="a00353_html_a6b7c9d1bda4bd73477cddca78eaaac11"><div class="ttname"><a href="../../db/ddc/a00353.html#a6b7c9d1bda4bd73477cddca78eaaac11">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.subbsin_num</a></div><div class="ttdeci">subbsin_num</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00107">sd_slopeposition_units.py:107</a></div></div>
+<div class="ttc" id="a00353_html_ad9f98fdf1fc5dce47ccae901a93cb330"><div class="ttname"><a href="../../db/ddc/a00353.html#ad9f98fdf1fc5dce47ccae901a93cb330">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.outshp_units_origin</a></div><div class="ttdeci">outshp_units_origin</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00117">sd_slopeposition_units.py:117</a></div></div>
+<div class="ttc" id="a00353_html_a6c614d6374b1f303db3b95ec15aea2cd"><div class="ttname"><a href="../../db/ddc/a00353.html#a6c614d6374b1f303db3b95ec15aea2cd">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.nodata_slppos</a></div><div class="ttdeci">nodata_slppos</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00098">sd_slopeposition_units.py:98</a></div></div>
+<div class="ttc" id="a00353_html_a31067be2e0633fff210a267a7e262f63"><div class="ttname"><a href="../../db/ddc/a00353.html#a31067be2e0633fff210a267a7e262f63">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.data_landuse</a></div><div class="ttdeci">data_landuse</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00103">sd_slopeposition_units.py:103</a></div></div>
+<div class="ttc" id="a00353_html_a2462cedb927cf4e0c92f546350d4385d"><div class="ttname"><a href="../../db/ddc/a00353.html#a2462cedb927cf4e0c92f546350d4385d">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.ws</a></div><div class="ttdeci">ws</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00063">sd_slopeposition_units.py:63</a></div></div>
+<div class="ttc" id="a00353_html_ac0e9b11153be5a0423199228ad9bb242"><div class="ttname"><a href="../../db/ddc/a00353.html#ac0e9b11153be5a0423199228ad9bb242">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.dx</a></div><div class="ttdeci">dx</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00088">sd_slopeposition_units.py:88</a></div></div>
+<div class="ttc" id="a01369_html"><div class="ttname"><a href="../../d1/d17/a01369.html">seims.preprocess.db_import_stream_parameters</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/dea/a00829_source.html#l00001">db_import_stream_parameters.py:1</a></div></div>
+<div class="ttc" id="a00353_html"><div class="ttname"><a href="../../db/ddc/a00353.html">seims.preprocess.sd_slopeposition_units.SlopePositionUnits</a></div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00030">sd_slopeposition_units.py:30</a></div></div>
+<div class="ttc" id="a00353_html_a9135ef5a0f7fa578880ae1b79d0cb3db"><div class="ttname"><a href="../../db/ddc/a00353.html#a9135ef5a0f7fa578880ae1b79d0cb3db">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.extract_subbasin_hillslope_slppos</a></div><div class="ttdeci">def extract_subbasin_hillslope_slppos</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00321">sd_slopeposition_units.py:321</a></div></div>
+<div class="ttc" id="a00353_html_a37a46f0de62b9e3ff883caf0a6c4d314"><div class="ttname"><a href="../../db/ddc/a00353.html#a37a46f0de62b9e3ff883caf0a6c4d314">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.subbsin_tree</a></div><div class="ttdeci">subbsin_tree</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00108">sd_slopeposition_units.py:108</a></div></div>
+<div class="ttc" id="a00353_html_ac8d9968b963d6eb2f7fc8cebe70ef47a"><div class="ttname"><a href="../../db/ddc/a00353.html#ac8d9968b963d6eb2f7fc8cebe70ef47a">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.outf_units_merged</a></div><div class="ttdeci">outf_units_merged</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00119">sd_slopeposition_units.py:119</a></div></div>
+<div class="ttc" id="a00353_html_a1b8c91316ebc99514805cb60ef8edd4c"><div class="ttname"><a href="../../db/ddc/a00353.html#a1b8c91316ebc99514805cb60ef8edd4c">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.assign_uniqueid_slppos_units</a></div><div class="ttdeci">def assign_uniqueid_slppos_units</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00128">sd_slopeposition_units.py:128</a></div></div>
+<div class="ttc" id="a00353_html_a10352d73b98d4b2bdadd65b4e9e7c0dd"><div class="ttname"><a href="../../db/ddc/a00353.html#a10352d73b98d4b2bdadd65b4e9e7c0dd">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.slppos_tags</a></div><div class="ttdeci">slppos_tags</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00066">sd_slopeposition_units.py:66</a></div></div>
+<div class="ttc" id="a00353_html_a4a674632e6e36280c59a0d353b281283"><div class="ttname"><a href="../../db/ddc/a00353.html#a4a674632e6e36280c59a0d353b281283">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.outf_units_origin</a></div><div class="ttdeci">outf_units_origin</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00116">sd_slopeposition_units.py:116</a></div></div>
+<div class="ttc" id="a01394_html"><div class="ttname"><a href="../../d6/d2f/a01394.html">seims.pygeoc.pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d92/a00586_source.html#l00001">utils.py:1</a></div></div>
+<div class="ttc" id="a00353_html_a700ad5907640237be23a67fa54d36f55"><div class="ttname"><a href="../../db/ddc/a00353.html#a700ad5907640237be23a67fa54d36f55">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.reach</a></div><div class="ttdeci">reach</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00082">sd_slopeposition_units.py:82</a></div></div>
+<div class="ttc" id="a00353_html_a1d83f6ece9c49b6eaf8476438c94272d"><div class="ttname"><a href="../../db/ddc/a00353.html#a1d83f6ece9c49b6eaf8476438c94272d">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.datatype</a></div><div class="ttdeci">datatype</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00092">sd_slopeposition_units.py:92</a></div></div>
+<div class="ttc" id="a00353_html_ae4b53cf55861a8a55c3f877592c291b1"><div class="ttname"><a href="../../db/ddc/a00353.html#ae4b53cf55861a8a55c3f877592c291b1">seims.preprocess.sd_slopeposition_units.SlopePositionUnits.output</a></div><div class="ttdeci">def output</div><div class="ttdef"><b>Definition:</b> <a href="../../db/deb/a00853_source.html#l00342">sd_slopeposition_units.py:342</a></div></div>
+<div class="ttc" id="a01392_html"><div class="ttname"><a href="../../d1/dcc/a01392.html">seims.pygeoc.pygeoc.raster.raster</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00001">raster.py:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e9804dfb28c80687c0b1771681283077.html">scenario_analysis</a></li><li class="navelem"><b>readTextInfo.py</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:25 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>sd_slopeposition_units.py</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:25 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

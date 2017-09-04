@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: XcodeGuide</title>
+<title>SEIMS: PumpManual</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,72 +106,78 @@ $(document).ready(function(){initNavTree('df/d5f/a00064.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">XcodeGuide </div>  </div>
+<div class="title">PumpManual </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>This guide will explain how to use the Google Testing Framework in your Xcode projects on Mac OS X. This tutorial begins by quickly explaining what to do for experienced users. After the quick start, the guide goes provides additional explanation about each step.</p>
-<h1>Quick Start</h1>
-<p>Here is the quick guide for using Google Test in your Xcode project.</p>
-<ol type="1">
-<li>Download the source from the <a href="http://code.google.com/p/googletest">website</a> using this command: <code>svn checkout <a href="http://googletest.googlecode.com/svn/trunk/">http://googletest.googlecode.com/svn/trunk/</a> googletest-read-only</code>.</li>
-</ol>
-<ol type="1">
-<li>Open up the <code>gtest.xcodeproj</code> in the <code>googletest-read-only/xcode/</code> directory and build the gtest.framework.</li>
-</ol>
-<ol type="1">
-<li>Create a new "Shell Tool" target in your Xcode project called something like "UnitTests".</li>
-</ol>
-<ol type="1">
-<li>Add the gtest.framework to your project and add it to the "Link Binary with Libraries" build phase of "UnitTests".</li>
-</ol>
-<ol type="1">
-<li>Add your unit test source code to the "Compile Sources" build phase of "UnitTests".</li>
-</ol>
-<ol type="1">
-<li>Edit the "UnitTests" executable and add an environment variable named "DYLD\_FRAMEWORK\_PATH" with a value equal to the path to the framework containing the gtest.framework relative to the compiled executable.</li>
-</ol>
-<ol type="1">
-<li>Build and Go.</li>
-</ol>
-<p>The following sections further explain each of the steps listed above in depth, describing in more detail how to complete it including some variations.</p>
-<h1>Get the Source</h1>
-<p>Currently, the gtest.framework discussed here isn't available in a tagged release of Google Test, it is only available in the trunk. As explained at the Google Test [site](<a href="http://code.google.com/p/googletest/source/checkout">http://code.google.com/p/googletest/source/checkout</a>"&gt;svn), you can get the code from anonymous SVN with this command:</p>
-<p>``` svn checkout <a href="http://googletest.googlecode.com/svn/trunk/">http://googletest.googlecode.com/svn/trunk/</a> googletest-read-only ```</p>
-<p>Alternatively, if you are working with Subversion in your own code base, you can add Google Test as an external dependency to your own Subversion repository. By following this approach, everyone that checks out your svn repository will also receive a copy of Google Test (a specific version, if you wish) without having to check it out explicitly. This makes the set up of your project simpler and reduces the copied code in the repository.</p>
-<p>To use <code>svn:externals</code>, decide where you would like to have the external source reside. You might choose to put the external source inside the trunk, because you want it to be part of the branch when you make a release. However, keeping it outside the trunk in a version-tagged directory called something like <code>third-party/googletest/1.0.1</code>, is another option. Once the location is established, use <code>svn propedit svn:externals _directory_</code> to set the svn:externals property on a directory in your repository. This directory won't contain the code, but be its versioned parent directory.</p>
-<p>The command <code>svn propedit</code> will bring up your Subversion editor, making editing the long, (potentially multi-line) property simpler. This same method can be used to check out a tagged branch, by using the appropriate URL (e.g. <code><a href="http://googletest.googlecode.com/svn/tags/release-1.0.1">http://googletest.googlecode.com/svn/tags/release-1.0.1</a></code>). Additionally, the svn:externals property allows the specification of a particular revision of the trunk with the <code>-r_##_</code> option (e.g. <code>externals/src/googletest -r60 <a href="http://googletest.googlecode.com/svn/trunk">http://googletest.googlecode.com/svn/trunk</a></code>).</p>
-<p>Here is an example of using the svn:externals properties on a trunk (read via <code>svn propget</code>) of a project. This value checks out a copy of Google Test into the <code>trunk/externals/src/googletest/</code> directory.</p>
-<p>``` [Computer:svn] user$ svn propget svn:externals trunk externals/src/googletest <a href="http://googletest.googlecode.com/svn/trunk">http://googletest.googlecode.com/svn/trunk</a> ```</p>
-<h1>Add the Framework to Your Project</h1>
-<p>The next step is to build and add the gtest.framework to your own project. This guide describes two common ways below.</p>
+<div class="textblock"><p><b>P</b>ump is <b>U</b>seful for <b>M</b>eta <b>P</b>rogramming.</p>
+<h1>The Problem</h1>
+<p>Template and macro libraries often need to define many classes, functions, or macros that vary only (or almost only) in the number of arguments they take. It's a lot of repetitive, mechanical, and error-prone work.</p>
+<p>Variadic templates and variadic macros can alleviate the problem. However, while both are being considered by the C++ committee, neither is in the standard yet or widely supported by compilers. Thus they are often not a good choice, especially when your code needs to be portable. And their capabilities are still limited.</p>
+<p>As a result, authors of such libraries often have to write scripts to generate their implementation. However, our experience is that it's tedious to write such scripts, which tend to reflect the structure of the generated code poorly and are often hard to read and edit. For example, a small change needed in the generated code may require some non-intuitive, non-trivial changes in the script. This is especially painful when experimenting with the code.</p>
+<h1>Our Solution</h1>
+<p>Pump (for Pump is Useful for Meta Programming, Pretty Useful for Meta Programming, or Practical Utility for Meta Programming, whichever you prefer) is a simple meta-programming tool for C++. The idea is that a programmer writes a <code>foo.pump</code> file which contains C++ code plus meta code that manipulates the C++ code. The meta code can handle iterations over a range, nested iterations, local meta variable definitions, simple arithmetic, and conditional expressions. You can view it as a small Domain-Specific Language. The meta language is designed to be non-intrusive (s.t. it won't confuse Emacs' C++ mode, for example) and concise, making Pump code intuitive and easy to maintain.</p>
+<h2>Highlights</h2>
 <ul>
-<li><b>Option 1</b> &mdash; The simplest way to add Google Test to your own project, is to open gtest.xcodeproj (found in the xcode/ directory of the Google Test trunk) and build the framework manually. Then, add the built framework into your project using the "Add-&gt;Existing Framework..." from the context menu or "Project-&gt;Add..." from the main menu. The gtest.framework is relocatable and contains the headers and object code that you'll need to make tests. This method requires rebuilding every time you upgrade Google Test in your project.</li>
-<li><b>Option 2</b> &mdash; If you are going to be living off the trunk of Google Test, incorporating its latest features into your unit tests (or are a Google Test developer yourself). You'll want to rebuild the framework every time the source updates. to do this, you'll need to add the gtest.xcodeproj file, not the framework itself, to your own Xcode project. Then, from the build products that are revealed by the project's disclosure triangle, you can find the gtest.framework, which can be added to your targets (discussed below).</li>
+<li>The implementation is in a single Python script and thus ultra portable: no build or installation is needed and it works cross platforms.</li>
+<li>Pump tries to be smart with respect to <a href="https://github.com/google/styleguide">Google's style guide</a>: it breaks long lines (easy to have when they are generated) at acceptable places to fit within 80 columns and indent the continuation lines correctly.</li>
+<li>The format is human-readable and more concise than XML.</li>
+<li>The format works relatively well with Emacs' C++ mode.</li>
 </ul>
-<h1>Make a Test Target</h1>
-<p>To start writing tests, make a new "Shell Tool" target. This target template is available under BSD, Cocoa, or Carbon. Add your unit test source code to the "Compile Sources" build phase of the target.</p>
-<p>Next, you'll want to add gtest.framework in two different ways, depending upon which option you chose above.</p>
+<h2>Examples</h2>
+<p>The following Pump code (where meta keywords start with <code>$</code>, <code>[[</code> and <code>]]</code> are meta brackets, and <code>$$</code> starts a meta comment that ends with the line):</p>
+<p>``` $var n = 3 $$ Defines a meta variable n. $range i 0..n $$ Declares the range of meta iterator i (inclusive). $for i [[ $$ Meta loop. // Foo$i does blah for $i-ary predicates. $range j 1..i template &lt;size_t N $for j [[, typename A$j]]&gt; class Foo$i { $if i == 0 [[ blah a; ]] $elif i &lt;= 2 [[ blah b; ]] $else [[ blah c; ]] };</p>
+<p>]] ```</p>
+<p>will be translated by the Pump compiler to:</p>
+<p>``` // Foo0 does blah for 0-ary predicates. template &lt;size_t n&gt;=""&gt; class Foo0 { blah a; };</p>
+<p>// Foo1 does blah for 1-ary predicates. template &lt;size_t N, typename A1&gt; class Foo1 { blah b; };</p>
+<p>// Foo2 does blah for 2-ary predicates. template &lt;size_t N, typename A1, typename A2&gt; class Foo2 { blah b; };</p>
+<p>// Foo3 does blah for 3-ary predicates. template &lt;size_t N, typename A1, typename A2, typename A3&gt; class Foo3 { blah c; }; ```</p>
+<p>In another example,</p>
+<p>``` $range i 1..n Func($for i + [[a$i]]); $$ The text between i and [[ is the separator between iterations. ```</p>
+<p>will generate one of the following lines (without the comments), depending on the value of <code>n</code>:</p>
+<p>``` Func(); // If n is 0. Func(a1); // If n is 1. Func(a1 + a2); // If n is 2. Func(a1 + a2 + a3); // If n is 3. // And so on... ```</p>
+<h2>Constructs</h2>
+<p>We support the following meta programming constructs:</p>
+<table class="doxtable">
+<tr>
+<th align="left"><code>$var id = exp</code> </th><th align="left">Defines a named constant value. <code>$id</code> is valid util the end of the current meta lexical block.  </th></tr>
+<tr>
+<td align="left"><code>$range id exp..exp</code> </td><td align="left">Sets the range of an iteration variable, which can be reused in multiple loops later. </td></tr>
+<tr>
+<td align="left"><code>$for id sep [[ code ]]</code> </td><td align="left">Iteration. The range of <code>id</code> must have been defined earlier. <code>$id</code> is valid in <code>code</code>. </td></tr>
+<tr>
+<td align="left"><code>$($)</code> </td><td align="left">Generates a single <code>$</code> character. </td></tr>
+<tr>
+<td align="left"><code>$id</code> </td><td align="left">Value of the named constant or iteration variable. </td></tr>
+<tr>
+<td align="left"><code></code> </td><td align="left">Value of the expression. </td></tr>
+<tr>
+<td align="left"><code>$if exp [[ code ]] else_branch</code> </td><td align="left">Conditional. </td></tr>
+<tr>
+<td align="left"><code>[[ code ]]</code> </td><td align="left">Meta lexical block. </td></tr>
+<tr>
+<td align="left"><code>cpp_code</code> </td><td align="left">Raw C++ code. </td></tr>
+<tr>
+<td align="left"><code>$$ comment</code> </td><td align="left">Meta comment. </td></tr>
+</table>
+<p><b>Note:</b> To give the user some freedom in formatting the Pump source code, Pump ignores a new-line character if it's right after <code>$for foo</code> or next to <code>[[</code> or <code>]]</code>. Without this rule you'll often be forced to write very long lines to get the desired output. Therefore sometimes you may need to insert an extra new-line in such places for a new-line to show up in your output.</p>
+<h2>Grammar</h2>
+<p>``` code ::= atomic_code* atomic_code ::= $var id = exp | $var id = [[ code ]] | $range id exp..exp | $for id sep [[ code ]] | $($) | $id |  | $if exp [[ code ]] else_branch | [[ code ]] | cpp_code sep ::= cpp_code | empty_string else_branch ::= $else [[ code ]] | $elif exp [[ code ]] else_branch | empty_string exp ::= simple_expression_in_Python_syntax ```</p>
+<h2>Code</h2>
+<p>You can find the source code of Pump in <a href="../../../scripts/pump.py">scripts/pump.py</a>. It is still very unpolished and lacks automated tests, although it has been successfully used many times. If you find a chance to use it in your project, please let us know what you think! We also welcome help on improving Pump.</p>
+<h2>Real Examples</h2>
+<p>You can find real-world applications of Pump in <a href="https://github.com/google/googletest/tree/master/googletest">Google Test</a> and <a href="https://github.com/google/googletest/tree/master/googlemock">Google Mock</a>. The source file <code>foo.h.pump</code> generates <code>foo.h</code>.</p>
+<h2>Tips</h2>
 <ul>
-<li><b>Option 1</b> &mdash; During compilation, Xcode will need to know that you are linking against the gtest.framework. Add the gtest.framework to the "Link Binary with Libraries" build phase of your test target. This will include the Google Test headers in your header search path, and will tell the linker where to find the library.</li>
-<li><b>Option 2</b> &mdash; If your working out of the trunk, you'll also want to add gtest.framework to your "Link Binary with Libraries" build phase of your test target. In addition, you'll want to add the gtest.framework as a dependency to your unit test target. This way, Xcode will make sure that gtest.framework is up to date, every time your build your target. Finally, if you don't share build directories with Google Test, you'll have to copy the gtest.framework into your own build products directory using a "Run Script" build phase.</li>
+<li>If a meta variable is followed by a letter or digit, you can separate them using <code>[[]]</code>, which inserts an empty string. For example <code>Foo$j[[]]Helper</code> generate <code>Foo1Helper</code> when <code>j</code> is 1.</li>
+<li>To avoid extra-long Pump source lines, you can break a line anywhere you want by inserting <code>[[]]</code> followed by a new line. Since any new-line character next to <code>[[</code> or <code>]]</code> is ignored, the generated code won't contain this new line. </li>
 </ul>
-<h1>Set Up the Executable Run Environment</h1>
-<p>Since the unit test executable is a shell tool, it doesn't have a bundle with a <code>Contents/Frameworks</code> directory, in which to place gtest.framework. Instead, the dynamic linker must be told at runtime to search for the framework in another location. This can be accomplished by setting the "DYLD\_FRAMEWORK\_PATH" environment variable in the "Edit Active Executable ..." Arguments tab, under "Variables to be set in the environment:". The path for this value is the path (relative or absolute) of the directory containing the gtest.framework.</p>
-<p>If you haven't set up the DYLD_FRAMEWORK_PATH, correctly, you might get a message like this:</p>
-<p>``` [Session started at 2008-08-15 06:23:57 -0600.] dyld: Library not loaded: /../Frameworks/gtest.framework/Versions/A/gtest Referenced from: /Users/username/Documents/Sandbox/gtestSample/build/Debug/WidgetFrameworkTest Reason: image not found ```</p>
-<p>To correct this problem, go to to the directory containing the executable named in "Referenced from:" value in the error message above. Then, with the terminal in this location, find the relative path to the directory containing the gtest.framework. That is the value you'll need to set as the DYLD_FRAMEWORK_PATH.</p>
-<h1>Build and Go</h1>
-<p>Now, when you click "Build and Go", the test will be executed. Dumping out something like this:</p>
-<p>``` [Session started at 2008-08-06 06:36:13 -0600.] [==========] Running 2 tests from 1 test case. [-------&mdash;] Global test environment set-up. [-------&mdash;] 2 tests from WidgetInitializerTest [ RUN ] WidgetInitializerTest.TestConstructor [ OK ] WidgetInitializerTest.TestConstructor [ RUN ] WidgetInitializerTest.TestConversion [ OK ] WidgetInitializerTest.TestConversion [-------&mdash;] Global test environment tear-down [==========] 2 tests from 1 test case ran. [ PASSED ] 2 tests.</p>
-<p>The Debugger has exited with status 0. ```</p>
-<h1>Summary</h1>
-<p>Unit testing is a valuable way to ensure your data model stays valid even during rapid development or refactoring. The Google Testing Framework is a great unit testing framework for C and C++ which integrates well with an Xcode development environment. </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:30 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

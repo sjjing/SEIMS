@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: # Github使用说明</title>
+<title>SEIMS: 模块开发Demo</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,180 +106,206 @@ $(document).ready(function(){initNavTree('d0/dc2/a00104.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title"># Github使用说明 </div>  </div>
+<div class="title">模块开发Demo </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>在开始之前，强烈建议阅读以下学习资料：</p>
+<div class="textblock"><p>以一个简单Demo为例介绍，模块开发的整体流程。</p>
+<p>一般来说，模块编写基本步骤如下：</p>
 <ul>
-<li><a href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000/">廖学峰老师的Git教程</a></li>
-<li><a href="http://www.codeceo.com/article/git-command-guide.html">常用的Git命令</a></li>
+<li>1. 阅读相关文献和模型文档，编写模型文档的理论部分；</li>
+<li>2. 设计模块名，基本命名规则为<code>过程_算法</code>，如<code>PET_H</code>为蒸散发过程（PET）的Hargreaves方法实现；缩写规范自行查找，比如<code>YLD</code>可以是作物产量<code>Yield</code>的缩写，没有指定具体算法的，命名只有<code>过程</code>也可；</li>
+<li>3. 根据模型的相关理论，参考已有成熟模型的代码，列出模型的输入（包括以其他模块的输出作为输入）、输出，编写元数据函数(<code>MetadataInformation</code>)代码，即<code>api.cpp</code>；</li>
+<li>在头文件中定义所需变量，并在实现文件(<code>.cpp</code>)中做参数初始化（构造函数）、赋值（<code>SetValue</code>, <code>Set1DData</code>, <code>Set2DData</code>系列函数）和有效性检查（<code>CheckInputData</code>系列函数）的工作；</li>
+<li>根据公式，编写<code>Execute</code>函数的代码，实现模拟功能</li>
+<li>编写输出代码，<code>Get1DData</code>，<code>Get2DData</code>等</li>
+<li>代码检查、测试</li>
 </ul>
 <h1>目录</h1>
 <ol type="1">
-<li><a href="../../#1windows下安装git">Windows下安装Git</a></li>
-<li><a href="../../#2从github中克隆代码库及代码修改">从Github中克隆代码库及代码修改</a></li>
-<li><a href="../../#3代码同步与更新">代码同步与更新</a></li>
-<li><a href="../../#4subtree操作">subtree操作</a></li>
-<li><a href="../../#5submodule操作">submodule操作（弃用技术，留存备忘）</a></li>
+<li><a href="../../#1-新建模块">新建模块</a></li>
+<li><a href="../../#2-编写元数据函数">编写元数据函数</a></li>
+<li><a href="../../#3-头文件定义">头文件定义</a></li>
+<li><a href="../../#4-实现函数编写">实现函数编写</a></li>
+<li><a href="../../#5-模块测试">模块测试</a></li>
 </ol>
-<h2>1.Windows下安装Git</h2>
-<p>Windows下推荐使用<a href="http://msysgit.github.io/">msysgit</a>的Git工具，直接下载安装即可，安装完成后，<code>开始 -&gt; Git -&gt; Git Bash</code>，打开一个类似命令行的窗口，说明Git安装成功了。 安装完成后，在git bash 命令行里输入：</p>
-<div class="fragment"><div class="line">$ git config --global user.name <span class="stringliteral">&quot;Your Name&quot;</span></div>
-<div class="line">$ git config --global user.email <span class="stringliteral">&quot;email@example.com&quot;</span></div>
-<div class="line"></div>
-<div class="line">e.g.,</div>
-<div class="line">$ git config --global user.name <span class="stringliteral">&quot;crazyzlj&quot;</span></div>
-<div class="line">$ git config --global user.email <span class="stringliteral">&quot;crazyzlj@gmail.com&quot;</span></div>
-</div><!-- fragment --><p>这两行表示，这台机器上的所有Git仓库都使用这个配置(用户名和邮件地址)。</p>
-<p>P.S. 如何在push的时候免输密码，可以参考这个<a href="http://www.cnblogs.com/ballwql/p/3462104.html">博客</a>的方法二，设置简单。</p>
-<p><em class="fa fa-exclamation-triangle fa-2x"></em> **注意！**</p>
-<h3>1.1.Git中AutoCRLF与SafeCRLF换行符问题</h3>
-<p>众所周知，Windows系统和Linux/Unix系统的换行符不同，而Windows下的Git默认情况下会在提交代码时自动替换换行符LF或CR为CRLF，这样对跨平台代码造成了极大的不便。</p>
-<p>因此，我们一般约定代码采用Linux编码，即 <code>LF \n</code>。打开Git shell进行如下设置：</p>
-<p>``` </p>
-<h1>AutoCRLF, 设置提交、检出时均不转换</h1>
-<p>git config &ndash;global core.autocrlf false </p>
-<h1>SafeCRLF, 设置拒绝提交包含混合换行符的文件，并且在提交混合换行符的文件时给出警告，从而手动转换为LF换行符后提交</h1>
-<h1>对于Windows设置为true</h1>
-<p>git config &ndash;global core.safecrlf true </p>
-<h1>对于linux设置为false</h1>
-<p>git config &ndash;global core.safecrlf false </p>
-<h1>同时，在SEIMS/.gitattributes里我们已经设置了一些例外，如Windows批处理文件.bat即为CRLF</h1>
-<p>```</p>
-<p><a href="../../#目录">返回目录</a> </p>
-<h2>2.从Github中克隆代码库及代码修改</h2>
-<p>配置好本地的Git环境之后，我们需要将代码库从Github上克隆到本地计算机。</p>
+<h2>1. 新建模块</h2>
+<p>这里，默认你已经掌握SEIMS代码基本结构和<code>CMAKE</code>编译知识，并已经成功编译出SEIMS的VS工程，如果没有，请往前阅读相关文档。</p>
+<p>**模块功能设计**：</p>
 <ul>
-<li>首先在Github.com上注册一个账号。注册好之后，需要设置SSH key，在<code>git bash</code>中输入： <div class="fragment"><div class="line">ssh-keygen -t rsa -C youremail@example.com</div>
-<div class="line"></div>
-<div class="line">e.g.,</div>
-<div class="line">ssh-keygen -t rsa -C crazyzlj@gmail.com</div>
-</div><!-- fragment --></li>
+<li>测试模型对单层栅格和多层栅格数据的支持</li>
+<li>分别读取Raster1D和Raster2D数据，做简单运算之后，输出</li>
+<li>模块命名为<code>IO_TEST</code></li>
 </ul>
-<p>一路回车，如果顺利的话，在用户目录（如<code>C:\Users\ZhuLJ</code>）里能找到&lt;tt&gt;.ssh目录，里面有<code>id_rsa</code>和<code>id_rsa.pub</code>两个文件，这两个就是SSH Key的密钥对，前者是私钥，后者是公钥。</p>
+<p>**利用CMAKE新建模块工程**：</p>
 <ul>
-<li>然后，登录Github，打开 Account Settings，SSH key页面，点Add SSH Key，Title任意填，在Key文本框里填上<code>id_rsa.pub</code>的内容，点击Add key就好啦。</li>
-<li>打开<a href="https://github.com/lreis2415/SEIMS2017">SEIMS模型的首页</a>， 点击<code>Fork</code>，来创建自己账户下的SEIMS克隆，克隆结束之后，复制克隆库的**SSH**地址。下一步，我们将克隆一份代码库到本地计算机。</li>
-</ul>
-<div class="fragment"><div class="line">cd &lt;destination folder&gt;</div>
-<div class="line">git clone git@github.com:&lt;yourname&gt;/SEIMS.git</div>
-<div class="line"><span class="preprocessor">#推荐只克隆dev分支，用法（需要有git-1.7.10以上版本）：</span></div>
-<div class="line"><span class="preprocessor"></span>git clone &lt;url&gt; --branch &lt;branch&gt; --single-branch</div>
-<div class="line">e.g.,</div>
-<div class="line">cd e:/code/hydro</div>
-<div class="line">git clone git@github.com:crazyzlj/SEIMS.git</div>
-<div class="line"><span class="preprocessor">#只克隆dev分支示例：</span></div>
-<div class="line"><span class="preprocessor">git clone git@github.com:crazyzlj/SEIMS.git --branch dev --single-branch</span></div>
-</div><!-- fragment --><ul>
-<li>随后，<code>cd</code>到克隆库目录，添加上游远程仓库，这一步**很重要**，关系到之后的代码同步和更新： <div class="fragment"><div class="line">cd SEIMS</div>
-<div class="line">git remote add upstream git@github.com:seims/SEIMS.git</div>
-</div><!-- fragment --></li>
-<li>这样，我们就将SEIMS代码克隆到了本地计算机一份。接下来，我们尝试对本地SEIMS文件做一下修改，然后提交到远程库（你自己的，如<code>crazyzlj/SEIMS</code>，而不是<code>seims/SEIMS</code>），最后通过提交<code>pull request</code> 提交给SEIMS代码拥有者（即seims）。</li>
-</ul>
-<p>为了说明问题，我简单修改了一下<code>README</code>文件，然后 <code>git status</code> 查看本地和远程的差别 随后 </p>
-<div class="fragment"><div class="line">Git add README.md</div>
-<div class="line">Git commit –m <span class="stringliteral">&quot;modification test”</span></div>
-<div class="line"><span class="stringliteral">Git push –u origin master</span></div>
-</div><!-- fragment --><p>这样就把本地的本次修改提交到了**你自己的远程库**中。</p>
-<ul>
-<li>在Github目录下可以看到刚才提交的修改，这时候，如果想把这个修改，提交到<code>seims/SEIMS</code>，需要点击网页上的<code>pull request</code>按钮,然后点击<code>Create pull request</code>，Github会自动判断能否“自动合并”，如果可以，便把本次修改提交完成了，如果不能，就需要我们进行手动解决冲突。 此时，<code>SEIMS</code>拥有者<code>seims</code>就会收到你的<code>pull request</code>并处理了。</li>
-</ul>
-<p><a href="../../#目录">返回目录</a> </p>
-<h2>3.代码同步与更新</h2>
-<p>以上我们知道了如何将本地的修改提交到源代码库，接下来，看看如何将**源代码库中的更新**同步到本地库中。</p>
-<p>比如其他人在<code>seims/SEIMS</code>下修改了README.md文件，现在同步到本地。</p>
-<ul>
-<li>查看远程主机地址 <div class="fragment"><div class="line">git remote -v</div>
-</div><!-- fragment --> 经过以上的设置，正常情况应该看到类似结果,如果没有upstream则需添加上游远程库</li>
-</ul>
-<div class="image">
-<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/seims-img%2Fgitremotev.png" />
+<li>在<code>SEIMS/src/modules/test</code>下新建目录<code>IO_TEST</code>，并在<code>SEIMS/src/modules/test/CMakeLists.txt</code>中添加语句<code>ADD_SUBDIRECTORY(./IO_TEST)</code>；</li>
+<li>复制<code>SEIMS/src/modules/test/template/</code>目录下的元数据模板<code>api.cpp</code>，头文件模板<code><a class="el" href="../../d7/d04/a01246_source.html">template.h</a></code>，实现函数模板<code><a class="el" href="../../d1/d31/a01245_source.html">template.cpp</a></code>，以及<code>CMakeLists.txt</code>到<code>IO_TEST</code>目录下；</li>
+<li>根据需要，对头文件和实现函数文件进行重命名，这里我们重命名为<code><a class="el" href="../../d4/dd5/a01244_source.html">IO_test.h</a></code>和<code><a class="el" href="../../d8/db0/a01243_source.html">IO_test.cpp</a></code>,并修改<code>CMakeLists.txt</code>中相关设置，具体如下图所示 <div class="image">
+<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fcmakelist-modification.jpg" />
 </div>
-<ul>
-<li>将源代码库更新的内容同步到本地，检查差异，然后再和本机分支合并，注意，下列代码同步的是<code>upstream</code>库的<code>master</code>分支，如果想同步其他分支，只需将第一行的<code>master</code>替换为相应分支名即可。 <div class="fragment"><div class="line">git fetch upstream master</div>
-<div class="line">git checkout master</div>
-<div class="line">git merge upstream/master</div>
-</div><!-- fragment --></li>
-</ul>
-<blockquote class="doxtable">
-<p>fetch远程库的时候注意，如果仅用git fetch upstream命令，会把所有远程库分支下载，速度慢，因此推荐使用 git fetch upstream master</p>
-<p></p>
-</blockquote>
-<ul>
-<li>多数情况下，Git可以自动合并，如果出现冲突，则需手动处理后，再<code>commit</code>提交，冲突结果类似：</li>
-</ul>
-<div class="image">
-<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/seims-img%2Fconflictwhenmerge.png" />
+</li>
+<li>一切准备就绪，打开Visual Studio 命令提示工具进行编译，随后打开VS，便可看到新增的模块工程，如下图： <div class="image">
+<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fnew-module-created.jpg" />
 </div>
-<ul>
-<li>处理步骤为：<ul>
-<li>打开出现合并冲突的文件</li>
-<li>找到冲突的地方，即<code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;HEAD</code>和<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;upstream/master</code>出现的地方</li>
-<li>判断不同版本，并选择去留，并删掉 <code>&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;HEAD</code>和<code>&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;upstream/master</code></li>
-<li><code>git add .</code></li>
-<li><code>git commit -m "merge conflict fixed"</code></li>
-<li><code>git push -u origin master</code></li>
-</ul>
 </li>
 </ul>
 <p><a href="../../#目录">返回目录</a></p>
-<h2>4.Subtree操作</h2>
-<p>参考资料：<a href="http://aoxuis.me/post/2013-08-06-git-subtree">XA技术不宅的博客</a></p>
-<p>git subtree是一条git子命令，本质上subtree是一种合并策略，从git v1.5.2，官方就推荐使用subtree代替submodule，所以它并不需要保存&lt;tt&gt;.submodule这样的元信息，平时使用时你甚至可以忘掉有subtree的存在，只需子项目管理者在适当的时候与子项目库进行双向同步更新。</p>
-<h3>4.1第一次添加子目录，并建立与git项目的关联</h3>
-<p>建立关联总共有2条命令：</p>
+<h2>2. 编写元数据函数</h2>
+<p>为了便于统一修改，并保持SEIMS整体的一致性，<code>api.cpp</code>中所有字符串类型的元数据信息均在<code>src/base/util/text.h</code>头文件中以宏定义&lt;tt&gt;::define的形式进行管理。</p>
+<h3>2.1 SetClass</h3>
+<p>定义模块所属模块组及描述，在<code><a class="el" href="../../d0/d22/a01049_source.html">text.h</a></code>中定义为<code>MCLS_</code>及<code>MCLSDESC_</code>，如：</p>
+<p>```cpp /// Potential Evapotranspiration Modules #define MCLS_PET "Potential Evapotranspiration" #define MCLSDESC_PET "Calculate the potential evapotranspiration" ```</p>
+<h3>2.2 SetID, SetDescription</h3>
+<p>定义该模块的唯一标识符ID和描述，在<code><a class="el" href="../../d0/d22/a01049_source.html">text.h</a></code>中定义为<code>MID_</code>及<code>MDESC_</code>，如：</p>
+<p>```cpp #define MID_PET_H "PET_H" #define MDESC_PET_H "Hargreaves method for calculating the potential evapotranspiration." ``` SetName 同 SetID</p>
+<h3>2.3 AddParameter</h3>
+<p>所有从数据库中原始读取的参数，均以AddParameter形式定义，这些参数在模拟开始前从数据库中读取，以指针的形式在不同模块间传递，模拟开始后，不重复读取！</p>
+<p>共有5个输入：</p>
 <ul>
-<li>语法：<code>git remote add -f &lt;子仓库名&gt; &lt;子仓库地址&gt;</code></li>
+<li>变量名，在<code><a class="el" href="../../d0/d22/a01049_source.html">text.h</a></code>中定义为<code>VAR_</code>，如CN2值定义为<code>VAR_CN2</code></li>
+<li>单位，在<code><a class="el" href="../../d0/d22/a01049_source.html">text.h</a></code>中定义为<code>UNIT_</code>，如秒的单位为<code>UNIT_SECOND</code></li>
+<li>描述，在<code><a class="el" href="../../d0/d22/a01049_source.html">text.h</a></code>中定义为<code>DESC_</code>，如CN2值得描述为<code>DESC_CN2</code></li>
+<li>来源，来源共有如下几种：<ul>
+<li><code>File_Input</code>:来自模型配置文件<code>file.in</code>,如模拟时间步长</li>
+<li><code>Source_HydroClimateDB</code>：来自水文气象数据库，如气温</li>
+<li><code>Source_ParameterDB</code>：来自模型参数数据库，包括MongoDB中<code>Parameters</code>表和<code>spatial</code>表</li>
 </ul>
-<p>解释：其中-f意思是在添加远程仓库之后，立即执行fetch。</p>
-<p>+　语法：<code>git subtree add --prefix=&lt;子目录名&gt; &lt;子仓库名&gt; &lt;分支&gt; --squash</code></p>
-<p>解释：<code>--squash</code>意思是把subtree的改动合并成一次commit，这样就不用拉取子项目完整的历史记录。<code>--prefix</code>之后的=等号也可以用空格。</p>
-<p>**示例**:</p>
-<p>``` $git remote add -f wiki <a href="https://github.com/lreis2415/SEIMS2017.wiki.git">https://github.com/lreis2415/SEIMS2017.wiki.git</a> $git subtree add &ndash;prefix=doc/wiki wiki master &ndash;squash ```</p>
-<h2>4.2从远程仓库更新子目录</h2>
-<p>更新子目录有2条命令:</p>
+</li>
+<li>数据类型，为<code>dimensionTypes</code>枚举型变量，主要包括：<ul>
+<li><code>DT_Single</code>：单个数值型</li>
+<li><code>DT_Array1D</code>：一维数组，如站点平均气温</li>
+<li><code>DT_Array2D</code>：二维数组，如栅格分层计算的层数及每层栅格的索引值</li>
+<li><code>DT_Raster1D</code>：一维栅格数据，如DEM</li>
+<li><code>DT_Raster2D</code>：二维栅格数据，如多层土壤属性栅格</li>
+<li><code>DT_Scenario</code>：情景数据</li>
+</ul>
+</li>
+</ul>
+<h3>2.4 AddInput</h3>
+<p>所有来源于其他模块输出的参数均以AddInput的形式定义，这部分参数在模块运行之前，检查其他模块是否有输出该参数，如果有，则获取指针；如果该参数尚未初始化，则由对应模块的<code>initialOutputs()</code>函数进行初始化并输出。</p>
+<p>与AddParameter的设置基本一致，唯一的区别在于AddInput的变量来源必须是<code>Source_Module</code>。</p>
+<p>二者的区别为：</p>
 <ul>
-<li>语法：<code>git fetch &lt;远程仓库名&gt; &lt;分支&gt;</code></li>
-<li>语法：<code>git subtree pull --prefix=&lt;子目录名&gt; &lt;远程分支&gt; &lt;分支&gt; --squash</code></li>
+<li>AddParameter中的参数，在模型构建时（即开始逐时间步长计算之前）一次性读取（除气象水文数据外），具体参见<code>src/base/ModuleFactory.cpp</code>中的：</li>
 </ul>
-<p>**示例**:</p>
-<p>``` $git fetch wiki master $git subtree pull &ndash;prefix=doc/wiki wiki master &ndash;squash ```</p>
-<h2>4.3从子目录push到远程仓库（确认你有写权限）</h2>
-<p>推送子目录的变更有1条命令:</p>
+<p>```cpp void ModuleFactory::SetData() ```</p>
 <ul>
-<li>语法：<code>git subtree push --prefix=&lt;子目录名&gt; &lt;远程分支名&gt; 分支</code></li>
+<li>而AddInput的参数，在模型开始第一个时间步长运行前，获取该参数的内存地址：</li>
 </ul>
-<p>**示例**:</p>
-<p>``` $git subtree push &ndash;prefix=doc/wiki wiki master ```</p>
+<p>```cpp void ModuleFactory::GetValueFromDependencyModule() ```</p>
+<h3>2.5 AddOutput</h3>
+<p>AddOutput需要设置变量名、单位、描述、数据类型，不再赘述。</p>
+<h3>2.6 Demo</h3>
+<p>我们设定了测试模型输入输出的模块目的，这里我们可以这样定义AddParameter和AddOutput（暂不涉及从其他模块中读取变量）：读取一维栅格数据<code>VAR_CN2</code>和二维栅格数据<code>VAR_CONDUCT</code>，分别输出为<code>CN2_M</code>和<code>K_M</code>：</p>
+<p>```cpp /// set parameters from database mdi.AddParameter(VAR_CN2, UNIT_NON_DIM, DESC_CN2, Source_ParameterDB, DT_Raster1D); mdi.AddParameter(VAR_CONDUCT, UNIT_WTRDLT_MMH, DESC_CONDUCT, Source_ParameterDB, DT_Raster2D); /// set the output variables mdi.AddOutput("CN2_M",UNIT_NON_DIM, DESC_CN2, DT_Raster1D); mdi.AddOutput("K_M",UNIT_WTRDLT_MMH,DESC_CONDUCT,DT_Raster2D); ```</p>
 <p><a href="../../#目录">返回目录</a></p>
-<h2>5.Submodule操作</h2>
-<p>一个项目可以独立出来一些功能相对独立、允许其他人重复使用的通用模块，这个时候，就需要使用**子模块**的概念了。</p>
-<h3>5.1 包含子模块的仓库的克隆</h3>
-<p>项目根目录下的&lt;tt&gt;.submodules文件定义了该项目的子模块列表和地址信息，如果该文件存在且不为空，那么可采取下面的方式对该项目进行克隆。</p>
-<p>参考资料：http://www.kafeitu.me/git/2012/03/27/git-submodule.html</p>
-<p>``` git clone &lt;parent-git-path&gt; git submodule update &ndash;init &ndash;recursive ```</p>
-<h3>5.2 为当前项目添加子模块</h3>
-<p>``` git submodule add &lt;child-git-path&gt; &lt;current-store-path&gt; ``<code> 其中，</code>&lt;child-git-path&gt;<code>是指子模块仓库地址，</code>&lt;current-store-path&gt;<code>指将子模块放置在当前工程下的路径。 注意：路径不能以</code>/` 结尾（会造成修改不生效）、不能是现有工程已有的目录（不能顺利 Clone）</p>
-<h3>5.3 删除子模块</h3>
-<p>To remove a submodule you need to:</p>
-<ol type="1">
-<li>Delete the relevant section from the .gitmodules file.</li>
-<li>Stage the .gitmodules changes <code>git add .gitmodules</code></li>
-<li>Delete the relevant section from <code>.git/config</code>.</li>
-<li>Run <code>git rm --cached path_to_submodule (no trailing slash)</code><code>.</code></li>
-<li><code>Run</code>rm -rf .git/modules/path_to_submodule<code></code></li>
-<li><code>Commit</code>git commit -m "Removed submodule &lt;name&gt;"`</li>
-<li>Delete the now untracked submodule files</li>
-<li>rm -rf path_to_submodule</li>
-</ol>
-<h3></h3>
-<p><a href="../../#目录">返回目录</a> </p>
-</div></div><!-- contents -->
+<h2>3. 头文件定义</h2>
+<h3>3.1 利用VAssistX快速重命名</h3>
+<p>打开头文件<code><a class="el" href="../../d4/dd5/a01244_source.html">IO_test.h</a></code>之后，首先想将默认的继承于<code><a class="el" href="../../d0/d48/a00351.html" title="Base module for all simulation modules in SEIMS. ">SimulationModule</a></code>的子类名称改为<code>IO_TEST</code>，有了VassistX我们可以很方便的快速重命名，如下：</p>
+<div class="image">
+<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fvs-rename.jpg" />
+</div>
+<div class="image">
+<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fvs-rename2.jpg" />
+</div>
+<h3>3.2 定义输入、输出变量</h3>
+<p>与<code>api.cpp</code>中设置的变量一一对应，在<code>IO_TEST</code>类定义变量名，并做好注释，这里我的定义如下：</p>
+<p>```cpp private: /// valid cells number int m_nCells; /// input 1D raster data float* m_raster1D; /// maximum number of soil layers int m_soilLayers; /// input 2D raster data float** m_raster2D; /// output 1D raster data float* m_output1Draster; /// output 2D raster data float** m_output2Draster; ```</p>
+<h3>3.3 定义public或private函数</h3>
+<ul>
+<li>构造函数和析构函数：（必需）</li>
+<li>算法执行函数：（必须），<code>virtual int Execute();</code></li>
+<li>获取输入数据系列函数：（多选）<ul>
+<li><code>SetValue</code>：设置<code>DT_Single</code>类型数据</li>
+<li><code>Set1DData</code>：设置<code>DT_Array1D</code>和<code>DT_Raster1D</code>类型数据</li>
+<li><code>Set2DData</code>：设置<code>DT_Array2D</code>和<code>DT_Raster2D</code>类型数据</li>
+</ul>
+</li>
+<li>获取输出数据系列函数：（多选）<ul>
+<li><code>GetValue</code>：读取<code>DT_Single</code>类型数据</li>
+<li><code>Get1DData</code>：读取<code>DT_Array1D</code>和<code>DT_Raster1D</code>类型数据</li>
+<li><code>Get2DData</code>：读取<code>DT_Array2D</code>和<code>DT_Raster2D</code>类型数据</li>
+</ul>
+</li>
+<li>其他一些自定义的函数</li>
+</ul>
+<h2>4. 实现函数编写</h2>
+<p>接下来我们可以进入实现函数编写的阶段。</p>
+<h3>4.1 参数初始化</h3>
+<p>按照AddParameter，AddInput，AddOutput中参数定义顺序，在构造函数中依次进行参数初始化，基本原则为：</p>
+<ul>
+<li><code>DT_Single</code>类型数据设置为-1或者<code>NODATA</code>(<code><a class="el" href="../../db/d40/a00959_source.html">utils.h</a></code>中定义)</li>
+<li><code>DT_Array1D</code>, <code>DT_Raster1D</code>, <code>DT_Array2D</code>和<code>DT_Raster2D</code>类型变量设置为<code>NULL</code></li>
+</ul>
+<p>这里我们这样初始化：</p>
+<p>```cpp IO_TEST::IO_TEST(void):m_nCells(-1), m_raster1D(NULL), m_raster2D(NULL), m_output1Draster(NULL), m_output2Draster(NULL) { } ```</p>
+<h3>4.2 内存释放（析构函数）</h3>
+<p>基本原则是：凡是在该模块中new的内存均需要在析构函数中释放，除非该变量在其他地方被显式释放。对于一维数组利用<code>delete[]</code>即可，对于二维数组则需要遍历释放，并重新赋值为<code>NULL</code>避免“野指针”。</p>
+<p>这里我们这样释放内存：</p>
+<p>```cpp IO_TEST::~IO_TEST(void) { if (m_output1Draster != NULL) delete[] m_output1Draster; m_output1Draster = NULL; if (m_output2Draster != NULL) { for(int i = 0; i &lt; m_nCells; i++) delete[] m_output2Draster[i]; delete[] m_output2Draster; m_output2Draster = NULL; } } ```</p>
+<p>由于释放内存频繁用到，因此，在<code><a class="el" href="../../db/d40/a00959_source.html">utils.h</a></code>中定义了模板函数用于释放内存：</p>
+<p>```cpp #include "utils.h" if(m_output1Draster != NULL) Release1DArray(m_output1Draster); if(m_output2Draster != NULL) Release2DArray(m_nCells, m_output2Draster) ```</p>
+<h3>4.3 变量赋值</h3>
+<p>赋值时首先进行数据长度检查（<code>CheckInputSize()</code>）,在进行长度检查时，顺便给栅格个数（<code>m_nCells</code>）赋值，随后对变量名进行匹配（<code>StringMatch()</code>），如果匹配则赋值，以<code>Set1DData</code>为例:</p>
+<p>```cpp void IO_TEST::Set1DData(const char* key, int n, float* data) { if(!this-&gt;CheckInputSize(key,n)) return; string sk(key); if(StringMatch(sk, VAR_CN2)) this-&gt;m_raster1D = data; }</p>
+<p>bool IO_TEST::CheckInputSize(const char* key, int n) { if(n&lt;=0) throw <a class="el" href="../../d9/d5e/a00295.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputSize","Input data for "+string(key) +" is invalid. The size could not be less than zero."); if(this-&gt;m_nCells != n) { if(this-&gt;m_nCells &lt;=0) this-&gt;m_nCells = n; else throw <a class="el" href="../../d9/d5e/a00295.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputSize","Input data for "+string(key) +" is invalid. All the input data should have same size."); } return true; } ```</p>
+<h3>4.4 参数有效性检查</h3>
+<p>有效性检查函数<code>CheckInputData()</code>用于逐个判断SetValue系列函数中设置的输入是否均以成功赋值，如没有，则抛出异常。</p>
+<p>```cpp bool IO_TEST::CheckInputData() { if(this-&gt;m_date == -1) /// m_date is protected variable member in base class <a class="el" href="../../d0/d48/a00351.html" title="Base module for all simulation modules in SEIMS. ">SimulationModule</a>. throw <a class="el" href="../../d9/d5e/a00295.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","You have not set the time."); if(m_nCells &lt;= 0) throw <a class="el" href="../../d9/d5e/a00295.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","The dimension of the input data can not be less than zero."); if(m_raster1D == NULL) throw <a class="el" href="../../d9/d5e/a00295.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","The 1D raster input data can not be less than zero."); if(m_raster2D == NULL) throw <a class="el" href="../../d9/d5e/a00295.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","The 2D raster input data can not be less than zero."); return true; } ```</p>
+<h3>4.5 编写Execute函数</h3>
+<p>在Execute函数中，首先需要为输出变量开辟内存空间，并赋初值，然后进行模块功能的实现。</p>
+<p>这里我们以简单的算法为例：</p>
+<p>```cpp int IO_TEST::Execute() { /// Initialize output variables if (m_output1Draster == NULL) { m_output1Draster = new float[m_nCells]; #pragma omp parallel for for (int i = 0; i &lt; m_nCells; ++i) m_output1Draster[i] = 0.f; } if (m_output2Draster == NULL) { m_output2Draster = new float*[m_nCells]; #pragma omp parallel for for (int i = 0; i &lt; m_nCells; ++i) { m_output2Draster[i] = new float[m_soilLayers]; for(int j = 0; j &lt; m_soilLayers; j++) m_output2Draster[i][j] = 0.f; } } /// Execute function #pragma omp parallel for for (int i = 0; i &lt; m_nCells; ++i) { m_output1Draster[i] = m_raster1D[i] * 0.5f; for(int j = 0; j &lt; m_soilLayers; j++) m_output2Draster[i][j] = m_raster2D[i][j] + 2.f; } return true; } ```</p>
+<p>与内存释放类似，为方便参数初始化，在<code>util.h</code>中定义了模板函数，调用示例如下：</p>
+<p>```cpp /// Initialize output variables if(m_output1Draster == NULL) Initialize1DArray(m_nCells, m_output1Draster, 0.f) if(m_output2Draster == NULL) Initialize2DArray(m_nCells, m_soilLayers, m_output2Draster, 0.f) ```</p>
+<h3>4.6 编写变量输出代码</h3>
+<p>与变量赋值代码类似，首先进行变量名匹配，然后进行赋值，以<code>Get2DData</code>为例：</p>
+<p>```cpp void IO_TEST::Get2DData(const char* key, int* n, int* col, float*** data) { string sk(key); if(StringMatch(sk, "K_M")) { *data = this-&gt;m_output2Draster; *n = this-&gt;m_nCells; *col = this-&gt;m_soilLayers; } } ```</p>
+<p>至此，这个简单的<code>IO_TEST</code>模块的代码编写工作便完成了！</p>
+<p><a href="../../#目录">返回目录</a></p>
+<h2>5. 模块测试</h2>
+<p>&gt;值得一提的是，SEIMS同时也是一个模块化框架，单独运行某一个模块也是可以的(当然是在保证气象输入正确的前提下)。</p>
+<p>对于我们编写的这个IO测试模块，可以通过配置模型输入文件，仅运行这一模块，并得到输出。</p>
+<h3>5.1 config.fig</h3>
+<p>通过之前的学习，相信你对config.fig的输入格式已经有所了解，不再赘述，具体设置如下：</p>
+<p>``` </p>
+<h3>FORMAT</h3>
+<h3>MODULE CLASS NO. | PROCESS NAME | METHOD NAME | MODULE ID</h3>
+<h3>-1 | Module Test</h3>
+<p>0 | IO test| IO | IO_TEST ```</p>
+<h3>5.2 file.in</h3>
+<p>既然仅测试这一模块，那就只设置模拟一天（其实file.in对IO_TEST没用）</p>
+<p>``` MODE|Daily INTERVAL|1 STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-01-02 00:00:00 ``` </p>
+<h3>5.3 file.out</h3>
+<p>分别设置2个输出，注意设置开始和结束时间要在file.in中模拟时间段之内，即：</p>
+<p>``` </p>
+<h3>-1 Module IO TEST</h3>
+<p>OUTPUTID|CN2_M COUNT | 1 TYPE | MEAN STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-01-02 00:00:00 FILENAME | CN2_M.tif</p>
+<p>OUTPUTID|K_M COUNT | 1 TYPE | MEAN STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-01-02 00:00:00 FILENAME | K_M.tif ```</p>
+<h3>5.4 运行模型</h3>
+<p>我的运行命令为：</p>
+<p>``` D: E:</p>
+<div class="fragment"><div class="line">\Hydro\SEIMS\model_data\TEST\model_dianbu_30m_longterm  6 0 127.0.0.1 27017</div>
+<div class="line">```</div>
+<div class="line"></div>
+<div class="line">值得注意的是，模型目录文件夹名称一定要与MongoDB数据库名一致！</div>
+<div class="line"></div>
+<div class="line">运行后在该目录下可以看到&lt;tt&gt;output&lt;/tt&gt;文件夹：</div>
+<div class="line"></div>
+<div class="line">&lt;img src=<span class="stringliteral">&quot;http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2FIO_test_run.jpg&quot;</span> alt=<span class="stringliteral">&quot;&quot;</span>/&gt;</div>
+<div class="line"></div>
+<div class="line">&lt;img src=<span class="stringliteral">&quot;http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2FIO_test_run_output.jpg&quot;</span> alt=<span class="stringliteral">&quot;&quot;</span>/&gt;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">至此，一个简单的SEIMS框架下的模块便编写完成了！</div>
+<div class="line"></div>
+<div class="line">&lt;a href=<span class="stringliteral">&quot;#目录&quot;</span>&gt;返回目录&lt;/a&gt;</div>
+</div><!-- fragment --></div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:30 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

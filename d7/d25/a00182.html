@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: PyGeoC</title>
+<title>SEIMS: SEIMS 模型配置、运行及率定</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,43 +106,87 @@ $(document).ready(function(){initNavTree('d7/d25/a00182.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">PyGeoC </div>  </div>
+<div class="title">SEIMS 模型配置、运行及率定 </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>***Py***thon for ***GeoC***omputation &mdash; easy, convenient, and efficient.</p>
-<p><a href="https://travis-ci.org/lreis2415/PyGeoC">![Build Status](https://travis-ci.org/lreis2415/PyGeoC.svg?branch=master)</a></p>
-<h2>1.Introduction</h2>
-<p>本科快毕业的时候，接触并开始学习Python和arcpy（当时ArcGIS 9时代还是arcgisscripting）已有五六年时间了，当时写了一篇文章《<a href="http://www.docin.com/p-164282884.html">[初学入门]ArcGIS中Python脚本的使用</a>》，在各个网站、空间被转载多次。</p>
-<p>随着学习的深入，逐渐接触了Numpy, GDAL, Matplotlib等一系列优秀Python包。在日常学习工作中，Python早已成为我进行简单、复杂科学计算/地学计算的编程工具，也积累了一些常用的地学计算代码。</p>
-<p>很久以来，我就有一个念头，就是构建一个适用于地学计算的基础Python库，这个库可以包含一些现有的开源代码，但一定要保证具有以下特点：</p>
-<ul>
-<li>配置方便</li>
-<li>简单易学</li>
-<li>高效易用</li>
+<div class="textblock"><h2>1. 模型配置</h2>
+<p>一个完整的SEIMS模型包括MongoDB数据库、模块配置文件config.fig、模拟时间步长和模拟时段文件file.in、参数输出设置文件file.out。</p>
+<h3>1.1 MongoDB数据库</h3>
+<p>通过[数据预处理](Data-preprocess)，我们得到了SEIMS运行依赖的MongoDB数据库，其中包括气象数据库和参数数据库。</p>
+<ol type="1">
+<li>气象数据库：降水和气象数据</li>
+<li>参数数据库：以模型名称命名，包括下面几个表：<ul>
+<li>parameters：包含模型的各个输入参数的信息，可以通过调整Impact参数进行调参</li>
+<li>reaches：河道相关属性信息</li>
+<li>SiteList：模拟所需的降水和气象站点</li>
+<li>Spatial：模拟所需的栅格数据、气象插值权重数据等，以<code>GridFS</code>方式存储</li>
 </ul>
-<h2>2.Download and Installation</h2>
-<p>PyGeoC采用纯Python开发（仅在Python2.x下测试），利用<a href="http://pythonwheels.com/">Wheels</a>打包<a href="http://python-packaging-user-guide.readthedocs.org/en/latest/distributing/#working-in-development-mode">发布</a>，可从PyPI项目主页下载。 也可从<a href="https://github.com/crazyzlj/PyGeoC">PyGeoC</a>库的dist目录中下载。 </p>
-<pre class="fragment">```python
-1.source distribution:
-python setup.py sdist
-2.wheel
-python setup.py bdist_wheel
-3.wheel(py27, I just test in py27 currently)
-python setup.py bdist_wheel --python-tag py2
-```
-</pre><p>安装：</p>
+</li>
+</ol>
+<h3>1.2 config.fig</h3>
+<p>模型运行所需的模块列表，SEIMS按照顺序依次加载指定的各个模块，在每个模拟时间步长内顺序执行。</p>
+<p>通用格式为： ``` </p>
+<h3>FORMAT</h3>
+<h3>MODULE CLASS NO. | PROCESS NAME | METHOD NAME | MODULE ID</h3>
+<p>i.e. #0 | Climate 0 | TimeSeries | | TSD_RD 0 | Interpolation | Thiessen_0 | ITP 0 | PET | Hargreaves | PET_H ```</p>
+<blockquote class="doxtable">
+<p>以::开头的为注视行；允许有空行</p>
+<p></p>
+</blockquote>
+<h3>1.3 file.in</h3>
+<p>设置SEIMS模型运行的:</p>
 <ul>
-<li>确认本机已经安装python2.6+</li>
-<li>安装pip: please refer to the <a href="https://pip.pypa.io/en/latest/installing/">installation page</a></li>
-<li><code>pip install &lt;path to PyGeoC .whl&gt;/PyGeoC&lt;version&gt;.whl</code></li>
+<li>MODE：<code>Daily</code>指日尺度模型；<code>Storm</code>指次降水模型；</li>
+<li>Interval：步长，如果为Daily模拟，步长默认为1天，不可修改；如果为Storm模拟，步长单位为秒，可以分别指定坡面过程和河道过程的模拟步长，如“60, 60”指定次降水模拟的坡面和河道过程步长都是60s；</li>
+<li>STARTTIME:模拟开始时间,格式：YYYY-MM-DD HH:MM:SS</li>
+<li>ENDTIME:模拟结束时间</li>
 </ul>
-<h2>3.Structure</h2>
+<p>如：</p>
+<p>``` MODE|Daily INTERVAL|1 STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-12-31 00:00:00 ```</p>
+<h3>1.4 file.out</h3>
+<p>指定模型输出变量相关信息，基本格式为：</p>
+<p>``` </p>
+<h3>FORMAT: TAG | VALUE</h3>
+<h3>ALL AVAILABLE TAGS:</h3>
+<h3>OUTPUTID : VARIABLE NAME FOR OUTPUT</h3>
+<h3>COUNT : OUTPUT NUMBER, e.g., 2 WHEN OUTPUT PET WITH AGGREGATION TYPE OF SUM AND MEAN.</h3>
+<h3>TYPE : DATA AGGREGATION TYPE, e.g., SUM, AVE, MAX, etc.</h3>
+<h3>STARTTIME : DATA DERIVED TIME START</h3>
+<h3>ENDTIME : DATA DERIVED TIME END</h3>
+<h3>FILENAME : OUTPUT FILENAME WITH SUFFIX, e.g., txt, asc, tif.</h3>
+<p>```</p>
+<p>例如，希望输出模拟时段内降水总量，则<code>OUTPUTID</code>为<code>D_P</code>,<code>TYPE</code>为<code>SUM</code>，如下：</p>
+<p>``` </p>
+<h3>0 HydroClimate</h3>
+<h2>Precipitation</h2>
+<p>OUTPUTID|D_P COUNT | 1 TYPE | SUM STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-12-31 00:00:00 FILENAME | PREC_SUM.tif ```</p>
+<h2>2. 运行</h2>
+<ul>
+<li>SEIMS_OMP版本调用格式为：</li>
+</ul>
+<p>``` seims_omp &lt;ModelPath&gt; &lt;threadsNum&gt; [&lt;layeringMethod&gt; &lt;IP&gt; &lt;port&gt;] ``` 其中：</p>
+<p>&lt;ModelPath&gt; 为模型路径，必需</p>
+<p>&lt;threadsNum&gt; 为OMP并行线程数，必需，大于1</p>
+<p>&lt;layeringMethod&gt; 为栅格分层方法，0或1，分别代表UP_DOWN和DOWN_UP，可选，默认为0</p>
+<p>&lt;IP&gt; 为MongoDB的IP地址，可选，默认为本机</p>
+<p>&lt;port&gt; 为MongoDB端口号，可选，默认为27017</p>
+<p>&gt;注意：&lt;ModelPath&gt;的文件夹名称需与MongoDB中数据库名称对应，且文件夹内需包含<code>config.fig</code>、<code>file.in</code>、<code>file.out</code>。</p>
+<ul>
+<li>SEIMS_MPI版本调用格式为：</li>
+</ul>
+<p>``` mpiexec –n 6 seims &lt;parallel.config file&gt; ```</p>
+<p>其中：</p>
+<p>-n 6 指定并行计算的进程数</p>
+<p>&lt;parallel.config file&gt; 为配置文件，包含 </p>
+<pre class="fragment">ModelName，ProjectPath，ModulePath，DBHost，DBPort，TreadNumber，LayeringMethod
+</pre><h2>3. 率定</h2>
+<p>TO BE CONTINUED！ </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:30 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:31 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

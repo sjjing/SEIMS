@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/iuh/SubbasinIUHCalculator.h Source File</title>
+<title>SEIMS: seims/pyseims_check.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,59 +112,104 @@ $(document).ready(function(){initNavTree('d4/d12/a00910_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SubbasinIUHCalculator.h</div>  </div>
+<div class="title">pyseims_check.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="../../da/dd8/a00906.html">IUHCalculator.h</a>&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;MongoUtil.h&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;clsRasterData.cpp&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">class </span>SubbasinIUHCalculator {</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    SubbasinIUHCalculator(<span class="keywordtype">int</span> t, <a class="code" href="../../d5/df1/a00206.html">clsRasterData&lt;int&gt;</a> &amp;rsMask, <a class="code" href="../../d5/df1/a00206.html">clsRasterData&lt;float&gt;</a> &amp;rsLanduse,</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;                          <a class="code" href="../../d5/df1/a00206.html">clsRasterData&lt;float&gt;</a> &amp;rsTime, <a class="code" href="../../d5/df1/a00206.html">clsRasterData&lt;float&gt;</a> &amp;rsDelta, <a class="code" href="../../d8/d0a/a00292.html">MongoGridFS</a>* grdfs);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">virtual</span> ~SubbasinIUHCalculator(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    vector &lt;vector&lt;double&gt;&gt; uhCell, uh1;      <span class="comment">//IUH from cell to watershed outlet</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordtype">int</span> noDataValue;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">int</span> nRows, nCols;    <span class="comment">//number of rows and columns</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">int</span> dt;              <span class="comment">//time interval in hours</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">int</span> nCells;          <span class="comment">//number of cells</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">int</span> *mask;  <span class="comment">//value of subwatershed/subbasin</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordtype">float</span> *landcover; <span class="comment">//landcover map</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordtype">float</span> *t0;          <span class="comment">//flow time</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keywordtype">float</span> *delta;       <span class="comment">//standard deviation of flow time</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="../../d8/d0a/a00292.html">MongoGridFS</a>* gfs;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">int</span> mt;          <span class="comment">//maximum length of IUH</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordtype">int</span> maxtSub;     <span class="comment">//maximum length of subwatershed IUH</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">//    void readData();</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">double</span> IUHti(<span class="keywordtype">double</span> delta0, <span class="keywordtype">double</span> t00, <span class="keywordtype">double</span> ti);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordtype">int</span> calCell(<span class="keywordtype">int</span> <span class="keywordtype">id</span>);</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">void</span> adjustRiceField(<span class="keywordtype">int</span> &amp;mint0, <span class="keywordtype">int</span> &amp;maxt0, vector&lt;double&gt; &amp;iuhRow);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
-<div class="ttc" id="a00206_html"><div class="ttname"><a href="../../d5/df1/a00206.html">clsRasterData</a></div><div class="ttdoc">Raster data (1D and 2D) I/O class Support I/O between TIFF, ASCII file or/and MongoBD database...</div><div class="ttdef"><b>Definition:</b> <a href="../../d3/d50/a00882_source.html#l00100">clsRasterData.h:100</a></div></div>
-<div class="ttc" id="a00906_html"><div class="ttname"><a href="../../da/dd8/a00906.html">IUHCalculator.h</a></div><div class="ttdoc">Class of IUH calculation. </div></div>
-<div class="ttc" id="a00292_html"><div class="ttname"><a href="../../d8/d0a/a00292.html">MongoGridFS</a></div><div class="ttdoc">Create a MongoDB GridFS instance. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d8f/a00880_source.html#l00172">MongoUtil.h:172</a></div></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno"><a class="line" href="../../da/de3/a01398.html">    1</a></span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="stringliteral">   This file is part of SEIMS and for checking the dependent packages.</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"># 1. pygeoc</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;    <span class="keyword">import</span> pygeoc</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../de/d6c/a01349.html">pygeoc.raster</a> <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d1/dcd/a01351.html">pygeoc.vector</a> <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d7/d57/a01348.html">pygeoc.hydro</a> <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../da/d61/a01350.html">pygeoc.utils</a> <span class="keyword">import</span> *</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: PyGeoC is not successfully installed, please check and retry!&quot;</span>)</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;PyGeoC-%s has been installed!&quot;</span> % pygeoc.__version__)</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment"># 2. gdal</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="keyword">import</span> osgeo</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">from</span> osgeo <span class="keyword">import</span> ogr</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="keyword">from</span> osgeo <span class="keyword">import</span> osr</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keyword">from</span> osgeo <span class="keyword">import</span> gdalconst</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">from</span> osgeo <span class="keyword">import</span> gdal_array</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">from</span> osgeo <span class="keyword">import</span> gdal</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: GDAL is not successfully installed, please check and retry!&quot;</span>)</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;GDAL-%s has been installed!&quot;</span> % osgeo.__version__)</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="comment"># 3. numpy</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keyword">import</span> numpy</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: NumPy is not successfully installed, please check and retry!&quot;</span>)</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;NumPy-%s has been installed!&quot;</span> % numpy.__version__)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="comment"># 4. pymongo</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <span class="keyword">import</span> pymongo</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keyword">from</span> pymongo <span class="keyword">import</span> MongoClient</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: pymongo is not successfully installed, please check and retry!&quot;</span>)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;pymongo-%s has been installed!&quot;</span> % pymongo.__version__)</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment"># 5. networkx</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">import</span> networkx</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: networkx is not successfully installed, please check and retry!&quot;</span>)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;networkx-%s has been installed!&quot;</span> % networkx.__version__)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment"># 6. shapely</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keyword">import</span> shapely</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: shapely is not successfully installed, please check and retry!&quot;</span>)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;shapely-%s has been installed!&quot;</span> % shapely.__version__)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="comment"># 7. matplotlib</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">import</span> matplotlib</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: matplotlib is not successfully installed, please check and retry!&quot;</span>)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;matplotlib-%s has been installed!&quot;</span> % matplotlib.__version__)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="comment"># 8. pathlib2</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keyword">import</span> pathlib2</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: pathlib2 is not successfully installed, please check and retry!&quot;</span>)</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;pathlib2 has been installed!&quot;</span>)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="comment"># 9. deap</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">import</span> deap</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: deap is not successfully installed, please check and retry!&quot;</span>)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;deap-%s has been installed!&quot;</span> % deap.__version__)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="comment"># 10. scoop</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">import</span> scoop</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR: scoop is not successfully installed, please check and retry!&quot;</span>)</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;scoop-%s.%s has been installed!&quot;</span> % (scoop.__version__, scoop.__revision__))</div>
+<div class="ttc" id="a01351_html"><div class="ttname"><a href="../../d1/dcd/a01351.html">vector</a></div></div>
+<div class="ttc" id="a01348_html"><div class="ttname"><a href="../../d7/d57/a01348.html">hydro</a></div></div>
+<div class="ttc" id="a01350_html"><div class="ttname"><a href="../../da/d61/a01350.html">utils</a></div></div>
+<div class="ttc" id="a01349_html"><div class="ttname"><a href="../../de/d6c/a01349.html">raster</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2b61984990e472053a6caf1b984c1e37.html">iuh</a></li><li class="navelem"><b>SubbasinIUHCalculator.h</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:25 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><b>pyseims_check.py</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:26 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

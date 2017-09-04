@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_longterm_linux_gcc48/doc/wiki/Run SEIMS/observed-data-check.md Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/management/NPSMGT/NonPointSource_Management.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('de/d16/a01228.html','../../');});
+$(document).ready(function(){initNavTree('de/d16/a01228_source.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -112,53 +112,78 @@ $(document).ready(function(){initNavTree('de/d16/a01228.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">seims_longterm_linux_gcc48/doc/wiki/Run SEIMS/observed-data-check.md</div>  </div>
+<div class="title">NonPointSource_Management.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">## 气象、径流、泥沙等观测数据整理注意事项：</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;1. **数据一致性检查**。如次降水数据与日值数据相互验证，日值数据与月统计值相互验证，找出明显错误值，并合理处理。</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;2. **时制的问题**。日值数据很可能已经按照UTC时间整理了，而次降水数据是按照当地时间整理的。最新版本的SEIMS数据导入程序在降水（或气象、径流等观测数据）数据文本文件的第一行，均以#开头，按照如下格式注明所用时制：</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;   ```python</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">   #&lt;TIME UNIT&gt; [&lt;TIMEZONE&gt;], 如果不指定时区, 则按照操作系统时间确定时区. e.g.,</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">   #LOCALTIME 8</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span><span class="preprocessor">   #LOCALTIME</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor"></span><span class="preprocessor">   #UTCTIME</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span>   ```</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;3. **日界的问题**。中国气象共享网的中国地面气象站点日值数据，明确规定其数据采用的是“北京时，日界为20时”，也即该数据集中的时间“2013-01-01”实际为“2013-01-01 20:00 UTC+8”。</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;4. **降雨、径流及泥沙数据匹配检查**。</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;   + 观察降雨-径流关系，可发现一些异常值，很多情况下是由于数据录入时小数点错误导致，比如溧阳小流域的部分数据：</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;   ```python</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;   Data      Pcp_mm Runoff(m3/s)</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;   2014/7/27    54.5    23.8-&gt;2.38</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;   2014/7/28       0    14.1-&gt;1.41</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;   2014/8/6    7    14.9-&gt;1.49</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;   2014/8/7  6.5    26.5-&gt;2.65</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;   2014/8/8  0.5    10.2-&gt;1.02</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;   Date     Pcp_mm  Runoff(m3/s)    Sediment(kg/m3) </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;   2012/8/8 138.3   9.27            0.677-&gt;0.0677</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;   2012/8/9   47    8.46            1.02-&gt;0.102</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;   2014/4/21    14.7    1.05            0.31-&gt;0.031</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;   2014/4/22       6    1.13            0.443-&gt;0.0443</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;   2014/4/23       0    0.966           0.329-&gt;0.0329</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;   ```</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;   + 一般地，径流和泥沙数据同时存在才合理，至少在有泥沙数据的时候，应当有对应的径流值（而非缺测或零值），因此数据校核时暂定如下规则：</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;     + 对于连续多天没有径流（或泥沙）观测值的，判断之后，删除对应泥沙（或径流）观测值</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;     + 对于缺失3天以内、且缺失值前后均合理的，线性插值出缺失值</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">/*</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"> * \brief Non point source management</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment"> * \author Liang-Jun Zhu</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment"> * \date Jul. 2016</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> */</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="../../d1/d67/a00310.html">   19</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d1/d67/a00310.html">NPS_Management</a> : <span class="keyword">public</span> <a class="code" href="../../d0/d48/a00351.html">SimulationModule</a> {</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="../../d1/d67/a00310.html#afadfb847258dc44ae2b1ef4b16bfbf09">   22</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d1/d67/a00310.html#afadfb847258dc44ae2b1ef4b16bfbf09">m_nCells</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="../../d1/d67/a00310.html#a0309c6a14295fc0eda82c326ab1035c7">   24</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d1/d67/a00310.html#a0309c6a14295fc0eda82c326ab1035c7">m_cellWidth</a>;</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="../../d1/d67/a00310.html#ad4910bf774f0e3f4c4383245d4e1a04b">   26</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d1/d67/a00310.html#ad4910bf774f0e3f4c4383245d4e1a04b">m_cellArea</a>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="../../d1/d67/a00310.html#a4b94da1db3f1e05b3ec9f7cda0af2fbe">   28</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d1/d67/a00310.html#a4b94da1db3f1e05b3ec9f7cda0af2fbe">m_timestep</a>;</div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../d1/d67/a00310.html#a9aba732681a294fe337bb6dfa8697365">   30</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d1/d67/a00310.html#a9aba732681a294fe337bb6dfa8697365">m_mgtFields</a>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="../../d1/d67/a00310.html#ab8e701012ecab799f78a1a2dcc0c6ab6">   36</a></span>&#160;    map&lt;int, BMPArealSrcFactory *&gt; <a class="code" href="../../d1/d67/a00310.html#ab8e701012ecab799f78a1a2dcc0c6ab6">m_arealSrcFactory</a>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="../../d1/d67/a00310.html#aaec6bcf56693b1cfc233ff3b52e09681">   41</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d1/d67/a00310.html#aaec6bcf56693b1cfc233ff3b52e09681">m_soilStorage</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="../../d1/d67/a00310.html#af070901dceadade9b9abf8853850bb9d">   43</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d1/d67/a00310.html#af070901dceadade9b9abf8853850bb9d">m_sol_no3</a>;</div>
+<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../d1/d67/a00310.html#a173f324f7710f7c638fb1e795430fe10">   45</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d1/d67/a00310.html#a173f324f7710f7c638fb1e795430fe10">m_sol_nh4</a>;</div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="../../d1/d67/a00310.html#a7e2c943af4ee4a01ab5755ff751104b6">   47</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../d1/d67/a00310.html#a7e2c943af4ee4a01ab5755ff751104b6">m_sol_solp</a>;</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">float</span> **m_sol_orgn;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keywordtype">float</span> **m_sol_orgp;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <a class="code" href="../../d1/d67/a00310.html">NPS_Management</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    ~<a class="code" href="../../d1/d67/a00310.html">NPS_Management</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">float</span> *data);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n, <span class="keywordtype">int</span> col, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="comment">//virtual void Get1DData(const char *key, int *n, float **data);</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment">//virtual void Get2DData(const char *key, int *n, int *col, float ***data);</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetScenario(<a class="code" href="../../d9/d48/a00345.html">Scenario</a> *sce);</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;};</div>
+<div class="ttc" id="a00310_html_ab8e701012ecab799f78a1a2dcc0c6ab6"><div class="ttname"><a href="../../d1/d67/a00310.html#ab8e701012ecab799f78a1a2dcc0c6ab6">NPS_Management::m_arealSrcFactory</a></div><div class="ttdeci">map&lt; int, BMPArealSrcFactory * &gt; m_arealSrcFactory</div><div class="ttdef"><b>Definition:</b> <a href="../../de/d16/a01228_source.html#l00036">NonPointSource_Management.h:36</a></div></div>
+<div class="ttc" id="a00310_html"><div class="ttname"><a href="../../d1/d67/a00310.html">NPS_Management</a></div><div class="ttdoc">All management operation in SWAT, e.g., plantop, killop, harvestop, etc. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d16/a01228_source.html#l00019">NonPointSource_Management.h:19</a></div></div>
+<div class="ttc" id="a00310_html_a7e2c943af4ee4a01ab5755ff751104b6"><div class="ttname"><a href="../../d1/d67/a00310.html#a7e2c943af4ee4a01ab5755ff751104b6">NPS_Management::m_sol_solp</a></div><div class="ttdeci">float ** m_sol_solp</div><div class="ttdoc">soluble phosphorus kg/ha </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d16/a01228_source.html#l00047">NonPointSource_Management.h:47</a></div></div>
+<div class="ttc" id="a00310_html_afadfb847258dc44ae2b1ef4b16bfbf09"><div class="ttname"><a href="../../d1/d67/a00310.html#afadfb847258dc44ae2b1ef4b16bfbf09">NPS_Management::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">valid cells number </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d16/a01228_source.html#l00022">NonPointSource_Management.h:22</a></div></div>
+<div class="ttc" id="a00310_html_a9aba732681a294fe337bb6dfa8697365"><div class="ttname"><a href="../../d1/d67/a00310.html#a9aba732681a294fe337bb6dfa8697365">NPS_Management::m_mgtFields</a></div><div class="ttdeci">float * m_mgtFields</div><div class="ttdoc">management fields raster </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d16/a01228_source.html#l00030">NonPointSource_Management.h:30</a></div></div>
+<div class="ttc" id="a00310_html_a0309c6a14295fc0eda82c326ab1035c7"><div class="ttname"><a href="../../d1/d67/a00310.html#a0309c6a14295fc0eda82c326ab1035c7">NPS_Management::m_cellWidth</a></div><div class="ttdeci">float m_cellWidth</div><div class="ttdoc">cell width (m) </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d16/a01228_source.html#l00024">NonPointSource_Management.h:24</a></div></div>
+<div class="ttc" id="a00310_html_ad4910bf774f0e3f4c4383245d4e1a04b"><div class="ttname"><a href="../../d1/d67/a00310.html#ad4910bf774f0e3f4c4383245d4e1a04b">NPS_Management::m_cellArea</a></div><div class="ttdeci">float m_cellArea</div><div class="ttdoc">area of cell (m^2) </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d16/a01228_source.html#l00026">NonPointSource_Management.h:26</a></div></div>
+<div class="ttc" id="a00310_html_a173f324f7710f7c638fb1e795430fe10"><div class="ttname"><a href="../../d1/d67/a00310.html#a173f324f7710f7c638fb1e795430fe10">NPS_Management::m_sol_nh4</a></div><div class="ttdeci">float ** m_sol_nh4</div><div class="ttdoc">ammonium kg/ha </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d16/a01228_source.html#l00045">NonPointSource_Management.h:45</a></div></div>
+<div class="ttc" id="a00310_html_a4b94da1db3f1e05b3ec9f7cda0af2fbe"><div class="ttname"><a href="../../d1/d67/a00310.html#a4b94da1db3f1e05b3ec9f7cda0af2fbe">NPS_Management::m_timestep</a></div><div class="ttdeci">float m_timestep</div><div class="ttdoc">time step (second) </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d16/a01228_source.html#l00028">NonPointSource_Management.h:28</a></div></div>
+<div class="ttc" id="a00310_html_af070901dceadade9b9abf8853850bb9d"><div class="ttname"><a href="../../d1/d67/a00310.html#af070901dceadade9b9abf8853850bb9d">NPS_Management::m_sol_no3</a></div><div class="ttdeci">float ** m_sol_no3</div><div class="ttdoc">nitrate kg/ha </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d16/a01228_source.html#l00043">NonPointSource_Management.h:43</a></div></div>
+<div class="ttc" id="a00345_html"><div class="ttname"><a href="../../d9/d48/a00345.html">MainBMP::Scenario</a></div><div class="ttdoc">Main class of scenario in BMP database. </div><div class="ttdef"><b>Definition:</b> <a href="../../df/d59/a01001_source.html#l00039">Scenario.h:39</a></div></div>
+<div class="ttc" id="a00351_html"><div class="ttname"><a href="../../d0/d48/a00351.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/de7/a01048_source.html#l00047">SimulationModule.h:47</a></div></div>
+<div class="ttc" id="a00310_html_aaec6bcf56693b1cfc233ff3b52e09681"><div class="ttname"><a href="../../d1/d67/a00310.html#aaec6bcf56693b1cfc233ff3b52e09681">NPS_Management::m_soilStorage</a></div><div class="ttdeci">float ** m_soilStorage</div><div class="ttdoc">variables to be updated (optionals) </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d16/a01228_source.html#l00041">NonPointSource_Management.h:41</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>observed-data-check.md</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:27 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_c45a69ff562c5683ce5320a99c4bd799.html">management</a></li><li class="navelem"><a class="el" href="../../dir_50a71d2a3869972c287d4538ef398de4.html">NPSMGT</a></li><li class="navelem"><b>NonPointSource_Management.h</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:28 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

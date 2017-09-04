@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology/GW_RSVR/api.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/base/data/clsInterpolationWeightData.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,69 +112,91 @@ $(document).ready(function(){initNavTree('dc/d81/a01006_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">api.cpp</div>  </div>
+<div class="title">clsInterpolationWeightData.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;GWaterReservoir.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;clsInterpolationWeightData.h&quot;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <a class="code" href="../../dd/d1d/a00336.html">SimulationModule</a> *</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;GetInstance() {</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../d6/d08/a00244.html">GWaterReservoir</a>();</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// function to return the XML Metadata document string</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../d0/dc7/a01402.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a>() {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">string</span> res = <span class="stringliteral">&quot;&quot;</span>;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="../../d0/dcd/a00280.html">MetadataInfo</a> mdi;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="comment">// set the information properties</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    mdi.SetAuthor(<span class="stringliteral">&quot;Junzhi Liu&quot;</span>);</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    mdi.SetClass(MCLS_GW, MCLSDESC_GW);</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    mdi.SetDescription(MDESC_GW_RSVR);</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    mdi.SetEmail(SEIMS_EMAIL);</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    mdi.SetHelpfile(<span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    mdi.SetID(MID_GW_RSVR);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    mdi.SetName(MID_GW_RSVR);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    mdi.SetVersion(<span class="stringliteral">&quot;0.1&quot;</span>);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    mdi.SetWebsite(SEIMS_SITE);</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    mdi.AddParameter(VAR_SUBBSN, UNIT_NON_DIM, DESC_SUBBSN, Source_ParameterDB, DT_Raster1D);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="comment">//mdi.AddParameter(Tag_RchParam, UNIT_NON_DIM, DESC_REACH_PARAM, Source_ParameterDB, DT_Array2D);</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="comment">// add reach information</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    mdi.AddParameter(VAR_REACH_PARAM, UNIT_NON_DIM, DESC_REACH_PARAM, Source_ParameterDB, DT_Reach);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    mdi.AddParameter(Tag_HillSlopeTimeStep, UNIT_SECOND, DESC_TIMESTEP, File_Input, DT_Single);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    mdi.AddParameter(Tag_CellWidth, UNIT_LEN_M, DESC_CellWidth, Source_ParameterDB, DT_Single);</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    mdi.AddParameter(VAR_GW_KG, UNIT_NON_DIM, DESC_GW_KG, Source_ParameterDB, DT_Single);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    mdi.AddParameter(VAR_Base_ex, UNIT_NON_DIM, DESC_BASE_EX, Source_ParameterDB, DT_Single);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    mdi.AddParameter(VAR_GW0, UNIT_DEPTH_MM, DESC_GW0, Source_ParameterDB, DT_Single);</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    mdi.AddParameter(VAR_GWMAX, UNIT_DEPTH_MM, DESC_GWMAX, Source_ParameterDB, DT_Single);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    mdi.AddInput(VAR_PERCO, UNIT_DEPTH_MM, DESC_PERCO, Source_Module, DT_Raster1D);</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    mdi.AddOutput(VAR_SBQG, UNIT_FLOW_CMS, DESC_SBQG, DT_Array1D);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    mdi.AddOutput(VAR_SBGS, UNIT_DEPTH_MM, DESC_SBGS, DT_Array1D);</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    res = mdi.GetXMLDocument();</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keywordtype">char</span> *tmp = <span class="keyword">new</span> <span class="keywordtype">char</span>[res.size() + 1];</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    strprintf(tmp, res.size() + 1, <span class="stringliteral">&quot;%s&quot;</span>, res.c_str());</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//clsITPWeightData::clsITPWeightData(string weightFileName) {</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="comment">//    m_fileName = weightFileName;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="comment">//    m_weightData = NULL;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">//}</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;clsITPWeightData::clsITPWeightData(<a class="code" href="../../d0/d61/a00302.html">MongoGridFS</a>* gfs, <span class="keyword">const</span> <span class="keywordtype">char</span> *remoteFilename) {</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    m_fileName = remoteFilename;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    m_weightData = NULL;</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    ReadFromMongoDB(gfs, remoteFilename);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;clsITPWeightData::~clsITPWeightData(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">if</span> (m_weightData != NULL) {</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        Release1DArray(m_weightData);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    }</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;}</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keywordtype">void</span> clsITPWeightData::getWeightData(<span class="keywordtype">int</span> *n, <span class="keywordtype">float</span> **data) {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    *n = m_nRows;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    *data = m_weightData;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordtype">void</span> clsITPWeightData::dump(ostream *fs) {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">if</span> (fs == NULL) <span class="keywordflow">return</span>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">int</span> index = 0;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; m_nRows; ++i) {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="comment">//rasterFile &gt;&gt; tmp &gt;&gt; tmp;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; m_nCols; ++j) {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;            index = i * m_nCols + j;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            *fs &lt;&lt; m_weightData[index] &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span>;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        }</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        *fs &lt;&lt; endl;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    }</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;}</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keywordtype">void</span> clsITPWeightData::dump(<span class="keywordtype">string</span> fileName) {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    ofstream fs;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    fs.open(fileName.c_str(), ios::out);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordflow">if</span> (fs.is_open()) {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        dump(&amp;fs);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        fs.close();</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    }</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;}</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    </div>
-<div class="ttc" id="a00244_html"><div class="ttname"><a href="../../d6/d08/a00244.html">GWaterReservoir</a></div><div class="ttdoc">Calculate groundwater using reservoir method. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/dee/a01081_source.html#l00024">GWaterReservoir.h:24</a></div></div>
-<div class="ttc" id="a01402_html_ga0087c853569e2c94d58c3499365662e9"><div class="ttname"><a href="../../d0/dc7/a01402.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a></div><div class="ttdeci">SEIMS_MODULE_API const char * MetadataInformation()</div><div class="ttdoc">function to return the XML Metadata document string </div><div class="ttdef"><b>Definition:</b> <a href="../../db/d23/a01025_source.html#l00015">api.cpp:15</a></div></div>
-<div class="ttc" id="a00280_html"><div class="ttname"><a href="../../d0/dcd/a00280.html">MetadataInfo</a></div><div class="ttdoc">Metadata information of module. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d4e/a00972_source.html#l00091">MetadataInfo.h:91</a></div></div>
-<div class="ttc" id="a00336_html"><div class="ttname"><a href="../../dd/d1d/a00336.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d85/a00976_source.html#l00047">SimulationModule.h:47</a></div></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="keywordtype">void</span> clsITPWeightData::ReadFromMongoDB(<a class="code" href="../../d0/d61/a00302.html">MongoGridFS</a>* gfs, <span class="keyword">const</span> <span class="keywordtype">char</span> *remoteFilename) {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keywordtype">string</span> wfilename = string(remoteFilename);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    vector&lt;string&gt; gfilenames;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    gfs-&gt;<a class="code" href="../../d0/d61/a00302.html#af1e8ad99d6bdb84805c4adb2fe4ca63a">getFileNames</a>(gfilenames);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="keywordtype">string</span> filename = remoteFilename;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="keywordflow">if</span> (!ValueInVector(filename, gfilenames)) {</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="keywordtype">int</span> index = filename.find_last_of(<span class="charliteral">&#39;_&#39;</span>);</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordtype">string</span> type = filename.substr(index + 1);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">if</span> (StringMatch(type, DataType_PotentialEvapotranspiration) || StringMatch(type, DataType_SolarRadiation)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            || StringMatch(type, DataType_RelativeAirMoisture) || StringMatch(type, DataType_MeanTemperature)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;            || StringMatch(type, DataType_MaximumTemperature) || StringMatch(type, DataType_MinimumTemperature)) {</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            wfilename = filename.substr(0, index + 1) + DataType_Meteorology;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        }</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordtype">char</span> *databuf;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keywordtype">size_t</span> datalength;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    gfs-&gt;<a class="code" href="../../d0/d61/a00302.html#a59803caa23585bfff0b5e039da5a9512">getStreamData</a>(wfilename, databuf, datalength);</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    m_weightData = (<span class="keywordtype">float</span> *) databuf;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    bson_t *md = gfs-&gt;<a class="code" href="../../d0/d61/a00302.html#ad9e826d6e16e45c388fa23c327cdfca1">getFileMetadata</a>(wfilename);</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    GetNumericFromBson(md, MONG_GRIDFS_WEIGHT_CELLS, m_nRows);</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    GetNumericFromBson(md, MONG_GRIDFS_WEIGHT_SITES, m_nCols);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}</div>
+<div class="ttc" id="a00302_html_af1e8ad99d6bdb84805c4adb2fe4ca63a"><div class="ttname"><a href="../../d0/d61/a00302.html#af1e8ad99d6bdb84805c4adb2fe4ca63a">MongoGridFS::getFileNames</a></div><div class="ttdeci">void getFileNames(vector&lt; string &gt; &amp;fileExisted, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get GridFS file names. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/da0/a00951_source.html#l00238">MongoUtil.cpp:238</a></div></div>
+<div class="ttc" id="a00302_html_a59803caa23585bfff0b5e039da5a9512"><div class="ttname"><a href="../../d0/d61/a00302.html#a59803caa23585bfff0b5e039da5a9512">MongoGridFS::getStreamData</a></div><div class="ttdeci">void getStreamData(string const &amp;gfilename, char *&amp;databuf, size_t &amp;datalength, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get stream data of a given GridFS file name. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/da0/a00951_source.html#l00284">MongoUtil.cpp:284</a></div></div>
+<div class="ttc" id="a00302_html_ad9e826d6e16e45c388fa23c327cdfca1"><div class="ttname"><a href="../../d0/d61/a00302.html#ad9e826d6e16e45c388fa23c327cdfca1">MongoGridFS::getFileMetadata</a></div><div class="ttdeci">bson_t * getFileMetadata(string const &amp;gfilename, mongoc_gridfs_t *gfs=NULL)</div><div class="ttdoc">Get metadata of a given GridFS file name. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/da0/a00951_source.html#l00264">MongoUtil.cpp:264</a></div></div>
+<div class="ttc" id="a00302_html"><div class="ttname"><a href="../../d0/d61/a00302.html">MongoGridFS</a></div><div class="ttdoc">Create a MongoDB GridFS instance. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/d49/a00952_source.html#l00172">MongoUtil.h:172</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_d7c7f7bf82b5886fdc0df29e1827350f.html">GW_RSVR</a></li><li class="navelem"><b>api.cpp</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:26 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_24d0af58b2644ad205aa9a0d9adbb65a.html">data</a></li><li class="navelem"><b>clsInterpolationWeightData.cpp</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:26 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

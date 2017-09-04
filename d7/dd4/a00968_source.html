@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/module_setting/SettingsInput.h Source File</title>
+<title>SEIMS: seims/src/field_partition/fieldTnode.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,80 +112,43 @@ $(document).ready(function(){initNavTree('d7/dd4/a00968_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SettingsInput.h</div>  </div>
+<div class="title">fieldTnode.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#ifndef SEIMS_SETTING_INPUT_H</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#define SEIMS_SETTING_INPUT_H</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;Settings.h&quot;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span><span class="comment">// Build by Wu Hui, 2012.4.28</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="comment">// objective: to build the relationships of the each field, and to aggregate very small upstream fields</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">//  into their downstream fields. This is controlled by the threshold given by user. </span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">//</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include&lt;algorithm&gt;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &lt;map&gt;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;Cell.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;Field.h&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;InputStation.h&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &quot;Scenario.h&quot;</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &quot;MongoUtil.h&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">class </span>fieldTnode {</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    fieldTnode(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">using namespace </span>MainBMP;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    ~fieldTnode(<span class="keywordtype">void</span>);</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html">   25</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../df/d91/a00335.html">SettingsInput</a> : <span class="keyword">public</span> <a class="code" href="../../da/d75/a00334.html">Settings</a> {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <a class="code" href="../../df/d91/a00335.html">SettingsInput</a>(vector&lt;string&gt;&amp; stringvector);</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    ~<a class="code" href="../../df/d91/a00335.html">SettingsInput</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">static</span> <a class="code" href="../../df/d91/a00335.html">SettingsInput</a>* Init(vector&lt;string&gt;&amp; stringvector);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Dump(<span class="keywordtype">string</span>);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a7a9ce2224d4680bccfd069f0fadf9a1d">   39</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a7a9ce2224d4680bccfd069f0fadf9a1d">getStartTime</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_startDate; }</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a7c23aa31719d03a2ac39dbab46dbc184">   42</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a7c23aa31719d03a2ac39dbab46dbc184">getEndTime</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_endDate; }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00045"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#afcb41ae2cda97acf9cde4ea93ac42f2c">   45</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#afcb41ae2cda97acf9cde4ea93ac42f2c">getDtHillslope</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_dtHs; }</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a2aadc540afcd4379cdfa1af8d24ed99c">   48</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a2aadc540afcd4379cdfa1af8d24ed99c">getDtChannel</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_dtCh; }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;</div>
-<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a37588cc605d9ed980a8e42b6d3a1a0b7">   51</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a37588cc605d9ed980a8e42b6d3a1a0b7">getDtDaily</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> 86400; }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#aec82eef341da4a36c40ae2aceb1d9722">   54</a></span>&#160;    <span class="keywordtype">string</span>&amp; <a class="code" href="../../df/d91/a00335.html#aec82eef341da4a36c40ae2aceb1d9722">getModelMode</a>(<span class="keywordtype">void</span>) { <span class="keywordflow">return</span> m_mode; }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a00faee40d1fb543b0eea9dc6145851ed">   57</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../df/d91/a00335.html#a00faee40d1fb543b0eea9dc6145851ed">isStormMode</a>(<span class="keywordtype">void</span>)<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_isStormModel; }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordtype">bool</span> readSimulationPeriodDate(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a90cd7c4a484ed1294a80ec6e515c5458">   65</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a90cd7c4a484ed1294a80ec6e515c5458">m_startDate</a>;</div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a0b2dd70eee0ff83818e5e15717b914c3">   67</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a0b2dd70eee0ff83818e5e15717b914c3">m_endDate</a>;</div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a4b26228ba3e9f0109951fcbbf8d3b74a">   69</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a4b26228ba3e9f0109951fcbbf8d3b74a">m_dtHs</a>;</div>
-<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a68396d28a25a25af0a70054ab2d3019c">   71</a></span>&#160;    time_t <a class="code" href="../../df/d91/a00335.html#a68396d28a25a25af0a70054ab2d3019c">m_dtCh</a>;</div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a7f93c75b7d1750b7f5e84e2bb89f3192">   73</a></span>&#160;    <span class="keywordtype">string</span> <a class="code" href="../../df/d91/a00335.html#a7f93c75b7d1750b7f5e84e2bb89f3192">m_mode</a>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#aa4150d381d0b80ffe478084393b86703">   75</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../df/d91/a00335.html#aa4150d381d0b80ffe478084393b86703">m_isStormModel</a>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;};</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* SEIMS_SETTING_INPUT_H */</span><span class="preprocessor"></span></div>
-<div class="ttc" id="a00335_html_aa4150d381d0b80ffe478084393b86703"><div class="ttname"><a href="../../df/d91/a00335.html#aa4150d381d0b80ffe478084393b86703">SettingsInput::m_isStormModel</a></div><div class="ttdeci">bool m_isStormModel</div><div class="ttdoc">is storm model? </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00075">SettingsInput.h:75</a></div></div>
-<div class="ttc" id="a00335_html_a68396d28a25a25af0a70054ab2d3019c"><div class="ttname"><a href="../../df/d91/a00335.html#a68396d28a25a25af0a70054ab2d3019c">SettingsInput::m_dtCh</a></div><div class="ttdeci">time_t m_dtCh</div><div class="ttdoc">Time interval for channel scale processes. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00071">SettingsInput.h:71</a></div></div>
-<div class="ttc" id="a00335_html_aec82eef341da4a36c40ae2aceb1d9722"><div class="ttname"><a href="../../df/d91/a00335.html#aec82eef341da4a36c40ae2aceb1d9722">SettingsInput::getModelMode</a></div><div class="ttdeci">string &amp; getModelMode(void)</div><div class="ttdoc">Get model mode. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00054">SettingsInput.h:54</a></div></div>
-<div class="ttc" id="a00335_html_a4b26228ba3e9f0109951fcbbf8d3b74a"><div class="ttname"><a href="../../df/d91/a00335.html#a4b26228ba3e9f0109951fcbbf8d3b74a">SettingsInput::m_dtHs</a></div><div class="ttdeci">time_t m_dtHs</div><div class="ttdoc">Time interval for hillslope scale processes. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00069">SettingsInput.h:69</a></div></div>
-<div class="ttc" id="a00335_html_a37588cc605d9ed980a8e42b6d3a1a0b7"><div class="ttname"><a href="../../df/d91/a00335.html#a37588cc605d9ed980a8e42b6d3a1a0b7">SettingsInput::getDtDaily</a></div><div class="ttdeci">time_t getDtDaily(void) const </div><div class="ttdoc">Get daily time interval of simulation in sec. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00051">SettingsInput.h:51</a></div></div>
-<div class="ttc" id="a00335_html"><div class="ttname"><a href="../../df/d91/a00335.html">SettingsInput</a></div><div class="ttdoc">Input settings for SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00025">SettingsInput.h:25</a></div></div>
-<div class="ttc" id="a00335_html_a7f93c75b7d1750b7f5e84e2bb89f3192"><div class="ttname"><a href="../../df/d91/a00335.html#a7f93c75b7d1750b7f5e84e2bb89f3192">SettingsInput::m_mode</a></div><div class="ttdeci">string m_mode</div><div class="ttdoc">Simulation mode, can be DAILY or HOURLY. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00073">SettingsInput.h:73</a></div></div>
-<div class="ttc" id="a00335_html_a2aadc540afcd4379cdfa1af8d24ed99c"><div class="ttname"><a href="../../df/d91/a00335.html#a2aadc540afcd4379cdfa1af8d24ed99c">SettingsInput::getDtChannel</a></div><div class="ttdeci">time_t getDtChannel(void) const </div><div class="ttdoc">Get time interval for channel scale processes. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00048">SettingsInput.h:48</a></div></div>
-<div class="ttc" id="a00334_html"><div class="ttname"><a href="../../da/d75/a00334.html">Settings</a></div><div class="ttdoc">Base class for input or output Settings. </div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d6e/a00966_source.html#l00022">Settings.h:22</a></div></div>
-<div class="ttc" id="a00335_html_a7a9ce2224d4680bccfd069f0fadf9a1d"><div class="ttname"><a href="../../df/d91/a00335.html#a7a9ce2224d4680bccfd069f0fadf9a1d">SettingsInput::getStartTime</a></div><div class="ttdeci">time_t getStartTime(void) const </div><div class="ttdoc">Get start time of simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00039">SettingsInput.h:39</a></div></div>
-<div class="ttc" id="a00335_html_a0b2dd70eee0ff83818e5e15717b914c3"><div class="ttname"><a href="../../df/d91/a00335.html#a0b2dd70eee0ff83818e5e15717b914c3">SettingsInput::m_endDate</a></div><div class="ttdeci">time_t m_endDate</div><div class="ttdoc">End date of simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00067">SettingsInput.h:67</a></div></div>
-<div class="ttc" id="a00335_html_afcb41ae2cda97acf9cde4ea93ac42f2c"><div class="ttname"><a href="../../df/d91/a00335.html#afcb41ae2cda97acf9cde4ea93ac42f2c">SettingsInput::getDtHillslope</a></div><div class="ttdeci">time_t getDtHillslope(void) const </div><div class="ttdoc">Get time interval for hillslope scale processes. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00045">SettingsInput.h:45</a></div></div>
-<div class="ttc" id="a00335_html_a90cd7c4a484ed1294a80ec6e515c5458"><div class="ttname"><a href="../../df/d91/a00335.html#a90cd7c4a484ed1294a80ec6e515c5458">SettingsInput::m_startDate</a></div><div class="ttdeci">time_t m_startDate</div><div class="ttdoc">Start date of simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00065">SettingsInput.h:65</a></div></div>
-<div class="ttc" id="a00335_html_a00faee40d1fb543b0eea9dc6145851ed"><div class="ttname"><a href="../../df/d91/a00335.html#a00faee40d1fb543b0eea9dc6145851ed">SettingsInput::isStormMode</a></div><div class="ttdeci">bool isStormMode(void) const </div><div class="ttdoc">is storm model </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00057">SettingsInput.h:57</a></div></div>
-<div class="ttc" id="a00335_html_a7c23aa31719d03a2ac39dbab46dbc184"><div class="ttname"><a href="../../df/d91/a00335.html#a7c23aa31719d03a2ac39dbab46dbc184">SettingsInput::getEndTime</a></div><div class="ttdeci">time_t getEndTime(void) const </div><div class="ttdoc">Get end time of simulation. </div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dd4/a00968_source.html#l00042">SettingsInput.h:42</a></div></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="comment">// build tree struct</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    fieldTnode *m_Tparent;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    vector&lt;fieldTnode *&gt; m_Tchildren;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keywordtype">int</span> m_degree;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    vector&lt;Field *&gt; m_childFieldsVec;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    Field *m_field;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_cce2c0ac50386f26b5b526fa8626cc77.html">module_setting</a></li><li class="navelem"><b>SettingsInput.h</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:26 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_5dad1625e7f9729766baa8f13d29b59c.html">field_partition</a></li><li class="navelem"><b>fieldTnode.h</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:26 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

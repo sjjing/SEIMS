@@ -447,12 +447,14 @@ $(document).ready(function(){initNavTree('dc/de2/a00024.html','../../');});
 <p>Yes.</p>
 <p>The rule is <b>all test methods in the same test case must use the same fixture class</b>. This means that the following is <b>allowed</b> because both tests use the same fixture class (<code>::testing::Test</code>).</p>
 <p>``` cpp namespace foo { TEST(CoolTest, DoSomething) { SUCCEED(); } } // namespace foo</p>
-<p>namespace bar { TEST(CoolTest, DoSomething) { SUCCEED(); } } // namespace foo ```</p>
+<p>namespace bar { TEST(CoolTest, DoSomething) { SUCCEED(); } } // namespace bar ```</p>
 <p>However, the following code is <b>not allowed</b> and will produce a runtime error from Google Test because the test methods are using different test fixture classes with the same test case name.</p>
 <p>``` cpp namespace foo { class CoolTest : public ::testing::Test {}; // Fixture foo::CoolTest TEST_F(CoolTest, DoSomething) { SUCCEED(); } } // namespace foo</p>
-<p>namespace bar { class CoolTest : public ::testing::Test {}; // Fixture: bar::CoolTest TEST_F(CoolTest, DoSomething) { SUCCEED(); } } // namespace foo ```</p>
+<p>namespace bar { class CoolTest : public ::testing::Test {}; // Fixture: bar::CoolTest TEST_F(CoolTest, DoSomething) { SUCCEED(); } } // namespace bar ```</p>
 <h2>How do I build Google Testing Framework with Xcode 4?</h2>
 <p>If you try to build Google Test's Xcode project with Xcode 4.0 or later, you may encounter an error message that looks like "Missing SDK in target gtest\_framework: /Developer/SDKs/MacOSX10.4u.sdk". That means that Xcode does not support the SDK the project is targeting. See the Xcode section in the ../README.md "README" file on how to resolve this.</p>
+<h2>How do I easily discover the flags needed for GoogleTest?</h2>
+<p>GoogleTest (and GoogleMock) now support discovering all necessary flags using pkg-config. See the pkg-config guide on how you can easily discover all compiler and linker flags using pkg-config.</p>
 <h2>My question is not covered in your FAQ!</h2>
 <p>If you cannot find the answer to your question in this FAQ, there are some other resources you can use:</p>
 <ol type="1">
@@ -479,7 +481,7 @@ $(document).ready(function(){initNavTree('dc/de2/a00024.html','../../');});
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:28 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:29 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_longterm_linux_gcc48/seims/pygeoc/pygeoc/vector/vector.py Source File</title>
+<title>SEIMS: seims_longterm_linux_gcc48/seims/preprocess/hydro_climate_utility.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,98 +112,191 @@ $(document).ready(function(){initNavTree('df/de8/a00839_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">vector.py</div>  </div>
+<div class="title">hydro_climate_utility.py</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Vector related Classes and Functions</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral"></span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    author: Liangjun Zhu</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">    changlog: 12-04-12 jz - origin version</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">              16-07-01 lj - reorganized for pygeoc</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">              17-06-25 lj - check by pylint and reformat by Google style</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> os</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> sys</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> osgeo.ogr <span class="keyword">import</span> wkbLineString</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">from</span> osgeo.ogr <span class="keyword">import</span> GetDriverByName <span class="keyword">as</span> ogr_GetDriverByName</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> osgeo.ogr <span class="keyword">import</span> CreateGeometryFromJson <span class="keyword">as</span> ogr_CreateGeometryFromJson</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> osgeo.ogr <span class="keyword">import</span> Geometry <span class="keyword">as</span> ogr_Geometry</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">from</span> osgeo.ogr <span class="keyword">import</span> Feature <span class="keyword">as</span> ogr_Feature</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Hydro-Climate utility class.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Junzhi Liu, Liangjun Zhu</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 13-01-10  jz - initial implementation</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">                17-06-23  lj - reformat according to pylint and google style</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> math</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> time</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> datetime <span class="keyword">import</span> datetime, timedelta</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> <a class="code" href="../../de/dfe/a01383.html">seims.preprocess.text</a> <span class="keyword">import</span> DBTableNames, StationFields, DataValueFields</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d7/dde/a01384.html">seims.preprocess.utility</a> <span class="keyword">import</span> LFs</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d6/d2f/a01394.html">seims.pygeoc.pygeoc.utils.utils</a> <span class="keyword">import</span> StringClass, MathClass</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">class </span>HydroClimateUtilClass(object):</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Hydro-Climate utility functions.&quot;&quot;&quot;</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">from</span> ..utils.utils <span class="keyword">import</span> FileClass, UtilClass, sysstr</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">class </span>VectorUtilClass(object):</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Utility function to handle vector data.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">def </span>__init__(self):</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="../../d7/d2f/a00258.html#a25eea718b66ece4f9581b3c2c41ff509">   20</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d7/d2f/a00258.html#a25eea718b66ece4f9581b3c2c41ff509">__init__</a>(self):</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Empty&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="../../d7/d2f/a00258.html#ac60f9e6420e6576f70a1dba27077116f">   25</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d7/d2f/a00258.html#ac60f9e6420e6576f70a1dba27077116f">dr</a>(doy):</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;earth-sun distance&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        <span class="keywordflow">return</span> 1. + 0.033 * math.cos(2. * math.pi * doy / 365.)</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../d8/d95/a00379.html#a0be3376dbd83587fc4cba2cdfead7a03">   30</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d95/a00379.html#a0be3376dbd83587fc4cba2cdfead7a03">raster2shp</a>(rasterfile, vectorshp, layername, fieldname):</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Convert raster to ESRI shapefile&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        FileClass.remove_files(vectorshp)</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        FileClass.check_file_exists(rasterfile)</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="comment"># raster to polygon vector</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        exepath = FileClass.get_executable_fullpath(<span class="stringliteral">&quot;gdal_polygonize.py&quot;</span>)</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        str_cmd = <span class="stringliteral">&#39;python %s -f &quot;ESRI Shapefile&quot; %s %s %s %s&#39;</span> % (</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;            exepath, rasterfile, vectorshp, layername, fieldname)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">print</span> (str_cmd)</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">print</span> (UtilClass.run_command(str_cmd))</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../d8/d95/a00379.html#ab07b209628dce2e355d48f9a3fdb5bd5">   42</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d95/a00379.html#ab07b209628dce2e355d48f9a3fdb5bd5">convert2geojson</a>(jsonfile, src_srs, dst_srs, src_file):</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;convert shapefile to geojson file&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        <span class="keywordflow">if</span> os.path.exists(jsonfile):</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            os.remove(jsonfile)</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <span class="keywordflow">if</span> sysstr == <span class="stringliteral">&#39;Windows&#39;</span>:</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            exepath = <span class="stringliteral">&#39;&quot;%s/Lib/site-packages/osgeo/ogr2ogr&quot;&#39;</span> % sys.exec_prefix</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keywordflow">else</span>:</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            exepath = FileClass.get_executable_fullpath(<span class="stringliteral">&quot;ogr2ogr&quot;</span>)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="comment"># os.system(s)</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        s = <span class="stringliteral">&#39;%s -f GeoJSON -s_srs &quot;%s&quot; -t_srs %s %s %s&#39;</span> % (</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            exepath, src_srs, dst_srs, jsonfile, src_file)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        UtilClass.run_command(s)</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="../../d8/d95/a00379.html#a27510264f2c7b34eccc10dc992c879ed">   56</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d95/a00379.html#a27510264f2c7b34eccc10dc992c879ed">write_line_shp</a>(line_list, out_shp):</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Export ESRI Shapefile -- Line feature&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&quot;Write line shapefile: %s&quot;</span> % out_shp)</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        driver = ogr_GetDriverByName(<span class="stringliteral">&quot;ESRI Shapefile&quot;</span>)</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">if</span> driver <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ESRI Shapefile driver not available.&quot;</span>)</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            sys.exit(1)</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="keywordflow">if</span> os.path.exists(out_shp):</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            driver.DeleteDataSource(out_shp)</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        ds = driver.CreateDataSource(out_shp.rpartition(os.sep)[0])</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">if</span> ds <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">print</span> (<span class="stringliteral">&quot;ERROR Output: Creation of output file failed.&quot;</span>)</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            sys.exit(1)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        lyr = ds.CreateLayer(out_shp.rpartition(os.sep)[2].split(<span class="stringliteral">&#39;.&#39;</span>)[0], <span class="keywordtype">None</span>, wkbLineString)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordflow">for</span> l <span class="keywordflow">in</span> line_list:</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            line = ogr_Geometry(wkbLineString)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            <span class="keywordflow">for</span> i <span class="keywordflow">in</span> l:</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                line.AddPoint(i[0], i[1])</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            templine = ogr_CreateGeometryFromJson(line.ExportToJson())</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            feature = ogr_Feature(lyr.GetLayerDefn())</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            feature.SetGeometry(templine)</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            lyr.CreateFeature(feature)</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            feature.Destroy()</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        ds.Destroy()</div>
-<div class="ttc" id="a00379_html_a0be3376dbd83587fc4cba2cdfead7a03"><div class="ttname"><a href="../../d8/d95/a00379.html#a0be3376dbd83587fc4cba2cdfead7a03">seims.pygeoc.pygeoc.vector.vector.VectorUtilClass.raster2shp</a></div><div class="ttdeci">def raster2shp</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc7/a00838_source.html#l00030">vector.py:30</a></div></div>
-<div class="ttc" id="a00379_html_ab07b209628dce2e355d48f9a3fdb5bd5"><div class="ttname"><a href="../../d8/d95/a00379.html#ab07b209628dce2e355d48f9a3fdb5bd5">seims.pygeoc.pygeoc.vector.vector.VectorUtilClass.convert2geojson</a></div><div class="ttdeci">def convert2geojson</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc7/a00838_source.html#l00042">vector.py:42</a></div></div>
-<div class="ttc" id="a00379_html_a27510264f2c7b34eccc10dc992c879ed"><div class="ttname"><a href="../../d8/d95/a00379.html#a27510264f2c7b34eccc10dc992c879ed">seims.pygeoc.pygeoc.vector.vector.VectorUtilClass.write_line_shp</a></div><div class="ttdeci">def write_line_shp</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc7/a00838_source.html#l00056">vector.py:56</a></div></div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="../../d7/d2f/a00258.html#a26f2f606968f4e3c6548b1b14bcc605a">   30</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d7/d2f/a00258.html#a26f2f606968f4e3c6548b1b14bcc605a">dec</a>(doy):</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Declination.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordflow">return</span> 0.409 * math.sin(2. * math.pi * doy / 365. - 1.39)</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="../../d7/d2f/a00258.html#a411a22f4caa902b415844c2a03feb98a">   35</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d7/d2f/a00258.html#a411a22f4caa902b415844c2a03feb98a">ws</a>(lat, dec):</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;sunset hour angle&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        x = 1. - math.pow(math.tan(lat), 2.) * math.pow(math.tan(dec), 2.)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">if</span> x &lt; 0:</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            x = 0.00001</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="comment"># print x</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">return</span> 0.5 * math.pi - math.atan(-math.tan(lat) * math.tan(dec) / math.sqrt(x))</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../d7/d2f/a00258.html#a325a25292045b2470b78356d86491dbf">   44</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d7/d2f/a00258.html#a325a25292045b2470b78356d86491dbf">rs</a>(doy, n, lat):</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;solar radiation, n is sunshine duration&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        lat = lat * math.pi / 180.</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        a = 0.25</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        b = 0.5</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        d = HydroClimateUtilClass.dec(doy)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        w = HydroClimateUtilClass.ws(lat, d)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        nn = 24. * w / math.pi</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment"># Extraterrestrial radiation for daily periods</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        ra = (24. * 60. * 0.082 * HydroClimateUtilClass.dr(doy) / math.pi) * \</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;             (w * math.sin(lat) * math.sin(d) + math.cos(lat) * math.cos(d) * math.sin(w))</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="keywordflow">return</span> (a + b * n / nn) * ra</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="../../d7/d2f/a00258.html#a547e1c63cff761e1b59784e3c3667582">   58</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d7/d2f/a00258.html#a547e1c63cff761e1b59784e3c3667582">query_climate_sites</a>(clim_db, site_type):</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Query climate sites information, return a dict with stationID as key.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keyword">from</span> <a class="code" href="../../dd/d0c/a01368.html">seims.preprocess.db_import_sites</a> <span class="keyword">import</span> SiteInfo</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        sites_loc = dict()</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        sites_coll = clim_db[DBTableNames.sites]</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        find_results = sites_coll.find({StationFields.type: site_type})</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">for</span> dic <span class="keywordflow">in</span> find_results:</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            sites_loc[dic[StationFields.id]] = SiteInfo(dic[StationFields.id],</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                                                        dic[StationFields.name],</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;                                                        dic[StationFields.lat],</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;                                                        dic[StationFields.lon],</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                                                        dic[StationFields.x],</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                                                        dic[StationFields.y],</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                                                        dic[StationFields.elev])</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        <span class="keywordflow">return</span> sites_loc</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="../../d7/d2f/a00258.html#afa4f4b36c01a023d937f5d93e41539df">   75</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d7/d2f/a00258.html#afa4f4b36c01a023d937f5d93e41539df">get_time_system_from_data_file</a>(in_file):</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get the time system from the data file. The basic format is:</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="stringliteral">           #&lt;time_system&gt; [&lt;time_zone&gt;], e.g., #LOCALTIME 8, #UTCTIME</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        time_sys = <span class="stringliteral">&#39;LOCALTIME&#39;</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        time_zone = time.timezone / -3600</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        f = open(in_file)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">for</span> line <span class="keywordflow">in</span> f:</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            str_line = line</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            <span class="keywordflow">for</span> LF <span class="keywordflow">in</span> LFs:</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                <span class="keywordflow">if</span> LF <span class="keywordflow">in</span> line:</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                    str_line = line.split(LF)[0]</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                    <span class="keywordflow">break</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            <span class="keywordflow">if</span> str_line[0] != <span class="stringliteral">&#39;#&#39;</span>:</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                <span class="keywordflow">break</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="keywordflow">if</span> str_line.lower().find(<span class="stringliteral">&#39;utc&#39;</span>) &gt;= 0:</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                time_sys = <span class="stringliteral">&#39;UTCTIME&#39;</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                time_zone = 0</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                <span class="keywordflow">break</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="keywordflow">if</span> str_line.lower().find(<span class="stringliteral">&#39;local&#39;</span>) &gt;= 0:</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                line_list = StringClass.split_string(str_line, [<span class="stringliteral">&#39;,&#39;</span>])</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                <span class="keywordflow">if</span> len(line_list) == 2 <span class="keywordflow">and</span> MathClass.isnumerical(line_list[1]):</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;                    time_zone = -1 * int(line_list[1])</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                <span class="keywordflow">break</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        f.close()</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">return</span> time_sys, time_zone</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00103"></a><span class="lineno"><a class="line" href="../../d7/d2f/a00258.html#a2c51be21218677a669fe89f9e8bc47bf">  103</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d7/d2f/a00258.html#a2c51be21218677a669fe89f9e8bc47bf">get_utcdatetime_from_field_values</a>(flds, values, tsys, tzone=None):</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get datetime from field-value lists.</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="stringliteral">        Returns:</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="stringliteral">            utctime</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        cur_y = 0</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        cur_m = 0</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        cur_d = 0</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        cur_hh = 0</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        cur_mm = 0</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        cur_ss = 0</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        dt = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keywordflow">for</span> i, fld <span class="keywordflow">in</span> enumerate(flds):</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;            <span class="keywordflow">if</span> StringClass.string_match(fld, DataValueFields.dt):</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                dt = StringClass.get_datetime(values[i])</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            <span class="keywordflow">elif</span> StringClass.string_match(fld, DataValueFields.y):</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                cur_y = int(values[i])</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;            <span class="keywordflow">elif</span> StringClass.string_match(fld, DataValueFields.m):</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                cur_m = int(values[i])</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <span class="keywordflow">elif</span> StringClass.string_match(fld, DataValueFields.d):</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                cur_d = int(values[i])</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <span class="keywordflow">elif</span> StringClass.string_match(fld, DataValueFields.hour):</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                cur_hh = int(values[i])</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            <span class="keywordflow">elif</span> StringClass.string_match(fld, DataValueFields.minute):</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                cur_mm = int(values[i])</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="keywordflow">elif</span> StringClass.string_match(fld, DataValueFields.second):</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                cur_ss = int(values[i])</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="comment"># Get datetime and utc/local transformation</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <span class="keywordflow">if</span> dt <span class="keywordflow">is</span> <span class="keywordtype">None</span>:  <span class="comment"># &#39;DATETIME&#39; is not existed</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            <span class="keywordflow">if</span> cur_y &lt; 1900 <span class="keywordflow">or</span> cur_m &lt;= 0 <span class="keywordflow">and</span> cur_d &lt;= 0:</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;                <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Can not find TIME information from &quot;</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;                                 <span class="stringliteral">&quot;fields: %s&quot;</span> % <span class="stringliteral">&#39; &#39;</span>.join(fld <span class="keywordflow">for</span> fld <span class="keywordflow">in</span> flds))</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                dt = datetime(cur_y, cur_m, cur_d, cur_hh, cur_mm, cur_ss)</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> StringClass.string_match(tsys, <span class="stringliteral">&#39;UTCTIME&#39;</span>):</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            <span class="keywordflow">if</span> tzone <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                tzone = time.timezone / -3600  <span class="comment"># positive value for EAST</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            dt -= timedelta(minutes=tzone * 60)</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keywordflow">return</span> dt</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="keyword">def </span>main():</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;TEST CODE&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d2/d1f/a01361.html">seims.preprocess.config</a> <span class="keyword">import</span> parse_ini_configuration</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d8/dbe/a01370.html">seims.preprocess.db_mongodb</a> <span class="keyword">import</span> ConnectMongoDB</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    seims_cfg = parse_ini_configuration()</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    client = ConnectMongoDB(seims_cfg.hostname, seims_cfg.port)</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    conn = client.get_conn()</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    hydroclim_db = conn[seims_cfg.climate_db]</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    site_m = HydroClimateUtilClass.query_climate_sites(hydroclim_db, <span class="stringliteral">&#39;M&#39;</span>)</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    site_p = HydroClimateUtilClass.query_climate_sites(hydroclim_db, <span class="stringliteral">&#39;P&#39;</span>)</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    client.close()</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    main()</div>
+<div class="ttc" id="a00258_html_a411a22f4caa902b415844c2a03feb98a"><div class="ttname"><a href="../../d7/d2f/a00258.html#a411a22f4caa902b415844c2a03feb98a">seims.preprocess.hydro_climate_utility.HydroClimateUtilClass.ws</a></div><div class="ttdeci">def ws</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc7/a00838_source.html#l00035">hydro_climate_utility.py:35</a></div></div>
+<div class="ttc" id="a00258_html_ac60f9e6420e6576f70a1dba27077116f"><div class="ttname"><a href="../../d7/d2f/a00258.html#ac60f9e6420e6576f70a1dba27077116f">seims.preprocess.hydro_climate_utility.HydroClimateUtilClass.dr</a></div><div class="ttdeci">def dr</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc7/a00838_source.html#l00025">hydro_climate_utility.py:25</a></div></div>
+<div class="ttc" id="a01368_html"><div class="ttname"><a href="../../dd/d0c/a01368.html">seims.preprocess.db_import_sites</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d90/a00826_source.html#l00001">db_import_sites.py:1</a></div></div>
+<div class="ttc" id="a00258_html_a2c51be21218677a669fe89f9e8bc47bf"><div class="ttname"><a href="../../d7/d2f/a00258.html#a2c51be21218677a669fe89f9e8bc47bf">seims.preprocess.hydro_climate_utility.HydroClimateUtilClass.get_utcdatetime_from_field_values</a></div><div class="ttdeci">def get_utcdatetime_from_field_values</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc7/a00838_source.html#l00103">hydro_climate_utility.py:103</a></div></div>
+<div class="ttc" id="a00258_html_a26f2f606968f4e3c6548b1b14bcc605a"><div class="ttname"><a href="../../d7/d2f/a00258.html#a26f2f606968f4e3c6548b1b14bcc605a">seims.preprocess.hydro_climate_utility.HydroClimateUtilClass.dec</a></div><div class="ttdeci">def dec</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc7/a00838_source.html#l00030">hydro_climate_utility.py:30</a></div></div>
+<div class="ttc" id="a00258_html_a325a25292045b2470b78356d86491dbf"><div class="ttname"><a href="../../d7/d2f/a00258.html#a325a25292045b2470b78356d86491dbf">seims.preprocess.hydro_climate_utility.HydroClimateUtilClass.rs</a></div><div class="ttdeci">def rs</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc7/a00838_source.html#l00044">hydro_climate_utility.py:44</a></div></div>
+<div class="ttc" id="a01384_html"><div class="ttname"><a href="../../d7/dde/a01384.html">seims.preprocess.utility</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dd/de1/a00871_source.html#l00001">utility.py:1</a></div></div>
+<div class="ttc" id="a01370_html"><div class="ttname"><a href="../../d8/dbe/a01370.html">seims.preprocess.db_mongodb</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d08/a00832_source.html#l00001">db_mongodb.py:1</a></div></div>
+<div class="ttc" id="a00258_html_afa4f4b36c01a023d937f5d93e41539df"><div class="ttname"><a href="../../d7/d2f/a00258.html#afa4f4b36c01a023d937f5d93e41539df">seims.preprocess.hydro_climate_utility.HydroClimateUtilClass.get_time_system_from_data_file</a></div><div class="ttdeci">def get_time_system_from_data_file</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc7/a00838_source.html#l00075">hydro_climate_utility.py:75</a></div></div>
+<div class="ttc" id="a01361_html"><div class="ttname"><a href="../../d2/d1f/a01361.html">seims.preprocess.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d96/a00782_source.html#l00001">config.py:1</a></div></div>
+<div class="ttc" id="a01383_html"><div class="ttname"><a href="../../de/dfe/a01383.html">seims.preprocess.text</a></div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00868_source.html#l00001">text.py:1</a></div></div>
+<div class="ttc" id="a00258_html_a547e1c63cff761e1b59784e3c3667582"><div class="ttname"><a href="../../d7/d2f/a00258.html#a547e1c63cff761e1b59784e3c3667582">seims.preprocess.hydro_climate_utility.HydroClimateUtilClass.query_climate_sites</a></div><div class="ttdeci">def query_climate_sites</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc7/a00838_source.html#l00058">hydro_climate_utility.py:58</a></div></div>
+<div class="ttc" id="a00258_html_a25eea718b66ece4f9581b3c2c41ff509"><div class="ttname"><a href="../../d7/d2f/a00258.html#a25eea718b66ece4f9581b3c2c41ff509">seims.preprocess.hydro_climate_utility.HydroClimateUtilClass.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/dc7/a00838_source.html#l00020">hydro_climate_utility.py:20</a></div></div>
+<div class="ttc" id="a01394_html"><div class="ttname"><a href="../../d6/d2f/a01394.html">seims.pygeoc.pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d92/a00586_source.html#l00001">utils.py:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_ed16674693235890c7cb51a5b1a1dba7.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_9598fad7d324ddcf8fd8f6381636de51.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_e2d55df885a866232b27dbb0ff30068b.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_9fb399922e372c4b0d202d7345c33644.html">vector</a></li><li class="navelem"><b>vector.py</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:25 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_ed16674693235890c7cb51a5b1a1dba7.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_3d2c2d91a53bef5945323df2c718b9e1.html">preprocess</a></li><li class="navelem"><b>hydro_climate_utility.py</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:25 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

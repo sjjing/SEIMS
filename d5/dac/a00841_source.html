@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/pygeoc/README_CN.md Source File</title>
+<title>SEIMS: seims/preprocess/mpi_adjust_groups.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('d5/dac/a00841.html','../../');});
+$(document).ready(function(){initNavTree('d5/dac/a00841_source.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -112,54 +112,63 @@ $(document).ready(function(){initNavTree('d5/dac/a00841.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">seims/pygeoc/README_CN.md</div>  </div>
+<div class="title">mpi_adjust_groups.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># PyGeoC</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span>***Py***thon <span class="keywordflow">for</span> ***GeoC***omputation --- easy, convenient, and efficient.</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;[![Build Status](https:<span class="comment">//travis-ci.org/lreis2415/PyGeoC.svg?branch=master)](https://travis-ci.org/lreis2415/PyGeoC)</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">## 1.Introduction</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;本科快毕业的时候，接触并开始学习Python和arcpy（当时ArcGIS 9时代还是arcgisscripting）已有五六年时间了，当时写了一篇文章《[[初学入门]ArcGIS中Python脚本的使用](http:<span class="comment">//www.docin.com/p-164282884.html)》，在各个网站、空间被转载多次。</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Used for adjusting partitioned tasks by Metis.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">   This function is activated when forCluster is True.</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @author   : Junzhi Liu</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">    @changelog: 13-01-10  jz - initial implementation</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">                17-06-23  lj - reformat according to pylint and google style</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;随着学习的深入，逐渐接触了Numpy, GDAL, Matplotlib等一系列优秀Python包。在日常学习工作中，Python早已成为我进行简单、复杂科学计算/地学计算的编程工具，也积累了一些常用的地学计算代码。</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;很久以来，我就有一个念头，就是构建一个适用于地学计算的基础Python库，这个库可以包含一些现有的开源代码，但一定要保证具有以下特点：</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;+ 配置方便</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;+ 简单易学</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;+ 高效易用</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">## 2.Download and Installation</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;PyGeoC采用纯Python开发（仅在Python2.x下测试），利用[Wheels](http:<span class="comment">//pythonwheels.com/)打包[发布](http://python-packaging-user-guide.readthedocs.org/en/latest/distributing/#working-in-development-mode)，可从PyPI项目主页下载。</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;也可从[PyGeoC](https:<span class="comment">//github.com/crazyzlj/PyGeoC)库的dist目录中下载。</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    ```python</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    1.source distribution:</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    python setup.py sdist</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    2.wheel</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    python setup.py bdist_wheel</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    3.wheel(py27, I just test in py27 currently)</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    python setup.py bdist_wheel --python-tag py2</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    ```</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;安装：</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;+ 确认本机已经安装python2.6+</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;+ 安装pip: please refer to the [installation page</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;](https:<span class="comment">//pip.pypa.io/en/latest/installing/)</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;+ `pip install &lt;path to PyGeoC .whl&gt;/PyGeoC&lt;version&gt;.whl`</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">def </span>get_max_weight(group_weight_dic, group_dic):</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Get max. weight&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    max_id = -1</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    max_weight = -1</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">for</span> cur_id <span class="keywordflow">in</span> group_weight_dic:</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">if</span> len(group_dic[cur_id]) &gt; 1 <span class="keywordflow">and</span> max_weight &lt; group_weight_dic[cur_id]:</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            max_weight = group_weight_dic[cur_id]</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            max_id = cur_id</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">return</span> max_id, max_weight</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">def </span>adjust_group_result(g, weight_dic, group_list, n_groups):</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Adjust group result&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    group_dic = {}  <span class="comment"># group tmpid from 0</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    group_weight_dic = {}  <span class="comment"># subbasin tmpid form 1</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    n = len(weight_dic.keys())</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">for</span> sub_id <span class="keywordflow">in</span> range(1, n + 1):</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        group_id = group_list[sub_id - 1]</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        group_dic.setdefault(group_id, []).append(sub_id)</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        group_weight_dic[group_id] = group_weight_dic.setdefault(group_id, 0) + weight_dic[sub_id]</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment"># get average weight for each group, which is the ideal aim of task</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment"># scheduling</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    ave_eight = 0</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">for</span> tmpid <span class="keywordflow">in</span> group_weight_dic:</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        ave_eight += group_weight_dic[tmpid]</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ave_eight /= n_groups</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">## 3.Structure</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">for</span> iGroup <span class="keywordflow">in</span> range(n_groups):</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">if</span> iGroup <span class="keywordflow">not</span> <span class="keywordflow">in</span> group_dic:</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            max_id, max_weight = get_max_weight(group_weight_dic, group_dic)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keywordflow">if</span> max_id &lt; 0:</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            sub_list = group_dic[max_id]</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            sub_id = sub_list[0]</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            group_dic[iGroup] = [sub_id, ]</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            group_list[sub_id - 1] = iGroup</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            group_dic[max_id].remove(sub_id)</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>README_CN.md</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:25 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>mpi_adjust_groups.py</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:25 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

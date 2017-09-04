@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: PyGeoC</title>
+<title>SEIMS: 气象、径流、泥沙等观测数据整理注意事项：</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,43 +106,35 @@ $(document).ready(function(){initNavTree('da/d72/a00124.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">PyGeoC </div>  </div>
+<div class="title">气象、径流、泥沙等观测数据整理注意事项： </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>***Py***thon for ***GeoC***omputation &mdash; easy, convenient, and efficient.</p>
-<p><a href="https://travis-ci.org/lreis2415/PyGeoC">![Build Status](https://travis-ci.org/lreis2415/PyGeoC.svg?branch=master)</a></p>
-<h2>1.Introduction</h2>
-<p>本科快毕业的时候，接触并开始学习Python和arcpy（当时ArcGIS 9时代还是arcgisscripting）已有五六年时间了，当时写了一篇文章《<a href="http://www.docin.com/p-164282884.html">[初学入门]ArcGIS中Python脚本的使用</a>》，在各个网站、空间被转载多次。</p>
-<p>随着学习的深入，逐渐接触了Numpy, GDAL, Matplotlib等一系列优秀Python包。在日常学习工作中，Python早已成为我进行简单、复杂科学计算/地学计算的编程工具，也积累了一些常用的地学计算代码。</p>
-<p>很久以来，我就有一个念头，就是构建一个适用于地学计算的基础Python库，这个库可以包含一些现有的开源代码，但一定要保证具有以下特点：</p>
+<div class="textblock"><ol type="1">
+<li>**数据一致性检查**。如次降水数据与日值数据相互验证，日值数据与月统计值相互验证，找出明显错误值，并合理处理。</li>
+<li><p class="startli">**时制的问题**。日值数据很可能已经按照UTC时间整理了，而次降水数据是按照当地时间整理的。最新版本的SEIMS数据导入程序在降水（或气象、径流等观测数据）数据文本文件的第一行，均以#开头，按照如下格式注明所用时制：</p>
+<p class="startli">```python #&lt;TIME unit&gt;=""&gt; [&lt;TIMEZONE&gt;], 如果不指定时区, 则按照操作系统时间确定时区. e.g., #LOCALTIME 8 #LOCALTIME #UTCTIME ```</p>
+</li>
+<li>**日界的问题**。中国气象共享网的中国地面气象站点日值数据，明确规定其数据采用的是“北京时，日界为20时”，也即该数据集中的时间“2013-01-01”实际为“2013-01-01 20:00 UTC+8”。</li>
+<li><p class="startli">**降雨、径流及泥沙数据匹配检查**。</p>
 <ul>
-<li>配置方便</li>
-<li>简单易学</li>
-<li>高效易用</li>
+<li>观察降雨-径流关系，可发现一些异常值，很多情况下是由于数据录入时小数点错误导致，比如溧阳小流域的部分数据：</li>
 </ul>
-<h2>2.Download and Installation</h2>
-<p>PyGeoC采用纯Python开发（仅在Python2.x下测试），利用<a href="http://pythonwheels.com/">Wheels</a>打包<a href="http://python-packaging-user-guide.readthedocs.org/en/latest/distributing/#working-in-development-mode">发布</a>，可从PyPI项目主页下载。 也可从<a href="https://github.com/crazyzlj/PyGeoC">PyGeoC</a>库的dist目录中下载。 </p>
-<pre class="fragment">```python
-1.source distribution:
-python setup.py sdist
-2.wheel
-python setup.py bdist_wheel
-3.wheel(py27, I just test in py27 currently)
-python setup.py bdist_wheel --python-tag py2
-```
-</pre><p>安装：</p>
+<p class="startli">```python Data Pcp_mm Runoff(m3/s) 2014/7/27 54.5 23.8-&gt;2.38 2014/7/28 0 14.1-&gt;1.41 2014/8/6 7 14.9-&gt;1.49 2014/8/7 6.5 26.5-&gt;2.65 2014/8/8 0.5 10.2-&gt;1.02 Date Pcp_mm Runoff(m3/s) Sediment(kg/m3) 2012/8/8 138.3 9.27 0.677-&gt;0.0677 2012/8/9 47 8.46 1.02-&gt;0.102 2014/4/21 14.7 1.05 0.31-&gt;0.031 2014/4/22 6 1.13 0.443-&gt;0.0443 2014/4/23 0 0.966 0.329-&gt;0.0329 ```</p>
 <ul>
-<li>确认本机已经安装python2.6+</li>
-<li>安装pip: please refer to the <a href="https://pip.pypa.io/en/latest/installing/">installation page</a></li>
-<li><code>pip install &lt;path to PyGeoC .whl&gt;/PyGeoC&lt;version&gt;.whl</code></li>
+<li>一般地，径流和泥沙数据同时存在才合理，至少在有泥沙数据的时候，应当有对应的径流值（而非缺测或零值），因此数据校核时暂定如下规则：<ul>
+<li>对于连续多天没有径流（或泥沙）观测值的，判断之后，删除对应泥沙（或径流）观测值</li>
+<li>对于缺失3天以内、且缺失值前后均合理的，线性插值出缺失值 </li>
 </ul>
-<h2>3.Structure</h2>
+</li>
+</ul>
+</li>
+</ol>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:30 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:31 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

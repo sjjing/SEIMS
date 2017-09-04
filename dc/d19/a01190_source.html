@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_longterm_linux_gcc48/doc/wiki/Compile and Install/Linux.md Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology_longterm/PER_PI/PER_PI.h Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('dc/d19/a01190.html','../../');});
+$(document).ready(function(){initNavTree('dc/d19/a01190_source.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -112,78 +112,90 @@ $(document).ready(function(){initNavTree('dc/d19/a01190.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">seims_longterm_linux_gcc48/doc/wiki/Compile and Install/Linux.md</div>  </div>
+<div class="title">PER_PI.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;Linux下SEIMS模型的编译与运行</div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;----------------</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;&gt; Latest update: 2017-3-23</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">## 1. 准备工作</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;以192.168.6.55服务器上zhulj账号下的配置为例：</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;+ CMake 版本更新为3.7.2，路径`~/CMake/bin/cmake`;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;+ GCC编译器版本至4.8.4，路径`~/gcc4.8.4/bin`，在CMake命令中加入`-DCMAKE_C_COMPILER=~/gcc4.8.4/bin/gcc -DCMAKE_CXX_COMPILER=~/gcc4.8.4/bin/g++`以显示定义GCC编译器路径；</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;+ MPICH版本至3.1.4，路径`~/mpich/bin`,同理，如果编译MPI版本，则需显示定义编译器路径：`-DCMAKE_CXX_COMPILER=~/mpich/bin/mpic++`;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;+ mongo-c-driver版本至1.6.0，路径`~/code/mongo-c-driver`，并在`~/.bash_profile`中更新了环境变量`MONGOC_ROOT_DIR`、`PKG_CONFIG_PATH`和`LD_LIBRARY_PATH`，以确保基于mongo-c-driver的程序能够顺利编译、链接、安装、运行。</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;+ GDAL采用服务器现有版本1.9.0，并新建环境变量`export GDAL_ROOT=/soft/share`</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;+ Python版本至2.7.9，路径`/usr/bin`（软链接至2.7.9，旧版本为`/usr/bin/python2.6`）</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">## 2. SEIMS编译和安装</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;使用CMake编译SEIMS时有3个可选参数：</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;1. `-DPARALLEL`，不添加则默认为编译`OpenMP`版本程序，添加`-DPARALLEL=MPI`则编译MPI/OpenMP混合版本；</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;2. `-DARCH`，~~用于指定编译32位还是64程序(目前仅适用于Windows)，需要与`GDAL`和`mongo-c-driver`版本匹配，不添加则默认为32位程序，添加`-DARCH=64`则为64位；~~</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;3. `-DSTROM`，用于指定是否编译次降水模型，不添加默认为0，即长时段模型，添加`-DSTROM=1`则编译次降水模型。</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;4. `-DUNITTEST`，用于指定是否编译基于Googletest的单元测试模块</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;5. `-DINSTALL_PREFIX`，用于指定安装路径，如不指定，默认为源码目录下的`bin`文件夹。</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;```shell</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;cd &lt;SEIMS root path&gt;/seims</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;mkdir build</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;cd build</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;/home/zhulj/CMake/bin/cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/home/zhulj/gcc4.8.4/bin/gcc -DCMAKE_CXX_COMPILER=/home/zhulj/gcc4.8.4/bin/g++</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;make (or make 2&gt;&amp;1 | tee build.log 用于保存编译日志)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;make install</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;```</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;+ 在执行`make`命令时，可追加 `-j 4`命令利用CPU多核性能并行编译程序，提高编译速度，并行进程数最好设置为物理核数的2倍。</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;+ 编译完成之后，SEIMS模型所有可执行文件和模块库均安装于`&lt;SEIMS root path&gt;/seims/bin`目录下。</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">## 3. Python for SEIMS 依赖包的安装</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor"></span> </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;SEIMS预处理、后处理、率定、情景分析等所需的Python依赖库及版本要求如下：</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;```py</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;pygeoc</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor"># Preprocess</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span>GDAL&gt;=1.9.0,&lt;2.0</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;numpy&gt;=1.9.0</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;pymongo&gt;=3.0</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;networkx&gt;=1.10</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;Shapely&gt;=1.5.0</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor"># Postprocess</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="preprocessor"></span>matplotlib&gt;=1.5.0</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;pathlib2&gt;=2.0.0</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor"># Scenario analysis</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor"></span>deap&gt;=1.0.2</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;scoop&gt;=0.7.1.1</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;```</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;+ SEIMS提供了自动安装脚本，脚本依赖于pip，因此请确保pip已正确安装，[参考教程](https:<span class="comment">//pip.pypa.io/en/stable/installing/)：</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  + 下载[<span class="keyword">get</span>-pip.py](https:<span class="comment">//bootstrap.pypa.io/get-pip.py)</span></div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  + `python <span class="keyword">get</span>-pip.py`</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;+ 执行`sudo sh pyseims_install_linux.sh`即可自动安装完成所有依赖库，包括SEIMS自带的`PyGeoC`。</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;+ 安装完成后，运行`python pyseims_check.py`检查所需python库是否已经安装成功，如果有未成功的请单独安装。</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;SimulationModule.h&quot;</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">using namespace </span>std;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../db/d53/a00321.html">PER_PI</a> : <span class="keyword">public</span> <a class="code" href="../../d0/d48/a00351.html">SimulationModule</a> {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#af7f0dccd691e780d1763f7057b38889a">   27</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../db/d53/a00321.html#af7f0dccd691e780d1763f7057b38889a">m_soilLayers</a>;</div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#a49eaf76d102682a7267e0ac8aa510553">   29</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../db/d53/a00321.html#a49eaf76d102682a7267e0ac8aa510553">m_nSoilLayers</a>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment">//float **m_soilDepth;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#a990a18ff776a55b47d1b36b82a63358f">   33</a></span>&#160;<span class="comment"></span>    <span class="keywordtype">float</span> **<a class="code" href="../../db/d53/a00321.html#a990a18ff776a55b47d1b36b82a63358f">m_soilThick</a>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="comment">//float *m_upSoilDepth;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#ad4c434befa1fd7e3243f028426714dec">   38</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../db/d53/a00321.html#ad4c434befa1fd7e3243f028426714dec">m_dt</a>;</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#a7da37b177215b598b5fe3da9abb9f403">   40</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../db/d53/a00321.html#a7da37b177215b598b5fe3da9abb9f403">m_nCells</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#aeb309ff363331defd810c061cb61a81b">   42</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../db/d53/a00321.html#aeb309ff363331defd810c061cb61a81b">m_frozenT</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#a6363e15f264f635149642b255cf8be89">   44</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../db/d53/a00321.html#a6363e15f264f635149642b255cf8be89">m_ks</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="comment">//float **m_porosity;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#a83a9c37501623ba808c750a14731766e">   49</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../db/d53/a00321.html#a83a9c37501623ba808c750a14731766e">m_sat</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#acce0178975c71351512af1f0b1aa6bc5">   51</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../db/d53/a00321.html#acce0178975c71351512af1f0b1aa6bc5">m_fc</a>;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#a5467f6737674d7e4af31a3b569eb1a79">   53</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../db/d53/a00321.html#a5467f6737674d7e4af31a3b569eb1a79">m_wp</a>;</div>
+<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#a9416dbd4f68e6505ba4e4a41592bc6c4">   55</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../db/d53/a00321.html#a9416dbd4f68e6505ba4e4a41592bc6c4">m_poreIndex</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#ab16f9988fe19badba3fab288645a4ccc">   57</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../db/d53/a00321.html#ab16f9988fe19badba3fab288645a4ccc">m_soilStorage</a>;</div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#a822b4380c21c033791c234d0ef572e36">   59</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../db/d53/a00321.html#a822b4380c21c033791c234d0ef572e36">m_soilStorageProfile</a>;</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#aa25a09c3156f389a119f4d3fe4ff725a">   61</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../db/d53/a00321.html#aa25a09c3156f389a119f4d3fe4ff725a">m_soilT</a>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#ae817943f3e1545f53bf518a6effe7c32">   63</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../db/d53/a00321.html#ae817943f3e1545f53bf518a6effe7c32">m_infil</a>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#a7bc560e5e8672d1d73ae05df3a2ed071">   65</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../db/d53/a00321.html#a7bc560e5e8672d1d73ae05df3a2ed071">m_impoundTriger</a>;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../db/d53/a00321.html#ab3ac45c5881962dce15f0de140973a53">   69</a></span>&#160;    <span class="keywordtype">float</span> **<a class="code" href="../../db/d53/a00321.html#ab3ac45c5881962dce15f0de140973a53">m_perc</a>;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">public</span>:</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <a class="code" href="../../db/d53/a00321.html">PER_PI</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    ~<a class="code" href="../../db/d53/a00321.html">PER_PI</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> Execute(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nRows, <span class="keywordtype">float</span> *data);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Set2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nrows, <span class="keywordtype">int</span> ncols, <span class="keywordtype">float</span> **data);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> Get2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *nRows, <span class="keywordtype">int</span> *nCols, <span class="keywordtype">float</span> ***data);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="keyword">private</span>:</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordtype">bool</span> CheckInputData(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keywordtype">bool</span> CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *, <span class="keywordtype">int</span>);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordtype">void</span> initialOutputs(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;};</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="ttc" id="a00321_html_a6363e15f264f635149642b255cf8be89"><div class="ttname"><a href="../../db/d53/a00321.html#a6363e15f264f635149642b255cf8be89">PER_PI::m_ks</a></div><div class="ttdeci">float ** m_ks</div><div class="ttdoc">saturated conductivity, mm/h </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00044">PER_PI.h:44</a></div></div>
+<div class="ttc" id="a00321_html_a822b4380c21c033791c234d0ef572e36"><div class="ttname"><a href="../../db/d53/a00321.html#a822b4380c21c033791c234d0ef572e36">PER_PI::m_soilStorageProfile</a></div><div class="ttdeci">float * m_soilStorageProfile</div><div class="ttdoc">amount of water stored in soil profile on current day, sol_sw in SWAT </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00059">PER_PI.h:59</a></div></div>
+<div class="ttc" id="a00321_html_a990a18ff776a55b47d1b36b82a63358f"><div class="ttname"><a href="../../db/d53/a00321.html#a990a18ff776a55b47d1b36b82a63358f">PER_PI::m_soilThick</a></div><div class="ttdeci">float ** m_soilThick</div><div class="ttdoc">soil thickness </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00033">PER_PI.h:33</a></div></div>
+<div class="ttc" id="a00321_html_ab3ac45c5881962dce15f0de140973a53"><div class="ttname"><a href="../../db/d53/a00321.html#ab3ac45c5881962dce15f0de140973a53">PER_PI::m_perc</a></div><div class="ttdeci">float ** m_perc</div><div class="ttdoc">Output. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00069">PER_PI.h:69</a></div></div>
+<div class="ttc" id="a00321_html"><div class="ttname"><a href="../../db/d53/a00321.html">PER_PI</a></div><div class="ttdoc">Calculate water percolated from the soil water reservoir. </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00024">PER_PI.h:24</a></div></div>
+<div class="ttc" id="a00321_html_a7bc560e5e8672d1d73ae05df3a2ed071"><div class="ttname"><a href="../../db/d53/a00321.html#a7bc560e5e8672d1d73ae05df3a2ed071">PER_PI::m_impoundTriger</a></div><div class="ttdeci">float * m_impoundTriger</div><div class="ttdoc">impound/release </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00065">PER_PI.h:65</a></div></div>
+<div class="ttc" id="a00321_html_aa25a09c3156f389a119f4d3fe4ff725a"><div class="ttname"><a href="../../db/d53/a00321.html#aa25a09c3156f389a119f4d3fe4ff725a">PER_PI::m_soilT</a></div><div class="ttdeci">float * m_soilT</div><div class="ttdoc">soil temperature </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00061">PER_PI.h:61</a></div></div>
+<div class="ttc" id="a00321_html_a49eaf76d102682a7267e0ac8aa510553"><div class="ttname"><a href="../../db/d53/a00321.html#a49eaf76d102682a7267e0ac8aa510553">PER_PI::m_nSoilLayers</a></div><div class="ttdeci">float * m_nSoilLayers</div><div class="ttdoc">soil layers </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00029">PER_PI.h:29</a></div></div>
+<div class="ttc" id="a00321_html_ab16f9988fe19badba3fab288645a4ccc"><div class="ttname"><a href="../../db/d53/a00321.html#ab16f9988fe19badba3fab288645a4ccc">PER_PI::m_soilStorage</a></div><div class="ttdeci">float ** m_soilStorage</div><div class="ttdoc">amount of water stored in soil layers on current day, sol_st in SWAT </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00057">PER_PI.h:57</a></div></div>
+<div class="ttc" id="a00321_html_a9416dbd4f68e6505ba4e4a41592bc6c4"><div class="ttname"><a href="../../db/d53/a00321.html#a9416dbd4f68e6505ba4e4a41592bc6c4">PER_PI::m_poreIndex</a></div><div class="ttdeci">float ** m_poreIndex</div><div class="ttdoc">pore size distribution index </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00055">PER_PI.h:55</a></div></div>
+<div class="ttc" id="a00321_html_ad4c434befa1fd7e3243f028426714dec"><div class="ttname"><a href="../../db/d53/a00321.html#ad4c434befa1fd7e3243f028426714dec">PER_PI::m_dt</a></div><div class="ttdeci">int m_dt</div><div class="ttdoc">time step </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00038">PER_PI.h:38</a></div></div>
+<div class="ttc" id="a00321_html_a83a9c37501623ba808c750a14731766e"><div class="ttname"><a href="../../db/d53/a00321.html#a83a9c37501623ba808c750a14731766e">PER_PI::m_sat</a></div><div class="ttdeci">float ** m_sat</div><div class="ttdoc">amount of water held in the soil layer at saturation (sat - wp water), mm </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00049">PER_PI.h:49</a></div></div>
+<div class="ttc" id="a00321_html_aeb309ff363331defd810c061cb61a81b"><div class="ttname"><a href="../../db/d53/a00321.html#aeb309ff363331defd810c061cb61a81b">PER_PI::m_frozenT</a></div><div class="ttdeci">float m_frozenT</div><div class="ttdoc">threshold soil freezing temperature </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00042">PER_PI.h:42</a></div></div>
+<div class="ttc" id="a00321_html_a7da37b177215b598b5fe3da9abb9f403"><div class="ttname"><a href="../../db/d53/a00321.html#a7da37b177215b598b5fe3da9abb9f403">PER_PI::m_nCells</a></div><div class="ttdeci">int m_nCells</div><div class="ttdoc">valid cells number </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00040">PER_PI.h:40</a></div></div>
+<div class="ttc" id="a00321_html_acce0178975c71351512af1f0b1aa6bc5"><div class="ttname"><a href="../../db/d53/a00321.html#acce0178975c71351512af1f0b1aa6bc5">PER_PI::m_fc</a></div><div class="ttdeci">float ** m_fc</div><div class="ttdoc">amount of water held in the soil layer at field capacity (fc - wp water) mm H2O </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00051">PER_PI.h:51</a></div></div>
+<div class="ttc" id="a00321_html_ae817943f3e1545f53bf518a6effe7c32"><div class="ttname"><a href="../../db/d53/a00321.html#ae817943f3e1545f53bf518a6effe7c32">PER_PI::m_infil</a></div><div class="ttdeci">float * m_infil</div><div class="ttdoc">infiltration (mm) </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00063">PER_PI.h:63</a></div></div>
+<div class="ttc" id="a00351_html"><div class="ttname"><a href="../../d0/d48/a00351.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/de7/a01048_source.html#l00047">SimulationModule.h:47</a></div></div>
+<div class="ttc" id="a00321_html_af7f0dccd691e780d1763f7057b38889a"><div class="ttname"><a href="../../db/d53/a00321.html#af7f0dccd691e780d1763f7057b38889a">PER_PI::m_soilLayers</a></div><div class="ttdeci">int m_soilLayers</div><div class="ttdoc">maximum number of soil layers </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00027">PER_PI.h:27</a></div></div>
+<div class="ttc" id="a00321_html_a5467f6737674d7e4af31a3b569eb1a79"><div class="ttname"><a href="../../db/d53/a00321.html#a5467f6737674d7e4af31a3b569eb1a79">PER_PI::m_wp</a></div><div class="ttdeci">float ** m_wp</div><div class="ttdoc">water content of soil at -1.5 MPa (wilting point) mm H2O </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d19/a01190_source.html#l00053">PER_PI.h:53</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><b>Linux.md</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:27 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_5bf5a4201e7cd7ac6c5f03aeeeae8b2c.html">hydrology_longterm</a></li><li class="navelem"><a class="el" href="../../dir_68a8dd22200964c828ab99bf260d6767.html">PER_PI</a></li><li class="navelem"><b>PER_PI.h</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:27 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

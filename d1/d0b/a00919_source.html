@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/bmps/BMPFactory.cpp Source File</title>
+<title>SEIMS: seims/scenario_analysis/scenario.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,32 +112,321 @@ $(document).ready(function(){initNavTree('d1/d0b/a00919_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">BMPFactory.cpp</div>  </div>
+<div class="title">scenario.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;BMPFactory.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">using namespace </span>MainBMP;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="../../dc/d57/a00194.html#ac8dfe5287c813519da202a479633767b">    5</a></span>&#160;<a class="code" href="../../dc/d57/a00194.html#ac8dfe5287c813519da202a479633767b">BMPFactory::BMPFactory</a>(<span class="keyword">const</span> <span class="keywordtype">int</span> scenarioId, <span class="keyword">const</span> <span class="keywordtype">int</span> bmpId, <span class="keyword">const</span> <span class="keywordtype">int</span> subScenario,</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                       <span class="keyword">const</span> <span class="keywordtype">int</span> bmpType, <span class="keyword">const</span> <span class="keywordtype">int</span> bmpPriority, vector&lt;string&gt; distribution,</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;                       <span class="keyword">const</span> <span class="keywordtype">string</span> collection, <span class="keyword">const</span> <span class="keywordtype">string</span> location) :</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    m_scenarioId(scenarioId), m_bmpId(bmpId), m_subScenarioId(subScenario), m_bmpType(bmpType),</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;    m_bmpPriority(bmpPriority),</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    m_distribution(distribution), m_bmpCollection(collection), m_location(location) {</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Base class of Scenario for coupling NSAG-II and SEIMS.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Huiran Gao, Liangjun Zhu</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 16-10-29  hr - initial implementation.\n</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">                17-08-18  lj - redesign and rewrite.\n</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> os</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> random</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> datetime <span class="keyword">import</span> timedelta</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> subprocess <span class="keyword">import</span> CalledProcessError</div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="../../dc/d57/a00194.html#a6ede2a305a872f11257bdc7a2afc7799">   13</a></span>&#160;<a class="code" href="../../dc/d57/a00194.html#a6ede2a305a872f11257bdc7a2afc7799">BMPFactory::~BMPFactory</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;}</div>
-<div class="ttc" id="a00194_html_ac8dfe5287c813519da202a479633767b"><div class="ttname"><a href="../../dc/d57/a00194.html#ac8dfe5287c813519da202a479633767b">MainBMP::BMPFactory::BMPFactory</a></div><div class="ttdeci">BMPFactory(const int scenarioId, const int bmpId, const int subScenario, const int bmpType, const int bmpPriority, vector&lt; string &gt; distribution, const string collection, const string location)</div><div class="ttdoc">Constructor. </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00005">BMPFactory.cpp:5</a></div></div>
-<div class="ttc" id="a00194_html_a6ede2a305a872f11257bdc7a2afc7799"><div class="ttname"><a href="../../dc/d57/a00194.html#a6ede2a305a872f11257bdc7a2afc7799">MainBMP::BMPFactory::~BMPFactory</a></div><div class="ttdeci">virtual ~BMPFactory(void)</div><div class="ttdoc">virtual Destructor </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00013">BMPFactory.cpp:13</a></div></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> bson.objectid <span class="keyword">import</span> ObjectId</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> pymongo.errors <span class="keyword">import</span> NetworkTimeout</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d8/dbe/a01370.html">seims.preprocess.db_mongodb</a> <span class="keyword">import</span> ConnectMongoDB</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d6/d2f/a01394.html">seims.pygeoc.pygeoc.utils.utils</a> <span class="keyword">import</span> UtilClass, StringClass, get_config_parser</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">from</span> <a class="code" href="../../dc/d35/a01400.html">seims.scenario_analysis.config</a> <span class="keyword">import</span> SAConfig</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d9/d6e/a01409.html">seims.scenario_analysis.utility</a> <span class="keyword">import</span> generate_uniqueid, print_message</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/d8e/a00344.html">Scenario</a>(object):</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Base class of Scenario for SEIMS.</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="stringliteral">    Attributes:</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral">        ID(integer): Unique ID in BMPScenario database -&gt; BMP_SCENARIOS collection</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="stringliteral">        timerange(float): Simulation time range, read from MongoDB, the unit is year.</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral">        economy(float): Economical effectiveness, e.g., income minus expenses</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">        environment(float): Environmental effectiveness, e.g., reduction rate of soil erosion</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="stringliteral">        gene_num(integer): The number of genes of one chromosome, i.e., an individual</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="stringliteral">        gene_values(list): BMP identifiers on each location of gene. The length is gen_num.</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="stringliteral">        bmp_items(dict): BMP configuration items that can be imported to MongoDB directly.</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="stringliteral">                         The key is `bson.objectid.ObjectId`, the value is scenario item dict.</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="stringliteral">        rules(boolean): Config BMPs randomly or rule-based.</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="stringliteral">        modelrun(boolean): Has SEIMS model run successfully?</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#acf9f7ba0d0bea1ccbff7e46b3caee9cd">   38</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#acf9f7ba0d0bea1ccbff7e46b3caee9cd">__init__</a>(self, cfg):</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Initialize.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a56fe9bb711474855e4468d7ed642581c">ID</a> = -1</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a12cdb66051db4af93df09415988dcc6f">timerange</a> = 1.  <span class="comment"># unit: year</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#ab93511ae26947fbd1beff0a22aae86b7">economy</a> = 0.</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a53934de653033dc9d901559fa9c0c928">environment</a> = 0.</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#ab3bd41ae03f89175d76731f2b74ac3bb">worst_econ</a> = cfg.worst_econ</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#ac524cabba01a6b0cc5e0bed7a2f4453c">worst_env</a> = cfg.worst_env</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#ad32aecc19e54478a066d105e1e3d07fc">gene_num</a> = 0</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#add80d462244c97f12c496fdaef99f320">gene_values</a> = list()</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a68a3fc0c3a416a9fb328aa5c9692add4">bmp_items</a> = dict()</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a91b44fd8fc985c27350dd99a79e40036">rules</a> = cfg.bmps_rule</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a0526d2452ad393c9dee58f9b9c05f4ad">rule_mtd</a> = cfg.rule_method</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a91b7b0580cb15dde12eecbb6bd8c3375">bmps_info</a> = cfg.bmps_info</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a7a5771b91930191bfd349332cf9d3694">bmps_retain</a> = cfg.bmps_retain</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="comment"># run seims related</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a9f028df37dbb1108035452c3220ff51c">model_dir</a> = cfg.model_dir</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#ac1abf1a88cbf847267a7c0b7780a9f4b">modelout_dir</a> = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a927ad3b56cde12ea93e941db7a84ec9c">bin_dir</a> = cfg.seims_bin</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#aec30ac23f3a4ca25573780b57754e6d3">nthread</a> = cfg.seims_nthread</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a1b7de8a48146ee7c95e2f2cd06e415b0">lyrmethod</a> = cfg.seims_lyrmethod</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a3ef93a54ce47ea4699a42deb3a9f693f">hostname</a> = cfg.hostname</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a6af999787d3bf51918e534f1bdec0da7">port</a> = cfg.port</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#aef13c9d61ba3b90aeeec9b2c0be63719">scenario_db</a> = cfg.bmp_scenario_db</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a5758326e4f06248378503fa09b16114e">main_db</a> = cfg.spatial_db</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#ac142f7e45d8fd286813999f4ddeb4486">modelrun</a> = <span class="keyword">False</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="comment"># predefined directories</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a01a42b4c547a79462e80efec1289a7fa">scenario_dir</a> = cfg.scenario_dir</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#a59554346bd9c8177e827d99ca76f0668">   69</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#a59554346bd9c8177e827d99ca76f0668">set_unique_id</a>(self):</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Set unique ID.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a56fe9bb711474855e4468d7ed642581c">ID</a> = generate_uniqueid().next()</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#ac1abf1a88cbf847267a7c0b7780a9f4b">modelout_dir</a> = <span class="stringliteral">&#39;%s/OUTPUT%d&#39;</span> % (self.<a class="code" href="../../d8/d8e/a00344.html#a9f028df37dbb1108035452c3220ff51c">model_dir</a>, self.<a class="code" href="../../d8/d8e/a00344.html#a56fe9bb711474855e4468d7ed642581c">ID</a>)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        self.<a class="code" href="../../d8/d8e/a00344.html#a64d06d36f75e72b50f4d9958cc490886">read_simulation_timerange</a>()</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">return</span> self.<a class="code" href="../../d8/d8e/a00344.html#a56fe9bb711474855e4468d7ed642581c">ID</a></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#a64d06d36f75e72b50f4d9958cc490886">   76</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#a64d06d36f75e72b50f4d9958cc490886">read_simulation_timerange</a>(self):</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Read simulation time range from MongoDB.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        client = <a class="code" href="../../d0/d24/a00222.html">ConnectMongoDB</a>(self.<a class="code" href="../../d8/d8e/a00344.html#a3ef93a54ce47ea4699a42deb3a9f693f">hostname</a>, self.<a class="code" href="../../d8/d8e/a00344.html#a6af999787d3bf51918e534f1bdec0da7">port</a>)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        conn = client.get_conn()</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;        db = conn[self.<a class="code" href="../../d8/d8e/a00344.html#a5758326e4f06248378503fa09b16114e">main_db</a>]</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        collection = db[<span class="stringliteral">&#39;FILE_IN&#39;</span>]</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            stime_str = collection.find_one({<span class="stringliteral">&#39;TAG&#39;</span>: <span class="stringliteral">&#39;STARTTIME&#39;</span>}, no_cursor_timeout=<span class="keyword">True</span>)[<span class="stringliteral">&#39;VALUE&#39;</span>]</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;            etime_str = collection.find_one({<span class="stringliteral">&#39;TAG&#39;</span>: <span class="stringliteral">&#39;ENDTIME&#39;</span>}, no_cursor_timeout=<span class="keyword">True</span>)[<span class="stringliteral">&#39;VALUE&#39;</span>]</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;            stime = StringClass.get_datetime(stime_str)</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            etime = StringClass.get_datetime(etime_str)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;            dlt = etime - stime + timedelta(seconds=1)</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;            self.<a class="code" href="../../d8/d8e/a00344.html#a12cdb66051db4af93df09415988dcc6f">timerange</a> = (dlt.days * 86400. + dlt.seconds) / 86400. / 365.</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="keywordflow">except</span> NetworkTimeout <span class="keywordflow">or</span> Exception:</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;            <span class="comment"># In case of unexpected raise</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            self.<a class="code" href="../../d8/d8e/a00344.html#a12cdb66051db4af93df09415988dcc6f">timerange</a> = 1.  <span class="comment"># set default</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        client.close()</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;</div>
+<div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#a465c85a2d65c5441565e3e8273a6af9b">   95</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#a465c85a2d65c5441565e3e8273a6af9b">rule_based_config</a>(self, conf_rate):</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Config available BMPs to each gene of the chromosome by rule-based method.</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="stringliteral">        Virtual function that should be overridden in inherited Scenario class.</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#a88d6df4695b29b466e3e2d0ab1bd3289">  102</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#a88d6df4695b29b466e3e2d0ab1bd3289">random_based_config</a>(self, conf_rate):</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Config available BMPs to each gene of the chromosome by random-based method.</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="stringliteral">        Virtual function that should be overridden in inherited Scenario class.</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;</div>
+<div class="line"><a name="l00109"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#a277836374b7d660b013e9c05ba2f5fad">  109</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#a277836374b7d660b013e9c05ba2f5fad">decoding</a>(self):</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Decoding gene_values to bmp_items</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="stringliteral">        This function should be overridden.</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#a7415dc8750beff382bbfa454d2c2eeaf">  116</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#a7415dc8750beff382bbfa454d2c2eeaf">export_to_mongodb</a>(self):</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Export current scenario to MongoDB.</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="stringliteral">        Delete the same ScenarioID if existed.</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        client = <a class="code" href="../../d0/d24/a00222.html">ConnectMongoDB</a>(self.hostname, self.port)</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        conn = client.get_conn()</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        db = conn[self.scenario_db]</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        collection = db[<span class="stringliteral">&#39;BMP_SCENARIOS&#39;</span>]</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;            <span class="comment"># find ScenarioID, remove if existed.</span></div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;            <span class="keywordflow">if</span> collection.find({<span class="stringliteral">&#39;ID&#39;</span>: self.ID}, no_cursor_timeout=<span class="keyword">True</span>).count():</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                collection.remove({<span class="stringliteral">&#39;ID&#39;</span>: self.ID})</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keywordflow">except</span> NetworkTimeout <span class="keywordflow">or</span> Exception:</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="comment"># In case of unexpected raise</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordflow">for</span> objid, bmp_item <span class="keywordflow">in</span> self.bmp_items.iteritems():</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            bmp_item[<span class="stringliteral">&#39;_id&#39;</span>] = ObjectId()</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            collection.insert_one(bmp_item)</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        client.close()</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
+<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#a39af33aadf8f71b9217fc35ce70d5795">  136</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#a39af33aadf8f71b9217fc35ce70d5795">export_to_txt</a>(self):</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Export current scenario information to text file.</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="stringliteral">        This function is better be called after `calculate_environment` and `calculate_environment`</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="stringliteral">            or in static method, e.g., `scenario_effectiveness`.</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        ofile = self.<a class="code" href="../../d8/d8e/a00344.html#a01a42b4c547a79462e80efec1289a7fa">scenario_dir</a> + os.sep + <span class="stringliteral">&#39;Scenario_%d.txt&#39;</span> % self.<a class="code" href="../../d8/d8e/a00344.html#a56fe9bb711474855e4468d7ed642581c">ID</a></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        outfile = open(ofile, <span class="stringliteral">&#39;w&#39;</span>)</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        outfile.write(<span class="stringliteral">&#39;Scenario ID: %d\n&#39;</span> % self.<a class="code" href="../../d8/d8e/a00344.html#a56fe9bb711474855e4468d7ed642581c">ID</a>)</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        outfile.write(<span class="stringliteral">&#39;Gene number: %d\n&#39;</span> % self.<a class="code" href="../../d8/d8e/a00344.html#ad32aecc19e54478a066d105e1e3d07fc">gene_num</a>)</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        outfile.write(<span class="stringliteral">&#39;Gene values: %s\n&#39;</span> % <span class="stringliteral">&#39;, &#39;</span>.join((str(v) <span class="keywordflow">for</span> v <span class="keywordflow">in</span> self.<a class="code" href="../../d8/d8e/a00344.html#add80d462244c97f12c496fdaef99f320">gene_values</a>)))</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        outfile.write(<span class="stringliteral">&#39;Scenario items:\n&#39;</span>)</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        <span class="keywordflow">if</span> len(self.<a class="code" href="../../d8/d8e/a00344.html#a68a3fc0c3a416a9fb328aa5c9692add4">bmp_items</a>) &gt; 0:</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            <span class="keywordflow">for</span> obj, item <span class="keywordflow">in</span> self.bmp_items.iteritems():</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                header = item.keys()</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                <span class="keywordflow">break</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            outfile.write(<span class="stringliteral">&#39;\t&#39;</span>.join(header))</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;            outfile.write(<span class="stringliteral">&#39;\n&#39;</span>)</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;            <span class="keywordflow">for</span> obj, item <span class="keywordflow">in</span> self.bmp_items.iteritems():</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                outfile.write(<span class="stringliteral">&#39;\t&#39;</span>.join(str(v) <span class="keywordflow">for</span> v <span class="keywordflow">in</span> item.values()))</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                outfile.write(<span class="stringliteral">&#39;\n&#39;</span>)</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        outfile.write(<span class="stringliteral">&#39;Effectiveness:\n\teconomy: %f\n\tenvironment: %f\n&#39;</span> % (self.<a class="code" href="../../d8/d8e/a00344.html#ab93511ae26947fbd1beff0a22aae86b7">economy</a>,</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                                                                              self.<a class="code" href="../../d8/d8e/a00344.html#a53934de653033dc9d901559fa9c0c928">environment</a>))</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        outfile.close()</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#a4dc82633d632c14cfa3d29bf2e1f18f1">  162</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#a4dc82633d632c14cfa3d29bf2e1f18f1">export_scenario_to_gtiff</a>(self):</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Export the areal BMPs to gtiff for further analysis.</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="stringliteral">        This function should be overridden in inherited class.</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
+<div class="line"><a name="l00169"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#a0599379d27627d4b9d21054508951faa">  169</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#a0599379d27627d4b9d21054508951faa">import_from_mongodb</a>(self, sid):</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Import a specified Scenario (`sid`) from MongoDB.</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="stringliteral">        This function should be overridden in inherited class.</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="stringliteral">        Returns:</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="stringliteral">            True if succeed, otherwise False.</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
+<div class="line"><a name="l00178"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#acd2e7add69ff2f8c4cf98283cafcf45a">  178</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#acd2e7add69ff2f8c4cf98283cafcf45a">import_from_txt</a>(self, sid):</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Import a specified Scenario (`sid`) from text file.</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="stringliteral">        This function should be overridden in inherited class.</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="stringliteral">        Returns:</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="stringliteral">            True if succeed, otherwise False.</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;</div>
+<div class="line"><a name="l00187"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#af92f72f7bdb198ef28c88b4ddc5170d1">  187</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#af92f72f7bdb198ef28c88b4ddc5170d1">calculate_economy</a>(self):</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Calculate economical effectiveness, which is application specified.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;</div>
+<div class="line"><a name="l00191"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#a428701d6033e295b1220a0c0c033b366">  191</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#a428701d6033e295b1220a0c0c033b366">calculate_environment</a>(self):</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Calculate environment effectiveness, which is application specified.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;</div>
+<div class="line"><a name="l00195"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#a1263ba7f75ad6d3c06ad18fb976646dd">  195</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#a1263ba7f75ad6d3c06ad18fb976646dd">execute_seims_model</a>(self):</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Run SEIMS for evaluating environmental effectiveness.</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="stringliteral">        If execution fails, the `self.economy` and `self.environment` will be set the worst values.</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        print_message(<span class="stringliteral">&#39;Scenario ID: %d, running SEIMS model...&#39;</span> % self.ID)</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        cmd_str = <span class="stringliteral">&#39;%s/seims_omp %s %d %d %s %d %d&#39;</span> % (self.bin_dir, self.model_dir, self.nthread,</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                                                      self.lyrmethod, self.hostname, self.port,</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                                                      self.ID)</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            UtilClass.run_command(cmd_str)</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            self.modelrun = <span class="keyword">True</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        <span class="keywordflow">except</span> CalledProcessError <span class="keywordflow">or</span> Exception:</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            <span class="keywordflow">print</span> (<span class="stringliteral">&#39;Run SEIMS model failed!&#39;</span>)</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            self.modelrun = <span class="keyword">False</span></div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        <span class="keywordflow">return</span> self.modelrun</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
+<div class="line"><a name="l00212"></a><span class="lineno"><a class="line" href="../../d8/d8e/a00344.html#aac101ab79e0bb5fe82d9f947597f4388">  212</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d8/d8e/a00344.html#aac101ab79e0bb5fe82d9f947597f4388">initialize</a>(self):</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Initialize a scenario.</span></div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="stringliteral">        Returns:</span></div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="stringliteral">            A list contains BMPs identifier of each gene location.</span></div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <span class="comment"># Create configuration rate for each location randomly, 0.25 ~ 0.75</span></div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        cr = random.randint(40, 60) / 100.</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <span class="comment"># cr = 0.75</span></div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keywordflow">if</span> self.<a class="code" href="../../d8/d8e/a00344.html#a91b44fd8fc985c27350dd99a79e40036">rules</a>:</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            self.<a class="code" href="../../d8/d8e/a00344.html#a465c85a2d65c5441565e3e8273a6af9b">rule_based_config</a>(cr)</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            self.<a class="code" href="../../d8/d8e/a00344.html#a88d6df4695b29b466e3e2d0ab1bd3289">random_based_config</a>(cr)</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        <span class="keywordflow">if</span> len(self.<a class="code" href="../../d8/d8e/a00344.html#add80d462244c97f12c496fdaef99f320">gene_values</a>) == self.<a class="code" href="../../d8/d8e/a00344.html#ad32aecc19e54478a066d105e1e3d07fc">gene_num</a> &gt; 0:</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            <span class="keywordflow">return</span> self.<a class="code" href="../../d8/d8e/a00344.html#add80d462244c97f12c496fdaef99f320">gene_values</a></div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            <span class="keywordflow">raise</span> RuntimeError(<span class="stringliteral">&#39;Initialize Scenario failed, please check the inherited scenario&#39;</span></div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                               <span class="stringliteral">&#39; class, especially the overwritten rule_based_config and&#39;</span></div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                               <span class="stringliteral">&#39; random_based_config!&#39;</span>)</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;<span class="keyword">def </span>initialize_scenario(cf):</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Used for initial individual of population.</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="stringliteral">    Designed as static method, which should be overridden in inherited class.</span></div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;<span class="keyword">def </span>scenario_effectiveness(cf, individual):</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Used for evaluate the effectiveness of given individual.</span></div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="stringliteral">    Designed as static method, which should be overridden in inherited class.</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    cf = get_config_parser()</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    cfg = SAConfig(cf)</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    sceobj = Scenario(cfg)</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="comment"># test the picklable of Scenario class.</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="keyword">import</span> pickle</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    s = pickle.dumps(sceobj)</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="comment"># print (s)</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    new_cfg = pickle.loads(s)</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="keywordflow">print</span> (new_cfg.bin_dir)</div>
+<div class="ttc" id="a00344_html_a53934de653033dc9d901559fa9c0c928"><div class="ttname"><a href="../../d8/d8e/a00344.html#a53934de653033dc9d901559fa9c0c928">seims.scenario_analysis.scenario.Scenario.environment</a></div><div class="ttdeci">environment</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00043">scenario.py:43</a></div></div>
+<div class="ttc" id="a00222_html"><div class="ttname"><a href="../../d0/d24/a00222.html">seims.preprocess.db_mongodb.ConnectMongoDB</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d08/a00832_source.html#l00016">db_mongodb.py:16</a></div></div>
+<div class="ttc" id="a00344_html_a39af33aadf8f71b9217fc35ce70d5795"><div class="ttname"><a href="../../d8/d8e/a00344.html#a39af33aadf8f71b9217fc35ce70d5795">seims.scenario_analysis.scenario.Scenario.export_to_txt</a></div><div class="ttdeci">def export_to_txt</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00136">scenario.py:136</a></div></div>
+<div class="ttc" id="a00344_html_a7415dc8750beff382bbfa454d2c2eeaf"><div class="ttname"><a href="../../d8/d8e/a00344.html#a7415dc8750beff382bbfa454d2c2eeaf">seims.scenario_analysis.scenario.Scenario.export_to_mongodb</a></div><div class="ttdeci">def export_to_mongodb</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00116">scenario.py:116</a></div></div>
+<div class="ttc" id="a00344_html"><div class="ttname"><a href="../../d8/d8e/a00344.html">seims.scenario_analysis.scenario.Scenario</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00022">scenario.py:22</a></div></div>
+<div class="ttc" id="a00344_html_aec30ac23f3a4ca25573780b57754e6d3"><div class="ttname"><a href="../../d8/d8e/a00344.html#aec30ac23f3a4ca25573780b57754e6d3">seims.scenario_analysis.scenario.Scenario.nthread</a></div><div class="ttdeci">nthread</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00059">scenario.py:59</a></div></div>
+<div class="ttc" id="a00344_html_a0599379d27627d4b9d21054508951faa"><div class="ttname"><a href="../../d8/d8e/a00344.html#a0599379d27627d4b9d21054508951faa">seims.scenario_analysis.scenario.Scenario.import_from_mongodb</a></div><div class="ttdeci">def import_from_mongodb</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00169">scenario.py:169</a></div></div>
+<div class="ttc" id="a00344_html_a1263ba7f75ad6d3c06ad18fb976646dd"><div class="ttname"><a href="../../d8/d8e/a00344.html#a1263ba7f75ad6d3c06ad18fb976646dd">seims.scenario_analysis.scenario.Scenario.execute_seims_model</a></div><div class="ttdeci">def execute_seims_model</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00195">scenario.py:195</a></div></div>
+<div class="ttc" id="a00344_html_a9f028df37dbb1108035452c3220ff51c"><div class="ttname"><a href="../../d8/d8e/a00344.html#a9f028df37dbb1108035452c3220ff51c">seims.scenario_analysis.scenario.Scenario.model_dir</a></div><div class="ttdeci">model_dir</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00056">scenario.py:56</a></div></div>
+<div class="ttc" id="a00344_html_a1b7de8a48146ee7c95e2f2cd06e415b0"><div class="ttname"><a href="../../d8/d8e/a00344.html#a1b7de8a48146ee7c95e2f2cd06e415b0">seims.scenario_analysis.scenario.Scenario.lyrmethod</a></div><div class="ttdeci">lyrmethod</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00060">scenario.py:60</a></div></div>
+<div class="ttc" id="a00344_html_a6af999787d3bf51918e534f1bdec0da7"><div class="ttname"><a href="../../d8/d8e/a00344.html#a6af999787d3bf51918e534f1bdec0da7">seims.scenario_analysis.scenario.Scenario.port</a></div><div class="ttdeci">port</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00062">scenario.py:62</a></div></div>
+<div class="ttc" id="a00344_html_ab3bd41ae03f89175d76731f2b74ac3bb"><div class="ttname"><a href="../../d8/d8e/a00344.html#ab3bd41ae03f89175d76731f2b74ac3bb">seims.scenario_analysis.scenario.Scenario.worst_econ</a></div><div class="ttdeci">worst_econ</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00044">scenario.py:44</a></div></div>
+<div class="ttc" id="a00344_html_a68a3fc0c3a416a9fb328aa5c9692add4"><div class="ttname"><a href="../../d8/d8e/a00344.html#a68a3fc0c3a416a9fb328aa5c9692add4">seims.scenario_analysis.scenario.Scenario.bmp_items</a></div><div class="ttdeci">bmp_items</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00049">scenario.py:49</a></div></div>
+<div class="ttc" id="a00344_html_a4dc82633d632c14cfa3d29bf2e1f18f1"><div class="ttname"><a href="../../d8/d8e/a00344.html#a4dc82633d632c14cfa3d29bf2e1f18f1">seims.scenario_analysis.scenario.Scenario.export_scenario_to_gtiff</a></div><div class="ttdeci">def export_scenario_to_gtiff</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00162">scenario.py:162</a></div></div>
+<div class="ttc" id="a00344_html_ac1abf1a88cbf847267a7c0b7780a9f4b"><div class="ttname"><a href="../../d8/d8e/a00344.html#ac1abf1a88cbf847267a7c0b7780a9f4b">seims.scenario_analysis.scenario.Scenario.modelout_dir</a></div><div class="ttdeci">modelout_dir</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00057">scenario.py:57</a></div></div>
+<div class="ttc" id="a00344_html_a927ad3b56cde12ea93e941db7a84ec9c"><div class="ttname"><a href="../../d8/d8e/a00344.html#a927ad3b56cde12ea93e941db7a84ec9c">seims.scenario_analysis.scenario.Scenario.bin_dir</a></div><div class="ttdeci">bin_dir</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00058">scenario.py:58</a></div></div>
+<div class="ttc" id="a00344_html_a88d6df4695b29b466e3e2d0ab1bd3289"><div class="ttname"><a href="../../d8/d8e/a00344.html#a88d6df4695b29b466e3e2d0ab1bd3289">seims.scenario_analysis.scenario.Scenario.random_based_config</a></div><div class="ttdeci">def random_based_config</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00102">scenario.py:102</a></div></div>
+<div class="ttc" id="a00344_html_a91b44fd8fc985c27350dd99a79e40036"><div class="ttname"><a href="../../d8/d8e/a00344.html#a91b44fd8fc985c27350dd99a79e40036">seims.scenario_analysis.scenario.Scenario.rules</a></div><div class="ttdeci">rules</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00051">scenario.py:51</a></div></div>
+<div class="ttc" id="a00344_html_a12cdb66051db4af93df09415988dcc6f"><div class="ttname"><a href="../../d8/d8e/a00344.html#a12cdb66051db4af93df09415988dcc6f">seims.scenario_analysis.scenario.Scenario.timerange</a></div><div class="ttdeci">timerange</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00041">scenario.py:41</a></div></div>
+<div class="ttc" id="a00344_html_a01a42b4c547a79462e80efec1289a7fa"><div class="ttname"><a href="../../d8/d8e/a00344.html#a01a42b4c547a79462e80efec1289a7fa">seims.scenario_analysis.scenario.Scenario.scenario_dir</a></div><div class="ttdeci">scenario_dir</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00067">scenario.py:67</a></div></div>
+<div class="ttc" id="a00344_html_a0526d2452ad393c9dee58f9b9c05f4ad"><div class="ttname"><a href="../../d8/d8e/a00344.html#a0526d2452ad393c9dee58f9b9c05f4ad">seims.scenario_analysis.scenario.Scenario.rule_mtd</a></div><div class="ttdeci">rule_mtd</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00052">scenario.py:52</a></div></div>
+<div class="ttc" id="a00344_html_ac524cabba01a6b0cc5e0bed7a2f4453c"><div class="ttname"><a href="../../d8/d8e/a00344.html#ac524cabba01a6b0cc5e0bed7a2f4453c">seims.scenario_analysis.scenario.Scenario.worst_env</a></div><div class="ttdeci">worst_env</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00045">scenario.py:45</a></div></div>
+<div class="ttc" id="a01370_html"><div class="ttname"><a href="../../d8/dbe/a01370.html">seims.preprocess.db_mongodb</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d08/a00832_source.html#l00001">db_mongodb.py:1</a></div></div>
+<div class="ttc" id="a00344_html_a91b7b0580cb15dde12eecbb6bd8c3375"><div class="ttname"><a href="../../d8/d8e/a00344.html#a91b7b0580cb15dde12eecbb6bd8c3375">seims.scenario_analysis.scenario.Scenario.bmps_info</a></div><div class="ttdeci">bmps_info</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00053">scenario.py:53</a></div></div>
+<div class="ttc" id="a00344_html_acd2e7add69ff2f8c4cf98283cafcf45a"><div class="ttname"><a href="../../d8/d8e/a00344.html#acd2e7add69ff2f8c4cf98283cafcf45a">seims.scenario_analysis.scenario.Scenario.import_from_txt</a></div><div class="ttdeci">def import_from_txt</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00178">scenario.py:178</a></div></div>
+<div class="ttc" id="a00344_html_aef13c9d61ba3b90aeeec9b2c0be63719"><div class="ttname"><a href="../../d8/d8e/a00344.html#aef13c9d61ba3b90aeeec9b2c0be63719">seims.scenario_analysis.scenario.Scenario.scenario_db</a></div><div class="ttdeci">scenario_db</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00063">scenario.py:63</a></div></div>
+<div class="ttc" id="a01409_html"><div class="ttname"><a href="../../d9/d6e/a01409.html">seims.scenario_analysis.utility</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d17/a00872_source.html#l00001">utility.py:1</a></div></div>
+<div class="ttc" id="a00344_html_acf9f7ba0d0bea1ccbff7e46b3caee9cd"><div class="ttname"><a href="../../d8/d8e/a00344.html#acf9f7ba0d0bea1ccbff7e46b3caee9cd">seims.scenario_analysis.scenario.Scenario.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00038">scenario.py:38</a></div></div>
+<div class="ttc" id="a00344_html_a59554346bd9c8177e827d99ca76f0668"><div class="ttname"><a href="../../d8/d8e/a00344.html#a59554346bd9c8177e827d99ca76f0668">seims.scenario_analysis.scenario.Scenario.set_unique_id</a></div><div class="ttdeci">def set_unique_id</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00069">scenario.py:69</a></div></div>
+<div class="ttc" id="a00344_html_add80d462244c97f12c496fdaef99f320"><div class="ttname"><a href="../../d8/d8e/a00344.html#add80d462244c97f12c496fdaef99f320">seims.scenario_analysis.scenario.Scenario.gene_values</a></div><div class="ttdeci">gene_values</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00048">scenario.py:48</a></div></div>
+<div class="ttc" id="a00344_html_ab93511ae26947fbd1beff0a22aae86b7"><div class="ttname"><a href="../../d8/d8e/a00344.html#ab93511ae26947fbd1beff0a22aae86b7">seims.scenario_analysis.scenario.Scenario.economy</a></div><div class="ttdeci">economy</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00042">scenario.py:42</a></div></div>
+<div class="ttc" id="a00344_html_a465c85a2d65c5441565e3e8273a6af9b"><div class="ttname"><a href="../../d8/d8e/a00344.html#a465c85a2d65c5441565e3e8273a6af9b">seims.scenario_analysis.scenario.Scenario.rule_based_config</a></div><div class="ttdeci">def rule_based_config</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00095">scenario.py:95</a></div></div>
+<div class="ttc" id="a01400_html"><div class="ttname"><a href="../../dc/d35/a01400.html">seims.scenario_analysis.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0c/a00783_source.html#l00001">config.py:1</a></div></div>
+<div class="ttc" id="a00344_html_a277836374b7d660b013e9c05ba2f5fad"><div class="ttname"><a href="../../d8/d8e/a00344.html#a277836374b7d660b013e9c05ba2f5fad">seims.scenario_analysis.scenario.Scenario.decoding</a></div><div class="ttdeci">def decoding</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00109">scenario.py:109</a></div></div>
+<div class="ttc" id="a00344_html_aac101ab79e0bb5fe82d9f947597f4388"><div class="ttname"><a href="../../d8/d8e/a00344.html#aac101ab79e0bb5fe82d9f947597f4388">seims.scenario_analysis.scenario.Scenario.initialize</a></div><div class="ttdeci">def initialize</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00212">scenario.py:212</a></div></div>
+<div class="ttc" id="a00344_html_ac142f7e45d8fd286813999f4ddeb4486"><div class="ttname"><a href="../../d8/d8e/a00344.html#ac142f7e45d8fd286813999f4ddeb4486">seims.scenario_analysis.scenario.Scenario.modelrun</a></div><div class="ttdeci">modelrun</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00065">scenario.py:65</a></div></div>
+<div class="ttc" id="a00344_html_a5758326e4f06248378503fa09b16114e"><div class="ttname"><a href="../../d8/d8e/a00344.html#a5758326e4f06248378503fa09b16114e">seims.scenario_analysis.scenario.Scenario.main_db</a></div><div class="ttdeci">main_db</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00064">scenario.py:64</a></div></div>
+<div class="ttc" id="a00344_html_a64d06d36f75e72b50f4d9958cc490886"><div class="ttname"><a href="../../d8/d8e/a00344.html#a64d06d36f75e72b50f4d9958cc490886">seims.scenario_analysis.scenario.Scenario.read_simulation_timerange</a></div><div class="ttdeci">def read_simulation_timerange</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00076">scenario.py:76</a></div></div>
+<div class="ttc" id="a00344_html_a3ef93a54ce47ea4699a42deb3a9f693f"><div class="ttname"><a href="../../d8/d8e/a00344.html#a3ef93a54ce47ea4699a42deb3a9f693f">seims.scenario_analysis.scenario.Scenario.hostname</a></div><div class="ttdeci">hostname</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00061">scenario.py:61</a></div></div>
+<div class="ttc" id="a00344_html_a56fe9bb711474855e4468d7ed642581c"><div class="ttname"><a href="../../d8/d8e/a00344.html#a56fe9bb711474855e4468d7ed642581c">seims.scenario_analysis.scenario.Scenario.ID</a></div><div class="ttdeci">ID</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00040">scenario.py:40</a></div></div>
+<div class="ttc" id="a00344_html_ad32aecc19e54478a066d105e1e3d07fc"><div class="ttname"><a href="../../d8/d8e/a00344.html#ad32aecc19e54478a066d105e1e3d07fc">seims.scenario_analysis.scenario.Scenario.gene_num</a></div><div class="ttdeci">gene_num</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00047">scenario.py:47</a></div></div>
+<div class="ttc" id="a00344_html_af92f72f7bdb198ef28c88b4ddc5170d1"><div class="ttname"><a href="../../d8/d8e/a00344.html#af92f72f7bdb198ef28c88b4ddc5170d1">seims.scenario_analysis.scenario.Scenario.calculate_economy</a></div><div class="ttdeci">def calculate_economy</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00187">scenario.py:187</a></div></div>
+<div class="ttc" id="a00344_html_a7a5771b91930191bfd349332cf9d3694"><div class="ttname"><a href="../../d8/d8e/a00344.html#a7a5771b91930191bfd349332cf9d3694">seims.scenario_analysis.scenario.Scenario.bmps_retain</a></div><div class="ttdeci">bmps_retain</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00054">scenario.py:54</a></div></div>
+<div class="ttc" id="a00344_html_a428701d6033e295b1220a0c0c033b366"><div class="ttname"><a href="../../d8/d8e/a00344.html#a428701d6033e295b1220a0c0c033b366">seims.scenario_analysis.scenario.Scenario.calculate_environment</a></div><div class="ttdeci">def calculate_environment</div><div class="ttdef"><b>Definition:</b> <a href="../../d1/d0b/a00919_source.html#l00191">scenario.py:191</a></div></div>
+<div class="ttc" id="a01394_html"><div class="ttname"><a href="../../d6/d2f/a01394.html">seims.pygeoc.pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d92/a00586_source.html#l00001">utils.py:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_c4eaa6a6e6c4ee7b087e3de60cab1bbc.html">bmps</a></li><li class="navelem"><b>BMPFactory.cpp</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:25 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e9804dfb28c80687c0b1771681283077.html">scenario_analysis</a></li><li class="navelem"><b>scenario.py</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:26 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: MongoDB的安装预配置</title>
+<title>SEIMS: Modules status in SEIMS</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,78 +106,109 @@ $(document).ready(function(){initNavTree('d7/d70/a00106.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">MongoDB的安装预配置 </div>  </div>
+<div class="title">Modules status in SEIMS </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>by Huiran Gao</p>
-<p>Latest Updated：May.31, 2016 </p>
+<div class="textblock"><p>Initial created : Liang-Jun Zhu</p>
+<p>Corporate editors :</p>
+<p>Last Updated: 2016-5-30 </p>
 <hr/>
- <h1>目录</h1>
-<p><a href="../../#1-mongodb安装">**1. MongoDB安装**</a></p>
-<ol type="1">
-<li><a href="../../#i-安装">安装</a></li>
-<li><a href="../../#ii-测试">测试</a></li>
-</ol>
-<p><a href="../../#2-mongodb配置">**2. MongoDB配置**</a></p>
-<p><a href="../../#3-mongovue">**3. MongoVUE**</a></p>
-<h1>1. MongoDB安装</h1>
-<h2>i. 安装</h2>
+<h2>表格填写说明</h2>
 <ul>
-<li>运行<code>mongodb-win32-x86_64-2.6.1.msi</code>，实际上是解压程序，将解压后的所有文件放到一个**全英文且没有空格**的文件夹中，比如<code>E:\MongoDB</code></li>
-<li>在MongoDB文件夹内新建logs文件夹，用于存储日志文件，比如<code>E:\MongoDB\logs</code>，并在此文件夹内新建空文件<code>mongodb.log</code></li>
-<li>在MongoDB文件夹内新建db文件夹，用于存放数据库文件，比如<code>E:\MongoDB\db</code></li>
-<li><p class="startli">启动MongoDB: 以系统管理员身份运行cmd，输入以下命令：</p>
-<p class="startli">```shell cd E: E: mongod.exe &ndash;dbpath=e: ```</p>
-<p class="startli">如看到控制台最后一行类似:</p>
-<p class="startli">``` Tue Oct 09 11:50:55 [websvr] admin web console watiing for connections on port 27017 ```</p>
-<p class="startli">说明启动成功,MongoDB占用系统27017端口。</p>
+<li>1.过程名：对应于C++代码中<code><a class="el" href="../../d0/d22/a01049_source.html">text.h</a></code>中宏定义前缀为<code>MCLS_</code>的分类，细分到每一种流域过程。</li>
+<li>2.模块ID：对应于源码中的模块ID</li>
+<li>3.方法：简要描述改模块所用算法，有参考的增加参考</li>
+<li>4.开发状态：清晰描述开发状态，如Bug修复、原理确认、代码编写等</li>
+<li>5.测试状态：清晰描述测试状态，如OMP版本测试、MPI版本测试等</li>
+<li>6.TODO：将来做出哪些改进，或现有的处理不足之处等 <hr/>
 </li>
 </ul>
-<h2>ii. 测试</h2>
-<p>测试MongoDB，以管理员身份新建一个cmd窗口：</p>
-<p>```shell cd E: E: mongo ```</p>
-<p>如出现<code>connecting to:test</code>说明测试通过。</p>
-<div class="image">
-<img src="http://i.imgur.com/Wkr40Z2.png" />
-</div>
-<p>继续测试：</p>
-<p>```shell use test db.foo.save({hello:0}) db.foo.find() ```</p>
-<p>如果出现类似<code>{ "_id" : ObjectId("574cfef6c02688f96a5819a1"), "Hello" : 0 }</code>之类信息，说明测试成功数据已经插入数据库，</p>
-<div class="image">
-<img src="http://i.imgur.com/Zz9caSo.png" />
-</div>
-<p>然后输入<code>exit</code>退出。</p>
-<h1>2. MongoDB配置</h1>
-<ul>
-<li><p class="startli">**注册MongoDB为系统服务** 以系统管理员身份运行cmd（必须以系统管理员身份运行cmd，否则会报错）：</p>
-<p class="startli">```shell cd E: E: mongo.exe &ndash;dbpath=d: &ndash;logpath=d:.log &ndash;install &ndash;serviceName "MongoDB" ```</p>
-<p class="startli">如果控制台出现类似 <code>Tue Oct 09 12:05:15 Service can be started from the command line with 'net start MongoDB'</code>这样的语句，说明服务已经注册成功。</p>
-</li>
-<li><p class="startli">**启动MongoDB数据库服务** 在cmd中输入:</p>
-<p class="startli">```shell net start MongoDB ``` 即可启动MongoDB数据库服务，此时控制台输出Mongo DB服务已经启动成功，说明系统启动成功。</p>
-<p class="startli">注意：MongoDB的安装目录需全英文且没有空格</p>
-</li>
-<li><b>MongoDB 安装为Windows服务，设置为自动启动</b></li>
-<li><p class="startli">以管理员方式运行cmd,输入以下命令:</p>
-<p class="startli">```shell mongod &ndash;install &ndash;serviceName "MongoDB" &ndash;serviceDisplayName "MongoDB" &ndash;logpath d:.log &ndash;logappend &ndash;dbpath d: &ndash;directoryperdb ```</p>
-<p class="startli">不提示错误即表示设置成功！</p>
-<p class="startli"><code>--install</code>：安装MongoDB服务</p>
-<p class="startli"><code>--serviceName</code>：安装Windows服务时使用的服务名</p>
-<p class="startli"><code>--serviceDisplayName</code>：在Windows服务管理器中显示的服务名</p>
-<p class="startli"><code>--logpath</code>：MongoDB日志输出文件名称。虽说该参数直译是“日志路径”，其实要指定的是一个具体的完整文件名。这里我使用的是C盘根目录下的MongoDB.Log文件。该文件不用事先创建，直接指定就是了。</p>
-<p class="startli"><code>--dbpath</code>：指定MongoDB数据存放的路径。这个就是最关键的参数了，不仅该目录要存在，并且最好不要以“\”结尾。</p>
-<p class="startli"><code>--directoryperdb</code>：这个参数很好理解，让MongoDB按照数据库的不同，针对每一个数据库都建立一个目录，所谓的“目录每数据库”。</p>
-</li>
-</ul>
-<h1>3. MongoVUE</h1>
-<p>详见<a href="../../Windows#（2）-mongodb及mongovue">MongoDB及MongoVUE</a></p>
-<p>Good luck! </p>
+<table class="doxtable">
+<tr>
+<th>过程名</th><th>模块ID</th><th>方法</th><th>开发状态</th><th>测试状态</th><th>TODO  </th></tr>
+<tr>
+<td>气象数据</td><td>TSD_RD</td><td>逐时间步长读取站点气象观测数据</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td>ITP</td><td>泰森多边形插值</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td>蒸散发</td><td>PET_H</td><td>Hargreaves</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td>PET_PT</td><td>PriestleyTaylor</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td>PET_PM</td><td>Penman-Monteith</td><td>完成</td><td>待测试</td><td>待生态模块完成之后测试 </td></tr>
+<tr>
+<td>土壤温度</td><td>STP_FP</td><td>Finn Plauborg</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td>截留</td><td>PI_MSM</td><td>Maximum Storage</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td>PI_STORM</td><td>Maximum Storage</td><td>未更新</td><td>尚未检查 </td></tr>
+<tr>
+<td>融雪</td><td><a class="el" href="../../dd/db5/a00365.html" title="Soil redistribution calculation. ">SRD_MB</a></td><td>Snow redistribution</td><td>完成</td><td>未测试</td><td>缺少输入数据 </td></tr>
+<tr>
+<td></td><td><a class="el" href="../../d2/d3e/a00366.html" title="Calculate distribution of snow sublimation. ">SSM_PE</a></td><td>Snow Sublimation(WetSpa)</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td><a class="el" href="../../d0/dc3/a00354.html" title="Calculate snow melt by Degree-Day method. ">SNO_DD</a></td><td>Degree-Day</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td><a class="el" href="../../d6/de1/a00356.html" title="Calculate snow water balance. ">SNO_WB</a></td><td>Water balance</td><td>完成</td><td>完成</td><td>需确认输入输出是否必须依赖SNO_DD </td></tr>
+<tr>
+<td></td><td><a class="el" href="../../d3/dc9/a00355.html" title="Calculate snow melt by snowpack daily method from SWAT. ">SNO_SP</a></td><td>Snowpeak Daily(SWAT)</td><td>完成</td><td>完成</td><td>需确认输入输出是否必须依赖SNO_DD </td></tr>
+<tr>
+<td>入渗、产流</td><td><a class="el" href="../../d6/db8/a00376.html" title="Modified Rational Method to calculate infiltration and excess precipitation. ">SUR_MR</a></td><td>Modified rational（WetSpa）</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td><a class="el" href="../../d5/db5/a00374.html" title="SCS Curve Number Method to calculate infiltration and excess precipitation. ">SUR_CN</a></td><td>SCS-CN</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td>SUR_SGA</td><td>Green-Ampt</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td>填洼</td><td>DEP_LINSLEY</td><td>Linsley method</td><td>完成</td><td>完成 </td></tr>
+<tr>
+<td></td><td>DEP_FS</td><td>Fill and Spill</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td>渗漏</td><td><a class="el" href="../../db/d53/a00321.html" title="Calculate water percolated from the soil water reservoir. ">PER_PI</a></td><td>Darcy's Law and Brooks-Corey</td><td>未完成</td><td>测试出问题</td><td>模拟时段内某天土壤水分为负，需检查算法的正确性 </td></tr>
+<tr>
+<td></td><td><a class="el" href="../../de/de9/a00322.html" title="Percolation calculated by storage routing method. ">PER_STR</a></td><td>Storage routing</td><td>未完成</td><td>测试出问题</td><td>同PER_PI </td></tr>
+<tr>
+<td></td><td>PER_DARCY</td><td>Darcy's Law</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td>地下径流</td><td>SSR_DA</td><td>Darcy's Law and Kinematic</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td>土壤蒸发</td><td><a class="el" href="../../df/d03/a00348.html" title="Calculate soil Temperature. ">SET_LM</a></td><td>Linear method</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td>地下水</td><td>GWA_RE</td><td>Linear reservoir</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td></td><td>GW_RSVR</td><td>Linear reservoir</td><td>未更新</td><td>未测试</td><td>与GWA_RE有何区别，命名待统一 </td></tr>
+<tr>
+<td>坡面侵蚀</td><td><a class="el" href="../../d0/da2/a00307.html" title="use MUSLE method to calculate sediment yield of each cell ">MUSLE_AS</a></td><td>MUSLE model</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td>溅蚀</td><td><a class="el" href="../../d9/d9b/a00363.html" title="Park Equation for splash erosion, and Foster Equation for overland flow soil detachment use the USLE_...">SplashEro_Park</a></td><td>Park Equation</td><td>未更新</td><td>未测试</td><td>模块ID需简写 </td></tr>
+<tr>
+<td>坡面泥沙汇流</td><td><a class="el" href="../../dd/dfe/a00283.html" title="Kinematic wave method for overland flow erosion and deposition. ">KinWavSed_OL</a></td><td>Energy function(Govers) method</td><td>未更新</td><td>未测试</td><td>确定原理、简写模块ID </td></tr>
+<tr>
+<td>河道泥沙汇流</td><td><a class="el" href="../../dc/dc9/a00282.html" title="Kinematic wave method for channel flow erosion and deposition. ">KinWavSed_CH</a></td><td>Srinivasan &amp; Galvao function</td><td>未更新</td><td>未测试</td><td>确定原理、简写模块ID </td></tr>
+<tr>
+<td></td><td>SEDR_VCD</td><td>Variable channel dimension</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td>坡面汇流</td><td><a class="el" href="../../dc/d5d/a00278.html" title="IUH overland method to calculate overland flow routing. ">IUH_OL</a></td><td>Instantaneous unit hydrograph(WetSpa)</td><td>未更新</td><td>未测试</td><td>应更名OL_IUH </td></tr>
+<tr>
+<td></td><td>IKW_OL</td><td>Kinematic wave</td><td>未更新</td><td>未测试</td><td>应更名OL_IKW </td></tr>
+<tr>
+<td>河道汇流</td><td><a class="el" href="../../d3/d07/a00305.html" title="channel flow routing using Muskingum method ">MUSK_CH</a></td><td><a class="el" href="../../d1/de3/a00306.html" title="Channel routing using Muskingum-Cunge method. ">Muskingum</a></td><td>未更新</td><td>未测试</td><td>应更名为CH_MUSK </td></tr>
+<tr>
+<td></td><td>IKW_CH</td><td>Kinematic wave</td><td>未更新</td><td>未测试</td><td>应更名为CH_IKW </td></tr>
+<tr>
+<td></td><td>CH_DW</td><td>Diffusive wave</td><td>未更新</td><td>未测试 </td></tr>
+<tr>
+<td></td><td></td><td></td><td></td><td></td></tr>
+</table>
+<h2>重要的问题</h2>
+<h3>Hydrology和Hydrology_longterm</h3>
+<p>这两个模块分组原意为前者为次暴雨模块组，后者为长时段模块组，目前看二者用的算法高度重叠，比如河道汇流方法马斯京根法、运动波法、四点隐式差分法等，模块命名仅前后顺序相反，如CH_MSK和MUSK_CH。</p>
+<p>这样很容易造成使用混淆，能否将二者合二为一？或在模块命名时加以区分？ </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:30 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

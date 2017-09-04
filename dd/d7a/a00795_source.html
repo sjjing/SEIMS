@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_storm_linux_gcc48/seims/preprocess/sd_merge_subbasin.py Source File</title>
+<title>SEIMS: seims/scenario_analysis/slpposunits/main.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,46 +112,232 @@ $(document).ready(function(){initNavTree('dd/d7a/a00795_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">sd_merge_subbasin.py</div>  </div>
+<div class="title">main.py</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Merge small subbasins to its downstream subbasin.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Liangjun Zhu</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 17-06-30  lj - initial version modified from QSWAT 1.4</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">class </span>MergeSubbasins(object):</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="stringliteral">    Merged selected subbasin to other subbasin.</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;BMPs optimization based on slope position units.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Huiran Gao, Liangjun Zhu</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 16-12-30  hr - initial implementation.\n</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">                17-08-18  lj - reorganize.\n</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> array</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> operator</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">import</span> os</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> random</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> time</div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    @staticmethod</div>
-<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="../../d2/d82/a00279.html#a8de711a0d983e03108252e5545677f8e">   15</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d2/d82/a00279.html#a8de711a0d983e03108252e5545677f8e">merge_to_downstream_qswat</a>(cfg):</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Algorithm modified from QSWAT-&gt;delineation.py&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&quot;TODO&quot;</span>)</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">def </span>main():</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;TEST CODE&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d2/d68/a01295.html">seims.preprocess.config</a> <span class="keyword">import</span> parse_ini_configuration</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    seims_cfg = parse_ini_configuration()</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    MergeSubbasins.merge_to_downstream_qswat(seims_cfg)</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    main()</div>
-<div class="ttc" id="a00279_html_a8de711a0d983e03108252e5545677f8e"><div class="ttname"><a href="../../d2/d82/a00279.html#a8de711a0d983e03108252e5545677f8e">seims.preprocess.sd_merge_subbasin.MergeSubbasins.merge_to_downstream_qswat</a></div><div class="ttdeci">def merge_to_downstream_qswat</div><div class="ttdef"><b>Definition:</b> <a href="../../d4/dd7/a00793_source.html#l00015">sd_merge_subbasin.py:15</a></div></div>
-<div class="ttc" id="a01295_html"><div class="ttname"><a href="../../d2/d68/a01295.html">seims.preprocess.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/deb/a00710_source.html#l00001">config.py:1</a></div></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> matplotlib</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">import</span> numpy</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> deap <span class="keyword">import</span> base</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">from</span> deap <span class="keyword">import</span> creator</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">from</span> deap <span class="keyword">import</span> tools</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">from</span> deap.benchmarks.tools <span class="keyword">import</span> hypervolume</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d6/d2f/a01394.html">seims.pygeoc.pygeoc.utils.utils</a> <span class="keyword">import</span> UtilClass, get_config_parser</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d2/d82/a01404.html">seims.scenario_analysis.slpposunits.config</a> <span class="keyword">import</span> SASPUConfig</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">from</span> <a class="code" href="../../dc/d25/a01406.html">seims.scenario_analysis.slpposunits.scenario</a> <span class="keyword">import</span> initialize_scenario, scenario_effectiveness</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d8/d31/a01407.html">seims.scenario_analysis.slpposunits.userdef</a> <span class="keyword">import</span> crossover_slppos, crossover_rdm</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d8/d31/a01407.html">seims.scenario_analysis.slpposunits.userdef</a> <span class="keyword">import</span> mutate_rdm, mutate_slppos</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="keyword">from</span> <a class="code" href="../../df/d84/a01408.html">seims.scenario_analysis.userdef</a> <span class="keyword">import</span> initIterateWithCfg, initRepeatWithCfg</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d9/d6e/a01409.html">seims.scenario_analysis.utility</a> <span class="keyword">import</span> print_message, delete_model_outputs</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d8/d01/a01410.html">seims.scenario_analysis.visualization</a> <span class="keyword">import</span> plot_pareto_front</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="comment"># Definitions, assignments, operations, etc. that will be executed by each worker</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="comment">#    when parallized by SCOOP.</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="comment"># Thus, DEAP related operations (initialize, register, etc.) are better defined here.</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordflow">if</span> os.name != <span class="stringliteral">&#39;nt&#39;</span>:  <span class="comment"># Force matplotlib to not use any Xwindows backend.</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    matplotlib.use(<span class="stringliteral">&#39;Agg&#39;</span>, warn=<span class="keyword">False</span>)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="comment"># Multiobjects: Minimum the economical cost, and maximum reduction rate of soil erosion</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;multi_weight = (-1., 1.)</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;creator.create(<span class="stringliteral">&#39;FitnessMulti&#39;</span>, base.Fitness, weights=multi_weight)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;creator.create(<span class="stringliteral">&#39;Individual&#39;</span>, array.array, typecode=<span class="stringliteral">&#39;d&#39;</span>, fitness=creator.FitnessMulti, id=-1)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment"># Register NSGA-II related operations</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;toolbox = base.Toolbox()</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;toolbox.register(<span class="stringliteral">&#39;gene_values&#39;</span>, initialize_scenario)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;toolbox.register(<span class="stringliteral">&#39;individual&#39;</span>, initIterateWithCfg, creator.Individual, toolbox.gene_values)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;toolbox.register(<span class="stringliteral">&#39;population&#39;</span>, initRepeatWithCfg, list, toolbox.individual)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;toolbox.register(<span class="stringliteral">&#39;evaluate&#39;</span>, scenario_effectiveness)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment"># rule-based mate and mutate</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;toolbox.register(<span class="stringliteral">&#39;mate_rule&#39;</span>, crossover_slppos)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;toolbox.register(<span class="stringliteral">&#39;mutate_rule&#39;</span>, mutate_slppos)</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="comment"># random-based mate and mutate</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;toolbox.register(<span class="stringliteral">&#39;mate_rdn&#39;</span>, crossover_rdm)</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;toolbox.register(<span class="stringliteral">&#39;mutate_rdm&#39;</span>, mutate_rdm)</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;toolbox.register(<span class="stringliteral">&#39;select&#39;</span>, tools.selNSGA2)</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="keyword">def </span>main(cfg):</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Main workflow of NSAG-II based Scenario analysis.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    random.seed()</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    pop_size = cfg.nsga2_npop</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    gen_num = cfg.nsga2_ngens</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    rule_cfg = cfg.bmps_rule</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    rule_mth = cfg.rule_method</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    cx_rate = cfg.nsga2_rcross</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    mut_perc = cfg.nsga2_pmut</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    mut_rate = cfg.nsga2_rmut</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    sel_rate = cfg.nsga2_rsel</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    ws = cfg.nsga2_dir</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    worst_econ = cfg.worst_econ</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    worst_env = cfg.worst_env</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="comment"># available gene value list</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    possible_gene_values = cfg.bmps_params.keys()</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    possible_gene_values.append(0)</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    units_info = cfg.units_infos</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    slppos_tagnames = cfg.slppos_tagnames</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    suit_bmps = cfg.slppos_suit_bmps</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    gene_to_unit = cfg.gene_to_slppos</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    unit_to_gene = cfg.slppos_to_gene</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    print_message(<span class="stringliteral">&#39;Population: %d, Generation: %d&#39;</span> % (pop_size, gen_num))</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    print_message(<span class="stringliteral">&#39;BMPs configure method: %s&#39;</span> % (<span class="stringliteral">&#39;rule-based&#39;</span> <span class="keywordflow">if</span> rule_cfg <span class="keywordflow">else</span> <span class="stringliteral">&#39;random-based&#39;</span>))</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="comment"># create reference point for hypervolume</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    ref_pt = numpy.array(tuple(map(operator.mul, [worst_econ, worst_env], multi_weight))) * -1</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    stats = tools.Statistics(<span class="keyword">lambda</span> sind: sind.fitness.values)</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    stats.register(<span class="stringliteral">&#39;min&#39;</span>, numpy.min, axis=0)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    stats.register(<span class="stringliteral">&#39;max&#39;</span>, numpy.max, axis=0)</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    stats.register(<span class="stringliteral">&#39;avg&#39;</span>, numpy.mean, axis=0)</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    stats.register(<span class="stringliteral">&#39;std&#39;</span>, numpy.std, axis=0)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    logbook = tools.Logbook()</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    logbook.header = <span class="stringliteral">&#39;gen&#39;</span>, <span class="stringliteral">&#39;evals&#39;</span>, <span class="stringliteral">&#39;min&#39;</span>, <span class="stringliteral">&#39;max&#39;</span>, <span class="stringliteral">&#39;avg&#39;</span>, <span class="stringliteral">&#39;std&#39;</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    pop = toolbox.population(cfg, n=pop_size)</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="comment"># Evaluate the individuals with an invalid fitness</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    invalid_ind = [ind <span class="keywordflow">for</span> ind <span class="keywordflow">in</span> pop <span class="keywordflow">if</span> <span class="keywordflow">not</span> ind.fitness.valid]</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="comment"># parallel on multiprocesor or clusters using SCOOP</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keyword">from</span> scoop <span class="keyword">import</span> futures</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        fitnesses = futures.map(toolbox.evaluate, [cfg] * len(invalid_ind), invalid_ind)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="comment"># print (&#39;parallel-fitnesses: &#39;, fitnesses)</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    <span class="keywordflow">except</span> ImportError <span class="keywordflow">or</span> ImportWarning:</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="comment"># serial</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        fitnesses = toolbox.map(toolbox.evaluate, [cfg] * len(invalid_ind), invalid_ind)</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="comment"># print (&#39;serial-fitnesses: &#39;, fitnesses)</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">for</span> ind, fit <span class="keywordflow">in</span> zip(invalid_ind, fitnesses):</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        ind.fitness.values = fit[:2]</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        ind.id = fit[2]</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="comment"># This is just to assign the crowding distance to the individuals</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="comment"># no actual selection is done</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    pop = toolbox.select(pop, pop_size)</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    record = stats.compile(pop)</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    logbook.record(gen=0, evals=len(invalid_ind), **record)</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    print_message(logbook.stream)</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="comment"># Begin the generational process</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    output_str = <span class="stringliteral">&#39;### Generation number: %d, Population size: %d ###\n&#39;</span> % (gen_num, pop_size)</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    print_message(output_str)</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    UtilClass.writelog(cfg.logfile, output_str, mode=<span class="stringliteral">&#39;replace&#39;</span>)</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordflow">for</span> gen <span class="keywordflow">in</span> range(1, gen_num + 1):</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        output_str = <span class="stringliteral">&#39;###### Generation: %d ######\n&#39;</span> % gen</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        print_message(output_str)</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="comment"># Vary the population</span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        offspring = tools.selTournamentDCD(pop, int(pop_size * sel_rate))</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        offspring = [toolbox.clone(ind) <span class="keywordflow">for</span> ind <span class="keywordflow">in</span> offspring]</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="comment"># print_message(&#39;Offspring size: %d&#39; % len(offspring))</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keywordflow">if</span> len(offspring) &gt;= 2:  <span class="comment"># when offspring size greater than 2, mate can be done</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            <span class="keywordflow">for</span> ind1, ind2 <span class="keywordflow">in</span> zip(offspring[::2], offspring[1::2]):</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                <span class="keywordflow">if</span> random.random() &lt;= cx_rate:</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;                    <span class="keywordflow">if</span> rule_cfg:</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;                        toolbox.mate_rule(slppos_tagnames, ind1, ind2)</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;                    <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;                        toolbox.mate_rdn(ind1, ind2)</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                <span class="keywordflow">if</span> rule_cfg:</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                    toolbox.mutate_rule(units_info, gene_to_unit, unit_to_gene, slppos_tagnames,</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                                        suit_bmps, ind1,</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                                        perc=mut_perc, indpb=mut_rate, method=rule_mth)</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                    toolbox.mutate_rule(units_info, gene_to_unit, unit_to_gene, slppos_tagnames,</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                                        suit_bmps, ind2,</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;                                        perc=mut_perc, indpb=mut_rate, method=rule_mth)</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;                <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;                    toolbox.mutate_rdm(possible_gene_values, ind1, perc=mut_perc, indpb=mut_rate)</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                    toolbox.mutate_rdm(possible_gene_values, ind2, perc=mut_perc, indpb=mut_rate)</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                del ind1.fitness.values, ind2.fitness.values</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;        <span class="comment"># Evaluate the individuals with an invalid fitness</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        invalid_ind = [ind <span class="keywordflow">for</span> ind <span class="keywordflow">in</span> offspring <span class="keywordflow">if</span> <span class="keywordflow">not</span> ind.fitness.valid]</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        invalid_ind_size = len(invalid_ind)</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        <span class="comment"># print_message(&#39;Evaluate pop size: %d&#39; % invalid_ind_size)</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            <span class="keyword">from</span> scoop <span class="keyword">import</span> futures</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            fitnesses = futures.map(toolbox.evaluate, [cfg] * invalid_ind_size, invalid_ind)</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="keywordflow">except</span> ImportError <span class="keywordflow">or</span> ImportWarning:</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            fitnesses = toolbox.map(toolbox.evaluate, [cfg] * invalid_ind_size, invalid_ind)</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <span class="keywordflow">for</span> ind, fit <span class="keywordflow">in</span> zip(invalid_ind, fitnesses):</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;            ind.fitness.values = fit[:2]</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            ind.id = fit[2]</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="comment"># Select the next generation population</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        pop = toolbox.select(pop + offspring, pop_size)</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        hyper_str = <span class="stringliteral">&#39;Gen: %d, hypervolume: %f\n&#39;</span> % (gen, hypervolume(pop, ref_pt))</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        print_message(hyper_str)</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        UtilClass.writelog(cfg.hypervlog, hyper_str, mode=<span class="stringliteral">&#39;append&#39;</span>)</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        record = stats.compile(pop)</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        logbook.record(gen=gen, evals=len(invalid_ind), **record)</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        print_message(logbook.stream)</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <span class="comment"># Create plot</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        plot_pareto_front(pop, ws, gen)</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        <span class="comment"># save in file</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        output_str += <span class="stringliteral">&#39;scenario\teconomy\tenvironment\tgene_values\n&#39;</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <span class="keywordflow">for</span> indi <span class="keywordflow">in</span> pop:</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;            output_str += <span class="stringliteral">&#39;%d\t%f\t%f\t%s\n&#39;</span> % (indi.id, indi.fitness.values[0],</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                                                indi.fitness.values[1],</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                                                str(indi))</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        UtilClass.writelog(cfg.logfile, output_str, mode=<span class="stringliteral">&#39;append&#39;</span>)</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <span class="comment"># Delete SEIMS output files, and BMP Scenario database of current generation</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        delete_model_outputs(cfg.model_dir, cfg.hostname, cfg.port, cfg.bmp_scenario_db)</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordflow">return</span> pop, logbook</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    cf = get_config_parser()</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    cfg = SASPUConfig(cf)</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    print_message(<span class="stringliteral">&#39;### START TO SCENARIOS OPTIMIZING ###&#39;</span>)</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    startT = time.time()</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    fpop, fstats = main(cfg)</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    fpop.sort(key=<span class="keyword">lambda</span> x: x.fitness.values)</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    print_message(fstats)</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    f = open(cfg.logbookfile, <span class="stringliteral">&#39;w&#39;</span>)</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    f.write(fstats.__str__())</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    f.close()</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    endT = time.time()</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    print_message(<span class="stringliteral">&#39;Running time: %.2fs&#39;</span> % (endT - startT))</div>
+<div class="ttc" id="a01404_html"><div class="ttname"><a href="../../d2/d82/a01404.html">seims.scenario_analysis.slpposunits.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00001">config.py:1</a></div></div>
+<div class="ttc" id="a01407_html"><div class="ttname"><a href="../../d8/d31/a01407.html">seims.scenario_analysis.slpposunits.userdef</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d36/a00925_source.html#l00001">userdef.py:1</a></div></div>
+<div class="ttc" id="a01410_html"><div class="ttname"><a href="../../d8/d01/a01410.html">seims.scenario_analysis.visualization</a></div><div class="ttdef"><b>Definition:</b> <a href="../../df/dbc/a00931_source.html#l00001">visualization.py:1</a></div></div>
+<div class="ttc" id="a01406_html"><div class="ttname"><a href="../../dc/d25/a01406.html">seims.scenario_analysis.slpposunits.scenario</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d82/a00920_source.html#l00001">scenario.py:1</a></div></div>
+<div class="ttc" id="a01409_html"><div class="ttname"><a href="../../d9/d6e/a01409.html">seims.scenario_analysis.utility</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d17/a00872_source.html#l00001">utility.py:1</a></div></div>
+<div class="ttc" id="a01408_html"><div class="ttname"><a href="../../df/d84/a01408.html">seims.scenario_analysis.userdef</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d38/a00926_source.html#l00001">userdef.py:1</a></div></div>
+<div class="ttc" id="a01394_html"><div class="ttname"><a href="../../d6/d2f/a01394.html">seims.pygeoc.pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d92/a00586_source.html#l00001">utils.py:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_9acb163bfc580721a7f3d6aabfda8dbb.html">seims_storm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_fd8dd4f548e8390633a5614720372e6e.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_aa3842d62a7d3e0fef54ca77d04cde54.html">preprocess</a></li><li class="navelem"><b>sd_merge_subbasin.py</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:25 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e9804dfb28c80687c0b1771681283077.html">scenario_analysis</a></li><li class="navelem"><a class="el" href="../../dir_fb953fad34f000c3fba666fdcab80fe4.html">slpposunits</a></li><li class="navelem"><b>main.py</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:25 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

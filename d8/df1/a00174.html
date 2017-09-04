@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: SEIMS 模型配置、运行及率定</title>
+<title>SEIMS: 友情链接</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,87 +106,37 @@ $(document).ready(function(){initNavTree('d8/df1/a00174.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SEIMS 模型配置、运行及率定 </div>  </div>
+<div class="title">友情链接 </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h2>1. 模型配置</h2>
-<p>一个完整的SEIMS模型包括MongoDB数据库、模块配置文件config.fig、模拟时间步长和模拟时段文件file.in、参数输出设置文件file.out。</p>
-<h3>1.1 MongoDB数据库</h3>
-<p>通过[数据预处理](Data-preprocess)，我们得到了SEIMS运行依赖的MongoDB数据库，其中包括气象数据库和参数数据库。</p>
-<ol type="1">
-<li>气象数据库：降水和气象数据</li>
-<li>参数数据库：以模型名称命名，包括下面几个表：<ul>
-<li>parameters：包含模型的各个输入参数的信息，可以通过调整Impact参数进行调参</li>
-<li>reaches：河道相关属性信息</li>
-<li>SiteList：模拟所需的降水和气象站点</li>
-<li>Spatial：模拟所需的栅格数据、气象插值权重数据等，以<code>GridFS</code>方式存储</li>
-</ul>
-</li>
-</ol>
-<h3>1.2 config.fig</h3>
-<p>模型运行所需的模块列表，SEIMS按照顺序依次加载指定的各个模块，在每个模拟时间步长内顺序执行。</p>
-<p>通用格式为： ``` </p>
-<h3>FORMAT</h3>
-<h3>MODULE CLASS NO. | PROCESS NAME | METHOD NAME | MODULE ID</h3>
-<p>i.e. #0 | Climate 0 | TimeSeries | | TSD_RD 0 | Interpolation | Thiessen_0 | ITP 0 | PET | Hargreaves | PET_H ```</p>
-<blockquote class="doxtable">
-<p>以::开头的为注视行；允许有空行</p>
-<p></p>
-</blockquote>
-<h3>1.3 file.in</h3>
-<p>设置SEIMS模型运行的:</p>
+<div class="textblock"><h2>1. 流域过程模型类</h2>
 <ul>
-<li>MODE：<code>Daily</code>指日尺度模型；<code>Storm</code>指次降水模型；</li>
-<li>Interval：步长，如果为Daily模拟，步长默认为1天，不可修改；如果为Storm模拟，步长单位为秒，可以分别指定坡面过程和河道过程的模拟步长，如“60, 60”指定次降水模拟的坡面和河道过程步长都是60s；</li>
-<li>STARTTIME:模拟开始时间,格式：YYYY-MM-DD HH:MM:SS</li>
-<li>ENDTIME:模拟结束时间</li>
+<li><a href="http://swat.tamu.edu/">SWAT</a></li>
+<li><a href="http://www.vub.ac.be/WetSpa/">WetSpa</a></li>
+<li><a href="http://fiesta.bren.ucsb.edu/~rhessys/index.html">RHESSys</a></li>
+<li><a href="http://blogs.itc.nl/lisem/">LISEM</a></li>
+<li><a href="http://www.hydro.washington.edu/Lettenmaier/Models/DHSVM/">DHSVM</a></li>
+<li><a href="https://www.epa.gov/exposure-assessment-models/basins-framework-and-features">BASINS</a></li>
+<li><a href="http://csdms.colorado.edu/wiki/Model_download_portal">CSDMS建模环境</a></li>
 </ul>
-<p>如：</p>
-<p>``` MODE|Daily INTERVAL|1 STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-12-31 00:00:00 ```</p>
-<h3>1.4 file.out</h3>
-<p>指定模型输出变量相关信息，基本格式为：</p>
-<p>``` </p>
-<h3>FORMAT: TAG | VALUE</h3>
-<h3>ALL AVAILABLE TAGS:</h3>
-<h3>OUTPUTID : VARIABLE NAME FOR OUTPUT</h3>
-<h3>COUNT : OUTPUT NUMBER, e.g., 2 WHEN OUTPUT PET WITH AGGREGATION TYPE OF SUM AND MEAN.</h3>
-<h3>TYPE : DATA AGGREGATION TYPE, e.g., SUM, AVE, MAX, etc.</h3>
-<h3>STARTTIME : DATA DERIVED TIME START</h3>
-<h3>ENDTIME : DATA DERIVED TIME END</h3>
-<h3>FILENAME : OUTPUT FILENAME WITH SUFFIX, e.g., txt, asc, tif.</h3>
-<p>```</p>
-<p>例如，希望输出模拟时段内降水总量，则<code>OUTPUTID</code>为<code>D_P</code>,<code>TYPE</code>为<code>SUM</code>，如下：</p>
-<p>``` </p>
-<h3>0 HydroClimate</h3>
-<h2>Precipitation</h2>
-<p>OUTPUTID|D_P COUNT | 1 TYPE | SUM STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-12-31 00:00:00 FILENAME | PREC_SUM.tif ```</p>
-<h2>2. 运行</h2>
+<h2>2. 编程相关类</h2>
 <ul>
-<li>SEIMS_OMP版本调用格式为：</li>
+<li><a href="http://pcjericks.github.io/py-gdalogr-cookbook/index.html">GDAL-Python-Codebook</a></li>
+<li><a href="https://github.com/google/styleguide">Google Coding Style</a></li>
 </ul>
-<p>``` seims_omp &lt;ModelPath&gt; &lt;threadsNum&gt; [&lt;layeringMethod&gt; &lt;IP&gt; &lt;port&gt;] ``` 其中：</p>
-<p>&lt;ModelPath&gt; 为模型路径，必需</p>
-<p>&lt;threadsNum&gt; 为OMP并行线程数，必需，大于1</p>
-<p>&lt;layeringMethod&gt; 为栅格分层方法，0或1，分别代表UP_DOWN和DOWN_UP，可选，默认为0</p>
-<p>&lt;IP&gt; 为MongoDB的IP地址，可选，默认为本机</p>
-<p>&lt;port&gt; 为MongoDB端口号，可选，默认为27017</p>
-<p>&gt;注意：&lt;ModelPath&gt;的文件夹名称需与MongoDB中数据库名称对应，且文件夹内需包含<code>config.fig</code>、<code>file.in</code>、<code>file.out</code>。</p>
+<h2>3. 个人博客类</h2>
 <ul>
-<li>SEIMS_MPI版本调用格式为：</li>
+<li><a href="http://solim.geography.wisc.edu/axing/">A-Xing ZHU</a></li>
+<li><a href="http://people.ucas.ac.cn/~qincz">Cheng-Zhi QIN</a></li>
+<li><a href="https://zhiqiangyu.wordpress.com/">Zhi-Qiang YU</a></li>
+<li><a href="https://zhulj.net">Liang-Jun ZHU</a> </li>
 </ul>
-<p>``` mpiexec –n 6 seims &lt;parallel.config file&gt; ```</p>
-<p>其中：</p>
-<p>-n 6 指定并行计算的进程数</p>
-<p>&lt;parallel.config file&gt; 为配置文件，包含 </p>
-<pre class="fragment">ModelName，ProjectPath，ModulePath，DBHost，DBPort，TreadNumber，LayeringMethod
-</pre><h2>3. 率定</h2>
-<p>TO BE CONTINUED！ </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:30 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:31 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

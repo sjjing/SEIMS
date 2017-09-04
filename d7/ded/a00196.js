@@ -1,16 +1,17 @@
 var a00196 =
 [
-    [ "BMPPointSrcFactory", "d7/ded/a00196.html#a8ccd4c60371c3fedec45e4c0f5b541c8", null ],
-    [ "~BMPPointSrcFactory", "d7/ded/a00196.html#a89be8aadd8636d7104c64fecaf6e6710", null ],
-    [ "Dump", "d7/ded/a00196.html#ae104f57487b6582e36a525f3ddd3f3f9", null ],
-    [ "loadBMP", "d7/ded/a00196.html#a5f1b8bf0be27add974ddca1380cbc5b6", null ],
-    [ "ReadPointSourceLocations", "d7/ded/a00196.html#a00dd7e00d4e6b52394014bd79afb71b4", null ],
-    [ "ReadPointSourceManagements", "d7/ded/a00196.html#a33cff88a565b727800b9683bb31d23f8", null ],
-    [ "m_pointSrc", "d7/ded/a00196.html#aa9659202207c7ab6cccebd22bb5c8cbf", null ],
-    [ "m_pointSrcDistTab", "d7/ded/a00196.html#aabc09e9823e06780ca9bb94e82cdfe78", null ],
-    [ "m_pointSrcIDs", "d7/ded/a00196.html#a76bdd3fb6e14a9854447ecaa454de28c", null ],
-    [ "m_pointSrcLocsMap", "d7/ded/a00196.html#a2c2f10751d48bd7f6696ac0bd3dc0fd0", null ],
-    [ "m_pointSrcMgtMap", "d7/ded/a00196.html#a0b41fda0a47b9101c10ebcd47a6d537a", null ],
-    [ "m_pointSrcMgtSeqs", "d7/ded/a00196.html#ae590ca3ab41a36931cba253aeb1f28e1", null ],
-    [ "m_pointSrcMgtTab", "d7/ded/a00196.html#a6a2ff89e33f61e0b0ef8e70931fe1525", null ]
+    [ "ArealSourceLocations", "d7/ded/a00196.html#a16bc19582ad47e4ca5591f7661baac79", null ],
+    [ "~ArealSourceLocations", "d7/ded/a00196.html#a67718a78ba782d831f7fbd156f5179c8", null ],
+    [ "Dump", "d7/ded/a00196.html#a0299c66b40ee7914b9f0a4b49867189b", null ],
+    [ "GetArealSourceID", "d7/ded/a00196.html#a4fd104aee46ee3c9d6058cffb09e4438", null ],
+    [ "GetArealSourceName", "d7/ded/a00196.html#a138662f7f5948efb3ae60ec21a8ca1b2", null ],
+    [ "GetCellsIndex", "d7/ded/a00196.html#a165c995ca9e8ce12cb29b2758d1077a1", null ],
+    [ "GetSize", "d7/ded/a00196.html#a8a6fc2eb40d4f61bff48aa760c12ed97", null ],
+    [ "GetValidCells", "d7/ded/a00196.html#a93400578a26ea7f94c1c1743ed40b6fe", null ],
+    [ "SetValidCells", "d7/ded/a00196.html#a399dbcf5e788c29a3d73de021c9d442d", null ],
+    [ "m_arealSrcID", "d7/ded/a00196.html#ab487de6934750f32ddb1c810aa94d928", null ],
+    [ "m_cellsIndex", "d7/ded/a00196.html#a3c9456bae94a09993ffc89792b0a2484", null ],
+    [ "m_name", "d7/ded/a00196.html#a0195d5db00328313e4e950b013da2008", null ],
+    [ "m_nCells", "d7/ded/a00196.html#aff43f13dc8e6912584d984d2bd49c993", null ],
+    [ "m_size", "d7/ded/a00196.html#aa4d342707bb8f6b6803ffa6515a10024", null ]
 ];

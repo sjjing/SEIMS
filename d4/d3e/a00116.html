@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: SEIMS 模型配置、运行及率定</title>
+<title>SEIMS: Python环境配置</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,87 +106,88 @@ $(document).ready(function(){initNavTree('d4/d3e/a00116.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SEIMS 模型配置、运行及率定 </div>  </div>
+<div class="title">Python环境配置 </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><h2>1. 模型配置</h2>
-<p>一个完整的SEIMS模型包括MongoDB数据库、模块配置文件config.fig、模拟时间步长和模拟时段文件file.in、参数输出设置文件file.out。</p>
-<h3>1.1 MongoDB数据库</h3>
-<p>通过[数据预处理](Data-preprocess)，我们得到了SEIMS运行依赖的MongoDB数据库，其中包括气象数据库和参数数据库。</p>
+<div class="textblock"><p>by Huiran Gao, Liang-Jun Zhu</p>
+<p>Latest Updated：May.31, 2016 </p>
+<hr/>
+<h1>目录</h1>
+<p><a href="../../#1-gdal（独立于python）安装">**1. GDAL（独立于Python）安装**</a></p>
+<p><a href="../../#2-python脚本依赖库安装">**2. Python脚本依赖库安装**</a></p>
 <ol type="1">
-<li>气象数据库：降水和气象数据</li>
-<li>参数数据库：以模型名称命名，包括下面几个表：<ul>
-<li>parameters：包含模型的各个输入参数的信息，可以通过调整Impact参数进行调参</li>
-<li>reaches：河道相关属性信息</li>
-<li>SiteList：模拟所需的降水和气象站点</li>
-<li>Spatial：模拟所需的栅格数据、气象插值权重数据等，以<code>GridFS</code>方式存储</li>
-</ul>
-</li>
+<li><a href="../../#i-pip安装">pip安装</a></li>
+<li><a href="../../#ii-使用pip安装whl依赖库">使用pip安装whl依赖库</a></li>
 </ol>
-<h3>1.2 config.fig</h3>
-<p>模型运行所需的模块列表，SEIMS按照顺序依次加载指定的各个模块，在每个模拟时间步长内顺序执行。</p>
-<p>通用格式为： ``` </p>
-<h3>FORMAT</h3>
-<h3>MODULE CLASS NO. | PROCESS NAME | METHOD NAME | MODULE ID</h3>
-<p>i.e. #0 | Climate 0 | TimeSeries | | TSD_RD 0 | Interpolation | Thiessen_0 | ITP 0 | PET | Hargreaves | PET_H ```</p>
+<p><a href="../../#3-最好用的python编辑器之一--pycharm介绍">**3. 最好用的Python编辑器之一--PyCharm介绍**</a></p>
+<h1>1. GDAL（独立于Python）安装</h1>
+<p>下载并安装gdal-111-1600-x64-core.msi</p>
+<ul>
+<li>链接一: <a href="http://pan.baidu.com/s/1c0saqQW">http://pan.baidu.com/s/1c0saqQW</a> 提取码: ggbj</li>
+<li>链接二：<a href="http://download.gisinternals.com/sdk/downloads/release-1600-x64-gdal-1-11-1-mapserver-6-4-1/gdal-111-1600-x64-core.msi">http://download.gisinternals.com/sdk/downloads/release-1600-x64-gdal-1-11-1-mapserver-6-4-1/gdal-111-1600-x64-core.msi</a></li>
+</ul>
+<p>下载完成后，安装GDAL，一路 Next 就可以，安装路径设为<code>C:\Program Files\GDAL</code>，完成后，在环境变量里新建GDAL_DATA项，值设置为<code>C:\Program Files\GDAL\gdal-data</code></p>
+<p><a href="../../#目录">返回目录</a></p>
+<h1>2. Python脚本依赖库安装</h1>
+<p>SEIMS预处理程序Python (python 2.7版本)依赖包集合下载：</p>
+<ul>
+<li>Python x64, <a href="http://pan.baidu.com/s/1dF9GiYl">百度云盘</a>, 提取码：z2ia</li>
+<li>Python x32, <a href="http://pan.baidu.com/s/1qY7XNw4">百度云盘</a>, 提取码：6cap</li>
+</ul>
 <blockquote class="doxtable">
-<p>以::开头的为注视行；允许有空行</p>
+<p>注意，这里的64位或者32位指的是Python的版本，而非Windows版本</p>
 <p></p>
 </blockquote>
-<h3>1.3 file.in</h3>
-<p>设置SEIMS模型运行的:</p>
+<h2>i. pip安装</h2>
 <ul>
-<li>MODE：<code>Daily</code>指日尺度模型；<code>Storm</code>指次降水模型；</li>
-<li>Interval：步长，如果为Daily模拟，步长默认为1天，不可修改；如果为Storm模拟，步长单位为秒，可以分别指定坡面过程和河道过程的模拟步长，如“60, 60”指定次降水模拟的坡面和河道过程步长都是60s；</li>
-<li>STARTTIME:模拟开始时间,格式：YYYY-MM-DD HH:MM:SS</li>
-<li>ENDTIME:模拟结束时间</li>
+<li><p class="startli">离线安装pip</p>
+<p class="startli">离线安装pip需要下载setuptools和pip并解压</p>
+<p class="startli">随后，管理员方式运行cmd，输入以下命令：</p>
+<p class="startli">```shell cd &lt;setuptools path&gt;=""&gt; python setup.py install cd &lt;pip path&gt;=""&gt; python setup.py install ```</p>
+</li>
+<li><p class="startli">在线安装pip，从<a href="https://bootstrap.pypa.io/get-pip.py">这里</a>下载<code>get-pip.py</code></p>
+<p class="startli">```python python get-pip.py ```</p>
+</li>
 </ul>
-<p>如：</p>
-<p>``` MODE|Daily INTERVAL|1 STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-12-31 00:00:00 ```</p>
-<h3>1.4 file.out</h3>
-<p>指定模型输出变量相关信息，基本格式为：</p>
-<p>``` </p>
-<h3>FORMAT: TAG | VALUE</h3>
-<h3>ALL AVAILABLE TAGS:</h3>
-<h3>OUTPUTID : VARIABLE NAME FOR OUTPUT</h3>
-<h3>COUNT : OUTPUT NUMBER, e.g., 2 WHEN OUTPUT PET WITH AGGREGATION TYPE OF SUM AND MEAN.</h3>
-<h3>TYPE : DATA AGGREGATION TYPE, e.g., SUM, AVE, MAX, etc.</h3>
-<h3>STARTTIME : DATA DERIVED TIME START</h3>
-<h3>ENDTIME : DATA DERIVED TIME END</h3>
-<h3>FILENAME : OUTPUT FILENAME WITH SUFFIX, e.g., txt, asc, tif.</h3>
-<p>```</p>
-<p>例如，希望输出模拟时段内降水总量，则<code>OUTPUTID</code>为<code>D_P</code>,<code>TYPE</code>为<code>SUM</code>，如下：</p>
-<p>``` </p>
-<h3>0 HydroClimate</h3>
-<h2>Precipitation</h2>
-<p>OUTPUTID|D_P COUNT | 1 TYPE | SUM STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-12-31 00:00:00 FILENAME | PREC_SUM.tif ```</p>
-<h2>2. 运行</h2>
+<p>安装好pip，就可以离线安装whl格式的python第三方库了，whl库的下载地址为：<a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/">http://www.lfd.uci.edu/~gohlke/pythonlibs/</a>。</p>
+<h2>ii. 使用pip安装whl依赖库</h2>
 <ul>
-<li>SEIMS_OMP版本调用格式为：</li>
+<li><p class="startli">GDAL（依赖于Python）安装 通过上面下载whl库的链接，可以下载完整的GDAL打包文件 <code>GDAL-1.11.3-cp27-none-win_amd64.whl</code>(64位，注意32位和64位的区分)，管理员方式运行cmd，输入安装命令：</p>
+<p class="startli">```shell cd &lt;GDAL path&gt;=""&gt; pip install GDAL-1.11.3-cp27-none-win_amd64.whl ```</p>
+<p class="startli">提示安装成功即可，输入以下命令验证是否安装成功：</p>
+<p class="startli">```python python from osgeo import gdal from osgeo import ogr from osgeo import osr from osgeo import gdal_array from osgeo import gdalconst ```</p>
+</li>
+<li>whl依赖库的批量安装 将下载的whl库文件(比如scipy，numexpr，PyQt4，wxPython（需要wxPython_common），PyGTK，python_dateutil，pytz，matplotlib，pywin32…)放到某一英文目录下，然后新建<code>install.bat</code>文件，输入如下内容：</li>
 </ul>
-<p>``` seims_omp &lt;ModelPath&gt; &lt;threadsNum&gt; [&lt;layeringMethod&gt; &lt;IP&gt; &lt;port&gt;] ``` 其中：</p>
-<p>&lt;ModelPath&gt; 为模型路径，必需</p>
-<p>&lt;threadsNum&gt; 为OMP并行线程数，必需，大于1</p>
-<p>&lt;layeringMethod&gt; 为栅格分层方法，0或1，分别代表UP_DOWN和DOWN_UP，可选，默认为0</p>
-<p>&lt;IP&gt; 为MongoDB的IP地址，可选，默认为本机</p>
-<p>&lt;port&gt; 为MongoDB端口号，可选，默认为27017</p>
-<p>&gt;注意：&lt;ModelPath&gt;的文件夹名称需与MongoDB中数据库名称对应，且文件夹内需包含<code>config.fig</code>、<code>file.in</code>、<code>file.out</code>。</p>
+<blockquote class="doxtable">
+<p>注意修改python路径：<code>PYPATH</code> install.bat文件应与whl库文件放在同一文件夹。</p>
+<p></p>
+</blockquote>
+<p>```shell  off  off echo "Liangjun Zhu, zlj@lreis.ac.cn" echo "-- Install Python Packages Using Pip..." echo "-- WHL files downloaded from http://www.lfd.uci.edu/~gohlke/pythonlibs/" pushd %~dp0 cd %~dp0 :: python path, x86 or x64 versioned python set PYPATH=C:/python27x86/ set PIPPYTH=PYPATHScripts/ :: COMMENT-1: Install easy_install and pip without network ::PYPATHpython %~dp0-18.2.py install ::PYPATHpython %~dp0-7.1.2.py install :: COMMENT-2: Install easy_install and pip without network ::PYPATHpython get-pip.py for /f "delims=" %i in ('dir /s/b "*.whl"') do ( echo installing %%~ni ... PIPPYTHpip install %i ) echo "-- All packages installed Succeed!" pause ```</p>
+<p>这样便会自动安装该文件夹所有的packages...</p>
+<p><a href="../../#目录">返回目录</a></p>
+<h1>3. 最好用的Python编辑器之一&ndash;PyCharm介绍</h1>
+<p>PyCharm是一种Python IDE，带有一整套可以帮助用户在使用Python语言开发时提高其效率的工具，比如调试、语法高亮、Project管理、代码跳转、智能提示、自动完成、单元测试、版本控制。</p>
+<p>特点：</p>
 <ul>
-<li>SEIMS_MPI版本调用格式为：</li>
+<li><p class="startli">编码协助</p>
+<p class="startli">提供了一个带编码补全，代码片段，支持代码折叠和分割窗口的智能、可配置的编辑器;</p>
+</li>
+<li><p class="startli">项目代码导航</p>
+<p class="startli">帮助用户即时从一个文件导航至另一个，从一个方法至其申明或者用法甚至可以穿过类的层次;</p>
+</li>
+<li>代码分析 用户可使用其编码语法，错误高亮，智能检测以及一键式代码快速补全建议;</li>
+<li>Python重构 在项目范围内轻松进行重命名，提取方法/超类，导入域/变量/常量，移动和前推/后退重构。</li>
+<li>......</li>
 </ul>
-<p>``` mpiexec –n 6 seims &lt;parallel.config file&gt; ```</p>
-<p>其中：</p>
-<p>-n 6 指定并行计算的进程数</p>
-<p>&lt;parallel.config file&gt; 为配置文件，包含 </p>
-<pre class="fragment">ModelName，ProjectPath，ModulePath，DBHost，DBPort，TreadNumber，LayeringMethod
-</pre><h2>3. 率定</h2>
-<p>TO BE CONTINUED！ </p>
+<p>下载链接：<a href="http://pan.baidu.com/s/1i5nnvNJ">百度云盘</a>，提取码：gyy2</p>
+<p><a href="../../#目录">返回目录</a> </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:30 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:31 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

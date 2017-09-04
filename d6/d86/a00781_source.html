@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/preprocess/main.py Source File</title>
+<title>SEIMS: seims/postprocess/config.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,50 +112,129 @@ $(document).ready(function(){initNavTree('d6/d86/a00781_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">main.py</div>  </div>
+<div class="title">config.py</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Main function entrance for preprocessing</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Liangjun Zhu</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 16-12-07  lj - rewrite for version 2.0</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">                17-06-29  lj - reformat according to pylint and google style</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> time</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment"># Load configuration file</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d2/d68/a01295.html">seims.preprocess.config</a> <span class="keyword">import</span> parse_ini_configuration</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment"># MongoDB modules</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d4/d64/a01296.html">seims.preprocess.db_build_mongodb</a> <span class="keyword">import</span> ImportMongodbClass</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment"># Spatial delineation</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> <a class="code" href="../../db/d4b/a01309.html">seims.preprocess.sd_delineation</a> <span class="keyword">import</span> SpatialDelineation</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Configuration of Postprocess for SEIMS.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Liangjun Zhu, Huiran Gao</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 17-08-17  lj - reorganize as basic class</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">import</span> os</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">from</span> ConfigParser <span class="keyword">import</span> ConfigParser  <span class="comment"># py2</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keywordflow">except</span> ImportError:</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">from</span> configparser <span class="keyword">import</span> ConfigParser  <span class="comment"># py3</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d6/d2f/a01394.html">seims.pygeoc.pygeoc.utils.utils</a> <span class="keyword">import</span> FileClass, StringClass, get_config_file</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">def </span>workflow():</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Main entrance for the whole preprocessing workflow&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    start_time = time.time()</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    <span class="comment"># Parse Configuration file</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    seims_cfg = parse_ini_configuration()</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="comment"># Spatial delineation by TauDEM</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    SpatialDelineation.workflow(seims_cfg)</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="comment"># Import to MongoDB database</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    ImportMongodbClass.workflow(seims_cfg)</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    end_time = time.time()</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&quot;SEIMS preprocess done, time-consuming: %.2f seconds.&quot;</span> % (end_time - start_time))</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    workflow()</div>
-<div class="ttc" id="a01296_html"><div class="ttname"><a href="../../d4/d64/a01296.html">seims.preprocess.db_build_mongodb</a></div><div class="ttdef"><b>Definition:</b> <a href="../../de/d3d/a00748_source.html#l00001">db_build_mongodb.py:1</a></div></div>
-<div class="ttc" id="a01309_html"><div class="ttname"><a href="../../db/d4b/a01309.html">seims.preprocess.sd_delineation</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d8/d7f/a00787_source.html#l00001">sd_delineation.py:1</a></div></div>
-<div class="ttc" id="a01295_html"><div class="ttname"><a href="../../d2/d68/a01295.html">seims.preprocess.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/deb/a00710_source.html#l00001">config.py:1</a></div></div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="../../d2/d0a/a00333.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d0a/a00333.html">PostConfig</a>(object):</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Parse postprocess configuration of SEIMS project.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="../../d2/d0a/a00333.html#a3bcde4e46808b5c1366ffe16ff26e963">   20</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d2/d0a/a00333.html#a3bcde4e46808b5c1366ffe16ff26e963">__init__</a>(self, cf):</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Initialization.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        <span class="comment"># 1. Directories</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        self.<a class="code" href="../../d2/d0a/a00333.html#a71db31983894979c118c9f22f5a2d688">model_dir</a> = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        self.<a class="code" href="../../d2/d0a/a00333.html#afc1d0a809178dad79dcf7452ffc48927">scenario_id</a> = -1</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;        <span class="keywordflow">if</span> <span class="stringliteral">&#39;PATH&#39;</span> <span class="keywordflow">in</span> cf.sections():</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;            self.<a class="code" href="../../d2/d0a/a00333.html#a71db31983894979c118c9f22f5a2d688">model_dir</a> = cf.get(<span class="stringliteral">&#39;PATH&#39;</span>, <span class="stringliteral">&#39;model_dir&#39;</span>)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;            self.<a class="code" href="../../d2/d0a/a00333.html#afc1d0a809178dad79dcf7452ffc48927">scenario_id</a> = cf.getint(<span class="stringliteral">&#39;PATH&#39;</span>, <span class="stringliteral">&#39;scenarioid&#39;</span>)</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <span class="keywordflow">if</span> self.<a class="code" href="../../d2/d0a/a00333.html#afc1d0a809178dad79dcf7452ffc48927">scenario_id</a> &lt; 0:</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                self.<a class="code" href="../../d2/d0a/a00333.html#a71db31983894979c118c9f22f5a2d688">model_dir</a> = self.<a class="code" href="../../d2/d0a/a00333.html#a71db31983894979c118c9f22f5a2d688">model_dir</a> + os.sep + <span class="stringliteral">&#39;OUTPUT&#39;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                self.<a class="code" href="../../d2/d0a/a00333.html#a71db31983894979c118c9f22f5a2d688">model_dir</a> = self.<a class="code" href="../../d2/d0a/a00333.html#a71db31983894979c118c9f22f5a2d688">model_dir</a> + os.sep + <span class="stringliteral">&#39;OUTPUT&#39;</span> + str(self.<a class="code" href="../../d2/d0a/a00333.html#afc1d0a809178dad79dcf7452ffc48927">scenario_id</a>)</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;[PATH] section MUST be existed in *.ini file.&quot;</span>)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> FileClass.is_dir_exists(self.<a class="code" href="../../d2/d0a/a00333.html#a71db31983894979c118c9f22f5a2d688">model_dir</a>):</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Please Check Directories defined in [PATH]&quot;</span>)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        <span class="comment"># 2. MongoDB configuration and database, collation, GridFS names</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        self.<a class="code" href="../../d2/d0a/a00333.html#ad00e332215d09aee682029e9141fefce">hostname</a> = <span class="stringliteral">&#39;127.0.0.1&#39;</span>  <span class="comment"># localhost by default</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        self.<a class="code" href="../../d2/d0a/a00333.html#a71bcb5fcc6e120e734497a60a54bb05c">port</a> = 27017</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        self.<a class="code" href="../../d2/d0a/a00333.html#ac7f90a92ee4cb38f30e02c337f2e3ab5">climate_db</a> = <span class="stringliteral">&#39;&#39;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        self.<a class="code" href="../../d2/d0a/a00333.html#a15487d706d88150c0cf19110f461a705">bmp_scenario_db</a> = <span class="stringliteral">&#39;&#39;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        self.<a class="code" href="../../d2/d0a/a00333.html#ae9aed91bc268573c273edfb5598c9262">spatial_db</a> = <span class="stringliteral">&#39;&#39;</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="keywordflow">if</span> <span class="stringliteral">&#39;MONGODB&#39;</span> <span class="keywordflow">in</span> cf.sections():</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            self.<a class="code" href="../../d2/d0a/a00333.html#ad00e332215d09aee682029e9141fefce">hostname</a> = cf.get(<span class="stringliteral">&#39;MONGODB&#39;</span>, <span class="stringliteral">&#39;hostname&#39;</span>)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            self.<a class="code" href="../../d2/d0a/a00333.html#a71bcb5fcc6e120e734497a60a54bb05c">port</a> = cf.getint(<span class="stringliteral">&#39;MONGODB&#39;</span>, <span class="stringliteral">&#39;port&#39;</span>)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            self.<a class="code" href="../../d2/d0a/a00333.html#ac7f90a92ee4cb38f30e02c337f2e3ab5">climate_db</a> = cf.get(<span class="stringliteral">&#39;MONGODB&#39;</span>, <span class="stringliteral">&#39;climatedbname&#39;</span>)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            self.<a class="code" href="../../d2/d0a/a00333.html#a15487d706d88150c0cf19110f461a705">bmp_scenario_db</a> = cf.get(<span class="stringliteral">&#39;MONGODB&#39;</span>, <span class="stringliteral">&#39;bmpscenariodbname&#39;</span>)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            self.<a class="code" href="../../d2/d0a/a00333.html#ae9aed91bc268573c273edfb5598c9262">spatial_db</a> = cf.get(<span class="stringliteral">&#39;MONGODB&#39;</span>, <span class="stringliteral">&#39;spatialdbname&#39;</span>)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;[MONGODB] section MUST be existed in *.ini file.&#39;</span>)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> StringClass.is_valid_ip_addr(self.<a class="code" href="../../d2/d0a/a00333.html#ad00e332215d09aee682029e9141fefce">hostname</a>):</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;HOSTNAME illegal defined in [MONGODB]!&#39;</span>)</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment"># 3. Parameters</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        self.<a class="code" href="../../d2/d0a/a00333.html#a1edd5c6c673660158f1d6b164fc4bd25">plt_subbsnid</a> = -1</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        self.<a class="code" href="../../d2/d0a/a00333.html#aa52b315d1e7c53f0896e10ccee3572f3">plt_vars</a> = list()</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">if</span> <span class="stringliteral">&#39;PARAMETERS&#39;</span> <span class="keywordflow">in</span> cf.sections():</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;            self.<a class="code" href="../../d2/d0a/a00333.html#a1edd5c6c673660158f1d6b164fc4bd25">plt_subbsnid</a> = cf.getint(<span class="stringliteral">&#39;PARAMETERS&#39;</span>, <span class="stringliteral">&#39;plot_subbasinid&#39;</span>)</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;            plt_vars_str = cf.get(<span class="stringliteral">&#39;PARAMETERS&#39;</span>, <span class="stringliteral">&#39;plot_variables&#39;</span>)</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;[PARAMETERS] section MUST be existed in *.ini file.&quot;</span>)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">if</span> self.<a class="code" href="../../d2/d0a/a00333.html#a1edd5c6c673660158f1d6b164fc4bd25">plt_subbsnid</a> &lt; 0:</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;PLOT_SUBBASINID must be greater or equal than 0.&quot;</span>)</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="keywordflow">if</span> plt_vars_str != <span class="stringliteral">&#39;&#39;</span>:</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            self.<a class="code" href="../../d2/d0a/a00333.html#aa52b315d1e7c53f0896e10ccee3572f3">plt_vars</a> = StringClass.split_string(plt_vars_str)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;PLOT_VARIABLES illegal defined in [PARAMETERS]!&quot;</span>)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="comment"># 4. Optional_Parameters</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keywordflow">if</span> <span class="stringliteral">&#39;OPTIONAL_PARAMETERS&#39;</span> <span class="keywordflow">in</span> cf.sections():</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            tstart = cf.get(<span class="stringliteral">&#39;OPTIONAL_PARAMETERS&#39;</span>, <span class="stringliteral">&#39;time_start&#39;</span>)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            tend = cf.get(<span class="stringliteral">&#39;OPTIONAL_PARAMETERS&#39;</span>, <span class="stringliteral">&#39;time_end&#39;</span>)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;[OPTIONAL_PARAMETERS] section MUST be existed in *.ini file.&quot;</span>)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="comment"># UTCTIME</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            self.<a class="code" href="../../d2/d0a/a00333.html#a7ee285077dbfbc90dcd06864a568c9c1">time_start</a> = StringClass.get_datetime(tstart)</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            self.<a class="code" href="../../d2/d0a/a00333.html#a0c15273e5082530cdb78fb390996aa4d">time_end</a> = StringClass.get_datetime(tend)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        <span class="keywordflow">except</span> ValueError:</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;The time format MUST be &quot;YYYY-MM-DD&quot; or &quot;YYYY-MM-DD HH:MM:SS&quot;.&#39;</span>)</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="keywordflow">if</span> self.<a class="code" href="../../d2/d0a/a00333.html#a7ee285077dbfbc90dcd06864a568c9c1">time_start</a> &gt;= self.<a class="code" href="../../d2/d0a/a00333.html#a0c15273e5082530cdb78fb390996aa4d">time_end</a>:</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;Wrong time setted in [OPTIONAL_PARAMETERS]!&quot;</span>)</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="comment"># 5. Switches</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        self.<a class="code" href="../../d2/d0a/a00333.html#a1512640d15c56c2ca3c516774eddf5a0">lang_cn</a> = <span class="keyword">False</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <span class="keywordflow">if</span> <span class="stringliteral">&#39;SWITCH&#39;</span> <span class="keywordflow">in</span> cf.sections():</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            self.<a class="code" href="../../d2/d0a/a00333.html#a1512640d15c56c2ca3c516774eddf5a0">lang_cn</a> = cf.getboolean(<span class="stringliteral">&#39;SWITCH&#39;</span>, <span class="stringliteral">&#39;lang_cn&#39;</span>)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="keyword">def </span>parse_ini_configuration():</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Load model configuration from *.ini file&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    cf = ConfigParser()</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    ini_file = get_config_file()</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    cf.read(ini_file)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="../../d2/d0a/a00333.html">PostConfig</a>(cf)</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    cfg = parse_ini_configuration()</div>
+<div class="ttc" id="a00333_html_ad00e332215d09aee682029e9141fefce"><div class="ttname"><a href="../../d2/d0a/a00333.html#ad00e332215d09aee682029e9141fefce">seims.postprocess.config.PostConfig.hostname</a></div><div class="ttdeci">hostname</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00038">config.py:38</a></div></div>
+<div class="ttc" id="a00333_html_a1edd5c6c673660158f1d6b164fc4bd25"><div class="ttname"><a href="../../d2/d0a/a00333.html#a1edd5c6c673660158f1d6b164fc4bd25">seims.postprocess.config.PostConfig.plt_subbsnid</a></div><div class="ttdeci">plt_subbsnid</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00055">config.py:55</a></div></div>
+<div class="ttc" id="a00333_html_a71bcb5fcc6e120e734497a60a54bb05c"><div class="ttname"><a href="../../d2/d0a/a00333.html#a71bcb5fcc6e120e734497a60a54bb05c">seims.postprocess.config.PostConfig.port</a></div><div class="ttdeci">port</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00039">config.py:39</a></div></div>
+<div class="ttc" id="a00333_html_a0c15273e5082530cdb78fb390996aa4d"><div class="ttname"><a href="../../d2/d0a/a00333.html#a0c15273e5082530cdb78fb390996aa4d">seims.postprocess.config.PostConfig.time_end</a></div><div class="ttdeci">time_end</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00078">config.py:78</a></div></div>
+<div class="ttc" id="a00333_html_a15487d706d88150c0cf19110f461a705"><div class="ttname"><a href="../../d2/d0a/a00333.html#a15487d706d88150c0cf19110f461a705">seims.postprocess.config.PostConfig.bmp_scenario_db</a></div><div class="ttdeci">bmp_scenario_db</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00041">config.py:41</a></div></div>
+<div class="ttc" id="a00333_html_aa52b315d1e7c53f0896e10ccee3572f3"><div class="ttname"><a href="../../d2/d0a/a00333.html#aa52b315d1e7c53f0896e10ccee3572f3">seims.postprocess.config.PostConfig.plt_vars</a></div><div class="ttdeci">plt_vars</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00056">config.py:56</a></div></div>
+<div class="ttc" id="a00333_html_a1512640d15c56c2ca3c516774eddf5a0"><div class="ttname"><a href="../../d2/d0a/a00333.html#a1512640d15c56c2ca3c516774eddf5a0">seims.postprocess.config.PostConfig.lang_cn</a></div><div class="ttdeci">lang_cn</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00084">config.py:84</a></div></div>
+<div class="ttc" id="a00333_html_a7ee285077dbfbc90dcd06864a568c9c1"><div class="ttname"><a href="../../d2/d0a/a00333.html#a7ee285077dbfbc90dcd06864a568c9c1">seims.postprocess.config.PostConfig.time_start</a></div><div class="ttdeci">time_start</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00077">config.py:77</a></div></div>
+<div class="ttc" id="a00333_html_afc1d0a809178dad79dcf7452ffc48927"><div class="ttname"><a href="../../d2/d0a/a00333.html#afc1d0a809178dad79dcf7452ffc48927">seims.postprocess.config.PostConfig.scenario_id</a></div><div class="ttdeci">scenario_id</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00024">config.py:24</a></div></div>
+<div class="ttc" id="a00333_html_a71db31983894979c118c9f22f5a2d688"><div class="ttname"><a href="../../d2/d0a/a00333.html#a71db31983894979c118c9f22f5a2d688">seims.postprocess.config.PostConfig.model_dir</a></div><div class="ttdeci">model_dir</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00023">config.py:23</a></div></div>
+<div class="ttc" id="a00333_html_a3bcde4e46808b5c1366ffe16ff26e963"><div class="ttname"><a href="../../d2/d0a/a00333.html#a3bcde4e46808b5c1366ffe16ff26e963">seims.postprocess.config.PostConfig.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00020">config.py:20</a></div></div>
+<div class="ttc" id="a00333_html_ae9aed91bc268573c273edfb5598c9262"><div class="ttname"><a href="../../d2/d0a/a00333.html#ae9aed91bc268573c273edfb5598c9262">seims.postprocess.config.PostConfig.spatial_db</a></div><div class="ttdeci">spatial_db</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00042">config.py:42</a></div></div>
+<div class="ttc" id="a00333_html"><div class="ttname"><a href="../../d2/d0a/a00333.html">seims.postprocess.config.PostConfig</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00017">config.py:17</a></div></div>
+<div class="ttc" id="a00333_html_ac7f90a92ee4cb38f30e02c337f2e3ab5"><div class="ttname"><a href="../../d2/d0a/a00333.html#ac7f90a92ee4cb38f30e02c337f2e3ab5">seims.postprocess.config.PostConfig.climate_db</a></div><div class="ttdeci">climate_db</div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00040">config.py:40</a></div></div>
+<div class="ttc" id="a01394_html"><div class="ttname"><a href="../../d6/d2f/a01394.html">seims.pygeoc.pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d92/a00586_source.html#l00001">utils.py:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>main.py</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:25 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_61da0db7be14312bde940296c0e3c020.html">postprocess</a></li><li class="navelem"><b>config.py</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:25 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

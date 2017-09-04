@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims_longterm_linux_gcc48/seims/calibration/__init__.py Source File</title>
+<title>SEIMS: seims_storm_linux_gcc48/seims/postprocess/README.md Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -93,7 +93,7 @@ var searchBox = new SearchBox("searchBox", "../../search",false,'Search');
   </div>
 </div>
 <script type="text/javascript">
-$(document).ready(function(){initNavTree('d0/dc5/a00435_source.html','../../');});
+$(document).ready(function(){initNavTree('d0/dc5/a00435.html','../../');});
 </script>
 <div id="doc-content">
 <!-- window showing the filter options -->
@@ -112,41 +112,33 @@ $(document).ready(function(){initNavTree('d0/dc5/a00435_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">__init__.py</div>  </div>
+<div class="title">seims_storm_linux_gcc48/seims/postprocess/README.md</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">/***************************************************************************</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral"> pySEIMS</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">                             Python APIs for SEIMS</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral"> Calibration by optimization algorithms e.g. SCE-UA, SUFI2.</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">                              -------------------</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="stringliteral">        author               : Liangjun Zhu, Junzhi Liu</span></div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="stringliteral">        copyright            : (C) 2017 by Lreis, IGSNRR, CAS</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="stringliteral">        email                : zlj@lreis.ac.cn</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="stringliteral"> ******************************************************************************</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="stringliteral"> *                                                                            *</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="stringliteral"> *   SEIMS is distributed for Research and/or Education only, any commercial  *</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="stringliteral"> *   purpose will be FORBIDDEN. SEIMS is an open-source project, but without  *</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="stringliteral"> *   ANY WARRANTY, WITHOUT even the implied warranty of MERCHANTABILITY or    *</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="stringliteral"> *   FITNESS for A PARTICULAR PURPOSE.                                        *</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="stringliteral"> *   See the GNU General Public License for more details.                     *</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="stringliteral"> *                                                                            *</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="stringliteral"> ******************************************************************************/</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;__author__ = <span class="stringliteral">&quot;Liangjun Zhu&quot;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;__version__ = <span class="stringliteral">&quot;1.0&quot;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;__revision__ = <span class="stringliteral">&quot;1.0.0&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor"># Postprecess</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span>----------------</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;后处理程序采用与预处理程序一致的调用方式，即通过配置文件（*.ini）指定程序运行参数，通过如下形式命令调用任意一个功能脚本：</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;```bash</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;cd &lt;path to&gt;/SEIMS</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;python -m seims.postprocess.main -ini XXX.ini</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;```</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;以下分别介绍后处理程序功能及参数设置。</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">## 模拟结果出图</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor"></span>+ 相关参数设置：</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    + [PATH]下的MODEL_DIR，该目录中需有OUTPUT文件夹</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    + [MONGODB]所有参数</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    + [PARAMETERS]下的PLOT_VARIABLES，用于定于输出图标的变量，无需加引号，需与OUTPUT目录下TXT文件名一致，如Q, SED, CH_TN, 等，多个名称用空格分割</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    + [OPTIONAL_PARAMETERS]：Time_start 与Time_end 设定作图起止日期，格式为`yyyy-mm-dd`</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_ed16674693235890c7cb51a5b1a1dba7.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_76d6b266f780ce58e8712edddd6b13c2.html">calibration</a></li><li class="navelem"><b>__init__.py</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:21 for SEIMS by
+    <li class="navelem"><b>README.md</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:17 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

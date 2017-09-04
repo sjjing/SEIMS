@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/modules/hydrology/HS_WB/HS_WB.cpp Source File</title>
+<title>SEIMS: seims/src/seims_main/modules/hydrology/IKW_OL/api.cpp Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,176 +112,83 @@ $(document).ready(function(){initNavTree('dd/df1/a01082_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">HS_WB.cpp</div>  </div>
+<div class="title">api.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;seims.h&quot;</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;HS_WB.h&quot;</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;HS_WB::HS_WB(<span class="keywordtype">void</span>) : m_dtHs(-1.f), m_dtCh(-1.f), m_nReaches(-1), m_nCells(-1), m_qs(NULL), m_qi(NULL), m_subbasin(NULL),</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;                     m_streamLink(NULL),</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;                     m_qsInput(NULL), m_qiInput(NULL), m_qiTemp(NULL), m_qsTemp(NULL) {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;}</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;HS_WB::~HS_WB(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordflow">if</span> (m_qsInput != NULL) Release1DArray(m_qsInput);</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keywordflow">if</span> (m_qiInput != NULL) Release1DArray(m_qiInput);</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keywordflow">if</span> (m_qsTemp != NULL) Release1DArray(m_qsTemp);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordflow">if</span> (m_qiTemp != NULL) Release1DArray(m_qiTemp);</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &quot;ImplicitKinematicWave.h&quot;</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;api.h&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <a class="code" href="../../d0/d48/a00351.html">SimulationModule</a> *</div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;</div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;GetInstance() {</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">new</span> <a class="code" href="../../dc/d6a/a00261.html">ImplicitKinematicWave_OL</a>();</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;}</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// function to return the XML Metadata document string</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> SEIMS_MODULE_API <span class="keyword">const</span> <span class="keywordtype">char</span> *<a class="code" href="../../de/d13/a01473.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a>() {</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keywordtype">string</span> res = <span class="stringliteral">&quot;&quot;</span>;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <a class="code" href="../../de/d25/a00290.html">MetadataInfo</a> mdi;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keywordtype">void</span> HS_WB::initialOutputs() {</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="keywordflow">if</span> (m_qsInput == NULL) {</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        CheckInputData();</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;        <span class="comment">//cout &lt;&lt; &quot;Number of reaches: &quot; &lt;&lt; m_nReaches &lt;&lt; endl;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;        Initialize1DArray(m_nReaches + 1, m_qsInput, 0.f);</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;        Initialize1DArray(m_nReaches + 1, m_qiInput, 0.f);</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;        Initialize1DArray(m_nReaches + 1, m_qsTemp, 0.f);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        Initialize1DArray(m_nReaches + 1, m_qiTemp, 0.f);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    }</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="comment">// set the information properties</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    mdi.SetAuthor(<span class="stringliteral">&quot;Junzhi Liu&quot;</span>);</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    mdi.SetClass(MCLS_OL_ROUTING, MCLSDESC_OL_ROUTING);</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    mdi.SetDescription(MDESC_IKW_OL);</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    mdi.SetEmail(SEIMS_EMAIL);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    mdi.SetHelpfile(<span class="stringliteral">&quot;IKW_OL.chm&quot;</span>);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    mdi.SetID(MID_IKW_OL);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    mdi.SetName(MID_IKW_OL);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    mdi.SetVersion(<span class="stringliteral">&quot;0.1&quot;</span>);</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    mdi.SetWebsite(SEIMS_SITE);</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">//Execute module</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keywordtype">int</span> HS_WB::Execute() {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    initialOutputs();</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt;= m_nReaches; i++) {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        m_qsTemp[i] = 0.f;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        m_qiTemp[i] = 0.f;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    }</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keywordtype">int</span> reachId;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; m_nCells; i++) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="keywordflow">if</span> (m_streamLink[i] &gt; 0) {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="preprocessor">#ifdef MULTIPLY_REACHES</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor"></span>            reachId = int(m_streamLink[i]);</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="preprocessor"></span>            reachId = 1;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#endif </span><span class="comment">/* MULTIPLY_REACHES */</span><span class="preprocessor"></span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor"></span>            m_qsTemp[reachId] += m_qs[i];</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            <span class="keywordflow">if</span> (m_qi != NULL) {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                m_qiTemp[reachId] += m_qi[i];</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;            }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    }</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    mdi.AddParameter(Tag_HillSlopeTimeStep, UNIT_SECOND, DESC_TIMESTEP, File_Input, DT_Single);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    mdi.AddParameter(Tag_CellSize, UNIT_NON_DIM, DESC_CellSize, Source_ParameterDB, DT_Single);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    mdi.AddParameter(Tag_CellWidth, UNIT_LEN_M, DESC_CellWidth, Source_ParameterDB, DT_Single);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    mdi.AddParameter(VAR_SLOPE, UNIT_PERCENT, DESC_SLOPE, Source_ParameterDB, DT_Raster1D);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    mdi.AddParameter(VAR_CHWIDTH, UNIT_LEN_M, DESC_CHWIDTH, Source_ParameterDB, DT_Raster1D);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    mdi.AddParameter(VAR_STREAM_LINK, UNIT_NON_DIM, DESC_STREAM_LINK, Source_ParameterDB, DT_Raster1D);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    mdi.AddParameter(VAR_MANNING, UNIT_NON_DIM, DESC_MANNING, Source_ParameterDB, DT_Raster1D);</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    mdi.AddParameter(VAR_FLOWDIR, UNIT_NON_DIM, DESC_FLOWDIR, Source_ParameterDB, DT_Raster1D);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    mdi.AddParameter(Tag_FLOWIN_INDEX_D8, UNIT_NON_DIM, DESC_FLOWIN_INDEX_D8, Source_ParameterDB, DT_Array2D);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    mdi.AddParameter(Tag_ROUTING_LAYERS, UNIT_NON_DIM, DESC_ROUTING_LAYERS, Source_ParameterDB, DT_Array2D);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    mdi.AddParameter(Tag_FLOWOUT_INDEX_D8, UNIT_NON_DIM, DESC_FLOWOUT_INDEX_D8, Source_ParameterDB, DT_Array1D);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    mdi.AddInput(VAR_SURU, UNIT_DEPTH_MM, DESC_SURU, Source_Module, DT_Raster1D);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    mdi.AddInput(VAR_INFILCAPSURPLUS, UNIT_DEPTH_MM, DESC_INFILCAPSURPLUS, Source_Module, DT_Raster1D);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    mdi.AddInput(VAR_INFIL, UNIT_DEPTH_MM, DESC_INFIL, Source_Module, DT_Raster1D);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    mdi.AddInput(VAR_ACC_INFIL, UNIT_DEPTH_MM, DESC_ACC_INFIL, Source_Module, DT_Raster1D);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    mdi.AddOutput(VAR_QOVERLAND, UNIT_FLOW_CMS, DESC_QOVERLAND, DT_Raster1D);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    mdi.AddOutput(VAR_Reinfiltration, UNIT_DEPTH_MM, DESC_Reinfiltration, DT_Raster1D);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    mdi.AddOutput(VAR_FLOWWIDTH, UNIT_LEN_M, DESC_FLOWWIDTH, DT_Raster1D);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    mdi.AddOutput(<span class="stringliteral">&quot;ChWidth&quot;</span>, <span class="stringliteral">&quot;m&quot;</span>, <span class="stringliteral">&quot;Flow length of overland plane&quot;</span>,</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;                  DT_Raster1D);  <span class="comment">//Flowlen add by Wu hui  /// TODO Figure out what&#39;s meaning? LJ</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    mdi.AddOutput(VAR_RadianSlope, UNIT_NON_DIM, DESC_RadianSlope, DT_Raster1D);</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    mdi.AddOutput(VAR_ID_OUTLET, UNIT_NON_DIM, DESC_ID_OUTLET, DT_Single);</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    m_qsInput[0] = 0.f;</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    m_qiInput[0] = 0.f;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 1; i &lt;= m_nReaches; i++) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        m_qsInput[i] = (m_qsInput[i] * (m_tsCounter - 1) + m_qsTemp[i]) / m_tsCounter;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        m_qiInput[i] = (m_qiInput[i] * (m_tsCounter - 1) + m_qiTemp[i]) / m_tsCounter;</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        m_qsInput[0] += m_qsInput[i];</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        m_qiInput[0] += m_qiInput[i];</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    m_tsCounter++;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keywordtype">void</span> HS_WB::SetValue(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">float</span> data) {</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, VAR_OMP_THREADNUM)) {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        SetOpenMPThread((<span class="keywordtype">int</span>) data);</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_HS_WB, <span class="stringliteral">&quot;SetValue&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + s</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            + <span class="stringliteral">&quot; does not exist in current module. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;}</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="keywordtype">void</span> HS_WB::Set1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> nRows, <span class="keywordtype">float</span> *data) {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    this-&gt;CheckInputSize(key, nRows);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, VAR_QOVERLAND)) { this-&gt;m_qs = data; }</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_QSOIL)) { this-&gt;m_qi = data; }</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_SUBBSN)) { this-&gt;m_subbasin = data; }</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_STREAM_LINK)) { this-&gt;m_streamLink = data;}</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_SOILDEPTH)) { this-&gt;m_rootdepth = data;} </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_POROST)) { this-&gt;m_porosity = data; }</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_FIELDCAP)) { this-&gt;m_fieldCapacity = data; }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_NEPR)) { m_pNet = data; }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_HS_WB, <span class="stringliteral">&quot;Set1DData&quot;</span>, <span class="stringliteral">&quot;Parameter &quot;</span> + s +</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            <span class="stringliteral">&quot; does not exist in current module. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    }</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;}</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="keywordtype">void</span> HS_WB::Get1DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *nRows, <span class="keywordtype">float</span> **data) {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    *nRows = m_nReaches + 1;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, VAR_SBOF)) {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        *data = m_qsInput;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (StringMatch(s, VAR_SBIF)) {</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        *data = m_qiInput;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_HS_WB, <span class="stringliteral">&quot;Get1DData&quot;</span>, <span class="stringliteral">&quot;Result &quot;</span> + <span class="keywordtype">string</span>(key) +</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;            <span class="stringliteral">&quot; does not exist in current module. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;}</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="keywordtype">void</span> HS_WB::Get2DData(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> *nRows, <span class="keywordtype">int</span> *nCols, <span class="keywordtype">float</span> ***data) {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordtype">string</span> s(key);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">if</span> (StringMatch(s, VAR_SOWB)) {</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        *nCols = 17;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        *data = m_soilWaterBalance;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_HS_WB, <span class="stringliteral">&quot;Get2DData&quot;</span>, <span class="stringliteral">&quot;Result &quot;</span> + s +</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;            <span class="stringliteral">&quot; does not exist in current module. Please contact the module developer.&quot;</span>);</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    }</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;<span class="comment">//void HS_WB::Set2DData(const char *key, int nrows, int ncols, float **data) {</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="comment"></span><span class="comment">//}</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="keywordtype">void</span> HS_WB::SetReaches(<a class="code" href="../../dc/d31/a00208.html">clsReaches</a> *reaches) {</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    assert(NULL != reaches);</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    m_nReaches = reaches-&gt;<a class="code" href="../../dc/d31/a00208.html#ab99b0f921db10091568a8593a57a852e">GetReachNumber</a>();</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;}</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;<span class="keywordtype">bool</span> HS_WB::CheckInputData() {</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordflow">if</span> (m_nCells &lt;= 0)</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_HS_WB, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The dimension of the input data can not be less than zero.&quot;</span>);</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_qs == NULL) <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_HS_WB, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The overland flow can not be NULL.&quot;</span>);</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_subbasin == NULL) <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_HS_WB, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The subbasion can not be NULL.&quot;</span>);</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_streamLink == NULL)</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_HS_WB, <span class="stringliteral">&quot;CheckInputData&quot;</span>, <span class="stringliteral">&quot;The StreamLink can not be NULL.&quot;</span>);</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;}</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="keywordtype">bool</span> HS_WB::CheckInputSize(<span class="keyword">const</span> <span class="keywordtype">char</span> *key, <span class="keywordtype">int</span> n) {</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordflow">if</span> (n &lt;= 0) {</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_HS_WB, <span class="stringliteral">&quot;CheckInputSize&quot;</span>,</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                             <span class="stringliteral">&quot;Input data for &quot;</span> + <span class="keywordtype">string</span>(key) + <span class="stringliteral">&quot; is invalid. The size could not be less than zero.&quot;</span>);</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    }</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordflow">if</span> (this-&gt;m_nCells != n) {</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">if</span> (this-&gt;m_nCells &lt;= 0) {</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            this-&gt;m_nCells = n;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;            cout &lt;&lt; key &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; n &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; m_nCells &lt;&lt; endl;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            <span class="keywordflow">throw</span> <a class="code" href="../../d3/d58/a00285.html">ModelException</a>(MID_HS_WB, <span class="stringliteral">&quot;CheckInputSize&quot;</span>, <span class="stringliteral">&quot;Input data for &quot;</span> + <span class="keywordtype">string</span>(key) +</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                <span class="stringliteral">&quot; is invalid. All the input data should have same size.&quot;</span>);</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        }</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    }</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;}</div>
-<div class="ttc" id="a00208_html"><div class="ttname"><a href="../../dc/d31/a00208.html">clsReaches</a></div><div class="ttdoc">Read and store all reaches information as input parameters. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/db9/a00937_source.html#l00221">clsReach.h:221</a></div></div>
-<div class="ttc" id="a00208_html_ab99b0f921db10091568a8593a57a852e"><div class="ttname"><a href="../../dc/d31/a00208.html#ab99b0f921db10091568a8593a57a852e">clsReaches::GetReachNumber</a></div><div class="ttdeci">int GetReachNumber(void) const </div><div class="ttdoc">Get reach number. </div><div class="ttdef"><b>Definition:</b> <a href="../../de/db9/a00937_source.html#l00238">clsReach.h:238</a></div></div>
-<div class="ttc" id="a00285_html"><div class="ttname"><a href="../../d3/d58/a00285.html">ModelException</a></div><div class="ttdoc">Print the exception message. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d08/a00884_source.html#l00020">ModelException.h:20</a></div></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    <span class="comment">// set the dependencies</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    mdi.AddDependency(MCLS_DEP, MCLSDESC_DEP);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    res = mdi.GetXMLDocument();</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">char</span> *tmp = <span class="keyword">new</span> <span class="keywordtype">char</span>[res.size() + 1];</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    strprintf(tmp, res.size() + 1, <span class="stringliteral">&quot;%s&quot;</span>, res.c_str());</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="keywordflow">return</span> tmp;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;}</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="comment">//mdi.AddOutput(&quot;CELLH&quot;, &quot;mm&quot;, &quot;Water depth in the downslope boundary of cells&quot;, DT_Raster);</span></div>
+<div class="ttc" id="a00290_html"><div class="ttname"><a href="../../de/d25/a00290.html">MetadataInfo</a></div><div class="ttdoc">Metadata information of module. </div><div class="ttdef"><b>Definition:</b> <a href="../../d0/ddd/a01044_source.html#l00091">MetadataInfo.h:91</a></div></div>
+<div class="ttc" id="a00261_html"><div class="ttname"><a href="../../dc/d6a/a00261.html">ImplicitKinematicWave_OL</a></div><div class="ttdoc">kinematic wave method in LISEM model </div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d81/a01161_source.html#l00023">ImplicitKinematicWave.h:23</a></div></div>
+<div class="ttc" id="a01473_html_ga0087c853569e2c94d58c3499365662e9"><div class="ttname"><a href="../../de/d13/a01473.html#ga0087c853569e2c94d58c3499365662e9">MetadataInformation</a></div><div class="ttdeci">SEIMS_MODULE_API const char * MetadataInformation()</div><div class="ttdoc">function to return the XML Metadata document string </div><div class="ttdef"><b>Definition:</b> <a href="../../d1/dfa/a01097_source.html#l00015">api.cpp:15</a></div></div>
+<div class="ttc" id="a00351_html"><div class="ttname"><a href="../../d0/d48/a00351.html">SimulationModule</a></div><div class="ttdoc">Base module for all simulation modules in SEIMS. </div><div class="ttdef"><b>Definition:</b> <a href="../../d5/de7/a01048_source.html#l00047">SimulationModule.h:47</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_c9edb4490799c8df88b13ff538dfd80d.html">HS_WB</a></li><li class="navelem"><b>HS_WB.cpp</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:26 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_b89a50a3d6b2f98326f9f3f569cfd788.html">modules</a></li><li class="navelem"><a class="el" href="../../dir_e30ec826fc85f262bf1bcce3dde65013.html">hydrology</a></li><li class="navelem"><a class="el" href="../../dir_bbb78c541e1a39fa2e9f39db08059b74.html">IKW_OL</a></li><li class="navelem"><b>api.cpp</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:27 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -1,10 +1,12 @@
 var a00349 =
 [
-    [ "SSM_PE", "d7/dfc/a00349.html#a64d679e52fd4eabf1f81e7026f74c643", null ],
-    [ "~SSM_PE", "d7/dfc/a00349.html#aa64f1979edc8c8ddbbe06ea8aa5039fd", null ],
-    [ "Execute", "d7/dfc/a00349.html#a1758ef7f17c885d698cf9f86df7e0d7e", null ],
-    [ "Get1DData", "d7/dfc/a00349.html#a6192da955f6cb63161086e81c04aa7a2", null ],
-    [ "Set1DData", "d7/dfc/a00349.html#acf17f10e85bffee8fa9aa5f60f3ae602", null ],
-    [ "SetValue", "d7/dfc/a00349.html#ad555a811d3599008622ce5fa99b7b97f", null ],
-    [ "m_nCells", "d7/dfc/a00349.html#a319e8468c2f39bac6d1d6c1fb42c0275", null ]
+    [ "Settings", "d7/dfc/a00349.html#a3714d5ef1ba032f74183aacb77fd711a", null ],
+    [ "Settings", "d7/dfc/a00349.html#ad8c1aba938f51d3f013a78d93906a49c", null ],
+    [ "Settings", "d7/dfc/a00349.html#a94ca1ec029d96f54599498985581ee96", null ],
+    [ "~Settings", "d7/dfc/a00349.html#ae79d9331e3fa87d009ef089b8dade21c", null ],
+    [ "Dump", "d7/dfc/a00349.html#a0d48eeaef80dd9018b887961cba776b2", null ],
+    [ "GetValue", "d7/dfc/a00349.html#a1a0a13a9b384da8843429a84065da370", null ],
+    [ "SetSettingTagStrings", "d7/dfc/a00349.html#a4878fbbea86636d751c4b59957cf219b", null ],
+    [ "SetSettingTagStrings", "d7/dfc/a00349.html#a71cf2b1d87f7dc7951b67216df565dff", null ],
+    [ "m_Settings", "d7/dfc/a00349.html#ab995632c847e6e0122b6ff58c9075409", null ]
 ];

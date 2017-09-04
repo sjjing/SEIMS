@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/grid_layering/FlowInOut.cpp Source File</title>
+<title>SEIMS: seims_longterm_linux_gcc48/seims/pygeoc/pygeoc/raster/raster.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,355 +112,463 @@ $(document).ready(function(){initNavTree('d3/d8a/a00899_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">FlowInOut.cpp</div>  </div>
+<div class="title">raster.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">// Author: Junzhi Liu</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment">// Date: 2013-09-06</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &quot;GridLayering.h&quot;</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keywordtype">void</span> TauDEM2ArcGIS(<span class="keywordtype">int</span> nRows, <span class="keywordtype">int</span> nCols, <span class="keywordtype">int</span> *&amp;dirMatrix, <span class="keywordtype">int</span> nodata <span class="comment">/* = (int)NODATA_VALUE */</span>) {</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keywordtype">int</span> maxDirection = -1;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nRows; ++i) {</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; nCols; ++j) {</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;            <span class="keywordtype">int</span> index = i * nCols + j;</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;            <span class="keywordflow">if</span> (dirMatrix[index] &gt;= maxDirection) {</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;                maxDirection = dirMatrix[index];</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            }</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;        }</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    }</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="keywordtype">bool</span> isTauDEM = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordflow">if</span> (maxDirection == 8) {</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;        isTauDEM = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    }</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keywordflow">if</span> (isTauDEM) {</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor"></span>        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nRows; ++i) {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;            <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; nCols; ++j) {</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                <span class="keywordtype">int</span> index = i * nCols + j;</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                <span class="keywordflow">if</span> (dirMatrix[index] == 1) {</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                    dirMatrix[index] = 1;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dirMatrix[index] == 2) {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                    dirMatrix[index] = 128;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dirMatrix[index] == 3) {</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                    dirMatrix[index] = 64;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dirMatrix[index] == 4) {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                    dirMatrix[index] = 32;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dirMatrix[index] == 5) {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;                    dirMatrix[index] = 16;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dirMatrix[index] == 6) {</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                    dirMatrix[index] = 8;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dirMatrix[index] == 7) {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;                    dirMatrix[index] = 4;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;                } <span class="keywordflow">else</span> <span class="keywordflow">if</span> (dirMatrix[index] == 8) {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;                    dirMatrix[index] = 2;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;                } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                    dirMatrix[index] = nodata;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;            }</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    }</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">//if(isTauDEM)</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="comment">// cout&lt;&lt;&quot;TauDEM D8 to ArcGIS Done!&quot;&lt;&lt;endl;</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;}</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="keywordtype">bool</span> OutputFlowOutD8(<span class="keyword">const</span> <span class="keywordtype">char</span> *outputDir, mongoc_gridfs_t *gfs, <span class="keywordtype">int</span> <span class="keywordtype">id</span>, <span class="keywordtype">int</span> nRows, <span class="keywordtype">int</span> nCols, <span class="keywordtype">int</span> validCount,</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;                     <span class="keyword">const</span> <span class="keywordtype">int</span> *dirMatrix,</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                     <span class="keywordtype">int</span> dirNoDataValue, <span class="keyword">const</span> <span class="keywordtype">int</span> *compressedIndex) {</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <span class="keywordtype">float</span> *pOutput = <span class="keyword">new</span> <span class="keywordtype">float</span>[validCount];</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#pragma omp parallel for</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nRows; ++i) {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; nCols; ++j) {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="keywordtype">int</span> index = i * nCols + j;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="keywordflow">if</span> (dirMatrix[index] == dirNoDataValue || dirMatrix[index] &lt; 0) {</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;            <span class="keywordtype">int</span> ci = compressedIndex[index];</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="keywordtype">int</span> flow_dir = dirMatrix[index];</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="keywordflow">if</span> ((flow_dir &amp; 1) &amp;&amp; (j != nCols - 1) &amp;&amp; (dirMatrix[index + 1] != dirNoDataValue) &amp;&amp;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                dirMatrix[index + 1] &gt; 0) {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                    pOutput[ci] = compressedIndex[index + 1];</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((flow_dir &amp; 2) &amp;&amp; (i != nRows - 1) &amp;&amp; (j != nCols - 1) &amp;&amp;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                (dirMatrix[index + nCols + 1] != dirNoDataValue) &amp;&amp; dirMatrix[index + nCols + 1] &gt; 0) {</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                    pOutput[ci] = compressedIndex[index + nCols + 1];</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((flow_dir &amp; 4) &amp;&amp; (i != nRows - 1) &amp;&amp; (dirMatrix[index + nCols] != dirNoDataValue) &amp;&amp;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                dirMatrix[index + nCols] &gt; 0) {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                    pOutput[ci] = compressedIndex[index + nCols];</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((flow_dir &amp; 8) &amp;&amp; (i != nRows - 1) &amp;&amp; (j != 0) &amp;&amp;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                (dirMatrix[index + nCols - 1] != dirNoDataValue) &amp;&amp; dirMatrix[index + nCols - 1] &gt; 0) {</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;                    pOutput[ci] = compressedIndex[index + nCols - 1];</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((flow_dir &amp; 16) &amp;&amp; (j != 0) &amp;&amp; (dirMatrix[index - 1] != dirNoDataValue) &amp;&amp;</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;                dirMatrix[index - 1] &gt; 0) {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;                    pOutput[ci] = compressedIndex[index - 1];</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((flow_dir &amp; 32) &amp;&amp; (i != 0) &amp;&amp; (j != 0) &amp;&amp; (dirMatrix[index - nCols - 1] != dirNoDataValue) &amp;&amp;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                dirMatrix[index - nCols - 1] &gt; 0) {</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;                    pOutput[ci] = compressedIndex[index - nCols - 1];</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((flow_dir &amp; 64) &amp;&amp; (i != 0) &amp;&amp; (dirMatrix[index - nCols] != dirNoDataValue) &amp;&amp;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                dirMatrix[index - nCols] &gt; 0) {</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                    pOutput[ci] = compressedIndex[index - nCols];</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            } <span class="keywordflow">else</span> <span class="keywordflow">if</span> ((flow_dir &amp; 128) &amp;&amp; (i != 0) &amp;&amp; (j != nCols - 1) &amp;&amp;</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;                (dirMatrix[index - nCols + 1] != dirNoDataValue) &amp;&amp; dirMatrix[index - nCols + 1] &gt; 0) {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                    pOutput[ci] = compressedIndex[index - nCols + 1];</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;            } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;                    pOutput[ci] = -1;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;            }</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    }</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="comment">// output to txt</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    ostringstream oss;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    oss &lt;&lt; outputDir &lt;&lt; <span class="stringliteral">&quot;/&quot;</span> &lt;&lt; <span class="keywordtype">id</span> &lt;&lt; <span class="stringliteral">&quot;_FLOWOUT_INDEX_D8.txt&quot;</span>;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    ofstream ofs(oss.str().c_str());</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    ofs &lt;&lt; <span class="stringliteral">&quot;ID\tDownstreamID&quot;</span> &lt;&lt; endl;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; validCount; i++) {</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        ofs &lt;&lt; i &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; pOutput[i] &lt;&lt; endl;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    ofs.close();</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keywordtype">bool</span> flag = <span class="keyword">true</span>;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keywordflow">if</span> (WriteStringToMongoDB(gfs, <span class="keywordtype">id</span>, <span class="stringliteral">&quot;FLOWOUT_INDEX_D8&quot;</span>, validCount, (<span class="keywordtype">char</span> *) pOutput)) {</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;OutputD8FlowOutIndex done, n:&quot;</span> &lt;&lt; validCount &lt;&lt; endl;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    } </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        flag = <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    }</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keyword">delete</span>[] pOutput;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    pOutput = NULL;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    <span class="keywordflow">return</span> flag;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="keywordtype">int</span> OutputMultiFlowOut(<span class="keywordtype">int</span> nRows, <span class="keywordtype">int</span> nCols, <span class="keywordtype">int</span> validCount,</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                       <span class="keyword">const</span> <span class="keywordtype">int</span> *flowInDegreeMatrix, <span class="keyword">const</span> <span class="keywordtype">int</span> *reverseDirMatrix, <span class="keywordtype">int</span> dirNoDataValue,</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                       <span class="keyword">const</span> <span class="keywordtype">int</span> *compressedIndex,</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                       <span class="keywordtype">float</span> *&amp;pOutput) {</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordtype">int</span> nAllOut = 0;</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;<span class="preprocessor">#pragma omp parallel for reduction(+:nAllOut)</span></div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nRows; ++i) {</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; nCols; ++j) {</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;            <span class="keywordflow">if</span> (reverseDirMatrix[i * nCols + j] == dirNoDataValue || reverseDirMatrix[i * nCols + j] &lt; 0) {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;            }</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            <span class="comment">//cout&lt;&lt;degreeMatrix[i * nCols + j]&lt;&lt;&quot;,&quot;;</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;            nAllOut += flowInDegreeMatrix[i * nCols + j];</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        }</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    }</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    <span class="keywordtype">int</span> nOutput = nAllOut + validCount + 1;</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    pOutput = <span class="keyword">new</span> <span class="keywordtype">float</span>[nOutput];</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    pOutput[0] = validCount;</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    <span class="keywordtype">int</span> counter = 1;</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nRows; ++i) {</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; nCols; ++j) {</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            <span class="keywordtype">int</span> index = i * nCols + j;</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;            <span class="keywordflow">if</span> (reverseDirMatrix[index] == dirNoDataValue || reverseDirMatrix[index] &lt; 0) {</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;            }</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            pOutput[counter++] = flowInDegreeMatrix[index];</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;            <span class="keywordtype">int</span> acc_flowin_dir = reverseDirMatrix[index];</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;            <span class="comment">//cout &lt;&lt; &quot;index: &quot; &lt;&lt;index&lt;&lt; &quot;flowInNum: &quot;&lt;&lt; pOutput[counter-1] &lt;&lt; &quot; accFlowInDir: &quot; &lt;&lt; acc_flowin_dir &lt;&lt; &quot; i: &quot;&lt;&lt;i&lt;&lt;&quot; j: &quot;&lt;&lt;j&lt;&lt;&quot; :&quot;;</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="comment"></span>            <span class="keywordflow">if</span> (acc_flowin_dir &amp; 1) {</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                <span class="keywordflow">if</span> (j != nCols - 1 &amp;&amp; reverseDirMatrix[index + 1] != dirNoDataValue</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;                    &amp;&amp; reverseDirMatrix[index + 1] &gt;= 0) {</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                    pOutput[counter++] = compressedIndex[index + 1];</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                    <span class="comment">//cout &lt;&lt; pOutput[counter-1] &lt;&lt; &quot;, &quot;;</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;                }</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            }</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            <span class="keywordflow">if</span> (acc_flowin_dir &amp; 2) {</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                <span class="keywordflow">if</span> (i != nRows - 1 &amp;&amp; j != nCols - 1 &amp;&amp; reverseDirMatrix[index + nCols + 1] != dirNoDataValue &amp;&amp;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                    reverseDirMatrix[index + nCols + 1] &gt;= 0) {</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                    pOutput[counter++] = compressedIndex[index + nCols + 1];</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                    <span class="comment">//cout &lt;&lt; pOutput[counter-1] &lt;&lt; &quot;, &quot;;</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                }</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;            }</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;            <span class="keywordflow">if</span> (acc_flowin_dir &amp; 4) {</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                <span class="keywordflow">if</span> (i != nRows - 1 &amp;&amp; reverseDirMatrix[index + nCols] != dirNoDataValue &amp;&amp;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;                    reverseDirMatrix[index + nCols] &gt;= 0) {</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;                    pOutput[counter++] = compressedIndex[index + nCols];</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;                    <span class="comment">//cout &lt;&lt; pOutput[counter-1] &lt;&lt; &quot;, &quot;;</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;                }</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;            }</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;            <span class="keywordflow">if</span> (acc_flowin_dir &amp; 8) {</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;                <span class="keywordflow">if</span> (i != nRows - 1 &amp;&amp; j != 0 &amp;&amp; reverseDirMatrix[index + nCols - 1] != dirNoDataValue &amp;&amp;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;                    reverseDirMatrix[index + nCols - 1] &gt;= 0) {</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;                    pOutput[counter++] = compressedIndex[index + nCols - 1];</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;                    <span class="comment">//cout &lt;&lt; pOutput[counter-1] &lt;&lt; &quot;, &quot;;</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;                }</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;            }</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;            <span class="keywordflow">if</span> (acc_flowin_dir &amp; 16) {</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                <span class="keywordflow">if</span> (j != 0 &amp;&amp; reverseDirMatrix[index - 1] != dirNoDataValue &amp;&amp; reverseDirMatrix[index - 1] &gt;= 0) {</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;                    pOutput[counter++] = compressedIndex[index - 1];</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                    <span class="comment">//cout &lt;&lt; pOutput[counter-1] &lt;&lt; &quot;, &quot;;</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;                }</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;            }</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;            <span class="keywordflow">if</span> (acc_flowin_dir &amp; 32) {</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                <span class="keywordflow">if</span> (i != 0 &amp;&amp; j != 0 &amp;&amp; reverseDirMatrix[index - nCols - 1] != dirNoDataValue &amp;&amp;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                    reverseDirMatrix[index - nCols - 1] &gt;= 0) {</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                    pOutput[counter++] = compressedIndex[index - nCols - 1];</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                    <span class="comment">//cout &lt;&lt; pOutput[counter-1] &lt;&lt; &quot;, &quot;;</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                }</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            }</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            <span class="keywordflow">if</span> (acc_flowin_dir &amp; 64) {</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                <span class="keywordflow">if</span> (i != 0 &amp;&amp; reverseDirMatrix[index - nCols] != dirNoDataValue</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                    &amp;&amp; reverseDirMatrix[index - nCols] &gt;= 0) {</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                    pOutput[counter++] = compressedIndex[index - nCols];</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;                    <span class="comment">//cout &lt;&lt; pOutput[counter-1] &lt;&lt; &quot;, &quot;;</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;                }</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            }</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            <span class="keywordflow">if</span> (acc_flowin_dir &amp; 128) {</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                <span class="keywordflow">if</span> (i != 0 &amp;&amp; j != nCols - 1 &amp;&amp; reverseDirMatrix[index - nCols + 1] != dirNoDataValue &amp;&amp;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;                    reverseDirMatrix[index - nCols + 1] &gt;= 0) {</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;                    pOutput[counter++] = compressedIndex[index - nCols + 1];</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;                    <span class="comment">//cout &lt;&lt; pOutput[counter-1] &lt;&lt; &quot;, &quot;;</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;                }</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;            }</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            <span class="comment">//cout&lt;&lt;endl;</span></div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        }</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    }</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;OutputMultiFlowOut n:&quot;</span> &lt;&lt; nOutput &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; nOutput - counter &lt;&lt; endl;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordflow">return</span> nOutput;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;}</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="comment">//#define PI 3.1415926f // defined in utils.h</span></div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;<span class="keywordtype">float</span> GetPercentage(<span class="keywordtype">float</span> angle, <span class="keywordtype">int</span> di, <span class="keywordtype">int</span> dj) {</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="keywordtype">float</span> a = 4.f * angle / PI;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keywordtype">int</span> n = int(a) % 7;</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keywordtype">float</span> r = a - n;</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <span class="keywordflow">switch</span> (n) {</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        <span class="keywordflow">case</span> 0: {</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            <span class="keywordflow">return</span> (di != 0 ? r : 1 - r);</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        }</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="keywordflow">case</span> 1: {</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            <span class="keywordflow">return</span> (dj == 0 ? r : 1 - r);</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        }</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="keywordflow">case</span> 2: {</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            <span class="keywordflow">return</span> (dj != 0 ? r : 1 - r);</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        }</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        <span class="keywordflow">case</span> 3: {</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            <span class="keywordflow">return</span> (di == 0 ? r : 1 - r);</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        }</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="keywordflow">case</span> 4: {</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            <span class="keywordflow">return</span> (di != 0 ? r : 1 - r);</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        }</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        <span class="keywordflow">case</span> 5: {</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            <span class="keywordflow">return</span> (dj == 0 ? r : 1 - r);</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        }</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="keywordflow">case</span> 6: {</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;            <span class="keywordflow">return</span> (dj != 0 ? r : 1 - r);</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        }</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        <span class="keywordflow">case</span> 7: {</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            <span class="keywordflow">return</span> (di == 0 ? r : 1 - r);</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        }</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="keywordflow">default</span>: {</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            cout &lt;&lt; <span class="stringliteral">&quot;Invalid angle value: &quot;</span> &lt;&lt; angle &lt;&lt; endl;</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            exit(-1);</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        }</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    }</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;}</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="keywordtype">int</span> OutputFlowOutPercentageDinf(<span class="keywordtype">int</span> nRows, <span class="keywordtype">int</span> nCols, <span class="keywordtype">int</span> validCount, <span class="keyword">const</span> <span class="keywordtype">float</span> *angle,</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;                                <span class="keyword">const</span> <span class="keywordtype">int</span> *degreeMatrix, <span class="keyword">const</span> <span class="keywordtype">int</span> *reverseDirMatrix, <span class="keywordtype">int</span> dirNoDataValue,</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                                <span class="keyword">const</span> <span class="keywordtype">int</span> *compressedIndex, <span class="keywordtype">float</span> *&amp;pOutput) {</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <span class="keywordtype">int</span> nAllOut = 0;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="preprocessor">#pragma omp parallel for reduction(+:nAllOut)</span></div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="preprocessor"></span>    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nRows; ++i) {</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; nCols; ++j) {</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;            <span class="keywordflow">if</span> (reverseDirMatrix[i * nCols + j] == dirNoDataValue || reverseDirMatrix[i * nCols + j] &lt; 0) {</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;                <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            }</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;            nAllOut += degreeMatrix[i * nCols + j];</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        }</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    }</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keywordtype">int</span> nOutput = nAllOut + validCount + 1;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    pOutput = <span class="keyword">new</span> <span class="keywordtype">float</span>[nOutput];</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    pOutput[0] = validCount;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="keywordtype">int</span> counter = 1;</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    <span class="comment">//int fromRow, fromCol;</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="keywordflow">for</span> (<span class="keywordtype">int</span> i = 0; i &lt; nRows; ++i) {</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        <span class="keywordflow">for</span> (<span class="keywordtype">int</span> j = 0; j &lt; nCols; ++j) {</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;            <span class="keywordtype">int</span> index = i * nCols + j;</div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;            <span class="keywordflow">if</span> (reverseDirMatrix[index] == dirNoDataValue || reverseDirMatrix[index] &lt; 0) {</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;                <span class="keywordflow">continue</span>;</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;            }</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            pOutput[counter++] = degreeMatrix[index];</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;            <span class="keywordtype">int</span> flow_dir = reverseDirMatrix[index];</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;            <span class="keywordflow">if</span> ((flow_dir &amp; 1) &amp;&amp; (j != nCols - 1) &amp;&amp; (reverseDirMatrix[index + 1] != dirNoDataValue) &amp;&amp;</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                reverseDirMatrix[index + 1] &gt;= 0) {</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;                pOutput[counter++] = GetPercentage(angle[index + 1], 0, 1);</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;            }</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;            <span class="keywordflow">if</span> (flow_dir &amp; 2) {</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;                <span class="keywordflow">if</span> (i != nRows - 1 &amp;&amp; j != nCols - 1 &amp;&amp; reverseDirMatrix[index + nCols + 1] != dirNoDataValue &amp;&amp;</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;                    reverseDirMatrix[index + nCols + 1] &gt;= 0) {</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                        pOutput[counter++] = GetPercentage(angle[index + nCols + 1], 1, 1);</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                }</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;            }</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;            <span class="keywordflow">if</span> (flow_dir &amp; 4) {</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;                <span class="keywordflow">if</span> (i != nRows - 1 &amp;&amp; reverseDirMatrix[index + nCols] != dirNoDataValue &amp;&amp;</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;                    reverseDirMatrix[index + nCols] &gt;= 0) {</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                        pOutput[counter++] = GetPercentage(angle[index + nCols], 1, 0);</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;                }</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;            }</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;            <span class="keywordflow">if</span> (flow_dir &amp; 8) {</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                <span class="keywordflow">if</span> (i != nRows - 1 &amp;&amp; j != 0 &amp;&amp; reverseDirMatrix[index + nCols - 1] != dirNoDataValue &amp;&amp;</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;                    reverseDirMatrix[index + nCols - 1] &gt;= 0) {</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;                        pOutput[counter++] = GetPercentage(angle[index + nCols - 1], 1, -1);</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;                }</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            }</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;            <span class="keywordflow">if</span> (flow_dir &amp; 16) {</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;                <span class="keywordflow">if</span> (j != 0 &amp;&amp; reverseDirMatrix[index - 1] != dirNoDataValue &amp;&amp; reverseDirMatrix[index - 1] &gt;= 0) {</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;                    pOutput[counter++] = GetPercentage(angle[index - 1], 0, -1);</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;                }</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;            }</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            <span class="keywordflow">if</span> (flow_dir &amp; 32) {</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;                <span class="keywordflow">if</span> (i != 0 &amp;&amp; j != 0 &amp;&amp; reverseDirMatrix[index - nCols - 1] != dirNoDataValue &amp;&amp;</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;                    reverseDirMatrix[index - nCols - 1] &gt;= 0) {</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;                        pOutput[counter++] = GetPercentage(angle[index - nCols - 1], -1, -1);</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;                }</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;            }</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;            <span class="keywordflow">if</span> (flow_dir &amp; 64) {</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;                <span class="keywordflow">if</span> (i != 0 &amp;&amp; reverseDirMatrix[index - nCols] != dirNoDataValue</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;                    &amp;&amp; reverseDirMatrix[index - nCols] &gt;= 0) {</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;                        pOutput[counter++] = GetPercentage(angle[index - nCols], -1, 0);</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;                }</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;            }</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;            <span class="keywordflow">if</span> (flow_dir &amp; 128) {</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;                <span class="keywordflow">if</span> (i != 0 &amp;&amp; j != nCols - 1 &amp;&amp; reverseDirMatrix[index - nCols + 1] != dirNoDataValue &amp;&amp;</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;                    reverseDirMatrix[index - nCols + 1] &gt;= 0) {</div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;                        pOutput[counter++] = GetPercentage(angle[index - nCols + 1], -1, 1);</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;                }</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;            }</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        }</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    }</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    cout &lt;&lt; <span class="stringliteral">&quot;OutputFlowOutPercentageDinf n:&quot;</span> &lt;&lt; nOutput &lt;&lt; <span class="stringliteral">&quot;\t&quot;</span> &lt;&lt; nOutput - counter &lt;&lt; endl;</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    <span class="keywordflow">return</span> nOutput;</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;}</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Raster Utility Class</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    author: Liangjun Zhu</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">    changlog: 12-04-12 jz - origin version</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">              16-07-01 lj - reorganized for pygeoc</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">              17-06-25 lj - check by pylint and reformat by Google style</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="stringliteral">              17-07-20 lj - add GDALDataType dict, and WhiteBox GAT D8 code</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">import</span> os</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">import</span> subprocess</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">import</span> numpy</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">from</span> osgeo.gdal <span class="keyword">import</span> GDT_CInt16, GDT_CInt32, GDT_CFloat32, GDT_CFloat64</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">from</span> osgeo.gdal <span class="keyword">import</span> GDT_UInt32, GDT_Int32, GDT_Float32, GDT_Float64</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">from</span> osgeo.gdal <span class="keyword">import</span> GDT_Unknown, GDT_Byte, GDT_UInt16, GDT_Int16</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">from</span> osgeo.gdal <span class="keyword">import</span> GetDriverByName <span class="keyword">as</span> gdal_GetDriverByName</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">from</span> osgeo.gdal <span class="keyword">import</span> Open <span class="keyword">as</span> gdal_Open</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">from</span> osgeo.ogr <span class="keyword">import</span> Open <span class="keyword">as</span> ogr_Open</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">from</span> osgeo.osr <span class="keyword">import</span> SpatialReference <span class="keyword">as</span> osr_SpatialReference</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">from</span> ..utils.utils <span class="keyword">import</span> MathClass, UtilClass, DEFAULT_NODATA, DELTA</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;GDALDataType = {0: GDT_Unknown,  <span class="comment"># Unknown or unspecified type</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;                1: GDT_Byte,  <span class="comment"># Eight bit unsigned integer</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;                2: GDT_UInt16,  <span class="comment"># Sixteen bit unsigned integer</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;                3: GDT_Int16,  <span class="comment"># Sixteen bit signed integer</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;                4: GDT_UInt32,  <span class="comment"># Thirty two bit unsigned integer</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;                5: GDT_Int32,  <span class="comment"># Thirty two bit signed integer</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;                6: GDT_Float32,  <span class="comment"># Thirty two bit floating point</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;                7: GDT_Float64,  <span class="comment"># Sixty four bit floating point</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;                8: GDT_CInt16,  <span class="comment"># Complex Int16</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                9: GDT_CInt32,  <span class="comment"># Complex Int32</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                10: GDT_CFloat32,  <span class="comment"># Complex Float32</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                11: GDT_CFloat64  <span class="comment"># Complex Float64</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                }</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="keyword">class </span>Raster(object):</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral">    Basic Raster Class</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">    Build-in functions:</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral">        1. get_average()</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral">        2. get_max()</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="stringliteral">        3. get_min()</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="stringliteral">        4. get_std()</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="stringliteral">        5. get_sum()</span></div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="stringliteral">        6. get_value_by_row_col(row, col)</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="stringliteral">        7. get_value_by_xy(x, y)</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/dce/a00337.html#a8b98acc50549c985d3869ec5c9a652d2">__init__</a>(self, n_rows, n_cols, data, nodata_value=None, geotransform=None,</div>
+<div class="line"><a name="l00054"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#af10367b62824e4b4e4af9979d766cf3a">   54</a></span>&#160;                 srs=<span class="keywordtype">None</span>, datatype=GDT_Float32):</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Constructor</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="stringliteral">            n_rows: row count</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="stringliteral">            n_cols: col count</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;<span class="stringliteral">            data: 2D array data</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="stringliteral">            nodata_value: NODATA value, None as default</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;<span class="stringliteral">            geotransform: geographic transformation, None as default</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="stringliteral">            srs: coordinate system, None as default</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="stringliteral">            datatype: Raster datatype</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        self.<a class="code" href="../../df/d91/a00335.html#a1b909b576f3101f808d2b80bba8deabe">nRows</a> = n_rows</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        self.<a class="code" href="../../df/d91/a00335.html#a6e12cd26eb4ffda8575539a26312d031">nCols</a> = n_cols</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        self.<a class="code" href="../../df/d91/a00335.html#acdba1ae0714d80bb4a4c66fe17a5b7b7">data</a> = numpy.copy(data)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        self.<a class="code" href="../../df/d91/a00335.html#a5e6f06706243cfac92588041d689c4dc">noDataValue</a> = nodata_value</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        self.<a class="code" href="../../df/d91/a00335.html#a3d627fc99efe408ac2f1c7653e1afd3d">geotrans</a> = geotransform</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        self.<a class="code" href="../../df/d91/a00335.html#a0a0fcd5fc3c385d45555b05ced2996d3">srs</a> = srs</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        self.<a class="code" href="../../df/d91/a00335.html#a0727e4d24d911358db4535f975f73353">dataType</a> = datatype</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        self.<a class="code" href="../../df/d91/a00335.html#a2c625c066f2be2147641cbe18e4fe482">dx</a> = geotransform[1]</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        self.<a class="code" href="../../df/d91/a00335.html#acbfec884f3307b9c12df4820a79d3e77">xMin</a> = geotransform[0]</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        self.<a class="code" href="../../df/d91/a00335.html#a8204d1287f9a057b89fff0f91f67bce7">xMax</a> = geotransform[0] + n_cols * geotransform[1]</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        self.<a class="code" href="../../df/d91/a00335.html#a9c192f4554d798c54fb3c7c97a4e5ebe">yMax</a> = geotransform[3]</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        self.<a class="code" href="../../df/d91/a00335.html#ac2dcb576a5b3f50015e23bf9e222c9dd">yMin</a> = geotransform[3] + n_rows * geotransform[5]</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        self.<a class="code" href="../../df/d91/a00335.html#ae54688d260fad23079e80db4229b7c41">validZone</a> = self.<a class="code" href="../../df/d91/a00335.html#acdba1ae0714d80bb4a4c66fe17a5b7b7">data</a> != self.<a class="code" href="../../df/d91/a00335.html#a5e6f06706243cfac92588041d689c4dc">noDataValue</a></div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;        self.<a class="code" href="../../df/d91/a00335.html#a339ac28dc9c0854ca284a045252db34f">validValues</a> = numpy.where(self.<a class="code" href="../../df/d91/a00335.html#ae54688d260fad23079e80db4229b7c41">validZone</a>, self.<a class="code" href="../../df/d91/a00335.html#acdba1ae0714d80bb4a4c66fe17a5b7b7">data</a>, numpy.nan)</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a815defb5ce864268d9ac412c33cefcd4">   81</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/d91/a00335.html#a815defb5ce864268d9ac412c33cefcd4">get_type</a>(self):</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;get datatype as GDALDataType&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="keyword">assert</span> self.<a class="code" href="../../df/d91/a00335.html#a0727e4d24d911358db4535f975f73353">dataType</a> <span class="keywordflow">in</span> GDALDataType</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="keywordflow">return</span> GDALDataType.get(self.<a class="code" href="../../df/d91/a00335.html#a0727e4d24d911358db4535f975f73353">dataType</a>)</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a6a6f8c4ba2a59b8346d616fb65e71f2d">   86</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/d91/a00335.html#a6a6f8c4ba2a59b8346d616fb65e71f2d">get_average</a>(self):</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get average exclude NODATA&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        <span class="keywordflow">return</span> numpy.nanmean(self.<a class="code" href="../../df/d91/a00335.html#a339ac28dc9c0854ca284a045252db34f">validValues</a>)</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a81f105858818b28a586a674dd252dbd5">   90</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/d91/a00335.html#a81f105858818b28a586a674dd252dbd5">get_max</a>(self):</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get maximum exclude NODATA&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="keywordflow">return</span> numpy.nanmax(self.<a class="code" href="../../df/d91/a00335.html#a339ac28dc9c0854ca284a045252db34f">validValues</a>)</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#afc6f866e06b8530b93a68d7c20ef487a">   94</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/d91/a00335.html#afc6f866e06b8530b93a68d7c20ef487a">get_min</a>(self):</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get minimum exclude NODATA&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">return</span> numpy.nanmin(self.<a class="code" href="../../df/d91/a00335.html#a339ac28dc9c0854ca284a045252db34f">validValues</a>)</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#ac0581c864adda6b3ba27f83084304a80">   98</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/d91/a00335.html#ac0581c864adda6b3ba27f83084304a80">get_std</a>(self):</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get Standard Deviation exclude NODATA&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="keywordflow">return</span> numpy.nanstd(self.<a class="code" href="../../df/d91/a00335.html#a339ac28dc9c0854ca284a045252db34f">validValues</a>)</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;</div>
+<div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#af8ee60f4c02627db4ce0c69c0bdf8096">  102</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/d91/a00335.html#af8ee60f4c02627db4ce0c69c0bdf8096">get_sum</a>(self):</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get sum exclude NODATA&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        <span class="keywordflow">return</span> numpy.nansum(self.<a class="code" href="../../df/d91/a00335.html#a339ac28dc9c0854ca284a045252db34f">validValues</a>)</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;</div>
+<div class="line"><a name="l00106"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#abb17b5edb91d5d2efdbe27a5d49a0fb3">  106</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/d91/a00335.html#abb17b5edb91d5d2efdbe27a5d49a0fb3">get_value_by_row_col</a>(self, row, col):</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get raster value by (row, col)</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="stringliteral">            row: row number</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="stringliteral">            col: col number</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="stringliteral">        Returns:</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="stringliteral">            raster value, None if the input are invalid</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="keywordflow">if</span> row &lt; 0 <span class="keywordflow">or</span> row &gt;= self.<a class="code" href="../../df/d91/a00335.html#a1b909b576f3101f808d2b80bba8deabe">nRows</a> <span class="keywordflow">or</span> col &lt; 0 <span class="keywordflow">or</span> col &gt;= self.<a class="code" href="../../df/d91/a00335.html#a6e12cd26eb4ffda8575539a26312d031">nCols</a>:</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;The row or col must be &gt;=0 and less than &quot;</span></div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                             <span class="stringliteral">&quot;nRows (%d) or nCols (%d)!&quot;</span> % (self.<a class="code" href="../../df/d91/a00335.html#a1b909b576f3101f808d2b80bba8deabe">nRows</a>, self.<a class="code" href="../../df/d91/a00335.html#a6e12cd26eb4ffda8575539a26312d031">nCols</a>))</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;            value = self.<a class="code" href="../../df/d91/a00335.html#acdba1ae0714d80bb4a4c66fe17a5b7b7">data</a>[int(round(row))][int(round(col))]</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;            <span class="keywordflow">if</span> value == self.<a class="code" href="../../df/d91/a00335.html#a5e6f06706243cfac92588041d689c4dc">noDataValue</a>:</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                <span class="keywordflow">return</span> value</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;</div>
+<div class="line"><a name="l00125"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#a1818250e4c92a08f941d82820b95d12c">  125</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/d91/a00335.html#a1818250e4c92a08f941d82820b95d12c">get_value_by_xy</a>(self, x, y):</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get raster value by xy coordinates</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;<span class="stringliteral">            x: X Coordinate</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;<span class="stringliteral">            y: Y Coordinate</span></div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;<span class="stringliteral">        Returns:</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;<span class="stringliteral">            raster value, None if the input are invalid</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keywordflow">if</span> x &lt; self.<a class="code" href="../../df/d91/a00335.html#acbfec884f3307b9c12df4820a79d3e77">xMin</a> <span class="keywordflow">or</span> x &gt; self.<a class="code" href="../../df/d91/a00335.html#a8204d1287f9a057b89fff0f91f67bce7">xMax</a> <span class="keywordflow">or</span> y &lt; self.<a class="code" href="../../df/d91/a00335.html#ac2dcb576a5b3f50015e23bf9e222c9dd">yMin</a> <span class="keywordflow">or</span> y &gt; self.<a class="code" href="../../df/d91/a00335.html#a9c192f4554d798c54fb3c7c97a4e5ebe">yMax</a>:</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;            <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;            <span class="comment"># raise ValueError(&quot;The x or y value must be within the Min and Max!&quot;)</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;            row = self.<a class="code" href="../../df/d91/a00335.html#a1b909b576f3101f808d2b80bba8deabe">nRows</a> - int(numpy.ceil((y - self.<a class="code" href="../../df/d91/a00335.html#ac2dcb576a5b3f50015e23bf9e222c9dd">yMin</a>) / self.<a class="code" href="../../df/d91/a00335.html#a2c625c066f2be2147641cbe18e4fe482">dx</a>))</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            col = int(numpy.floor((x - self.<a class="code" href="../../df/d91/a00335.html#acbfec884f3307b9c12df4820a79d3e77">xMin</a>) / self.<a class="code" href="../../df/d91/a00335.html#a2c625c066f2be2147641cbe18e4fe482">dx</a>))</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            value = self.<a class="code" href="../../df/d91/a00335.html#acdba1ae0714d80bb4a4c66fe17a5b7b7">data</a>[row][col]</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            <span class="keywordflow">if</span> value == self.<a class="code" href="../../df/d91/a00335.html#a5e6f06706243cfac92588041d689c4dc">noDataValue</a>:</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                <span class="keywordflow">return</span> <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                <span class="keywordflow">return</span> value</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno"><a class="line" href="../../df/d91/a00335.html#aaaea084aba86e1d3bbbe33f3b22f36c9">  146</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../df/d91/a00335.html#aaaea084aba86e1d3bbbe33f3b22f36c9">get_central_coors</a>(self, row, col):</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get the coordinates of central grid</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="stringliteral">            row: row number</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="stringliteral">            col: col number</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="stringliteral">        Returns:</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="stringliteral">            XY coordinates. If the row or col are invalid, raise ValueError.</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">if</span> row &lt; 0 <span class="keywordflow">or</span> row &gt;= self.<a class="code" href="../../df/d91/a00335.html#a1b909b576f3101f808d2b80bba8deabe">nRows</a> <span class="keywordflow">or</span> col &lt; 0 <span class="keywordflow">or</span> col &gt;= self.<a class="code" href="../../df/d91/a00335.html#a6e12cd26eb4ffda8575539a26312d031">nCols</a>:</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&quot;The row or col must be &gt;=0 and less than &quot;</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                             <span class="stringliteral">&quot;nRows (%d) or nCols (%d)!&quot;</span> % (self.<a class="code" href="../../df/d91/a00335.html#a1b909b576f3101f808d2b80bba8deabe">nRows</a>, self.<a class="code" href="../../df/d91/a00335.html#a6e12cd26eb4ffda8575539a26312d031">nCols</a>))</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;            tmpx = self.<a class="code" href="../../df/d91/a00335.html#acbfec884f3307b9c12df4820a79d3e77">xMin</a> + (col - 0.5) * self.<a class="code" href="../../df/d91/a00335.html#a2c625c066f2be2147641cbe18e4fe482">dx</a></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;            tmpy = self.<a class="code" href="../../df/d91/a00335.html#a9c192f4554d798c54fb3c7c97a4e5ebe">yMax</a> - (row - 0.5) * self.<a class="code" href="../../df/d91/a00335.html#a2c625c066f2be2147641cbe18e4fe482">dx</a></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;            <span class="keywordflow">return</span> tmpx, tmpy</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="keyword">class </span><a class="code" href="../../d4/dce/a00337.html">RasterUtilClass</a>(object):</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Utility function to handle raster data.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;</div>
+<div class="line"><a name="l00167"></a><span class="lineno"><a class="line" href="../../d4/dce/a00337.html#a8b98acc50549c985d3869ec5c9a652d2">  167</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/dce/a00337.html#a8b98acc50549c985d3869ec5c9a652d2">__init__</a>(self):</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Empty&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00172"></a><span class="lineno"><a class="line" href="../../d4/dce/a00337.html#a15df9a405486f0b1189f208a463e04a8">  172</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/dce/a00337.html#a15df9a405486f0b1189f208a463e04a8">read_raster</a>(raster_file):</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Read raster by GDAL.</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="stringliteral">            raster_file: raster file path</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="stringliteral">        Returns:</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="stringliteral">            Raster object.</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        ds = gdal_Open(raster_file)</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        band = ds.GetRasterBand(1)</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        data = band.ReadAsArray()</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        xsize = band.XSize</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        ysize = band.YSize</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        nodata_value = band.GetNoDataValue()</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        geotrans = ds.GetGeoTransform()</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        dttype = band.DataType</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        srs = osr_SpatialReference()</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        srs.ImportFromWkt(ds.GetProjection())</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="comment"># print srs.ExportToProj4()</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        <span class="keywordflow">if</span> nodata_value <span class="keywordflow">is</span> <span class="keywordtype">None</span>:</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;            nodata_value = DEFAULT_NODATA</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        band = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        ds = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="../../df/d91/a00335.html">Raster</a>(ysize, xsize, data, nodata_value, geotrans, srs, dttype)</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00200"></a><span class="lineno"><a class="line" href="../../d4/dce/a00337.html#a1b51a54140781fcfdf2935c387dce9c3">  200</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/dce/a00337.html#a1b51a54140781fcfdf2935c387dce9c3">get_mask_from_raster</a>(rasterfile, outmaskfile):</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Generate mask data from a given raster data.</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="stringliteral">            rasterfile: raster file path</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="stringliteral">            outmaskfile: output mask file path</span></div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="stringliteral">        Returns:</span></div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="stringliteral">            Raster object of mask data.</span></div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        raster_r = RasterUtilClass.read_raster(rasterfile)</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        xsize = raster_r.nCols</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        ysize = raster_r.nRows</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        nodata_value = raster_r.noDataValue</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;        srs = raster_r.srs</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        x_min = raster_r.xMin</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        y_max = raster_r.yMax</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;        dx = raster_r.dx</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;        data = raster_r.data</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        i_min = ysize - 1</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        i_max = 0</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        j_min = xsize - 1</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        j_max = 0</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(ysize):</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(xsize):</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;                <span class="keywordflow">if</span> abs(data[i][j] - nodata_value) &gt; DELTA:</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;                    i_min = min(i, i_min)</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;                    i_max = max(i, i_max)</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;                    j_min = min(j, j_min)</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;                    j_max = max(j, j_max)</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <span class="comment"># print i_min, i_max, j_min, j_max</span></div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        y_size_mask = i_max - i_min + 1</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        x_size_mask = j_max - j_min + 1</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        x_min_mask = x_min + j_min * dx</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        y_max_mask = y_max - i_min * dx</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        <span class="keywordflow">print</span> (<span class="stringliteral">&quot;%dx%d -&gt; %dx%d&quot;</span> % (xsize, ysize, x_size_mask, y_size_mask))</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        mask = numpy.zeros((y_size_mask, x_size_mask))</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(y_size_mask):</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(x_size_mask):</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;                <span class="keywordflow">if</span> abs(data[i + i_min][j + j_min] - nodata_value) &gt; DELTA:</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;                    mask[i][j] = 1</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;                <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;                    mask[i][j] = DEFAULT_NODATA</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        mask_geotrans = [x_min_mask, dx, 0, y_max_mask, 0, -dx]</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        RasterUtilClass.write_gtiff_file(outmaskfile, y_size_mask, x_size_mask, mask,</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                                         mask_geotrans, srs, DEFAULT_NODATA, GDT_Int32)</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="../../df/d91/a00335.html">Raster</a>(y_size_mask, x_size_mask, mask, DEFAULT_NODATA, mask_geotrans, srs)</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00254"></a><span class="lineno"><a class="line" href="../../d4/dce/a00337.html#a7d310c06a103c88fafee213b02100fc5">  254</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/dce/a00337.html#a7d310c06a103c88fafee213b02100fc5">raster_reclassify</a>(srcfile, v_dict, dstfile, gdaltype=GDT_Float32):</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Reclassify raster by given classifier dict.</span></div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="stringliteral">            srcfile: source raster file</span></div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="stringliteral">            v_dict: classifier dict</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="stringliteral">            dstfile: destination file path</span></div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="stringliteral">            gdaltype: GDT_Float32 as default. Also, it can be integer, e.g., 4 ==&gt; GDT_UInt32</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;        src_r = RasterUtilClass.read_raster(srcfile)</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;        src_data = src_r.data</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        dst_data = numpy.copy(src_data)</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        <span class="keywordflow">if</span> gdaltype == GDT_Float32 <span class="keywordflow">and</span> src_r.dataType != GDT_Float32:</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;            gdaltype = src_r.dataType</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        no_data = src_r.noDataValue</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        new_no_data = DEFAULT_NODATA</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        <span class="keywordflow">if</span> gdaltype <span class="keywordflow">in</span> [GDT_Unknown, GDT_Byte, GDT_UInt16, GDT_UInt32]:</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;            new_no_data = 0</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> MathClass.floatequal(new_no_data, src_r.noDataValue):</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;            <span class="keywordflow">if</span> src_r.noDataValue <span class="keywordflow">not</span> <span class="keywordflow">in</span> v_dict:</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;                v_dict[src_r.noDataValue] = new_no_data</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;                no_data = new_no_data</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;        <span class="keywordflow">for</span> k, v <span class="keywordflow">in</span> v_dict.iteritems():</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            dst_data[src_data == k] = v</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        RasterUtilClass.write_gtiff_file(dstfile, src_r.nRows, src_r.nCols, dst_data,</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;                                         src_r.geotrans, src_r.srs, no_data, gdaltype)</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/dce/a00337.html#a6cd5f84cc0c320f85b1d4654a27375f4">write_gtiff_file</a>(f_name, n_rows, n_cols, data, geotransform, srs, nodata_value,</div>
+<div class="line"><a name="l00283"></a><span class="lineno"><a class="line" href="../../d4/dce/a00337.html#a6cd5f84cc0c320f85b1d4654a27375f4">  283</a></span>&#160;                         gdal_type=GDT_Float32):</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Output Raster to GeoTiff format file.</span></div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="stringliteral">            f_name: output gtiff file name</span></div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="stringliteral">            n_rows: Row count</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="stringliteral">            n_cols: Col count</span></div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="stringliteral">            data: 2D array data</span></div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="stringliteral">            geotransform: geographic transformation</span></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="stringliteral">            srs: coordinate system</span></div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<span class="stringliteral">            nodata_value: nodata_flow value</span></div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="stringliteral">            gdal_type: output raster data type, GDT_Float32 as default</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        driver = gdal_GetDriverByName(<span class="stringliteral">&quot;GTiff&quot;</span>)</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        ds = driver.Create(f_name, n_cols, n_rows, 1, gdal_type)</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        ds.SetGeoTransform(geotransform)</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;        <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;            ds.SetProjection(srs.ExportToWkt())</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        <span class="keywordflow">except</span> AttributeError <span class="keywordflow">or</span> Exception:</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;            ds.SetProjection(srs)</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        ds.GetRasterBand(1).SetNoDataValue(nodata_value)</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        ds.GetRasterBand(1).WriteArray(data)</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        ds = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00307"></a><span class="lineno"><a class="line" href="../../d4/dce/a00337.html#a765c651663ee2cbc117b4d348febd078">  307</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/dce/a00337.html#a765c651663ee2cbc117b4d348febd078">write_asc_file</a>(filename, data, xsize, ysize, geotransform, nodata_value):</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Output Raster to ASCII file.</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;<span class="stringliteral">            filename: output ASCII filename</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="stringliteral">            data: 2D array data</span></div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;<span class="stringliteral">            xsize: Col count</span></div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="stringliteral">            ysize: Row count</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="stringliteral">            geotransform: geographic transformation</span></div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="stringliteral">            nodata_value: nodata_flow value</span></div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        header = <span class="stringliteral">&quot;&quot;&quot;NCOLS %d</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="stringliteral">    NROWS %d</span></div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="stringliteral">    XLLCENTER %f</span></div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="stringliteral">    YLLCENTER %f</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="stringliteral">    CELLSIZE %f</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="stringliteral">    NODATA_VALUE %f</span></div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span> % (xsize, ysize, geotransform[0] + 0.5 * geotransform[1],</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;           geotransform[3] - (ysize - 0.5) * geotransform[1],</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;           geotransform[1], nodata_value)</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        f = open(filename, <span class="stringliteral">&#39;w&#39;</span>)</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        f.write(header)</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        <span class="keywordflow">for</span> i <span class="keywordflow">in</span> range(0, ysize):</div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;            <span class="keywordflow">for</span> j <span class="keywordflow">in</span> range(0, xsize):</div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;                f.write(str(data[i][j]) + <span class="stringliteral">&quot;\t&quot;</span>)</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;            f.write(<span class="stringliteral">&quot;\n&quot;</span>)</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;        f.close()</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;</div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00336"></a><span class="lineno"><a class="line" href="../../d4/dce/a00337.html#ab4f625f5e31c31ee344254e8b6756e0e">  336</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/dce/a00337.html#ab4f625f5e31c31ee344254e8b6756e0e">raster_to_gtiff</a>(tif, geotif, gdal_type=GDT_Float32):</div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Converting Raster format to GeoTIFF.</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="stringliteral">            tif: source raster file path</span></div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;<span class="stringliteral">            geotif: output raster file path</span></div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="stringliteral">            gdal_type: GDT_Float32 as default</span></div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        rst_file = RasterUtilClass.read_raster(tif)</div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        <span class="keywordflow">if</span> gdal_type != rst_file.dataType <span class="keywordflow">and</span> rst_file.dataType <span class="keywordflow">in</span> GDALDataType:</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;            gdal_type = rst_file.dataType</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        RasterUtilClass.write_gtiff_file(geotif, rst_file.nRows, rst_file.nCols, rst_file.data,</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;                                         rst_file.geotrans, rst_file.srs, rst_file.noDataValue,</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;                                         gdal_type)</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00351"></a><span class="lineno"><a class="line" href="../../d4/dce/a00337.html#a8d0f782e2d0be8f4419a457d737d7ed5">  351</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/dce/a00337.html#a8d0f782e2d0be8f4419a457d737d7ed5">raster_to_asc</a>(raster_f, asc_f):</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Converting Raster format to ASCII raster.</span></div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="stringliteral">            raster_f: raster file</span></div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="stringliteral">            asc_f: output ASCII file</span></div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;        raster_r = RasterUtilClass.read_raster(raster_f)</div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;        RasterUtilClass.write_asc_file(asc_f, raster_r.data, raster_r.nCols, raster_r.nRows,</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;                                       raster_r.geotrans, raster_r.noDataValue)</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;</div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00362"></a><span class="lineno"><a class="line" href="../../d4/dce/a00337.html#af5187ea2e99f11192c2a5b91d898f505">  362</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/dce/a00337.html#af5187ea2e99f11192c2a5b91d898f505">raster_statistics</a>(raster_file):</div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get basic statistics of raster data.</span></div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="stringliteral">            raster_file: raster file path</span></div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="stringliteral">        Returns:</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="stringliteral">            min, max, mean, std</span></div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        ds = gdal_Open(raster_file)</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;        band = ds.GetRasterBand(1)</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        minv, maxv, meanv, std = band.ComputeStatistics(<span class="keyword">False</span>)</div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        <span class="keywordflow">return</span> minv, maxv, meanv, std</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00376"></a><span class="lineno"><a class="line" href="../../d4/dce/a00337.html#aa107420ed7d13705ac76af42bd1cdb16">  376</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/dce/a00337.html#aa107420ed7d13705ac76af42bd1cdb16">split_raster</a>(rs, split_shp, field_name, temp_dir):</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Split raster by given shapefile and field name.</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="stringliteral">            rs: origin raster file</span></div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="stringliteral">            split_shp: boundary (ESRI Shapefile) used to spilt raster</span></div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="stringliteral">            field_name: field name identify the spilt value</span></div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="stringliteral">            temp_dir: directory to store the spilt rasters</span></div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        UtilClass.rmmkdir(temp_dir)</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;        ds = ogr_Open(split_shp)</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        lyr = ds.GetLayer(0)</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        lyr.ResetReading()</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        ft = lyr.GetNextFeature()</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        <span class="keywordflow">while</span> ft:</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;            cur_field_name = ft.GetFieldAsString(field_name)</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;            <span class="keywordflow">for</span> r <span class="keywordflow">in</span> rs:</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;                cur_file_name = r.split(os.sep)[-1]</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;                outraster = temp_dir + os.sep + \</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;                            cur_file_name.replace(<span class="stringliteral">&#39;.tif&#39;</span>, <span class="stringliteral">&#39;_%s.tif&#39;</span> %</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;                                                  cur_field_name.replace(<span class="stringliteral">&#39; &#39;</span>, <span class="stringliteral">&#39;_&#39;</span>))</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;                subprocess.call([<span class="stringliteral">&#39;gdalwarp&#39;</span>, r, outraster, <span class="stringliteral">&#39;-cutline&#39;</span>, split_shp,</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;                                 <span class="stringliteral">&#39;-crop_to_cutline&#39;</span>, <span class="stringliteral">&#39;-cwhere&#39;</span>,</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;                                 <span class="stringliteral">&quot;&#39;%s&#39;=&#39;%s&#39;&quot;</span> % (field_name, cur_field_name), <span class="stringliteral">&#39;-dstnodata&#39;</span>,</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;                                 <span class="stringliteral">&#39;-9999&#39;</span>])</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;            ft = lyr.GetNextFeature()</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;        ds = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;    @staticmethod</div>
+<div class="line"><a name="l00404"></a><span class="lineno"><a class="line" href="../../d4/dce/a00337.html#a2b374b75e37b1d2acf61399920ee3af0">  404</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d4/dce/a00337.html#a2b374b75e37b1d2acf61399920ee3af0">get_negative_dem</a>(raw_dem, neg_dem):</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Get negative DEM data.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;        origin = RasterUtilClass.read_raster(raw_dem)</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;        max_v = numpy.max(origin.data)</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;        temp = origin.data &lt; 0</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;        neg = numpy.where(temp, origin.noDataValue, max_v - origin.data)</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;        RasterUtilClass.write_gtiff_file(neg_dem, origin.nRows, origin.nCols, neg, origin.geotrans,</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;                                         origin.srs, origin.noDataValue, origin.dataType)</div>
+<div class="ttc" id="a00337_html_a8b98acc50549c985d3869ec5c9a652d2"><div class="ttname"><a href="../../d4/dce/a00337.html#a8b98acc50549c985d3869ec5c9a652d2">seims.pygeoc.pygeoc.raster.raster.RasterUtilClass.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00167">raster.py:167</a></div></div>
+<div class="ttc" id="a00335_html_a8204d1287f9a057b89fff0f91f67bce7"><div class="ttname"><a href="../../df/d91/a00335.html#a8204d1287f9a057b89fff0f91f67bce7">seims.pygeoc.pygeoc.raster.raster.Raster.xMax</a></div><div class="ttdeci">xMax</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00075">raster.py:75</a></div></div>
+<div class="ttc" id="a00337_html_ab4f625f5e31c31ee344254e8b6756e0e"><div class="ttname"><a href="../../d4/dce/a00337.html#ab4f625f5e31c31ee344254e8b6756e0e">seims.pygeoc.pygeoc.raster.raster.RasterUtilClass.raster_to_gtiff</a></div><div class="ttdeci">def raster_to_gtiff</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00336">raster.py:336</a></div></div>
+<div class="ttc" id="a00335_html_a815defb5ce864268d9ac412c33cefcd4"><div class="ttname"><a href="../../df/d91/a00335.html#a815defb5ce864268d9ac412c33cefcd4">seims.pygeoc.pygeoc.raster.raster.Raster.get_type</a></div><div class="ttdeci">def get_type</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00081">raster.py:81</a></div></div>
+<div class="ttc" id="a00335_html_aaaea084aba86e1d3bbbe33f3b22f36c9"><div class="ttname"><a href="../../df/d91/a00335.html#aaaea084aba86e1d3bbbe33f3b22f36c9">seims.pygeoc.pygeoc.raster.raster.Raster.get_central_coors</a></div><div class="ttdeci">def get_central_coors</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00146">raster.py:146</a></div></div>
+<div class="ttc" id="a00337_html_aa107420ed7d13705ac76af42bd1cdb16"><div class="ttname"><a href="../../d4/dce/a00337.html#aa107420ed7d13705ac76af42bd1cdb16">seims.pygeoc.pygeoc.raster.raster.RasterUtilClass.split_raster</a></div><div class="ttdeci">def split_raster</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00376">raster.py:376</a></div></div>
+<div class="ttc" id="a00337_html_a6cd5f84cc0c320f85b1d4654a27375f4"><div class="ttname"><a href="../../d4/dce/a00337.html#a6cd5f84cc0c320f85b1d4654a27375f4">seims.pygeoc.pygeoc.raster.raster.RasterUtilClass.write_gtiff_file</a></div><div class="ttdeci">def write_gtiff_file</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00283">raster.py:283</a></div></div>
+<div class="ttc" id="a00337_html_a765c651663ee2cbc117b4d348febd078"><div class="ttname"><a href="../../d4/dce/a00337.html#a765c651663ee2cbc117b4d348febd078">seims.pygeoc.pygeoc.raster.raster.RasterUtilClass.write_asc_file</a></div><div class="ttdeci">def write_asc_file</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00307">raster.py:307</a></div></div>
+<div class="ttc" id="a00335_html"><div class="ttname"><a href="../../df/d91/a00335.html">seims.pygeoc.pygeoc.raster.raster.Raster</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00040">raster.py:40</a></div></div>
+<div class="ttc" id="a00335_html_a6e12cd26eb4ffda8575539a26312d031"><div class="ttname"><a href="../../df/d91/a00335.html#a6e12cd26eb4ffda8575539a26312d031">seims.pygeoc.pygeoc.raster.raster.Raster.nCols</a></div><div class="ttdeci">nCols</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00066">raster.py:66</a></div></div>
+<div class="ttc" id="a00335_html_ac2dcb576a5b3f50015e23bf9e222c9dd"><div class="ttname"><a href="../../df/d91/a00335.html#ac2dcb576a5b3f50015e23bf9e222c9dd">seims.pygeoc.pygeoc.raster.raster.Raster.yMin</a></div><div class="ttdeci">yMin</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00077">raster.py:77</a></div></div>
+<div class="ttc" id="a00335_html_acbfec884f3307b9c12df4820a79d3e77"><div class="ttname"><a href="../../df/d91/a00335.html#acbfec884f3307b9c12df4820a79d3e77">seims.pygeoc.pygeoc.raster.raster.Raster.xMin</a></div><div class="ttdeci">xMin</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00074">raster.py:74</a></div></div>
+<div class="ttc" id="a00335_html_afc6f866e06b8530b93a68d7c20ef487a"><div class="ttname"><a href="../../df/d91/a00335.html#afc6f866e06b8530b93a68d7c20ef487a">seims.pygeoc.pygeoc.raster.raster.Raster.get_min</a></div><div class="ttdeci">def get_min</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00094">raster.py:94</a></div></div>
+<div class="ttc" id="a00335_html_ae54688d260fad23079e80db4229b7c41"><div class="ttname"><a href="../../df/d91/a00335.html#ae54688d260fad23079e80db4229b7c41">seims.pygeoc.pygeoc.raster.raster.Raster.validZone</a></div><div class="ttdeci">validZone</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00078">raster.py:78</a></div></div>
+<div class="ttc" id="a00335_html_a1b909b576f3101f808d2b80bba8deabe"><div class="ttname"><a href="../../df/d91/a00335.html#a1b909b576f3101f808d2b80bba8deabe">seims.pygeoc.pygeoc.raster.raster.Raster.nRows</a></div><div class="ttdeci">nRows</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00065">raster.py:65</a></div></div>
+<div class="ttc" id="a00335_html_a6a6f8c4ba2a59b8346d616fb65e71f2d"><div class="ttname"><a href="../../df/d91/a00335.html#a6a6f8c4ba2a59b8346d616fb65e71f2d">seims.pygeoc.pygeoc.raster.raster.Raster.get_average</a></div><div class="ttdeci">def get_average</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00086">raster.py:86</a></div></div>
+<div class="ttc" id="a00335_html_a339ac28dc9c0854ca284a045252db34f"><div class="ttname"><a href="../../df/d91/a00335.html#a339ac28dc9c0854ca284a045252db34f">seims.pygeoc.pygeoc.raster.raster.Raster.validValues</a></div><div class="ttdeci">validValues</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00079">raster.py:79</a></div></div>
+<div class="ttc" id="a00337_html_a1b51a54140781fcfdf2935c387dce9c3"><div class="ttname"><a href="../../d4/dce/a00337.html#a1b51a54140781fcfdf2935c387dce9c3">seims.pygeoc.pygeoc.raster.raster.RasterUtilClass.get_mask_from_raster</a></div><div class="ttdeci">def get_mask_from_raster</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00200">raster.py:200</a></div></div>
+<div class="ttc" id="a00335_html_acdba1ae0714d80bb4a4c66fe17a5b7b7"><div class="ttname"><a href="../../df/d91/a00335.html#acdba1ae0714d80bb4a4c66fe17a5b7b7">seims.pygeoc.pygeoc.raster.raster.Raster.data</a></div><div class="ttdeci">data</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00067">raster.py:67</a></div></div>
+<div class="ttc" id="a00337_html"><div class="ttname"><a href="../../d4/dce/a00337.html">seims.pygeoc.pygeoc.raster.raster.RasterUtilClass</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00164">raster.py:164</a></div></div>
+<div class="ttc" id="a00337_html_a8d0f782e2d0be8f4419a457d737d7ed5"><div class="ttname"><a href="../../d4/dce/a00337.html#a8d0f782e2d0be8f4419a457d737d7ed5">seims.pygeoc.pygeoc.raster.raster.RasterUtilClass.raster_to_asc</a></div><div class="ttdeci">def raster_to_asc</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00351">raster.py:351</a></div></div>
+<div class="ttc" id="a00335_html_ac0581c864adda6b3ba27f83084304a80"><div class="ttname"><a href="../../df/d91/a00335.html#ac0581c864adda6b3ba27f83084304a80">seims.pygeoc.pygeoc.raster.raster.Raster.get_std</a></div><div class="ttdeci">def get_std</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00098">raster.py:98</a></div></div>
+<div class="ttc" id="a00335_html_a2c625c066f2be2147641cbe18e4fe482"><div class="ttname"><a href="../../df/d91/a00335.html#a2c625c066f2be2147641cbe18e4fe482">seims.pygeoc.pygeoc.raster.raster.Raster.dx</a></div><div class="ttdeci">dx</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00073">raster.py:73</a></div></div>
+<div class="ttc" id="a00337_html_a7d310c06a103c88fafee213b02100fc5"><div class="ttname"><a href="../../d4/dce/a00337.html#a7d310c06a103c88fafee213b02100fc5">seims.pygeoc.pygeoc.raster.raster.RasterUtilClass.raster_reclassify</a></div><div class="ttdeci">def raster_reclassify</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00254">raster.py:254</a></div></div>
+<div class="ttc" id="a00335_html_a3d627fc99efe408ac2f1c7653e1afd3d"><div class="ttname"><a href="../../df/d91/a00335.html#a3d627fc99efe408ac2f1c7653e1afd3d">seims.pygeoc.pygeoc.raster.raster.Raster.geotrans</a></div><div class="ttdeci">geotrans</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00069">raster.py:69</a></div></div>
+<div class="ttc" id="a00337_html_af5187ea2e99f11192c2a5b91d898f505"><div class="ttname"><a href="../../d4/dce/a00337.html#af5187ea2e99f11192c2a5b91d898f505">seims.pygeoc.pygeoc.raster.raster.RasterUtilClass.raster_statistics</a></div><div class="ttdeci">def raster_statistics</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00362">raster.py:362</a></div></div>
+<div class="ttc" id="a00335_html_a1818250e4c92a08f941d82820b95d12c"><div class="ttname"><a href="../../df/d91/a00335.html#a1818250e4c92a08f941d82820b95d12c">seims.pygeoc.pygeoc.raster.raster.Raster.get_value_by_xy</a></div><div class="ttdeci">def get_value_by_xy</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00125">raster.py:125</a></div></div>
+<div class="ttc" id="a00337_html_a15df9a405486f0b1189f208a463e04a8"><div class="ttname"><a href="../../d4/dce/a00337.html#a15df9a405486f0b1189f208a463e04a8">seims.pygeoc.pygeoc.raster.raster.RasterUtilClass.read_raster</a></div><div class="ttdeci">def read_raster</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00172">raster.py:172</a></div></div>
+<div class="ttc" id="a00335_html_a5e6f06706243cfac92588041d689c4dc"><div class="ttname"><a href="../../df/d91/a00335.html#a5e6f06706243cfac92588041d689c4dc">seims.pygeoc.pygeoc.raster.raster.Raster.noDataValue</a></div><div class="ttdeci">noDataValue</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00068">raster.py:68</a></div></div>
+<div class="ttc" id="a00335_html_a0a0fcd5fc3c385d45555b05ced2996d3"><div class="ttname"><a href="../../df/d91/a00335.html#a0a0fcd5fc3c385d45555b05ced2996d3">seims.pygeoc.pygeoc.raster.raster.Raster.srs</a></div><div class="ttdeci">srs</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00070">raster.py:70</a></div></div>
+<div class="ttc" id="a00335_html_a9c192f4554d798c54fb3c7c97a4e5ebe"><div class="ttname"><a href="../../df/d91/a00335.html#a9c192f4554d798c54fb3c7c97a4e5ebe">seims.pygeoc.pygeoc.raster.raster.Raster.yMax</a></div><div class="ttdeci">yMax</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00076">raster.py:76</a></div></div>
+<div class="ttc" id="a00337_html_a2b374b75e37b1d2acf61399920ee3af0"><div class="ttname"><a href="../../d4/dce/a00337.html#a2b374b75e37b1d2acf61399920ee3af0">seims.pygeoc.pygeoc.raster.raster.RasterUtilClass.get_negative_dem</a></div><div class="ttdeci">def get_negative_dem</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00404">raster.py:404</a></div></div>
+<div class="ttc" id="a00335_html_af8ee60f4c02627db4ce0c69c0bdf8096"><div class="ttname"><a href="../../df/d91/a00335.html#af8ee60f4c02627db4ce0c69c0bdf8096">seims.pygeoc.pygeoc.raster.raster.Raster.get_sum</a></div><div class="ttdeci">def get_sum</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00102">raster.py:102</a></div></div>
+<div class="ttc" id="a00335_html_a81f105858818b28a586a674dd252dbd5"><div class="ttname"><a href="../../df/d91/a00335.html#a81f105858818b28a586a674dd252dbd5">seims.pygeoc.pygeoc.raster.raster.Raster.get_max</a></div><div class="ttdeci">def get_max</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00090">raster.py:90</a></div></div>
+<div class="ttc" id="a00335_html_a0727e4d24d911358db4535f975f73353"><div class="ttname"><a href="../../df/d91/a00335.html#a0727e4d24d911358db4535f975f73353">seims.pygeoc.pygeoc.raster.raster.Raster.dataType</a></div><div class="ttdeci">dataType</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00071">raster.py:71</a></div></div>
+<div class="ttc" id="a00335_html_abb17b5edb91d5d2efdbe27a5d49a0fb3"><div class="ttname"><a href="../../df/d91/a00335.html#abb17b5edb91d5d2efdbe27a5d49a0fb3">seims.pygeoc.pygeoc.raster.raster.Raster.get_value_by_row_col</a></div><div class="ttdeci">def get_value_by_row_col</div><div class="ttdef"><b>Definition:</b> <a href="../../d2/d79/a00898_source.html#l00106">raster.py:106</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_e18f81762effd1d09ce50d10289caf24.html">grid_layering</a></li><li class="navelem"><b>FlowInOut.cpp</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:25 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_ed16674693235890c7cb51a5b1a1dba7.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_9598fad7d324ddcf8fd8f6381636de51.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_e2d55df885a866232b27dbb0ff30068b.html">pygeoc</a></li><li class="navelem"><a class="el" href="../../dir_24faf15061b81ec8fab9fbb71f7c17ff.html">raster</a></li><li class="navelem"><b>raster.py</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:26 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

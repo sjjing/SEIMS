@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: SEIMS 开发环境</title>
+<title>SEIMS: Install SEIMS on Windows</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,84 +106,158 @@ $(document).ready(function(){initNavTree('d7/d9a/a00152.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SEIMS 开发环境 </div>  </div>
+<div class="title">Install SEIMS on Windows </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>by Huiran Gao</p>
-<p>Latest Updated：May.31, 2016 </p>
+<div class="textblock"><p>First release: Huiran Gao</p>
+<p>Reviewed and updated: Liang-Jun Zhu</p>
+<p>Latest Updated： Mar.23, 2017 </p>
 <hr/>
  <h1>目录</h1>
-<p><a href="../../#1-windows下vs编译">**1. Windows下VS编译**</a></p>
-<p><a href="../../#2-开发辅助工具-vassistx介绍">**2. 开发辅助工具-VAssistX介绍**</a></p>
+<ul>
+<li><a href="../../#1-prerequisites">**1. Prerequisites**</a><ul>
+<li>1.1. <a href="../../#11-microsoft-visual-studio">Microsoft Visual Studio</a></li>
+<li>1.2. <a href="../../#12-cmake">CMake</a></li>
+<li>1.3. <a href="../../#13-gdal-and-python">GDAL and Python</a></li>
+<li>1.4. <a href="../../#14-mongo-c-driver">mongo-c-driver</a></li>
+<li>1.5. <a href="../../#15-ms-mpi">MS-MPI</a></li>
+</ul>
+</li>
+<li><a href="../../#2-compilation-and-installation">**2. Compilation and Installation**</a><ul>
+<li>2.1. <a href="../../#21-installation-for-users">Installation for users</a></li>
+<li>2.2. <a href="../../#22-installation-for-developers">Installation for developers</a></li>
+</ul>
+</li>
+<li><a href="../../#3-python-for-seims-依赖库的安装">**3. Python for SEIMS 依赖库的安装**</a></li>
+</ul>
+<h1>1. Prerequisites</h1>
+<p>SEIMS模型采用C++和Python编写，支持子流域-栅格双层并行计算，在Windows下推荐采用Microsoft Visual Studio进行编译安装，安装前的准备包括：</p>
+<ul>
+<li>Microsoft Visual Studio 2010 或更高 &ndash; C++源码编译器及IDE</li>
+<li>CMake 3.1+ &ndash; 管理代码编译</li>
+<li>GDAL 1.x with Python &ndash; 矢栅数据读写库</li>
+<li>mongo-c-driver 1.5+ &ndash; 读写MongoDB</li>
+<li>MS-MPI v6 （或更高）&ndash; 编译MPI并行程序，如TauDEM、SEIMS-MPI版本等</li>
+</ul>
+<h2>1.1 Microsoft Visual Studio</h2>
+<ul>
+<li><b>For User</b>： 如果只是希望源码编译SEIMS模型，而不想安装臃肿庞大的VS，可以选择使用Microsoft Visual C++ Build Tools，比如<a href="https://www.visualstudio.com/downloads/#microsoft-visual-c-build-tools-2015-update-3" title="microsoft-visual-c-build-tools-2015-update-3">2015 Update 3</a>.</li>
+<li><b>For Developer</b>： 如果希望对SEIMS模型进行改进，建议采用<a href="https://www.visualstudio.com/downloads/" title="visual-studio-downloads">Microsoft Visual Studio 2010 或更高版本</a>进行开发。</li>
+</ul>
+<blockquote class="doxtable">
+<p>Note: 虽然SEIMS编译理论上支持更高版本的VS，但是为了接下来的GDAL库安装方便，建议使用与<a href="http://www.gisinternals.com/release.php">Tamas Szekeres's Windows GDAL binaries</a>发布版本对应的VS，比如目前其发布的GDAL安装版本对应的最高VS版本为2013。当然，如果你希望自己源码编译接下来用到的GDAL、mongo-c-driver库，那VS版本选择则不受限制。</p>
+<p></p>
+</blockquote>
+<h2>1.2. CMake</h2>
+<p>CMake是一个跨平台的安装或编译工具，可以用简单的语句来描述安装或编译过程。CMake通过<code>CmakeLists.txt</code>文件能够输出各种各样的makefile或者IDE工程。</p>
+<p>CMake可以从其<a href="http://www.cmake.org/files">官网免费下载</a>，最低安装版本要求为3.1，安装后添加CMake路径如<code>C:\Program Files (x86)\CMake</code>到系统环境变量<code>PATH</code>里。</p>
+<h2>1.3. GDAL and Python</h2>
+<p>SEIMS的矢栅数据读写基于<code>GDAL 1.x</code>编写，Windows下GDAL最方便的安装方式应该就是采用<a href="http://www.gisinternals.com/release.php">Tamas Szekeres's Windows GDAL binaries</a>编译发布的版本，下载时请注意区分32位或64位版本。</p>
+<ul>
+<li>具体安装请参考博客<a href="https://sandbox.idre.ucla.edu/sandbox/tutorials/installing-gdal-for-windows" title="installing-gdal-with-python-for-windows">Installing-gdal-with-python-for-windows</a>。</li>
+<li>**注意**：安装完成之后，除了<code>GDAL_DATA</code>外，还需要在环境变量里添加一个<code>GDAL_DIR</code>，赋值为你的GDAL安装目录，如<code>C:\GDAL</code>，以便CMake在编译时能够找得到GDAL依赖库。</li>
+<li>**注意**：为了方便将来程序能够找到GDAL的诸多动态链接库，建议新建<code>GDAL_PATHS</code>环境变量<code>C:\GDAL;C:\GDAL\bin;C:\GDAL\bin\proj\apps;C:\GDAL\bin\gdal\apps;C:\GDAL\bin\ms\apps;C:\GDAL\bin\curl;</code>，并将<code>GDAL_PATHS%</code>添加至环境变量<code>PATH</code>中。</li>
+</ul>
+<h2>1.4. mongo-c-driver</h2>
+<p>SEIMS数据管理采用NoSQL型数据库——MongoDB，依赖于mongo-c-driver。 Windows下的配置步骤为：</p>
+<ul>
+<li>从<a href="http://mongoc.org/" title="mongo-c-driver-download">官网</a>或<a href="https://github.com/mongodb/mongo-c-driver/releases">Github项目</a>下载源码压缩包，如<a href="https://github.com/mongodb/mongo-c-driver/releases/download/1.5.0/mongo-c-driver-1.5.0.tar.gz" title="mongo-c-driver-1.5.0">1.5.0</a>，解压缩至当前文件夹，如<code>C:\z_code\Repos\mongo-c-driver-1.5.0</code></li>
+<li><p class="startli">打开cmd，依次输入如下命令，默认的安装目录为<code>C:\mongo-c-driver</code></p>
+<p class="startli">```bat cd C:\ mkdir mongo-c-driver cd C:-c-driver-1.5.0 cd src cmake -DCMAKE_INSTALL_PREFIX=C:-c-driver -G "Visual Studio 10 2010" msbuild.exe ALL_BUILD.vcxproj msbuild.exe INSTALL.vcxproj cd .... cmake -DCMAKE_INSTALL_PREFIX=C:-c-driver -DBSON_ROOT_DIR=C:-c-driver -G "Visual Studio 10 2010" msbuild.exe ALL_BUILD.vcxproj msbuild.exe INSTALL.vcxproj ```</p>
+</li>
+<li>至此，<code>mongo-c-driver</code>即编译安装完成了，在<code>C:\mongo-c-driver</code>目录下能看到<code>bin</code>, <code>include</code>, <code>lib</code>文件夹。</li>
+<li>将<code>C:\mongo-c-driver</code>添加至环境变量，命名为<code>MONGOC_ROOT_DIR</code>。</li>
+<li>将<code>C:\mongo-c-driver\bin</code>添加至环境变量，命名为<code>MONGOC_LIB_DIR</code>，并将<code>MONGOC_LIB_DIR%</code>添加至环境变量<code>PATH</code>中。</li>
+</ul>
+<blockquote class="doxtable">
+<p>Note1: 如果cmd提示找不到msbuild.exe，可以在msbuild.exe前加上绝对路径，这个文件是.NetFramework里的，比如&lt;tt&gt;C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe</p>
+<p></p>
+</blockquote>
+<blockquote class="doxtable">
+<p>Note2: 如果想编译64位的mongo-c-driver，则需将上述代码中的<code>-G "Visual Studio 10 2010"</code>替换为<code>-G "Visual Studio 10 2010 Win64"</code></p>
+<p></p>
+</blockquote>
+<h2>1.5. MS-MPI</h2>
+<p>Microsoft MPI (MS-MPI) 是微软基于MPICH实现的用于Windows平台开发和运行并行应用程序的消息传递接口标准，预处理程序中用于提取子流域和地形信息的TauDEM、SEIMS_MPI并行版本等都需要MPI的支持。</p>
+<ul>
+<li><p class="startli">从<a href="https://www.microsoft.com/en-us/download/details.aspx?id=47259">MS-MPI v6</a>下载并分别安装msmpisdk.msi, MSMpiSetup.exe，并检查系统环境变量是否配置正确，如Windows-64bit版：</p>
+<p class="startli">``` MSMPI_BIN=C: Files MPI\ MSMPI_INC=C: Files (x86) SDKs\ MSMPI_LIB32=C: Files (x86) SDKs\ MSMPI_LIB64=C: Files (x86) SDKs\ ```</p>
+</li>
+</ul>
+<blockquote class="doxtable">
+<p>Note: 建议采用默认安装路径安装MPI</p>
+<p></p>
+</blockquote>
+<h1>2. Compilation and Installation</h1>
+<p>使用CMake编译SEIMS时有3个可选参数：</p>
 <ol type="1">
-<li><a href="../../#i-vassistx安装与说明">VAssistX安装与说明</a></li>
-<li><a href="../../#ii-vassistx的使用">VAssistX的使用</a></li>
+<li><code>-DPARALLEL</code>，不添加则默认为编译<code>OpenMP</code>版本程序，添加<code>-DPARALLEL=MPI</code>则编译MPI/OpenMP混合版本；</li>
+<li><code>-DARCH</code>，用于指定编译32位还是64程序，需要与<code>GDAL</code>和<code>mongo-c-driver</code>版本匹配，不添加则默认为32位程序，添加<code>-DARCH=64</code>则为64位；</li>
+<li><code>-DSTROM</code>，用于指定是否编译次降水模型，不添加默认为0，即长时段模型，添加<code>-DSTROM=1</code>则编译次降水模型。</li>
+<li><code>-DUNITTEST</code>，用于指定是否编译基于Googletest的单元测试模块</li>
+<li><code>-DINSTALL_PREFIX</code>，用于指定安装路径，如不指定，默认为源码目录下的<code>bin</code>文件夹。</li>
 </ol>
-<h1>Windows下VS编译</h1>
-<p>SEIMS模型采用C++编写，开发工具主要是**VS 2010**。</p>
-<p>安装Microsoft Visual Studio 2010后，打开“开始” -&gt; Microsoft Visual Studio 2010 -&gt; Visual Studio Tools-&gt;Visual Studio 命令提示 (2010)，以**管理员方式运行**，切换到VS工程目录，VS工程目录是在SEIMS源码外新建的一个文件夹，比如 <code>D:\SEIMS\SEIMS_prj</code>。</p>
-<p>然后使用CMake命令生成VS 2010工程，详细参考<a href="../../Windows#ii-windows下seims主程序的编译">**Windows下SEIMS主程序的编译**</a></p>
-<p>编译完成后，打开VS工程，生成解决方案，工程目录结构如下：</p>
-<div class="image">
-<img src="http://i.imgur.com/hR7E7ZN.png" />
-</div>
-<h1>开发辅助工具-VAssistX介绍</h1>
-<p><b>VAssistX</b>（Visual Assist X）是开发环境的辅助工具，具有强大的编辑特色，可以完全集成到开发环境中，使用该工具可以更加轻松地编写代码。支持C/C++，C#，Java和HTML等语言，能自动识别各种关键字、系统函数、成员变量、自动给出输入提示、自动标示错误等，有助于提高开发过程的自动化和开发效率。</p>
-<p>在SEIMS中，为了使模型代码具有更好的可读性、传承性，我们使用<a href="http://www.doxygen.nl/">doxygen</a>规则对代码进行注释，在VS2010中借助VAssistX进行快速添加注释。</p>
-<h2>i. VAssistX安装与说明</h2>
-<p>VAssistX（破解版）下载地址：<a href="http://pan.baidu.com/s/1qXI4UPe">http://pan.baidu.com/s/1qXI4UPe</a></p>
-<p>选择本地安装的VS版本 -&gt; Install。</p>
-<div class="image">
-<img src="http://i.imgur.com/htMVHUl.png" />
-</div>
-<p>安装完成后，打开VS2010，菜单栏中会出现VAssistX菜单项，说明安装成功。</p>
-<div class="image">
-<img src="http://i.imgur.com/G62YwdG.png" />
-</div>
-<h2>ii. VAssistX的使用</h2>
-<p>打开VAssistX选项自定义注释，Suggestion -&gt; Edit VA Snippets,自定义注释方法如图所示：</p>
-<div class="image">
-<img src="http://i.imgur.com/3I0xXvB.jpg" />
-</div>
-<p>添加一些符合doxygen规则的C++注释模板，为了方便起见，快捷键Shortcut统一设置为<code>/ *!</code>，这样，当需要输入注释模板时，输入<code>/*!</code>后便会出现只能提示，如下图，选择合适的便可快速插入注释。</p>
-<div class="image">
-<img src="http://gaohr.win/site/blogs/2016/2016-04-20-VAssistX/image006.png" />
-</div>
-<h3>VAssistX规范注释示例</h3>
+<h2>2.1 Installation for users</h2>
+<blockquote class="doxtable">
+<p>Note: Windows x64下，不要打开的是<code>Visual Studio x64 Win64 命令提示(2010)</code>，而是需要打开<code>Visual Studio 命令提示(2010)</code></p>
+<p></p>
+</blockquote>
 <ul>
-<li><p class="startli">最基本的注释，对任何对象（file，function，class…）均适用，使用格式如下:</p>
-<p class="startli">```cpp //! Brief description, can span only 1 line /*!</p>
-<ul>
-<li>More detailed description.</li>
-<li>Feel free to span as many lines</li>
-<li>as you wish... All allowed.</li>
-</ul>
-<p class="startli">``` 在VA中设置如下（Title，Description可以按照自己想法设置，下面均不再重复）：</p>
-<p class="startli">``` Title: generalCommentBlock Shortcut: /*! Descrition: General Doxygen Commen Block Code: ```</p>
-<p class="startli">```cpp //! <a class="el" href="../../dc/d52/a00183.html">$end</a>$ /*!</p>
-<ul>
-<li></li>
-<li>```</li>
-</ul>
+<li><p class="startli">打开 “开始” -&gt; Microsoft Visual Studio 2010 -&gt; Visual Studio Tools -&gt; Visual Studio 命令提示(2010)，以**管理员方式**运行，依次输入以下命令：</p>
+<p class="startli">```shell cd ~ mkdir build cd build cmake -G "NMake Makefiles" .. -DCMAKE_BUILD_TYPE=Release nmake nmake install ```</p>
 </li>
-<li><p class="startli">对于一些变量或函数的定义，希望在一行内对其注释，使用格式如下：</p>
-<p class="startli">```cpp void function1(); //!&lt; Correct void function2(int i); //!&lt; WRONG! Comment on parameter i, but function not documented! void function3(int i); //!&lt; Some int. Correct - both function and parameter documented ```</p>
-<p class="startli">上面的例子说明，对于含有参数的函数定义，VA中的设置如下：</p>
-<p class="startli">```cpp //!&lt; ```</p>
+<li><p class="startli">或者采用指定VS版本及位数的方式：</p>
+<p class="startli">```shell cd ~ mkdir build cd build </p>
+<h1>编译32位版本，-DARCH=32 为默认，添加与否均可</h1>
+<p class="startli">cmake -G "Visual Studio 10 2010" .. </p>
+<h1>编译64位版本，此时一定确保GDAL和mongo-c-driver已配置好64位版本</h1>
+<p class="startli">cmake -G "Visual Studio 10 2010 Win64" .. -DARCH=64 msbuild.exe ALL_BUILD.vcxproj </p>
+<h1>p.s.1 如果编译release版本：</h1>
+<h1>msbuild.exe ALL_BUILD.vcxproj /p:Configuration=Release</h1>
+<h1>p.s.2 可通过添加/maxcpucount:4 来并行编译，提高速度</h1>
+<p class="startli">msbuild.exe INSTALL.vcxproj </p>
+<h1>如果编译release版本：</h1>
+<h1>msbuild.exe INSTALL.vcxproj /p:Configuration=Release</h1>
+<p class="startli">```</p>
 </li>
-<li><p class="startli">在<code>*.h</code>, <code>*.cpp</code>文件头部的注释,使用格式：</p>
-<p class="startli">```cpp /*!</p>
-<ul>
-<li></li>
-</ul>
+<li>完成后，不需要打开VS2010生成解决方案，可执行文件已经编译完成，程序目录为<code>~\SEIMS\seims\bin</code>或通过<code>-DINSTALL_PREFIX</code>指定的文件夹。</li>
+<li>右键以管理员方式运行<code>~\seims\bin\Firewall_for_Windows.bat</code>，配置防火墙规则，以防在运行Python脚本调用SEIMS程序时被防火墙阻止。 <h2>2.2 Installation for developers</h2>
 </li>
 </ul>
+<ul>
+<li><p class="startli">打开 “开始” -&gt; Microsoft Visual Studio 2010 -&gt; Visual Studio Tools -&gt; Visual Studio 命令提示(2010)，以**管理员方式**运行，依次输入以下命令：</p>
+<p class="startli">```shell cd ~-------&mdash;7 mkdir build cd build cmake .. ```</p>
+</li>
+<li>然后用VS2010打开&lt; build &gt;文件夹下的<code>SEIMS_OMP_ALL.sln</code>，即为整个SEIMS模型的VS工程，打开<code>build\bin</code>目录可以分别找到子工程，比如SEIMS模块库工程等。</li>
+<li>VS工程编译完成之后，右键单击<code>INSTALL</code>模块，选择“生成”，即可完成SEIMS模型的安装，安装路径为<code>~\SEIMS\seims\bin</code></li>
+<li>安装完成SEIMS后，需要右键以管理员方式运行<code>~\SEIMS\seims\Firewall_for_Windows.bat</code>配置防火墙规则，以防在运行Python脚本调用SEIMS程序时被防火墙阻止。</li>
+</ul>
+<p><a href="../../#目录">返回目录</a></p>
+<h2>3. Python for SEIMS 依赖库的安装</h2>
+<p>SEIMS预处理、后处理、率定、情景分析等所需的Python依赖库及版本要求如下：</p>
+<p>```python pygeoc </p>
+<h1>Preprocess</h1>
+<p>GDAL&gt;=1.9.0,&lt;2.0 numpy&gt;=1.9.0 pymongo&gt;=3.0 networkx&gt;=1.10 Shapely&gt;=1.5.0 </p>
+<h1>Postprocess</h1>
+<p>matplotlib&gt;=1.5.0 pathlib2&gt;=2.0.0 </p>
+<h1>Scenario analysis</h1>
+<p>deap&gt;=1.0.2 scoop&gt;=0.7.1.1 ```</p>
+<ul>
+<li>SEIMS提供了自动安装脚本，脚本依赖于pip，因此请确保pip已正确安装，<a href="https://pip.pypa.io/en/stable/installing/">参考教程</a>：<ul>
+<li>下载<a href="https://bootstrap.pypa.io/get-pip.py">get-pip.py</a></li>
+<li><code>python get-pip.py</code></li>
+</ul>
+</li>
+<li>以管理员方式运行<code>pyseims_install_windows.bat</code>即可自动安装完成所有依赖库，包括SEIMS自带的<code>PyGeoC</code>。</li>
+<li>安装完成后，运行<code>python pyseims_check.py</code>检查所需python库是否已经安装成功，如果有未成功的请单独安装。</li>
+</ul>
+<p><a href="../../#目录">返回目录</a> </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:30 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:31 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

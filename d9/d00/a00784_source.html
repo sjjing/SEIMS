@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/preprocess/mpi_adjust_groups.py Source File</title>
+<title>SEIMS: seims/scenario_analysis/slpposunits/config.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,63 +112,196 @@ $(document).ready(function(){initNavTree('d9/d00/a00784_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">mpi_adjust_groups.py</div>  </div>
+<div class="title">config.py</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Used for adjusting partitioned tasks by Metis.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">   This function is activated when forCluster is True.</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @author   : Junzhi Liu</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">    @changelog: 13-01-10  jz - initial implementation</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">                17-06-23  lj - reformat according to pylint and google style</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">def </span>get_max_weight(group_weight_dic, group_dic):</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Get max. weight&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    max_id = -1</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    max_weight = -1</div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="keywordflow">for</span> cur_id <span class="keywordflow">in</span> group_weight_dic:</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;        <span class="keywordflow">if</span> len(group_dic[cur_id]) &gt; 1 <span class="keywordflow">and</span> max_weight &lt; group_weight_dic[cur_id]:</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;            max_weight = group_weight_dic[cur_id]</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;            max_id = cur_id</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keywordflow">return</span> max_id, max_weight</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">def </span>adjust_group_result(g, weight_dic, group_list, n_groups):</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Adjust group result&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    group_dic = {}  <span class="comment"># group tmpid from 0</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    group_weight_dic = {}  <span class="comment"># subbasin tmpid form 1</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    n = len(weight_dic.keys())</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <span class="keywordflow">for</span> sub_id <span class="keywordflow">in</span> range(1, n + 1):</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        group_id = group_list[sub_id - 1]</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        group_dic.setdefault(group_id, []).append(sub_id)</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        group_weight_dic[group_id] = group_weight_dic.setdefault(group_id, 0) + weight_dic[sub_id]</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="comment"># get average weight for each group, which is the ideal aim of task</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <span class="comment"># scheduling</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    ave_eight = 0</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <span class="keywordflow">for</span> tmpid <span class="keywordflow">in</span> group_weight_dic:</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        ave_eight += group_weight_dic[tmpid]</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    ave_eight /= n_groups</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    <span class="keywordflow">for</span> iGroup <span class="keywordflow">in</span> range(n_groups):</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        <span class="keywordflow">if</span> iGroup <span class="keywordflow">not</span> <span class="keywordflow">in</span> group_dic:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;            max_id, max_weight = get_max_weight(group_weight_dic, group_dic)</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;            <span class="keywordflow">if</span> max_id &lt; 0:</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;                <span class="keywordflow">continue</span></div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;            sub_list = group_dic[max_id]</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;            sub_id = sub_list[0]</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;            group_dic[iGroup] = [sub_id, ]</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            group_list[sub_id - 1] = iGroup</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;            group_dic[max_id].remove(sub_id)</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Configuration BMPs optimization based on slope position units.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Huiran Gao, Liangjun Zhu</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 16-12-30  hr - initial implementation.\n</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">                17-08-18  lj - reorganize as basic class.\n</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> json</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">import</span> operator</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> collections <span class="keyword">import</span> OrderedDict</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d8/dbe/a01370.html">seims.preprocess.db_mongodb</a> <span class="keyword">import</span> ConnectMongoDB</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d6/d2f/a01394.html">seims.pygeoc.pygeoc.utils.utils</a> <span class="keyword">import</span> FileClass, UtilClass, StringClass, get_config_parser</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> <a class="code" href="../../dc/d35/a01400.html">seims.scenario_analysis.config</a> <span class="keyword">import</span> SAConfig</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="../../d0/dc5/a00343.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d0/dc5/a00343.html">SASPUConfig</a>(<a class="code" href="../../d2/d45/a00342.html">SAConfig</a>):</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Configuration of scenario analysis based on slope position units.</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="stringliteral">    Attributes:</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="stringliteral">        slppos_tags(dict): Slope position tags and names read from config file.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="stringliteral">            e.g., {16: &#39;valley&#39;, 1: &#39;summit&#39;, 4: &#39;backslope&#39;}</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="stringliteral">        slppos_tagnames(list): Slope position tags and names along the hillslope sequence.</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="stringliteral">            e.g., [(1, &#39;summit&#39;), (4, &#39;backslope&#39;), (16, &#39;valley&#39;)]</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;</div>
+<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="../../d0/dc5/a00343.html#a7ec1fe1099e1860c5a41f95c1993a99c">   28</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d0/dc5/a00343.html#a7ec1fe1099e1860c5a41f95c1993a99c">__init__</a>(self, cf):</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Initialization.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        SAConfig.__init__(self, cf)  <span class="comment"># initialize base class first</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        <span class="comment"># Handling self.bmps_info for specific application</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="comment"># 1. Check the required key and values</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        requiredkeys = [<span class="stringliteral">&#39;COLLECTION&#39;</span>, <span class="stringliteral">&#39;DISTRIBUTION&#39;</span>, <span class="stringliteral">&#39;SUBSCENARIO&#39;</span>, <span class="stringliteral">&#39;UPDOWNJSON&#39;</span>,</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                        <span class="stringliteral">&#39;ENVEVAL&#39;</span>, <span class="stringliteral">&#39;BASE_ENV&#39;</span>]</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        <span class="keywordflow">for</span> k <span class="keywordflow">in</span> requiredkeys:</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;            <span class="keywordflow">if</span> k <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.<a class="code" href="../../d2/d45/a00342.html#ac6dc2eacee7669fb9530b7e20820da53">bmps_info</a>:</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;                <span class="keywordflow">raise</span> ValueError(<span class="stringliteral">&#39;[%s]: MUST be provided!&#39;</span> % k)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="comment"># 2. Slope position units information</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        updownf = self.bmps_info.get(<span class="stringliteral">&#39;UPDOWNJSON&#39;</span>)</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        FileClass.check_file_exists(updownf)</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        updownfo = open(updownf, <span class="stringliteral">&#39;</span><span class="stringliteral">r&#39;)</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral">        self.<a class="code" href="../../d0/dc5/a00343.html#a6274459429a176039d38e750e7ba2670">units_infos</a> = json.load(updownfo)</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">        self.<a class="code" href="../../d0/dc5/a00343.html#a6274459429a176039d38e750e7ba2670">units_infos</a> = UtilClass.decode_strs_in_dict(self.<a class="code" href="../../d0/dc5/a00343.html#a6274459429a176039d38e750e7ba2670">units_infos</a>)</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral">        updownfo.close()</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral">        </span><span class="comment"># 3. Get slope position sequence</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        sptags = cf.get(<span class="stringliteral">&#39;BMPs&#39;</span>, <span class="stringliteral">&#39;slppos_tag_name&#39;</span>)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        self.<a class="code" href="../../d0/dc5/a00343.html#a81583f66f36aae8ce3ffdd39d4980757">slppos_tags</a> = json.loads(sptags)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        self.<a class="code" href="../../d0/dc5/a00343.html#a81583f66f36aae8ce3ffdd39d4980757">slppos_tags</a> = UtilClass.decode_strs_in_dict(self.<a class="code" href="../../d0/dc5/a00343.html#a81583f66f36aae8ce3ffdd39d4980757">slppos_tags</a>)</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        self.<a class="code" href="../../d0/dc5/a00343.html#aa3db5d2613884e519b1e9d3c4c002425">slppos_tagnames</a> = sorted(self.slppos_tags.items(), key=operator.itemgetter(0))</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        self.<a class="code" href="../../d0/dc5/a00343.html#a2a0b25e64a9a885d7daad4ee148f73c2">slppos_unit_num</a> = self.<a class="code" href="../../d0/dc5/a00343.html#a6274459429a176039d38e750e7ba2670">units_infos</a>[<span class="stringliteral">&#39;overview&#39;</span>][<span class="stringliteral">&#39;all_units&#39;</span>]</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        self.<a class="code" href="../../d0/dc5/a00343.html#ab66e79c7d5bbc3d6201b0ac3f9ec8bfc">slppos_to_gene</a> = OrderedDict()</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        self.<a class="code" href="../../d0/dc5/a00343.html#a9d075843c15f44ad36d0fdc0abad0b31">gene_to_slppos</a> = dict()</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment"># method 1: (deprecated)</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="comment">#     gene index: 0, 1, 2, ..., n</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="comment">#     slppos unit: rdg1, rdg2,..., bks1, bks2,..., vly1, vly2...</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="comment"># idx = 0</span></div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        <span class="comment"># for tag, sp in self.slppos_tagnames:</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment">#     for uid in self.units_infos[sp]:</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        <span class="comment">#         self.gene_to_slppos[idx] = uid</span></div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="comment">#         self.slppos_to_gene[uid] = idx</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        <span class="comment">#         idx += 1</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment"># method 2:</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        <span class="comment">#     gene index: 0, 1, 2, ..., n</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        <span class="comment">#     slppos unit: rdg1, bks2, vly1,..., rdgn, bksn, vlyn</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;        idx = 0</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;        spname = self.<a class="code" href="../../d0/dc5/a00343.html#aa3db5d2613884e519b1e9d3c4c002425">slppos_tagnames</a>[0][1]</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;        <span class="keywordflow">for</span> uid, udict <span class="keywordflow">in</span> self.<a class="code" href="../../d0/dc5/a00343.html#a6274459429a176039d38e750e7ba2670">units_infos</a>[spname].iteritems():</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            spidx = 0</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            self.<a class="code" href="../../d0/dc5/a00343.html#a9d075843c15f44ad36d0fdc0abad0b31">gene_to_slppos</a>[idx] = uid</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            self.<a class="code" href="../../d0/dc5/a00343.html#ab66e79c7d5bbc3d6201b0ac3f9ec8bfc">slppos_to_gene</a>[uid] = idx</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;            idx += 1</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            next_uid = udict[<span class="stringliteral">&#39;downslope&#39;</span>]</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="keywordflow">while</span> next_uid &gt; 0:</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                self.<a class="code" href="../../d0/dc5/a00343.html#a9d075843c15f44ad36d0fdc0abad0b31">gene_to_slppos</a>[idx] = next_uid</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;                self.<a class="code" href="../../d0/dc5/a00343.html#ab66e79c7d5bbc3d6201b0ac3f9ec8bfc">slppos_to_gene</a>[next_uid] = idx</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                idx += 1</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                spidx += 1</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                spname = self.<a class="code" href="../../d0/dc5/a00343.html#aa3db5d2613884e519b1e9d3c4c002425">slppos_tagnames</a>[spidx][1]</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                next_uid = self.<a class="code" href="../../d0/dc5/a00343.html#a6274459429a176039d38e750e7ba2670">units_infos</a>[spname][next_uid][<span class="stringliteral">&#39;downslope&#39;</span>]</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="keyword">assert</span> (idx == self.<a class="code" href="../../d0/dc5/a00343.html#a2a0b25e64a9a885d7daad4ee148f73c2">slppos_unit_num</a>)</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="comment"># 4. SubScenario IDs and parameters read from MongoDB</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        self.<a class="code" href="../../d0/dc5/a00343.html#af29c401cb3affe6f15ae50fe307644b5">bmps_subids</a> = self.bmps_info.get(<span class="stringliteral">&#39;SUBSCENARIO&#39;</span>)</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        self.<a class="code" href="../../d0/dc5/a00343.html#a44e7bc79ff0020bda6a01d421ea7c732">bmps_coll</a> = self.bmps_info.get(<span class="stringliteral">&#39;COLLECTION&#39;</span>)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        self.<a class="code" href="../../d0/dc5/a00343.html#adbe636876bca97603f87a199b1d25a81">bmps_params</a> = dict()</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        self.<a class="code" href="../../d0/dc5/a00343.html#ab3919502d7dcb45c122ef117d6a27e12">slppos_suit_bmps</a> = dict()</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        self.<a class="code" href="../../d0/dc5/a00343.html#a15a81edaf150a737342d18b79db8375d">read_bmp_parameters</a>()</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        self.<a class="code" href="../../d0/dc5/a00343.html#a271854d9588a28a4497eedf4820af510">get_suitable_bmps_for_slppos</a>()</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;</div>
+<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="../../d0/dc5/a00343.html#a15a81edaf150a737342d18b79db8375d">   93</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d0/dc5/a00343.html#a15a81edaf150a737342d18b79db8375d">read_bmp_parameters</a>(self):</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Read BMP configuration from MongoDB.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        client = <a class="code" href="../../d0/d24/a00222.html">ConnectMongoDB</a>(self.<a class="code" href="../../d2/d45/a00342.html#a48fac5a323bf36106a8b2aef8441eedd">hostname</a>, self.<a class="code" href="../../d2/d45/a00342.html#a81c3fba513a4f7eb89529f99a831093a">port</a>)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        conn = client.get_conn()</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        scenariodb = conn[self.<a class="code" href="../../d2/d45/a00342.html#acd9b24c6a69b461a3d5a4210953a5b97">bmp_scenario_db</a>]</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        bmpcoll = scenariodb[self.<a class="code" href="../../d0/dc5/a00343.html#a44e7bc79ff0020bda6a01d421ea7c732">bmps_coll</a>]</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        findbmps = bmpcoll.find({}, no_cursor_timeout=<span class="keyword">True</span>)</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordflow">for</span> fb <span class="keywordflow">in</span> findbmps:</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;            fb = UtilClass.decode_strs_in_dict(fb)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <span class="keywordflow">if</span> <span class="stringliteral">&#39;SUBSCENARIO&#39;</span> <span class="keywordflow">not</span> <span class="keywordflow">in</span> fb:</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;                <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;            curid = fb[<span class="stringliteral">&#39;SUBSCENARIO&#39;</span>]</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;            <span class="keywordflow">if</span> curid <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.<a class="code" href="../../d0/dc5/a00343.html#af29c401cb3affe6f15ae50fe307644b5">bmps_subids</a>:</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;                <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;            <span class="keywordflow">if</span> curid <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.<a class="code" href="../../d0/dc5/a00343.html#adbe636876bca97603f87a199b1d25a81">bmps_params</a>:</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;                self.<a class="code" href="../../d0/dc5/a00343.html#adbe636876bca97603f87a199b1d25a81">bmps_params</a>[curid] = dict()</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;            <span class="keywordflow">for</span> k, v <span class="keywordflow">in</span> fb.items():</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                <span class="keywordflow">if</span> k == <span class="stringliteral">&#39;SUBSCENARIO&#39;</span>:</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                    <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                <span class="keywordflow">elif</span> k == <span class="stringliteral">&#39;LANDUSE&#39;</span>:</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                    <span class="keywordflow">if</span> isinstance(v, int):</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;                        v = [v]</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;                    <span class="keywordflow">elif</span> v == <span class="stringliteral">&#39;ALL&#39;</span> <span class="keywordflow">or</span> v == <span class="stringliteral">&#39;&#39;</span>:</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;                        v = <span class="keywordtype">None</span></div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;                    <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;                        v = StringClass.extract_numeric_values_from_string(v)</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;                        v = [int(abs(nv)) <span class="keywordflow">for</span> nv <span class="keywordflow">in</span> v]</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;                    self.<a class="code" href="../../d0/dc5/a00343.html#adbe636876bca97603f87a199b1d25a81">bmps_params</a>[curid][k] = v[:]</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;                <span class="keywordflow">elif</span> k == <span class="stringliteral">&#39;SLPPOS&#39;</span>:</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;                    <span class="keywordflow">if</span> isinstance(v, int):</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;                        v = [v]</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;                    <span class="keywordflow">elif</span> v == <span class="stringliteral">&#39;ALL&#39;</span> <span class="keywordflow">or</span> v == <span class="stringliteral">&#39;&#39;</span>:</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                        v = self.slppos_tags.keys()</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                    <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;                        v = StringClass.extract_numeric_values_from_string(v)</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;                        v = [int(abs(nv)) <span class="keywordflow">for</span> nv <span class="keywordflow">in</span> v]</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;                    self.<a class="code" href="../../d0/dc5/a00343.html#adbe636876bca97603f87a199b1d25a81">bmps_params</a>[curid][k] = v[:]</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                    self.<a class="code" href="../../d0/dc5/a00343.html#adbe636876bca97603f87a199b1d25a81">bmps_params</a>[curid][k] = v</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        client.close()</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;</div>
+<div class="line"><a name="l00136"></a><span class="lineno"><a class="line" href="../../d0/dc5/a00343.html#a271854d9588a28a4497eedf4820af510">  136</a></span>&#160;    <span class="keyword">def </span><a class="code" href="../../d0/dc5/a00343.html#a271854d9588a28a4497eedf4820af510">get_suitable_bmps_for_slppos</a>(self):</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="stringliteral">&quot;&quot;&quot;Construct the suitable BMPs for each slope position.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        <span class="keywordflow">for</span> bid, bdict <span class="keywordflow">in</span> self.bmps_params.iteritems():</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;            suitsp = bdict[<span class="stringliteral">&#39;SLPPOS&#39;</span>]</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;            <span class="keywordflow">for</span> sp <span class="keywordflow">in</span> suitsp:</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;                <span class="keywordflow">if</span> sp <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.<a class="code" href="../../d0/dc5/a00343.html#ab3919502d7dcb45c122ef117d6a27e12">slppos_suit_bmps</a>:</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                    self.<a class="code" href="../../d0/dc5/a00343.html#ab3919502d7dcb45c122ef117d6a27e12">slppos_suit_bmps</a>[sp] = [bid]</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;                <span class="keywordflow">elif</span> bid <span class="keywordflow">not</span> <span class="keywordflow">in</span> self.<a class="code" href="../../d0/dc5/a00343.html#ab3919502d7dcb45c122ef117d6a27e12">slppos_suit_bmps</a>[sp]:</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                    self.<a class="code" href="../../d0/dc5/a00343.html#ab3919502d7dcb45c122ef117d6a27e12">slppos_suit_bmps</a>[sp].append(bid)</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;    cf = get_config_parser()</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    cfg = <a class="code" href="../../d0/dc5/a00343.html">SASPUConfig</a>(cf)</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="comment"># test the picklable of SASPUConfig class.</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keyword">import</span> pickle</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    s = pickle.dumps(cfg)</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="comment"># print (s)</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    new_cfg = pickle.loads(s)</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordflow">print</span> (new_cfg.bmps_params)</div>
+<div class="ttc" id="a00222_html"><div class="ttname"><a href="../../d0/d24/a00222.html">seims.preprocess.db_mongodb.ConnectMongoDB</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d08/a00832_source.html#l00016">db_mongodb.py:16</a></div></div>
+<div class="ttc" id="a00343_html_af29c401cb3affe6f15ae50fe307644b5"><div class="ttname"><a href="../../d0/dc5/a00343.html#af29c401cb3affe6f15ae50fe307644b5">seims.scenario_analysis.slpposunits.config.SASPUConfig.bmps_subids</a></div><div class="ttdeci">bmps_subids</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00085">config.py:85</a></div></div>
+<div class="ttc" id="a00342_html"><div class="ttname"><a href="../../d2/d45/a00342.html">seims.scenario_analysis.config.SAConfig</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0c/a00783_source.html#l00014">config.py:14</a></div></div>
+<div class="ttc" id="a00343_html_a15a81edaf150a737342d18b79db8375d"><div class="ttname"><a href="../../d0/dc5/a00343.html#a15a81edaf150a737342d18b79db8375d">seims.scenario_analysis.slpposunits.config.SASPUConfig.read_bmp_parameters</a></div><div class="ttdeci">def read_bmp_parameters</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00093">config.py:93</a></div></div>
+<div class="ttc" id="a00343_html_aa3db5d2613884e519b1e9d3c4c002425"><div class="ttname"><a href="../../d0/dc5/a00343.html#aa3db5d2613884e519b1e9d3c4c002425">seims.scenario_analysis.slpposunits.config.SASPUConfig.slppos_tagnames</a></div><div class="ttdeci">slppos_tagnames</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00049">config.py:49</a></div></div>
+<div class="ttc" id="a00343_html_a6274459429a176039d38e750e7ba2670"><div class="ttname"><a href="../../d0/dc5/a00343.html#a6274459429a176039d38e750e7ba2670">seims.scenario_analysis.slpposunits.config.SASPUConfig.units_infos</a></div><div class="ttdeci">units_infos</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00042">config.py:42</a></div></div>
+<div class="ttc" id="a00343_html"><div class="ttname"><a href="../../d0/dc5/a00343.html">seims.scenario_analysis.slpposunits.config.SASPUConfig</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00017">config.py:17</a></div></div>
+<div class="ttc" id="a00343_html_ab66e79c7d5bbc3d6201b0ac3f9ec8bfc"><div class="ttname"><a href="../../d0/dc5/a00343.html#ab66e79c7d5bbc3d6201b0ac3f9ec8bfc">seims.scenario_analysis.slpposunits.config.SASPUConfig.slppos_to_gene</a></div><div class="ttdeci">slppos_to_gene</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00051">config.py:51</a></div></div>
+<div class="ttc" id="a00343_html_ab3919502d7dcb45c122ef117d6a27e12"><div class="ttname"><a href="../../d0/dc5/a00343.html#ab3919502d7dcb45c122ef117d6a27e12">seims.scenario_analysis.slpposunits.config.SASPUConfig.slppos_suit_bmps</a></div><div class="ttdeci">slppos_suit_bmps</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00088">config.py:88</a></div></div>
+<div class="ttc" id="a00342_html_ac6dc2eacee7669fb9530b7e20820da53"><div class="ttname"><a href="../../d2/d45/a00342.html#ac6dc2eacee7669fb9530b7e20820da53">seims.scenario_analysis.config.SAConfig.bmps_info</a></div><div class="ttdeci">bmps_info</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0c/a00783_source.html#l00070">config.py:70</a></div></div>
+<div class="ttc" id="a01370_html"><div class="ttname"><a href="../../d8/dbe/a01370.html">seims.preprocess.db_mongodb</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d08/a00832_source.html#l00001">db_mongodb.py:1</a></div></div>
+<div class="ttc" id="a00343_html_a81583f66f36aae8ce3ffdd39d4980757"><div class="ttname"><a href="../../d0/dc5/a00343.html#a81583f66f36aae8ce3ffdd39d4980757">seims.scenario_analysis.slpposunits.config.SASPUConfig.slppos_tags</a></div><div class="ttdeci">slppos_tags</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00047">config.py:47</a></div></div>
+<div class="ttc" id="a00343_html_adbe636876bca97603f87a199b1d25a81"><div class="ttname"><a href="../../d0/dc5/a00343.html#adbe636876bca97603f87a199b1d25a81">seims.scenario_analysis.slpposunits.config.SASPUConfig.bmps_params</a></div><div class="ttdeci">bmps_params</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00087">config.py:87</a></div></div>
+<div class="ttc" id="a00343_html_a7ec1fe1099e1860c5a41f95c1993a99c"><div class="ttname"><a href="../../d0/dc5/a00343.html#a7ec1fe1099e1860c5a41f95c1993a99c">seims.scenario_analysis.slpposunits.config.SASPUConfig.__init__</a></div><div class="ttdeci">def __init__</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00028">config.py:28</a></div></div>
+<div class="ttc" id="a01400_html"><div class="ttname"><a href="../../dc/d35/a01400.html">seims.scenario_analysis.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0c/a00783_source.html#l00001">config.py:1</a></div></div>
+<div class="ttc" id="a00342_html_a48fac5a323bf36106a8b2aef8441eedd"><div class="ttname"><a href="../../d2/d45/a00342.html#a48fac5a323bf36106a8b2aef8441eedd">seims.scenario_analysis.config.SAConfig.hostname</a></div><div class="ttdeci">hostname</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0c/a00783_source.html#l00038">config.py:38</a></div></div>
+<div class="ttc" id="a00342_html_acd9b24c6a69b461a3d5a4210953a5b97"><div class="ttname"><a href="../../d2/d45/a00342.html#acd9b24c6a69b461a3d5a4210953a5b97">seims.scenario_analysis.config.SAConfig.bmp_scenario_db</a></div><div class="ttdeci">bmp_scenario_db</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0c/a00783_source.html#l00041">config.py:41</a></div></div>
+<div class="ttc" id="a00343_html_a9d075843c15f44ad36d0fdc0abad0b31"><div class="ttname"><a href="../../d0/dc5/a00343.html#a9d075843c15f44ad36d0fdc0abad0b31">seims.scenario_analysis.slpposunits.config.SASPUConfig.gene_to_slppos</a></div><div class="ttdeci">gene_to_slppos</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00052">config.py:52</a></div></div>
+<div class="ttc" id="a00343_html_a271854d9588a28a4497eedf4820af510"><div class="ttname"><a href="../../d0/dc5/a00343.html#a271854d9588a28a4497eedf4820af510">seims.scenario_analysis.slpposunits.config.SASPUConfig.get_suitable_bmps_for_slppos</a></div><div class="ttdeci">def get_suitable_bmps_for_slppos</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00136">config.py:136</a></div></div>
+<div class="ttc" id="a00343_html_a2a0b25e64a9a885d7daad4ee148f73c2"><div class="ttname"><a href="../../d0/dc5/a00343.html#a2a0b25e64a9a885d7daad4ee148f73c2">seims.scenario_analysis.slpposunits.config.SASPUConfig.slppos_unit_num</a></div><div class="ttdeci">slppos_unit_num</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00050">config.py:50</a></div></div>
+<div class="ttc" id="a00342_html_a81c3fba513a4f7eb89529f99a831093a"><div class="ttname"><a href="../../d2/d45/a00342.html#a81c3fba513a4f7eb89529f99a831093a">seims.scenario_analysis.config.SAConfig.port</a></div><div class="ttdeci">port</div><div class="ttdef"><b>Definition:</b> <a href="../../dc/d0c/a00783_source.html#l00039">config.py:39</a></div></div>
+<div class="ttc" id="a00343_html_a44e7bc79ff0020bda6a01d421ea7c732"><div class="ttname"><a href="../../d0/dc5/a00343.html#a44e7bc79ff0020bda6a01d421ea7c732">seims.scenario_analysis.slpposunits.config.SASPUConfig.bmps_coll</a></div><div class="ttdeci">bmps_coll</div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00086">config.py:86</a></div></div>
+<div class="ttc" id="a01394_html"><div class="ttname"><a href="../../d6/d2f/a01394.html">seims.pygeoc.pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d92/a00586_source.html#l00001">utils.py:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>mpi_adjust_groups.py</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:25 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e9804dfb28c80687c0b1771681283077.html">scenario_analysis</a></li><li class="navelem"><a class="el" href="../../dir_fb953fad34f000c3fba666fdcab80fe4.html">slpposunits</a></li><li class="navelem"><b>config.py</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:25 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

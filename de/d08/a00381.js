@@ -1,7 +1,7 @@
 var a00381 =
 [
-    [ "BranchFiles", "de/d08/a00381.html#ade7758492a8ff054359c9dac675a307b", null ],
-    [ "BranchFiles", "de/d08/a00381.html#ade7758492a8ff054359c9dac675a307b", null ],
-    [ "GetFilesToBranch", "de/d08/a00381.html#a5c95919f835f56325d0f56aa7880c0b3", null ],
-    [ "GetFilesToBranch", "de/d08/a00381.html#a5c95919f835f56325d0f56aa7880c0b3", null ]
+    [ "assertEqualIgnoreLeadingWhitespace", "de/d08/a00381.html#a94ac224dc4a15a6370bf72229618a08f", null ],
+    [ "assertEqualIgnoreLeadingWhitespace", "de/d08/a00381.html#a94ac224dc4a15a6370bf72229618a08f", null ],
+    [ "StripLeadingWhitespace", "de/d08/a00381.html#a2fec06a896aad2393ee44a4e9cc1534a", null ],
+    [ "StripLeadingWhitespace", "de/d08/a00381.html#a2fec06a896aad2393ee44a4e9cc1534a", null ]
 ];

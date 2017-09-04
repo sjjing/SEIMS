@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: MongoDB的安装预配置</title>
+<title>SEIMS: 模块开发Demo</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,78 +106,206 @@ $(document).ready(function(){initNavTree('db/ddf/a00164.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">MongoDB的安装预配置 </div>  </div>
+<div class="title">模块开发Demo </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>by Huiran Gao</p>
-<p>Latest Updated：May.31, 2016 </p>
-<hr/>
- <h1>目录</h1>
-<p><a href="../../#1-mongodb安装">**1. MongoDB安装**</a></p>
+<div class="textblock"><p>以一个简单Demo为例介绍，模块开发的整体流程。</p>
+<p>一般来说，模块编写基本步骤如下：</p>
+<ul>
+<li>1. 阅读相关文献和模型文档，编写模型文档的理论部分；</li>
+<li>2. 设计模块名，基本命名规则为<code>过程_算法</code>，如<code>PET_H</code>为蒸散发过程（PET）的Hargreaves方法实现；缩写规范自行查找，比如<code>YLD</code>可以是作物产量<code>Yield</code>的缩写，没有指定具体算法的，命名只有<code>过程</code>也可；</li>
+<li>3. 根据模型的相关理论，参考已有成熟模型的代码，列出模型的输入（包括以其他模块的输出作为输入）、输出，编写元数据函数(<code>MetadataInformation</code>)代码，即<code>api.cpp</code>；</li>
+<li>在头文件中定义所需变量，并在实现文件(<code>.cpp</code>)中做参数初始化（构造函数）、赋值（<code>SetValue</code>, <code>Set1DData</code>, <code>Set2DData</code>系列函数）和有效性检查（<code>CheckInputData</code>系列函数）的工作；</li>
+<li>根据公式，编写<code>Execute</code>函数的代码，实现模拟功能</li>
+<li>编写输出代码，<code>Get1DData</code>，<code>Get2DData</code>等</li>
+<li>代码检查、测试</li>
+</ul>
+<h1>目录</h1>
 <ol type="1">
-<li><a href="../../#i-安装">安装</a></li>
-<li><a href="../../#ii-测试">测试</a></li>
+<li><a href="../../#1-新建模块">新建模块</a></li>
+<li><a href="../../#2-编写元数据函数">编写元数据函数</a></li>
+<li><a href="../../#3-头文件定义">头文件定义</a></li>
+<li><a href="../../#4-实现函数编写">实现函数编写</a></li>
+<li><a href="../../#5-模块测试">模块测试</a></li>
 </ol>
-<p><a href="../../#2-mongodb配置">**2. MongoDB配置**</a></p>
-<p><a href="../../#3-mongovue">**3. MongoVUE**</a></p>
-<h1>1. MongoDB安装</h1>
-<h2>i. 安装</h2>
+<h2>1. 新建模块</h2>
+<p>这里，默认你已经掌握SEIMS代码基本结构和<code>CMAKE</code>编译知识，并已经成功编译出SEIMS的VS工程，如果没有，请往前阅读相关文档。</p>
+<p>**模块功能设计**：</p>
 <ul>
-<li>运行<code>mongodb-win32-x86_64-2.6.1.msi</code>，实际上是解压程序，将解压后的所有文件放到一个**全英文且没有空格**的文件夹中，比如<code>E:\MongoDB</code></li>
-<li>在MongoDB文件夹内新建logs文件夹，用于存储日志文件，比如<code>E:\MongoDB\logs</code>，并在此文件夹内新建空文件<code>mongodb.log</code></li>
-<li>在MongoDB文件夹内新建db文件夹，用于存放数据库文件，比如<code>E:\MongoDB\db</code></li>
-<li><p class="startli">启动MongoDB: 以系统管理员身份运行cmd，输入以下命令：</p>
-<p class="startli">```shell cd E: E: mongod.exe &ndash;dbpath=e: ```</p>
-<p class="startli">如看到控制台最后一行类似:</p>
-<p class="startli">``` Tue Oct 09 11:50:55 [websvr] admin web console watiing for connections on port 27017 ```</p>
-<p class="startli">说明启动成功,MongoDB占用系统27017端口。</p>
+<li>测试模型对单层栅格和多层栅格数据的支持</li>
+<li>分别读取Raster1D和Raster2D数据，做简单运算之后，输出</li>
+<li>模块命名为<code>IO_TEST</code></li>
+</ul>
+<p>**利用CMAKE新建模块工程**：</p>
+<ul>
+<li>在<code>SEIMS/src/modules/test</code>下新建目录<code>IO_TEST</code>，并在<code>SEIMS/src/modules/test/CMakeLists.txt</code>中添加语句<code>ADD_SUBDIRECTORY(./IO_TEST)</code>；</li>
+<li>复制<code>SEIMS/src/modules/test/template/</code>目录下的元数据模板<code>api.cpp</code>，头文件模板<code><a class="el" href="../../d7/d04/a01246_source.html">template.h</a></code>，实现函数模板<code><a class="el" href="../../d1/d31/a01245_source.html">template.cpp</a></code>，以及<code>CMakeLists.txt</code>到<code>IO_TEST</code>目录下；</li>
+<li>根据需要，对头文件和实现函数文件进行重命名，这里我们重命名为<code><a class="el" href="../../d4/dd5/a01244_source.html">IO_test.h</a></code>和<code><a class="el" href="../../d8/db0/a01243_source.html">IO_test.cpp</a></code>,并修改<code>CMakeLists.txt</code>中相关设置，具体如下图所示 <div class="image">
+<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fcmakelist-modification.jpg" />
+</div>
+</li>
+<li>一切准备就绪，打开Visual Studio 命令提示工具进行编译，随后打开VS，便可看到新增的模块工程，如下图： <div class="image">
+<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fnew-module-created.jpg" />
+</div>
 </li>
 </ul>
-<h2>ii. 测试</h2>
-<p>测试MongoDB，以管理员身份新建一个cmd窗口：</p>
-<p>```shell cd E: E: mongo ```</p>
-<p>如出现<code>connecting to:test</code>说明测试通过。</p>
-<div class="image">
-<img src="http://i.imgur.com/Wkr40Z2.png" />
-</div>
-<p>继续测试：</p>
-<p>```shell use test db.foo.save({hello:0}) db.foo.find() ```</p>
-<p>如果出现类似<code>{ "_id" : ObjectId("574cfef6c02688f96a5819a1"), "Hello" : 0 }</code>之类信息，说明测试成功数据已经插入数据库，</p>
-<div class="image">
-<img src="http://i.imgur.com/Zz9caSo.png" />
-</div>
-<p>然后输入<code>exit</code>退出。</p>
-<h1>2. MongoDB配置</h1>
+<p><a href="../../#目录">返回目录</a></p>
+<h2>2. 编写元数据函数</h2>
+<p>为了便于统一修改，并保持SEIMS整体的一致性，<code>api.cpp</code>中所有字符串类型的元数据信息均在<code>src/base/util/text.h</code>头文件中以宏定义&lt;tt&gt;::define的形式进行管理。</p>
+<h3>2.1 SetClass</h3>
+<p>定义模块所属模块组及描述，在<code><a class="el" href="../../d0/d22/a01049_source.html">text.h</a></code>中定义为<code>MCLS_</code>及<code>MCLSDESC_</code>，如：</p>
+<p>```cpp /// Potential Evapotranspiration Modules #define MCLS_PET "Potential Evapotranspiration" #define MCLSDESC_PET "Calculate the potential evapotranspiration" ```</p>
+<h3>2.2 SetID, SetDescription</h3>
+<p>定义该模块的唯一标识符ID和描述，在<code><a class="el" href="../../d0/d22/a01049_source.html">text.h</a></code>中定义为<code>MID_</code>及<code>MDESC_</code>，如：</p>
+<p>```cpp #define MID_PET_H "PET_H" #define MDESC_PET_H "Hargreaves method for calculating the potential evapotranspiration." ``` SetName 同 SetID</p>
+<h3>2.3 AddParameter</h3>
+<p>所有从数据库中原始读取的参数，均以AddParameter形式定义，这些参数在模拟开始前从数据库中读取，以指针的形式在不同模块间传递，模拟开始后，不重复读取！</p>
+<p>共有5个输入：</p>
 <ul>
-<li><p class="startli">**注册MongoDB为系统服务** 以系统管理员身份运行cmd（必须以系统管理员身份运行cmd，否则会报错）：</p>
-<p class="startli">```shell cd E: E: mongo.exe &ndash;dbpath=d: &ndash;logpath=d:.log &ndash;install &ndash;serviceName "MongoDB" ```</p>
-<p class="startli">如果控制台出现类似 <code>Tue Oct 09 12:05:15 Service can be started from the command line with 'net start MongoDB'</code>这样的语句，说明服务已经注册成功。</p>
+<li>变量名，在<code><a class="el" href="../../d0/d22/a01049_source.html">text.h</a></code>中定义为<code>VAR_</code>，如CN2值定义为<code>VAR_CN2</code></li>
+<li>单位，在<code><a class="el" href="../../d0/d22/a01049_source.html">text.h</a></code>中定义为<code>UNIT_</code>，如秒的单位为<code>UNIT_SECOND</code></li>
+<li>描述，在<code><a class="el" href="../../d0/d22/a01049_source.html">text.h</a></code>中定义为<code>DESC_</code>，如CN2值得描述为<code>DESC_CN2</code></li>
+<li>来源，来源共有如下几种：<ul>
+<li><code>File_Input</code>:来自模型配置文件<code>file.in</code>,如模拟时间步长</li>
+<li><code>Source_HydroClimateDB</code>：来自水文气象数据库，如气温</li>
+<li><code>Source_ParameterDB</code>：来自模型参数数据库，包括MongoDB中<code>Parameters</code>表和<code>spatial</code>表</li>
+</ul>
 </li>
-<li><p class="startli">**启动MongoDB数据库服务** 在cmd中输入:</p>
-<p class="startli">```shell net start MongoDB ``` 即可启动MongoDB数据库服务，此时控制台输出Mongo DB服务已经启动成功，说明系统启动成功。</p>
-<p class="startli">注意：MongoDB的安装目录需全英文且没有空格</p>
-</li>
-<li><b>MongoDB 安装为Windows服务，设置为自动启动</b></li>
-<li><p class="startli">以管理员方式运行cmd,输入以下命令:</p>
-<p class="startli">```shell mongod &ndash;install &ndash;serviceName "MongoDB" &ndash;serviceDisplayName "MongoDB" &ndash;logpath d:.log &ndash;logappend &ndash;dbpath d: &ndash;directoryperdb ```</p>
-<p class="startli">不提示错误即表示设置成功！</p>
-<p class="startli"><code>--install</code>：安装MongoDB服务</p>
-<p class="startli"><code>--serviceName</code>：安装Windows服务时使用的服务名</p>
-<p class="startli"><code>--serviceDisplayName</code>：在Windows服务管理器中显示的服务名</p>
-<p class="startli"><code>--logpath</code>：MongoDB日志输出文件名称。虽说该参数直译是“日志路径”，其实要指定的是一个具体的完整文件名。这里我使用的是C盘根目录下的MongoDB.Log文件。该文件不用事先创建，直接指定就是了。</p>
-<p class="startli"><code>--dbpath</code>：指定MongoDB数据存放的路径。这个就是最关键的参数了，不仅该目录要存在，并且最好不要以“\”结尾。</p>
-<p class="startli"><code>--directoryperdb</code>：这个参数很好理解，让MongoDB按照数据库的不同，针对每一个数据库都建立一个目录，所谓的“目录每数据库”。</p>
+<li>数据类型，为<code>dimensionTypes</code>枚举型变量，主要包括：<ul>
+<li><code>DT_Single</code>：单个数值型</li>
+<li><code>DT_Array1D</code>：一维数组，如站点平均气温</li>
+<li><code>DT_Array2D</code>：二维数组，如栅格分层计算的层数及每层栅格的索引值</li>
+<li><code>DT_Raster1D</code>：一维栅格数据，如DEM</li>
+<li><code>DT_Raster2D</code>：二维栅格数据，如多层土壤属性栅格</li>
+<li><code>DT_Scenario</code>：情景数据</li>
+</ul>
 </li>
 </ul>
-<h1>3. MongoVUE</h1>
-<p>详见<a href="../../Windows#（2）-mongodb及mongovue">MongoDB及MongoVUE</a></p>
-<p>Good luck! </p>
-</div></div><!-- contents -->
+<h3>2.4 AddInput</h3>
+<p>所有来源于其他模块输出的参数均以AddInput的形式定义，这部分参数在模块运行之前，检查其他模块是否有输出该参数，如果有，则获取指针；如果该参数尚未初始化，则由对应模块的<code>initialOutputs()</code>函数进行初始化并输出。</p>
+<p>与AddParameter的设置基本一致，唯一的区别在于AddInput的变量来源必须是<code>Source_Module</code>。</p>
+<p>二者的区别为：</p>
+<ul>
+<li>AddParameter中的参数，在模型构建时（即开始逐时间步长计算之前）一次性读取（除气象水文数据外），具体参见<code>src/base/ModuleFactory.cpp</code>中的：</li>
+</ul>
+<p>```cpp void ModuleFactory::SetData() ```</p>
+<ul>
+<li>而AddInput的参数，在模型开始第一个时间步长运行前，获取该参数的内存地址：</li>
+</ul>
+<p>```cpp void ModuleFactory::GetValueFromDependencyModule() ```</p>
+<h3>2.5 AddOutput</h3>
+<p>AddOutput需要设置变量名、单位、描述、数据类型，不再赘述。</p>
+<h3>2.6 Demo</h3>
+<p>我们设定了测试模型输入输出的模块目的，这里我们可以这样定义AddParameter和AddOutput（暂不涉及从其他模块中读取变量）：读取一维栅格数据<code>VAR_CN2</code>和二维栅格数据<code>VAR_CONDUCT</code>，分别输出为<code>CN2_M</code>和<code>K_M</code>：</p>
+<p>```cpp /// set parameters from database mdi.AddParameter(VAR_CN2, UNIT_NON_DIM, DESC_CN2, Source_ParameterDB, DT_Raster1D); mdi.AddParameter(VAR_CONDUCT, UNIT_WTRDLT_MMH, DESC_CONDUCT, Source_ParameterDB, DT_Raster2D); /// set the output variables mdi.AddOutput("CN2_M",UNIT_NON_DIM, DESC_CN2, DT_Raster1D); mdi.AddOutput("K_M",UNIT_WTRDLT_MMH,DESC_CONDUCT,DT_Raster2D); ```</p>
+<p><a href="../../#目录">返回目录</a></p>
+<h2>3. 头文件定义</h2>
+<h3>3.1 利用VAssistX快速重命名</h3>
+<p>打开头文件<code><a class="el" href="../../d4/dd5/a01244_source.html">IO_test.h</a></code>之后，首先想将默认的继承于<code><a class="el" href="../../d0/d48/a00351.html" title="Base module for all simulation modules in SEIMS. ">SimulationModule</a></code>的子类名称改为<code>IO_TEST</code>，有了VassistX我们可以很方便的快速重命名，如下：</p>
+<div class="image">
+<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fvs-rename.jpg" />
+</div>
+<div class="image">
+<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fvs-rename2.jpg" />
+</div>
+<h3>3.2 定义输入、输出变量</h3>
+<p>与<code>api.cpp</code>中设置的变量一一对应，在<code>IO_TEST</code>类定义变量名，并做好注释，这里我的定义如下：</p>
+<p>```cpp private: /// valid cells number int m_nCells; /// input 1D raster data float* m_raster1D; /// maximum number of soil layers int m_soilLayers; /// input 2D raster data float** m_raster2D; /// output 1D raster data float* m_output1Draster; /// output 2D raster data float** m_output2Draster; ```</p>
+<h3>3.3 定义public或private函数</h3>
+<ul>
+<li>构造函数和析构函数：（必需）</li>
+<li>算法执行函数：（必须），<code>virtual int Execute();</code></li>
+<li>获取输入数据系列函数：（多选）<ul>
+<li><code>SetValue</code>：设置<code>DT_Single</code>类型数据</li>
+<li><code>Set1DData</code>：设置<code>DT_Array1D</code>和<code>DT_Raster1D</code>类型数据</li>
+<li><code>Set2DData</code>：设置<code>DT_Array2D</code>和<code>DT_Raster2D</code>类型数据</li>
+</ul>
+</li>
+<li>获取输出数据系列函数：（多选）<ul>
+<li><code>GetValue</code>：读取<code>DT_Single</code>类型数据</li>
+<li><code>Get1DData</code>：读取<code>DT_Array1D</code>和<code>DT_Raster1D</code>类型数据</li>
+<li><code>Get2DData</code>：读取<code>DT_Array2D</code>和<code>DT_Raster2D</code>类型数据</li>
+</ul>
+</li>
+<li>其他一些自定义的函数</li>
+</ul>
+<h2>4. 实现函数编写</h2>
+<p>接下来我们可以进入实现函数编写的阶段。</p>
+<h3>4.1 参数初始化</h3>
+<p>按照AddParameter，AddInput，AddOutput中参数定义顺序，在构造函数中依次进行参数初始化，基本原则为：</p>
+<ul>
+<li><code>DT_Single</code>类型数据设置为-1或者<code>NODATA</code>(<code><a class="el" href="../../db/d40/a00959_source.html">utils.h</a></code>中定义)</li>
+<li><code>DT_Array1D</code>, <code>DT_Raster1D</code>, <code>DT_Array2D</code>和<code>DT_Raster2D</code>类型变量设置为<code>NULL</code></li>
+</ul>
+<p>这里我们这样初始化：</p>
+<p>```cpp IO_TEST::IO_TEST(void):m_nCells(-1), m_raster1D(NULL), m_raster2D(NULL), m_output1Draster(NULL), m_output2Draster(NULL) { } ```</p>
+<h3>4.2 内存释放（析构函数）</h3>
+<p>基本原则是：凡是在该模块中new的内存均需要在析构函数中释放，除非该变量在其他地方被显式释放。对于一维数组利用<code>delete[]</code>即可，对于二维数组则需要遍历释放，并重新赋值为<code>NULL</code>避免“野指针”。</p>
+<p>这里我们这样释放内存：</p>
+<p>```cpp IO_TEST::~IO_TEST(void) { if (m_output1Draster != NULL) delete[] m_output1Draster; m_output1Draster = NULL; if (m_output2Draster != NULL) { for(int i = 0; i &lt; m_nCells; i++) delete[] m_output2Draster[i]; delete[] m_output2Draster; m_output2Draster = NULL; } } ```</p>
+<p>由于释放内存频繁用到，因此，在<code><a class="el" href="../../db/d40/a00959_source.html">utils.h</a></code>中定义了模板函数用于释放内存：</p>
+<p>```cpp #include "utils.h" if(m_output1Draster != NULL) Release1DArray(m_output1Draster); if(m_output2Draster != NULL) Release2DArray(m_nCells, m_output2Draster) ```</p>
+<h3>4.3 变量赋值</h3>
+<p>赋值时首先进行数据长度检查（<code>CheckInputSize()</code>）,在进行长度检查时，顺便给栅格个数（<code>m_nCells</code>）赋值，随后对变量名进行匹配（<code>StringMatch()</code>），如果匹配则赋值，以<code>Set1DData</code>为例:</p>
+<p>```cpp void IO_TEST::Set1DData(const char* key, int n, float* data) { if(!this-&gt;CheckInputSize(key,n)) return; string sk(key); if(StringMatch(sk, VAR_CN2)) this-&gt;m_raster1D = data; }</p>
+<p>bool IO_TEST::CheckInputSize(const char* key, int n) { if(n&lt;=0) throw <a class="el" href="../../d9/d5e/a00295.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputSize","Input data for "+string(key) +" is invalid. The size could not be less than zero."); if(this-&gt;m_nCells != n) { if(this-&gt;m_nCells &lt;=0) this-&gt;m_nCells = n; else throw <a class="el" href="../../d9/d5e/a00295.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputSize","Input data for "+string(key) +" is invalid. All the input data should have same size."); } return true; } ```</p>
+<h3>4.4 参数有效性检查</h3>
+<p>有效性检查函数<code>CheckInputData()</code>用于逐个判断SetValue系列函数中设置的输入是否均以成功赋值，如没有，则抛出异常。</p>
+<p>```cpp bool IO_TEST::CheckInputData() { if(this-&gt;m_date == -1) /// m_date is protected variable member in base class <a class="el" href="../../d0/d48/a00351.html" title="Base module for all simulation modules in SEIMS. ">SimulationModule</a>. throw <a class="el" href="../../d9/d5e/a00295.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","You have not set the time."); if(m_nCells &lt;= 0) throw <a class="el" href="../../d9/d5e/a00295.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","The dimension of the input data can not be less than zero."); if(m_raster1D == NULL) throw <a class="el" href="../../d9/d5e/a00295.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","The 1D raster input data can not be less than zero."); if(m_raster2D == NULL) throw <a class="el" href="../../d9/d5e/a00295.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","The 2D raster input data can not be less than zero."); return true; } ```</p>
+<h3>4.5 编写Execute函数</h3>
+<p>在Execute函数中，首先需要为输出变量开辟内存空间，并赋初值，然后进行模块功能的实现。</p>
+<p>这里我们以简单的算法为例：</p>
+<p>```cpp int IO_TEST::Execute() { /// Initialize output variables if (m_output1Draster == NULL) { m_output1Draster = new float[m_nCells]; #pragma omp parallel for for (int i = 0; i &lt; m_nCells; ++i) m_output1Draster[i] = 0.f; } if (m_output2Draster == NULL) { m_output2Draster = new float*[m_nCells]; #pragma omp parallel for for (int i = 0; i &lt; m_nCells; ++i) { m_output2Draster[i] = new float[m_soilLayers]; for(int j = 0; j &lt; m_soilLayers; j++) m_output2Draster[i][j] = 0.f; } } /// Execute function #pragma omp parallel for for (int i = 0; i &lt; m_nCells; ++i) { m_output1Draster[i] = m_raster1D[i] * 0.5f; for(int j = 0; j &lt; m_soilLayers; j++) m_output2Draster[i][j] = m_raster2D[i][j] + 2.f; } return true; } ```</p>
+<p>与内存释放类似，为方便参数初始化，在<code>util.h</code>中定义了模板函数，调用示例如下：</p>
+<p>```cpp /// Initialize output variables if(m_output1Draster == NULL) Initialize1DArray(m_nCells, m_output1Draster, 0.f) if(m_output2Draster == NULL) Initialize2DArray(m_nCells, m_soilLayers, m_output2Draster, 0.f) ```</p>
+<h3>4.6 编写变量输出代码</h3>
+<p>与变量赋值代码类似，首先进行变量名匹配，然后进行赋值，以<code>Get2DData</code>为例：</p>
+<p>```cpp void IO_TEST::Get2DData(const char* key, int* n, int* col, float*** data) { string sk(key); if(StringMatch(sk, "K_M")) { *data = this-&gt;m_output2Draster; *n = this-&gt;m_nCells; *col = this-&gt;m_soilLayers; } } ```</p>
+<p>至此，这个简单的<code>IO_TEST</code>模块的代码编写工作便完成了！</p>
+<p><a href="../../#目录">返回目录</a></p>
+<h2>5. 模块测试</h2>
+<p>&gt;值得一提的是，SEIMS同时也是一个模块化框架，单独运行某一个模块也是可以的(当然是在保证气象输入正确的前提下)。</p>
+<p>对于我们编写的这个IO测试模块，可以通过配置模型输入文件，仅运行这一模块，并得到输出。</p>
+<h3>5.1 config.fig</h3>
+<p>通过之前的学习，相信你对config.fig的输入格式已经有所了解，不再赘述，具体设置如下：</p>
+<p>``` </p>
+<h3>FORMAT</h3>
+<h3>MODULE CLASS NO. | PROCESS NAME | METHOD NAME | MODULE ID</h3>
+<h3>-1 | Module Test</h3>
+<p>0 | IO test| IO | IO_TEST ```</p>
+<h3>5.2 file.in</h3>
+<p>既然仅测试这一模块，那就只设置模拟一天（其实file.in对IO_TEST没用）</p>
+<p>``` MODE|Daily INTERVAL|1 STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-01-02 00:00:00 ``` </p>
+<h3>5.3 file.out</h3>
+<p>分别设置2个输出，注意设置开始和结束时间要在file.in中模拟时间段之内，即：</p>
+<p>``` </p>
+<h3>-1 Module IO TEST</h3>
+<p>OUTPUTID|CN2_M COUNT | 1 TYPE | MEAN STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-01-02 00:00:00 FILENAME | CN2_M.tif</p>
+<p>OUTPUTID|K_M COUNT | 1 TYPE | MEAN STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-01-02 00:00:00 FILENAME | K_M.tif ```</p>
+<h3>5.4 运行模型</h3>
+<p>我的运行命令为：</p>
+<p>``` D: E:</p>
+<div class="fragment"><div class="line">\Hydro\SEIMS\model_data\TEST\model_dianbu_30m_longterm  6 0 127.0.0.1 27017</div>
+<div class="line">```</div>
+<div class="line"></div>
+<div class="line">值得注意的是，模型目录文件夹名称一定要与MongoDB数据库名一致！</div>
+<div class="line"></div>
+<div class="line">运行后在该目录下可以看到&lt;tt&gt;output&lt;/tt&gt;文件夹：</div>
+<div class="line"></div>
+<div class="line">&lt;img src=<span class="stringliteral">&quot;http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2FIO_test_run.jpg&quot;</span> alt=<span class="stringliteral">&quot;&quot;</span>/&gt;</div>
+<div class="line"></div>
+<div class="line">&lt;img src=<span class="stringliteral">&quot;http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2FIO_test_run_output.jpg&quot;</span> alt=<span class="stringliteral">&quot;&quot;</span>/&gt;</div>
+<div class="line"></div>
+<div class="line"></div>
+<div class="line">至此，一个简单的SEIMS框架下的模块便编写完成了！</div>
+<div class="line"></div>
+<div class="line">&lt;a href=<span class="stringliteral">&quot;#目录&quot;</span>&gt;返回目录&lt;/a&gt;</div>
+</div><!-- fragment --></div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:30 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:31 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

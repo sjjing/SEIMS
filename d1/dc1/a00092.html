@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: SEIMS开发规范</title>
+<title>SEIMS: Install SEIMS on Windows</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,119 +106,158 @@ $(document).ready(function(){initNavTree('d1/dc1/a00092.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SEIMS开发规范 </div>  </div>
+<div class="title">Install SEIMS on Windows </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><ul>
-<li>开发规范的制定是为了保持模型代码的一致性和可读性。</li>
-<li>开发规法包括代码风格统一和模块编写指南</li>
-</ul>
-<h2>1.代码风格规范</h2>
-<h3>1.1.代码整理格式规范</h3>
-<p>SEIMS模型主要编程语言为C/C++和Python，采用CMake组织代码。由于不同开发者所用的编辑器各异，因此我们基于Google代码格式规定了C/C++和Python的代码书写格式规范，位于<code>./doc/style</code>文件夹下。这两个文件分别可以导入CLion和PyCharm软件，使用菜单栏命令“Code”-&gt;“Reformation Code”便可以一键整理代码。</p>
-<h3>1.2.禁用Tab键</h3>
-<p>不同IDE对Tab键的显示不同，Visual Studio下排版漂亮的代码在其他IDE下很可能错位，因此**强烈建议**在VS中将**Tab键用4个空格代替**。</p>
-<p>打开Visual Studio，设置“工具”-&gt;“选项”-&gt;“文本编辑器”-&gt;“C/C++”-&gt;“制表符”-&gt;“缩进”选择“智能”，“制表符大小”和“缩进大小”均为4，选中“插入空格”。</p>
-<h3>1.3.不混用换行符</h3>
-<p>众所周知，<code>Windows</code>系统和<code>Linux/Unix</code>系统的换行符不同，而<code>Windows</code>下的Git默认情况下会在提交代码时自动替换换行符<code>LF</code>或<code>CR</code>为<code>CRLF</code>，这样对跨平台代码造成了极大的不便。</p>
-<p>因此，我们**强烈建议**代码采用<code>Linux</code>编码<code>LF</code>即<code>\n</code>，因此需要做到：</p>
+<div class="textblock"><p>First release: Huiran Gao</p>
+<p>Reviewed and updated: Liang-Jun Zhu</p>
+<p>Latest Updated： Mar.23, 2017 </p>
+<hr/>
+ <h1>目录</h1>
 <ul>
-<li>VS或其他IDE设置换行符为LF而非CRLF</li>
-<li>文本编辑器建议采用Notepad++，**禁止**使用Windows的记事本！</li>
-</ul>
-<p>打开Git shell进行如下设置：</p>
-<p>``` </p>
-<h1>AutoCRLF, 设置提交、检出时均不转换</h1>
-<p>git config &ndash;global core.autocrlf false </p>
-<h1>SafeCRLF, 设置拒绝提交包含混合换行符的文件，并且在提交混合换行符的文件时给出警告，从而手动转换为LF换行符后提交</h1>
-<p>git config &ndash;global core.safecrlf true git config &ndash;global core.safecrlf warn ```</p>
-<p>详见<a href="https://github.com/lreis2415/SEIMS2017/wiki/Git-guidance">Wiki-Github使用说明</a>。</p>
-<h3>1.4.行宽</h3>
-<p>行宽必须限制！！！</p>
-<p>建议100字符为限，太长则应换行。</p>
-<p>PyCharm中的设置为：File-&gt;Settings-&gt;Editor-&gt;Code Style-&gt;Default Opetions-&gt;Right margin (columns): 100</p>
-<p>随后使用Code-&gt;Reformat Code (Ctrl+Alt+L)时便会自动换行了。当然自动的并不一定是最好的，还是需要自己手动调整。</p>
-<h3>1.5.括弧</h3>
-<p>在复杂的条件表达式中，用括弧清楚地表示逻辑优先级。</p>
-<h3>1.6.断行与空白的花括号{}</h3>
-<p>避免使用精简风格，如： ```cpp if (condition) DoSomething(); else DoSomethingElse(); ``` 虽然这样可以节省几行空间，但是对于单步调试查看各个变量的变化情况非常不便，因此推荐采用以下两种风格： ```cpp if (condition) { DoSomething(); } else { DoSomethingElse(); } ``` 或者 ```cpp if (condition) { DoSomething(); } else { DoSomethingElse(); } ```</p>
-<h3>1.7.分行</h3>
-<p>不要把多条语句放在一行！！！更严格地，不要把多个变量定义在一行，以下三行都是不可取的例子。</p>
-<p>```cpp int a =1, b = 2; c = 3; d = 5.f; if (fFoo) Bar(); ```</p>
-<h3>1.8.命名大小写</h3>
-<p>采用一个通用的做法：所有的类型、类、函数名都用Pascal形式（即所有单词的第一个字母都大写），所有的变量都用Camel形式（即第一个单词全部小写，随后单词随Pascal形式，也称lowerCamel）。</p>
-<ul>
-<li>类、类型、变量采用名词或组合名词，如Member、productInfo等；</li>
-<li>函数则用动词或动宾组合词来表示，如get/set、RenderPage()等。</li>
-</ul>
-<h3>1.9.注释规范</h3>
-<ul>
-<li>SEIMS采用Doxygen代码注释规范，在Visual Studio中配合VA Assist插件可高效插入注释，<a href="https://github.com/lreis2415/SEIMS/wiki/Develop-environment#%E5%BC%80%E5%8F%91%E8%BE%85%E5%8A%A9%E5%B7%A5%E5%85%B7-vassistx%E4%BB%8B%E7%BB%8D">查看详细配置</a>。**以下为补充Tips**。</li>
-<li><code>#ifndef ... #endif</code>宏命令之后要注释上这是对应的哪个宏命令，以防嵌套使用时混淆不清，尤其是中间代码过长的时候，如： ```cpp #ifdef windows #define Tag_ModuleDirectoryName "\\" #define SEP "\\" #define Tag_DyLib ".dll" #else #define Tag_ModuleDirectoryName "/" #define SEP "/" #define Tag_So "lib" #endif /* windows #ifdef linux #define Tag_DyLib ".so" #elif (defined macos) || (defined macosold) #define Tag_DyLib ".dylib" #endif /* linux ```</li>
-<li>SEIMS中Python代码注释采用Google风格的docstring，在PyCharm中设置为： <code>File --&gt; <a class="el" href="../../da/d75/a00334.html" title="Base class for input or output Settings. ">Settings</a> --&gt; Tools --&gt; Python Integrated Tools --&gt; Google</code> <h2>2.代码设计规范</h2>
-</li>
-</ul>
-<p>建议阅读：<a href="http://zh-google-styleguide.readthedocs.io/en/latest/contents/">Google开源项目风格指南（中文版）</a> </p>
-<h3>2.1.Python</h3>
-<ul>
-<li>运行pylint检查代码中潜在bug或警告，并改正。默认地，pylint会产生很多警告信息，有些是我们不希望看到的，可通过<code>--disable=</code>禁止，比如：<ul>
-<li>变量、函数、类命名不规范，invalid-name (C0103)</li>
-<li>函数参数过多（多于5个），虽然参数多了风格不好，但是对于变参数的函数设计来讲，参数多于5个很常见，too-many-arguments (R0913)</li>
-<li>某个函数有太多局部变量，too-many-locals (R0914)</li>
-<li>没必要的括弧，如为了兼容python3在print后加的括弧，superfluous-parens (C0325) ```bash pylint C: &ndash;files-output=y &ndash;disable=C0103,R0913,R0914,C0325 ```</li>
+<li><a href="../../#1-prerequisites">**1. Prerequisites**</a><ul>
+<li>1.1. <a href="../../#11-microsoft-visual-studio">Microsoft Visual Studio</a></li>
+<li>1.2. <a href="../../#12-cmake">CMake</a></li>
+<li>1.3. <a href="../../#13-gdal-and-python">GDAL and Python</a></li>
+<li>1.4. <a href="../../#14-mongo-c-driver">mongo-c-driver</a></li>
+<li>1.5. <a href="../../#15-ms-mpi">MS-MPI</a></li>
 </ul>
 </li>
-<li>导入包或模块时，应使用模块的全路径，而非相对路径 ```python <h1>Spatial delineation</h1>
+<li><a href="../../#2-compilation-and-installation">**2. Compilation and Installation**</a><ul>
+<li>2.1. <a href="../../#21-installation-for-users">Installation for users</a></li>
+<li>2.2. <a href="../../#22-installation-for-developers">Installation for developers</a></li>
+</ul>
+</li>
+<li><a href="../../#3-python-for-seims-依赖库的安装">**3. Python for SEIMS 依赖库的安装**</a></li>
+</ul>
+<h1>1. Prerequisites</h1>
+<p>SEIMS模型采用C++和Python编写，支持子流域-栅格双层并行计算，在Windows下推荐采用Microsoft Visual Studio进行编译安装，安装前的准备包括：</p>
+<ul>
+<li>Microsoft Visual Studio 2010 或更高 &ndash; C++源码编译器及IDE</li>
+<li>CMake 3.1+ &ndash; 管理代码编译</li>
+<li>GDAL 1.x with Python &ndash; 矢栅数据读写库</li>
+<li>mongo-c-driver 1.5+ &ndash; 读写MongoDB</li>
+<li>MS-MPI v6 （或更高）&ndash; 编译MPI并行程序，如TauDEM、SEIMS-MPI版本等</li>
+</ul>
+<h2>1.1 Microsoft Visual Studio</h2>
+<ul>
+<li><b>For User</b>： 如果只是希望源码编译SEIMS模型，而不想安装臃肿庞大的VS，可以选择使用Microsoft Visual C++ Build Tools，比如<a href="https://www.visualstudio.com/downloads/#microsoft-visual-c-build-tools-2015-update-3" title="microsoft-visual-c-build-tools-2015-update-3">2015 Update 3</a>.</li>
+<li><b>For Developer</b>： 如果希望对SEIMS模型进行改进，建议采用<a href="https://www.visualstudio.com/downloads/" title="visual-studio-downloads">Microsoft Visual Studio 2010 或更高版本</a>进行开发。</li>
+</ul>
+<blockquote class="doxtable">
+<p>Note: 虽然SEIMS编译理论上支持更高版本的VS，但是为了接下来的GDAL库安装方便，建议使用与<a href="http://www.gisinternals.com/release.php">Tamas Szekeres's Windows GDAL binaries</a>发布版本对应的VS，比如目前其发布的GDAL安装版本对应的最高VS版本为2013。当然，如果你希望自己源码编译接下来用到的GDAL、mongo-c-driver库，那VS版本选择则不受限制。</p>
+<p></p>
+</blockquote>
+<h2>1.2. CMake</h2>
+<p>CMake是一个跨平台的安装或编译工具，可以用简单的语句来描述安装或编译过程。CMake通过<code>CmakeLists.txt</code>文件能够输出各种各样的makefile或者IDE工程。</p>
+<p>CMake可以从其<a href="http://www.cmake.org/files">官网免费下载</a>，最低安装版本要求为3.1，安装后添加CMake路径如<code>C:\Program Files (x86)\CMake</code>到系统环境变量<code>PATH</code>里。</p>
+<h2>1.3. GDAL and Python</h2>
+<p>SEIMS的矢栅数据读写基于<code>GDAL 1.x</code>编写，Windows下GDAL最方便的安装方式应该就是采用<a href="http://www.gisinternals.com/release.php">Tamas Szekeres's Windows GDAL binaries</a>编译发布的版本，下载时请注意区分32位或64位版本。</p>
+<ul>
+<li>具体安装请参考博客<a href="https://sandbox.idre.ucla.edu/sandbox/tutorials/installing-gdal-for-windows" title="installing-gdal-with-python-for-windows">Installing-gdal-with-python-for-windows</a>。</li>
+<li>**注意**：安装完成之后，除了<code>GDAL_DATA</code>外，还需要在环境变量里添加一个<code>GDAL_DIR</code>，赋值为你的GDAL安装目录，如<code>C:\GDAL</code>，以便CMake在编译时能够找得到GDAL依赖库。</li>
+<li>**注意**：为了方便将来程序能够找到GDAL的诸多动态链接库，建议新建<code>GDAL_PATHS</code>环境变量<code>C:\GDAL;C:\GDAL\bin;C:\GDAL\bin\proj\apps;C:\GDAL\bin\gdal\apps;C:\GDAL\bin\ms\apps;C:\GDAL\bin\curl;</code>，并将<code>GDAL_PATHS%</code>添加至环境变量<code>PATH</code>中。</li>
+</ul>
+<h2>1.4. mongo-c-driver</h2>
+<p>SEIMS数据管理采用NoSQL型数据库——MongoDB，依赖于mongo-c-driver。 Windows下的配置步骤为：</p>
+<ul>
+<li>从<a href="http://mongoc.org/" title="mongo-c-driver-download">官网</a>或<a href="https://github.com/mongodb/mongo-c-driver/releases">Github项目</a>下载源码压缩包，如<a href="https://github.com/mongodb/mongo-c-driver/releases/download/1.5.0/mongo-c-driver-1.5.0.tar.gz" title="mongo-c-driver-1.5.0">1.5.0</a>，解压缩至当前文件夹，如<code>C:\z_code\Repos\mongo-c-driver-1.5.0</code></li>
+<li><p class="startli">打开cmd，依次输入如下命令，默认的安装目录为<code>C:\mongo-c-driver</code></p>
+<p class="startli">```bat cd C:\ mkdir mongo-c-driver cd C:-c-driver-1.5.0 cd src cmake -DCMAKE_INSTALL_PREFIX=C:-c-driver -G "Visual Studio 10 2010" msbuild.exe ALL_BUILD.vcxproj msbuild.exe INSTALL.vcxproj cd .... cmake -DCMAKE_INSTALL_PREFIX=C:-c-driver -DBSON_ROOT_DIR=C:-c-driver -G "Visual Studio 10 2010" msbuild.exe ALL_BUILD.vcxproj msbuild.exe INSTALL.vcxproj ```</p>
+</li>
+<li>至此，<code>mongo-c-driver</code>即编译安装完成了，在<code>C:\mongo-c-driver</code>目录下能看到<code>bin</code>, <code>include</code>, <code>lib</code>文件夹。</li>
+<li>将<code>C:\mongo-c-driver</code>添加至环境变量，命名为<code>MONGOC_ROOT_DIR</code>。</li>
+<li>将<code>C:\mongo-c-driver\bin</code>添加至环境变量，命名为<code>MONGOC_LIB_DIR</code>，并将<code>MONGOC_LIB_DIR%</code>添加至环境变量<code>PATH</code>中。</li>
+</ul>
+<blockquote class="doxtable">
+<p>Note1: 如果cmd提示找不到msbuild.exe，可以在msbuild.exe前加上绝对路径，这个文件是.NetFramework里的，比如&lt;tt&gt;C:\Windows\Microsoft.NET\Framework64\v4.0.30319\msbuild.exe</p>
+<p></p>
+</blockquote>
+<blockquote class="doxtable">
+<p>Note2: 如果想编译64位的mongo-c-driver，则需将上述代码中的<code>-G "Visual Studio 10 2010"</code>替换为<code>-G "Visual Studio 10 2010 Win64"</code></p>
+<p></p>
+</blockquote>
+<h2>1.5. MS-MPI</h2>
+<p>Microsoft MPI (MS-MPI) 是微软基于MPICH实现的用于Windows平台开发和运行并行应用程序的消息传递接口标准，预处理程序中用于提取子流域和地形信息的TauDEM、SEIMS_MPI并行版本等都需要MPI的支持。</p>
+<ul>
+<li><p class="startli">从<a href="https://www.microsoft.com/en-us/download/details.aspx?id=47259">MS-MPI v6</a>下载并分别安装msmpisdk.msi, MSMpiSetup.exe，并检查系统环境变量是否配置正确，如Windows-64bit版：</p>
+<p class="startli">``` MSMPI_BIN=C: Files MPI\ MSMPI_INC=C: Files (x86) SDKs\ MSMPI_LIB32=C: Files (x86) SDKs\ MSMPI_LIB64=C: Files (x86) SDKs\ ```</p>
 </li>
 </ul>
-<p>from seims.preprocess.sd_delineation import SpatialDelineation ```</p>
+<blockquote class="doxtable">
+<p>Note: 建议采用默认安装路径安装MPI</p>
+<p></p>
+</blockquote>
+<h1>2. Compilation and Installation</h1>
+<p>使用CMake编译SEIMS时有3个可选参数：</p>
+<ol type="1">
+<li><code>-DPARALLEL</code>，不添加则默认为编译<code>OpenMP</code>版本程序，添加<code>-DPARALLEL=MPI</code>则编译MPI/OpenMP混合版本；</li>
+<li><code>-DARCH</code>，用于指定编译32位还是64程序，需要与<code>GDAL</code>和<code>mongo-c-driver</code>版本匹配，不添加则默认为32位程序，添加<code>-DARCH=64</code>则为64位；</li>
+<li><code>-DSTROM</code>，用于指定是否编译次降水模型，不添加默认为0，即长时段模型，添加<code>-DSTROM=1</code>则编译次降水模型。</li>
+<li><code>-DUNITTEST</code>，用于指定是否编译基于Googletest的单元测试模块</li>
+<li><code>-DINSTALL_PREFIX</code>，用于指定安装路径，如不指定，默认为源码目录下的<code>bin</code>文件夹。</li>
+</ol>
+<h2>2.1 Installation for users</h2>
+<blockquote class="doxtable">
+<p>Note: Windows x64下，不要打开的是<code>Visual Studio x64 Win64 命令提示(2010)</code>，而是需要打开<code>Visual Studio 命令提示(2010)</code></p>
+<p></p>
+</blockquote>
 <ul>
-<li>命名约定 <code>module_name, package_name, ClassName, method_name, ExceptionName, function_name, GLOBAL_VAR_NAME, instance_var_name, function_parameter_name, local_var_name.</code></li>
-</ul>
-<h2>3.Git分支管理</h2>
-<h3>3.1.各分支命名规范及功能定义</h3>
-<table class="doxtable">
-<tr>
-<th align="center">分支</th><th align="center">命名示例</th><th align="center">功能  </th></tr>
-<tr>
-<td align="center"><code>master</code></td><td align="center"><code>master</code></td><td align="center">稳定版本发布，非工作区，仅管理员可操作 </td></tr>
-<tr>
-<td align="center"><code>dev</code></td><td align="center"><code>dev</code></td><td align="center">开发汇总，非工作区，开发组成员均可将完成的工作合并至此，当<code>dev</code>足够稳定之后，合并至<code>master</code> </td></tr>
-<tr>
-<td align="center"><code>bug-&lt;bugcode&gt;-&lt;author&gt;</code></td><td align="center"><code>bug-ompconfused-zlj</code></td><td align="center">bug修复，临时工作区，修复并测试完成之后，将此分支合并至<code>dev</code>，并新建<code>issue</code>说明问题之后，删除该分支 </td></tr>
-<tr>
-<td align="center"><code>update-&lt;module&gt;-&lt;author&gt;</code></td><td align="center"><code>update-docs-zlj</code></td><td align="center">模块更新，常驻工作区，完成后合并至<code>dev</code>、新建<code>issue</code>、删除该分支 </td></tr>
-<tr>
-<td align="center"><code>new-&lt;module&gt;-&lt;author&gt;</code></td><td align="center"><code>new-lisemsed-zlj</code></td><td align="center">新增模块，常驻工作区，完成后合并至<code>dev</code>、新建<code>issue</code>、删除该分支 </td></tr>
-</table>
-<p>所以，团队合作的项目分支看起来就像这样：</p>
-<div class="image">
-<img src="http://i.imgur.com/Ya2n6vm.jpg"  alt="分支管理示意图"/>
-</div>
-<h3>3.2.分支管理一般步骤</h3>
-<ul>
-<li>3.2.1. <a href="https://github.com/orgs/lreis2415/teams/watershed_modeling">加入SEIMS开发组</a>，直接<code>clone</code>实验室账号下的SEIMS库（git.com:lreis2415/SEIMS.git）即可，不用<code>fork</code>到自己账号下，建议仅克隆<code>dev</code>分支，因为默认情况下会克隆所有分支，不仅速度慢，而且浪费空间且没必要，操作如下： ```shell git clone <a href="#" onclick="location.href='mai'+'lto:'+'git'+'@g'+'ith'+'ub'+'.co'+'m'; return false;">git@g<span style="display: none;">.nosp@m.</span>ithu<span style="display: none;">.nosp@m.</span>b.com</a>:crazyzlj/SEIMS.git &ndash;branch dev &ndash;single-branch ```</li>
-<li><p class="startli">3.2.2. 发现代码中出现了bug、某个文档需要修改、某个模块需要更新、亦或是需要增加一个新的模块等，新建一个分支，修复它，合并至dev分支，并新建issue告知大家，也是备忘，完后删除这个分支，流程如下：</p>
-<p class="startli">``` </p>
-<h1>假设目前cd到SEIMS所在文件夹了</h1>
-<p class="startli">git checkout -b bug-IFoundU-zlj </p>
-<h1>修改完成，提交修改</h1>
-<p class="startli">git add . git commit -m "bug fixed of IFoundU" </p>
-<h1>切换回dev分支，并合并刚才的修改</h1>
-<p class="startli">git checkout dev git merge &ndash;no-ff -m "merge from bug-IFoundU-zlj" bug-IFoundU-zlj </p>
-<h1>如果出现冲突，处理之后，可以删除bug分支了</h1>
-<p class="startli">git branch -d bug-IFoundU-zlj </p>
-<h1>去提交一个issue告知大家吧！https://github.com/lreis2415/SEIMS/issues</h1>
-<p class="startli">``<code></code></p>
+<li><p class="startli">打开 “开始” -&gt; Microsoft Visual Studio 2010 -&gt; Visual Studio Tools -&gt; Visual Studio 命令提示(2010)，以**管理员方式**运行，依次输入以下命令：</p>
+<p class="startli">```shell cd ~ mkdir build cd build cmake -G "NMake Makefiles" .. -DCMAKE_BUILD_TYPE=Release nmake nmake install ```</p>
 </li>
-<li><code>3.2.3.删除远程分支。如果某个分支工作已经完成，且已经合并至</code>dev<code>分支，在本地可以直接通过</code>git branch -d tmpbranch<code>命令删除，远程分支则可推送一个空分支到远程分支，实现删除</code>git push origin :tmpbranch` </li>
+<li><p class="startli">或者采用指定VS版本及位数的方式：</p>
+<p class="startli">```shell cd ~ mkdir build cd build </p>
+<h1>编译32位版本，-DARCH=32 为默认，添加与否均可</h1>
+<p class="startli">cmake -G "Visual Studio 10 2010" .. </p>
+<h1>编译64位版本，此时一定确保GDAL和mongo-c-driver已配置好64位版本</h1>
+<p class="startli">cmake -G "Visual Studio 10 2010 Win64" .. -DARCH=64 msbuild.exe ALL_BUILD.vcxproj </p>
+<h1>p.s.1 如果编译release版本：</h1>
+<h1>msbuild.exe ALL_BUILD.vcxproj /p:Configuration=Release</h1>
+<h1>p.s.2 可通过添加/maxcpucount:4 来并行编译，提高速度</h1>
+<p class="startli">msbuild.exe INSTALL.vcxproj </p>
+<h1>如果编译release版本：</h1>
+<h1>msbuild.exe INSTALL.vcxproj /p:Configuration=Release</h1>
+<p class="startli">```</p>
+</li>
+<li>完成后，不需要打开VS2010生成解决方案，可执行文件已经编译完成，程序目录为<code>~\SEIMS\seims\bin</code>或通过<code>-DINSTALL_PREFIX</code>指定的文件夹。</li>
+<li>右键以管理员方式运行<code>~\seims\bin\Firewall_for_Windows.bat</code>，配置防火墙规则，以防在运行Python脚本调用SEIMS程序时被防火墙阻止。 <h2>2.2 Installation for developers</h2>
+</li>
 </ul>
+<ul>
+<li><p class="startli">打开 “开始” -&gt; Microsoft Visual Studio 2010 -&gt; Visual Studio Tools -&gt; Visual Studio 命令提示(2010)，以**管理员方式**运行，依次输入以下命令：</p>
+<p class="startli">```shell cd ~-------&mdash;7 mkdir build cd build cmake .. ```</p>
+</li>
+<li>然后用VS2010打开&lt; build &gt;文件夹下的<code>SEIMS_OMP_ALL.sln</code>，即为整个SEIMS模型的VS工程，打开<code>build\bin</code>目录可以分别找到子工程，比如SEIMS模块库工程等。</li>
+<li>VS工程编译完成之后，右键单击<code>INSTALL</code>模块，选择“生成”，即可完成SEIMS模型的安装，安装路径为<code>~\SEIMS\seims\bin</code></li>
+<li>安装完成SEIMS后，需要右键以管理员方式运行<code>~\SEIMS\seims\Firewall_for_Windows.bat</code>配置防火墙规则，以防在运行Python脚本调用SEIMS程序时被防火墙阻止。</li>
+</ul>
+<p><a href="../../#目录">返回目录</a></p>
+<h2>3. Python for SEIMS 依赖库的安装</h2>
+<p>SEIMS预处理、后处理、率定、情景分析等所需的Python依赖库及版本要求如下：</p>
+<p>```python pygeoc </p>
+<h1>Preprocess</h1>
+<p>GDAL&gt;=1.9.0,&lt;2.0 numpy&gt;=1.9.0 pymongo&gt;=3.0 networkx&gt;=1.10 Shapely&gt;=1.5.0 </p>
+<h1>Postprocess</h1>
+<p>matplotlib&gt;=1.5.0 pathlib2&gt;=2.0.0 </p>
+<h1>Scenario analysis</h1>
+<p>deap&gt;=1.0.2 scoop&gt;=0.7.1.1 ```</p>
+<ul>
+<li>SEIMS提供了自动安装脚本，脚本依赖于pip，因此请确保pip已正确安装，<a href="https://pip.pypa.io/en/stable/installing/">参考教程</a>：<ul>
+<li>下载<a href="https://bootstrap.pypa.io/get-pip.py">get-pip.py</a></li>
+<li><code>python get-pip.py</code></li>
+</ul>
+</li>
+<li>以管理员方式运行<code>pyseims_install_windows.bat</code>即可自动安装完成所有依赖库，包括SEIMS自带的<code>PyGeoC</code>。</li>
+<li>安装完成后，运行<code>python pyseims_check.py</code>检查所需python库是否已经安装成功，如果有未成功的请单独安装。</li>
+</ul>
+<p><a href="../../#目录">返回目录</a> </p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:30 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: SEIMS开发规范</title>
+<title>SEIMS: Install SEIMS on macOS</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,119 +106,147 @@ $(document).ready(function(){initNavTree('d9/d7d/a00150.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">SEIMS开发规范 </div>  </div>
+<div class="title">Install SEIMS on macOS </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><ul>
-<li>开发规范的制定是为了保持模型代码的一致性和可读性。</li>
-<li>开发规法包括代码风格统一和模块编写指南</li>
-</ul>
-<h2>1.代码风格规范</h2>
-<h3>1.1.代码整理格式规范</h3>
-<p>SEIMS模型主要编程语言为C/C++和Python，采用CMake组织代码。由于不同开发者所用的编辑器各异，因此我们基于Google代码格式规定了C/C++和Python的代码书写格式规范，位于<code>./doc/style</code>文件夹下。这两个文件分别可以导入CLion和PyCharm软件，使用菜单栏命令“Code”-&gt;“Reformation Code”便可以一键整理代码。</p>
-<h3>1.2.禁用Tab键</h3>
-<p>不同IDE对Tab键的显示不同，Visual Studio下排版漂亮的代码在其他IDE下很可能错位，因此**强烈建议**在VS中将**Tab键用4个空格代替**。</p>
-<p>打开Visual Studio，设置“工具”-&gt;“选项”-&gt;“文本编辑器”-&gt;“C/C++”-&gt;“制表符”-&gt;“缩进”选择“智能”，“制表符大小”和“缩进大小”均为4，选中“插入空格”。</p>
-<h3>1.3.不混用换行符</h3>
-<p>众所周知，<code>Windows</code>系统和<code>Linux/Unix</code>系统的换行符不同，而<code>Windows</code>下的Git默认情况下会在提交代码时自动替换换行符<code>LF</code>或<code>CR</code>为<code>CRLF</code>，这样对跨平台代码造成了极大的不便。</p>
-<p>因此，我们**强烈建议**代码采用<code>Linux</code>编码<code>LF</code>即<code>\n</code>，因此需要做到：</p>
+<div class="textblock"><p>First release: Liang-Jun Zhu</p>
+<p>Latest Updated：Mar.23, 2017</p>
+<blockquote class="doxtable">
+<p>Note: 测试环境为Macbook Pro 13 （Late 2016） with macOS Sierra 10.12.3</p>
+<p></p>
+</blockquote>
+<h1>1. Prerequisites</h1>
+<p>SEIMS模型采用C++和Python编写，支持子流域-栅格双层并行计算，在macOS下推荐采用GCC进行编译安装，安装前的准备包括：</p>
 <ul>
-<li>VS或其他IDE设置换行符为LF而非CRLF</li>
-<li>文本编辑器建议采用Notepad++，**禁止**使用Windows的记事本！</li>
+<li>GCC49 &ndash; C++源码编译器</li>
+<li>OpenMPI &ndash; 编译MPI并行程序，如TauDEM、SEIMS-MPI版本等</li>
+<li>CMake &ndash; 管理代码编译</li>
+<li>GDAL 1.x with Python &ndash; 矢栅数据读写库</li>
+<li>mongo-c-driver 1.3.5 或更高 &ndash; NoSQL数据库MongoDB的驱动库</li>
 </ul>
-<p>打开Git shell进行如下设置：</p>
-<p>``` </p>
-<h1>AutoCRLF, 设置提交、检出时均不转换</h1>
-<p>git config &ndash;global core.autocrlf false </p>
-<h1>SafeCRLF, 设置拒绝提交包含混合换行符的文件，并且在提交混合换行符的文件时给出警告，从而手动转换为LF换行符后提交</h1>
-<p>git config &ndash;global core.safecrlf true git config &ndash;global core.safecrlf warn ```</p>
-<p>详见<a href="https://github.com/lreis2415/SEIMS2017/wiki/Git-guidance">Wiki-Github使用说明</a>。</p>
-<h3>1.4.行宽</h3>
-<p>行宽必须限制！！！</p>
-<p>建议100字符为限，太长则应换行。</p>
-<p>PyCharm中的设置为：File-&gt;Settings-&gt;Editor-&gt;Code Style-&gt;Default Opetions-&gt;Right margin (columns): 100</p>
-<p>随后使用Code-&gt;Reformat Code (Ctrl+Alt+L)时便会自动换行了。当然自动的并不一定是最好的，还是需要自己手动调整。</p>
-<h3>1.5.括弧</h3>
-<p>在复杂的条件表达式中，用括弧清楚地表示逻辑优先级。</p>
-<h3>1.6.断行与空白的花括号{}</h3>
-<p>避免使用精简风格，如： ```cpp if (condition) DoSomething(); else DoSomethingElse(); ``` 虽然这样可以节省几行空间，但是对于单步调试查看各个变量的变化情况非常不便，因此推荐采用以下两种风格： ```cpp if (condition) { DoSomething(); } else { DoSomethingElse(); } ``` 或者 ```cpp if (condition) { DoSomething(); } else { DoSomethingElse(); } ```</p>
-<h3>1.7.分行</h3>
-<p>不要把多条语句放在一行！！！更严格地，不要把多个变量定义在一行，以下三行都是不可取的例子。</p>
-<p>```cpp int a =1, b = 2; c = 3; d = 5.f; if (fFoo) Bar(); ```</p>
-<h3>1.8.命名大小写</h3>
-<p>采用一个通用的做法：所有的类型、类、函数名都用Pascal形式（即所有单词的第一个字母都大写），所有的变量都用Camel形式（即第一个单词全部小写，随后单词随Pascal形式，也称lowerCamel）。</p>
+<h2>1.1. GCC49</h2>
+<p>macOS中最便捷配置GCC版本的方式是通过<a href="http://brew.sh/">Homebrew</a>自动安装。</p>
 <ul>
-<li>类、类型、变量采用名词或组合名词，如Member、productInfo等；</li>
-<li>函数则用动词或动宾组合词来表示，如get/set、RenderPage()等。</li>
+<li>在终端输入代码<code>/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" </code> 进行安装<code>brew</code>工具</li>
+<li>输入<code>brew tap homebrew/versions</code>更新<code>brew</code>中软件版本</li>
+<li>输入<code>brew install gcc49</code>安装</li>
+<li>安装大约需要60分钟，耐心等待安装完成，可通过<code>gcc-4.9 --version</code>查看版本信息：</li>
 </ul>
-<h3>1.9.注释规范</h3>
+<p>``` gcc-4.9 &ndash;version gcc-4.9 (Homebrew gcc49 4.9.3) 4.9.3 Copyright (C) 2015 Free Software Foundation, Inc. ```</p>
+<h2>1.2. OpenMPI</h2>
 <ul>
-<li>SEIMS采用Doxygen代码注释规范，在Visual Studio中配合VA Assist插件可高效插入注释，<a href="https://github.com/lreis2415/SEIMS/wiki/Develop-environment#%E5%BC%80%E5%8F%91%E8%BE%85%E5%8A%A9%E5%B7%A5%E5%85%B7-vassistx%E4%BB%8B%E7%BB%8D">查看详细配置</a>。**以下为补充Tips**。</li>
-<li><code>#ifndef ... #endif</code>宏命令之后要注释上这是对应的哪个宏命令，以防嵌套使用时混淆不清，尤其是中间代码过长的时候，如： ```cpp #ifdef windows #define Tag_ModuleDirectoryName "\\" #define SEP "\\" #define Tag_DyLib ".dll" #else #define Tag_ModuleDirectoryName "/" #define SEP "/" #define Tag_So "lib" #endif /* windows #ifdef linux #define Tag_DyLib ".so" #elif (defined macos) || (defined macosold) #define Tag_DyLib ".dylib" #endif /* linux ```</li>
-<li>SEIMS中Python代码注释采用Google风格的docstring，在PyCharm中设置为： <code>File --&gt; <a class="el" href="../../da/d75/a00334.html" title="Base class for input or output Settings. ">Settings</a> --&gt; Tools --&gt; Python Integrated Tools --&gt; Google</code> <h2>2.代码设计规范</h2>
+<li>从<a href="https://www.open-mpi.org/software/ompi/v1.10/">官网下载OpenMPI源码</a>，推荐安装1.x系列的最新版，目前最新的是1.10.4，解压至文件夹，如<code>/Users/zhulj/apps/openmpi-1.10.4 </code></li>
+<li>配置config，指定使用GCC-4.9编译，如下：<code>./configure CC=gcc-4.9 CXX=g++-4.9 --prefix=/usr/local</code></li>
+<li><code>make all</code></li>
+<li><code>sudo make install</code></li>
+</ul>
+<p>安装完成之后，在终端中输入<code>mpic++ --showme</code>，会提示<code>g++-4.9 -I/usr/local/include -L/usr/local/lib -lmpi_cxx -lmpi</code>，则表明OpenMPI是由GCC49编译的。</p>
+<h2>1.3. CMake</h2>
+<p>CMake是一个跨平台的安装或编译工具，可以用简单的语句来描述安装或编译过程。CMake通过<code>CmakeLists.txt</code>文件能够输出各种各样的makefile或者IDE工程。</p>
+<p>CMake可以从其<a href="http://www.cmake.org/files">官网免费下载</a>安装GUI版本，推荐安装3.0以上版本，也可通过<code>brew install cmake</code>安装。</p>
+<h2>1.4. GDAL with Python</h2>
+<p>SEIMS的矢栅数据读写基于<code>GDAL 1.x</code>编写，macOS下推荐使用<a href="http://www.kyngchaos.com/software:frameworks">William Kyngesburye</a>维护的Framework安装包，最新的为<code>GDAL_Complete-1.11.dmg</code>。</p>
+<ul>
+<li>GDAL将安装在<code>/Library/Frameworks/GDAL.framework</code>。</li>
+<li><p class="startli">同时，测试python的GDAL包是否安装成功：</p>
+<p class="startli">```python &gt;&gt;&gt; import osgeo &gt;&gt;&gt; osgeo.__version__ '1.11.4' &gt;&gt;&gt; from osgeo import ogr &gt;&gt;&gt; from osgeo import osr &gt;&gt;&gt; from osgeo import gdalconst &gt;&gt;&gt; from osgeo import gdal_array &gt;&gt;&gt; from osgeo import gdal ```</p>
+</li>
+<li>此外，还应将GDAL自带可执行程序的安装目录添加至环境变量PATH中，以便可以直接在Terminal中调用GDAL程序： 参考<a href="http://architectryan.com/2012/10/02/add-to-the-path-on-mac-os-x-mountain-lion/#.WV47mtOGOu5">这篇博客</a> ```bash ~ sudo nano /etc/paths <h1>Enter your password, when prompted.</h1>
 </li>
 </ul>
-<p>建议阅读：<a href="http://zh-google-styleguide.readthedocs.io/en/latest/contents/">Google开源项目风格指南（中文版）</a> </p>
-<h3>2.1.Python</h3>
+<h1>Go to the bottom of the file, and enter the path you wish to add.</h1>
+<p>/Library/Frameworks/GDAL.framework/Programs </p>
+<h1>Hit control-x to quit.</h1>
+<h1>Enter “Y” to save the modified buffer.</h1>
+<h1>To test it, in new terminal window, type:</h1>
+<p>~ echo $PATH /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/GDAL.framework/Programs </p>
+<h1>测试</h1>
+<p>~ gdalinfo &ndash;version</p>
+<p>GDAL 1.11.4, released 2016/01/25 ```</p>
+<h2>1.5. mongo-c-driver</h2>
+<p>SEIMS数据管理采用NoSQL型数据库——MongoDB，依赖于mongo-c-driver。 macOS下的配置步骤为：</p>
 <ul>
-<li>运行pylint检查代码中潜在bug或警告，并改正。默认地，pylint会产生很多警告信息，有些是我们不希望看到的，可通过<code>--disable=</code>禁止，比如：<ul>
-<li>变量、函数、类命名不规范，invalid-name (C0103)</li>
-<li>函数参数过多（多于5个），虽然参数多了风格不好，但是对于变参数的函数设计来讲，参数多于5个很常见，too-many-arguments (R0913)</li>
-<li>某个函数有太多局部变量，too-many-locals (R0914)</li>
-<li>没必要的括弧，如为了兼容python3在print后加的括弧，superfluous-parens (C0325) ```bash pylint C: &ndash;files-output=y &ndash;disable=C0103,R0913,R0914,C0325 ```</li>
+<li>从<a href="http://mongoc.org/" title="mongo-c-driver-download">官网</a>下载源码压缩包，目前最新稳定版本为<a href="https://github.com/mongodb/mongo-c-driver/releases/download/1.5.0/mongo-c-driver-1.5.0.tar.gz" title="mongo-c-driver-1.5.0">1.5.0</a>，解压缩至当前文件夹，如`/Users/zhulj/apps/mongo-c-driver-1.5.0</li>
+<li>使用brew安装依赖包<code>brew install automake autoconf libtool pkgconfig openssl</code></li>
+<li><p class="startli">打开终端，依次输入如下命令</p>
+<p class="startli">```shell cd /Users/zhulj/apps/mongo-c-driver-1.5.0 export LDFLAGS="-L/usr/local/opt/openssl/lib" export CPPFLAGS="-I/usr/local/opt/openssl/include" ./configure CC=gcc-4.9 CXX=g++-4.9 &ndash;prefix=/usr/local make sudo make install ```</p>
+</li>
+<li>至此，<code>mongo-c-driver</code>即编译安装完成了，在<code>/usr/local/include</code>目录下能看到<code>libbson-1.0</code>, <code>libmongoc-1.0</code>文件夹，链接库则在<code>/usr/local/lib</code>。</li>
+</ul>
+<h1>2. Compilation and Installation</h1>
+<p>使用CMake编译SEIMS时有3个可选参数：</p>
+<ol type="1">
+<li><code>-DPARALLEL</code>，不添加则默认为编译<code>OpenMP</code>版本程序，添加<code>-DPARALLEL=MPI</code>则编译MPI/OpenMP混合版本；</li>
+<li><code>-DARCH</code>，~~用于指定编译32位还是64程序(目前仅适用于Windows)，需要与<code>GDAL</code>和<code>mongo-c-driver</code>版本匹配，不添加则默认为32位程序，添加<code>-DARCH=64</code>则为64位；~~</li>
+<li><code>-DSTROM</code>，用于指定是否编译次降水模型，不添加默认为0，即长时段模型，添加<code>-DSTROM=1</code>则编译次降水模型。</li>
+<li><code>-DUNITTEST</code>，用于指定是否编译基于Googletest的单元测试模块</li>
+<li><code>-DINSTALL_PREFIX</code>，用于指定安装路径，如不指定，默认为源码目录下的<code>bin</code>文件夹。</li>
+</ol>
+<h2>2.1 Installation for users</h2>
+<p>```shell cd /Users/zhulj/Documents/code/SEIMS/seims mkdir build cd build</p>
+<ol type="1">
+<li>clang: cmake .. -DCMAKE_BUILD_TYPE=Release</li>
+<li>GCC: cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/local/bin/gcc-4.9 -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-4.9 make make install ``<code></code></li>
+</ol>
+<ul>
+<li><code>在执行</code>make<code>命令时，可追加</code>-j 4<code>命令利用CPU多核性能并行编译程序，提高编译速度，并行进程数最好设置为物理核数的2倍。</code></li>
+<li><code>编译、安装无误后，SEIMS所有可执行程序及模块动态链接库均在</code>./SEIMS/seims/bin`。</li>
+<li>注意1：使用clang编译时，由于其不支持openmp，因此基于共享内存的并行计算将无法实现，因此推荐使用GCC进行编译安装。</li>
+</ul>
+<h2>2.2 Installation for developers</h2>
+<h3>2.2.1 Xcode (test on Xcode 8.2)</h3>
+<p>```shell cd /Users/zhulj/Documents/code/SEIMS/seims mkdir build cd build cmake -G "Xcode" .. -DCMAKE_BUILD_TYPE=Release ``<code></p>
+<ul>
+<li>完成之后，即可得到SEIMS项目总工程，SEIMS_OMP_ALL.xcodeproj&lt;tt&gt;，各子工程则在build/bin<code>下，如SEIMS模块库工程为</code>build/bin/seims_omp_project/SEIMS_OMP_prj.xcodeproj`。</li>
+</ul>
+<p></code></p>
+<p><code></p>
+<h3>2.2.2 CLion (test on CLion 2016.3.2）</h3>
+<p></code></p>
+<p><code></code></p>
+<p><code>CLion继承了JetBrains家族的特点，工程采用CMake管理，方便、高效。在CLion中直接打开<code>SEIMS/seims</code>文件夹即可导入整个工程。</code></p>
+<p><code>CLion默认使用clang编译器，因此需要简单设置一下，<a href="https://cmake.org/Wiki/CMake_FAQ#How_do_I_use_a_different_compiler.3F">官网提供了三种方法</a>，推荐采用第二种，即：</code></p>
+<p><code></p>
+<ul>
+<li>打开CLion-&gt;Preferences-&gt;Build，Execution，Deployment-&gt;CMake</li>
+<li>在Generation选项卡下的CMake options中输入以下命令，以覆盖CMake的默认设置，同理为Debug和Release分别设置。</li>
+</ul>
+<p></code></p>
+<p><code>``` -D CMAKE_C_COMPILER=&lt;your_path_to_c_compiler&gt; -D CMAKE_CXX_COMPILER=&lt;your_path_to_cxx_compiler&gt;</code></p>
+<p><code>e.g. -DCMAKE_C_COMPILER=/usr/local/bin/gcc-4.9 -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-4.9 ```</code></p>
+<p><code>接下来，你可以选择Build All，也可以选择某一个程序进行Build等。</code></p>
+<p><code></p>
+<h2>3. Python for SEIMS 依赖包的安装</h2>
+<p></code></p>
+<p><code></code></p>
+<p><code>SEIMS预处理、后处理、率定、情景分析等所需的Python依赖库及版本要求如下：</code></p>
+<p><code>```py pygeoc </p>
+<h1>Preprocess</h1>
+<p></code></p>
+<p><code> GDAL&gt;=1.9.0,&lt;2.0 (在1.4中已经安装完成) numpy&gt;=1.9.0 pymongo&gt;=3.0 networkx&gt;=1.10 Shapely&gt;=1.5.0 </p>
+<h1>Postprocess</h1>
+<p></code></p>
+<p><code> matplotlib&gt;=1.5.0 pathlib2&gt;=2.0.0 </p>
+<h1>Scenario analysis</h1>
+<p></code></p>
+<p><code> deap&gt;=1.0.2 scoop&gt;=0.7.1.1 ```</code></p>
+<p><code></p>
+<ul>
+<li>SEIMS提供了自动安装脚本，脚本依赖于pip，因此请确保pip已正确安装，<a href="https://pip.pypa.io/en/stable/installing/">参考教程</a>：<ul>
+<li>下载<a href="https://bootstrap.pypa.io/get-pip.py">get-pip.py</a></li>
+<li><code>python get-pip.py</code></li>
 </ul>
 </li>
-<li>导入包或模块时，应使用模块的全路径，而非相对路径 ```python <h1>Spatial delineation</h1>
-</li>
+<li>执行<code>sudo sh pyseims_install_linux.sh</code>即可自动安装完成所有依赖库，包括SEIMS自带的<code>PyGeoC</code>。</li>
+<li>安装完成后，运行<code>python pyseims_check.py</code>检查所需python库是否已经安装成功，如果有未成功的请单独安装。 </li>
 </ul>
-<p>from seims.preprocess.sd_delineation import SpatialDelineation ```</p>
-<ul>
-<li>命名约定 <code>module_name, package_name, ClassName, method_name, ExceptionName, function_name, GLOBAL_VAR_NAME, instance_var_name, function_parameter_name, local_var_name.</code></li>
-</ul>
-<h2>3.Git分支管理</h2>
-<h3>3.1.各分支命名规范及功能定义</h3>
-<table class="doxtable">
-<tr>
-<th align="center">分支</th><th align="center">命名示例</th><th align="center">功能  </th></tr>
-<tr>
-<td align="center"><code>master</code></td><td align="center"><code>master</code></td><td align="center">稳定版本发布，非工作区，仅管理员可操作 </td></tr>
-<tr>
-<td align="center"><code>dev</code></td><td align="center"><code>dev</code></td><td align="center">开发汇总，非工作区，开发组成员均可将完成的工作合并至此，当<code>dev</code>足够稳定之后，合并至<code>master</code> </td></tr>
-<tr>
-<td align="center"><code>bug-&lt;bugcode&gt;-&lt;author&gt;</code></td><td align="center"><code>bug-ompconfused-zlj</code></td><td align="center">bug修复，临时工作区，修复并测试完成之后，将此分支合并至<code>dev</code>，并新建<code>issue</code>说明问题之后，删除该分支 </td></tr>
-<tr>
-<td align="center"><code>update-&lt;module&gt;-&lt;author&gt;</code></td><td align="center"><code>update-docs-zlj</code></td><td align="center">模块更新，常驻工作区，完成后合并至<code>dev</code>、新建<code>issue</code>、删除该分支 </td></tr>
-<tr>
-<td align="center"><code>new-&lt;module&gt;-&lt;author&gt;</code></td><td align="center"><code>new-lisemsed-zlj</code></td><td align="center">新增模块，常驻工作区，完成后合并至<code>dev</code>、新建<code>issue</code>、删除该分支 </td></tr>
-</table>
-<p>所以，团队合作的项目分支看起来就像这样：</p>
-<div class="image">
-<img src="http://i.imgur.com/Ya2n6vm.jpg"  alt="分支管理示意图"/>
-</div>
-<h3>3.2.分支管理一般步骤</h3>
-<ul>
-<li>3.2.1. <a href="https://github.com/orgs/lreis2415/teams/watershed_modeling">加入SEIMS开发组</a>，直接<code>clone</code>实验室账号下的SEIMS库（git.com:lreis2415/SEIMS.git）即可，不用<code>fork</code>到自己账号下，建议仅克隆<code>dev</code>分支，因为默认情况下会克隆所有分支，不仅速度慢，而且浪费空间且没必要，操作如下： ```shell git clone <a href="#" onclick="location.href='mai'+'lto:'+'git'+'@g'+'ith'+'ub'+'.co'+'m'; return false;">git@g<span style="display: none;">.nosp@m.</span>ithu<span style="display: none;">.nosp@m.</span>b.com</a>:crazyzlj/SEIMS.git &ndash;branch dev &ndash;single-branch ```</li>
-<li><p class="startli">3.2.2. 发现代码中出现了bug、某个文档需要修改、某个模块需要更新、亦或是需要增加一个新的模块等，新建一个分支，修复它，合并至dev分支，并新建issue告知大家，也是备忘，完后删除这个分支，流程如下：</p>
-<p class="startli">``` </p>
-<h1>假设目前cd到SEIMS所在文件夹了</h1>
-<p class="startli">git checkout -b bug-IFoundU-zlj </p>
-<h1>修改完成，提交修改</h1>
-<p class="startli">git add . git commit -m "bug fixed of IFoundU" </p>
-<h1>切换回dev分支，并合并刚才的修改</h1>
-<p class="startli">git checkout dev git merge &ndash;no-ff -m "merge from bug-IFoundU-zlj" bug-IFoundU-zlj </p>
-<h1>如果出现冲突，处理之后，可以删除bug分支了</h1>
-<p class="startli">git branch -d bug-IFoundU-zlj </p>
-<h1>去提交一个issue告知大家吧！https://github.com/lreis2415/SEIMS/issues</h1>
-<p class="startli">``<code></code></p>
-</li>
-<li><code>3.2.3.删除远程分支。如果某个分支工作已经完成，且已经合并至</code>dev<code>分支，在本地可以直接通过</code>git branch -d tmpbranch<code>命令删除，远程分支则可推送一个空分支到远程分支，实现删除</code>git push origin :tmpbranch` </li>
-</ul>
+<p></code></p>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:30 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:31 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

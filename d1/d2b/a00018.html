@@ -520,7 +520,7 @@ b and c (4 and 10) are not mutually prime, as they have a common divisor 2.<br/>
 <p>``` if (::testing::Test::HasFatalFailure()) return; ```</p>
 <p>Similarly, <code>HasNonfatalFailure()</code> returns <code>true</code> if the current test has at least one non-fatal failure, and <code>HasFailure()</code> returns <code>true</code> if the current test has at least one failure of either kind.</p>
 <p><em>Availability:</em> Linux, Windows, Mac. <code>HasNonfatalFailure()</code> and <code>HasFailure()</code> are available since version 1.4.0.</p>
-<h1>Logging Additional <a class="el" href="../../dc/d6a/a00261.html" title="Module development information class. ">Information</a></h1>
+<h1>Logging Additional <a class="el" href="../../dd/d86/a00271.html" title="Module development information class. ">Information</a></h1>
 <p>In your test code, you can call <code>RecordProperty("key", value)</code> to log additional information, where <code>value</code> can be either a string or an <code>int</code>. The <em>last</em> value recorded for a key will be emitted to the XML output if you specify one. For example, the test</p>
 <p>``` TEST_F(WidgetUsageTest, MinAndMaxWidgets) { RecordProperty("MaximumWidgets", ComputeMaxUsage()); RecordProperty("MinimumWidgets", ComputeMinUsage()); } ```</p>
 <p>will output XML like this:</p>
@@ -730,7 +730,7 @@ b and c (4 and 10) are not mutually prime, as they have a common divisor 2.<br/>
 </blockquote>
 <p><code>current_test_info()</code> on the <code>UnitTest</code> singleton object:</p>
 <p>``` // Gets information about the currently running test. // Do NOT delete the returned object - it's managed by the UnitTest class. const ::testing::TestInfo* const test_info = ::testing::UnitTest::GetInstance()-&gt;current_test_info(); printf("We are in test %s of test case %s.\n", test_info-&gt;name(), test_info-&gt;test_case_name()); ```</p>
-<p><code>current_test_info()</code> returns a null pointer if no test is running. In particular, you cannot find the test case name in <code>TestCaseSetUp()</code>, <code>TestCaseTearDown()</code> (where you know the test case name implicitly), or functions called from them.</p>
+<p><code>current_test_info()</code> returns a null pointer if no test is running. In particular, you cannot find the test case name in <code>SetUpTestCase()</code>, <code>TearDownTestCase()</code> (where you know the test case name implicitly), or functions called from them.</p>
 <p><em>Availability:</em> Linux, Windows, Mac.</p>
 <h1>Extending Google Test by Handling Test Events</h1>
 <p>Google Test provides an <b>event listener API</b> to let you receive notifications about the progress of a test program and test failures. The events you can listen to include the start and end of the test program, a test case, or a test method, among others. You may use this API to augment or replace the standard console output, replace the XML output, or provide a completely different form of output, such as a GUI or a database. You can also use test events as checkpoints to implement a resource leak checker, for example.</p>
@@ -915,7 +915,7 @@ b and c (4 and 10) are not mutually prime, as they have a common divisor 2.<br/>
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:28 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:29 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

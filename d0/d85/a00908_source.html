@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/iuh/RiverIUHCalculator.h Source File</title>
+<title>SEIMS: seims_longterm_linux_gcc48/seims/pygeoc/setup.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,48 +112,150 @@ $(document).ready(function(){initNavTree('d0/d85/a00908_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">RiverIUHCalculator.h</div>  </div>
+<div class="title">setup.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor"></span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;iuhcalculator.h&quot;</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">class </span>RiverIUHCalculator :</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;    <span class="keyword">public</span> <a class="code" href="../../d9/d2a/a00270.html">IUHCalculator</a> {</div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;    RiverIUHCalculator(<span class="keywordtype">string</span> inputfile, <span class="keywordtype">string</span> watershedfile,</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;                       <span class="keywordtype">string</span> stream_networkfile, <span class="keywordtype">string</span> t0file, <span class="keywordtype">string</span> deltafile,</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;                       <span class="keywordtype">string</span> uhfile);</div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="stringliteral">&quot;&quot;&quot;A setuptools based setup module for PyGeoC.</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="stringliteral">   PyGeoC is short for &quot;Python for GeoComputation&quot;</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">   Author: Liang-Jun Zhu</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">   E-mail: zlj@lreis.ac.cn</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">   Blog  : zhulj.net</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment"># To use a consistent encoding</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">from</span> codecs <span class="keyword">import</span> open</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> os <span class="keyword">import</span> path</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    ~RiverIUHCalculator(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">int</span> <a class="code" href="../../d9/d2a/a00270.html#aa9e7c19106d792aa23d1e7de7f4efafc">calIUH</a>(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment"># Always prefer setuptools over distutils</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> setuptools <span class="keyword">import</span> setup</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">from</span> setuptools.command.test <span class="keyword">import</span> test <span class="keyword">as</span> TestCommand</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    <span class="keywordtype">int</span> get_New_T0andDelta(<span class="keywordtype">void</span>);</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="keyword">import</span> pygeoc</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="../../d9/d2a/a00270.html#ada0a43ef89e61b07de87d672e5240b5e">readData</a>();</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keywordtype">string</span> uhFile;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    vector&lt;int&gt; linkCellNum;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    vector &lt;vector&lt;double&gt;&gt; uhCell, uhRiver, uhSub;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    vector &lt;vector&lt;double&gt;&gt; t0_new, t0_h_network, temp_t0;          <span class="comment">//new flow time =t0_reach_cell - t0_reach_outlet</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    vector &lt;vector&lt;double&gt;&gt; delta_new, delta_h_network,</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        temp_d;       <span class="comment">//new standard deviation of flow time = delta_reach_cell - delta_reach_outlet</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;};</div>
-<div class="ttc" id="a00270_html_ada0a43ef89e61b07de87d672e5240b5e"><div class="ttname"><a href="../../d9/d2a/a00270.html#ada0a43ef89e61b07de87d672e5240b5e">IUHCalculator::readData</a></div><div class="ttdeci">virtual void readData()</div><div class="ttdoc">Read data. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/d5b/a00905_source.html#l00014">IUHCalculator.cpp:14</a></div></div>
-<div class="ttc" id="a00270_html"><div class="ttname"><a href="../../d9/d2a/a00270.html">IUHCalculator</a></div><div class="ttdoc">This class is the base class of IUH calculation. </div><div class="ttdef"><b>Definition:</b> <a href="../../da/dd8/a00906_source.html#l00024">IUHCalculator.h:24</a></div></div>
-<div class="ttc" id="a00270_html_aa9e7c19106d792aa23d1e7de7f4efafc"><div class="ttname"><a href="../../d9/d2a/a00270.html#aa9e7c19106d792aa23d1e7de7f4efafc">IUHCalculator::calIUH</a></div><div class="ttdeci">virtual int calIUH(void)=0</div><div class="ttdoc">Calculate IUH. </div></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;here = path.abspath(path.dirname(__file__))</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment"># Get the long description from the README file</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;with open(path.join(here, <span class="stringliteral">&#39;README.rst&#39;</span>), encoding=<span class="stringliteral">&#39;utf-8&#39;</span>) <span class="keyword">as</span> f:</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    long_description = f.read()</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="keyword">class </span>Tox(TestCommand):</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">def </span>finalize_options(self):</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;        TestCommand.finalize_options(self)</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        self.test_args = []</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        self.test_suite = <span class="keyword">True</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">def </span>run_tests(self):</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        <span class="comment"># import here, cause outside the eggs aren&#39;t loaded</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        <span class="keyword">import</span> tox, sys</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;        errcode = tox.cmdline(self.test_args)</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;        sys.exit(errcode)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;setup(</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        name=<span class="stringliteral">&#39;PyGeoC&#39;</span>,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        <span class="comment"># Versions should comply with PEP440.  For a discussion on single-sourcing</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        <span class="comment"># the version across setup.py and the project code, see</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="comment"># https://packaging.python.org/en/latest/single_source_version.html</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        version=pygeoc.__version__,</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        description=<span class="stringliteral">&#39;Python for GeoComputation&#39;</span>,</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        long_description=long_description,</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="comment"># The project&#39;s main homepage.</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        url=pygeoc.__url__,</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment"># Author details</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        author=pygeoc.__author__,</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        author_email=pygeoc.__email__,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        <span class="comment"># Choose your license</span></div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        license=<span class="stringliteral">&#39;MIT&#39;</span>,</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        <span class="comment"># See https://pypi.python.org/pypi?%3Aaction=list_classifiers</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;        classifiers=[</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;            <span class="comment"># How mature is this project? Common values are</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;            <span class="comment">#   1 - Planning</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;            <span class="comment">#   2 - Pre-Alpha</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;            <span class="comment">#   3 - Alpha</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;            <span class="comment">#   4 - Beta</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;            <span class="comment">#   5 - Production/Stable</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;            <span class="stringliteral">&#39;Development Status :: 4 - Beta&#39;</span>,</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;            <span class="comment"># Indicate who your project is intended for</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;            <span class="stringliteral">&#39;Intended Audience :: Science/Research&#39;</span>,</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;            <span class="stringliteral">&#39;Topic :: Scientific/Engineering :: GIS&#39;</span>,</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;            <span class="comment"># Pick your license as you wish (should match &quot;license&quot; above)</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;            <span class="stringliteral">&#39;License :: OSI Approved :: MIT License&#39;</span>,</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            <span class="comment"># Specify the Python versions you support here. In particular, ensure</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            <span class="comment"># that you indicate whether you support Python 2, Python 3 or both.</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;            <span class="stringliteral">&#39;Programming Language :: Python :: 2&#39;</span>,</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="stringliteral">&#39;Programming Language :: Python :: 2.6&#39;</span>,</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;            <span class="stringliteral">&#39;Programming Language :: Python :: 2.7&#39;</span>,</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        ],</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        <span class="comment"># What does your project relate to?</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        keywords=<span class="stringliteral">&#39;GeoComputation utility library&#39;</span>,</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;        <span class="comment"># You can just specify the packages manually here if your project is</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;        <span class="comment"># simple. Or you can use find_packages().</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;        packages=[<span class="stringliteral">&#39;pygeoc&#39;</span>,</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;                  <span class="stringliteral">&#39;pygeoc.raster&#39;</span>,</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;                  <span class="stringliteral">&#39;pygeoc.vector&#39;</span>,</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                  <span class="stringliteral">&#39;pygeoc.hydro&#39;</span>,</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;                  <span class="stringliteral">&#39;pygeoc.utils&#39;</span>],</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        <span class="comment"># Alternatively, if you want to distribute just a my_module.py, uncomment</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="comment"># this:</span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="comment">#   py_modules=[&quot;my_module&quot;],</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="comment"># List run-time dependencies here.  These will be installed by pip when</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="comment"># your project is installed. For an analysis of &quot;install_requires&quot; vs pip&#39;s</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="comment"># requirements files see:</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="comment"># https://packaging.python.org/en/latest/requirements.html</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        install_requires=[</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;            <span class="comment"># &#39;gdal&gt;=1.9.0,&lt;2.0&#39;,</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;            <span class="comment"># &#39;numpy&gt;=1.9.0&#39;</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        ],</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="comment"># List additional groups of dependencies here (e.g. development</span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="comment"># dependencies). You can install these using the following syntax,</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="comment"># for example:</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="comment"># $ pip install -e .[dev,test]</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        extras_require={},</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="comment"># If there are data files included in your packages that need to be</span></div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="comment"># installed, specify them here.  If using Python 2.6 or less, then these</span></div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        <span class="comment"># have to be included in MANIFEST.in as well.</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        package_data={},</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="comment"># Although &#39;package_data&#39; is the preferred approach, in some case you may</span></div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        <span class="comment"># need to place data files outside of your packages. See:</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;        <span class="comment"># http://docs.python.org/3.4/distutils/setupscript.html#installing-additional-files # noqa</span></div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="comment"># In this case, &#39;data_file&#39; will be installed into &#39;&lt;sys.prefix&gt;/my_data&#39;</span></div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="comment"># data_files=[(&#39;my_data&#39;, [&#39;data/data_file&#39;])],</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;        data_files=[],</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        tests_require=[<span class="stringliteral">&#39;tox&#39;</span>],</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        cmdclass={<span class="stringliteral">&#39;test&#39;</span>: Tox},</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="comment"># To provide executable scripts, use entry points in preference to the</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="comment"># &quot;scripts&quot; keyword. Entry points provide cross-platform support and allow</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="comment"># pip to create the appropriate form of executable for the target platform.</span></div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        entry_points={</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;            <span class="stringliteral">&#39;console_scripts&#39;</span>: [</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;                <span class="stringliteral">&#39;PyGeoC=PyGeoC:main&#39;</span>,</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;            ],</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        },</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;)</div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_2b61984990e472053a6caf1b984c1e37.html">iuh</a></li><li class="navelem"><b>RiverIUHCalculator.h</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:25 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_ed16674693235890c7cb51a5b1a1dba7.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_9598fad7d324ddcf8fd8f6381636de51.html">pygeoc</a></li><li class="navelem"><b>setup.py</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:26 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

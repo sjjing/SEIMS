@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/preprocess/sp_extraction.py Source File</title>
+<title>SEIMS: seims_longterm_linux_gcc48/seims/postprocess/main.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,57 +112,38 @@ $(document).ready(function(){initNavTree('d0/da2/a00796_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">sp_extraction.py</div>  </div>
+<div class="title">main.py</div>  </div>
 </div><!--header-->
 <div class="contents">
 <div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Extract spatial parameters for soil, landuse, and terrain related.</span></div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Liangjun Zhu</span></div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 16-12-07  lj - rewrite for version 2.0</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">                17-06-23  lj - reorganize according to pylint and google style</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">from</span> <a class="code" href="../../de/d90/a01313.html">seims.preprocess.sp_landuse</a> <span class="keyword">import</span> LanduseUtilClass</div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d9/de6/a01314.html">seims.preprocess.sp_soil</a> <span class="keyword">import</span> SoilUtilClass</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d2/d8e/a01315.html">seims.preprocess.sp_terrain</a> <span class="keyword">import</span> TerrainUtilClass</div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;Entrance of Postprocess for SEIMS.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Liangjun Zhu, Huiran Gao</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 17-08-17  lj - redesign and rewrite the plotting program.\n</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d2/d3f/a01356.html">seims.postprocess.config</a> <span class="keyword">import</span> parse_ini_configuration</div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">from</span> <a class="code" href="../../de/d5c/a01358.html">seims.postprocess.plot_timeseries</a> <span class="keyword">import</span> TimeSeriesPlots</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;</div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">def </span>extract_spatial_parameters(cfg, maindb):</div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Main entrance for spatial parameters extraction.&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;    <span class="comment"># 1. Soil related</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    SoilUtilClass.parameters_extraction(cfg)</div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;    <span class="comment"># 2. Landuse/Landcover related</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    LanduseUtilClass.parameters_extraction(cfg, maindb)</div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;    <span class="comment"># 3. Terrain related and other spatial parameters</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    TerrainUtilClass.parameters_extration(cfg, maindb)</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">def </span>main():</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;TEST CODE&quot;&quot;&quot;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d2/d68/a01295.html">seims.preprocess.config</a> <span class="keyword">import</span> parse_ini_configuration</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <span class="keyword">from</span> <a class="code" href="../../d6/dae/a01304.html">seims.preprocess.db_mongodb</a> <span class="keyword">import</span> ConnectMongoDB</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    seims_cfg = parse_ini_configuration()</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    client = ConnectMongoDB(seims_cfg.hostname, seims_cfg.port)</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    conn = client.get_conn()</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    main_db = conn[seims_cfg.spatial_db]</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    extract_spatial_parameters(seims_cfg, main_db)</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    main()</div>
-<div class="ttc" id="a01304_html"><div class="ttname"><a href="../../d6/dae/a01304.html">seims.preprocess.db_mongodb</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d9c/a00772_source.html#l00001">db_mongodb.py:1</a></div></div>
-<div class="ttc" id="a01315_html"><div class="ttname"><a href="../../d2/d8e/a01315.html">seims.preprocess.sp_terrain</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d7/dff/a00805_source.html#l00001">sp_terrain.py:1</a></div></div>
-<div class="ttc" id="a01314_html"><div class="ttname"><a href="../../d9/de6/a01314.html">seims.preprocess.sp_soil</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dcd/a00802_source.html#l00001">sp_soil.py:1</a></div></div>
-<div class="ttc" id="a01295_html"><div class="ttname"><a href="../../d2/d68/a01295.html">seims.preprocess.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d4/deb/a00710_source.html#l00001">config.py:1</a></div></div>
-<div class="ttc" id="a01313_html"><div class="ttname"><a href="../../de/d90/a01313.html">seims.preprocess.sp_landuse</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d0/d7d/a00799_source.html#l00001">sp_landuse.py:1</a></div></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">def </span>main():</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Main workflow.&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;    cfg = parse_ini_configuration()</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;    TimeSeriesPlots(cfg).workflow()</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&quot;__main__&quot;</span>:</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;    main()</div>
+<div class="ttc" id="a01356_html"><div class="ttname"><a href="../../d2/d3f/a01356.html">seims.postprocess.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d86/a00781_source.html#l00001">config.py:1</a></div></div>
+<div class="ttc" id="a01358_html"><div class="ttname"><a href="../../de/d5c/a01358.html">seims.postprocess.plot_timeseries</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d5/dcd/a00802_source.html#l00001">plot_timeseries.py:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_e83ca20770e7fbc90f1c071d86067ace.html">preprocess</a></li><li class="navelem"><b>sp_extraction.py</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:25 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_ed16674693235890c7cb51a5b1a1dba7.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_7d90664375d4fa713ce6e636f6d5eab5.html">postprocess</a></li><li class="navelem"><b>main.py</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:25 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

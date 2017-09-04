@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: seims/src/seims_main/base/bmps/PlantManagementOperation.h Source File</title>
+<title>SEIMS: seims_longterm_linux_gcc48/seims/scenario_analysis/slpposunits/userdef.py Source File</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -112,558 +112,257 @@ $(document).ready(function(){initNavTree('dd/d98/a00927_source.html','../../');}
 
 <div class="header">
   <div class="headertitle">
-<div class="title">PlantManagementOperation.h</div>  </div>
+<div class="title">userdef.py</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;</div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor"></span><span class="preprocessor">#include &quot;utilities.h&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;BMPText.h&quot;</span></div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="comment">#! /usr/bin/env python</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="comment"># -*- coding: utf-8 -*-</span></div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="stringliteral">&quot;&quot;&quot;User defined operation for optimizing BMPs based on slope position units.</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="stringliteral">    @author   : Huiran Gao, Liangjun Zhu</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="stringliteral">    @changelog: 16-11-08  hr - initial implementation.\n</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="stringliteral">                17-08-18  lj - reorganization.\n</span></div>
+<div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="keyword">import</span> random</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">namespace </span>MainBMP {</div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="../../d4/d0e/a01272.html">   17</a></span>&#160;<span class="keyword">namespace </span>PlantManagement {</div>
-<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="../../d2/d41/a00318.html">   23</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day,</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;                             <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> dump(ostream *fs) = 0;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    <span class="keywordtype">bool</span> &amp;UseBaseHUSC(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">return</span> m_useBaseHUSC;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    }</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keywordtype">float</span> &amp;GetHUFraction(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="keywordflow">return</span> m_frHU;</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordtype">int</span> &amp;GetMonth(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="keywordflow">return</span> m_month;</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    }</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">int</span> &amp;GetDay(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="keywordflow">return</span> m_day;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    }</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d6/d2f/a01394.html">seims.pygeoc.pygeoc.utils.utils</a> <span class="keyword">import</span> get_config_parser</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="keyword">from</span> <a class="code" href="../../d2/d82/a01404.html">seims.scenario_analysis.slpposunits.config</a> <span class="keyword">import</span> SASPUConfig</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="keyword">from</span> <a class="code" href="../../dc/d25/a01406.html">seims.scenario_analysis.slpposunits.scenario</a> <span class="keyword">import</span> SPScenario</div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keyword">from</span> <a class="code" href="../../dc/d25/a01406.html">seims.scenario_analysis.slpposunits.scenario</a> <span class="keyword">import</span> initialize_scenario, get_potential_bmps</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">#                                       #</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">#          Crossover (Mate)             #</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">#                                       #</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">def </span>crossover_slppos(tagnames, ind1, ind2):</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Crossover operator based on slope position units.</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="stringliteral">    Args:</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="stringliteral">        tagnames(list): slope position tags and names, from up to bottom of hillslope.</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="stringliteral">                        The format is [(tag, name),...].</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="stringliteral">        ind1: The first individual participating in the crossover.</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="stringliteral">        ind2: The second individual participating in the crossover.</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="stringliteral">    Returns:</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="stringliteral">        A tuple of two individuals.</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    sp_num = len(tagnames)</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    size = min(len(ind1), len(ind2))</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keyword">assert</span> (size &gt; sp_num * 2)</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    <span class="keywordflow">while</span> <span class="keyword">True</span>:</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        cxpoint1 = random.randint(0, size - 1)</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        cxpoint2 = random.randint(1, size)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        <span class="keywordflow">if</span> cxpoint2 &lt; cxpoint1:  <span class="comment"># Swap the two cx points</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;            cxpoint1, cxpoint2 = cxpoint2, cxpoint1</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        <span class="comment"># print (cxpoint1, cxpoint2)</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;        cs1 = cxpoint1 / sp_num</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        cs2 = cxpoint2 / sp_num</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        <span class="comment"># print (cs1, cs2)</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        cxpoint1 = cs1 * sp_num</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;        <span class="keywordflow">if</span> cxpoint2 % sp_num != 0:</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;            cxpoint2 = sp_num * (cs2 + 1)</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        <span class="keywordflow">if</span> cxpoint1 == cxpoint2:</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;            cxpoint2 += sp_num</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        <span class="comment"># print (cxpoint1, cxpoint2)</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> (cxpoint1 == 0 <span class="keywordflow">and</span> cxpoint2 == size):</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;            <span class="keywordflow">break</span>  <span class="comment"># avoid change the entire genes</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    ind1[cxpoint1:cxpoint2], ind2[cxpoint1:cxpoint2] \</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        = ind2[cxpoint1:cxpoint2], ind1[cxpoint1:cxpoint2]</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    <span class="comment"># Check the validation according to spatial configuration rules.</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">return</span> ind1, ind2</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <span class="keywordtype">int</span> &amp;GetOperationCode(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="keywordflow">return</span> m_mgtOp;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="../../d2/d41/a00318.html#ac88dbda51aa7da05257c03993d4ec409">   66</a></span>&#160;    <span class="keywordtype">bool</span> <a class="code" href="../../d2/d41/a00318.html#ac88dbda51aa7da05257c03993d4ec409">m_useBaseHUSC</a>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="../../d2/d41/a00318.html#a205d1060e4e5de5d5aeaffb0298964ab">   68</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d2/d41/a00318.html#a205d1060e4e5de5d5aeaffb0298964ab">m_frHU</a>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="../../d2/d41/a00318.html#ac45a30a11d48c2d1148f6aa2ee031c77">   70</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d2/d41/a00318.html#ac45a30a11d48c2d1148f6aa2ee031c77">m_year</a>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno"><a class="line" href="../../d2/d41/a00318.html#af32ba3fa08dbddf3c43c5ca929df123a">   72</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d2/d41/a00318.html#af32ba3fa08dbddf3c43c5ca929df123a">m_month</a>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="../../d2/d41/a00318.html#a86dbd0fc98db4de521727bb621a591a4">   74</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d2/d41/a00318.html#a86dbd0fc98db4de521727bb621a591a4">m_day</a>;</div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="../../d2/d41/a00318.html#a15bc6209cedadf38c05d77d0a74658d6">   76</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="../../d2/d41/a00318.html#a15bc6209cedadf38c05d77d0a74658d6">m_mgtOp</a>;</div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="../../d2/d41/a00318.html#a22a357d2e84820f077517403342ef061">   78</a></span>&#160;    <span class="keywordtype">float</span> *<a class="code" href="../../d2/d41/a00318.html#a22a357d2e84820f077517403342ef061">m_parameters</a>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;};</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;</div>
-<div class="line"><a name="l00086"></a><span class="lineno"><a class="line" href="../../de/dab/a00319.html">   86</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/dab/a00319.html">PlantOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <a class="code" href="../../de/dab/a00319.html">PlantOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day, <span class="keywordtype">float</span> *parameters);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="keyword">def </span>crossover_rdm(ind1, ind2):</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;Crossover randomly.</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="stringliteral">        Args:</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;<span class="stringliteral">            ind1: The first individual participating in the crossover.</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="stringliteral">            ind2: The second individual participating in the crossover.</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;<span class="stringliteral">        Returns:</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;<span class="stringliteral">            A tuple of two individuals.</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="stringliteral">        &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    size = min(len(ind1), len(ind2))</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    <span class="keywordflow">while</span> <span class="keyword">True</span>:</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        cxpoint1 = random.randint(0, size - 1)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        cxpoint2 = random.randint(1, size)</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="keywordflow">if</span> cxpoint2 &lt; cxpoint1:  <span class="comment"># Swap the two cx points</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;            cxpoint1, cxpoint2 = cxpoint2, cxpoint1</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="keywordflow">else</span>:</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;            cxpoint2 += 1</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        <span class="keywordflow">if</span> <span class="keywordflow">not</span> (cxpoint1 == 0 <span class="keywordflow">and</span> cxpoint2 == size):</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;            <span class="keywordflow">break</span>  <span class="comment"># avoid change the entire genes</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    ind1[cxpoint1:cxpoint2], ind2[cxpoint1:cxpoint2] \</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        = ind2[cxpoint1:cxpoint2], ind1[cxpoint1:cxpoint2]</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="keywordflow">return</span> ind1, ind2</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">#                                       #</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">#               Mutate                  #</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">#                                       #</span></div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    ~<a class="code" href="../../de/dab/a00319.html">PlantOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keywordtype">int</span> PlantID(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        <span class="keywordflow">return</span> m_plantID;</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    }</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordtype">float</span> CurYearMaturity(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="keywordflow">return</span> m_curYrMat;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    }</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordtype">float</span> HeatUnits(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        <span class="keywordflow">return</span> m_heatUnits;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordtype">float</span> LAIInit(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">return</span> m_laiInit;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    <span class="keywordtype">float</span> BIOInit(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="keywordflow">return</span> m_bioInit;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    }</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="keywordtype">float</span> HITarg(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;        <span class="keywordflow">return</span> m_hiTarg;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    }</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keywordtype">float</span> BIOTarg(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">return</span> m_bioTarg;</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    }</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    <span class="keywordtype">float</span> CNOP(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="keywordflow">return</span> m_CNOP;</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    }</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordtype">int</span> m_plantID;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordtype">float</span> m_curYrMat;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keywordtype">float</span> m_heatUnits;</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="keywordtype">float</span> m_laiInit;</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="keywordtype">float</span> m_bioInit;</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keywordtype">float</span> m_hiTarg;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordtype">float</span> m_bioTarg;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordtype">float</span> m_CNOP;</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;};</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;</div>
-<div class="line"><a name="l00143"></a><span class="lineno"><a class="line" href="../../d5/d35/a00266.html">  143</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d5/d35/a00266.html">IrrigationOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;    <a class="code" href="../../d5/d35/a00266.html">IrrigationOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day, <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    ~<a class="code" href="../../d5/d35/a00266.html">IrrigationOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordtype">int</span> IRRSource(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordflow">return</span> m_irrSrc;</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    }</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordtype">int</span> IRRNo(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        <span class="keywordflow">return</span> m_irrNo;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    }</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordtype">float</span> IRRApplyDepth(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="keywordflow">return</span> m_irrAmt;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    }</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keywordtype">float</span> IRRSalt(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <span class="keywordflow">return</span> m_irrSalt;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    }</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="keywordtype">float</span> IRREfficiency(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <span class="keywordflow">return</span> m_irrEfm;</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    }</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    <span class="keywordtype">float</span> IRRSQfrac(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="keywordflow">return</span> m_irrSq;</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    }</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordtype">int</span> m_irrSrc;</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordtype">float</span> m_irrAmt;</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keywordtype">float</span> m_irrSalt;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keywordtype">float</span> m_irrEfm;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keywordtype">float</span> m_irrSq;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keywordtype">int</span> m_irrNo;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;};</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;</div>
-<div class="line"><a name="l00190"></a><span class="lineno"><a class="line" href="../../d1/da8/a00230.html">  190</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d1/da8/a00230.html">FertilizerOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <a class="code" href="../../d1/da8/a00230.html">FertilizerOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day, <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    ~<a class="code" href="../../d1/da8/a00230.html">FertilizerOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="keywordtype">int</span> FertilizerID(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;        <span class="keywordflow">return</span> m_fertID;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    }</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keywordtype">float</span> FertilizerKg_per_ha(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        <span class="keywordflow">return</span> m_frtKgHa;</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    }</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keywordtype">float</span> FertilizerSurfaceFrac(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;        <span class="keywordflow">return</span> m_frtSurface;</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    }</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keywordtype">int</span> m_fertID;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keywordtype">float</span> m_frtKgHa;</div>
-<div class="line"><a name="l00216"></a><span class="lineno"><a class="line" href="../../d1/da8/a00230.html#ab27820b1bdcdf20f517bc494ea4e08f3">  216</a></span>&#160;    <span class="keywordtype">float</span> <a class="code" href="../../d1/da8/a00230.html#ab27820b1bdcdf20f517bc494ea4e08f3">m_frtSurface</a>;</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;};</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;</div>
-<div class="line"><a name="l00224"></a><span class="lineno"><a class="line" href="../../dd/db3/a00313.html">  224</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dd/db3/a00313.html">PesticideOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <a class="code" href="../../dd/db3/a00313.html">PesticideOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day, <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    ~<a class="code" href="../../dd/db3/a00313.html">PesticideOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="keywordtype">int</span> PesticideID(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="keywordflow">return</span> m_pestID;</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    }</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="keywordtype">float</span> PesticideKg(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        <span class="keywordflow">return</span> m_pstKg;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    }</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="keywordtype">float</span> PesticideDepth(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="keywordflow">return</span> m_pstDep;</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    }</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keywordtype">int</span> m_pestID;</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keywordtype">float</span> m_pstKg;</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="keywordtype">float</span> m_pstDep;</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;};</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;</div>
-<div class="line"><a name="l00256"></a><span class="lineno"><a class="line" href="../../d6/d22/a00245.html">  256</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d6/d22/a00245.html">HarvestKillOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <a class="code" href="../../d6/d22/a00245.html">HarvestKillOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day,</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;                         <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    ~<a class="code" href="../../d6/d22/a00245.html">HarvestKillOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    <span class="keywordtype">float</span> CNOP(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;        <span class="keywordflow">return</span> m_CNOP;</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    }</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="keywordtype">float</span> HarvestIndexOverride(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        <span class="keywordflow">return</span> m_hiOvr;</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    }</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="keywordtype">float</span> StoverFracRemoved(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        <span class="keywordflow">return</span> m_fracHarvk;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    }</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keywordtype">float</span> m_CNOP;</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="keywordtype">float</span> m_hiOvr;</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    <span class="keywordtype">float</span> m_fracHarvk;</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;};</div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;</div>
-<div class="line"><a name="l00289"></a><span class="lineno"><a class="line" href="../../d2/d3e/a00366.html">  289</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d2/d3e/a00366.html">TillageOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    <a class="code" href="../../d2/d3e/a00366.html">TillageOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day, <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;    ~<a class="code" href="../../d2/d3e/a00366.html">TillageOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <span class="keywordtype">float</span> CNOP(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        <span class="keywordflow">return</span> m_CNOP;</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    }</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    <span class="keywordtype">int</span> TillageID(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        <span class="keywordflow">return</span> m_tillID;</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    }</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="keywordtype">int</span> m_tillID;</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    <span class="keywordtype">float</span> m_CNOP;</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;};</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;</div>
-<div class="line"><a name="l00316"></a><span class="lineno"><a class="line" href="../../d4/d9a/a00246.html">  316</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d4/d9a/a00246.html">HarvestOnlyOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    <a class="code" href="../../d4/d9a/a00246.html">HarvestOnlyOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day,</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;                         <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    ~<a class="code" href="../../d4/d9a/a00246.html">HarvestOnlyOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <span class="keywordtype">float</span> HarvestEfficiency(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        <span class="keywordflow">return</span> m_harvEff;</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    }</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;</div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    <span class="keywordtype">float</span> HarvestIndexResidue(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        <span class="keywordflow">return</span> m_hiRsd;</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    }</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    <span class="keywordtype">float</span> HarvestIndexBiomass(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;        <span class="keywordflow">return</span> m_hiBms;</div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    }</div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;</div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;</div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    <span class="keywordtype">float</span> m_harvEff;</div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <span class="keywordtype">float</span> m_hiRsd;</div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    <span class="keywordtype">float</span> m_hiBms;</div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;};</div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;</div>
-<div class="line"><a name="l00349"></a><span class="lineno"><a class="line" href="../../dd/d86/a00271.html">  349</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../dd/d86/a00271.html">KillOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    <a class="code" href="../../dd/d86/a00271.html">KillOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day, <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;</div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    ~<a class="code" href="../../dd/d86/a00271.html">KillOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;</div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;};</div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;</div>
-<div class="line"><a name="l00364"></a><span class="lineno"><a class="line" href="../../d3/d42/a00235.html">  364</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d3/d42/a00235.html">GrazingOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <a class="code" href="../../d3/d42/a00235.html">GrazingOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day, <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;</div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    ~<a class="code" href="../../d3/d42/a00235.html">GrazingOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    <span class="keywordtype">int</span> GrazingDays(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;        <span class="keywordflow">return</span> m_grzDays;</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    }</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    <span class="keywordtype">int</span> ManureID(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        <span class="keywordflow">return</span> m_manureID;</div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    }</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    <span class="keywordtype">float</span> BiomassConsumed(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;        <span class="keywordflow">return</span> m_bioEat;</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    }</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    <span class="keywordtype">float</span> BiomassTrampled(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        <span class="keywordflow">return</span> m_bioTrmp;</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    }</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    <span class="keywordtype">float</span> ManureDeposited(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        <span class="keywordflow">return</span> m_manureKg;</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    }</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    <span class="keywordtype">int</span> m_grzDays;</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    <span class="keywordtype">int</span> m_manureID;</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    <span class="keywordtype">float</span> m_bioEat;</div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    <span class="keywordtype">float</span> m_bioTrmp;</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;    <span class="keywordtype">float</span> m_manureKg;</div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;};</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;</div>
-<div class="line"><a name="l00406"></a><span class="lineno"><a class="line" href="../../da/d15/a00188.html">  406</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../da/d15/a00188.html">AutoIrrigationOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;    <a class="code" href="../../da/d15/a00188.html">AutoIrrigationOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day,</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;                            <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;    ~<a class="code" href="../../da/d15/a00188.html">AutoIrrigationOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    <span class="keywordtype">int</span> WaterStrsIdent(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;        <span class="keywordflow">return</span> m_wstrsID;</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;    }</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;</div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;    <span class="keywordtype">int</span> AutoIrrSrcCode(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;        <span class="keywordflow">return</span> m_irrSrc;</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;    }</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    <span class="keywordtype">int</span> AutoIrrSrcLocs(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;        <span class="keywordflow">return</span> m_irrNoa;</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    }</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    <span class="keywordtype">float</span> AutoWtrStrsThrsd(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;        <span class="keywordflow">return</span> m_autoWstrs;</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    }</div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;    <span class="keywordtype">float</span> IrrigationEfficiency(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;        <span class="keywordflow">return</span> m_irrEff;</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;    }</div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;    <span class="keywordtype">float</span> IrrigationWaterApplied(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        <span class="keywordflow">return</span> m_irrMx;</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    }</div>
-<div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;</div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;    <span class="keywordtype">float</span> SurfaceRunoffRatio(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;        <span class="keywordflow">return</span> m_irrAsq;</div>
-<div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;    }</div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;</div>
-<div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;</div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;    <span class="keywordtype">int</span> m_wstrsID;</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;    <span class="keywordtype">int</span> m_irrSrc;</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;    <span class="keywordtype">float</span> m_autoWstrs;</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;    <span class="keywordtype">int</span> m_irrNoa;</div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;    <span class="keywordtype">float</span> m_irrEff;</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    <span class="keywordtype">float</span> m_irrMx;</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;    <span class="keywordtype">float</span> m_irrAsq;</div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;};</div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;</div>
-<div class="line"><a name="l00459"></a><span class="lineno"><a class="line" href="../../d6/daa/a00187.html">  459</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d6/daa/a00187.html">AutoFertilizerOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;    <a class="code" href="../../d6/daa/a00187.html">AutoFertilizerOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day,</div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;                            <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;</div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;    ~<a class="code" href="../../d6/daa/a00187.html">AutoFertilizerOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;</div>
-<div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;    <span class="keywordtype">int</span> FertilizerID(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;        <span class="keywordflow">return</span> m_afertID;</div>
-<div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;    }</div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;</div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;    <span class="keywordtype">int</span> NitrogenMethod(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;        <span class="keywordflow">return</span> m_NStress;</div>
-<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;    }</div>
-<div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;</div>
-<div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;    <span class="keywordtype">float</span> NitrogenStrsFactor(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;        <span class="keywordflow">return</span> m_autoNStrs;</div>
-<div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;    }</div>
-<div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;</div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;    <span class="keywordtype">float</span> MaxMineralN(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;        <span class="keywordflow">return</span> m_autoNAPP;</div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;    }</div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;</div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;    <span class="keywordtype">float</span> MaxMineralNYearly(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;        <span class="keywordflow">return</span> m_autoNYR;</div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;    }</div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;    <span class="keywordtype">float</span> FertEfficiency(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;        <span class="keywordflow">return</span> m_autoEff;</div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;    }</div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;    <span class="keywordtype">float</span> SurfaceFracApplied(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;        <span class="keywordflow">return</span> m_afrtSurface;</div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;    }</div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;</div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;    <span class="keywordtype">int</span> m_afertID;</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;    <span class="keywordtype">int</span> m_NStress;</div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;    <span class="keywordtype">float</span> m_autoNStrs;</div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;    <span class="keywordtype">float</span> m_autoNAPP;</div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;    <span class="keywordtype">float</span> m_autoNYR;</div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;    <span class="keywordtype">float</span> m_autoEff;</div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;    <span class="keywordtype">float</span> m_afrtSurface;</div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;};</div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;</div>
-<div class="line"><a name="l00512"></a><span class="lineno"><a class="line" href="../../d8/dfc/a00327.html">  512</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d8/dfc/a00327.html">ReleaseImpoundOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;    <a class="code" href="../../d8/dfc/a00327.html">ReleaseImpoundOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day,</div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;                            <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;</div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;    ~<a class="code" href="../../d8/dfc/a00327.html">ReleaseImpoundOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;</div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;    <span class="keywordtype">int</span> ImpoundTriger(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;        <span class="keywordflow">return</span> m_impTrig;</div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;    }</div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;</div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;    <span class="keywordtype">float</span> MaxDepth(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;        <span class="keywordflow">return</span> m_maxDepth;</div>
-<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;    }</div>
-<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;</div>
-<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;    <span class="keywordtype">float</span> UpDepth(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;        <span class="keywordflow">return</span> m_upDepth;</div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;    }</div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;</div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;    <span class="keywordtype">float</span> LowDepth(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;        <span class="keywordflow">return</span> m_lowDepth;</div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;    }</div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;</div>
-<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;</div>
-<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;    <span class="keywordtype">int</span> m_impTrig;</div>
-<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;    <span class="keywordtype">float</span> m_maxDepth;</div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;    <span class="keywordtype">float</span> m_upDepth;</div>
-<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;    <span class="keywordtype">float</span> m_lowDepth;</div>
-<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;};</div>
-<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;</div>
-<div class="line"><a name="l00550"></a><span class="lineno"><a class="line" href="../../d1/de1/a00213.html">  550</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d1/de1/a00213.html">ContinuousFertilizerOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;    <a class="code" href="../../d1/de1/a00213.html">ContinuousFertilizerOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day,</div>
-<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;                                  <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;</div>
-<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;    ~<a class="code" href="../../d1/de1/a00213.html">ContinuousFertilizerOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;</div>
-<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;    <span class="keywordtype">int</span> FertilizerID(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;        <span class="keywordflow">return</span> m_cfertID;</div>
-<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;    }</div>
-<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;</div>
-<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;    <span class="keywordtype">int</span> ApplyFrequency(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;        <span class="keywordflow">return</span> m_ifrtFreq;</div>
-<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;    }</div>
-<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;</div>
-<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;    <span class="keywordtype">int</span> FertilizerDays(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;        <span class="keywordflow">return</span> m_fertDays;</div>
-<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;    }</div>
-<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;</div>
-<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;    <span class="keywordtype">float</span> FertilizerKg(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;        <span class="keywordflow">return</span> m_cfrtKg;</div>
-<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;    }</div>
-<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;</div>
-<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;</div>
-<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;    <span class="keywordtype">int</span> m_cfertID;</div>
-<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;    <span class="keywordtype">int</span> m_fertDays;</div>
-<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;    <span class="keywordtype">float</span> m_cfrtKg;</div>
-<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;    <span class="keywordtype">int</span> m_ifrtFreq;</div>
-<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;};</div>
-<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;</div>
-<div class="line"><a name="l00588"></a><span class="lineno"><a class="line" href="../../d3/dd1/a00214.html">  588</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../d3/dd1/a00214.html">ContinuousPesticideOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;    <a class="code" href="../../d3/dd1/a00214.html">ContinuousPesticideOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> usebaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day,</div>
-<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;                                 <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;</div>
-<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;    ~<a class="code" href="../../d3/dd1/a00214.html">ContinuousPesticideOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;</div>
-<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;    <span class="keywordtype">int</span> PesticideID(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;        <span class="keywordflow">return</span> m_ipstID;</div>
-<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;    }</div>
-<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;</div>
-<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;    <span class="keywordtype">int</span> PesticideFrequency(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;        <span class="keywordflow">return</span> m_pstFreq;</div>
-<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;    }</div>
-<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;</div>
-<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;    <span class="keywordtype">float</span> PesticideKg(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;        <span class="keywordflow">return</span> m_cpstKg;</div>
-<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;    }</div>
-<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;</div>
-<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;    <span class="keywordtype">int</span> PesticideDays(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;        <span class="keywordflow">return</span> m_pstDays;</div>
-<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;    }</div>
-<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;</div>
-<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;</div>
-<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;    <span class="keywordtype">int</span> m_ipstID;</div>
-<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;    <span class="keywordtype">int</span> m_pstDays;</div>
-<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;    <span class="keywordtype">float</span> m_cpstKg;</div>
-<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;    <span class="keywordtype">int</span> m_pstFreq;</div>
-<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;};</div>
-<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;</div>
-<div class="line"><a name="l00626"></a><span class="lineno"><a class="line" href="../../de/db1/a00197.html">  626</a></span>&#160;<span class="keyword">class </span><a class="code" href="../../de/db1/a00197.html">BurningOperation</a> : <span class="keyword">public</span> <a class="code" href="../../d2/d41/a00318.html">PlantManagementOperation</a> {</div>
-<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;    <a class="code" href="../../de/db1/a00197.html">BurningOperation</a>(<span class="keywordtype">int</span> mgtOp, <span class="keywordtype">bool</span> useBaseHU, <span class="keywordtype">float</span> husc, <span class="keywordtype">int</span> year, <span class="keywordtype">int</span> month, <span class="keywordtype">int</span> day, <span class="keywordtype">float</span> *parameters);</div>
-<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;</div>
-<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;    ~<a class="code" href="../../de/db1/a00197.html">BurningOperation</a>(<span class="keywordtype">void</span>);</div>
-<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;</div>
-<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;    <span class="keywordtype">float</span> FractionLeft(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;        <span class="keywordflow">return</span> m_burnFrlb;</div>
-<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;    }</div>
-<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;</div>
-<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;    <span class="keywordtype">void</span> dump(ostream *fs);</div>
-<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;</div>
-<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;<span class="keyword">private</span>:</div>
-<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;    <span class="keywordtype">float</span> m_burnFrlb;</div>
-<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;};</div>
-<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;}</div>
-<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;}</div>
-<div class="ttc" id="a00327_html"><div class="ttname"><a href="../../d8/dfc/a00327.html">MainBMP::PlantManagement::ReleaseImpoundOperation</a></div><div class="ttdoc">ReleaseImpound operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00512">PlantManagementOperation.h:512</a></div></div>
-<div class="ttc" id="a00318_html_a205d1060e4e5de5d5aeaffb0298964ab"><div class="ttname"><a href="../../d2/d41/a00318.html#a205d1060e4e5de5d5aeaffb0298964ab">MainBMP::PlantManagement::PlantManagementOperation::m_frHU</a></div><div class="ttdeci">float m_frHU</div><div class="ttdoc">husc </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00068">PlantManagementOperation.h:68</a></div></div>
-<div class="ttc" id="a00230_html"><div class="ttname"><a href="../../d1/da8/a00230.html">MainBMP::PlantManagement::FertilizerOperation</a></div><div class="ttdoc">Fertilizer operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00190">PlantManagementOperation.h:190</a></div></div>
-<div class="ttc" id="a00318_html_a86dbd0fc98db4de521727bb621a591a4"><div class="ttname"><a href="../../d2/d41/a00318.html#a86dbd0fc98db4de521727bb621a591a4">MainBMP::PlantManagement::PlantManagementOperation::m_day</a></div><div class="ttdeci">int m_day</div><div class="ttdoc">day </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00074">PlantManagementOperation.h:74</a></div></div>
-<div class="ttc" id="a00188_html"><div class="ttname"><a href="../../da/d15/a00188.html">MainBMP::PlantManagement::AutoIrrigationOperation</a></div><div class="ttdoc">Auto irrigation operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00406">PlantManagementOperation.h:406</a></div></div>
-<div class="ttc" id="a00235_html"><div class="ttname"><a href="../../d3/d42/a00235.html">MainBMP::PlantManagement::GrazingOperation</a></div><div class="ttdoc">Grazing operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00364">PlantManagementOperation.h:364</a></div></div>
-<div class="ttc" id="a00318_html"><div class="ttname"><a href="../../d2/d41/a00318.html">MainBMP::PlantManagement::PlantManagementOperation</a></div><div class="ttdoc">Base class of plant management operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00023">PlantManagementOperation.h:23</a></div></div>
-<div class="ttc" id="a00318_html_ac88dbda51aa7da05257c03993d4ec409"><div class="ttname"><a href="../../d2/d41/a00318.html#ac88dbda51aa7da05257c03993d4ec409">MainBMP::PlantManagement::PlantManagementOperation::m_useBaseHUSC</a></div><div class="ttdeci">bool m_useBaseHUSC</div><div class="ttdoc">use base hu or plant accumulated hu </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00066">PlantManagementOperation.h:66</a></div></div>
-<div class="ttc" id="a00187_html"><div class="ttname"><a href="../../d6/daa/a00187.html">MainBMP::PlantManagement::AutoFertilizerOperation</a></div><div class="ttdoc">Auto Fertilizer operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00459">PlantManagementOperation.h:459</a></div></div>
-<div class="ttc" id="a00214_html"><div class="ttname"><a href="../../d3/dd1/a00214.html">MainBMP::PlantManagement::ContinuousPesticideOperation</a></div><div class="ttdoc">Continuous Pesticide operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00588">PlantManagementOperation.h:588</a></div></div>
-<div class="ttc" id="a00318_html_af32ba3fa08dbddf3c43c5ca929df123a"><div class="ttname"><a href="../../d2/d41/a00318.html#af32ba3fa08dbddf3c43c5ca929df123a">MainBMP::PlantManagement::PlantManagementOperation::m_month</a></div><div class="ttdeci">int m_month</div><div class="ttdoc">month </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00072">PlantManagementOperation.h:72</a></div></div>
-<div class="ttc" id="a00246_html"><div class="ttname"><a href="../../d4/d9a/a00246.html">MainBMP::PlantManagement::HarvestOnlyOperation</a></div><div class="ttdoc">HarvestOnly operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00316">PlantManagementOperation.h:316</a></div></div>
-<div class="ttc" id="a00366_html"><div class="ttname"><a href="../../d2/d3e/a00366.html">MainBMP::PlantManagement::TillageOperation</a></div><div class="ttdoc">Tillage operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00289">PlantManagementOperation.h:289</a></div></div>
-<div class="ttc" id="a00266_html"><div class="ttname"><a href="../../d5/d35/a00266.html">MainBMP::PlantManagement::IrrigationOperation</a></div><div class="ttdoc">Irrigation operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00143">PlantManagementOperation.h:143</a></div></div>
-<div class="ttc" id="a00313_html"><div class="ttname"><a href="../../dd/db3/a00313.html">MainBMP::PlantManagement::PesticideOperation</a></div><div class="ttdoc">Pesticide operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00224">PlantManagementOperation.h:224</a></div></div>
-<div class="ttc" id="a00213_html"><div class="ttname"><a href="../../d1/de1/a00213.html">MainBMP::PlantManagement::ContinuousFertilizerOperation</a></div><div class="ttdoc">Continuous Fertilizer operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00550">PlantManagementOperation.h:550</a></div></div>
-<div class="ttc" id="a00245_html"><div class="ttname"><a href="../../d6/d22/a00245.html">MainBMP::PlantManagement::HarvestKillOperation</a></div><div class="ttdoc">HarvestKill operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00256">PlantManagementOperation.h:256</a></div></div>
-<div class="ttc" id="a00318_html_ac45a30a11d48c2d1148f6aa2ee031c77"><div class="ttname"><a href="../../d2/d41/a00318.html#ac45a30a11d48c2d1148f6aa2ee031c77">MainBMP::PlantManagement::PlantManagementOperation::m_year</a></div><div class="ttdeci">int m_year</div><div class="ttdoc">year </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00070">PlantManagementOperation.h:70</a></div></div>
-<div class="ttc" id="a00230_html_ab27820b1bdcdf20f517bc494ea4e08f3"><div class="ttname"><a href="../../d1/da8/a00230.html#ab27820b1bdcdf20f517bc494ea4e08f3">MainBMP::PlantManagement::FertilizerOperation::m_frtSurface</a></div><div class="ttdeci">float m_frtSurface</div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00216">PlantManagementOperation.h:216</a></div></div>
-<div class="ttc" id="a00197_html"><div class="ttname"><a href="../../de/db1/a00197.html">MainBMP::PlantManagement::BurningOperation</a></div><div class="ttdoc">Burning operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00626">PlantManagementOperation.h:626</a></div></div>
-<div class="ttc" id="a00319_html"><div class="ttname"><a href="../../de/dab/a00319.html">MainBMP::PlantManagement::PlantOperation</a></div><div class="ttdoc">Plant management operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00086">PlantManagementOperation.h:86</a></div></div>
-<div class="ttc" id="a00318_html_a22a357d2e84820f077517403342ef061"><div class="ttname"><a href="../../d2/d41/a00318.html#a22a357d2e84820f077517403342ef061">MainBMP::PlantManagement::PlantManagementOperation::m_parameters</a></div><div class="ttdeci">float * m_parameters</div><div class="ttdoc">parameters, mgt1~mgt10 </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00078">PlantManagementOperation.h:78</a></div></div>
-<div class="ttc" id="a00318_html_a15bc6209cedadf38c05d77d0a74658d6"><div class="ttname"><a href="../../d2/d41/a00318.html#a15bc6209cedadf38c05d77d0a74658d6">MainBMP::PlantManagement::PlantManagementOperation::m_mgtOp</a></div><div class="ttdeci">int m_mgtOp</div><div class="ttdoc">management operation code </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00076">PlantManagementOperation.h:76</a></div></div>
-<div class="ttc" id="a00271_html"><div class="ttname"><a href="../../dd/d86/a00271.html">MainBMP::PlantManagement::KillOperation</a></div><div class="ttdoc">Kill operation. </div><div class="ttdef"><b>Definition:</b> <a href="../../dd/d98/a00927_source.html#l00349">PlantManagementOperation.h:349</a></div></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">def </span>mutate_slppos(unitsinfo, gene2unit, unit2gene, tagnames, suitbmps, individual,</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;                  perc, indpb, method=1):</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="stringliteral">    Mutation Gene values based on slope position rules.</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;<span class="stringliteral">    Old gene value is excluded from target values.</span></div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;<span class="stringliteral">    Args:</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="stringliteral">        unitsinfo(dict): Slope position units information, see more detail on `SASPUConfig`.</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="stringliteral">        gene2unit(dict): Gene index to slope position unit ID.</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="stringliteral">        unit2gene(dict): Slope position unit ID to gene index.</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="stringliteral">        tagnames(list): slope position tags and names, from up to bottom of hillslope.</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="stringliteral">                        The format is [(tag, name),...].</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="stringliteral">        suitbmps(dict): key is slope position tag, and value is available BMPs IDs list.</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="stringliteral">        individual(list or tuple): Individual to be mutated.</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;<span class="stringliteral">        perc(float): percent of gene length for mutate, default is 0.02</span></div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="stringliteral">        indpb(float): Independent probability for each attribute to be mutated.</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="stringliteral">        method(int): Domain knowledge based rule method.</span></div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="stringliteral">    Returns:</span></div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="stringliteral">        A tuple of one individual.</span></div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">if</span> perc &gt; 0.5:</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        perc = 0.5</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">elif</span> perc &lt; 0.01:</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        perc = 0.01</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        mut_num = random.randint(1, int(len(individual) * perc))</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    <span class="keywordflow">except</span> ValueError <span class="keywordflow">or</span> Exception:</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        <span class="keywordflow">return</span> individual</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="comment"># print (&#39;Max mutate num: %d&#39; % mut_num)</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    muted = list()</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    <span class="keywordflow">for</span> m <span class="keywordflow">in</span> range(mut_num):</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        <span class="keywordflow">if</span> random.random() &gt; indpb:</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;            <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="comment"># mutate will happen</span></div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        mpoint = random.randint(0, len(individual) - 1)</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        <span class="keywordflow">while</span> mpoint <span class="keywordflow">in</span> muted:</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;            mpoint = random.randint(0, len(individual) - 1)</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        oldgenev = individual[mpoint]</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        unitid = gene2unit[mpoint]</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="comment"># begin to mutate on unitid</span></div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        <span class="comment"># 1. get slope position tag, and upslope and downslope unit IDs</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        sptag = -1</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        down_sid = -1  <span class="comment"># slppos unit ID</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        down_gid = -1  <span class="comment"># gene index</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        down_gvalue = -1  <span class="comment"># gene value</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        up_sid = -1</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        up_gid = -1</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        up_gvalue = -1</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <span class="keywordflow">for</span> spid, spdict <span class="keywordflow">in</span> unitsinfo.iteritems():</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;            <span class="keywordflow">if</span> unitid <span class="keywordflow">not</span> <span class="keywordflow">in</span> spdict:</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;                <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;            <span class="keywordflow">for</span> t, n <span class="keywordflow">in</span> tagnames:</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;                <span class="keywordflow">if</span> spid == n:</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;                    sptag = t</div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;                    <span class="keywordflow">break</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;            down_sid = spdict[unitid][<span class="stringliteral">&#39;downslope&#39;</span>]</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;            up_sid = spdict[unitid][<span class="stringliteral">&#39;upslope&#39;</span>]</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;            <span class="keywordflow">if</span> down_sid &gt; 0:</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;                down_gid = unit2gene[down_sid]</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;                down_gvalue = individual[down_gid]</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;            <span class="keywordflow">if</span> up_sid &gt; 0:</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                up_gid = unit2gene[up_sid]</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                up_gvalue = individual[up_gid]</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        <span class="keywordflow">if</span> sptag &lt; 0:  <span class="comment"># this circumstance may not happen, just in case.</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;            <span class="keywordflow">continue</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <span class="comment"># print (&#39;  Mutate on slppos: %d (unit: %d, oldgene: %d), upgene: %d, downgene: %d&#39; %</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;        <span class="comment">#        (sptag, unitid, oldgenev, up_gvalue, down_gvalue))</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;        <span class="comment"># get the potential BMP IDs</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        bmps = get_potential_bmps(suitbmps, sptag, up_sid, up_gvalue, down_sid, down_gvalue, method)</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        <span class="comment"># Get new BMP ID for current unit.</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        <span class="keywordflow">if</span> oldgenev <span class="keywordflow">in</span> bmps:</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;            bmps.remove(oldgenev)</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <span class="comment"># print (&#39;    method: %d, potBMPs: %s&#39; % (method, bmps.__str__()))</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        <span class="keywordflow">if</span> len(bmps) &gt; 0:</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;            individual[mpoint] = bmps[random.randint(0, len(bmps) - 1)]</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;            muted.append(mpoint)</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <span class="keywordflow">else</span>:  <span class="comment"># No available BMP</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;            <span class="keywordflow">pass</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keywordflow">return</span> individual</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="keyword">def </span>mutate_rdm(bmps_mut_target, individual, perc, indpb):</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="stringliteral">&quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="stringliteral">    Mutation Gene values randomly, old gene value is excluded from target values.</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="stringliteral">    Args:</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="stringliteral">        bmps_mut_target(list or tuple): All available gene values.</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="stringliteral">        individual(list or tuple): Individual to be mutated.</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="stringliteral">        perc(float): percent of gene length for mutate, default is 0.02</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="stringliteral">        indpb(float): Independent probability for each attribute to be mutated.</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="stringliteral"></span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="stringliteral">    Returns:</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="stringliteral">        A tuple of one individual.</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="stringliteral">    &quot;&quot;&quot;</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    <span class="keywordflow">if</span> perc &gt; 0.5:</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        perc = 0.5</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keywordflow">elif</span> perc &lt; 0.01:</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        perc = 0.01</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    <span class="keywordflow">if</span> 0 <span class="keywordflow">not</span> <span class="keywordflow">in</span> bmps_mut_target:</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        bmps_mut_target.append(0)</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keywordflow">try</span>:</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        mut_num = random.randint(1, int(len(individual) * perc))</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keywordflow">except</span> ValueError <span class="keywordflow">or</span> Exception:</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <span class="keywordflow">return</span> individual</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    muted = list()</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keywordflow">for</span> m <span class="keywordflow">in</span> range(mut_num):</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        <span class="keywordflow">if</span> random.random() &lt; indpb:</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;            mpoint = random.randint(0, len(individual) - 1)</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;            <span class="keywordflow">while</span> mpoint <span class="keywordflow">in</span> muted:</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;                mpoint = random.randint(0, len(individual) - 1)</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;            muted.append(mpoint)</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;            target = bmps_mut_target[:]</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;            target = list(set(target))</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;            <span class="keywordflow">if</span> individual[mpoint] <span class="keywordflow">in</span> target:</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;                target.remove(individual[mpoint])</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;            ind = random.randint(0, len(target) - 1)</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;            individual[mpoint] = target[ind]</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    <span class="keywordflow">return</span> individual</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="keywordflow">if</span> __name__ == <span class="stringliteral">&#39;__main__&#39;</span>:</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    cf = get_config_parser()</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    cfg = SASPUConfig(cf)</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="comment"># print (cfg.gene_to_slppos)</span></div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="comment"># print (cfg.slppos_suit_bmps)</span></div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    units_info = cfg.units_infos</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    slppos_tagnames = cfg.slppos_tagnames</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    suit_bmps = cfg.slppos_suit_bmps</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    gene_to_unit = cfg.gene_to_slppos</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    unit_to_gene = cfg.slppos_to_gene</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    init_gene_values = initialize_scenario(cfg)</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="comment"># print (&#39;Initial genes: %s&#39; % init_gene_values.__str__())sce = SPScenario(cfg)</span></div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    sce = SPScenario(cfg)</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    curid = sce.set_unique_id()</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    setattr(sce, <span class="stringliteral">&#39;gene_values&#39;</span>, init_gene_values)</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    sce.calculate_economy()</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    inicost = sce.economy</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    mutate_slppos(units_info, gene_to_unit, unit_to_gene, slppos_tagnames, suit_bmps,</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;                  init_gene_values, 0.2, 0.3, method=1)</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="comment"># print (&#39;Mutated genes: %s&#39; % init_gene_values.__str__())</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    setattr(sce, <span class="stringliteral">&#39;gene_values&#39;</span>, init_gene_values)</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    sce.calculate_economy()</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    mutcost = sce.economy</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="keywordflow">print</span> (<span class="stringliteral">&#39;%.2f, %.2f&#39;</span> % (inicost, mutcost))</div>
+<div class="ttc" id="a01404_html"><div class="ttname"><a href="../../d2/d82/a01404.html">seims.scenario_analysis.slpposunits.config</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d9/d00/a00784_source.html#l00001">config.py:1</a></div></div>
+<div class="ttc" id="a01406_html"><div class="ttname"><a href="../../dc/d25/a01406.html">seims.scenario_analysis.slpposunits.scenario</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d82/a00920_source.html#l00001">scenario.py:1</a></div></div>
+<div class="ttc" id="a01394_html"><div class="ttname"><a href="../../d6/d2f/a01394.html">seims.pygeoc.pygeoc.utils.utils</a></div><div class="ttdef"><b>Definition:</b> <a href="../../d6/d92/a00586_source.html#l00001">utils.py:1</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="navelem"><a class="el" href="../../dir_ce650b3ee6c8ee1902ad5d9b217fa743.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_f9d338a7544abb673b2d39dcadbe364c.html">src</a></li><li class="navelem"><a class="el" href="../../dir_64f8a13685b9f2f1d5623a66b281a23c.html">seims_main</a></li><li class="navelem"><a class="el" href="../../dir_d9d8c03d94c229237348b60b53b769ac.html">base</a></li><li class="navelem"><a class="el" href="../../dir_c4eaa6a6e6c4ee7b087e3de60cab1bbc.html">bmps</a></li><li class="navelem"><b>PlantManagementOperation.h</b></li>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:26 for SEIMS by
+    <li class="navelem"><a class="el" href="../../dir_b3c2efebf85602a670bfa8ecc5e50a7d.html">seims_longterm_linux_gcc48</a></li><li class="navelem"><a class="el" href="../../dir_ed16674693235890c7cb51a5b1a1dba7.html">seims</a></li><li class="navelem"><a class="el" href="../../dir_8157d38e6e792b87d5d7706b536f1214.html">scenario_analysis</a></li><li class="navelem"><a class="el" href="../../dir_c4f4548ab2007c039e5d2dfaceabd28a.html">slpposunits</a></li><li class="navelem"><b>userdef.py</b></li>
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:26 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: Install SEIMS on macOS</title>
+<title>SEIMS: _Sidebar</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,147 +106,55 @@ $(document).ready(function(){initNavTree('df/d5d/a00084.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">Install SEIMS on macOS </div>  </div>
+<div class="title">_Sidebar </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>First release: Liang-Jun Zhu</p>
-<p>Latest Updated：Mar.23, 2017</p>
-<blockquote class="doxtable">
-<p>Note: 测试环境为Macbook Pro 13 （Late 2016） with macOS Sierra 10.12.3</p>
-<p></p>
-</blockquote>
-<h1>1. Prerequisites</h1>
-<p>SEIMS模型采用C++和Python编写，支持子流域-栅格双层并行计算，在macOS下推荐采用GCC进行编译安装，安装前的准备包括：</p>
-<ul>
-<li>GCC49 &ndash; C++源码编译器</li>
-<li>OpenMPI &ndash; 编译MPI并行程序，如TauDEM、SEIMS-MPI版本等</li>
-<li>CMake &ndash; 管理代码编译</li>
-<li>GDAL 1.x with Python &ndash; 矢栅数据读写库</li>
-<li>mongo-c-driver 1.3.5 或更高 &ndash; NoSQL数据库MongoDB的驱动库</li>
-</ul>
-<h2>1.1. GCC49</h2>
-<p>macOS中最便捷配置GCC版本的方式是通过<a href="http://brew.sh/">Homebrew</a>自动安装。</p>
-<ul>
-<li>在终端输入代码<code>/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)" </code> 进行安装<code>brew</code>工具</li>
-<li>输入<code>brew tap homebrew/versions</code>更新<code>brew</code>中软件版本</li>
-<li>输入<code>brew install gcc49</code>安装</li>
-<li>安装大约需要60分钟，耐心等待安装完成，可通过<code>gcc-4.9 --version</code>查看版本信息：</li>
-</ul>
-<p>``` gcc-4.9 &ndash;version gcc-4.9 (Homebrew gcc49 4.9.3) 4.9.3 Copyright (C) 2015 Free Software Foundation, Inc. ```</p>
-<h2>1.2. OpenMPI</h2>
-<ul>
-<li>从<a href="https://www.open-mpi.org/software/ompi/v1.10/">官网下载OpenMPI源码</a>，推荐安装1.x系列的最新版，目前最新的是1.10.4，解压至文件夹，如<code>/Users/zhulj/apps/openmpi-1.10.4 </code></li>
-<li>配置config，指定使用GCC-4.9编译，如下：<code>./configure CC=gcc-4.9 CXX=g++-4.9 --prefix=/usr/local</code></li>
-<li><code>make all</code></li>
-<li><code>sudo make install</code></li>
-</ul>
-<p>安装完成之后，在终端中输入<code>mpic++ --showme</code>，会提示<code>g++-4.9 -I/usr/local/include -L/usr/local/lib -lmpi_cxx -lmpi</code>，则表明OpenMPI是由GCC49编译的。</p>
-<h2>1.3. CMake</h2>
-<p>CMake是一个跨平台的安装或编译工具，可以用简单的语句来描述安装或编译过程。CMake通过<code>CmakeLists.txt</code>文件能够输出各种各样的makefile或者IDE工程。</p>
-<p>CMake可以从其<a href="http://www.cmake.org/files">官网免费下载</a>安装GUI版本，推荐安装3.0以上版本，也可通过<code>brew install cmake</code>安装。</p>
-<h2>1.4. GDAL with Python</h2>
-<p>SEIMS的矢栅数据读写基于<code>GDAL 1.x</code>编写，macOS下推荐使用<a href="http://www.kyngchaos.com/software:frameworks">William Kyngesburye</a>维护的Framework安装包，最新的为<code>GDAL_Complete-1.11.dmg</code>。</p>
-<ul>
-<li>GDAL将安装在<code>/Library/Frameworks/GDAL.framework</code>。</li>
-<li><p class="startli">同时，测试python的GDAL包是否安装成功：</p>
-<p class="startli">```python &gt;&gt;&gt; import osgeo &gt;&gt;&gt; osgeo.__version__ '1.11.4' &gt;&gt;&gt; from osgeo import ogr &gt;&gt;&gt; from osgeo import osr &gt;&gt;&gt; from osgeo import gdalconst &gt;&gt;&gt; from osgeo import gdal_array &gt;&gt;&gt; from osgeo import gdal ```</p>
-</li>
-<li>此外，还应将GDAL自带可执行程序的安装目录添加至环境变量PATH中，以便可以直接在Terminal中调用GDAL程序： 参考<a href="http://architectryan.com/2012/10/02/add-to-the-path-on-mac-os-x-mountain-lion/#.WV47mtOGOu5">这篇博客</a> ```bash ~ sudo nano /etc/paths <h1>Enter your password, when prompted.</h1>
-</li>
-</ul>
-<h1>Go to the bottom of the file, and enter the path you wish to add.</h1>
-<p>/Library/Frameworks/GDAL.framework/Programs </p>
-<h1>Hit control-x to quit.</h1>
-<h1>Enter “Y” to save the modified buffer.</h1>
-<h1>To test it, in new terminal window, type:</h1>
-<p>~ echo $PATH /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Library/Frameworks/GDAL.framework/Programs </p>
-<h1>测试</h1>
-<p>~ gdalinfo &ndash;version</p>
-<p>GDAL 1.11.4, released 2016/01/25 ```</p>
-<h2>1.5. mongo-c-driver</h2>
-<p>SEIMS数据管理采用NoSQL型数据库——MongoDB，依赖于mongo-c-driver。 macOS下的配置步骤为：</p>
-<ul>
-<li>从<a href="http://mongoc.org/" title="mongo-c-driver-download">官网</a>下载源码压缩包，目前最新稳定版本为<a href="https://github.com/mongodb/mongo-c-driver/releases/download/1.5.0/mongo-c-driver-1.5.0.tar.gz" title="mongo-c-driver-1.5.0">1.5.0</a>，解压缩至当前文件夹，如`/Users/zhulj/apps/mongo-c-driver-1.5.0</li>
-<li>使用brew安装依赖包<code>brew install automake autoconf libtool pkgconfig openssl</code></li>
-<li><p class="startli">打开终端，依次输入如下命令</p>
-<p class="startli">```shell cd /Users/zhulj/apps/mongo-c-driver-1.5.0 export LDFLAGS="-L/usr/local/opt/openssl/lib" export CPPFLAGS="-I/usr/local/opt/openssl/include" ./configure CC=gcc-4.9 CXX=g++-4.9 &ndash;prefix=/usr/local make sudo make install ```</p>
-</li>
-<li>至此，<code>mongo-c-driver</code>即编译安装完成了，在<code>/usr/local/include</code>目录下能看到<code>libbson-1.0</code>, <code>libmongoc-1.0</code>文件夹，链接库则在<code>/usr/local/lib</code>。</li>
-</ul>
-<h1>2. Compilation and Installation</h1>
-<p>使用CMake编译SEIMS时有3个可选参数：</p>
-<ol type="1">
-<li><code>-DPARALLEL</code>，不添加则默认为编译<code>OpenMP</code>版本程序，添加<code>-DPARALLEL=MPI</code>则编译MPI/OpenMP混合版本；</li>
-<li><code>-DARCH</code>，~~用于指定编译32位还是64程序(目前仅适用于Windows)，需要与<code>GDAL</code>和<code>mongo-c-driver</code>版本匹配，不添加则默认为32位程序，添加<code>-DARCH=64</code>则为64位；~~</li>
-<li><code>-DSTROM</code>，用于指定是否编译次降水模型，不添加默认为0，即长时段模型，添加<code>-DSTROM=1</code>则编译次降水模型。</li>
-<li><code>-DUNITTEST</code>，用于指定是否编译基于Googletest的单元测试模块</li>
-<li><code>-DINSTALL_PREFIX</code>，用于指定安装路径，如不指定，默认为源码目录下的<code>bin</code>文件夹。</li>
-</ol>
-<h2>2.1 Installation for users</h2>
-<p>```shell cd /Users/zhulj/Documents/code/SEIMS/seims mkdir build cd build</p>
-<ol type="1">
-<li>clang: cmake .. -DCMAKE_BUILD_TYPE=Release</li>
-<li>GCC: cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_C_COMPILER=/usr/local/bin/gcc-4.9 -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-4.9 make make install ``<code></code></li>
-</ol>
-<ul>
-<li><code>在执行</code>make<code>命令时，可追加</code>-j 4<code>命令利用CPU多核性能并行编译程序，提高编译速度，并行进程数最好设置为物理核数的2倍。</code></li>
-<li><code>编译、安装无误后，SEIMS所有可执行程序及模块动态链接库均在</code>./SEIMS/seims/bin`。</li>
-<li>注意1：使用clang编译时，由于其不支持openmp，因此基于共享内存的并行计算将无法实现，因此推荐使用GCC进行编译安装。</li>
-</ul>
-<h2>2.2 Installation for developers</h2>
-<h3>2.2.1 Xcode (test on Xcode 8.2)</h3>
-<p>```shell cd /Users/zhulj/Documents/code/SEIMS/seims mkdir build cd build cmake -G "Xcode" .. -DCMAKE_BUILD_TYPE=Release ``<code></p>
-<ul>
-<li>完成之后，即可得到SEIMS项目总工程，SEIMS_OMP_ALL.xcodeproj&lt;tt&gt;，各子工程则在build/bin<code>下，如SEIMS模块库工程为</code>build/bin/seims_omp_project/SEIMS_OMP_prj.xcodeproj`。</li>
-</ul>
-<p></code></p>
-<p><code></p>
-<h3>2.2.2 CLion (test on CLion 2016.3.2）</h3>
-<p></code></p>
-<p><code></code></p>
-<p><code>CLion继承了JetBrains家族的特点，工程采用CMake管理，方便、高效。在CLion中直接打开<code>SEIMS/seims</code>文件夹即可导入整个工程。</code></p>
-<p><code>CLion默认使用clang编译器，因此需要简单设置一下，<a href="https://cmake.org/Wiki/CMake_FAQ#How_do_I_use_a_different_compiler.3F">官网提供了三种方法</a>，推荐采用第二种，即：</code></p>
-<p><code></p>
-<ul>
-<li>打开CLion-&gt;Preferences-&gt;Build，Execution，Deployment-&gt;CMake</li>
-<li>在Generation选项卡下的CMake options中输入以下命令，以覆盖CMake的默认设置，同理为Debug和Release分别设置。</li>
-</ul>
-<p></code></p>
-<p><code>``` -D CMAKE_C_COMPILER=&lt;your_path_to_c_compiler&gt; -D CMAKE_CXX_COMPILER=&lt;your_path_to_cxx_compiler&gt;</code></p>
-<p><code>e.g. -DCMAKE_C_COMPILER=/usr/local/bin/gcc-4.9 -DCMAKE_CXX_COMPILER=/usr/local/bin/g++-4.9 ```</code></p>
-<p><code>接下来，你可以选择Build All，也可以选择某一个程序进行Build等。</code></p>
-<p><code></p>
-<h2>3. Python for SEIMS 依赖包的安装</h2>
-<p></code></p>
-<p><code></code></p>
-<p><code>SEIMS预处理、后处理、率定、情景分析等所需的Python依赖库及版本要求如下：</code></p>
-<p><code>```py pygeoc </p>
-<h1>Preprocess</h1>
-<p></code></p>
-<p><code> GDAL&gt;=1.9.0,&lt;2.0 (在1.4中已经安装完成) numpy&gt;=1.9.0 pymongo&gt;=3.0 networkx&gt;=1.10 Shapely&gt;=1.5.0 </p>
-<h1>Postprocess</h1>
-<p></code></p>
-<p><code> matplotlib&gt;=1.5.0 pathlib2&gt;=2.0.0 </p>
-<h1>Scenario analysis</h1>
-<p></code></p>
-<p><code> deap&gt;=1.0.2 scoop&gt;=0.7.1.1 ```</code></p>
-<p><code></p>
-<ul>
-<li>SEIMS提供了自动安装脚本，脚本依赖于pip，因此请确保pip已正确安装，<a href="https://pip.pypa.io/en/stable/installing/">参考教程</a>：<ul>
-<li>下载<a href="https://bootstrap.pypa.io/get-pip.py">get-pip.py</a></li>
-<li><code>python get-pip.py</code></li>
+<div class="textblock"><ul>
+<li>SEIMS原理<ul>
+<li>[总体介绍](TheoryOverall)</li>
 </ul>
 </li>
-<li>执行<code>sudo sh pyseims_install_linux.sh</code>即可自动安装完成所有依赖库，包括SEIMS自带的<code>PyGeoC</code>。</li>
-<li>安装完成后，运行<code>python pyseims_check.py</code>检查所需python库是否已经安装成功，如果有未成功的请单独安装。 </li>
+<li>编译和安装<ul>
+<li>[Windows](Windows)</li>
+<li>[Linux](Linux)</li>
+<li>[macOS](macOS)</li>
 </ul>
-<p></code></p>
+</li>
+<li>运行SEIMS<ul>
+<li>[预处理程序配置](Construct-python-env)</li>
+<li>[数据准备](Data-preparation)</li>
+<li>[数据预处理](Data-preprocess)</li>
+<li>[模型配置及运行](Executation-and-calibration)</li>
+<li>[数据后处理](result-postprocess)</li>
+</ul>
+</li>
+<li>SEIMS开发指南<ul>
+<li>[总体介绍](Tech-Introduction)</li>
+<li>[开发环境配置](Develop-environment)</li>
+<li>[开发规范](Coding-protocol)</li>
+<li>[模块开发Demo](Module-demo)</li>
+<li>[模块开发状态](Module-in-development)</li>
+<li>[名词缩写规范](Global-abbreviation)</li>
+<li>[更新日志](ChangeLOG)</li>
+</ul>
+</li>
+<li>示例数据<ul>
+<li>[店埠河上游小流域](Dianbu)</li>
+</ul>
+</li>
+<li>其他<ul>
+<li>[Github简明操作指南](Git-guidance)</li>
+<li>[MongoDB安装及配置](MongoDB-install-and-config)</li>
+<li>[友情链接](useful-links) </li>
+</ul>
+</li>
+</ul>
 </div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:30 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>

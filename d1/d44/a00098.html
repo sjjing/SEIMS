@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.6"/>
-<title>SEIMS: 模块开发Demo</title>
+<title>SEIMS: SEIMS开发规范</title>
 <link href="../../tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="../../jquery.js"></script>
 <script type="text/javascript" src="../../dynsections.js"></script>
@@ -106,206 +106,119 @@ $(document).ready(function(){initNavTree('d1/d44/a00098.html','../../');});
 
 <div class="header">
   <div class="headertitle">
-<div class="title">模块开发Demo </div>  </div>
+<div class="title">SEIMS开发规范 </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p>以一个简单Demo为例介绍，模块开发的整体流程。</p>
-<p>一般来说，模块编写基本步骤如下：</p>
+<div class="textblock"><ul>
+<li>开发规范的制定是为了保持模型代码的一致性和可读性。</li>
+<li>开发规法包括代码风格统一和模块编写指南</li>
+</ul>
+<h2>1.代码风格规范</h2>
+<h3>1.1.代码整理格式规范</h3>
+<p>SEIMS模型主要编程语言为C/C++和Python，采用CMake组织代码。由于不同开发者所用的编辑器各异，因此我们基于Google代码格式规定了C/C++和Python的代码书写格式规范，位于<code>./doc/style</code>文件夹下。这两个文件分别可以导入CLion和PyCharm软件，使用菜单栏命令“Code”-&gt;“Reformation Code”便可以一键整理代码。</p>
+<h3>1.2.禁用Tab键</h3>
+<p>不同IDE对Tab键的显示不同，Visual Studio下排版漂亮的代码在其他IDE下很可能错位，因此**强烈建议**在VS中将**Tab键用4个空格代替**。</p>
+<p>打开Visual Studio，设置“工具”-&gt;“选项”-&gt;“文本编辑器”-&gt;“C/C++”-&gt;“制表符”-&gt;“缩进”选择“智能”，“制表符大小”和“缩进大小”均为4，选中“插入空格”。</p>
+<h3>1.3.不混用换行符</h3>
+<p>众所周知，<code>Windows</code>系统和<code>Linux/Unix</code>系统的换行符不同，而<code>Windows</code>下的Git默认情况下会在提交代码时自动替换换行符<code>LF</code>或<code>CR</code>为<code>CRLF</code>，这样对跨平台代码造成了极大的不便。</p>
+<p>因此，我们**强烈建议**代码采用<code>Linux</code>编码<code>LF</code>即<code>\n</code>，因此需要做到：</p>
 <ul>
-<li>1. 阅读相关文献和模型文档，编写模型文档的理论部分；</li>
-<li>2. 设计模块名，基本命名规则为<code>过程_算法</code>，如<code>PET_H</code>为蒸散发过程（PET）的Hargreaves方法实现；缩写规范自行查找，比如<code>YLD</code>可以是作物产量<code>Yield</code>的缩写，没有指定具体算法的，命名只有<code>过程</code>也可；</li>
-<li>3. 根据模型的相关理论，参考已有成熟模型的代码，列出模型的输入（包括以其他模块的输出作为输入）、输出，编写元数据函数(<code>MetadataInformation</code>)代码，即<code>api.cpp</code>；</li>
-<li>在头文件中定义所需变量，并在实现文件(<code>.cpp</code>)中做参数初始化（构造函数）、赋值（<code>SetValue</code>, <code>Set1DData</code>, <code>Set2DData</code>系列函数）和有效性检查（<code>CheckInputData</code>系列函数）的工作；</li>
-<li>根据公式，编写<code>Execute</code>函数的代码，实现模拟功能</li>
-<li>编写输出代码，<code>Get1DData</code>，<code>Get2DData</code>等</li>
-<li>代码检查、测试</li>
+<li>VS或其他IDE设置换行符为LF而非CRLF</li>
+<li>文本编辑器建议采用Notepad++，**禁止**使用Windows的记事本！</li>
 </ul>
-<h1>目录</h1>
-<ol type="1">
-<li><a href="../../#1-新建模块">新建模块</a></li>
-<li><a href="../../#2-编写元数据函数">编写元数据函数</a></li>
-<li><a href="../../#3-头文件定义">头文件定义</a></li>
-<li><a href="../../#4-实现函数编写">实现函数编写</a></li>
-<li><a href="../../#5-模块测试">模块测试</a></li>
-</ol>
-<h2>1. 新建模块</h2>
-<p>这里，默认你已经掌握SEIMS代码基本结构和<code>CMAKE</code>编译知识，并已经成功编译出SEIMS的VS工程，如果没有，请往前阅读相关文档。</p>
-<p>**模块功能设计**：</p>
-<ul>
-<li>测试模型对单层栅格和多层栅格数据的支持</li>
-<li>分别读取Raster1D和Raster2D数据，做简单运算之后，输出</li>
-<li>模块命名为<code>IO_TEST</code></li>
-</ul>
-<p>**利用CMAKE新建模块工程**：</p>
-<ul>
-<li>在<code>SEIMS/src/modules/test</code>下新建目录<code>IO_TEST</code>，并在<code>SEIMS/src/modules/test/CMakeLists.txt</code>中添加语句<code>ADD_SUBDIRECTORY(./IO_TEST)</code>；</li>
-<li>复制<code>SEIMS/src/modules/test/template/</code>目录下的元数据模板<code>api.cpp</code>，头文件模板<code><a class="el" href="../../da/dfb/a01174_source.html">template.h</a></code>，实现函数模板<code><a class="el" href="../../d7/d0c/a01173_source.html">template.cpp</a></code>，以及<code>CMakeLists.txt</code>到<code>IO_TEST</code>目录下；</li>
-<li>根据需要，对头文件和实现函数文件进行重命名，这里我们重命名为<code><a class="el" href="../../d6/db6/a01172_source.html">IO_test.h</a></code>和<code><a class="el" href="../../d2/d22/a01171_source.html">IO_test.cpp</a></code>,并修改<code>CMakeLists.txt</code>中相关设置，具体如下图所示 <div class="image">
-<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fcmakelist-modification.jpg" />
-</div>
-</li>
-<li>一切准备就绪，打开Visual Studio 命令提示工具进行编译，随后打开VS，便可看到新增的模块工程，如下图： <div class="image">
-<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fnew-module-created.jpg" />
-</div>
-</li>
-</ul>
-<p><a href="../../#目录">返回目录</a></p>
-<h2>2. 编写元数据函数</h2>
-<p>为了便于统一修改，并保持SEIMS整体的一致性，<code>api.cpp</code>中所有字符串类型的元数据信息均在<code>src/base/util/text.h</code>头文件中以宏定义&lt;tt&gt;::define的形式进行管理。</p>
-<h3>2.1 SetClass</h3>
-<p>定义模块所属模块组及描述，在<code><a class="el" href="../../d5/d6c/a00977_source.html">text.h</a></code>中定义为<code>MCLS_</code>及<code>MCLSDESC_</code>，如：</p>
-<p>```cpp /// Potential Evapotranspiration Modules #define MCLS_PET "Potential Evapotranspiration" #define MCLSDESC_PET "Calculate the potential evapotranspiration" ```</p>
-<h3>2.2 SetID, SetDescription</h3>
-<p>定义该模块的唯一标识符ID和描述，在<code><a class="el" href="../../d5/d6c/a00977_source.html">text.h</a></code>中定义为<code>MID_</code>及<code>MDESC_</code>，如：</p>
-<p>```cpp #define MID_PET_H "PET_H" #define MDESC_PET_H "Hargreaves method for calculating the potential evapotranspiration." ``` SetName 同 SetID</p>
-<h3>2.3 AddParameter</h3>
-<p>所有从数据库中原始读取的参数，均以AddParameter形式定义，这些参数在模拟开始前从数据库中读取，以指针的形式在不同模块间传递，模拟开始后，不重复读取！</p>
-<p>共有5个输入：</p>
-<ul>
-<li>变量名，在<code><a class="el" href="../../d5/d6c/a00977_source.html">text.h</a></code>中定义为<code>VAR_</code>，如CN2值定义为<code>VAR_CN2</code></li>
-<li>单位，在<code><a class="el" href="../../d5/d6c/a00977_source.html">text.h</a></code>中定义为<code>UNIT_</code>，如秒的单位为<code>UNIT_SECOND</code></li>
-<li>描述，在<code><a class="el" href="../../d5/d6c/a00977_source.html">text.h</a></code>中定义为<code>DESC_</code>，如CN2值得描述为<code>DESC_CN2</code></li>
-<li>来源，来源共有如下几种：<ul>
-<li><code>File_Input</code>:来自模型配置文件<code>file.in</code>,如模拟时间步长</li>
-<li><code>Source_HydroClimateDB</code>：来自水文气象数据库，如气温</li>
-<li><code>Source_ParameterDB</code>：来自模型参数数据库，包括MongoDB中<code>Parameters</code>表和<code>spatial</code>表</li>
-</ul>
-</li>
-<li>数据类型，为<code>dimensionTypes</code>枚举型变量，主要包括：<ul>
-<li><code>DT_Single</code>：单个数值型</li>
-<li><code>DT_Array1D</code>：一维数组，如站点平均气温</li>
-<li><code>DT_Array2D</code>：二维数组，如栅格分层计算的层数及每层栅格的索引值</li>
-<li><code>DT_Raster1D</code>：一维栅格数据，如DEM</li>
-<li><code>DT_Raster2D</code>：二维栅格数据，如多层土壤属性栅格</li>
-<li><code>DT_Scenario</code>：情景数据</li>
-</ul>
-</li>
-</ul>
-<h3>2.4 AddInput</h3>
-<p>所有来源于其他模块输出的参数均以AddInput的形式定义，这部分参数在模块运行之前，检查其他模块是否有输出该参数，如果有，则获取指针；如果该参数尚未初始化，则由对应模块的<code>initialOutputs()</code>函数进行初始化并输出。</p>
-<p>与AddParameter的设置基本一致，唯一的区别在于AddInput的变量来源必须是<code>Source_Module</code>。</p>
-<p>二者的区别为：</p>
-<ul>
-<li>AddParameter中的参数，在模型构建时（即开始逐时间步长计算之前）一次性读取（除气象水文数据外），具体参见<code>src/base/ModuleFactory.cpp</code>中的：</li>
-</ul>
-<p>```cpp void ModuleFactory::SetData() ```</p>
-<ul>
-<li>而AddInput的参数，在模型开始第一个时间步长运行前，获取该参数的内存地址：</li>
-</ul>
-<p>```cpp void ModuleFactory::GetValueFromDependencyModule() ```</p>
-<h3>2.5 AddOutput</h3>
-<p>AddOutput需要设置变量名、单位、描述、数据类型，不再赘述。</p>
-<h3>2.6 Demo</h3>
-<p>我们设定了测试模型输入输出的模块目的，这里我们可以这样定义AddParameter和AddOutput（暂不涉及从其他模块中读取变量）：读取一维栅格数据<code>VAR_CN2</code>和二维栅格数据<code>VAR_CONDUCT</code>，分别输出为<code>CN2_M</code>和<code>K_M</code>：</p>
-<p>```cpp /// set parameters from database mdi.AddParameter(VAR_CN2, UNIT_NON_DIM, DESC_CN2, Source_ParameterDB, DT_Raster1D); mdi.AddParameter(VAR_CONDUCT, UNIT_WTRDLT_MMH, DESC_CONDUCT, Source_ParameterDB, DT_Raster2D); /// set the output variables mdi.AddOutput("CN2_M",UNIT_NON_DIM, DESC_CN2, DT_Raster1D); mdi.AddOutput("K_M",UNIT_WTRDLT_MMH,DESC_CONDUCT,DT_Raster2D); ```</p>
-<p><a href="../../#目录">返回目录</a></p>
-<h2>3. 头文件定义</h2>
-<h3>3.1 利用VAssistX快速重命名</h3>
-<p>打开头文件<code><a class="el" href="../../d6/db6/a01172_source.html">IO_test.h</a></code>之后，首先想将默认的继承于<code><a class="el" href="../../dd/d1d/a00336.html" title="Base module for all simulation modules in SEIMS. ">SimulationModule</a></code>的子类名称改为<code>IO_TEST</code>，有了VassistX我们可以很方便的快速重命名，如下：</p>
-<div class="image">
-<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fvs-rename.jpg" />
-</div>
-<div class="image">
-<img src="http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2Fvs-rename2.jpg" />
-</div>
-<h3>3.2 定义输入、输出变量</h3>
-<p>与<code>api.cpp</code>中设置的变量一一对应，在<code>IO_TEST</code>类定义变量名，并做好注释，这里我的定义如下：</p>
-<p>```cpp private: /// valid cells number int m_nCells; /// input 1D raster data float* m_raster1D; /// maximum number of soil layers int m_soilLayers; /// input 2D raster data float** m_raster2D; /// output 1D raster data float* m_output1Draster; /// output 2D raster data float** m_output2Draster; ```</p>
-<h3>3.3 定义public或private函数</h3>
-<ul>
-<li>构造函数和析构函数：（必需）</li>
-<li>算法执行函数：（必须），<code>virtual int Execute();</code></li>
-<li>获取输入数据系列函数：（多选）<ul>
-<li><code>SetValue</code>：设置<code>DT_Single</code>类型数据</li>
-<li><code>Set1DData</code>：设置<code>DT_Array1D</code>和<code>DT_Raster1D</code>类型数据</li>
-<li><code>Set2DData</code>：设置<code>DT_Array2D</code>和<code>DT_Raster2D</code>类型数据</li>
-</ul>
-</li>
-<li>获取输出数据系列函数：（多选）<ul>
-<li><code>GetValue</code>：读取<code>DT_Single</code>类型数据</li>
-<li><code>Get1DData</code>：读取<code>DT_Array1D</code>和<code>DT_Raster1D</code>类型数据</li>
-<li><code>Get2DData</code>：读取<code>DT_Array2D</code>和<code>DT_Raster2D</code>类型数据</li>
-</ul>
-</li>
-<li>其他一些自定义的函数</li>
-</ul>
-<h2>4. 实现函数编写</h2>
-<p>接下来我们可以进入实现函数编写的阶段。</p>
-<h3>4.1 参数初始化</h3>
-<p>按照AddParameter，AddInput，AddOutput中参数定义顺序，在构造函数中依次进行参数初始化，基本原则为：</p>
-<ul>
-<li><code>DT_Single</code>类型数据设置为-1或者<code>NODATA</code>(<code><a class="el" href="../../d7/d92/a00887_source.html">utils.h</a></code>中定义)</li>
-<li><code>DT_Array1D</code>, <code>DT_Raster1D</code>, <code>DT_Array2D</code>和<code>DT_Raster2D</code>类型变量设置为<code>NULL</code></li>
-</ul>
-<p>这里我们这样初始化：</p>
-<p>```cpp IO_TEST::IO_TEST(void):m_nCells(-1), m_raster1D(NULL), m_raster2D(NULL), m_output1Draster(NULL), m_output2Draster(NULL) { } ```</p>
-<h3>4.2 内存释放（析构函数）</h3>
-<p>基本原则是：凡是在该模块中new的内存均需要在析构函数中释放，除非该变量在其他地方被显式释放。对于一维数组利用<code>delete[]</code>即可，对于二维数组则需要遍历释放，并重新赋值为<code>NULL</code>避免“野指针”。</p>
-<p>这里我们这样释放内存：</p>
-<p>```cpp IO_TEST::~IO_TEST(void) { if (m_output1Draster != NULL) delete[] m_output1Draster; m_output1Draster = NULL; if (m_output2Draster != NULL) { for(int i = 0; i &lt; m_nCells; i++) delete[] m_output2Draster[i]; delete[] m_output2Draster; m_output2Draster = NULL; } } ```</p>
-<p>由于释放内存频繁用到，因此，在<code><a class="el" href="../../d7/d92/a00887_source.html">utils.h</a></code>中定义了模板函数用于释放内存：</p>
-<p>```cpp #include "utils.h" if(m_output1Draster != NULL) Release1DArray(m_output1Draster); if(m_output2Draster != NULL) Release2DArray(m_nCells, m_output2Draster) ```</p>
-<h3>4.3 变量赋值</h3>
-<p>赋值时首先进行数据长度检查（<code>CheckInputSize()</code>）,在进行长度检查时，顺便给栅格个数（<code>m_nCells</code>）赋值，随后对变量名进行匹配（<code>StringMatch()</code>），如果匹配则赋值，以<code>Set1DData</code>为例:</p>
-<p>```cpp void IO_TEST::Set1DData(const char* key, int n, float* data) { if(!this-&gt;CheckInputSize(key,n)) return; string sk(key); if(StringMatch(sk, VAR_CN2)) this-&gt;m_raster1D = data; }</p>
-<p>bool IO_TEST::CheckInputSize(const char* key, int n) { if(n&lt;=0) throw <a class="el" href="../../d3/d58/a00285.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputSize","Input data for "+string(key) +" is invalid. The size could not be less than zero."); if(this-&gt;m_nCells != n) { if(this-&gt;m_nCells &lt;=0) this-&gt;m_nCells = n; else throw <a class="el" href="../../d3/d58/a00285.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputSize","Input data for "+string(key) +" is invalid. All the input data should have same size."); } return true; } ```</p>
-<h3>4.4 参数有效性检查</h3>
-<p>有效性检查函数<code>CheckInputData()</code>用于逐个判断SetValue系列函数中设置的输入是否均以成功赋值，如没有，则抛出异常。</p>
-<p>```cpp bool IO_TEST::CheckInputData() { if(this-&gt;m_date == -1) /// m_date is protected variable member in base class <a class="el" href="../../dd/d1d/a00336.html" title="Base module for all simulation modules in SEIMS. ">SimulationModule</a>. throw <a class="el" href="../../d3/d58/a00285.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","You have not set the time."); if(m_nCells &lt;= 0) throw <a class="el" href="../../d3/d58/a00285.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","The dimension of the input data can not be less than zero."); if(m_raster1D == NULL) throw <a class="el" href="../../d3/d58/a00285.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","The 1D raster input data can not be less than zero."); if(m_raster2D == NULL) throw <a class="el" href="../../d3/d58/a00285.html" title="Print the exception message. ">ModelException</a>("IO_TEST","CheckInputData","The 2D raster input data can not be less than zero."); return true; } ```</p>
-<h3>4.5 编写Execute函数</h3>
-<p>在Execute函数中，首先需要为输出变量开辟内存空间，并赋初值，然后进行模块功能的实现。</p>
-<p>这里我们以简单的算法为例：</p>
-<p>```cpp int IO_TEST::Execute() { /// Initialize output variables if (m_output1Draster == NULL) { m_output1Draster = new float[m_nCells]; #pragma omp parallel for for (int i = 0; i &lt; m_nCells; ++i) m_output1Draster[i] = 0.f; } if (m_output2Draster == NULL) { m_output2Draster = new float*[m_nCells]; #pragma omp parallel for for (int i = 0; i &lt; m_nCells; ++i) { m_output2Draster[i] = new float[m_soilLayers]; for(int j = 0; j &lt; m_soilLayers; j++) m_output2Draster[i][j] = 0.f; } } /// Execute function #pragma omp parallel for for (int i = 0; i &lt; m_nCells; ++i) { m_output1Draster[i] = m_raster1D[i] * 0.5f; for(int j = 0; j &lt; m_soilLayers; j++) m_output2Draster[i][j] = m_raster2D[i][j] + 2.f; } return true; } ```</p>
-<p>与内存释放类似，为方便参数初始化，在<code>util.h</code>中定义了模板函数，调用示例如下：</p>
-<p>```cpp /// Initialize output variables if(m_output1Draster == NULL) Initialize1DArray(m_nCells, m_output1Draster, 0.f) if(m_output2Draster == NULL) Initialize2DArray(m_nCells, m_soilLayers, m_output2Draster, 0.f) ```</p>
-<h3>4.6 编写变量输出代码</h3>
-<p>与变量赋值代码类似，首先进行变量名匹配，然后进行赋值，以<code>Get2DData</code>为例：</p>
-<p>```cpp void IO_TEST::Get2DData(const char* key, int* n, int* col, float*** data) { string sk(key); if(StringMatch(sk, "K_M")) { *data = this-&gt;m_output2Draster; *n = this-&gt;m_nCells; *col = this-&gt;m_soilLayers; } } ```</p>
-<p>至此，这个简单的<code>IO_TEST</code>模块的代码编写工作便完成了！</p>
-<p><a href="../../#目录">返回目录</a></p>
-<h2>5. 模块测试</h2>
-<p>&gt;值得一提的是，SEIMS同时也是一个模块化框架，单独运行某一个模块也是可以的(当然是在保证气象输入正确的前提下)。</p>
-<p>对于我们编写的这个IO测试模块，可以通过配置模型输入文件，仅运行这一模块，并得到输出。</p>
-<h3>5.1 config.fig</h3>
-<p>通过之前的学习，相信你对config.fig的输入格式已经有所了解，不再赘述，具体设置如下：</p>
+<p>打开Git shell进行如下设置：</p>
 <p>``` </p>
-<h3>FORMAT</h3>
-<h3>MODULE CLASS NO. | PROCESS NAME | METHOD NAME | MODULE ID</h3>
-<h3>-1 | Module Test</h3>
-<p>0 | IO test| IO | IO_TEST ```</p>
-<h3>5.2 file.in</h3>
-<p>既然仅测试这一模块，那就只设置模拟一天（其实file.in对IO_TEST没用）</p>
-<p>``` MODE|Daily INTERVAL|1 STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-01-02 00:00:00 ``` </p>
-<h3>5.3 file.out</h3>
-<p>分别设置2个输出，注意设置开始和结束时间要在file.in中模拟时间段之内，即：</p>
-<p>``` </p>
-<h3>-1 Module IO TEST</h3>
-<p>OUTPUTID|CN2_M COUNT | 1 TYPE | MEAN STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-01-02 00:00:00 FILENAME | CN2_M.tif</p>
-<p>OUTPUTID|K_M COUNT | 1 TYPE | MEAN STARTTIME|2014-01-01 00:00:00 ENDTIME|2014-01-02 00:00:00 FILENAME | K_M.tif ```</p>
-<h3>5.4 运行模型</h3>
-<p>我的运行命令为：</p>
-<p>``` D: E:</p>
-<div class="fragment"><div class="line">\Hydro\SEIMS\model_data\TEST\model_dianbu_30m_longterm  6 0 127.0.0.1 27017</div>
-<div class="line">```</div>
-<div class="line"></div>
-<div class="line">值得注意的是，模型目录文件夹名称一定要与MongoDB数据库名一致！</div>
-<div class="line"></div>
-<div class="line">运行后在该目录下可以看到&lt;tt&gt;output&lt;/tt&gt;文件夹：</div>
-<div class="line"></div>
-<div class="line">&lt;img src=<span class="stringliteral">&quot;http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2FIO_test_run.jpg&quot;</span> alt=<span class="stringliteral">&quot;&quot;</span>/&gt;</div>
-<div class="line"></div>
-<div class="line">&lt;img src=<span class="stringliteral">&quot;http://zhulj-blog.oss-cn-beijing.aliyuncs.com/SEIMS-wiki%2FIO_test_run_output.jpg&quot;</span> alt=<span class="stringliteral">&quot;&quot;</span>/&gt;</div>
-<div class="line"></div>
-<div class="line"></div>
-<div class="line">至此，一个简单的SEIMS框架下的模块便编写完成了！</div>
-<div class="line"></div>
-<div class="line">&lt;a href=<span class="stringliteral">&quot;#目录&quot;</span>&gt;返回目录&lt;/a&gt;</div>
-</div><!-- fragment --></div></div><!-- contents -->
+<h1>AutoCRLF, 设置提交、检出时均不转换</h1>
+<p>git config &ndash;global core.autocrlf false </p>
+<h1>SafeCRLF, 设置拒绝提交包含混合换行符的文件，并且在提交混合换行符的文件时给出警告，从而手动转换为LF换行符后提交</h1>
+<p>git config &ndash;global core.safecrlf true git config &ndash;global core.safecrlf warn ```</p>
+<p>详见<a href="https://github.com/lreis2415/SEIMS2017/wiki/Git-guidance">Wiki-Github使用说明</a>。</p>
+<h3>1.4.行宽</h3>
+<p>行宽必须限制！！！</p>
+<p>建议100字符为限，太长则应换行。</p>
+<p>PyCharm中的设置为：File-&gt;Settings-&gt;Editor-&gt;Code Style-&gt;Default Opetions-&gt;Right margin (columns): 100</p>
+<p>随后使用Code-&gt;Reformat Code (Ctrl+Alt+L)时便会自动换行了。当然自动的并不一定是最好的，还是需要自己手动调整。</p>
+<h3>1.5.括弧</h3>
+<p>在复杂的条件表达式中，用括弧清楚地表示逻辑优先级。</p>
+<h3>1.6.断行与空白的花括号{}</h3>
+<p>避免使用精简风格，如： ```cpp if (condition) DoSomething(); else DoSomethingElse(); ``` 虽然这样可以节省几行空间，但是对于单步调试查看各个变量的变化情况非常不便，因此推荐采用以下两种风格： ```cpp if (condition) { DoSomething(); } else { DoSomethingElse(); } ``` 或者 ```cpp if (condition) { DoSomething(); } else { DoSomethingElse(); } ```</p>
+<h3>1.7.分行</h3>
+<p>不要把多条语句放在一行！！！更严格地，不要把多个变量定义在一行，以下三行都是不可取的例子。</p>
+<p>```cpp int a =1, b = 2; c = 3; d = 5.f; if (fFoo) Bar(); ```</p>
+<h3>1.8.命名大小写</h3>
+<p>采用一个通用的做法：所有的类型、类、函数名都用Pascal形式（即所有单词的第一个字母都大写），所有的变量都用Camel形式（即第一个单词全部小写，随后单词随Pascal形式，也称lowerCamel）。</p>
+<ul>
+<li>类、类型、变量采用名词或组合名词，如Member、productInfo等；</li>
+<li>函数则用动词或动宾组合词来表示，如get/set、RenderPage()等。</li>
+</ul>
+<h3>1.9.注释规范</h3>
+<ul>
+<li>SEIMS采用Doxygen代码注释规范，在Visual Studio中配合VA Assist插件可高效插入注释，<a href="https://github.com/lreis2415/SEIMS/wiki/Develop-environment#%E5%BC%80%E5%8F%91%E8%BE%85%E5%8A%A9%E5%B7%A5%E5%85%B7-vassistx%E4%BB%8B%E7%BB%8D">查看详细配置</a>。**以下为补充Tips**。</li>
+<li><code>#ifndef ... #endif</code>宏命令之后要注释上这是对应的哪个宏命令，以防嵌套使用时混淆不清，尤其是中间代码过长的时候，如： ```cpp #ifdef windows #define Tag_ModuleDirectoryName "\\" #define SEP "\\" #define Tag_DyLib ".dll" #else #define Tag_ModuleDirectoryName "/" #define SEP "/" #define Tag_So "lib" #endif /* windows #ifdef linux #define Tag_DyLib ".so" #elif (defined macos) || (defined macosold) #define Tag_DyLib ".dylib" #endif /* linux ```</li>
+<li>SEIMS中Python代码注释采用Google风格的docstring，在PyCharm中设置为： <code>File --&gt; <a class="el" href="../../d7/dfc/a00349.html" title="Base class for input or output Settings. ">Settings</a> --&gt; Tools --&gt; Python Integrated Tools --&gt; Google</code> <h2>2.代码设计规范</h2>
+</li>
+</ul>
+<p>建议阅读：<a href="http://zh-google-styleguide.readthedocs.io/en/latest/contents/">Google开源项目风格指南（中文版）</a> </p>
+<h3>2.1.Python</h3>
+<ul>
+<li>运行pylint检查代码中潜在bug或警告，并改正。默认地，pylint会产生很多警告信息，有些是我们不希望看到的，可通过<code>--disable=</code>禁止，比如：<ul>
+<li>变量、函数、类命名不规范，invalid-name (C0103)</li>
+<li>函数参数过多（多于5个），虽然参数多了风格不好，但是对于变参数的函数设计来讲，参数多于5个很常见，too-many-arguments (R0913)</li>
+<li>某个函数有太多局部变量，too-many-locals (R0914)</li>
+<li>没必要的括弧，如为了兼容python3在print后加的括弧，superfluous-parens (C0325) ```bash pylint C: &ndash;files-output=y &ndash;disable=C0103,R0913,R0914,C0325 ```</li>
+</ul>
+</li>
+<li>导入包或模块时，应使用模块的全路径，而非相对路径 ```python <h1>Spatial delineation</h1>
+</li>
+</ul>
+<p>from seims.preprocess.sd_delineation import SpatialDelineation ```</p>
+<ul>
+<li>命名约定 <code>module_name, package_name, ClassName, method_name, ExceptionName, function_name, GLOBAL_VAR_NAME, instance_var_name, function_parameter_name, local_var_name.</code></li>
+</ul>
+<h2>3.Git分支管理</h2>
+<h3>3.1.各分支命名规范及功能定义</h3>
+<table class="doxtable">
+<tr>
+<th align="center">分支</th><th align="center">命名示例</th><th align="center">功能  </th></tr>
+<tr>
+<td align="center"><code>master</code></td><td align="center"><code>master</code></td><td align="center">稳定版本发布，非工作区，仅管理员可操作 </td></tr>
+<tr>
+<td align="center"><code>dev</code></td><td align="center"><code>dev</code></td><td align="center">开发汇总，非工作区，开发组成员均可将完成的工作合并至此，当<code>dev</code>足够稳定之后，合并至<code>master</code> </td></tr>
+<tr>
+<td align="center"><code>bug-&lt;bugcode&gt;-&lt;author&gt;</code></td><td align="center"><code>bug-ompconfused-zlj</code></td><td align="center">bug修复，临时工作区，修复并测试完成之后，将此分支合并至<code>dev</code>，并新建<code>issue</code>说明问题之后，删除该分支 </td></tr>
+<tr>
+<td align="center"><code>update-&lt;module&gt;-&lt;author&gt;</code></td><td align="center"><code>update-docs-zlj</code></td><td align="center">模块更新，常驻工作区，完成后合并至<code>dev</code>、新建<code>issue</code>、删除该分支 </td></tr>
+<tr>
+<td align="center"><code>new-&lt;module&gt;-&lt;author&gt;</code></td><td align="center"><code>new-lisemsed-zlj</code></td><td align="center">新增模块，常驻工作区，完成后合并至<code>dev</code>、新建<code>issue</code>、删除该分支 </td></tr>
+</table>
+<p>所以，团队合作的项目分支看起来就像这样：</p>
+<div class="image">
+<img src="http://i.imgur.com/Ya2n6vm.jpg"  alt="分支管理示意图"/>
+</div>
+<h3>3.2.分支管理一般步骤</h3>
+<ul>
+<li>3.2.1. <a href="https://github.com/orgs/lreis2415/teams/watershed_modeling">加入SEIMS开发组</a>，直接<code>clone</code>实验室账号下的SEIMS库（git.com:lreis2415/SEIMS.git）即可，不用<code>fork</code>到自己账号下，建议仅克隆<code>dev</code>分支，因为默认情况下会克隆所有分支，不仅速度慢，而且浪费空间且没必要，操作如下： ```shell git clone <a href="#" onclick="location.href='mai'+'lto:'+'git'+'@g'+'ith'+'ub'+'.co'+'m'; return false;">git@g<span style="display: none;">.nosp@m.</span>ithu<span style="display: none;">.nosp@m.</span>b.com</a>:crazyzlj/SEIMS.git &ndash;branch dev &ndash;single-branch ```</li>
+<li><p class="startli">3.2.2. 发现代码中出现了bug、某个文档需要修改、某个模块需要更新、亦或是需要增加一个新的模块等，新建一个分支，修复它，合并至dev分支，并新建issue告知大家，也是备忘，完后删除这个分支，流程如下：</p>
+<p class="startli">``` </p>
+<h1>假设目前cd到SEIMS所在文件夹了</h1>
+<p class="startli">git checkout -b bug-IFoundU-zlj </p>
+<h1>修改完成，提交修改</h1>
+<p class="startli">git add . git commit -m "bug fixed of IFoundU" </p>
+<h1>切换回dev分支，并合并刚才的修改</h1>
+<p class="startli">git checkout dev git merge &ndash;no-ff -m "merge from bug-IFoundU-zlj" bug-IFoundU-zlj </p>
+<h1>如果出现冲突，处理之后，可以删除bug分支了</h1>
+<p class="startli">git branch -d bug-IFoundU-zlj </p>
+<h1>去提交一个issue告知大家吧！https://github.com/lreis2415/SEIMS/issues</h1>
+<p class="startli">``<code></code></p>
+</li>
+<li><code>3.2.3.删除远程分支。如果某个分支工作已经完成，且已经合并至</code>dev<code>分支，在本地可以直接通过</code>git branch -d tmpbranch<code>命令删除，远程分支则可推送一个空分支到远程分支，实现删除</code>git push origin :tmpbranch` </li>
+</ul>
+</div></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
-    <li class="footer">Generated on Fri Aug 11 2017 14:11:30 for SEIMS by
+    <li class="footer">Generated on Mon Sep 4 2017 06:56:30 for SEIMS by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="../../doxygen.png" alt="doxygen"/></a> 1.8.6 </li>
   </ul>
