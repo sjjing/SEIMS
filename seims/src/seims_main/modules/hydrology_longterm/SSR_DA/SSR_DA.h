@@ -27,114 +27,114 @@ using namespace std;
  */
 class SSR_DA : public SimulationModule {
 
-	// @In
-	// @Description valid cell numbers
+    // @In
+    // @Description valid cell numbers
     int m_nCells;
 
-	// @In
-	// @Description width of cell (m)
+    // @In
+    // @Description width of cell (m)
     float CELLWIDTH;
 
-	// @In
-	// @Description max number of soil layers
+    // @In
+    // @Description max number of soil layers
     int nSoilLayers;
 
-	// @In
-	// @Description number of soil layers of each cell
+    // @In
+    // @Description number of soil layers of each cell
     float *soillayers;
 
-	// @In
-	// @Description soil thickness
+    // @In
+    // @Description soil thickness
     float **soilthick;
 
-	// @In
-	// @Description timestep
+    // @In
+    // @Description timestep
     int TIMESTEP;
 
-	// @In
-	// @Description Interflow scale factor
+    // @In
+    // @Description Interflow scale factor
     float Ki;
 
-	// @In
-	// @Description soil freezing temperature threshold, deg C
+    // @In
+    // @Description soil freezing temperature threshold, deg C
     float t_soil;
 
-	// @In
-	// @Description slope (tan)
+    // @In
+    // @Description slope (tan)
     float *slope;
 
-	// @In
-	// @Description  conductivity
+    // @In
+    // @Description  conductivity
     float **Conductivity;
 
-	// @In
-	// @Description amount of water held in the soil layer at saturation (sat - wp water), mm
+    // @In
+    // @Description amount of water held in the soil layer at saturation (sat - wp water), mm
     float **sol_ul;
 
-	// @In
-	// @Description pore size distribution index
+    // @In
+    // @Description pore size distribution index
     float **Poreindex;
 
-	// @In
-	// @Description amount of water available to plants in soil layer at field capacity (AWC=FC-WP), mm
+    // @In
+    // @Description amount of water available to plants in soil layer at field capacity (AWC=FC-WP), mm
     float **sol_awc;
 
-	// @In
-	// @Description water content of soil at -1.5 MPa (wilting point) mm H2O
+    // @In
+    // @Description water content of soil at -1.5 MPa (wilting point) mm H2O
     float **sol_wpmm;
 
-	// @In
-	// @Description soil water storage (mm)
+    // @In
+    // @Description soil water storage (mm)
     float **solst;
 
-	// @In
-	// @Description soil water storage in soil profile (mm)
+    // @In
+    // @Description soil water storage in soil profile (mm)
     float *solsw;
 
-	// @In
-	// @Description soil temperature, deg C
+    // @In
+    // @Description soil temperature, deg C
     float *SOTE;
 
-	// @In
-	// @Description channel width, m
+    // @In
+    // @Description channel width, m
     float *CHWIDTH;
 
-	// @In
-	// @Description stream link
+    // @In
+    // @Description stream link
     float *STREAM_LINK;
 
-	// @In
-	// @Description brief 2d array of flow in cells, The first element in each sub-array is the number of flow in cells in this sub-array
+    // @In
+    // @Description brief 2d array of flow in cells, The first element in each sub-array is the number of flow in cells in this sub-array
     float **FLOWIN_INDEX_D8;
 
-	// @In
-	// @Description brief Routing layers according to the flow direction, no flow relationships within each layer, The first element in each layer is the number of cells in the layer
+    // @In
+    // @Description brief Routing layers according to the flow direction, no flow relationships within each layer, The first element in each layer is the number of cells in the layer
     float **ROUTING_LAYERS;
 
-	// @In
-	// @Description number of routing layers
+    // @In
+    // @Description number of routing layers
     int nRoutingLayers;
 
-	// @In
-	// @Description number of subbasin
+    // @In
+    // @Description number of subbasin
     int nSubbasin;
 
-	// @In
-	// @Description subbasin grid (ID of subbasin)
+    // @In
+    // @Description subbasin grid (ID of subbasin)
     float *subbasin;
 
     // outputs
 
-	// @Out
-	// @Description subsurface runoff (mm), VAR_SSRU
+    // @Out
+    // @Description subsurface runoff (mm), VAR_SSRU
     float **SSRU;
 
-	// @Out
-	// @Description subsurface runoff volume (m3), VAR_SSRUVOL
+    // @Out
+    // @Description subsurface runoff volume (m3), VAR_SSRUVOL
     float **SSRUVOL;
 
-	// @Out
-	// @Description subsurface to streams from each subbasin, the first element is the whole watershed, m3, VAR_SBIF
+    // @Out
+    // @Description subsurface to streams from each subbasin, the first element is the whole watershed, m3, VAR_SBIF
     float *SBIF;
 
 public:

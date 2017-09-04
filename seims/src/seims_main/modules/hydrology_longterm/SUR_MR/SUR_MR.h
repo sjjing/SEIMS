@@ -80,94 +80,94 @@ public:
 
     void CheckInputData(void);
 
-	// @In
-	// @Description Hillslope time step (second)
+    // @In
+    // @Description Hillslope time step (second)
     float DT_HS;
 
-	// @In
-	// @Description count of valid cells
+    // @In
+    // @Description count of valid cells
     int m_nCells;
 
-	// @In
-	// @Description net precipitation of each cell (mm)
+    // @In
+    // @Description net precipitation of each cell (mm)
     float *NEPR;
 
-	// @In
-	// @Description potential runoff coefficient
+    // @In
+    // @Description potential runoff coefficient
     float *Runoff_co;
 
-	// @In
-	// @Description number of soil layers, i.e., the maximum soil layers of all soil types
+    // @In
+    // @Description number of soil layers, i.e., the maximum soil layers of all soil types
     int nSoilLayers;
 
-	// @In
-	// @Description soil layers number of each cell
+    // @In
+    // @Description soil layers number of each cell
     float *soillayers;
     
-	// @In
-	// @Description mm H2O: (sol_fc) amount of water available to plants in soil layer at field capacity (fc - wp)
+    // @In
+    // @Description mm H2O: (sol_fc) amount of water available to plants in soil layer at field capacity (fc - wp)
     float **sol_awc;
 
-	// @In
-	// @Description amount of water held in the soil layer at saturation (sat - wp water), mm H2O, sol_sumul of SWAT
+    // @In
+    // @Description amount of water held in the soil layer at saturation (sat - wp water), mm H2O, sol_sumul of SWAT
     float *sol_sumul;
 
-	// @In
-	// @Description initial soil water storage fraction related to field capacity (FC-WP)
+    // @In
+    // @Description initial soil water storage fraction related to field capacity (FC-WP)
     float *Moist_in;
 
-	// @In
-	// @Description runoff exponent
+    // @In
+    // @Description runoff exponent
     float K_run;
 
-	// @In
-	// @Description maximum precipitation corresponding to runoffCo
+    // @In
+    // @Description maximum precipitation corresponding to runoffCo
     float P_max;
 
-	// @In
-	// @Description depression storage (mm), SD(t-1) from the depression storage module
+    // @In
+    // @Description depression storage (mm), SD(t-1) from the depression storage module
     float *DPST;    
 
-	// @In
-	// @Description mean air temperature (deg C)
+    // @In
+    // @Description mean air temperature (deg C)
     float *TMEAN;
    
-	// @In
-	// @Description threshold soil freezing temperature (deg C)
+    // @In
+    // @Description threshold soil freezing temperature (deg C)
     float t_soil;
 
-	// @In
-	// @Description frozen soil moisture relative to saturation above which no infiltration occur, (m3/m3 or mm H2O/ mm Soil) 
+    // @In
+    // @Description frozen soil moisture relative to saturation above which no infiltration occur, (m3/m3 or mm H2O/ mm Soil) 
     float s_frozen;
 
-	// @In
-	// @Description soil temperature obtained from the soil temperature module (deg C)
+    // @In
+    // @Description soil temperature obtained from the soil temperature module (deg C)
     float *SOTE;
 
-	// @In
-	// @Description pothole volume, mm
+    // @In
+    // @Description pothole volume, mm
     float *pot_vol;
 
-	// @In
-	// @Description impound trigger
+    // @In
+    // @Description impound trigger
     float *impound_trig;
 
     // output
 
-	// @Out
-	// @Description the excess precipitation (mm) of the total nCells, which could be depressed or generated surface runoff
+    // @Out
+    // @Description the excess precipitation (mm) of the total nCells, which could be depressed or generated surface runoff
     float *EXCP;
 
-	// @Out
-	// @Description infiltration map of watershed (mm) of the total nCells
+    // @Out
+    // @Description infiltration map of watershed (mm) of the total nCells
     float *INFIL;
 
-	// @Out
-	// @Description soil water storage (mm)
+    // @Out
+    // @Description soil water storage (mm)
     float **solst;
 
-	// @Out
-	// @Description soil water storage in soil profile (mm)
+    // @Out
+    // @Description soil water storage in soil profile (mm)
     float *solsw;
 
     /// initial output for the first run
