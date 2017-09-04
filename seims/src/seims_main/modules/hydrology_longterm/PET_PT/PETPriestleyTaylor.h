@@ -65,74 +65,74 @@ private:
     //! Initialize of output variables
     void initialOutputs(void);
 
-	// @In
-	// @Description mean air temperature for a given day(degree)
+    // @In
+    // @Description mean air temperature for a given day(degree)
     float *TMEAN;
 
-	// @In
-	// @Description maximum air temperature for a given day(degree)
+    // @In
+    // @Description maximum air temperature for a given day(degree)
     float *TMAX;
 
-	// @In
-	// @Description minimum air temperature for a given day(degree)
+    // @In
+    // @Description minimum air temperature for a given day(degree)
     float *TMIN;
 
-	// @In
-	// @Description solar radiation(MJ/m2/d)
+    // @In
+    // @Description solar radiation(MJ/m2/d)
     float *SR;
 
-	// @In
-	// @Description relative humidity(%)
+    // @In
+    // @Description relative humidity(%)
     float *RM;
 
-	// @In
-	// @Description elevation(m)
+    // @In
+    // @Description elevation(m)
     float *DEM;
 
-	// @In
-	// @Description valid cells number
+    // @In
+    // @Description valid cells number
     int m_nCells;
 
-	// @In
-	// @Description Correction Factor for PET
+    // @In
+    // @Description Correction Factor for PET
     float K_pet;
 
-	// @In
-	// @Description latitude of the stations
+    // @In
+    // @Description latitude of the stations
     float *celllat;
 
-	// @In
-	// @Description annual PHU
+    // @In
+    // @Description annual PHU
     float *PHU0;
 
-	// @In
-	// @Description The temperature of snow melt
+    // @In
+    // @Description The temperature of snow melt
     float T_snow;
 
-	// @In
-	// @Description maximum solar radiation of current day
+    // @In
+    // @Description maximum solar radiation of current day
     float srMax;
 
-	// @In
-	// @Description Julian day
+    // @In
+    // @Description Julian day
     int jday;
 
     /// output
 
-	// @Out
-	// @Description day length (hr)
+    // @Out
+    // @Description day length (hr)
     float *daylength;
 
-	// @Out
-	// @Description base zero total heat units (used when no land cover is growing)
+    // @Out
+    // @Description base zero total heat units (used when no land cover is growing)
     float *PHUBASE;
 
-	// @Out
-	// @Description pet
+    // @Out
+    // @Description pet
     float *PET;
 
-	// @Out
-	// @Description vapor pressure deficit
+    // @Out
+    // @Description vapor pressure deficit
     float *VPD;
 };
 

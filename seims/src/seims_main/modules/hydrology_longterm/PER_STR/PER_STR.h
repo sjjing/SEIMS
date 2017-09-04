@@ -28,68 +28,68 @@ using namespace std;
  */
 class PER_STR : public SimulationModule {
 
-	// @In
-	// @Description number of soil layers
+    // @In
+    // @Description number of soil layers
     int nSoilLayers;
 
-	// @In
-	// @Description soil layers
+    // @In
+    // @Description soil layers
     float *soillayers;
 
-	// @In
-	// @Description soil thickness
+    // @In
+    // @Description soil thickness
     float **soilthick;
 
-	// @In
-	// @Description time step
+    // @In
+    // @Description time step
     int TIMESTEP;
 
-	// @In
-	// @Description valid cells number
+    // @In
+    // @Description valid cells number
     int m_nCells;
 
-	// @In
-	// @Description threshold soil freezing temperature
+    // @In
+    // @Description threshold soil freezing temperature
     float t_soil;
 
-	// @In
-	// @Description saturated conductivity
+    // @In
+    // @Description saturated conductivity
     float **Conductivity;
 
-	// @In
-	// @Description amount of water held in the soil layer at saturation (sat - wp water), mm
+    // @In
+    // @Description amount of water held in the soil layer at saturation (sat - wp water), mm
     float **sol_ul;
 
-	// @In
-	// @Description amount of water held in the soil layer at field capacity (fc - wp water) mm H2O
+    // @In
+    // @Description amount of water held in the soil layer at field capacity (fc - wp water) mm H2O
     float **sol_awc;
 
-	// @In
-	// @Description soil moisture, mm H2O
+    // @In
+    // @Description soil moisture, mm H2O
     float **solst;
 
-	// @In
-	// @Description amount of water stored in soil profile on current day, sol_sw in SWAT
+    // @In
+    // @Description amount of water stored in soil profile on current day, sol_sw in SWAT
     float *solsw;
 
-	// @In
-	// @Description soil temperature
+    // @In
+    // @Description soil temperature
     float *SOTE;
 
-	// @In
-	// @Description infiltration, mm
+    // @In
+    // @Description infiltration, mm
     float *INFIL;
 
-	// @In
-	// @Description surface runoff, mm
+    // @In
+    // @Description surface runoff, mm
     float *SURU;
 
-	// @In
-	// @Description pothole volume, mm
+    // @In
+    // @Description pothole volume, mm
     float *pot_vol;
 
-	// @Out
-	// @Description percolation
+    // @Out
+    // @Description percolation
     float **Perco;
 
 public:

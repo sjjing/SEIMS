@@ -75,203 +75,203 @@ public:
 
     virtual TimeStepType GetTimeStepType(void) { return TIMESTEP_CHANNEL; };
 
-	/// upstream id (The value is -1 if there if no upstream reach)
-	vector <vector<int>> m_reachUpStream;
+    /// upstream id (The value is -1 if there if no upstream reach)
+    vector <vector<int>> m_reachUpStream;
 
-	// the reaches id 
-	vector<int> m_reachId;
+    // the reaches id 
+    vector<int> m_reachId;
 
-	/* point source operations
-	* key: unique index, BMPID * 100000 + subScenarioID
-	* value: point source management factory instance
-	*/
-	map<int, BMPPointSrcFactory *> m_ptSrcFactory;
+    /* point source operations
+    * key: unique index, BMPID * 100000 + subScenarioID
+    * value: point source management factory instance
+    */
+    map<int, BMPPointSrcFactory *> m_ptSrcFactory;
 
-	/*!
-	* reach layers
-	* key: stream order
-	* value: reach ID
-	*/
-	map<int, vector<int> > m_reachLayers;
+    /*!
+    * reach layers
+    * key: stream order
+    * value: reach ID
+    */
+    map<int, vector<int> > m_reachLayers;
 
-	// @In
-	// @Description flow velocity scaling factor for calibration
+    // @In
+    // @Description flow velocity scaling factor for calibration
     float VelScaleFactor;
 
-	// @In
-	// @Description time step (sec)
+    // @In
+    // @Description time step (sec)
     int DT_CH;
 
-	// @In
-	// @Description reach number (= subbasin number)
+    // @In
+    // @Description reach number (= subbasin number)
     int nreach;
 
-	// @In
-	// @Description outlet ID
+    // @In
+    // @Description outlet ID
     int outletID;
 
-	// @In
-	// @Description The point source discharge (m3/s), ptSub[id], id is the reach id, load from m_Scenario
+    // @In
+    // @Description The point source discharge (m3/s), ptSub[id], id is the reach id, load from m_Scenario
     float *ptSub;
 
-	// @In
-	// @Description hydraulic conductivity of the channel bed (mm/h)
+    // @In
+    // @Description hydraulic conductivity of the channel bed (mm/h)
     float K_chb;
 
-	// @In
-	// @Description hydraulic conductivity of the channel bank (mm/h)
+    // @In
+    // @Description hydraulic conductivity of the channel bank (mm/h)
     float K_bank;
 
-	// @In
-	// @Description reach evaporation adjustment factor;
+    // @In
+    // @Description reach evaporation adjustment factor;
     float Ep_ch;
 
-	// @In
-	// @Description initial bank storage per meter of reach length (m3/m)
+    // @In
+    // @Description initial bank storage per meter of reach length (m3/m)
     float Bnk0;
     
-	// @In
-	// @Description inverse of the channel side slope, by default is 2.
+    // @In
+    // @Description inverse of the channel side slope, by default is 2.
     float *chSideSlope;
 
-	// @In
-	// @Description initial percentage of channel volume
+    // @In
+    // @Description initial percentage of channel volume
     float chs0_perc;
 
-	// @In
-	// @Description the initial volume of transmission loss to the deep aquifer over the time interval (m3/s)
+    // @In
+    // @Description the initial volume of transmission loss to the deep aquifer over the time interval (m3/s)
     float Vseep0;
 
-	// @In
-	// @Description bank flow recession constant
+    // @In
+    // @Description bank flow recession constant
     float a_bnk;
 
-	// @In
-	// @Description bank storage loss coefficient
+    // @In
+    // @Description bank storage loss coefficient
     float b_bnk;
 
-	// @In
-	// @Description subbasin grid
+    // @In
+    // @Description subbasin grid
     float *subbasin;
 
-	// @In
-	// @Description the subbasin area (m2)  //add to the reach parameters file
+    // @In
+    // @Description the subbasin area (m2)  //add to the reach parameters file
     float *area;
 
-	// @In
-	// @Description Average PET for each subbasin
+    // @In
+    // @Description Average PET for each subbasin
     float *SBPET;
 
-	// @In
-	// @Description overland flow to streams from each subbasin (m3/s)
+    // @In
+    // @Description overland flow to streams from each subbasin (m3/s)
     float *SBOF;
 
-	// @In
-	// @Description interflow to streams from each subbasin (m3/s)
+    // @In
+    // @Description interflow to streams from each subbasin (m3/s)
     float *SBIF;
 
-	// @In
-	// @Description groundwater flow out of the subbasin (m3/s)
+    // @In
+    // @Description groundwater flow out of the subbasin (m3/s)
     float *SBQG;
 
-	// @In
-	// @Description Groundwater storage (mm) of the subbasin
+    // @In
+    // @Description Groundwater storage (mm) of the subbasin
     float *SBGS;
 
-	// @Out
-	// @Description channel outflow
+    // @Out
+    // @Description channel outflow
     float *QS;
 
-	// @Out
-	// @Description channel outflow
+    // @Out
+    // @Description channel outflow
     float *QI;
 
-	// @Out
-	// @Description channel outflow
+    // @Out
+    // @Description channel outflow
     float *QG;
 
-	// @In
-	// @Description channel order
+    // @In
+    // @Description channel order
     float *chOrder;
 
-	// @In
-	// @Description channel width (m)
+    // @In
+    // @Description channel width (m)
     float *chWidth;
 
-	// @Out
-	// @Description channel water width (m)
+    // @Out
+    // @Description channel water width (m)
     float *chwtwidth;
 
-	// @Out
-	// @Description bottom width of channel (m)
+    // @Out
+    // @Description bottom width of channel (m)
     float *chbtmwidth;
 
-	// @In
-	// @Description channel depth (m)
+    // @In
+    // @Description channel depth (m)
     float *chDepth;
 
-	// @Out
-	// @Description channel water depth (m)
+    // @Out
+    // @Description channel water depth (m)
     float *CHWTDEPTH;
 
-	// @Out
-	// @Description channel water depth of previous timestep (m)
+    // @Out
+    // @Description channel water depth of previous timestep (m)
     float *prechwtdepth;
 
-	// @In
-	// @Description channel length (m)
+    // @In
+    // @Description channel length (m)
     float *chLen;
 
-	// @In
-	// @Description channel flow velocity (m/s)
+    // @In
+    // @Description channel flow velocity (m/s)
     float *chVel;
 
-	// @Out
-	// @Description bank storage (m^3)
+    // @Out
+    // @Description bank storage (m^3)
     float *BKST;
 
-	// @In
-	// @Description groundwater recharge to channel or perennial base flow, m^3/s
+    // @In
+    // @Description groundwater recharge to channel or perennial base flow, m^3/s
     float GWRQ;
 
-	// @Out
-	// @Description seepage to deep aquifer
+    // @Out
+    // @Description seepage to deep aquifer
     float *SEEPAGE;
 
-	// @In
-	// @Description downstream id (The value is 0 if there if no downstream reach)
+    // @In
+    // @Description downstream id (The value is 0 if there if no downstream reach)
     float *reachDownStream;
    
-	// @In
-	// @Description for muskingum
+    // @In
+    // @Description for muskingum
     float MSK_X;
 
-	// @In
-	// @Description for muskingum
+    // @In
+    // @Description for muskingum
     float MSK_co1;
 
-	// @In
-	// @Description IS THIS USEFUL? BY LJ
+    // @In
+    // @Description IS THIS USEFUL? BY LJ
     float QUPREACH;
 
     /// scenario data
 
     //temporary at routing time
 
-	// @Out
-	// @Description reach storage (m^3) at time, t
+    // @Out
+    // @Description reach storage (m^3) at time, t
     float *CHST;
 
-	// @Out
-	// @Description reach storage (m^3) at previous time step, t-1
+    // @Out
+    // @Description reach storage (m^3) at previous time step, t-1
     float *preCHST;
 
-	// @Out
-	// @Description reach outflow (m3/s) at time, t
+    // @Out
+    // @Description reach outflow (m3/s) at time, t
     float *QRECH;
 
-	// @In
-	// @Description flowin discharge at the last time step
+    // @In
+    // @Description flowin discharge at the last time step
     float *qIn;
     
 

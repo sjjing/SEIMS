@@ -69,67 +69,67 @@ public:
 
     bool CheckInputData(void);
 
-	//! subbasin IDs
-	vector<int> m_subbasinIDs;
+    //! subbasin IDs
+    vector<int> m_subbasinIDs;
 
-	/// subbasins information
-	clsSubbasins *m_subbasinsInfo;
+    /// subbasins information
+    clsSubbasins *m_subbasinsInfo;
 
-	// @In
-	// @Description time step (sec)
+    // @In
+    // @Description time step (sec)
     int TIMESTEP;
 
-	// @In
-	// @Description validate cells number
+    // @In
+    // @Description validate cells number
     int m_nCells;
 
-	// @In
-	// @Description cell width of the grid (m)
+    // @In
+    // @Description cell width of the grid (m)
     float CELLWIDTH;
 
-	// @In
-	// @Description cell area, BE CAUTION, the unit is m^2, NOT ha!!!
+    // @In
+    // @Description cell area, BE CAUTION, the unit is m^2, NOT ha!!!
     float cellArea;
 
-	// @In
-	// @Description the total number of subbasins
+    // @In
+    // @Description the total number of subbasins
     int nSubbasins;
 
-	// @In
-	// @Description subbasin grid (subbasins ID)
+    // @In
+    // @Description subbasin grid (subbasins ID)
     float *subbasin;
 
 
-	// @In
-	// @Description IUH of each grid cell (1/s)
+    // @In
+    // @Description IUH of each grid cell (1/s)
     float **Ol_iuh;
 
-	// @In
-	// @Description the number of columns of Ol_iuh
+    // @In
+    // @Description the number of columns of Ol_iuh
     int iuhCols;
 
-	// @In
-	// @Description surface runoff from depression module
+    // @In
+    // @Description surface runoff from depression module
     float *SURU;
 
     //temporary
 
-	// @In
-	// @Description store the flow of each cell in each day between min time and max time
+    // @In
+    // @Description store the flow of each cell in each day between min time and max time
     float **cellFlow;
 
-	// @In
-	// @Description the maximum of second column of OL_IUH plus 1.
+    // @In
+    // @Description the maximum of second column of OL_IUH plus 1.
     int cellFlowCols;
 
     //output
 
-	// @Out
-	// @Description overland flow to streams for each subbasin (m3/s)
+    // @Out
+    // @Description overland flow to streams for each subbasin (m3/s)
     float *SBOF;
 
-	// @Out
-	// @Description overland flow in each cell (mm) //added by Gao, as intermediate variable, 29 Jul 2016
+    // @Out
+    // @Description overland flow in each cell (mm) //added by Gao, as intermediate variable, 29 Jul 2016
     float *OL_Flow;
 
     //! initial outputs
