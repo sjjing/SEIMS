@@ -64,50 +64,50 @@ public:
 
     bool CheckInputData(void);
 
-	// @In
-	// @Description valid cells number
+    // @In
+    // @Description valid cells number
     int m_nCells;
 
-	// @In
-	// @Description impound/release
+    // @In
+    // @Description impound/release
     float *impound_trig;
 
-	// @In
-	// @Description pothole volume, mm
+    // @In
+    // @Description pothole volume, mm
     float *pot_vol;
 
-	// @In
-	// @Description initial depression storage coefficient
+    // @In
+    // @Description initial depression storage coefficient
     float Depre_in;
 
-	// @In
-	// @Description depression storage capacity (mm)
+    // @In
+    // @Description depression storage capacity (mm)
     float *Depression;
 
-	// @In
-	// @Description pet
+    // @In
+    // @Description pet
     float *PET;
 
-	// @In
-	// @Description evaporation from the interception storage
+    // @In
+    // @Description evaporation from the interception storage
     float *INET;
 
-	// @In
-	// @Description excess precipitation calculated in the infiltration module
+    // @In
+    // @Description excess precipitation calculated in the infiltration module
     float *EXCP;
 
     // state variables (output)
 
-	// @Out
-	// @Description depression storage
+    // @Out
+    // @Description depression storage
     float *DPST;
 
-	// @Out
-	// @Description evaporation from depression storage
+    // @Out
+    // @Description evaporation from depression storage
     float *DEET;
 
-	// @Out
-	// @Description surface runoff
+    // @Out
+    // @Description surface runoff
     float *SURU;
 
     /*!

@@ -101,140 +101,140 @@ private:
      */
     void initialOutputs(void);
 
-	//! subbasin IDs
-	vector<int> m_subbasinIDs;
+    //! subbasin IDs
+    vector<int> m_subbasinIDs;
 
-	//! All subbasins information,\sa clsSubbasins, \sa Subbasin
-	clsSubbasins *m_subbasinsInfo;
+    //! All subbasins information,\sa clsSubbasins, \sa Subbasin
+    clsSubbasins *m_subbasinsInfo;
 
-	// @In
-	// @Description time step, second
+    // @In
+    // @Description time step, second
     int TIMESTEP;
 
-	// @In
-	// @Description Valid cells number
+    // @In
+    // @Description Valid cells number
     int m_nCells;
 
-	// @In
-	// @Description cell size of the grid (m)
+    // @In
+    // @Description cell size of the grid (m)
     float CELLWIDTH;
 
-	// @In
-	// @Description maximum soil layers number
+    // @In
+    // @Description maximum soil layers number
     int nSoilLayers;
 
-	// @In
-	// @Description soil layers number of each cell
+    // @In
+    // @Description soil layers number of each cell
     float *soillayers;
 
-	// @In
-	// @Description soil thickness of each layer
+    // @In
+    // @Description soil thickness of each layer
     float **soilthick;
 
-	// @In
-	// @Description groundwater Revap coefficient
+    // @In
+    // @Description groundwater Revap coefficient
     float df_coef;
 
-	// @In
-	// @Description baseflow recession coefficient
+    // @In
+    // @Description baseflow recession coefficient
     float Kg;
 
-	// @In
-	// @Description baseflow recession exponent
+    // @In
+    // @Description baseflow recession exponent
     float Base_ex;
 
-	// @In
-	// @Description the amount of water percolated from the soil water reservoir and input to the groundwater reservoir from the percolation module(mm)
+    // @In
+    // @Description the amount of water percolated from the soil water reservoir and input to the groundwater reservoir from the percolation module(mm)
     float **Perco;
 
-	// @In
-	// @Description evaporation from interception storage (mm) from the interception module
+    // @In
+    // @Description evaporation from interception storage (mm) from the interception module
     float *INET;
 
-	// @In
-	// @Description evaporation from the depression storage (mm) from the depression module
+    // @In
+    // @Description evaporation from the depression storage (mm) from the depression module
     float *DEET;
 
-	// @In
-	// @Description evaporation from the soil water storage (mm) from the soil ET module
+    // @In
+    // @Description evaporation from the soil water storage (mm) from the soil ET module
     float *SOET;
 
-	// @In
-	// @Description actual amount of transpiration (mm H2O)
+    // @In
+    // @Description actual amount of transpiration (mm H2O)
     float *AET_PLT;
 
-	// @In
-	// @Description PET(mm) from the PET modules
+    // @In
+    // @Description PET(mm) from the PET modules
     float *PET;
 
-	// @In
-	// @Description initial ground water storage (or at time t-1)
+    // @In
+    // @Description initial ground water storage (or at time t-1)
     float GW0;
 
-	// @In
-	// @Description maximum ground water storage
+    // @In
+    // @Description maximum ground water storage
     float GWMAX;
 
-	// @Out
-	// @Description the potential evapotranspiration rate of the subbasin
+    // @Out
+    // @Description the potential evapotranspiration rate of the subbasin
     float *SBPET;
 
-	// @Out
-	// @Description Groundwater storage of the subbasin
+    // @Out
+    // @Description Groundwater storage of the subbasin
     float *SBGS;
 
-	// @In
-	// @Description slope (percent, or drop/distance, or tan) of each cell
+    // @In
+    // @Description slope (percent, or drop/distance, or tan) of each cell
     float *slope;
 
-	// @In
-	// @Description soil storage
+    // @In
+    // @Description soil storage
     float **solst;
 
-	// @In
-	// @Description soil depth of each layer, the maximum soil depth is used here, i.e., soilDepth[i][(int)soillayers[i]]
+    // @In
+    // @Description soil depth of each layer, the maximum soil depth is used here, i.e., soilDepth[i][(int)soillayers[i]]
     float **soilDepth;
 
-	// @In
-	// @Description ground water from bank storage, passed from channel routing module
+    // @In
+    // @Description ground water from bank storage, passed from channel routing module
     float *GWNEW;
 
     //output
 
-	// @Out
-	// @Description Perco
+    // @Out
+    // @Description Perco
     float *T_Perco;
 
-	// @Out
-	// @Description PerDep
+    // @Out
+    // @Description PerDep
     float *T_PerDep;
 
-	// @Out
-	// @Description groundwater runoff
+    // @Out
+    // @Description groundwater runoff
     float *RG;
 
-	// @Out
-	// @Description groundwater flow out of the subbasin
+    // @Out
+    // @Description groundwater flow out of the subbasin
     float *SBQG;
 
-	// @Out
-	// @Description revaporization from groundwater to the last soil layer
+    // @Out
+    // @Description revaporization from groundwater to the last soil layer
     float *Revap;
 
-	// @Out
-	// @Description revaporization from groundwater to the last soil layer
+    // @Out
+    // @Description revaporization from groundwater to the last soil layer
     float *T_Revap;
 
-	// @Out
-	// @Description groundwater water balance statistics
+    // @Out
+    // @Description groundwater water balance statistics
     float **GWWB;
 
-	// @In
-	// @Description subbasin number
+    // @In
+    // @Description subbasin number
     int nSubbasins;
     
-	// @In
-	// @Description first Run
+    // @In
+    // @Description first Run
     bool firstRun;
 
     /*

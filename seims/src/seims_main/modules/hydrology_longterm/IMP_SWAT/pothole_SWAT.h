@@ -19,319 +19,319 @@ using namespace std;
 
 class IMP_SWAT : public SimulationModule {
 
-	// @In
-	// @Description conversion factor (mm/ha => m^3)
+    // @In
+    // @Description conversion factor (mm/ha => m^3)
     float cnv;
 
-	// @In
-	// @Description valid cells number
+    // @In
+    // @Description valid cells number
     int m_nCells;
 
-	// @In
-	// @Description cell width, m
+    // @In
+    // @Description cell width, m
     float CELLWIDTH;
 
-	// @In
-	// @Description cell area, ha
+    // @In
+    // @Description cell area, ha
     float cellArea;
 
-	// @In
-	// @Description timestep, sec
+    // @In
+    // @Description timestep, sec
     float TIMESTEP;
 
-	// @In
-	// @Description soil layers
+    // @In
+    // @Description soil layers
     float *soillayers;
 
-	// @In
-	// @Description max soil layers
+    // @In
+    // @Description max soil layers
     int nSoilLayers;
 
-	// @In
-	// @Description subbasin ID
+    // @In
+    // @Description subbasin ID
     float *subbasin;
 
-	// @In
-	// @Description subbasin number
+    // @In
+    // @Description subbasin number
     int subbasinNum;
 
-	// @In
-	// @Description Routing layers according to the flow direction
+    // @In
+    // @Description Routing layers according to the flow direction
     float **ROUTING_LAYERS;
 
-	// @In
-	// @Description number of routing layers
+    // @In
+    // @Description number of routing layers
     int nRoutingLayers;
 
-	// @In
-	// @Description leaf area index at which no evaporation occurs from water surface
+    // @In
+    // @Description leaf area index at which no evaporation occurs from water surface
     float evlai;
 
-	// @In
-	// @Description slope gradient (%)
+    // @In
+    // @Description slope gradient (%)
     float *slope;
 
-	// @In
-	// @Description saturated conductivity
+    // @In
+    // @Description saturated conductivity
     float **Conductivity;
 
-	// @In
-	// @Description saturated soil water, mm
+    // @In
+    // @Description saturated soil water, mm
     float **sol_ul;
 
-	// @In
-	// @Description field capacity on soil profile (mm, FC-WP)
+    // @In
+    // @Description field capacity on soil profile (mm, FC-WP)
     float *sol_sumAWC;
 
-	// @In
-	// @Description soil thickness
+    // @In
+    // @Description soil thickness
     float **soilthick;
 
-	// @In
-	// @Description porosity mm/mm
+    // @In
+    // @Description porosity mm/mm
     float **Porosity;
 
-	// @In
-	// @Description Average daily outflow to main channel from tile flow if drainage tiles are installed in the pothole, mm
+    // @In
+    // @Description Average daily outflow to main channel from tile flow if drainage tiles are installed in the pothole, mm
     float pot_tilemm;
 
-	// @In
-	// @Description Nitrate decay rate in impounded water body
+    // @In
+    // @Description Nitrate decay rate in impounded water body
     float pot_no3l;
 
-	// @In
-	// @Description Soluble phosphorus decay rate in impounded water body
+    // @In
+    // @Description Soluble phosphorus decay rate in impounded water body
     float pot_solpl;
 
-	// @In
-	// @Description volatilization rate constant in impounded water body, /day
+    // @In
+    // @Description volatilization rate constant in impounded water body, /day
     float kv_paddy;
 
-	// @In
-	// @Description nitrification rate constant in impounded water body, /day
+    // @In
+    // @Description nitrification rate constant in impounded water body, /day
     float kn_paddy;
 
-	// @In
-	// @Description hydraulic conductivity of soil surface of pothole, mm/hr
+    // @In
+    // @Description hydraulic conductivity of soil surface of pothole, mm/hr
     float pot_k;
 
-	// @In
-	// @Description impounding trigger
+    // @In
+    // @Description impounding trigger
     float *impound_trig;
 
-	// @Out
-	// @Description surface area of impounded area, ha
+    // @Out
+    // @Description surface area of impounded area, ha
     float *pot_sa;
 
-	// @In
-	// @Description lai in the current day
+    // @In
+    // @Description lai in the current day
     float *LAIDAY;
 
-	// @In
-	// @Description pet
+    // @In
+    // @Description pet
     float *PET;
 
-	// @In
-	// @Description evaporation from depression, mm
+    // @In
+    // @Description evaporation from depression, mm
     float *DEET;
 
-	// @In
-	// @Description depression storage, mm
+    // @In
+    // @Description depression storage, mm
     float *DPST;
 
-	// @In
-	// @Description surface runoff, mm
+    // @In
+    // @Description surface runoff, mm
     float *OL_Flow;
 
-	// @In
-	// @Description sediment yield transported on each cell, kg
+    // @In
+    // @Description sediment yield transported on each cell, kg
     float *SED_OL;
 
-	// @In
-	// @Description sand yield
+    // @In
+    // @Description sand yield
     float *sand_yld;
 
-	// @In
-	// @Description silt yield
+    // @In
+    // @Description silt yield
     float *silt_yld;
 
-	// @In
-	// @Description clay yield
+    // @In
+    // @Description clay yield
     float *clay_yld;
 
-	// @In
-	// @Description small aggregate yield
+    // @In
+    // @Description small aggregate yield
     float *sag_yld;
 
-	// @In
-	// @Description large aggregate yield
+    // @In
+    // @Description large aggregate yield
     float *lag_yld;
 
-	// @In
-	// @Description amount of water stored in soil layers on current day, sol_st in SWAT
+    // @In
+    // @Description amount of water stored in soil layers on current day, sol_st in SWAT
     float **solst;
 
-	// @In
-	// @Description amount of water stored in soil profile on current day, sol_sw in SWAT
+    // @In
+    // @Description amount of water stored in soil profile on current day, sol_sw in SWAT
     float *solsw;
 
-	// @In
-	// @Description amount of nitrate transported with surface runoff, kg/ha
+    // @In
+    // @Description amount of nitrate transported with surface runoff, kg/ha
     float *sur_no3;
 
-	// @In
-	// @Description amount of ammonian transported with surface runoff, kg/ha
+    // @In
+    // @Description amount of ammonian transported with surface runoff, kg/ha
     float *sur_nh4;
 
-	// @In
-	// @Description amount of soluble phosphorus transported with surface runoff, kg/ha
+    // @In
+    // @Description amount of soluble phosphorus transported with surface runoff, kg/ha
     float *sur_solp;
 
-	// @In
-	// @Description kg/ha
+    // @In
+    // @Description kg/ha
     float *sur_cod;
 
-	// @In
-	// @Description kg/ha
+    // @In
+    // @Description kg/ha
     float *sedorgn;
 
-	// @In
-	// @Description kg/ha
+    // @In
+    // @Description kg/ha
     float *sedorgp;
 
-	// @In
-	// @Description kg/ha
+    // @In
+    // @Description kg/ha
     float *sedminpa;
 
-	// @In
-	// @Description kg/ha
+    // @In
+    // @Description kg/ha
     float *sedminps;
 
-	// @Out
-	// @Description no3 amount kg
+    // @Out
+    // @Description no3 amount kg
     float *pot_no3;
 
-	// @Out
-	// @Description nh4 amount kg
+    // @Out
+    // @Description nh4 amount kg
     float *pot_nh4;
 
-	// @Out
-	// @Description orgN amount kg
+    // @Out
+    // @Description orgN amount kg
     float *pot_orgn;
 
-	// @Out
-	// @Description soluble phosphorus amount, kg
+    // @Out
+    // @Description soluble phosphorus amount, kg
     float *pot_solp;
 
-	// @Out
-	// @Description orgP amount kg
+    // @Out
+    // @Description orgP amount kg
     float *potOrgP;
 
-	// @Out
-	// @Description active mineral P kg
+    // @Out
+    // @Description active mineral P kg
     float *potActMinP;
 
-	// @Out
-	// @Description stable mineral P kg
+    // @Out
+    // @Description stable mineral P kg
     float *potStaMinP;
 
-	// @Out
-	// @Description sediment amount kg
+    // @Out
+    // @Description sediment amount kg
     float *potSed;
 
-	// @Out
-	// @Description sand
+    // @Out
+    // @Description sand
     float *potSand;
 
-	// @Out
-	// @Description silt
+    // @Out
+    // @Description silt
     float *potSilt;
 
-	// @Out
-	// @Description clay
+    // @Out
+    // @Description clay
     float *potClay;
 
-	// @Out
-	// @Description small aggregate
+    // @Out
+    // @Description small aggregate
     float *potSag;
 
-	// @Out
-	// @Description large aggregate
+    // @Out
+    // @Description large aggregate
     float *potLag;
 
-	// @Out
-	// @Description volume   mm
+    // @Out
+    // @Description volume   mm
     float *pot_vol;
 
-	// @In
-	// @Description maximum volume mm
+    // @In
+    // @Description maximum volume mm
     float *pot_volmaxmm;
 
-	// @In
-	// @Description lowest volume mm
+    // @In
+    // @Description lowest volume mm
     float *pot_vollowmm;
 
-	// @In
-	// @Description seepage water of pothole, mm
+    // @In
+    // @Description seepage water of pothole, mm
     float *potSeep;
 
-	// @In
-	// @Description evaporation, mm
+    // @In
+    // @Description evaporation, mm
     float *potEvap;
 
-	BEGIN_VISITABLES(IMP_SWAT);
+    BEGIN_VISITABLES(IMP_SWAT);
 
-	// @In
-	// @Description surface runoff to channel, m^3/s
+    // @In
+    // @Description surface runoff to channel, m^3/s
     //float *SBOF;
-	VISITABLE(float *, SBOF);
+    VISITABLE(float *, SBOF);
 
-	// @In
-	// @Description sediment transported to channel, kg
+    // @In
+    // @Description sediment transported to channel, kg
     //float *SEDTOCH;
-	VISITABLE(float *, SEDTOCH);
+    VISITABLE(float *, SEDTOCH);
 
-	// @In
-	// @Description amount of nitrate transported with surface runoff
+    // @In
+    // @Description amount of nitrate transported with surface runoff
     //float *sur_no3_ToCh;
-	VISITABLE(float *, sur_no3_ToCh);
+    VISITABLE(float *, sur_no3_ToCh);
 
-	// @In
-	// @Description amount of ammonian transported with surface runoff
+    // @In
+    // @Description amount of ammonian transported with surface runoff
     //float *SUR_NH4_TOCH;
-	VISITABLE(float *, SUR_NH4_TOCH);
+    VISITABLE(float *, SUR_NH4_TOCH);
 
-	// @In
-	// @Description amount of soluble phosphorus in surface runoff
+    // @In
+    // @Description amount of soluble phosphorus in surface runoff
     //float *sur_solp_ToCh;
-	VISITABLE(float *, sur_solp_ToCh);
+    VISITABLE(float *, sur_solp_ToCh);
 
-	// @In
-	// @Description cod to reach in surface runoff (kg)
+    // @In
+    // @Description cod to reach in surface runoff (kg)
     //float *sur_cod_ToCH;
-	VISITABLE(float *, sur_cod_ToCH);
+    VISITABLE(float *, sur_cod_ToCH);
 
-	// @In
-	// @Description amount of organic nitrogen in surface runoff
+    // @In
+    // @Description amount of organic nitrogen in surface runoff
     //float *sedorgnToCh;
-	VISITABLE(float *, sedorgnToCh);
+    VISITABLE(float *, sedorgnToCh);
 
-	// @In
-	// @Description amount of organic phosphorus in surface runoff
+    // @In
+    // @Description amount of organic phosphorus in surface runoff
     //float *sedorgpToCh;
-	VISITABLE(float *, sedorgpToCh);
+    VISITABLE(float *, sedorgpToCh);
 
-	// @In
-	// @Description amount of active mineral phosphorus absorbed to sediment in surface runoff
+    // @In
+    // @Description amount of active mineral phosphorus absorbed to sediment in surface runoff
     //float *sedminpaToCh;
-	VISITABLE(float *, sedminpaToCh);
+    VISITABLE(float *, sedminpaToCh);
 
-	// @In
-	// @Description amount of stable mineral phosphorus absorbed to sediment in surface runoff
+    // @In
+    // @Description amount of stable mineral phosphorus absorbed to sediment in surface runoff
     //float *sedminpsToCh;
-	VISITABLE(float *, sedminpsToCh);
+    VISITABLE(float *, sedminpsToCh);
 
-	END_VISITABLES;
+    END_VISITABLES;
 
 public:
     //! Constructor
