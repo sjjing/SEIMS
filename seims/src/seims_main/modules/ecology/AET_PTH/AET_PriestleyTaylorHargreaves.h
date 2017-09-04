@@ -30,90 +30,90 @@ using namespace std;
  */
 class AET_PT_H : public SimulationModule {
 
-	// @In
-	// @Description valid cells number
+    // @In
+    // @Description valid cells number
     int m_nCells;
 
-	// @In
-	// @Description leaf area index(m^2/m^2)
+    // @In
+    // @Description leaf area index(m^2/m^2)
     float *LAIDAY;
 
-	// @In
-	// @Description potential evapotranspiration on current day
+    // @In
+    // @Description potential evapotranspiration on current day
     float *PET;
 
-	// @In
-	// @Description Evaporation loss from canopy storage
+    // @In
+    // @Description Evaporation loss from canopy storage
     float *INET;
 
-	// not used
-	// depression storage capacity
+    // not used
+    // depression storage capacity
     // float *m_depSt;
 
-	// @In
-	// @Description soil evaporation compensation factor, if not set or existed, it will be assigned 0.95 as default£¬should be vary from 0.01 to 1.0
+    // @In
+    // @Description soil evaporation compensation factor, if not set or existed, it will be assigned 0.95 as default£¬should be vary from 0.01 to 1.0
     float *esco;
 
-	// @In
-	// @Description soil layers
+    // @In
+    // @Description soil layers
     float *soillayers;
 
-	// @In
-	// @Description maximum soil layers, mlyr in SWAT
+    // @In
+    // @Description maximum soil layers, mlyr in SWAT
     int soilLayers;
 
-	// @In
-	// @Description soil depth
+    // @In
+    // @Description soil depth
     float **soilDepth;
 
-	// @In
-	// @Description soil thickness
+    // @In
+    // @Description soil thickness
     float **soilthick;
 
-	// @In
-	// @Description amount of water available to plants in soil layer at field capacity (FC-WP)
+    // @In
+    // @Description amount of water available to plants in soil layer at field capacity (FC-WP)
     float **sol_awc;
 
-	// @In
-	// @Description amount of residue on soil surface (kg/ha)
+    // @In
+    // @Description amount of residue on soil surface (kg/ha)
     float *sol_cov;
 
-	// @In
-	// @Description amount of nitrogen stored in the nitrate pool
+    // @In
+    // @Description amount of nitrogen stored in the nitrate pool
     float **sol_no3;
 
-	// @In
-	// @Description mean air temperature (deg C)
+    // @In
+    // @Description mean air temperature (deg C)
     float *TMEAN;
 
-	// @In
-	// @Description amount of water in snow on current day
+    // @In
+    // @Description amount of water in snow on current day
     float *SNAC;
 
-	// @In
-	// @Description snow sublimation on current day
+    // @In
+    // @Description snow sublimation on current day
     float *SNSB;
 
-	// @In
-	// @Description soil storage of each soil layer, mm H2O
+    // @In
+    // @Description soil storage of each soil layer, mm H2O
     float **solst;
 
-	// @In
-	// @Description soil water storage in soil profile (mm)
+    // @In
+    // @Description soil water storage in soil profile (mm)
     float *solsw;
 
     /// add output variables
 
-	// @Out
-	// @Description maximum amount of transpiration (plant et)  that can occur on current day in HRU, ep_max in SWAT
+    // @Out
+    // @Description maximum amount of transpiration (plant et)  that can occur on current day in HRU, ep_max in SWAT
     float *PPT;
 
-	// @Out
-	// @Description actual amount of evaporation (soil et) that occurs on day, es_day in SWAT
+    // @Out
+    // @Description actual amount of evaporation (soil et) that occurs on day, es_day in SWAT
     float *SOET;
 
-	// @Out
-	// @Description amount of nitrate moving upward in the soil profile in watershed
+    // @Out
+    // @Description amount of nitrate moving upward in the soil profile in watershed
     float sno3up;
 
 public:
