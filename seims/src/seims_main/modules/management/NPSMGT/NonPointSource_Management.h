@@ -20,57 +20,57 @@ using namespace std;
  */
 class NPS_Management : public SimulationModule {
 
-	/*!
-	* areal source operations
-	* key: unique index, BMPID * 100000 + subScenarioID
-	* value: areal source management factory instance
-	*/
-	map<int, BMPArealSrcFactory *> m_arealSrcFactory;
+    /*!
+    * areal source operations
+    * key: unique index, BMPID * 100000 + subScenarioID
+    * value: areal source management factory instance
+    */
+    map<int, BMPArealSrcFactory *> m_arealSrcFactory;
 
-	// @In
-	// @Description valid cells number
+    // @In
+    // @Description valid cells number
     int m_nCells;
 
-	// @In
-	// @Description cell width (m)
+    // @In
+    // @Description cell width (m)
     float CELLWIDTH;
 
-	// @In
-	// @Description area of cell (m^2)
+    // @In
+    // @Description area of cell (m^2)
     float cellArea;
 
-	// @In
-	// @Description time step (second)
+    // @In
+    // @Description time step (second)
     float TIMESTEP;
 
-	// @In
-	// @Description management fields raster
+    // @In
+    // @Description management fields raster
     float *mgt_fields;
 
     /// variables to be updated (optionals£©
 
-	// @In
-	// @Description water storage of soil layers
+    // @In
+    // @Description water storage of soil layers
     float **solst;
 
-	// @In
-	// @Description nitrate kg/ha
+    // @In
+    // @Description nitrate kg/ha
     float **sol_no3;
 
-	// @In
-	// @Description ammonium kg/ha
+    // @In
+    // @Description ammonium kg/ha
     float **sol_nh4;
 
-	// @In
-	// @Description soluble phosphorus kg/ha
+    // @In
+    // @Description soluble phosphorus kg/ha
     float **sol_solp;
 
-	// @In
-	// @Description organic p
+    // @In
+    // @Description organic p
     float **sol_orgn;
 
-	// @In
-	// @Description organic n
+    // @In
+    // @Description organic n
     float **sol_orgp;
 
 public:
