@@ -11,6 +11,7 @@
 
 #pragma once
 
+#include <visit_struct/visit_struct_intrusive.hpp>
 #include <visit_struct/visit_struct.hpp>
 #include "SimulationModule.h"
 
@@ -67,205 +68,259 @@ public:
     */
     map<int, BMPPointSrcFactory *> m_ptSrcFactory;
 
+    BEGIN_VISITABLES(NutrCH_QUAL2E);
+
     // @In
     // @Description cell number
-    int m_nCells;
+    //int m_nCells;
+    VISITABLE(int, m_nCells);
 
     // @In
     // @Description time step (sec)
-    int DT_CH;
+    //int DT_CH;
+    VISITABLE(int, DT_CH);
 
     // @In
     // @Description downstream id (The value is 0 if there if no downstream reach)
-    float *reachDownStream;
+    //float *reachDownStream;
+    VISITABLE(float *, reachDownStream);
    
     // @In
     // @Description reaches number
-    int nReaches;
-   
-	// @In
-	// @Description input data
-    float QUPREACH;
+    //int nReaches;
+    VISITABLE(int, nReaches);
+
+    // @In
+    // @Description input data
+    //float QUPREACH;
+    VISITABLE(float, QUPREACH);
 
     // @In
     // @Description ratio of chlorophyll-a to algal biomass (ug chla/mg alg)
-    float ai0;     
-    
+    //float ai0;     
+    VISITABLE(float, ai0);
+
     // @In
     // @Description fraction of algal biomass that is nitrogen (mg N/mg alg)
-	float ai1;
+    //float ai1;
+    VISITABLE(float, ai1);
 
     // @In
     // @Description fraction of algal biomass that is phosphorus (mg P/mg alg)
-    float ai2; 
+    //float ai2; 
+    VISITABLE(float, ai2);
 
     // @In
     // @Description the rate of oxygen production per unit of algal photosynthesis (mg O2/mg alg)
-    float ai3;   
+    //float ai3;   
+    VISITABLE(float, ai3);
 
     // @In
     // @Description the rate of oxygen uptake per unit of algae respiration (mg O2/mg alg)
-    float ai4;  
+    //float ai4;  
+    VISITABLE(float, ai4);
 
     // @In
     // @Description the rate of oxygen uptake per unit of NH3 nitrogen oxidation (mg O2/mg N)
-    float ai5; 
+    //float ai5; 
+    VISITABLE(float, ai5);
 
     // @In
     // @Description the rate of oxygen uptake per unit of NO2 nitrogen oxidation (mg O2/mg N)
-    float ai6;  
+    //float ai6;  
+    VISITABLE(float, ai6);
 
     // @In
     // @Description non-algal portion of the light extinction coefficient
-    float lambda0;   
+    //float lambda0;   
+    VISITABLE(float, lambda0);
 
     // @In
     // @Description linear algal self-shading coefficient
-    float lambda1;  
+    //float lambda1;  
+    VISITABLE(float, lambda1);
 
     // @In
     // @Description nonlinear algal self-shading coefficient
-    float lambda2;   
+    //float lambda2;   
+    VISITABLE(float, lambda2);
 
     // @In
     // @Description half saturation coefficient for light (MJ/(m2*hr))
-    float k_l;
+    //float k_l;
+    VISITABLE(float, k_l);
 
     // @In
     // @Description half-saturation constant for nitrogen (mg N/L)
-    float k_n;      
+    //float k_n;      
+    VISITABLE(float, k_n);
 
     // @In
     // @Description half saturation constant for phosphorus (mg P/L)
-    float k_p;       
+    //float k_p;       
+    VISITABLE(float, k_p);
 
     // @In
     // @Description algal preference factor for ammonia
-    float p_n;
+    //float p_n;
+    VISITABLE(float, p_n);
 
     // @In
     // @Description fraction of solar radiation computed in the temperature heat balance that is photo synthetically active
-    float tfact;
+    //float tfact;
+    VISITABLE(float, tfact);
 
     // @In
     // @Description fraction of overland flow
-    float rnum1;
+    //float rnum1;
+    VISITABLE(float, rnum1);
 
     // @In
     // @Description option for calculating the local specific growth rate of algae, 1: multiplicative: u = mumax * fll * fnn * fpp, 2: limiting nutrient: u = mumax * fll * Min(fnn, fpp), 3: harmonic mean: u = mumax * fll * 2. / ((1/fnn)+(1/fpp)) 
-    int igropt;
+    //int igropt;
+    VISITABLE(int, igropt);
 
     // @In
     // @Description maximum specific algal growth rate at 20 deg C
-    float mumax;
+    //float mumax;
+    VISITABLE(float, mumax);
 
     // @In
     // @Description algal respiration rate at 20 deg C (1/day)
-    float rhoq;
+    //float rhoq;
+    VISITABLE(float, rhoq);
 
     // @In
     // @Description Conversion factor
-    float cod_n;
+    //float cod_n;
+    VISITABLE(float, cod_n);
 
     // @In
     // @Description Reaction coefficient
-    float cod_k;
+    //float cod_k;
+    VISITABLE(float, cod_k);
 
     // @In
     // @Description stream link
-    float *STREAM_LINK;
+    //float *STREAM_LINK;
+    VISITABLE(float *, STREAM_LINK);
 
     // @In
     // @Description soil temperature (deg C)
-    float *SOTE;
+    //float *SOTE;
+    VISITABLE(float *, SOTE);
 
     // @In
     // @Description day length for current day (h)
-    float *daylength;
+    //float *daylength;
+    VISITABLE(float *, daylength);
 
     // @In
     // @Description solar radiation for the day (MJ/m2)
-    float *SR;
+    //float *SR;
+    VISITABLE(float *, SR);
 
     // @In
     // @Description bank storage
-    float *BKST;
+    //float *BKST;
+    VISITABLE(float *, BKST);
 
     // @In
     // @Description order of channel
-    float *chOrder;
+    //float *chOrder;
+    VISITABLE(float *, chOrder);
 
     // @In
     // @Description channel outflow
-    float *QRECH;
+    //float *QRECH;
+    VISITABLE(float *, QRECH);
 
     // @In
     // @Description reach storage (m3) at time t
-    float *CHST;
+    //float *CHST;
+    VISITABLE(float *, CHST);
 
     // @In
     // @Description reach storage of previous timestep
-    float *preCHST;
+    //float *preCHST;
+    VISITABLE(float *, preCHST);
 
     // @In
     // @Description channel water depth m
-    float *CHWTDEPTH;
+    //float *CHWTDEPTH;
+    VISITABLE(float *, CHWTDEPTH);
 
     // @In
     // @Description channel water depth of previous timestep, m
-    float *prechwtdepth;
+    //float *prechwtdepth;
+    VISITABLE(float *, prechwtdepth);
 
     // @In
     // @Description temperature of water in reach (deg C)
-    float *wattemp;
+    //float *wattemp;
+    VISITABLE(float *, wattemp);
 
     // @In
     // @Description rate constant for biological oxidation of NH3 to NO2 in reach at 20 deg C
-    float *bc1;   
+    //float *bc1;   
+    VISITABLE(float *, bc1);
 
     // @In
     // @Description rate constant for biological oxidation of NO2 to NO3 in reach at 20 deg C
-    float *bc2;       
+    //float *bc2;       
+    VISITABLE(float *, bc2);
 
     // @In
     // @Description rate constant for biological oxidation of organic N to ammonia in reach at 20 deg C
-    float *bc3;      
+    //float *bc3;      
+    VISITABLE(float *, bc3);
 
     // @In
     // @Description rate constant for biological oxidation of organic P to dissolved P in reach at 20 deg C
-    float *bc4;     
+    //float *bc4;     
+    VISITABLE(float *, bc4);
 
     // @In
     // @Description local algal settling rate in reach at 20 deg C (m/day)
-    float *rs1;      
+    //float *rs1;    
+    VISITABLE(float *, rs1);
 
     // @In
     // @Description benthos source rate for dissolved phosphorus in reach at 20 deg C (mg disP-P)/((m**2)*day)
-    float *rs2;     
+    //float *rs2;    
+    VISITABLE(float *, rs2);
 
     // @In
     // @Description benthos source rate for ammonia nitrogen in reach at 20 deg C (mg NH4-N)/((m**2)*day)
-    float *rs3;       
+    //float *rs3;    
+    VISITABLE(float *, rs3);
 
     // @In
     // @Description rate coefficient for organic nitrogen settling in reach at 20 deg C (1/day)
-    float *rs4;  
+    //float *rs4;  
+    VISITABLE(float *, rs4);
 
     // @In
     // @Description organic phosphorus settling rate in reach at 20 deg C (1/day)
-    float *rs5;  
+    //float *rs5;  
+    VISITABLE(float *, rs5);
 
     // @In
     // @Description CBOD deoxygenation rate coefficient in reach at 20 deg C (1/day)
-    float *rk1;      
+    //float *rk1;    
+    VISITABLE(float *, rk1);
 
     // @In
     // @Description reaeration rate in accordance with Fickian diffusion in reach at 20 deg C (1/day)
-    float *rk2;    
+    //float *rk2;    
+    VISITABLE(float *, rk2);
 
     // @In
     // @Description rate of loss of CBOD due to settling in reach at 20 deg C (1/day)
-    float *rk3;  
+    //float *rk3;  
+    VISITABLE(float *, rk3);
+
+    END_VISITABLES;
 
     // @In
     // @Description sediment oxygen demand rate in reach at 20 deg C (mg O2/ ((m**2)*day))
@@ -575,4 +630,9 @@ private:
     void PointSourceLoading(void);
 };
 
-VISITABLE_STRUCT();
+VISITABLE_STRUCT(NutrCH_QUAL2E, rk4, ch_onco, ch_opco, latno3ToCh, sur_no3_ToCh, SUR_NH4_TOCH, sur_solp_ToCh, sur_cod_ToCH, no3gwToCh, 
+    minpgwToCh, sedorgnToCh, sedorgpToCh, sedminpaToCh, sedminpsToCh, nitriteToCh, ptNO3ToCh, ptNH4ToCh, ptOrgNToCh, ptTNToCh, ptSolPToCh, 
+    ptOrgPToCh, ptTPToCh, ptCODToCh, rch_deg, chAlgae, chOrgN, CHSTR_NH4, chNO2, CHSTR_NO3, CHSTR_TN, chOrgP, chSolP, CHSTR_TP, chCOD, 
+    chDOx, chChlora, soxy, ch_algae, ch_algaeConc, CH_chlora, CH_chloraConc, CH_ORGN, CH_ORGNConc, CH_ORGP, CH_ORGPConc, ch_nh4, ch_nh4Conc, 
+    CH_NO2, CH_NO2Conc, CH_NO3, CH_NO3Conc, CH_SOLP, CH_SOLPConc, CH_COD, CH_CODConc, ch_dox, ch_doxConc, CH_TN, CH_TNConc, CH_TP, CH_TPConc,
+    chDaylen, chSr, chCellCount);
