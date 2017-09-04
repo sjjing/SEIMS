@@ -47,232 +47,232 @@ public:
     //virtual void Get2DData(const char *key, int *nRows, int *nCols, float ***data);
     virtual void SetSubbasins(clsSubbasins *subbasins);
 
-	//! subbasin IDs
-	vector<int> m_subbasinIDs;
+    //! subbasin IDs
+    vector<int> m_subbasinIDs;
 
-	/// subbasins information
-	clsSubbasins *m_subbasinsInfo;
+    /// subbasins information
+    clsSubbasins *m_subbasinsInfo;
 
-	// @In
-	// @Description cell width of grid map (m)
+    // @In
+    // @Description cell width of grid map (m)
     float CELLWIDTH;
 
-	// @In
-	// @Description cell area, ha
+    // @In
+    // @Description cell area, ha
     float cellArea;
 
-	// @In
-	// @Description number of cells
+    // @In
+    // @Description number of cells
     int m_nCells;
 
-	// @In
-	// @Description soil layers
-	float *soillayers;
+    // @In
+    // @Description soil layers
+    float *soillayers;
 
-	// @In
-	// @Description maximum soil layers
+    // @In
+    // @Description maximum soil layers
     int nSoiLayers;
 
-	// @In
-	// @Description stream link
+    // @In
+    // @Description stream link
     float *STREAM_LINK;
 
-	// @In
-	// @Description carbon modeling method, 0 Static soil carbon (old mineralization routines), 1 C-FARM one carbon pool model, 2 Century model
+    // @In
+    // @Description carbon modeling method, 0 Static soil carbon (old mineralization routines), 1 C-FARM one carbon pool model, 2 Century model
     int cswat;
 
     /// input data
 
-	// @In
-	// @Description factor which converts kg/kg soil to kg/ha
+    // @In
+    // @Description factor which converts kg/kg soil to kg/ha
     float **conv_wt;
 
-	// @In
-	// @Description drainage tile flow in soil profile
+    // @In
+    // @Description drainage tile flow in soil profile
     float qtile;
 
-	// @In
-	// @Description Phosphorus soil partitioning coefficient
+    // @In
+    // @Description Phosphorus soil partitioning coefficient
     float phoskd;
 
-	// @In
-	// @Description phosphorus percolation coefficient (0-1)
+    // @In
+    // @Description phosphorus percolation coefficient (0-1)
     float pperco;
 
-	// @In
-	// @Description nitrate percolation coefficient (0-1)
+    // @In
+    // @Description nitrate percolation coefficient (0-1)
     float nperco;
 
-	// @In
-	// @Description Conversion factor from CBOD to COD
+    // @In
+    // @Description Conversion factor from CBOD to COD
     float cod_n;
 
-	// @In
-	// @Description Reaction coefficient from CBOD to COD
+    // @In
+    // @Description Reaction coefficient from CBOD to COD
     float cod_k;
 
-	// @In
-	// @Description distribution of soil loss caused by water erosion
+    // @In
+    // @Description distribution of soil loss caused by water erosion
     float *SED_OL;
 
-	// @In
-	// @Description fraction of porosity from which anions are excluded
+    // @In
+    // @Description fraction of porosity from which anions are excluded
     float *anion_excl;
 
-	// @In
-	// @Description distribution of surface runoff generated
+    // @In
+    // @Description distribution of surface runoff generated
     float *OL_Flow;
 
-	// @In
-	// @Description initial septic operational condition (active-1, failing-2, non_septic-0)
+    // @In
+    // @Description initial septic operational condition (active-1, failing-2, non_septic-0)
     float isep_opt;
 
-	// @In
-	// @Description soil layer where drainage tile is located
+    // @In
+    // @Description soil layer where drainage tile is located
     float *ldrain;
 
-	// @In
-	// @Description crack volume potential of soil
+    // @In
+    // @Description crack volume potential of soil
     float *sol_crk;
 
-	// @In
-	// @Description distance to the stream
+    // @In
+    // @Description distance to the stream
     float *dist2stream;
 
-	// @In
-	// @Description amount of water held in the soil layer at saturation
+    // @In
+    // @Description amount of water held in the soil layer at saturation
     float **sol_ul;
 
-	// @In
-	// @Description lateral flow in soil layer
+    // @In
+    // @Description lateral flow in soil layer
     float **SSRU;
 
-	// @In
-	// @Description percolation from soil layer
+    // @In
+    // @Description percolation from soil layer
     float **Perco;
 
-	// @In
-	// @Description bulk density of the soil
+    // @In
+    // @Description bulk density of the soil
     float **density;
 
-	// @In
-	// @Description depth to bottom of soil layer
+    // @In
+    // @Description depth to bottom of soil layer
     float **soilDepth;
 
-	// @In
-	// @Description flow out index
+    // @In
+    // @Description flow out index
     float *FLOWOUT_INDEX_D8;
 
-	// @In
-	// @Description Routing layers according to the flow direction, no flow relationships within each layer, The first element in each layer is the number of cells in the layer
+    // @In
+    // @Description Routing layers according to the flow direction, no flow relationships within each layer, The first element in each layer is the number of cells in the layer
     float **ROUTING_LAYERS;
 
-	// @In
-	// @Description number of routing layers
+    // @In
+    // @Description number of routing layers
     int nRoutingLayers;
 
-	// @In
-	// @Description amount of organic nitrogen in surface runoff
+    // @In
+    // @Description amount of organic nitrogen in surface runoff
     float *sedorgn;
 
-	// @In
-	// @Description average air temperature
+    // @In
+    // @Description average air temperature
     float *TMEAN;
 
-	// @In
-	// @Description percent organic carbon in soil layer (%)
+    // @In
+    // @Description percent organic carbon in soil layer (%)
     float **sol_cbn;
 
-	// @In
-	// @Description soil thick of each layer (mm)
+    // @In
+    // @Description soil thick of each layer (mm)
     float **soilthick;
 
     /// output data
 
-	// @Out
-	// @Description amount of nitrate transported with lateral flow, kg/ha
+    // @Out
+    // @Description amount of nitrate transported with lateral flow, kg/ha
     float *latno3;
 
-	// @Out
-	// @Description amount of nitrate percolating past bottom of soil profile
+    // @Out
+    // @Description amount of nitrate percolating past bottom of soil profile
     float *perco_n;
 
-	// @Out
-	// @Description amount of solute P percolating past bottom of soil profile
+    // @Out
+    // @Description amount of solute P percolating past bottom of soil profile
     float *perco_p;
 
-	// @Out
-	// @Description amount of nitrate transported with surface runoff, kg/ha
+    // @Out
+    // @Description amount of nitrate transported with surface runoff, kg/ha
     float *sur_no3;
 
-	// @Out
-	// @Description amount of ammonian transported with surface runoff, kg/ha
+    // @Out
+    // @Description amount of ammonian transported with surface runoff, kg/ha
     float *sur_nh4;
 
-	// @Out
-	// @Description amount of soluble phosphorus in surface runoff
+    // @Out
+    // @Description amount of soluble phosphorus in surface runoff
     float *sur_solp;
 
-	// @Out
-	// @Description carbonaceous oxygen demand of surface runoff
+    // @Out
+    // @Description carbonaceous oxygen demand of surface runoff
     float *sur_cod;
 
-	// @Out
-	// @Description chlorophyll-a concentration in water yield
+    // @Out
+    // @Description chlorophyll-a concentration in water yield
     float *chl_a;
     
-	// @Out
-	// @Description N and P to channel amount of nitrate transported with lateral flow to channel, kg
+    // @Out
+    // @Description N and P to channel amount of nitrate transported with lateral flow to channel, kg
     float *latno3ToCh;  
 
-	// @Out
-	// @Description amount of nitrate transported with surface runoff to channel, kg
+    // @Out
+    // @Description amount of nitrate transported with surface runoff to channel, kg
     float *sur_no3_ToCh; 
 
-	// @Out
-	// @Description amount of ammonian transported with surface runoff to channel, kg
+    // @Out
+    // @Description amount of ammonian transported with surface runoff to channel, kg
     float *sur_nh4ToCh; 
 
-	// @Out
-	// @Description amount of soluble phosphorus in surface runoff to channel, kg
+    // @Out
+    // @Description amount of soluble phosphorus in surface runoff to channel, kg
     float *sur_solpToCh;
 
-	// @Out
-	// @Description amount of nitrate percolating past bottom of soil profile sum by sub-basin, kg
+    // @Out
+    // @Description amount of nitrate percolating past bottom of soil profile sum by sub-basin, kg
     float *perco_n_gw;  
 
-	// @Out
-	// @Description amount of solute P percolating past bottom of soil profile sum by sub-basin, kg
+    // @Out
+    // @Description amount of solute P percolating past bottom of soil profile sum by sub-basin, kg
     float *perco_p_gw;  
 
-	// @Out
-	// @Description amount of COD to reach in surface runoff (kg)
+    // @Out
+    // @Description amount of COD to reach in surface runoff (kg)
     float *sur_codToCh;
 
-	// @Out
-	// @Description the total number of subbasins
+    // @Out
+    // @Description the total number of subbasins
     int nSubbasins;
     
-	// @Out
-	// @Description subbasin grid (subbasins ID)
+    // @Out
+    // @Description subbasin grid (subbasins ID)
     float *subbasin;  
 
     /// input & output
 
-	// @Out
-	// @Description average annual amount of phosphorus leached into second soil layer
+    // @Out
+    // @Description average annual amount of phosphorus leached into second soil layer
     float wshd_plch;
 
-	// @In
-	// @Description amount of nitrogen stored in the nitrate pool in soil layer
+    // @In
+    // @Description amount of nitrogen stored in the nitrate pool in soil layer
     float **sol_no3;
 
-	// @In
-	// @Description amount of phosphorus stored in solution
+    // @In
+    // @Description amount of phosphorus stored in solution
     float **sol_solp;
 
-	// @In
-	// @Description amount of C lost with sediment, kg/ha, input from NUTRSED module
+    // @In
+    // @Description amount of C lost with sediment, kg/ha, input from NUTRSED module
     float *sedc;
 
 private:

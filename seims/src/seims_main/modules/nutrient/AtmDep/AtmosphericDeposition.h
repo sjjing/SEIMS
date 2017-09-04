@@ -49,60 +49,60 @@ public:
 
     void initialOutputs(void);
 
-	// @In
-	// @Description size of array
+    // @In
+    // @Description size of array
     int m_nCells;
    
-	// @In
-	// @Description maximum soil layers
+    // @In
+    // @Description maximum soil layers
     int soiLayers;
 
     /// parameters
 
-	// @In
-	// @Description concentration of nitrate in the rain (mg N/L)
+    // @In
+    // @Description concentration of nitrate in the rain (mg N/L)
     float rcn;
 
-	// @In
-	// @Description concentration of ammonia in the rain (mg N/L)
+    // @In
+    // @Description concentration of ammonia in the rain (mg N/L)
     float rca;
 
-	// @In
-	// @Description atmospheric dry deposition of nitrates (kg/ha)
+    // @In
+    // @Description atmospheric dry deposition of nitrates (kg/ha)
     float drydep_no3;
 
-	// @In
-	// @Description atmospheric dry deposition of ammonia (kg/ha)
+    // @In
+    // @Description atmospheric dry deposition of ammonia (kg/ha)
     float drydep_nh4;
 
     /// inputs
 
-	// @In
-	// @Description precipitation (mm H2O)
+    // @In
+    // @Description precipitation (mm H2O)
     float *D_P;
 
-	// @In
-	// @Description amount of ammonium in layer (kg/ha)
+    // @In
+    // @Description amount of ammonium in layer (kg/ha)
     float **sol_nh4;
 
-	// @In
-	// @Description amount of nitrate in layer (kg/ha)
+    // @In
+    // @Description amount of nitrate in layer (kg/ha)
     float **sol_no3;
 
     /// temporaries
 
-	// @In
-	// @Description nitrate added by rainfall (kg/ha)
+    // @In
+    // @Description nitrate added by rainfall (kg/ha)
     float addrnh4;
 
-	// @In
-	// @Description ammonium added by rainfall (kg/ha)
+    // @In
+    // @Description ammonium added by rainfall (kg/ha)
     float addrno3;
 
     /// outputs
 
-	// @Out
-	// @Description amount of NO3 added to soil by rainfall in watershed on current day (kg/ha)
+    // @Out
+    // @Description amount of NO3 added to soil by rainfall in watershed on current day (kg/ha)
     float wshd_rno3;
 };
 
