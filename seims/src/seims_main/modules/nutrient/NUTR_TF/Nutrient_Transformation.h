@@ -77,10 +77,6 @@ public:
     int cswat;
 
     // @In
-    // @Description phosphorus model selection, 0: dynamic coefficient method by White et al., 2009, 1: original method
-    int solP_model;
-
-    // @In
     // @Description days since P application
     float *a_days;
 
@@ -441,6 +437,12 @@ public:
 
 private:
 
+    // phosphorus model selection, 0: dynamic coefficient method by White et al., 2009, 1: original method
+    int solP_model;
+
+
+private:
+
     /*!
      * \brief check the input data. Make sure all the input data is available.
      * \return bool The validity of the input data.
@@ -498,7 +500,7 @@ private:
     void initialOutputs(void);
 };
 
-VISITABLE_STRUCT(Nutrient_Transformation, m_nCells, soillayers, soilLayers, cswat, solP_model, a_days, b_days, tillage_switch, tillage_depth, tillage_days, 
+VISITABLE_STRUCT(Nutrient_Transformation, m_nCells, soillayers, soilLayers, cswat, a_days, b_days, tillage_switch, tillage_depth, tillage_days, 
 	tillage_factor, cmn, nactfr, sdnco, psp, ssp, cdn, landcover, rsdco_pl, sol_cov, rsdin, SOTE, density, sol_cbn, solst, sol_awc, soilDepth, CLAY, rock, 
 	soilthick, sol_aorgn, sol_fon, sol_fop, sol_actp, sol_stap, sol_ul, Porosity, sand, sol_WOC, sol_WON, sol_BM, sol_BMC, sol_BMN, sol_HP, sol_HS, sol_HSC, 
 	sol_HSN, sol_HPC, sol_HPN, sol_LM, sol_LMC,sol_LMN, sol_LSC, sol_LSN, sol_LS, sol_LSL, sol_LSLC, sol_LSLNC, sol_RNMN, sol_RSPC, hmntl, hmptl, rmn2tl, 

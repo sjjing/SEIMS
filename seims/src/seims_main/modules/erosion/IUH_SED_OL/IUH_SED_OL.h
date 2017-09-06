@@ -47,12 +47,6 @@ public:
 
     bool CheckInputData(void);
 
-    //! subbasin IDs
-    vector<int> m_subbasinIDs;
-
-    /// subbasins information
-    clsSubbasins *m_subbasinsInfo;
-
     // @In
     // @Description time step (sec)
     int TIMESTEP;
@@ -64,10 +58,6 @@ public:
     // @In
     // @Description cell width of the grid (m)
     float CELLWIDTH;
-
-    // @In
-    // @Description cell area
-    float cellArea;
 
     // @In
     // @Description the total number of subbasins
@@ -89,17 +79,6 @@ public:
     // @Description sediment yield in each cell
     float *SOER;
 
-    //temporary
-
-    // @In
-    // @Description the maximum of second column of OL_IUH plus 1.
-    int cellFlowCols;
-
-    // @In
-    // @Description store the sediment of each cell in each day between min time and max time
-    float **cellSed;
-
-    
     //output
 
     // @Out
@@ -110,8 +89,26 @@ public:
     // @Description sediment to channel at each cell at current time step
     float *SED_OL;
 
+private:
+    //! subbasin IDs
+    vector<int> m_subbasinIDs;
+
+    /// subbasins information
+    clsSubbasins *m_subbasinsInfo;
+
+    // cell area
+    float cellArea;
+
+    //temporary
+
+    // the maximum of second column of OL_IUH plus 1.
+    int cellFlowCols;
+
+    // store the sediment of each cell in each day between min time and max time
+    float **cellSed;
+
     //! intial outputs
     void initialOutputs(void);
 };
 
-VISITABLE_STRUCT(IUH_SED_OL, m_nCells, TIMESTEP, CELLWIDTH, cellArea, nSubbasins, subbasin, Ol_iuh, iuhCols, SOER, cellFlowCols, cellSed, SEDTOCH, SED_OL);
+VISITABLE_STRUCT(IUH_SED_OL, m_nCells, TIMESTEP, CELLWIDTH, nSubbasins, subbasin, Ol_iuh, iuhCols, SOER, SEDTOCH, SED_OL);

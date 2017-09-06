@@ -56,17 +56,16 @@ public:
     void CheckInputData(void);
 
     // @In
-    // @Description count of stations
-    int m_nStatioins;
-
-    // @In
     // @Description count of valid cells
     int m_nCells;
 
     // @In
+    // @Description count of stations
+    int m_nStatioins;
+
+    // @In
     // @Description data of stations
     float *T;
-
 
     // @In
     // @Description weights of each sites of all valid cells
@@ -93,7 +92,7 @@ public:
 
     // @Out
     // @Description interpolation result
-    float *m_itpOutput;
+    float *D;
 
 
 private:
@@ -104,9 +103,8 @@ private:
 	// For example, if data_type = 1, i.e. the data type is P, main program will connect the output variable name "D"
 	// and the data type to create a string like D_P,
 	// this string is the same with the output id in the output lookup table and file.out.
-	int m_dataType;
+	int m_dataType;   
 };
 
 
-VISITABLE_STRUCT(Interpolate, m_month, m_dataType, m_nStatioins, m_nCells, T, WEIGHT, VERTICALINTERPOLATION, StationElevation,
-	DEM, LapseRate, m_itpOutput);
+VISITABLE_STRUCT(Interpolate, m_nCells, m_nStatioins, T, WEIGHT, VERTICALINTERPOLATION, StationElevation, DEM, LapseRate, D);

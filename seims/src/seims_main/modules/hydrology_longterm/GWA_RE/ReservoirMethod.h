@@ -101,12 +101,6 @@ private:
      */
     void initialOutputs(void);
 
-    //! subbasin IDs
-    vector<int> m_subbasinIDs;
-
-    //! All subbasins information,\sa clsSubbasins, \sa Subbasin
-    clsSubbasins *m_subbasinsInfo;
-
     // @In
     // @Description time step, second
     int TIMESTEP;
@@ -202,14 +196,6 @@ private:
     //output
 
     // @Out
-    // @Description Perco
-    float *T_Perco;
-
-    // @Out
-    // @Description PerDep
-    float *T_PerDep;
-
-    // @Out
     // @Description groundwater runoff
     float *RG;
 
@@ -222,20 +208,34 @@ private:
     float *Revap;
 
     // @Out
-    // @Description revaporization from groundwater to the last soil layer
-    float *T_Revap;
-
-    // @Out
     // @Description groundwater water balance statistics
     float **GWWB;
 
-    // @In
-    // @Description subbasin number
+private:
+
+    //! subbasin IDs
+    vector<int> m_subbasinIDs;
+
+    //! All subbasins information,\sa clsSubbasins, \sa Subbasin
+    clsSubbasins *m_subbasinsInfo;
+
+    // subbasin number
     int nSubbasins;
-    
-    // @In
-    // @Description first Run
+
+    // first Run
     bool firstRun;
+
+    //output
+
+    // revaporization from groundwater to the last soil layer
+    float *T_Revap;
+
+    // Perco
+    float *T_Perco;
+
+    // PerDep
+    float *T_PerDep;
+
 
     /*
      * \brief Set groundwater related subbasin parameters
@@ -246,5 +246,4 @@ private:
 };
 
 VISITABLE_STRUCT(ReservoirMethod, m_nCells, TIMESTEP, CELLWIDTH, nSoilLayers, soillayers, soilthick, df_coef, Kg, Base_ex, Perco, INET, 
-	DEET, SOET, AET_PLT, PET, GW0, GWMAX, SBPET, SBGS, slope, solst, soilDepth, GWNEW, T_Perco, T_PerDep, RG, SBQG, Revap, T_Revap, 
-	GWWB, nSubbasins, firstRun);
+	DEET, SOET, AET_PLT, PET, GW0, GWMAX, SBPET, SBGS, slope, solst, soilDepth, GWNEW, RG, SBQG, Revap, GWWB);

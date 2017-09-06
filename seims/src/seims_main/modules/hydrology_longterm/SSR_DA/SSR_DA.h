@@ -116,10 +116,6 @@ class SSR_DA : public SimulationModule {
     int nRoutingLayers;
 
     // @In
-    // @Description number of subbasin
-    int nSubbasin;
-
-    // @In
     // @Description subbasin grid (ID of subbasin)
     float *subbasin;
 
@@ -136,6 +132,11 @@ class SSR_DA : public SimulationModule {
     // @Out
     // @Description subsurface to streams from each subbasin, the first element is the whole watershed, m3, VAR_SBIF
     float *SBIF;
+
+private:
+
+    // number of subbasin
+    int nSubbasin;
 
 public:
     /// constructor
@@ -182,4 +183,4 @@ private:
 
 VISITABLE_STRUCT(SSR_DA, m_nCells, CELLWIDTH, nSoilLayers, soillayers, soilthick, TIMESTEP, Ki, t_soil, slope, Conductivity,
 	sol_ul, Poreindex, sol_awc, sol_wpmm, solst, solsw, SOTE, CHWIDTH, STREAM_LINK, FLOWIN_INDEX_D8, ROUTING_LAYERS,
-	nRoutingLayers, nSubbasin, subbasin, SSRU, SSRUVOL, SBIF);
+	nRoutingLayers, subbasin, SSRU, SSRUVOL, SBIF);

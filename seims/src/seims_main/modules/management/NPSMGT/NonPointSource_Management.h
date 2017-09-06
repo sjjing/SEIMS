@@ -20,12 +20,6 @@ using namespace std;
  */
 class NPS_Management : public SimulationModule {
 
-    /*!
-    * areal source operations
-    * key: unique index, BMPID * 100000 + subScenarioID
-    * value: areal source management factory instance
-    */
-    map<int, BMPArealSrcFactory *> m_arealSrcFactory;
 
     // @In
     // @Description valid cells number
@@ -34,10 +28,6 @@ class NPS_Management : public SimulationModule {
     // @In
     // @Description cell width (m)
     float CELLWIDTH;
-
-    // @In
-    // @Description area of cell (m^2)
-    float cellArea;
 
     // @In
     // @Description time step (second)
@@ -72,6 +62,19 @@ class NPS_Management : public SimulationModule {
     // @In
     // @Description organic n
     float **sol_orgp;
+
+private:
+
+    /*!
+    * areal source operations
+    * key: unique index, BMPID * 100000 + subScenarioID
+    * value: areal source management factory instance
+    */
+    map<int, BMPArealSrcFactory *> m_arealSrcFactory;
+
+    // area of cell (m^2)
+    float cellArea;
+
 
 public:
     //! Constructor
@@ -112,4 +115,4 @@ private:
     bool CheckInputSize(const char *, int);
 };
 
-VISITABLE_STRUCT(NPS_Management, m_nCells, CELLWIDTH, cellArea, TIMESTEP, mgt_fields, solst, sol_no3, sol_nh4, sol_solp, sol_orgn, sol_orgp);
+VISITABLE_STRUCT(NPS_Management, m_nCells, CELLWIDTH, TIMESTEP, mgt_fields, solst, sol_no3, sol_nh4, sol_solp, sol_orgn, sol_orgp);

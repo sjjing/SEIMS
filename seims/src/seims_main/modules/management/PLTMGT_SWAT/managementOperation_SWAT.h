@@ -29,32 +29,6 @@ using namespace MainBMP;
  */
 class MGTOpt_SWAT : public SimulationModule {
 
-
-    /*
-    * Plant management factory derived from BMPs Scenario
-    * Key is  uniqueBMPID, which is calculated by Landuse_ID * 100 + subScenario;
-    * Value is a series of plant management operations
-    */
-    map<int, BMPPlantMgtFactory *> m_mgtFactory;
-
-    /// valid cell numbers in each subbasin
-    map<int, int> m_nCellsSubbsn;
-
-    /// subbasin area, key is subbasinID, value is area (ha)
-    map<int, float> m_nAreaSubbsn;
-
-    /// map from LanduseLookup
-    map<int, float *> m_landuseLookupMap;
-
-    /// map for CropLookup
-    map<int, float *> m_cropLookupMap;
-
-    /// map for FertilizerLookup
-    map<int, float *> m_fertilizerLookupMap;
-
-    /// map for TillageLookup
-    map<int, float *> m_tillageLookupMap;
-
     // @In
     // @Description valid cells number
     int m_nCells;
@@ -62,14 +36,6 @@ class MGTOpt_SWAT : public SimulationModule {
     // @In
     // @Description cell width (m)
     float CELLWIDTH;
-
-    // @In
-    // @Description cell area (ha)
-    float cellArea;
-
-    // @In
-    // @Description the total number of subbasins
-    int nSub;   
 
     /**Parameters from MongoDB**/
 
@@ -95,7 +61,7 @@ class MGTOpt_SWAT : public SimulationModule {
 
     // @In
     // @Description maximum soil layers
-    int soilLayers;
+    int nSoilLayers;
 
     // @In
     // @Description depth to bottom of soil layer, sol_z, mm
@@ -178,12 +144,6 @@ class MGTOpt_SWAT : public SimulationModule {
     // @In
     // @Description minimum temperature for plant growth
     float *T_BASE;
-
-    /** Temporary parameters**/
-
-    // @In
-    // @Description Sequence number of management operations done in the previous time step run
-    int *doneOpSequence;
 
     /** plant operation related parameters **/
 
@@ -441,16 +401,6 @@ class MGTOpt_SWAT : public SimulationModule {
     //float *pot_sa;
     VISITABLE(float *, pot_sa);
 
-    // @In
-    // @Description deepirr(:) |mm H2O |amount of water removed from deep aquifer for irrigation
-    //float *m_deepIrrWater;
-    VISITABLE(float *, m_deepIrrWater);
-
-    // @In
-    // @Description shallirr(:) |mm H2O |amount of water removed from shallow aquifer for irrigation
-    //float *m_shallowIrrWater;
-    VISITABLE(float *, m_shallowIrrWater);
-
     /** auto irrigation operation related**/
 
     // @Out
@@ -561,7 +511,6 @@ class MGTOpt_SWAT : public SimulationModule {
 
     /**auto fertilizer operation**/
 
-
     // @Out
     // @Description fertilizer ID from fertilizer database
     //float *afert_id;
@@ -669,23 +618,63 @@ class MGTOpt_SWAT : public SimulationModule {
     // @In
     // @Description soil water storage in soil profile (mm)
     //float *solsw;
-    VISITABLE(float *, solsw);
-
-    // @In
-    // @Description flag to identify the initialization
-    //bool initialized;
-    VISITABLE(bool, initialized);
+    VISITABLE(float *, solsw);   
 
     END_VISITABLES;
 
 private:
-    // @In
-    // @Description deep and shallow aquifer are not distinguished in SEIMS, both are set to m_SBGS, deepst(:) |mm H2O |depth of water in deep aquifer
+    /*
+    * Plant management factory derived from BMPs Scenario
+    * Key is  uniqueBMPID, which is calculated by Landuse_ID * 100 + subScenario;
+    * Value is a series of plant management operations
+    */
+    map<int, BMPPlantMgtFactory *> m_mgtFactory;
+
+    /// valid cell numbers in each subbasin
+    map<int, int> m_nCellsSubbsn;
+
+    /// subbasin area, key is subbasinID, value is area (ha)
+    map<int, float> m_nAreaSubbsn;
+
+    /// map from LanduseLookup
+    map<int, float *> m_landuseLookupMap;
+
+    /// map for CropLookup
+    map<int, float *> m_cropLookupMap;
+
+    /// map for FertilizerLookup
+    map<int, float *> m_fertilizerLookupMap;
+
+    /// map for TillageLookup
+    map<int, float *> m_tillageLookupMap;
+
+    // deep and shallow aquifer are not distinguished in SEIMS, both are set to m_SBGS, deepst(:) |mm H2O |depth of water in deep aquifer
     float *m_deepWaterDepth;
 
-    // @In
-    // @Description deep and shallow aquifer are not distinguished in SEIMS, both are set to m_SBGS, shallst | mm H2O |depth of water in shallow aquifer
+    // deep and shallow aquifer are not distinguished in SEIMS, both are set to m_SBGS, shallst | mm H2O |depth of water in shallow aquifer
     float *m_shallowWaterDepth;
+
+    // cell area (ha)
+    float cellArea;
+
+    // the total number of subbasins
+    int nSub;
+
+    /** Temporary parameters**/
+
+    // Sequence number of management operations done in the previous time step run
+    int *doneOpSequence;
+
+    // deepirr(:) |mm H2O |amount of water removed from deep aquifer for irrigation
+    float *deepIrrWater;
+    
+
+    // shallirr(:) |mm H2O |amount of water removed from shallow aquifer for irrigation
+    float *shallowIrrWater;
+   
+    // flag to identify the initialization
+    bool initialized;
+    
 
 public:
     //! Constructor
@@ -808,9 +797,9 @@ private:
     void rootFraction(int i, float *&root_fr);
 };
 
-VISITABLE_STRUCT(MGTOpt_SWAT, m_nCells, m_deepWaterDepth, m_shallowWaterDepth, CELLWIDTH, cellArea, nSub, subbasin, landuse, landcover, 
-	mgt_fields, soillayers, soilLayers, soilDepth, soilthick, SOL_ZMX, density, sol_sumAWC, sol_N, sol_cbn, rock, CLAY, sand, silt,
-	sol_aorgn, sol_fon, sol_fop, sol_nh4, sol_no3, sol_orgn, sol_orgp, sol_solp, T_BASE, doneOpSequence, LanduseLookup, landuseNum, 
-	CN2, IGRO, IDC, hi_targ, biotarg, CURYR_INIT, wsyf, LAIDAY, PHUBASE, frPHUacc, PHU_PLT, dormi, hvsti, hvsti_adj, laimaxfr, olai,
-	frPlantN, frPlantP, plant_N, plant_P, plt_et_tot, plt_pet_tot, frRoot, BIOMASS, sol_rsd, frStrsWtr, CropLookup, cropNum, FertilizerLookup,
-	fertilizerNum, cswat, sol_mc, sol_mn);
+VISITABLE_STRUCT(MGTOpt_SWAT, m_nCells, CELLWIDTH, subbasin, landuse, landcover, mgt_fields, soillayers, soilLayers, 
+    soilDepth, soilthick, SOL_ZMX, density, sol_sumAWC, sol_N, sol_cbn, rock, CLAY, sand, silt,sol_aorgn, sol_fon, 
+    sol_fop, sol_nh4, sol_no3, sol_orgn, sol_orgp, sol_solp, T_BASE, LanduseLookup, landuseNum, CN2, IGRO, IDC, 
+    hi_targ, biotarg, CURYR_INIT, wsyf, LAIDAY, PHUBASE, frPHUacc, PHU_PLT, dormi, hvsti, hvsti_adj, laimaxfr, olai,
+	frPlantN, frPlantP, plant_N, plant_P, plt_et_tot, plt_pet_tot, frRoot, BIOMASS, sol_rsd, frStrsWtr, CropLookup, 
+    cropNum, FertilizerLookup, fertilizerNum, cswat, sol_mc, sol_mn);

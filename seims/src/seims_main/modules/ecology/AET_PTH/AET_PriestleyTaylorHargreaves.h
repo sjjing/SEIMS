@@ -46,10 +46,6 @@ class AET_PT_H : public SimulationModule {
     // @Description Evaporation loss from canopy storage
     float *INET;
 
-    // not used
-    // depression storage capacity
-    // float *m_depSt;
-
     // @In
     // @Description soil evaporation compensation factor, if not set or existed, it will be assigned 0.95 as default£¬should be vary from 0.01 to 1.0
     float *esco;
@@ -60,7 +56,7 @@ class AET_PT_H : public SimulationModule {
 
     // @In
     // @Description maximum soil layers, mlyr in SWAT
-    int soilLayers;
+    int nSoilLayers;
 
     // @In
     // @Description soil depth
@@ -114,7 +110,11 @@ class AET_PT_H : public SimulationModule {
 
     // @Out
     // @Description amount of nitrate moving upward in the soil profile in watershed
-    float sno3up;
+    float sno3up;    
+
+    // not used
+    // depression storage capacity
+    // float *m_depSt;
 
 public:
     //! Constructor

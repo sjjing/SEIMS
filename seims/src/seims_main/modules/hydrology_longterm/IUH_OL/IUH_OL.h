@@ -69,12 +69,6 @@ public:
 
     bool CheckInputData(void);
 
-    //! subbasin IDs
-    vector<int> m_subbasinIDs;
-
-    /// subbasins information
-    clsSubbasins *m_subbasinsInfo;
-
     // @In
     // @Description time step (sec)
     int TIMESTEP;
@@ -88,17 +82,8 @@ public:
     float CELLWIDTH;
 
     // @In
-    // @Description cell area, BE CAUTION, the unit is m^2, NOT ha!!!
-    float cellArea;
-
-    // @In
-    // @Description the total number of subbasins
-    int nSubbasins;
-
-    // @In
     // @Description subbasin grid (subbasins ID)
     float *subbasin;
-
 
     // @In
     // @Description IUH of each grid cell (1/s)
@@ -112,16 +97,6 @@ public:
     // @Description surface runoff from depression module
     float *SURU;
 
-    //temporary
-
-    // @In
-    // @Description store the flow of each cell in each day between min time and max time
-    float **cellFlow;
-
-    // @In
-    // @Description the maximum of second column of OL_IUH plus 1.
-    int cellFlowCols;
-
     //output
 
     // @Out
@@ -132,8 +107,31 @@ public:
     // @Description overland flow in each cell (mm) //added by Gao, as intermediate variable, 29 Jul 2016
     float *OL_Flow;
 
+private:
+
+    //! subbasin IDs
+    vector<int> m_subbasinIDs;
+
+    /// subbasins information
+    clsSubbasins *m_subbasinsInfo;
+
+    // cell area, BE CAUTION, the unit is m^2, NOT ha!!!
+    float cellArea;
+
+    // the total number of subbasins
+    int nSubbasins;
+
+    //temporary
+
+    // store the flow of each cell in each day between min time and max time
+    float **cellFlow;
+
+    // the maximum of second column of OL_IUH plus 1.
+    int cellFlowCols;
+
+
     //! initial outputs
     void initialOutputs(void);
 };
 
-VISITABLE_STRUCT(IUH_OL, m_nCells, TIMESTEP, CELLWIDTH, cellArea, nSubbasins, subbasin, Ol_iuh, iuhCols, SURU, cellFlow, cellFlowCols, SBOF, OL_Flow);
+VISITABLE_STRUCT(IUH_OL, m_nCells, TIMESTEP, CELLWIDTH, subbasin, Ol_iuh, iuhCols, SURU, SBOF, OL_Flow);

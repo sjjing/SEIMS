@@ -58,10 +58,6 @@ public:
     float CELLWIDTH;
 
     // @In
-    // @Description subbasin number
-    int nsub;
-
-    // @In
     // @Description soil layer number
     int nSoilLayers;
 
@@ -113,21 +109,9 @@ public:
     // @Description stream link
     float *STREAM_LINK;
   
-    // @In
+    // @Out
     // @Description USLE LS factor
     float *USLE_LS;
-
-    // @In
-    // @Description cell area (A, km^2)
-    float cellAreaKM;
-
-    // @In
-    // @Description cell area factor (3.79 * A^0.7)
-    float cellAreaKM1;
-
-    // @In
-    // @Description cell area factor (0.903 * A^0.017)
-    float cellAreaKM2;
 
     // @In
     // @Description Slope^0.16
@@ -169,6 +153,19 @@ public:
     // @Description large aggregate yield
     float *lag_yld;
 
+private:
+    // subbasin number
+    int nsub;
+
+    // cell area (A, km^2)
+    float cellAreaKM;
+
+    // cell area factor (3.79 * A^0.7)
+    float cellAreaKM1;
+
+    // cell area factor (0.903 * A^0.017)
+    float cellAreaKM2;
+
     //! initialize outputs
     void initialOutputs(void);
 
@@ -176,6 +173,6 @@ public:
     float getPeakRunoffRate(int);
 };
 
-VISITABLE_STRUCT(MUSLE_AS, m_nCells, CELLWIDTH, nsub, nSoilLayers, depRatio, det_sand, det_silt, det_clay, det_smagg, det_lgagg,
-	USLE_P, USLE_K, USLE_C, slope, acc, STREAM_LINK, USLE_LS, cellAreaKM, cellAreaKM1, cellAreaKM2, slopeForPq, SNAC, OL_Flow, 
-	SOER, sand_yld, silt_yld, clay_yld, sag_yld, lag_yld);
+VISITABLE_STRUCT(MUSLE_AS, m_nCells, CELLWIDTH, nSoilLayers, depRatio, det_sand, det_silt, det_clay, det_smagg, det_lgagg,
+	USLE_P, USLE_K, USLE_C, slope, acc, STREAM_LINK, USLE_LS, slopeForPq, SNAC, OL_Flow, SOER, sand_yld, silt_yld, 
+    clay_yld, sag_yld, lag_yld);

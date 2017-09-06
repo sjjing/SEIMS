@@ -29,11 +29,6 @@ using namespace std;
 
 class SOL_WB : public SimulationModule {
 
-    //! subbasin IDs
-    vector<int> m_subbasinIDs;
-    //! All subbasins information,\sa clsSubbasins, \sa Subbasin
-    clsSubbasins *m_subbasinsInfo;
-
     // @In
     // @Description valid cells number
     int m_nCells;
@@ -121,14 +116,21 @@ class SOL_WB : public SimulationModule {
     // @In
     // @Description soil temperature
     float *SOTE;
-
-    // @In
-    // @Description subbasins number
-    int nSubbasins;
    
     // @Out
     // @Description soil water balance, time series result, the row index is subbasinID
     float **SOWB;
+
+private:
+
+    //! subbasin IDs
+    vector<int> m_subbasinIDs;
+
+    //! All subbasins information,\sa clsSubbasins, \sa Subbasin
+    clsSubbasins *m_subbasinsInfo;
+
+    // subbasins number
+    int nSubbasins;
 
 public:
     SOL_WB(void);
@@ -172,7 +174,7 @@ private:
 };
 
 VISITABLE_STRUCT(SOL_WB, m_nCells, nSoilLayers, soillayers, soilthick, SOL_ZMX, NEPR, INFIL, SOET, Revap, SSRU, Perco, solst, D_P, 
-	INLO, INET, DPST, DEET, SURU, RG, SNSB, TMEAN, SOTE, nSubbasins, SOWB);
+	INLO, INET, DPST, DEET, SURU, RG, SNSB, TMEAN, SOTE, SOWB);
 
 
 // previously, RootDepth (of plant) is confused with the sol_zmx, now change m_RootDepth to SOL_ZMX

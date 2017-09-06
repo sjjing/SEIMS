@@ -109,14 +109,6 @@ private:
     // @Description The temperature of snow melt
     float T_snow;
 
-    // @In
-    // @Description maximum solar radiation of current day
-    float srMax;
-
-    // @In
-    // @Description Julian day
-    int jday;
-
     /// output
 
     // @Out
@@ -134,7 +126,16 @@ private:
     // @Out
     // @Description vapor pressure deficit
     float *VPD;
+
+private:
+
+    // Julian day
+    int jday;
+
+    // maximum solar radiation of current day
+    float srMax;
+
 };
 
 VISITABLE_STRUCT(PETPriestleyTaylor, m_nCells, TMEAN, TMAX, TMIN, SR, RM, DEM, K_pet, celllat, PHU0, T_snow,
-	srMax, jday, daylength, PHUBASE, PET, VPD);
+	daylength, PHUBASE, PET, VPD);

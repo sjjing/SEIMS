@@ -55,18 +55,12 @@ public:
 
     bool CheckInputData(void);
 
-    BEGIN_VISITABLES(Biomass_EPIC);
-    
+    BEGIN_VISITABLES(Biomass_EPIC); 
 
     // @In
     // @Description valid cells number
     //int m_nCells;
     VISITABLE(int, m_nCells);	
-
-    // @In
-    // @Description years of climate data
-    //int m_nClimDataYrs;
-    VISITABLE(int, m_nClimDataYrs);
 
     /**  climate inputs  **/
 
@@ -458,57 +452,49 @@ public:
 
 private:
     /**  intermediate variables  **/
+    // input
 
-    // @In
-    // @Description current rooting depth
+    // current rooting depth
     float *m_soilRD;
 
-    // @In
-    // @Description water uptake distribution parameter, NOT ALLOWED TO MODIFIED BY USERS
+    // water uptake distribution parameter, NOT ALLOWED TO MODIFIED BY USERS
     float ubw;
 
-    // @In
-    // @Description water uptake normalization parameter, NOT ALLOWED TO MODIFIED BY USERS
+    // water uptake normalization parameter, NOT ALLOWED TO MODIFIED BY USERS
     float uobw;
 
-    // @Out
-    // @Description amount of nitrogen added to soil via fixation on the day
+    // years of climate data
+    int m_nClimDataYrs;
+
+    //output
+
+    // amount of nitrogen added to soil via fixation on the day
     float *m_fixN;
 
-    // @Out
-    // @Description plant uptake of nitrogen, nplnt in SWAT
+    // plant uptake of nitrogen, nplnt in SWAT
     float *m_plantUpTkN;
 
-    // @Out
-    // @Description plant uptake of phosphorus, pplnt in SWAT
+    // plant uptake of phosphorus, pplnt in SWAT
     float *m_plantUpTkP;
 
-    // @Out
-    // @Description plant nitrogen deficiency (kg/ha), uno3d in SWAT
+    // plant nitrogen deficiency (kg/ha), uno3d in SWAT
     float *m_NO3Defic;
 
-    // @Out
-    // @Description soil aeration stress
+    // soil aeration stress
     float *m_frStrsAe;
 
-    // @Out
-    // @Description fraction of potential plant growth achieved where the reduction is caused by nitrogen stress, strsn in SWAT
+    // fraction of potential plant growth achieved where the reduction is caused by nitrogen stress, strsn in SWAT
     float *m_frStrsN;
 
-    // @Out
-    // @Description fraction of potential plant growth achieved where the reduction is caused by phosphorus stress, strsp in SWAT
+    // fraction of potential plant growth achieved where the reduction is caused by phosphorus stress, strsp in SWAT
     float *m_frStrsP;
 
     // @Out
     // @Description fraction of potential plant growth achieved where the reduction is caused by temperature stress, strstmp in SWAT
     float *m_frStrsTmp;
 
-    // @Out
-    // @Description biomass generated on current day, bioday in SWAT
+    // biomass generated on current day, bioday in SWAT
     float *m_biomassDelta;
-
-	
-
 
     //////////////////////////////////////////////////////////////////////////
     //  The following code is transferred from swu.f of SWAT rev. 637
@@ -562,11 +548,10 @@ private:
 
 
 
-VISITABLE_STRUCT(Biomass_EPIC, m_soilRD, ubw, uobw, BP1, BP2, BP3, CHTMX, CO2HI, DLAI, epco, EXT_COEF, FRGRW1, FRGRW2, hvsti,
+VISITABLE_STRUCT(Biomass_EPIC, BP1, BP2, BP3, CHTMX, CO2HI, DLAI, epco, EXT_COEF, FRGRW1, FRGRW2, hvsti,
 	LAIMX1, LAIMX2, MAT_YRS, T_BASE, T_OPT, WAVP, CHT, ALBDAY, CURYR_INIT, BIO_INIT, LAI_INIT, PHU_PLT, dormi, plt_et_tot,
 	plt_pet_tot, n_updis, p_updis, nfixco, nfixmx, daylength, VPD, PET, PPT, SOET, sol_no3, sol_solp, SNAC, LAIDAY, frPHUacc,
-	laiyrmax, hvsti_adj, laimaxfr, olai, lastSoilRD, AET_PLT, frRoot, plant_N, plant_P, frPlantN, frPlantP, frStrsWtr, BIOMASS,
-	m_fixN, m_plantUpTkN, m_plantUpTkP, m_NO3Defic, m_frStrsAe, m_frStrsN, m_frStrsP, m_frStrsTmp, m_biomassDelta);
+	laiyrmax, hvsti_adj, laimaxfr, olai, lastSoilRD, AET_PLT, frRoot, plant_N, plant_P, frPlantN, frPlantP, frStrsWtr, BIOMASS);
 
 
 

@@ -89,14 +89,6 @@ public:
     float SNO50COV;
 
     // @In
-    // @Description 1st shape parameter for snow cover equation
-    float snowCoverCoef1;
-
-    // @In
-    // @Description 2nd shape parameter for snow cover equation
-    float snowCoverCoef2;
-
-    // @In
     // @Description Mean temperature
     float *TMEAN;
 
@@ -108,17 +100,9 @@ public:
     // @Description Net precipitation
     float *NEPR;
 
-    // @In
+    // @Out
     // @Description snow redistribution
     float *SNAC;
-
-    // @In
-    // @Description snow sublimation, snoev in SWAT in etact.f
-    float *SE;
-
-    // @In
-    // @Description temperature of snow pack, snotmp in SWAT
-    float *packT;
 
     /// outputs
 
@@ -126,10 +110,26 @@ public:
     // @Description amount of water in snow melt, snomlt in SWAT
     float *SNME;
 
-    // @Out
-    // @Description snow accumulation, sno_hru in SWAT
+private:
+
+    // 1st shape parameter for snow cover equation
+    float snowCoverCoef1;
+
+    // 2nd shape parameter for snow cover equation
+    float snowCoverCoef2;
+
+    // snow sublimation, snoev in SWAT in etact.f
+    float *SE;
+
+    // temperature of snow pack, snotmp in SWAT
+    float *packT;
+
+    //output
+
+    // snow accumulation, sno_hru in SWAT
     float *SA;
+
 };
 
-VISITABLE_STRUCT(SNO_SP, m_nCells, T0, K_blow, T_snow, lag_snow, c_snow6, c_snow12, SNOCOVMX, SNO50COV, snowCoverCoef1, snowCoverCoef2,
-	TMEAN, TMAX, NEPR, SNAC, SE, packT, SNME, SA);
+VISITABLE_STRUCT(SNO_SP, m_nCells, T0, K_blow, T_snow, lag_snow, c_snow6, c_snow12, SNOCOVMX, SNO50COV, 
+	TMEAN, TMAX, NEPR, SNAC, SNME);

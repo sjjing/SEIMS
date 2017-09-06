@@ -5,7 +5,7 @@
 
 using namespace std;
 
-MGTOpt_SWAT::MGTOpt_SWAT(void) : m_nCells(-1), nSub(-1), soilLayers(-1),
+MGTOpt_SWAT::MGTOpt_SWAT(void) : m_nCells(-1), nSub(-1), nSoilLayers(-1),
                                  CELLWIDTH(NODATA_VALUE), cellArea(NODATA_VALUE),
     /// add parameters from MongoDB
                                  subbasin(NULL), landuse(NULL), landcover(NULL), mgt_fields(NULL), T_BASE(NULL),
@@ -35,7 +35,7 @@ MGTOpt_SWAT::MGTOpt_SWAT(void) : m_nCells(-1), nSub(-1), soilLayers(-1),
     /// Irrigation
                                  irr_flag(NULL), irr_water(NULL), irr_surfq(NULL), m_deepWaterDepth(NULL),
                                  m_shallowWaterDepth(NULL),
-                                 pot_sa(NULL), m_deepIrrWater(NULL), m_shallowIrrWater(NULL),
+                                 pot_sa(NULL), deepIrrWater(NULL), shallowIrrWater(NULL),
     /// auto irrigation operation
                                  awtr_strsID(NULL), awtr_strsTrig(NULL), airr_source(NULL), airr_location(NULL),
                                  airr_eff(NULL),
@@ -253,13 +253,13 @@ bool MGTOpt_SWAT::CheckInputSize2D(const char *key, int n, int col) {
         throw ModelException(MID_PLTMGT_SWAT, "CheckInputSize2D", "Input data for " + string(key) +
             " is invalid. The layer number could not be less than zero.");
     }
-    if (soilLayers != col) {
-        if (soilLayers <= 0) {
-            soilLayers = col;
+    if (nSoilLayers != col) {
+        if (nSoilLayers <= 0) {
+            nSoilLayers = col;
         } else {
             throw ModelException(MID_PLTMGT_SWAT, "CheckInputSize2D", "Input data for " + string(key) +
                 " is invalid. All the layers of input 2D raster data should have same size of " +
-                ValueToString(soilLayers) + " instead of " +
+                ValueToString(nSoilLayers) + " instead of " +
                 ValueToString(col) + ".");
             return false;
         }
@@ -414,7 +414,7 @@ bool MGTOpt_SWAT::CheckInputData(void) {
         throw ModelException(MID_PLTMGT_SWAT, "CheckInputData",
                              "The cell width of the input data can not be less than zero.");
     }
-    if (soilLayers <= 0) {
+    if (nSoilLayers <= 0) {
         throw ModelException(MID_PLTMGT_SWAT, "CheckInputData",
                              "The layer number of the input 2D raster data can not be less than zero.");
     }
@@ -874,7 +874,7 @@ void MGTOpt_SWAT::ExecuteIrrigationOperation(int i, int &factoryID, int nOp) {
                         vmma += m_shallowWaterDepth[tmpSubbsnID];
                         m_shallowWaterDepth[tmpSubbsnID] = 0.f;
                     }
-                    m_shallowIrrWater[i] += vmma;
+                    shallowIrrWater[i] += vmma;
                     break;
                 case IRR_SRC_DEEP:cnv = m_nAreaSubbsn[m_irrNo] * 10.f;
                     vmma = 0.f;
@@ -887,7 +887,7 @@ void MGTOpt_SWAT::ExecuteIrrigationOperation(int i, int &factoryID, int nOp) {
                         vmma += m_deepWaterDepth[tmpSubbsnID];
                         m_deepWaterDepth[tmpSubbsnID] = 0.f;
                     }
-                    m_deepIrrWater[i] += vmma;
+                    deepIrrWater[i] += vmma;
                     break;
             }
         }
@@ -1948,7 +1948,7 @@ void MGTOpt_SWAT::Get2DData(const char *key, int *nRows, int *nCols, float ***da
     initialOutputs();
     string sk(key);
     *nRows = m_nCells;
-    *nCols = soilLayers;
+    *nCols = nSoilLayers;
     /// fertilizer operation
     if (StringMatch(sk, VAR_SOL_MC)) { *data = sol_mc; }
     else if (StringMatch(sk, VAR_SOL_MN)) { *data = sol_mn; }
@@ -2006,9 +2006,9 @@ void MGTOpt_SWAT::initialOutputs() {
         if (afert_frtsurf == NULL) Initialize1DArray(m_nCells, afert_frtsurf, 0.f);
 
         if (cswat == 1) {
-            if (sol_mc == NULL) Initialize2DArray(m_nCells, soilLayers, sol_mc, 0.f);
-            if (sol_mn == NULL) Initialize2DArray(m_nCells, soilLayers, sol_mn, 0.f);
-            if (sol_mp == NULL) Initialize2DArray(m_nCells, soilLayers, sol_mp, 0.f);
+            if (sol_mc == NULL) Initialize2DArray(m_nCells, nSoilLayers, sol_mc, 0.f);
+            if (sol_mn == NULL) Initialize2DArray(m_nCells, nSoilLayers, sol_mn, 0.f);
+            if (sol_mp == NULL) Initialize2DArray(m_nCells, nSoilLayers, sol_mp, 0.f);
         }
     }
     /// impound/release operation

@@ -4,7 +4,7 @@
 using namespace std;
 
 Interpolate::Interpolate() : m_nCells(-1), m_nStatioins(-1),
-                             m_month(-1), m_itpOutput(NULL), T(NULL), WEIGHT(NULL),
+                             m_month(-1), D(NULL), T(NULL), WEIGHT(NULL),
                              DEM(NULL), StationElevation(NULL), LapseRate(NULL), VERTICALINTERPOLATION(false), m_dataType(0) {
 }
 
@@ -21,13 +21,13 @@ void Interpolate::SetClimateDataType(float value) {
 }
 
 Interpolate::~Interpolate(void) {
-    if (m_itpOutput != NULL) Release1DArray(m_itpOutput);
+    if (D != NULL) Release1DArray(D);
 };
 
 int Interpolate::Execute() {
     CheckInputData();
-    if (m_itpOutput == NULL) {
-        Initialize1DArray(m_nCells, m_itpOutput, 0.f);
+    if (D == NULL) {
+        Initialize1DArray(m_nCells, D, 0.f);
     }
 
     //cout<<"ITP: ";
@@ -62,14 +62,14 @@ int Interpolate::Execute() {
                 value += adjust;
             }
         }
-        m_itpOutput[i] = value;
+        D[i] = value;
     }
     if (errCount > 0) {
         throw ModelException(MID_ITP, "Execute", "Error occurred in weight data!\n");
     }
     //for (int i = 0; i < m_nCells; ++i)
-    //	cout<<m_itpOutput[i]<<",";
-    //Output1DArrayToTxtFile(m_nCells, m_itpOutput, "itp.txt");
+    //	cout<<D[i]<<",";
+    //Output1DArrayToTxtFile(m_nCells, D, "itp.txt");
     return true;
 }
 
@@ -209,7 +209,7 @@ void Interpolate::Get1DData(const char *key, int *n, float **data) {
         //throw ModelException(MID_ITP, "Get1DData", "Parameter " + sk
         //	+ " does not exist in the Interpolate module. Please contact the module developer.");
         *n = m_nCells;
-        *data = m_itpOutput;
+        *data = D;
 
         //cout << m_output[0] << "\t";
     }

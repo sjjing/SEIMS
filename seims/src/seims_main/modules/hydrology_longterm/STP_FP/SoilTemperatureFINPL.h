@@ -42,11 +42,6 @@ public:
 
     virtual int Execute(void);
 
-    //virtual void SetDate(time_t t);
-
-    /// time
-    //time_t m_date;
-
     /// from parameter database
 
     // @In
@@ -57,10 +52,7 @@ public:
     // @Description ratio between soil temperature at 10 cm and the mean
     float k_soil10;
 
-    // @In
-    // @Description Julian day
-    int julianDay;
-
+ 
     // @In
     // @Description count of cells
     int m_nCells;
@@ -92,6 +84,10 @@ public:
     float *SOTE;
 
 private:
+    // Julian day
+    int julianDay;
+
+private:
 	/// temporary variable
 	float w;
     /*!
@@ -118,4 +114,4 @@ private:
 };
 
 VISITABLE_STRUCT(SoilTemperatureFINPL, w, m_nCells, soil_ta0, soil_ta1, soil_ta2, soil_ta3, soil_tb1, soil_tb2, soil_td1, soil_td2,
-	k_soil10, julianDay, soil_t10, landuse, TMEAN, TMEAN1, TMEAN2, SOTE);
+	k_soil10, soil_t10, landuse, TMEAN, TMEAN1, TMEAN2, SOTE);

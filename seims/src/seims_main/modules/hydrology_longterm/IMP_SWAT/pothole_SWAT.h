@@ -20,21 +20,13 @@ using namespace std;
 class IMP_SWAT : public SimulationModule {
 
     // @In
-    // @Description conversion factor (mm/ha => m^3)
-    float cnv;
-
-    // @In
     // @Description valid cells number
     int m_nCells;
 
     // @In
     // @Description cell width, m
     float CELLWIDTH;
-
-    // @In
-    // @Description cell area, ha
-    float cellArea;
-
+   
     // @In
     // @Description timestep, sec
     float TIMESTEP;
@@ -333,6 +325,14 @@ class IMP_SWAT : public SimulationModule {
 
     END_VISITABLES;
 
+private:
+    // conversion factor (mm/ha => m^3)
+    float cnv;
+
+    // cell area, ha
+    float cellArea;
+
+
 public:
     //! Constructor
     IMP_SWAT(void);
@@ -399,7 +399,7 @@ private:
     void releaseWater(int id);
 };
 
-VISITABLE_STRUCT(IMP_SWAT, m_nCells, cnv, CELLWIDTH, cellArea, TIMESTEP, soillayers, nSoilLayers, subbasin, subbasinNum, 
+VISITABLE_STRUCT(IMP_SWAT, m_nCells, CELLWIDTH, TIMESTEP, soillayers, nSoilLayers, subbasin, subbasinNum, 
 	ROUTING_LAYERS, nRoutingLayers, evlai, slope, Conductivity, sol_ul, sol_sumAWC, soilthick, Porosity, pot_tilemm, 
 	pot_no3l, pot_solpl, kv_paddy, kn_paddy, pot_k, impound_trig, pot_sa, LAIDAY, PET, DEET, DPST, OL_Flow, SED_OL, 
 	sand_yld, silt_yld, clay_yld, sag_yld, lag_yld, solst, solsw, sur_no3, sur_nh4, sur_solp, sur_cod, sedorgn, sedorgp, 

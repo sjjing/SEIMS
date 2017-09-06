@@ -89,22 +89,23 @@ public:
     // @Description amount of nitrate in layer (kg/ha)
     float **sol_no3;
 
-    /// temporaries
-
-    // @In
-    // @Description nitrate added by rainfall (kg/ha)
-    float addrnh4;
-
-    // @In
-    // @Description ammonium added by rainfall (kg/ha)
-    float addrno3;
-
     /// outputs
 
     // @Out
     // @Description amount of NO3 added to soil by rainfall in watershed on current day (kg/ha)
     float wshd_rno3;
+
+private:
+
+    /// temporaries
+
+    // nitrate added by rainfall (kg/ha)
+    float addrnh4;
+
+    // ammonium added by rainfall (kg/ha)
+    float addrno3;
+
 };
 
 VISITABLE_STRUCT(AtmosphericDeposition, m_nCells, soiLayers, rcn, rca, drydep_no3, drydep_nh4,
-	D_P, sol_nh4, sol_no3, addrnh4, addrno3, wshd_rno3);
+	D_P, sol_nh4, sol_no3, wshd_rno3);

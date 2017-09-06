@@ -3,7 +3,7 @@
 
 using namespace std;
 
-AET_PT_H::AET_PT_H(void) : m_nCells(-1), soilLayers(-1), esco(NULL), soillayers(NULL), soilDepth(NULL),
+AET_PT_H::AET_PT_H(void) : m_nCells(-1), nSoilLayers(-1), esco(NULL), soillayers(NULL), soilDepth(NULL),
                            soilthick(NULL), sol_awc(NULL),
     /// input from other modules
                            TMEAN(NULL), LAIDAY(NULL), PET(NULL), INET(NULL), SNAC(NULL), SNSB(NULL),
@@ -39,7 +39,7 @@ void AET_PT_H::Set1DData(const char *key, int n, float *data) {
 void AET_PT_H::Set2DData(const char *key, int n, int col, float **data) {
     string sk(key);
     CheckInputSize(key, n);
-    soilLayers = col;
+    nSoilLayers = col;
     if (StringMatch(sk, VAR_SOILDEPTH)) { soilDepth = data; }
     else if (StringMatch(sk, VAR_SOILTHICK)) { soilthick = data; }
     else if (StringMatch(sk, VAR_SOL_AWC)) { sol_awc = data; }
