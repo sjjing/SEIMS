@@ -52,19 +52,9 @@ public:
 
     virtual void Get2DData(const char *key, int *nRows, int *nCols, float ***data);
 
-    //! subbasin IDs
-    vector<int> m_subbasinIDs;
-
-    /// subbasins information
-    clsSubbasins *m_subbasinsInfo;
-
     // @In
     // @Description cell width of grid map (m)
     float CELLWIDTH;
-
-    // @In
-    // @Description cell area of grid map (ha)
-    float cellArea;
 
     // @In
     // @Description number of cells
@@ -111,10 +101,6 @@ public:
     // @In
     // @Description thickness of soil layer
     float **soilthick;
-
-    // @In
-    // @Description the total number of subbasins
-    int nSubbasins;
 
     // @In
     // @Description subbasin grid (subbasins ID)
@@ -278,7 +264,22 @@ public:
 
     // @Out
     // @Description amount of C lost with sediment pools
-    float *sedc; 
+    float *sedc;
+
+private:
+
+    //! subbasin IDs
+    vector<int> m_subbasinIDs;
+
+    /// subbasins information
+    clsSubbasins *m_subbasinsInfo;
+
+    // cell area of grid map (ha)
+    float cellArea;
+
+    // the total number of subbasins
+    int nSubbasins;
+
 
 private:
 
@@ -342,7 +343,7 @@ private:
     void initialOutputs(void);
 };
 
-VISITABLE_STRUCT(NutrientTransportSediment, m_nCells, CELLWIDTH, cellArea, soillayers, nSoiLayers, rock, sol_ul, cswat, enratio, SED_OL, OL_Flow, density, 
-	soilthick, nSubbasins, subbasin, sedorgn, sedorgp, sedminpa, sedminps, sedorgnToCh, sedorgpToCh, sedminpaToCh, sedminpsToCh, sol_aorgn, sol_fon,
+VISITABLE_STRUCT(NutrientTransportSediment, m_nCells, CELLWIDTH, soillayers, nSoiLayers, rock, sol_ul, cswat, enratio, SED_OL, OL_Flow, density, 
+	soilthick, subbasin, sedorgn, sedorgp, sedminpa, sedminps, sedorgnToCh, sedorgpToCh, sedminpaToCh, sedminpsToCh, sol_aorgn, sol_fon,
 	sol_orgn, sol_orgp, sol_fop, sol_stap, sol_actp, sol_mp, sol_LSN, sol_LMN, sol_HPN, sol_HSN, sol_HPC, sol_HSC, sol_LMC, sol_LSC, sol_LS, sol_LM,
 	sol_LSL, sol_LSLC, sol_LSLNC, sol_BMC, sol_WOC, Perco, SSRU, sol_latc, sol_percoc, latc, percoc, sedc);

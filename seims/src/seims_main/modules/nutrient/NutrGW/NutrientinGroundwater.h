@@ -46,12 +46,6 @@ public:
 
     virtual void SetSubbasins(clsSubbasins *subbasins);
 
-    //! subbasin IDs
-    vector<int> m_subbasinIDs;
-
-    /// subbasins information
-    clsSubbasins *m_subbasinsInfo;
-
     // @In
     // @Description cell width of grid map (m)
     float CELLWIDTH;
@@ -131,13 +125,20 @@ public:
     float *minpgwToCh;
 
     // @In
-    // @Description the total number of subbasins
-    int nSubbasins;
-   
-    // @In
     // @Description subbasin grid (subbasins ID)
     float *subbasin;
-   
+
+private:
+
+    //! subbasin IDs
+    vector<int> m_subbasinIDs;
+
+    /// subbasins information
+    clsSubbasins *m_subbasinsInfo;
+
+    // the total number of subbasins
+    int nSubbasins;
+
 
 private:
 
@@ -161,4 +162,4 @@ private:
 };
 
 VISITABLE_STRUCT(NutrientinGroundwater, m_nCells, CELLWIDTH, TIMESTEP, GW0, gwno3_conc, gwno3, gwsolp_conc, gwsolp, SBQG, SBGS, perco_n_gw, 
-	perco_p_gw, sol_no3, sol_solp, nSoilLayers, soillayers, no3gwToCh, minpgwToCh, nSubbasins, subbasin);
+	perco_p_gw, sol_no3, sol_solp, nSoilLayers, soillayers, no3gwToCh, minpgwToCh, subbasin);

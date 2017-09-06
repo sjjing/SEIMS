@@ -47,19 +47,9 @@ public:
     //virtual void Get2DData(const char *key, int *nRows, int *nCols, float ***data);
     virtual void SetSubbasins(clsSubbasins *subbasins);
 
-    //! subbasin IDs
-    vector<int> m_subbasinIDs;
-
-    /// subbasins information
-    clsSubbasins *m_subbasinsInfo;
-
     // @In
     // @Description cell width of grid map (m)
     float CELLWIDTH;
-
-    // @In
-    // @Description cell area, ha
-    float cellArea;
 
     // @In
     // @Description number of cells
@@ -249,11 +239,7 @@ public:
     // @Description amount of COD to reach in surface runoff (kg)
     float *sur_codToCh;
 
-    // @Out
-    // @Description the total number of subbasins
-    int nSubbasins;
-    
-    // @Out
+    // @In
     // @Description subbasin grid (subbasins ID)
     float *subbasin;  
 
@@ -274,6 +260,21 @@ public:
     // @In
     // @Description amount of C lost with sediment, kg/ha, input from NUTRSED module
     float *sedc;
+
+private:
+
+    //! subbasin IDs
+    vector<int> m_subbasinIDs;
+
+    /// subbasins information
+    clsSubbasins *m_subbasinsInfo;
+
+    // cell area, ha
+    float cellArea;
+
+    // the total number of subbasins
+    int nSubbasins;
+
 
 private:
     /*!
@@ -325,7 +326,7 @@ private:
     void SumBySubbasin(void);
 };
 
-VISITABLE_STRUCT(NutrientMovementViaWater, m_nCells, CELLWIDTH, cellArea, soillayers, nSoiLayers, STREAM_LINK, cswat, conv_wt, qtile, phoskd, 
+VISITABLE_STRUCT(NutrientMovementViaWater, m_nCells, CELLWIDTH, soillayers, nSoiLayers, STREAM_LINK, cswat, conv_wt, qtile, phoskd, 
 	pperco, nperco, cod_n, cod_k, SED_OL, anion_excl, OL_Flow, isep_opt, ldrain, sol_crk, dist2stream, sol_ul, SSRU, Perco, density, soilDepth, 
 	FLOWOUT_INDEX_D8, ROUTING_LAYERS, nRoutingLayers, sedorgn, TMEAN, sol_cbn, soilthick, latno3, perco_n, perco_p, sur_no3, sur_nh4, sur_solp, 
 	sur_cod, chl_a, latno3ToCh, sur_no3_ToCh, sur_nh4ToCh, sur_solpToCh, perco_n_gw, perco_p_gw, sur_codToCh, nSubbasins, subbasin, wshd_plch, 

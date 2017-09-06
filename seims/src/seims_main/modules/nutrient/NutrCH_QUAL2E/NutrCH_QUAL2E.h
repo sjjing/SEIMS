@@ -50,24 +50,6 @@ public:
 
     virtual TimeStepType GetTimeStepType(void) { return TIMESTEP_CHANNEL; };
 
-    /// upstream id (The value is -1 if there if no upstream reach)
-    vector <vector<int>> m_reachUpStream;
-
-    /// id the reaches
-    vector<int> m_reachId;
-
-    /* reach up-down layering
-    * key: stream order
-    * value: reach ID of current stream order
-    */
-    map<int, vector<int> > m_reachLayers;
-
-    /* point source operations
-    * key: unique index, BMPID * 100000 + subScenarioID
-    * value: point source management factory instance
-    */
-    map<int, BMPPointSrcFactory *> m_ptSrcFactory;
-
     BEGIN_VISITABLES(NutrCH_QUAL2E);
 
     // @In
@@ -79,16 +61,6 @@ public:
     // @Description time step (sec)
     //int DT_CH;
     VISITABLE(int, DT_CH);
-
-    // @In
-    // @Description downstream id (The value is 0 if there if no downstream reach)
-    //float *reachDownStream;
-    VISITABLE(float *, reachDownStream);
-   
-    // @In
-    // @Description reaches number
-    //int nReaches;
-    VISITABLE(int, nReaches);
 
     // @In
     // @Description input data
@@ -226,11 +198,6 @@ public:
     VISITABLE(float *, BKST);
 
     // @In
-    // @Description order of channel
-    //float *chOrder;
-    VISITABLE(float *, chOrder);
-
-    // @In
     // @Description channel outflow
     //float *QRECH;
     VISITABLE(float *, QRECH);
@@ -260,71 +227,7 @@ public:
     //float *wattemp;
     VISITABLE(float *, wattemp);
 
-    // @In
-    // @Description rate constant for biological oxidation of NH3 to NO2 in reach at 20 deg C
-    //float *bc1;   
-    VISITABLE(float *, bc1);
-
-    // @In
-    // @Description rate constant for biological oxidation of NO2 to NO3 in reach at 20 deg C
-    //float *bc2;       
-    VISITABLE(float *, bc2);
-
-    // @In
-    // @Description rate constant for biological oxidation of organic N to ammonia in reach at 20 deg C
-    //float *bc3;      
-    VISITABLE(float *, bc3);
-
-    // @In
-    // @Description rate constant for biological oxidation of organic P to dissolved P in reach at 20 deg C
-    //float *bc4;     
-    VISITABLE(float *, bc4);
-
-    // @In
-    // @Description local algal settling rate in reach at 20 deg C (m/day)
-    //float *rs1;    
-    VISITABLE(float *, rs1);
-
-    // @In
-    // @Description benthos source rate for dissolved phosphorus in reach at 20 deg C (mg disP-P)/((m**2)*day)
-    //float *rs2;    
-    VISITABLE(float *, rs2);
-
-    // @In
-    // @Description benthos source rate for ammonia nitrogen in reach at 20 deg C (mg NH4-N)/((m**2)*day)
-    //float *rs3;    
-    VISITABLE(float *, rs3);
-
-    // @In
-    // @Description rate coefficient for organic nitrogen settling in reach at 20 deg C (1/day)
-    //float *rs4;  
-    VISITABLE(float *, rs4);
-
-    // @In
-    // @Description organic phosphorus settling rate in reach at 20 deg C (1/day)
-    //float *rs5;  
-    VISITABLE(float *, rs5);
-
-    // @In
-    // @Description CBOD deoxygenation rate coefficient in reach at 20 deg C (1/day)
-    //float *rk1;    
-    VISITABLE(float *, rk1);
-
-    // @In
-    // @Description reaeration rate in accordance with Fickian diffusion in reach at 20 deg C (1/day)
-    //float *rk2;    
-    VISITABLE(float *, rk2);
-
-    // @In
-    // @Description rate of loss of CBOD due to settling in reach at 20 deg C (1/day)
-    //float *rk3;  
-    VISITABLE(float *, rk3);
-
     END_VISITABLES;
-
-    // @In
-    // @Description sediment oxygen demand rate in reach at 20 deg C (mg O2/ ((m**2)*day))
-    float *rk4;    
 
     // @In
     // @Description Channel organic nitrogen concentration in basin, ppm
@@ -420,23 +323,9 @@ public:
     // @Description channel erosion
     float *rch_deg;
 
-    /// nutrient amount stored in reach
-
-    // @In
-    // @Description algal biomass storage in reach (kg)
-    float *chAlgae;
-
-    // @In
-    // @Description organic nitrogen storage in reach (kg)
-    float *chOrgN;
-
     // @Out
     // @Description ammonia storage in reach (kg)
     float *CHSTR_NH4;
-
-    // @In
-    // @Description nitrite storage in reach (kg)
-    float *chNO2;
 
     // @Out
     // @Description nitrate storage in reach (kg)
@@ -446,25 +335,9 @@ public:
     // @Description total nitrogen in reach (kg)
     float *CHSTR_TN;
 
-    // @In
-    // @Description organic phosphorus storage in reach (kg)
-    float *chOrgP;
-
-    // @In
-    // @Description dissolved phosphorus storage in reach (kg)
-    float *chSolP;
-
     // @Out
     // @Description total phosphorus storage in reach (kg)
     float *CHSTR_TP;
-
-    // @In
-    // @Description carbonaceous oxygen demand in reach (kg)
-    float *chCOD;
-
-    // @In
-    // @Description dissolved oxygen storage in reach (kg)
-    float *chDOx;
 
     // @In
     // @Description chlorophyll-a storage in reach (kg)
@@ -572,19 +445,108 @@ public:
     // @Description total P concentration in reach (mg/L)
     float *CH_TPConc;
 
+private:
+
+    /// upstream id (The value is -1 if there if no upstream reach)
+    vector <vector<int>> m_reachUpStream;
+
+    /// id the reaches
+    vector<int> m_reachId;
+
+    /* reach up-down layering
+    * key: stream order
+    * value: reach ID of current stream order
+    */
+    map<int, vector<int> > m_reachLayers;
+
+    /* point source operations
+    * key: unique index, BMPID * 100000 + subScenarioID
+    * value: point source management factory instance
+    */
+    map<int, BMPPointSrcFactory *> m_ptSrcFactory;
+
+    // downstream id (The value is 0 if there if no downstream reach)
+    float *reachDownStream;  
+
+    // reaches number
+    int nReaches; 
+
+    // order of channel
+    float *chOrder;
+
+    // rate constant for biological oxidation of NH3 to NO2 in reach at 20 deg C
+    float *bc1;
+
+    // rate constant for biological oxidation of NO2 to NO3 in reach at 20 deg C
+    float *bc2;         
+
+    // rate constant for biological oxidation of organic N to ammonia in reach at 20 deg C
+    float *bc3;      
+
+    // rate constant for biological oxidation of organic P to dissolved P in reach at 20 deg C
+    float *bc4;     
+
+    // local algal settling rate in reach at 20 deg C (m/day)
+    float *rs1;      
+
+    // benthos source rate for dissolved phosphorus in reach at 20 deg C (mg disP-P)/((m**2)*day)
+    float *rs2;     
+
+    // benthos source rate for ammonia nitrogen in reach at 20 deg C (mg NH4-N)/((m**2)*day)
+    float *rs3;      
+
+    // rate coefficient for organic nitrogen settling in reach at 20 deg C (1/day)
+    float *rs4;  
+
+    // organic phosphorus settling rate in reach at 20 deg C (1/day)
+    float *rs5;     
+
+    // CBOD deoxygenation rate coefficient in reach at 20 deg C (1/day)
+    float *rk1;    
+
+    // reaeration rate in accordance with Fickian diffusion in reach at 20 deg C (1/day)
+    float *rk2;       
+
+    // rate of loss of CBOD due to settling in reach at 20 deg C (1/day)
+    float *rk3;  
+
+    // sediment oxygen demand rate in reach at 20 deg C (mg O2/ ((m**2)*day))
+    float *rk4;
+
+    /// nutrient amount stored in reach
+
+    // algal biomass storage in reach (kg)
+    float *chAlgae;
+
+    // organic nitrogen storage in reach (kg)
+    float *chOrgN;
+
+    // nitrite storage in reach (kg)
+    float *chNO2;
+
+    // organic phosphorus storage in reach (kg)
+    float *chOrgP;
+
+    // dissolved phosphorus storage in reach (kg)
+    float *chSolP;
+
+    // carbonaceous oxygen demand in reach (kg)
+    float *chCOD;
+
+    // dissolved oxygen storage in reach (kg)
+    float *chDOx;
+
     //intermediate variables
 
-    // @In
-    // @Description mean day length of each channel (hr)
+    // mean day length of each channel (hr)
     float *chDaylen;
 
-    // @In
-    // @Description mean solar radiation of each channel
+    // mean solar radiation of each channel
     float *chSr;
 
-    // @In
-    // @Description valid cell numbers of each channel
+    // valid cell numbers of each channel
     int *chCellCount;
+
 
 private:
 
@@ -630,9 +592,8 @@ private:
     void PointSourceLoading(void);
 };
 
-VISITABLE_STRUCT(NutrCH_QUAL2E, rk4, ch_onco, ch_opco, latno3ToCh, sur_no3_ToCh, SUR_NH4_TOCH, sur_solp_ToCh, sur_cod_ToCH, no3gwToCh, 
+VISITABLE_STRUCT(NutrCH_QUAL2E, ch_onco, ch_opco, latno3ToCh, sur_no3_ToCh, SUR_NH4_TOCH, sur_solp_ToCh, sur_cod_ToCH, no3gwToCh, 
     minpgwToCh, sedorgnToCh, sedorgpToCh, sedminpaToCh, sedminpsToCh, nitriteToCh, ptNO3ToCh, ptNH4ToCh, ptOrgNToCh, ptTNToCh, ptSolPToCh, 
-    ptOrgPToCh, ptTPToCh, ptCODToCh, rch_deg, chAlgae, chOrgN, CHSTR_NH4, chNO2, CHSTR_NO3, CHSTR_TN, chOrgP, chSolP, CHSTR_TP, chCOD, 
-    chDOx, chChlora, soxy, ch_algae, ch_algaeConc, CH_chlora, CH_chloraConc, CH_ORGN, CH_ORGNConc, CH_ORGP, CH_ORGPConc, ch_nh4, ch_nh4Conc, 
-    CH_NO2, CH_NO2Conc, CH_NO3, CH_NO3Conc, CH_SOLP, CH_SOLPConc, CH_COD, CH_CODConc, ch_dox, ch_doxConc, CH_TN, CH_TNConc, CH_TP, CH_TPConc,
-    chDaylen, chSr, chCellCount);
+    ptOrgPToCh, ptTPToCh, ptCODToCh, rch_deg, CHSTR_NH4, CHSTR_NO3, CHSTR_TN, CHSTR_TP, chChlora, soxy, ch_algae, ch_algaeConc, CH_chlora,
+    CH_chloraConc, CH_ORGN, CH_ORGNConc, CH_ORGP, CH_ORGPConc, ch_nh4, ch_nh4Conc, CH_NO2, CH_NO2Conc, CH_NO3, CH_NO3Conc, CH_SOLP, 
+    CH_SOLPConc, CH_COD, CH_CODConc, ch_dox, ch_doxConc, CH_TN, CH_TNConc, CH_TP, CH_TPConc);
